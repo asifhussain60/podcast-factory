@@ -1,0 +1,700 @@
+{
+  "book_title": "Uyūn al-Akhbār wa-Funūn al-Āthār: The Life of the Prophet and His Guardian",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "A Yemeni Historian and His Seven Books",
+    "source_line_ranges": [
+      [
+        107,
+        148
+      ],
+      [
+        161,
+        213
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "Why I Write This Book",
+      "source_line_ranges": [
+        [
+          358,
+          438
+        ]
+      ],
+      "theme": "authorial purpose",
+      "rationale": "The author's opening praise, his argument that the Imamate requires designated successors, and his stated plan for the book form the true entry point into the work."
+    },
+    {
+      "bk_index": 2,
+      "title": "The Pure Line: Ishmael to Adnan",
+      "source_line_ranges": [
+        [
+          439,
+          533
+        ]
+      ],
+      "theme": "prophetic ancestry",
+      "rationale": "The claim that the Prophet's forefathers were never idolaters, traced from Ishmael down to Adnan, with al-Farabi's digression on Quraysh eloquence closing the unit."
+    },
+    {
+      "bk_index": 3,
+      "title": "Qusayy Takes Mecca",
+      "source_line_ranges": [
+        [
+          534,
+          725
+        ]
+      ],
+      "theme": "Qusayy's ascendancy",
+      "rationale": "The seam is the rise of Qusayy: his exile, his war with Khuza'ah over the Ka'bah key, and his consolidation of the pilgrimage offices in Mecca."
+    },
+    {
+      "bk_index": 4,
+      "title": "Hashim, Breaker of Bread",
+      "source_line_ranges": [
+        [
+          726,
+          793
+        ]
+      ],
+      "theme": "Hashim's generosity",
+      "rationale": "Hashim's stewardship of the watering and rifada, his sermon to Quraysh, the Ilaf trade compact with Caesar, and his death in Gaza."
+    },
+    {
+      "bk_index": 5,
+      "title": "Abd al-Muttalib and the Elephant",
+      "source_line_ranges": [
+        [
+          794,
+          987
+        ]
+      ],
+      "theme": "defending the sanctuary",
+      "rationale": "Abd al-Muttalib's character, the elegies for him and his kin, and Abraha's failed march on the Sacred House form one continuous story of the House's protection."
+    },
+    {
+      "bk_index": 6,
+      "title": "The Well and the Vow",
+      "source_line_ranges": [
+        [
+          988,
+          1108
+        ]
+      ],
+      "theme": "Zamzam and ransom",
+      "rationale": "The dream that led to Zamzam's excavation, the dispute with Quraysh over it, and Abd al-Muttalib's vow to sacrifice a son and the hundred-camel ransom of Abdullah."
+    },
+    {
+      "bk_index": 7,
+      "title": "The Light in Abdullah's Face",
+      "source_line_ranges": [
+        [
+          1109,
+          1243
+        ]
+      ],
+      "theme": "conception of the Prophet",
+      "rationale": "Abdullah's marriage to Amina, the priestess who saw the prophetic light depart from him, and the laments at his death."
+    },
+    {
+      "bk_index": 8,
+      "title": "The Birth and the Orphan Years",
+      "source_line_ranges": [
+        [
+          1244,
+          1447
+        ]
+      ],
+      "theme": "childhood of Muhammad",
+      "rationale": "Amina's vision, the birth in the Year of the Elephant, the wet-nursing among Banu Sa'd, and the deaths of Amina and Abd al-Muttalib that leave the boy to Abu Talib."
+    },
+    {
+      "bk_index": 9,
+      "title": "The Monk at Busra",
+      "source_line_ranges": [
+        [
+          1448,
+          1576
+        ]
+      ],
+      "theme": "Bahira's recognition",
+      "rationale": "Abu Talib's guardianship and the Syrian journey where the monk Bahira identifies the signs of prophethood and warns of the Jews."
+    },
+    {
+      "bk_index": 10,
+      "title": "Ali Born in the Ka'bah, the Trustworthy Judge",
+      "source_line_ranges": [
+        [
+          1577,
+          1649
+        ]
+      ],
+      "theme": "youth and arbitration",
+      "rationale": "Fatima bint Asad's vision and Ali's birth inside the Ka'bah, the rebuilding of the Ka'bah and the Black Stone arbitration, and the War of the Ungodly."
+    },
+    {
+      "bk_index": 11,
+      "title": "Khadijah, and the Man Who Waited",
+      "source_line_ranges": [
+        [
+          1650,
+          1714
+        ]
+      ],
+      "theme": "marriage to Khadijah",
+      "rationale": "Khadijah's proposal, Abu Talib's marriage sermon, the birth of the Prophet's children, and Waraqah's confirmation of the coming prophethood."
+    },
+    {
+      "bk_index": 12,
+      "title": "The First to Believe",
+      "source_line_ranges": [
+        [
+          1715,
+          1780
+        ]
+      ],
+      "theme": "Ali's early Islam",
+      "rationale": "Ali's upbringing in the Prophet's household, his acceptance of Islam on the second day, the eight years of secret prayer, and the summons of the clan at the beginning of the call."
+    },
+    {
+      "bk_index": 13,
+      "title": "Quraysh Comes to Abu Talib",
+      "source_line_ranges": [
+        [
+          1781,
+          1918
+        ]
+      ],
+      "theme": "clan pressure",
+      "rationale": "The three delegations to Abu Talib, the offer of 'Amarah in exchange for the Prophet, Abu Talib's poetry rallying Banu Hashim, and al-Walid's failed attempt to label the Qur'an."
+    },
+    {
+      "bk_index": 14,
+      "title": "The Lamiyyah: Abu Talib's Great Defiance",
+      "source_line_ranges": [
+        [
+          1919,
+          2330
+        ]
+      ],
+      "theme": "Abu Talib's poetry",
+      "rationale": "The celebrated lam-rhymed ode and the surrounding argument about Abu Talib's concealed faith and his role in shielding the Prophet from Quraysh."
+    },
+    {
+      "bk_index": 15,
+      "title": "The Tree That Uprooted Itself",
+      "source_line_ranges": [
+        [
+          2331,
+          2441
+        ]
+      ],
+      "theme": "signs and denial",
+      "rationale": "Ali's sermon recounting the miracle of the tree, the spreading news among Jews and Christians, Abu Talib's warning, and Abu Jahl's stone turned back."
+    },
+    {
+      "bk_index": 16,
+      "title": "Abyssinia: Refuge Under a Christian King",
+      "source_line_ranges": [
+        [
+          2442,
+          2566
+        ]
+      ],
+      "theme": "first migration",
+      "rationale": "The emigration to Abyssinia, Abu Talib's verse letter to the Negus, the Quraysh embassy, and Ja'far's defence of the faith before the throne."
+    },
+    {
+      "bk_index": 17,
+      "title": "Hamza, Umar, and the Boycott Document",
+      "source_line_ranges": [
+        [
+          2567,
+          2782
+        ]
+      ],
+      "theme": "conversions and boycott",
+      "rationale": "The conversions of Hamza and Umar are followed directly by Quraysh's parchment of boycott against Banu Hashim and the poetry it provoked."
+    },
+    {
+      "bk_index": 18,
+      "title": "Insults, Hunger, and the Eaten Parchment",
+      "source_line_ranges": [
+        [
+          2783,
+          3015
+        ]
+      ],
+      "theme": "endurance and reprieve",
+      "rationale": "The mockery endured by the Prophet, Abu Salamah's protection, and the tearing of the boycott document after the Prophet foretold that vermin had consumed it."
+    },
+    {
+      "bk_index": 19,
+      "title": "The Night Journey and the Five Prayers",
+      "source_line_ranges": [
+        [
+          3016,
+          3103
+        ]
+      ],
+      "theme": "Isra and prayer",
+      "rationale": "The journey to Jerusalem and the ascent, the origin of the call to prayer, the reduction of fifty prayers to five, and the Quraysh's reaction to the account."
+    },
+    {
+      "bk_index": 20,
+      "title": "The Year of Sorrow",
+      "source_line_ranges": [
+        [
+          3104,
+          3240
+        ]
+      ],
+      "theme": "loss of protectors",
+      "rationale": "The deaths of Abu Talib and Khadijah in a single year, the debate over Abu Talib's faith, and the emboldening of Quraysh once his shield was gone."
+    },
+    {
+      "bk_index": 21,
+      "title": "Ta'if, and the Search for a Tribe",
+      "source_line_ranges": [
+        [
+          3241,
+          3379
+        ]
+      ],
+      "theme": "seeking support",
+      "rationale": "The rejection at Ta'if, the supplication by the garden wall, Addas the Christian, and the fruitless canvassing of Arab tribes recounted by Ali."
+    },
+    {
+      "bk_index": 22,
+      "title": "The Pledges at al-Aqaba",
+      "source_line_ranges": [
+        [
+          3380,
+          3525
+        ]
+      ],
+      "theme": "Ansar alliance",
+      "rationale": "The first Khazraj converts, the two pledges at al-Aqaba, the sending of Mus'ab as teacher, and the naming of the twelve chieftains."
+    },
+    {
+      "bk_index": 23,
+      "title": "The Bed, the Cave, and the Road to Yathrib",
+      "source_line_ranges": [
+        [
+          3526,
+          3650
+        ]
+      ],
+      "theme": "the Hijra",
+      "rationale": "The plot in Dar al-Nadwa, Ali sleeping in the Prophet's bed, the cave with Abu Bakr, and the arrival in Medina with the building of the mosque."
+    },
+    {
+      "bk_index": 24,
+      "title": "One Door Left Open",
+      "source_line_ranges": [
+        [
+          3651,
+          3771
+        ]
+      ],
+      "theme": "Medina foundations",
+      "rationale": "The closing of all mosque doors but Ali's, the first sermons, the brotherhood pact, Salman's conversion, and the emergence of the hypocrites."
+    },
+    {
+      "bk_index": 25,
+      "title": "First Raids and First Blood",
+      "source_line_ranges": [
+        [
+          3772,
+          3896
+        ]
+      ],
+      "theme": "early expeditions",
+      "rationale": "The banner of Hamza, the raids at Buwat, al-'Ushayrah, and al-Kharrar, and Abdullah ibn Jahsh's ambush that shed blood in a sacred month."
+    },
+    {
+      "bk_index": 26,
+      "title": "Badr: The Day of Distinction",
+      "source_line_ranges": [
+        [
+          3897,
+          4060
+        ]
+      ],
+      "theme": "battle of Badr",
+      "rationale": "From the caravan of Abu Sufyan and Atikah's dream through the single combats and the rout of the polytheists at the wells of Badr."
+    },
+    {
+      "bk_index": 27,
+      "title": "The Slain, the Captives, and the Songs of Badr",
+      "source_line_ranges": [
+        [
+          4061,
+          4534
+        ]
+      ],
+      "theme": "aftermath of Badr",
+      "rationale": "The rosters of the polytheist dead and Muslim martyrs, the ransoming of al-Abbas and Aqil, and the poetry composed on both sides after the battle."
+    },
+    {
+      "bk_index": 28,
+      "title": "Between the Battles: Qaynuqa and Ka'b ibn al-Ashraf",
+      "source_line_ranges": [
+        [
+          4535,
+          4687
+        ]
+      ],
+      "theme": "raids and reprisals",
+      "rationale": "The expeditions to al-Kadir, al-Suwaiq, Dhu Amr and Buhran, the expulsion of Banu Qaynuqa', and the killing of the poet Ka'b ibn al-Ashraf."
+    },
+    {
+      "bk_index": 29,
+      "title": "The Wedding of Fatima",
+      "source_line_ranges": [
+        [
+          4688,
+          4755
+        ]
+      ],
+      "theme": "Ali and Fatima",
+      "rationale": "The companions' proposal, Gabriel's confirmation, the dowry of armour and silver, and the wedding feast that fed sixteen hundred."
+    },
+    {
+      "bk_index": 30,
+      "title": "Uhud: The Archers Leave the Hill",
+      "source_line_ranges": [
+        [
+          4756,
+          4932
+        ]
+      ],
+      "theme": "battle of Uhud",
+      "rationale": "The Quraysh muster, the Prophet's vision, Abu Dajanah's headband, and the reversal when the archers abandoned their posts."
+    },
+    {
+      "bk_index": 31,
+      "title": "The Lion of God Is Mutilated",
+      "source_line_ranges": [
+        [
+          4933,
+          5124
+        ]
+      ],
+      "theme": "Hamza's martyrdom",
+      "rationale": "Ali's charges to shield the Prophet, the wounding of the Prophet, the killing and mutilation of Hamza, and the prayers and lamentations over the fallen."
+    },
+    {
+      "bk_index": 32,
+      "title": "Hamra' al-Asad and the Elegies of Uhud",
+      "source_line_ranges": [
+        [
+          5125,
+          5324
+        ]
+      ],
+      "theme": "aftermath of Uhud",
+      "rationale": "The pursuit to Hamra' al-Asad, Ma'bad's deception of Abu Sufyan, the rosters of the slain, and the poems composed for that day."
+    },
+    {
+      "bk_index": 33,
+      "title": "Treachery at al-Raji' and Bi'r Ma'unah",
+      "source_line_ranges": [
+        [
+          5325,
+          5752
+        ]
+      ],
+      "theme": "betrayed missions",
+      "rationale": "The six teachers killed at al-Raji' and the seventy at the well of Ma'unah, with the elegies of Hassan and Ka'b for both massacres."
+    },
+    {
+      "bk_index": 34,
+      "title": "The Expulsion of Banu al-Nadir",
+      "source_line_ranges": [
+        [
+          5753,
+          5908
+        ]
+      ],
+      "theme": "Nadir exile",
+      "rationale": "The plot to drop a rock on the Prophet, the six-night siege, the palm-cutting, and the departure of Banu al-Nadir with tambourines."
+    },
+    {
+      "bk_index": 35,
+      "title": "Dhat al-Riqa', Dumat al-Jandal, and the Prayer of Fear",
+      "source_line_ranges": [
+        [
+          5909,
+          6005
+        ]
+      ],
+      "theme": "minor campaigns",
+      "rationale": "The Najd campaign with its prayer of fear and the sword-snatching Bedouin, the second Badr appointment, and the death of Fatima bint Asad."
+    },
+    {
+      "bk_index": 36,
+      "title": "The Trench",
+      "source_line_ranges": [
+        [
+          6006,
+          6210
+        ]
+      ],
+      "theme": "battle of the Trench",
+      "rationale": "The Jewish incitement of Quraysh and Ghatafan, the digging of the trench with its miracles, and Ali's killing of Amr ibn Abd Wudd at the crossing."
+    },
+    {
+      "bk_index": 37,
+      "title": "How the Confederates Fell Apart",
+      "source_line_ranges": [
+        [
+          6211,
+          6260
+        ]
+      ],
+      "theme": "breaking the siege",
+      "rationale": "Safiyyah's killing of the Jewish scout, Na'im ibn Mas'ud's double game sowing distrust between Qurayza and the confederates, and the wind that scattered the camp."
+    },
+    {
+      "bk_index": 38,
+      "title": "The Judgment on Banu Qurayza",
+      "source_line_ranges": [
+        [
+          6261,
+          6535
+        ]
+      ],
+      "theme": "Qurayza siege",
+      "rationale": "Gabriel's command to march, the siege, Ka'b ibn Asad's three options, Sa'd ibn Mu'adh's arbitration, the executions, and the poetry that followed."
+    },
+    {
+      "bk_index": 39,
+      "title": "Banu Lahyan and Dhu Qarad",
+      "source_line_ranges": [
+        [
+          6536,
+          6666
+        ]
+      ],
+      "theme": "raid and pursuit",
+      "rationale": "The failed vengeance raid against Banu Lahyan and the pursuit of Uyaynah's raiders at Dhu Qarad, with the recovery of the camels and the woman's vow."
+    },
+    {
+      "bk_index": 40,
+      "title": "Al-Muraysi' and the Quarrel at the Well",
+      "source_line_ranges": [
+        [
+          6667,
+          6744
+        ]
+      ],
+      "theme": "Banu al-Mustaliq",
+      "rationale": "The defeat of Banu al-Mustaliq, the marriage to Juwayriyah that freed a hundred families, and the near-rupture between Muhajirun and Ansar at the watering place."
+    },
+    {
+      "bk_index": 41,
+      "title": "Hudaybiyah: A Treaty That Looked Like Defeat",
+      "source_line_ranges": [
+        [
+          6745,
+          6855
+        ]
+      ],
+      "theme": "the truce",
+      "rationale": "The kneeling camel, the Pledge of al-Ridwan, Ali's writing of the terms, the surrender of Abu Jandal, and the band that gathered around Abu Basir."
+    },
+    {
+      "bk_index": 42,
+      "title": "Khaybar: The Gate Torn From Its Hinges",
+      "source_line_ranges": [
+        [
+          6856,
+          7060
+        ]
+      ],
+      "theme": "conquest of Khaybar",
+      "rationale": "The banner given to Ali after two failures, the killing of Marhab, the rulings issued at Khaybar, and the poisoned sheep."
+    },
+    {
+      "bk_index": 43,
+      "title": "The Umrah of Fulfilment and the Field of Mu'tah",
+      "source_line_ranges": [
+        [
+          7061,
+          7166
+        ],
+        [
+          7167,
+          7484
+        ]
+      ],
+      "theme": "Mu'tah martyrs",
+      "rationale": "The compensatory pilgrimage into Mecca is followed by the three successive commanders — Ja'far, Zayd, and Ibn Rawahah — all killed against the Roman host at Mu'tah."
+    },
+    {
+      "bk_index": 44,
+      "title": "The Broken Truce and the Road to Mecca",
+      "source_line_ranges": [
+        [
+          7485,
+          7683
+        ]
+      ],
+      "theme": "march on Mecca",
+      "rationale": "Khuza'ah's appeal after the slaughter at al-Watir, Abu Sufyan's failed embassy, Hatib's intercepted letter, and the rulings on fasting and prayer while travelling."
+    },
+    {
+      "bk_index": 45,
+      "title": "The Conquest: Mecca Opened",
+      "source_line_ranges": [
+        [
+          7684,
+          7900
+        ]
+      ],
+      "theme": "fall of Mecca",
+      "rationale": "Abu Sufyan's conversion at al-Abbas's hands, the entry of the armies, the men condemned to death and those pardoned, and the keys restored to Uthman ibn Talha."
+    },
+    {
+      "bk_index": 46,
+      "title": "Idols Cast Down, Blood Money Paid",
+      "source_line_ranges": [
+        [
+          7901,
+          8126
+        ]
+      ],
+      "theme": "after the conquest",
+      "rationale": "The sermon at the Ka'bah abolishing pre-Islamic claims, Khalid's massacre at Banu Judhimah and Ali's restitution, and the smashing of the idols and al-'Uzza."
+    },
+    {
+      "bk_index": 47,
+      "title": "Hunayn: Numbers That Availed Nothing",
+      "source_line_ranges": [
+        [
+          8127,
+          8341
+        ]
+      ],
+      "theme": "battle of Hunayn",
+      "rationale": "The Hawazin muster under Malik ibn 'Awf, the rout in the valley, and the handful who stood firm around the Prophet until the standard-bearer fell."
+    },
+    {
+      "bk_index": 48,
+      "title": "The Siege of Ta'if",
+      "source_line_ranges": [
+        [
+          8342,
+          8500
+        ],
+        [
+          8501,
+          8626
+        ]
+      ],
+      "theme": "Ta'if campaign",
+      "rationale": "The pursuit after Hunayn, the killing of Duraid, the captives at al-Ji'ranah, and the poetry surrounding the withdrawal from the walls of Ta'if."
+    },
+    {
+      "bk_index": 49,
+      "title": "Dividing the Spoils, Consoling the Ansar",
+      "source_line_ranges": [
+        [
+          8627,
+          9051
+        ]
+      ],
+      "theme": "distribution of spoils",
+      "rationale": "The Ta'if siege lifted, the return of the Hawazin captives, the gifts to those whose hearts were won, and the Prophet's answer to the Ansar's grievance."
+    },
+    {
+      "bk_index": 50,
+      "title": "Tabuk, and the Station of Aaron",
+      "source_line_ranges": [
+        [
+          9052,
+          9355
+        ]
+      ],
+      "theme": "Tabuk expedition",
+      "rationale": "Ka'b ibn Zuhayr's pardon, the march to Tabuk with Ali left as deputy and told he stands to the Prophet as Aaron to Moses, and the demolition of the Mosque of Dirar."
+    },
+    {
+      "bk_index": 51,
+      "title": "The Year of Delegations",
+      "source_line_ranges": [
+        [
+          9356,
+          9719
+        ]
+      ],
+      "theme": "tribal delegations",
+      "rationale": "Thaqif, Tamim, Kindah, Hamadan, Adi ibn Hatim and the rest come to Medina, and the Prophet's letters on zakat and jizya to the kings of Himyar and Yemen."
+    },
+    {
+      "bk_index": 52,
+      "title": "The Small Expeditions",
+      "source_line_ranges": [
+        [
+          9720,
+          10173
+        ]
+      ],
+      "theme": "detachments and raids",
+      "rationale": "The catalogue of sariyyas — Ghalib, Zayd, Abdullah ibn Anis, Abd al-Rahman ibn Awf, Amr ibn Umayyah and the rest — down to Ali's rescue of Khalid in Tihama."
+    },
+    {
+      "bk_index": 53,
+      "title": "The Farewell Pilgrimage: The Rites Made Plain",
+      "source_line_ranges": [
+        [
+          10174,
+          10425
+        ]
+      ],
+      "theme": "hajj rituals",
+      "rationale": "The ihram, the sacrifice, the circuits, the standing at Arafah and the Farewell Sermon that set out blood debts, usury, and the rights of women."
+    },
+    {
+      "bk_index": 54,
+      "title": "Ghadir Khumm",
+      "source_line_ranges": [
+        [
+          10426,
+          10620
+        ]
+      ],
+      "theme": "the designation",
+      "rationale": "The remaining rites of Mina and the departure, then the halt at Ghadir Khumm where the Prophet raises Ali's hand and the verse of completion is revealed."
+    },
+    {
+      "bk_index": 55,
+      "title": "Proofs of the Guardianship",
+      "source_line_ranges": [
+        [
+          10621,
+          10873
+        ]
+      ],
+      "theme": "arguments for Ali",
+      "rationale": "The theological case assembled from the closed doors, the mubahala, Surat Bara'ah, and the hadith of the Two Weighty Things."
+    },
+    {
+      "bk_index": 56,
+      "title": "The Illness, the Denied Pen, and the Grave",
+      "source_line_ranges": [
+        [
+          10874,
+          11279
+        ]
+      ],
+      "theme": "death of the Prophet",
+      "rationale": "The dispatch of Usama's army, the final illness and the writing materials refused, the washing and shrouding by Ali, and the elegies of Hassan ibn Thabit."
+    }
+  ]
+}
