@@ -32,6 +32,14 @@ const MERMAID_JS = path.join(
 const _bookDirArg = process.argv.find((a) => a.startsWith("--book-dir="));
 const BOOK_DIR = _bookDirArg ? _bookDirArg.split("=").slice(1).join("=") : null;
 
+// --check: render to memory and COMPARE against the committed SVGs instead of
+// overwriting them; exit 1 on any difference. `prebuild` rewrites six tracked
+// files on every build, so without this nothing ever asked whether the committed
+// artifact still matches its source — a mermaid version drift silently changed
+// every diagram (11.15.0 vs the lockfile's 11.16.1 dropped a swimlane CSS rule)
+// and the only signal was a dirty tree nobody was looking at.
+const CHECK = process.argv.includes("--check");
+
 // Theme variables mapped to the editorial-modern palette (theme.css). Mermaid
 // bakes colours into the SVG, so we pass the literal hex values the theme uses;
 // the colour theme itself is never changed.
@@ -149,6 +157,7 @@ async function main() {
   await page.waitForFunction("window.__ready === true", { timeout: 30000 });
 
   let ok = 0;
+  const stale = [];
   for (const file of files) {
     const id = path.basename(file, ".mmd");
     const def = await readFile(path.join(srcDir, file), "utf8");
@@ -165,16 +174,51 @@ async function main() {
         .replace(/(<svg\b[^>]*?)\s+width="[^"]*"/, "$1")
         .replace(/(<svg\b[^>]*?)\s+height="[^"]*"/, "$1")
         .replace(/(<svg\b[^>]*?)\s+style="[^"]*"/, "$1");
-      await writeFile(path.join(outDir, `${id}.svg`), svg, "utf8");
-      console.log(`  rendered ${id}.svg (${svg.length} bytes)`);
-      ok++;
+      const outPath = path.join(outDir, `${id}.svg`);
+      if (CHECK) {
+        const committed = existsSync(outPath)
+          ? readFileSync(outPath, "utf8")
+          : null;
+        if (committed === null) {
+          console.error(`  MISSING ${id}.svg — never committed`);
+          stale.push(id);
+        } else if (committed !== svg) {
+          console.error(
+            `  STALE ${id}.svg — committed ${committed.length} bytes, ` +
+              `source renders ${svg.length}`,
+          );
+          stale.push(id);
+        } else {
+          console.log(`  ok ${id}.svg`);
+          ok++;
+        }
+      } else {
+        await writeFile(outPath, svg, "utf8");
+        console.log(`  rendered ${id}.svg (${svg.length} bytes)`);
+        ok++;
+      }
     } catch (err) {
       console.error(`  FAILED ${id}: ${err.message}`);
+      if (CHECK) stale.push(id);
     }
   }
 
   await browser.close();
   server.close();
+  if (CHECK) {
+    if (stale.length) {
+      console.error(
+        `\nmermaid check FAILED: ${stale.length} of ${files.length} committed ` +
+          `SVG(s) do not match their .mmd source: ${stale.join(", ")}\n` +
+          `Run 'npm run mermaid:render' and commit the result. If you did not ` +
+          `touch the diagrams, your mermaid install is out of step with ` +
+          `package-lock.json — run 'npm install' first.`,
+      );
+      process.exit(1);
+    }
+    console.log(`mermaid check clean: ${ok}/${files.length} match`);
+    return;
+  }
   console.log(`mermaid render complete: ${ok}/${files.length}`);
 }
 

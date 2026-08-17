@@ -38,6 +38,19 @@ WAVE_ACCEPTANCE = REPO / "_workspace" / "plan" / "operations" / "wave-acceptance
 WAVE_EVENTS = REPO / "_workspace" / "plan" / "refactor" / "wave-execution-events.jsonl"
 SENTINEL = APP / ".snapshot-version"
 
+# An agent entry's DERIVED fields are re-read from its spec on every run; only
+# these are hand-authored in the JSON and therefore merge-preserved. Keep this
+# list identical to AGENT_CURATED_FIELDS in regenerate-snapshots.mjs.
+AGENT_CURATED_FIELDS = (
+    "icon",
+    "tone",
+    "boundary_in",
+    "boundary_out",
+    "does_not",
+    "cost_profile",
+    "failure_mode",
+)
+
 WAVE_NUM_BY_LETTER = {"A": 1, "B": 2, "C": 3, "D": 4, "E": 5}
 
 
@@ -506,9 +519,7 @@ def merge_architecture():
 
     for f in agent_files:
         agent_id = f[:-3]
-        if agent_id in existing_agents:
-            agents.append(existing_agents[agent_id])
-            continue
+        prev = existing_agents.get(agent_id) or {}
         try:
             content = (agents_dir / f).read_text()
             fm_match = re.match(r"^---\n([\s\S]*?)\n---", content)
@@ -536,8 +547,13 @@ def merge_architecture():
                     "failure_mode": "surfaces error and halts",
                 }
             )
+            for key in AGENT_CURATED_FIELDS:
+                if prev.get(key):
+                    agents[-1][key] = prev[key]
         except Exception:
-            pass
+            # A transient read failure must not delete an agent already recorded.
+            if prev:
+                agents.append(prev)
 
     # ADRs from architecture.md
     arch_path = REPO / "_workspace" / "plan" / "architecture.md"

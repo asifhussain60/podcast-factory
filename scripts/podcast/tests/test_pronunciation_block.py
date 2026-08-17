@@ -205,13 +205,20 @@ def test_the_live_book_compiles_a_block_for_every_episode():
         pytest.skip("book not present in this checkout")
     for chapter in sorted((bd / "chapters").glob("*.txt")):
         slug = chapter.stem.split("-", 1)[1]
-        drafts = [d for d in (bd / "_system" / "episode-drafts").iterdir() if d.name.endswith(slug)]
-        if not drafts:
-            continue
-        framing = (drafts[0] / "00-framing.md").read_text(encoding="utf-8")
-        out, _unresolved = pb.apply_to_framing(framing, bd, chapter.read_text(encoding="utf-8"))
-        block = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", out, re.M).group(1)
-        assert re.findall(r"^\s*-\s+\S", block, re.M), f"{drafts[0].name} compiled an empty block"
+        # A slug can suffix-match more than one draft dir (EP02 and EP04 both end
+        # "degrees-of-excellence-the-peak-of-every-kind"), and a dropped episode
+        # leaves its dir behind carrying only a gitignored .framing-sig. Take
+        # every draft that actually has a framing, in a stable order.
+        drafts = sorted(
+            d
+            for d in (bd / "_system" / "episode-drafts").iterdir()
+            if d.name.endswith(slug) and (d / "00-framing.md").is_file()
+        )
+        for draft in drafts:
+            framing = (draft / "00-framing.md").read_text(encoding="utf-8")
+            out, _unresolved = pb.apply_to_framing(framing, bd, chapter.read_text(encoding="utf-8"))
+            block = re.search(r"^##\s+Pronunciation\b.*?$([\s\S]*?)(?=^##\s+|\Z)", out, re.M).group(1)
+            assert re.findall(r"^\s*-\s+\S", block, re.M), f"{draft.name} compiled an empty block"
 
 
 def test_a_book_mined_gloss_never_decides_what_the_hosts_say(tmp_path):

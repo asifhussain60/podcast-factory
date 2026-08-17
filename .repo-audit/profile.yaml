@@ -269,6 +269,13 @@ generators:
   - listener/scripts/sync-quote-inks.mjs
   - listener/scripts/sync-study-tracks.mjs
   - listener/scripts/sync-fonts.mjs
+  # Declared 2026-08-17. `prebuild` rewrote six tracked src/generated/mermaid/*.svg
+  # on every build with nothing comparing the result, so it was a generator the
+  # audit could not see: a mermaid version drift (11.15.0 against the lockfile's
+  # 11.16.1) silently changed every diagram and the only signal was a dirty tree.
+  # It now offers --check (`npm run mermaid:check`), gated in the lint workflow's
+  # site-runtime job — the one job with chromium, which the renderer needs.
+  - plan-dashboard/scripts/render-mermaid.mjs
 
 mirrors:
   # Files that MUST change together. `pinned_by` names the shared fixture proving they

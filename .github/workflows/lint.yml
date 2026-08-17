@@ -266,5 +266,11 @@ jobs:
       # path is not exercising the surface it claims to cover.
       - name: Install poppler-utils (pdftoppm — Composer preview rasteriser)
         run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      # `prebuild` REWRITES these six tracked SVGs on every build, so nothing ever
+      # asked whether the committed copy still matches its .mmd source. A mermaid
+      # version drift changed every diagram silently; the only signal was a dirty
+      # tree. Here (not the `site` job) because it needs the chromium installed above.
+      - name: Generated diagrams match their source
+        run: npm run mermaid:check
       - name: Runtime smoke — every route, console errors, 5xx, failed requests
         run: npm run smoke

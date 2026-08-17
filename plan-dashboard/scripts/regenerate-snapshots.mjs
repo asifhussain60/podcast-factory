@@ -88,6 +88,19 @@ const WAVE_EVENTS = path.join(
   "refactor",
   "wave-execution-events.jsonl",
 );
+// An agent entry's DERIVED fields are re-read from its spec on every run; only
+// these are hand-authored in the JSON and therefore merge-preserved. Keep this
+// list identical to AGENT_CURATED_FIELDS in regenerate-snapshots.py.
+const AGENT_CURATED_FIELDS = [
+  "icon",
+  "tone",
+  "boundary_in",
+  "boundary_out",
+  "does_not",
+  "cost_profile",
+  "failure_mode",
+];
+
 const SENTINEL = path.join(APP, ".snapshot-version");
 const TRACE_STEPS =
   process.argv.includes("--trace-steps") || process.env.SNAPSHOT_TRACE === "1";
@@ -647,15 +660,24 @@ async function mergeArchitecture() {
   let agentFiles = [];
   try {
     const entries = await readdir(agentsDir);
-    agentFiles = entries.filter((f) => f.endsWith(".md") && f !== "_README.md");
+    // sorted to match the .py leg's sorted() — readdir order is not guaranteed
+    agentFiles = entries
+      .filter((f) => f.endsWith(".md") && f !== "_README.md")
+      .sort();
   } catch {}
 
   const existingAgentById = new Map((snap.agents ?? []).map((a) => [a.id, a]));
   const agents = await Promise.all(
     agentFiles.map(async (f) => {
       const id = f.replace(".md", "");
-      if (existingAgentById.has(id)) return existingAgentById.get(id);
-      const content = await readFile(path.join(agentsDir, f), "utf-8");
+      const prev = existingAgentById.get(id) ?? {};
+      let content;
+      try {
+        content = await readFile(path.join(agentsDir, f), "utf-8");
+      } catch {
+        // A transient read failure must not delete an agent already recorded.
+        return Object.keys(prev).length ? prev : null;
+      }
       const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
       let fm = {};
       if (fmMatch) {
@@ -668,7 +690,7 @@ async function mergeArchitecture() {
         .split("-")
         .map((w) => w[0].toUpperCase() + w.slice(1))
         .join(" ");
-      return {
+      const entry = {
         id,
         name: titleCase,
         role: desc.split(".")[0].slice(0, 80),
@@ -682,8 +704,12 @@ async function mergeArchitecture() {
         cost_profile: "varies",
         failure_mode: "surfaces error and halts",
       };
+      for (const key of AGENT_CURATED_FIELDS) {
+        if (prev[key]) entry[key] = prev[key];
+      }
+      return entry;
     }),
-  );
+  ).then((list) => list.filter(Boolean));
 
   // ── ADRs: parsed from architecture.md ──────────────────────────────────
   const archPath = path.join(REPO, "_workspace", "plan", "architecture.md");
