@@ -37,6 +37,51 @@ NON_CONVERGED_PIPELINE_MODES = {
 }
 
 
+def _chapter_timings_verdict(state: dict) -> tuple[bool, str] | None:
+    """Aggregate per-chapter verdicts from orchestrator-state.json, if present.
+
+    Returns None when the book's state predates `chapter_timings` (or it's
+    empty) — the caller falls back to the single-report-file check unchanged.
+    Otherwise every chapter must be a real SHIP-* verdict, OR carry a
+    HUMAN-OVERRIDE verdict matched by an explicit, attributed override record
+    on the per-chapter phase (never inferred — a HUMAN-OVERRIDE verdict with
+    no matching record still fails). This is strictly more precise than the
+    report-file check: it reflects every chapter, not whichever one the
+    challenger happened to run against last.
+    """
+    per_chapter = state.get("phases", {}).get("per-chapter", {})
+    chapter_timings = per_chapter.get("chapter_timings") or {}
+    if not chapter_timings:
+        return None
+
+    raw_overrides = per_chapter.get("human_override") or []
+    if isinstance(raw_overrides, dict):
+        raw_overrides = [raw_overrides]
+    overrides = {
+        o["chapter"]: o
+        for o in raw_overrides
+        if isinstance(o, dict) and o.get("chapter") and o.get("reason") and o.get("decided_by")
+    }
+
+    unresolved = []
+    overridden = []
+    for chapter, timing in chapter_timings.items():
+        verdict = str(timing.get("verdict", "")).upper()
+        if verdict in ALLOWED_SHIP_VERDICTS:
+            continue
+        if verdict == "HUMAN-OVERRIDE" and chapter in overrides:
+            overridden.append(chapter)
+            continue
+        unresolved.append(f"{chapter}: verdict={timing.get('verdict')!r} (no matching human_override)")
+
+    if unresolved:
+        return False, "; ".join(unresolved)
+    msg = f"{len(chapter_timings)} chapter(s) via chapter_timings"
+    if overridden:
+        msg += f", {len(overridden)} human-overridden: {', '.join(sorted(overridden))}"
+    return True, msg
+
+
 def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool, *, fail, ok, warn) -> bool:
     """Refuse to publish unless the book passed a real challenger convergence
     pass — or the operator explicitly opted in with --allow-mode-2.
@@ -54,6 +99,19 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool, *, fail,
         state = json.loads(state_path.read_text())
     pipeline_mode = state.get("pipeline_mode")
     convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES
+
+    if not convergence_skipped:
+        per_chapter_result = _chapter_timings_verdict(state)
+        if per_chapter_result is not None:
+            passed, msg = per_chapter_result
+            if passed:
+                ok("G7", msg)
+                return True
+            if allow_mode_2:
+                warn(f"G7 ⚠ MODE-2 SHIP: {msg}. --allow-mode-2 honored.")
+                return True
+            fail("G7", f"{msg}. Run challenger to convergence OR rerun with --allow-mode-2.")
+            return False
 
     verdict = "unknown"
     if report_path.exists():
