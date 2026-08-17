@@ -15,8 +15,8 @@
         ]
       ],
       "source_words": 747,
-      "output_words": 1319,
-      "folded_opening_words": 292
+      "output_words": 1354,
+      "folded_opening_words": 307
     },
     {
       "index": 2,
@@ -29,85 +29,7 @@
         ]
       ],
       "source_words": 2211,
-      "output_words": 2573
-    },
-    {
-      "index": 3,
-      "title": "Clean and Unclean: Meat, the Knife, and the Hunt",
-      "chapter_file": "book/_chapters/ch03-clean-and-unclean-meat-the-knife-and-the-hunt.txt",
-      "source_line_ranges": [
-        [
-          218,
-          295
-        ]
-      ],
-      "source_words": 2124,
-      "output_words": 2328
-    },
-    {
-      "index": 4,
-      "title": "The Anatomy of a Sale",
-      "chapter_file": "book/_chapters/ch04-the-anatomy-of-a-sale.txt",
-      "source_line_ranges": [
-        [
-          296,
-          318
-        ]
-      ],
-      "source_words": 1175,
-      "output_words": 1149
-    },
-    {
-      "index": 5,
-      "title": "Lending Without Riba",
-      "chapter_file": "book/_chapters/ch05-lending-without-riba.txt",
-      "source_line_ranges": [
-        [
-          319,
-          356
-        ]
-      ],
-      "source_words": 2236,
-      "output_words": 2161
-    },
-    {
-      "index": 6,
-      "title": "Trusts, Pledges, and Shared Walls",
-      "chapter_file": "book/_chapters/ch06-trusts-pledges-and-shared-walls.txt",
-      "source_line_ranges": [
-        [
-          357,
-          444
-        ]
-      ],
-      "source_words": 3610,
-      "output_words": 3918
-    },
-    {
-      "index": 7,
-      "title": "Why Marry at All",
-      "chapter_file": "book/_chapters/ch07-why-marry-at-all.txt",
-      "source_line_ranges": [
-        [
-          445,
-          495
-        ]
-      ],
-      "source_words": 2633,
-      "output_words": 3182
-    },
-    {
-      "index": 8,
-      "title": "Choosing Well, Looking Rightly",
-      "chapter_file": "book/_chapters/ch08-choosing-well-looking-rightly.txt",
-      "source_line_ranges": [
-        [
-          496,
-          548
-        ]
-      ],
-      "source_words": 3376,
-      "output_words": 4059
+      "output_words": 2234
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
