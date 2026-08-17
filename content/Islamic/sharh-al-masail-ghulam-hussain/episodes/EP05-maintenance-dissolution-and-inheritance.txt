@@ -11,17 +11,9 @@ One fixed English label per figure; never speak Arabic names or titles.
 - His grandsons and daughter → "his two grandsons", "the Prophet's daughter"; the compiler → "the jurist"; the ruling authority → "the judge"; the endowment's kin-groups → "the Prophet's clan and his grandfather's house."
 
 ## Pronunciation
-Say each term ONCE. Never say the original spelling and the English form back-to-back.
-- iddah: iddah
-- nushuz: nushuz
-- khul'a: khul'a
-- ila: ila
-- zihar: zihar
-- li'an: li'an
-- waqf: waqf
-- khums: khums
-- Sharia: Sharia
-
+Say each term ONCE, using the form given here and nothing else. Never say the original spelling and the form given here back-to-back.
+- Sharia: sha-ree-ah
+- khums: the fifth
 ## Three-part focus
 Source order; each lands once. Biographical or historical background only where it bears on a ruling, once.
 1. The crisis — a household is owed and the man who owes it is gone. Absence is no defence: the judge feeds her from his property before searching. The standard is median, neither wasteful nor miserly, and covers teaching as well as food. It holds for a woman who does not pray; it lapses in nushuz until she returns. Poverty she may consent to, or refuse.

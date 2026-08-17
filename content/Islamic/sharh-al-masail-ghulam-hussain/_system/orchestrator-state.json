@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "per-chapter",
-  "phase_status": "pending",
-  "last_completed_phase": "0g",
-  "next_phase": "0literary",
+  "phase": "per-chapter-optimize",
+  "phase_status": "completed",
+  "last_completed_phase": "per-chapter-optimize",
+  "next_phase": "per-chapter-slides",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -114,7 +114,7 @@
       "status": "pending"
     },
     "per-chapter": {
-      "status": "pending",
+      "status": "completed",
       "ts_started": "2026-08-17T16:14:04Z",
       "current_chapter": null,
       "last_beat": "2026-08-17T19:47:58Z",
@@ -171,10 +171,28 @@
         }
       },
       "convergence_iter": null,
-      "ts_completed": "2026-08-17T20:15:00Z"
+      "ts_completed": "2026-08-17T20:17:15Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 7,
+        "blocking_fail": null
+      }
     },
     "per-chapter-optimize": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-08-17T20:17:15Z",
+      "ts_completed": "2026-08-17T20:17:15Z",
+      "chapters": 0,
+      "warn": 0,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
     },
     "per-chapter-slides": {
       "status": "pending"
@@ -229,7 +247,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T19:56:21Z",
+  "ts_updated": "2026-08-17T20:17:15Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -237,10 +255,9 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260817T192145Z-a1c4a7",
+  "run_id": "20260817T201715Z-ddd7b3",
   "phase_attempts": {
     "06a": 1,
-    "0f": 1,
-    "per-chapter": 3
+    "0f": 1
   }
 }
