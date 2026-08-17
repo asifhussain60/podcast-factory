@@ -90,3 +90,11 @@
 {"phase": "0book-compose", "step": "translation-bk-08-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-09-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-preface", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-preface-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-01-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-02-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-03-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
