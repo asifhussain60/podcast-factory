@@ -289,6 +289,14 @@ def resolve(
         identity.native_key = KEY_URDU
         identity.native = _first(
             ("meta", urdu),
+            # `original_title` is where a TRANSLATED book records the name it was
+            # published under, and for an Urdu source that string IS the Urdu
+            # title. Where the Caravans Set Forth kept its title only there, and
+            # `_listener_book.py` reads `title_urdu` or `title_arabic` and
+            # neither — so the Library showed that book no original title at all
+            # while this shelf, which does read `original_title`, showed it.
+            # The same split as the English name, one field further down.
+            ("meta:original_title", _s(meta.get("original_title")) if language == "ur" else None),
             ("book-card-meta.ts", card_native if card_is_urdu else None),
         )
     else:
