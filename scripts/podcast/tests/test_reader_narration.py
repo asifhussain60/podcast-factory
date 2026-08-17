@@ -82,10 +82,47 @@ def test_speech_text_drops_citation_without_surah_prefix_and_verse_ranges() -> N
     assert "[" not in rn.speech_text('"Be just." [al-Hujurat: 11-12]')
 
 
+def test_speech_text_drops_citations_in_parentheses() -> None:
+    # The library is not consistent about brackets vs parens for the same
+    # kind of reference — both must be dropped.
+    assert "(" not in rn.speech_text('"Do not devour riba." (Al Imran 130)')
+    assert "(" not in rn.speech_text('"Sustenance is His." (Quran, Chapter 11, Verse 6)')
+    assert "(" not in rn.speech_text('"Exalt Allah." (25: 43; almost identical at 45: 23)')
+
+
+def test_speech_text_drops_arabic_script_citations_cleanly() -> None:
+    """A citation still in Arabic script with Arabic-Indic digits must be
+    removed WHOLE, not left as an empty `[: ]` shell.
+
+    Regression: `_ARABIC` alone strips the name and digits inside the
+    bracket but not the bracket punctuation, so already-rendered narration
+    for mukhtasar-ul-asar-1 spoke a stray "bracket colon bracket" where the
+    citation used to be (2026-08-17).
+    """
+    text = rn.speech_text('Allah Almighty said: "wash your faces" [البقرة: ١٤٤].')
+    assert "[" not in text
+    assert "]" not in text
+    assert text == 'Allah Almighty said: "wash your faces".'
+
+
 def test_speech_text_keeps_an_ordinary_bracket_that_is_not_a_citation() -> None:
-    # No `: <digits>` shape — must not be swallowed by the citation guard.
+    # Not immediately after a closing quote — must not be swallowed.
     text = rn.speech_text("He gave the ruling [emphasis in the original].")
     assert "[emphasis in the original]" in text
+
+
+def test_speech_text_keeps_a_date_in_ordinary_prose() -> None:
+    # Has a digit but sits mid-sentence, not right after a quotation — a
+    # citation-shaped regex keyed on digits alone would wrongly eat this.
+    text = rn.speech_text("Ali migrated from Mecca to Medina (622 CE), the start of the calendar.")
+    assert "(622 CE)" in text
+
+
+def test_speech_text_keeps_a_term_gloss_right_after_a_quotation() -> None:
+    # Same position as a citation, but no digit — a real editorial aside
+    # naming a term, not a reference, and must survive.
+    text = rn.speech_text('He sought only "the face of God" (wajh Allah).')
+    assert "(wajh Allah)" in text
 
 
 def test_synthesize_clip_retries_invalid_audio(tmp_path: Path) -> None:

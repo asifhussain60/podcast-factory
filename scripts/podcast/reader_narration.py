@@ -55,12 +55,24 @@ _LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 _IMAGE = re.compile(r"!\[[^\]]*]\([^)]+\)")
 _TAG = re.compile(r"<[^>]+>")
 _MARKDOWN_EDGE = re.compile(r"^[>*#\-\s]+")
-# A trailing scripture citation on a quotation — `[Surah al-Baqarah: 222]`,
-# `[Al Imran: 1]`, a verse range `[al-Hujurat: 11-12]`. Read aloud, the
-# reference reads as noise between two sentences; the reading edition's own
-# printed page still carries it. Requires the bracket to end in a name
-# followed by `: <digits>` so it never touches an unrelated `[...]` aside.
-_SCRIPTURE_CITATION = re.compile(r"\s*\[[A-Za-z][A-Za-z'\- ]*:\s*\d+(?:[-–]\d+)?\]")
+# A trailing citation apparatus right after a closing quotation — the
+# Quran/hadith reference the reading edition prints beside a translated verse
+# or narration. The library uses this inconsistently across books: brackets
+# or parens, `[Surah al-Baqarah: 222]` or `(Al Imran 130)` or `(Quran,
+# Chapter 11, Verse 6)`, and sometimes the citation itself is still in Arabic
+# script with Arabic-Indic digits — `[البقرة: ١٤٤]`. All of these share one
+# structural signature regardless of wording or script: they sit immediately
+# after the quotation they cite, and they always carry a verse/hadith NUMBER.
+# That number requirement is what keeps this from also eating a genuine
+# editorial aside in the same position — `"..." (wajh Allah)` names a term,
+# has no digit, and must stay. Matching on digits alone, without the
+# quote-adjacency requirement, would also delete unrelated dates sitting in
+# ordinary prose, like "the migration from Mecca to Medina (622 CE)".
+# Applied BEFORE the Arabic strippers below: an Arabic-script citation left
+# to `_ARABIC` alone has its name and digits removed but its brackets
+# survive empty — `[البقرة: ١٤٤]` became the audible artifact `[: ]` in
+# already-rendered narration (mukhtasar-ul-asar-1, 2026-08-17).
+_TRAILING_CITATION = re.compile(r'(?<=["”])\s*[\[(][^\])]*[0-9٠-٩][^\])]*[\])]')
 _SPEAKABLE = re.compile(r"[A-Za-z0-9]")
 
 
@@ -148,7 +160,7 @@ def speech_text(markdown: str) -> str:
     text = _IMAGE.sub("", markdown)
     text = _LINK.sub(r"\1", text)
     text = _TAG.sub("", text)
-    text = _SCRIPTURE_CITATION.sub("", text)
+    text = _TRAILING_CITATION.sub("", text)
     text = _ARABIC_PARENS.sub("", text)
     text = _ARABIC.sub("", text)
     text = re.sub(r"`([^`]+)`", r"\1", text)
