@@ -419,6 +419,59 @@ class TestClaudePCapture(_RunLogCase):
         self.assertIn("ch01-design", text)
 
 
+class TestClaudePStdinRouting(_RunLogCase):
+    """A prompt passed as a positional argv element hits the OS ARG_MAX (1 MiB
+    on macOS) well before any phase-level word-count ceiling — surfaced by a
+    182k-word single-PDF volume of uyoon-al-akhbaar, where 0book-design's
+    whole-book TOC pass raised `OSError: [Errno 7] Argument list too long`.
+    `_run_claude_p` routes large prompts via stdin instead; small prompts keep
+    the well-tested argv path unchanged."""
+
+    def _fake_claude_recording_argv_and_stdin(self) -> Path:
+        p = self.tmp / "fake-claude"
+        # $# is argc excluding argv[0]; the last arg is the positional prompt
+        # (if any). Echo both so the test can assert on them independently.
+        p.write_text(
+            "#!/bin/sh\n"
+            'echo "ARGC=$#" > "$FAKE_CLAUDE_OUT"/argv.txt\n'
+            'echo "LAST_ARG=$*" >> "$FAKE_CLAUDE_OUT"/argv.txt\n'
+            'cat > "$FAKE_CLAUDE_OUT"/stdin.txt\n'
+            'echo \'{"result":"ok"}\'\n'
+            "exit 0\n"
+        )
+        p.chmod(p.stat().st_mode | stat.S_IEXEC)
+        return p
+
+    def _run(self, fake: Path, prompt: str):
+        from _authoring import _core
+
+        orig = _core.CLAUDE_CMD
+        _core.CLAUDE_CMD = str(fake)
+        os.environ["FAKE_CLAUDE_OUT"] = str(self.tmp)
+        try:
+            return _core._run_claude_p(prompt, book_dir=self.book_dir, phase="0d", step="ch01-design")
+        finally:
+            _core.CLAUDE_CMD = orig
+            del os.environ["FAKE_CLAUDE_OUT"]
+
+    def test_small_prompt_stays_on_argv(self):
+        fake = self._fake_claude_recording_argv_and_stdin()
+        rc, _, _ = self._run(fake, "small prompt")
+        self.assertEqual(rc, 0)
+        argv_log = (self.tmp / "argv.txt").read_text()
+        self.assertIn("small prompt", argv_log)
+        self.assertEqual((self.tmp / "stdin.txt").read_text(), "")
+
+    def test_oversized_prompt_routes_via_stdin(self):
+        fake = self._fake_claude_recording_argv_and_stdin()
+        huge = "x" * 250_000
+        rc, _, _ = self._run(fake, huge)
+        self.assertEqual(rc, 0)
+        argv_log = (self.tmp / "argv.txt").read_text()
+        self.assertNotIn("x" * 1000, argv_log)  # the huge prompt never reached argv
+        self.assertEqual((self.tmp / "stdin.txt").read_text(), huge)
+
+
 class TestReadEvents(_RunLogCase):
     def test_read_run_events_respects_limit(self):
         init_run_log(self.book_dir)
