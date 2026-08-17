@@ -62,6 +62,32 @@ def test_speech_text_skips_punctuation_only_fragments() -> None:
     assert rn.speech_text("(الإمامة)") == ""
 
 
+def test_speech_text_drops_scripture_citations() -> None:
+    text = rn.speech_text(
+        'God Almighty said: "Indeed, Allah loves those who constantly repent and loves '
+        'those who purify themselves" [Surah al-Baqarah: 222]. He also said: "Within it '
+        'are men who love to purify themselves, and God loves those who purify themselves" '
+        "[Surah al-Tawbah: 108]."
+    )
+    assert "[Surah" not in text
+    assert (
+        text == 'God Almighty said: "Indeed, Allah loves those who constantly repent and loves '
+        'those who purify themselves". He also said: "Within it are men who love to purify '
+        'themselves, and God loves those who purify themselves".'
+    )
+
+
+def test_speech_text_drops_citation_without_surah_prefix_and_verse_ranges() -> None:
+    assert "[" not in rn.speech_text('"Establish prayer." [Al Imran: 1]')
+    assert "[" not in rn.speech_text('"Be just." [al-Hujurat: 11-12]')
+
+
+def test_speech_text_keeps_an_ordinary_bracket_that_is_not_a_citation() -> None:
+    # No `: <digits>` shape — must not be swallowed by the citation guard.
+    text = rn.speech_text("He gave the ruling [emphasis in the original].")
+    assert "[emphasis in the original]" in text
+
+
 def test_synthesize_clip_retries_invalid_audio(tmp_path: Path) -> None:
     attempts = iter([b"BAD", b"MP3"])
 
