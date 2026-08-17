@@ -46,6 +46,12 @@ export interface Chapter {
   /** TipTap-safe seed for edit mode. Mirrors ComposerChapter.editHtml in
    *  lib/reader/composer.ts — see the bodyByKey note in boot(). */
   editHtml: string;
+  /** Whether book/narration/manifest.json already has a rendered MP3 for this
+   *  chapter. Mirrors ComposerChapter.narrationAvailable. */
+  narrationAvailable: boolean;
+  /** Clip length in seconds — null when not yet generated. Mirrors
+   *  ComposerChapter.narrationDurationS. */
+  narrationDurationS: number | null;
 }
 export interface Placement {
   visual_id: string;

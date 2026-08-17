@@ -62,6 +62,7 @@ import {
   pendingLane,
   type ComposeLane,
 } from "./compose-lane";
+import { createComposeNarration, type ComposeNarration } from "./compose-narration";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
 import { composeChapter, registerComposeChapters } from "./compose-view-state";
@@ -553,6 +554,7 @@ function boot(): void {
     // from the one load each, so these only point the live boxes at them.
     syncChapterColours();
     syncChapterAlign();
+    composeNarration?.showChapter(key);
   }
   if (chapterSelect) {
     chapterSelect.value = selectedChapter;
@@ -1995,6 +1997,7 @@ function boot(): void {
     root.classList.toggle("is-editing", mode === "edit");
     modeReadBtn?.setAttribute("aria-pressed", String(mode === "read"));
     modeEditBtn?.setAttribute("aria-pressed", String(mode === "edit"));
+    updateNarrationEligibility();
     // The Arabic toggle is a Read-mode control; entering Edit withdraws it and
     // drops back to English so the editor is never showing a swapped chapter.
     void syncArabicForChapter();
@@ -4233,6 +4236,59 @@ function boot(): void {
       },
     });
   }
+
+  // ── Chapter read-aloud narration — Read mode + book lane only ─────────────
+  // See compose-narration.ts. Mounted unconditionally — the manifest is empty
+  // for every chapter on a book that has never generated narration, which is
+  // exactly the case the "Generate narration" button exists for.
+  const narrationContainer = root.querySelector<HTMLElement>("#cx-narration");
+  const narrationGenerateBtn = root.querySelector<HTMLButtonElement>(
+    "#cx-narration-generate",
+  );
+  const narrationAudio =
+    root.querySelector<HTMLAudioElement>("#cx-narration-audio");
+  const narrationStatus = root.querySelector<HTMLElement>(
+    "#cx-narration-status",
+  );
+  let composeNarration: ComposeNarration | null = null;
+  if (
+    narrationContainer &&
+    narrationGenerateBtn &&
+    narrationAudio &&
+    narrationStatus
+  ) {
+    composeNarration = createComposeNarration({
+      slug,
+      chapters: data.chapters.map((c) => ({
+        key: c.key,
+        available: c.narrationAvailable,
+        durationS: c.narrationDurationS,
+      })),
+      container: narrationContainer,
+      generateBtn: narrationGenerateBtn,
+      audio: narrationAudio,
+      status: narrationStatus,
+    });
+    composeNarration.showChapter(selectedChapter);
+  }
+
+  /** Read mode + the reading-edition lane, together: narration reads book.md
+   *  aloud, so it means nothing over the (read-only, separately segmented)
+   *  podcast source, and nothing while the editor is mounted over the chapter
+   *  it would be reading. Re-checked on a `data-lane` mutation rather than
+   *  called from inside compose-lane.ts's flip(), which runs this book's
+   *  `leave()`/`enter()` hooks BEFORE it stamps the new lane onto the root —
+   *  a direct call from there would see the lane one step stale. */
+  function updateNarrationEligibility(): void {
+    const inReadMode = !root.classList.contains("is-editing");
+    const inBookLane = (root.dataset.lane ?? "book") !== "podcast";
+    composeNarration?.setEligible(inReadMode && inBookLane);
+  }
+  updateNarrationEligibility();
+  new MutationObserver(updateNarrationEligibility).observe(root, {
+    attributes: true,
+    attributeFilter: ["data-lane"],
+  });
 
   // Which lane this book was last in — set by a deliberate flip, and equally by
   // a flip whose leave() reloaded the page (prose had changed, so the preview

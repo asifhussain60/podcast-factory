@@ -251,6 +251,8 @@ content/**/_system/stage-metrics.json
 content/**/_system/cost-validation.json
 # Rearticulate worker status — runtime polling state, rewritten every run.
 content/**/_system/rearticulate-status.json
+# Reader-narration worker status — same reason (api/studio/narration.ts polls it).
+content/**/_system/narration-status.json
 # Per-step run log, appended to by every phase and every apparatus step. It is the
 # record of what a RUN did, not of what a book IS, and tracking it would dirty the
 # tree on every pipeline invocation — the same reason the three above are ignored.

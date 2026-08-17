@@ -91,6 +91,10 @@ const dataJson = view
         // .cx-body for reading; the editor must be seeded from THIS instead, or
         // the serializer would write its own losses back into book.md.
         editHtml: c.editHtml,
+        // Reader-narration audio — see compose-narration.ts. Whether this
+        // chapter already has a rendered MP3, and its length if so.
+        narrationAvailable: c.narrationAvailable,
+        narrationDurationS: c.narrationDurationS,
       })),
       visuals: view.visuals,
       placements: view.placements,
@@ -362,6 +366,37 @@ const TRANSLATION_FONTS = [
                 </div>
               )}
               <div class="cx-layout-save" id="cx-layout-status" />
+            </div>
+            {/* Chapter read-aloud audio — Read mode + reading-edition lane only
+                (see compose-narration.ts). Narration is normally produced only
+                at publish time; this lets Asif listen to a chapter during
+                review, before it ships. One control for whichever chapter is
+                showing, same pattern as the layout-save status line above:
+                content swaps per chapter, the mount point does not. Hidden by
+                default — book-composer.ts reveals it once it knows the mode
+                and lane are both right for it, so it never flashes on a page
+                that opens in Edit. */}
+            <div class="cx-narration" id="cx-narration" hidden>
+              <button
+                type="button"
+                class="cx-narration-generate"
+                id="cx-narration-generate"
+              >
+                <i class="fa-solid fa-microphone" aria-hidden="true" />
+                <span>Generate narration</span>
+              </button>
+              <audio
+                class="cx-narration-audio"
+                id="cx-narration-audio"
+                controls
+                preload="none"
+                hidden
+              />
+              <span
+                class="cx-narration-status"
+                id="cx-narration-status"
+                aria-live="polite"
+              />
             </div>
             {view.chapters.map((ch, i) => (
               <div
