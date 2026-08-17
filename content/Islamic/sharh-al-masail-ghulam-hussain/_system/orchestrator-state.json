@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0book-compose",
-  "phase_status": "failed",
+  "phase": "0book-design",
+  "phase_status": "completed",
   "last_completed_phase": "0book-design",
   "next_phase": "0book-compose",
-  "last_error": {
-    "phase": "0book-compose",
-    "message": "bk-02: translation edition output failed integrity gate: speech tag cut into a quotation (3 interior vs 2 in source) — attribution may have moved",
-    "ts": "2026-08-17T21:00:44Z"
-  },
+  "last_error": null,
   "human_overrides": [
     {
       "gate": "G13",
@@ -303,7 +299,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-17T20:52:34Z",
-      "ts_completed": "2026-08-17T20:53:09Z",
+      "ts_completed": "2026-08-17T21:03:14Z",
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -350,7 +346,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T21:01:15Z",
+  "ts_updated": "2026-08-17T21:03:14Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -358,11 +354,11 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260817T205233Z-bd95c8",
+  "run_id": "20260817T210314Z-6514fa",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
     "finalize": 18,
-    "0book-compose": 1
+    "0book-compose": 2
   }
 }
