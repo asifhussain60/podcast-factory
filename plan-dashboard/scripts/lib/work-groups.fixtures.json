@@ -1,0 +1,156 @@
+{
+  "_comment": "Shared fixtures for the multi-volume work-group manifest parse. Read by BOTH plan-dashboard/src/lib/reader/work-groups.test.ts (parseWorkGroupManifest) and scripts/podcast/tests/test_sync_listener_work_groups.py (_group_from_manifest), so a change to either that is not matched in the other fails a test. Without this pin the two surfaces silently disagree about what one WORK is, which is the exact bug that prompted the pair: the Podcast Factory Library stacked Mukhtasar's two volumes into one set while the Astro Site's Studio shelf drew them as two unrelated books, and nothing anywhere said why. The acceptance rules that look like edge cases are the ones worth pinning: a missing work_slug falls back to the file's own name so a declaration need not repeat itself; FEWER THAN TWO volumes is not a group, because a one-volume deck is a card the reader must open to find one book inside; and a single malformed volume row is skipped rather than failing the whole manifest, because the remaining volumes are still a true statement about the work.",
+  "cases": [
+    {
+      "name": "the live Mukhtasar declaration",
+      "defaultSlug": "mukhtasar-ul-asar",
+      "in": {
+        "work_slug": "mukhtasar-ul-asar",
+        "title": "Mukhtasar-ul-Asaar",
+        "bucket": "Islamic",
+        "volumes": [
+          { "order": 1, "slug": "mukhtasar-ul-asar-1" },
+          { "order": 2, "slug": "mukhtasar-ul-asar-2" }
+        ]
+      },
+      "out": {
+        "workSlug": "mukhtasar-ul-asar",
+        "title": "Mukhtasar-ul-Asaar",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "mukhtasar-ul-asar-1", "order": 1 },
+          { "slug": "mukhtasar-ul-asar-2", "order": 2 }
+        ]
+      }
+    },
+    {
+      "name": "work_slug falls back to the file's own name",
+      "defaultSlug": "some-work",
+      "in": {
+        "title": "Some Work",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "slug": "b", "order": 2 }
+        ]
+      },
+      "out": {
+        "workSlug": "some-work",
+        "title": "Some Work",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "slug": "b", "order": 2 }
+        ]
+      }
+    },
+    {
+      "name": "volumes are ordered by their declared order, not their file order",
+      "defaultSlug": "w",
+      "in": {
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "second", "order": 2 },
+          { "slug": "first", "order": 1 }
+        ]
+      },
+      "out": {
+        "workSlug": "w",
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "first", "order": 1 },
+          { "slug": "second", "order": 2 }
+        ]
+      }
+    },
+    {
+      "name": "a volume with no order sorts as zero rather than being dropped",
+      "defaultSlug": "w",
+      "in": {
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [{ "slug": "numbered", "order": 1 }, { "slug": "bare" }]
+      },
+      "out": {
+        "workSlug": "w",
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "bare", "order": 0 },
+          { "slug": "numbered", "order": 1 }
+        ]
+      }
+    },
+    {
+      "name": "a malformed volume row is skipped, the rest of the manifest survives",
+      "defaultSlug": "w",
+      "in": {
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "order": 2 },
+          "not-a-mapping",
+          { "slug": "c", "order": 3 }
+        ]
+      },
+      "out": {
+        "workSlug": "w",
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "slug": "c", "order": 3 }
+        ]
+      }
+    },
+    {
+      "name": "one volume is not a set",
+      "defaultSlug": "w",
+      "in": {
+        "title": "W",
+        "bucket": "Islamic",
+        "volumes": [{ "slug": "only", "order": 1 }]
+      },
+      "out": null
+    },
+    {
+      "name": "no title is not a group",
+      "defaultSlug": "w",
+      "in": {
+        "bucket": "Islamic",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "slug": "b", "order": 2 }
+        ]
+      },
+      "out": null
+    },
+    {
+      "name": "no bucket is not a group",
+      "defaultSlug": "w",
+      "in": {
+        "title": "W",
+        "volumes": [
+          { "slug": "a", "order": 1 },
+          { "slug": "b", "order": 2 }
+        ]
+      },
+      "out": null
+    },
+    {
+      "name": "volumes must be a list",
+      "defaultSlug": "w",
+      "in": { "title": "W", "bucket": "Islamic", "volumes": "a, b" },
+      "out": null
+    },
+    {
+      "name": "an empty manifest is not a group",
+      "defaultSlug": "w",
+      "in": {},
+      "out": null
+    }
+  ]
+}

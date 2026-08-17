@@ -328,6 +328,23 @@ mirrors:
       which is exactly how the edition-intro bug shipped. A refactor that moves the
       producers onto a shared Python constant must keep the scan honest; the test's
       fourth case fails loudly if the scan ever matches nothing.
+  - a: plan-dashboard/src/lib/reader/work-groups.ts
+    b: scripts/podcast/sync_listener_work_groups.py
+    pinned_by: plan-dashboard/scripts/lib/work-groups.fixtures.json
+    note: >-
+      What makes two books ONE WORK, answered once for the two surfaces a reader
+      looks at. Declared 2026-08-17, when the Astro Site's Studio shelf began reading
+      the same `content/<Bucket>/_listener-groups/*.yml` declarations the Podcast
+      Factory Library reads. Before that the shelf knew only the `<work>-vol-NN` slug
+      shape, so Mukhtasar's two flat, independently published volumes stacked on the
+      Library and scattered on the shelf — a disagreement about what a work IS, with
+      nothing anywhere saying why. That is also the failure a divergence here
+      reproduces, and it is silent: both sides keep working, they just describe a
+      different library. The shelf deliberately does NOT read `work.yml` — the nested
+      case is already handled by the slug shape, and works for a work carrying no
+      manifest at all, so reading both would put two mechanisms in competition to
+      group the same slugs.
+
   - a: plan-dashboard/scripts/regenerate-snapshots.mjs
     b: plan-dashboard/scripts/regenerate-snapshots.py
     pinned_by: tests/test_snapshot_regenerator_parity.py
