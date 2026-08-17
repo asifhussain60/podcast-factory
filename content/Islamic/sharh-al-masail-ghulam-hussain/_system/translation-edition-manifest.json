@@ -95,6 +95,19 @@
       ],
       "source_words": 2633,
       "output_words": 3182
+    },
+    {
+      "index": 8,
+      "title": "Choosing Well, Looking Rightly",
+      "chapter_file": "book/_chapters/ch08-choosing-well-looking-rightly.txt",
+      "source_line_ranges": [
+        [
+          496,
+          548
+        ]
+      ],
+      "source_words": 3376,
+      "output_words": 4059
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
