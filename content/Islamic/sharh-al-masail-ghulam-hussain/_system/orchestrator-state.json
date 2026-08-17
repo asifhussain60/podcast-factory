@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "per-chapter-optimize",
+  "phase": "0g",
   "phase_status": "completed",
-  "last_completed_phase": "per-chapter-optimize",
-  "next_phase": "per-chapter-slides",
+  "last_completed_phase": "0g",
+  "next_phase": "per-chapter",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -111,7 +111,63 @@
       "series_plan_path": "content/Islamic/sharh-al-masail-ghulam-hussain/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-08-17T20:17:20Z",
+      "ts_completed": "2026-08-17T20:17:24Z",
+      "audit_outcomes": {
+        "earning-and-the-manners-of-the-table": {
+          "status": "audited",
+          "ep_label": "EP01-earning-and-the-manners-of-the-table",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "maintenance-dissolution-and-inheritance": {
+          "status": "audited",
+          "ep_label": "EP05-maintenance-dissolution-and-inheritance",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "sale-debt-and-the-contracts-of-trade": {
+          "status": "audited",
+          "ep_label": "EP02-sale-debt-and-the-contracts-of-trade",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-marriage-contract-and-its-bonds": {
+          "status": "audited",
+          "ep_label": "EP04-the-marriage-contract-and-its-bonds",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-pledge-and-the-call-to-marry": {
+          "status": "audited",
+          "ep_label": "EP03-the-pledge-and-the-call-to-marry",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      },
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     },
     "per-chapter": {
       "status": "completed",
@@ -247,7 +303,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T20:17:15Z",
+  "ts_updated": "2026-08-17T20:17:24Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
