@@ -6,8 +6,8 @@
   "source_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
   "source_kind": "pdf",
   "input_type": "pdf",
-  "phase": "0e",
-  "phase_status": "failed",
+  "phase": "06a",
+  "phase_status": "awaiting_human_review",
   "last_completed_phase": "0d",
   "last_error": {
     "phase": "0e",
@@ -92,11 +92,17 @@
         "total": 6,
         "blocking_fail": "PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything"
       }
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-08-17T19:56:17Z",
+      "ts_completed": "2026-08-17T19:56:33Z",
+      "gate_warnings": 6
     }
   },
   "intake_via": "scripts/podcast/intake_book.py --work",
   "unattended": true,
-  "ts_updated": "2026-08-17T19:56:15Z",
+  "ts_updated": "2026-08-17T19:56:33Z",
   "phase_attempts": {
     "preflight": 6
   },

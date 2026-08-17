@@ -1,0 +1,32 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P0",
+      "message": "Critical authentication failure: Author attribution to 'Sayyidna Idris 'Imad al-Din' cannot be verified against standard Islamic scholarly databases. Uyoon Al-Akhbaar is traditionally attributed to Ibn Qutayba al-Dinawari (d. 276 AH). This represents a fundamental misattribution that invalidates the source's scholarly credibility."
+    },
+    {
+      "severity": "P1",
+      "message": "Suspicious source chain: No peer-reviewed editions listed. Metadata shows 'draft' status with only extraction/processing notes ('_extraction-notes.md', 'raw-extract.md') rather than scholarly apparatus. Cannot verify: translator identity, edition used, or manuscript provenance."
+    },
+    {
+      "severity": "P1",
+      "message": "Doctrinal red flag: Chapter structure emphasizes Ismaili genealogical framework ('the line from Ishmael', repeated emphasis on imamate lineage in ch02a). Original Uyoon Al-Akhbaar is Sunni historiography. If this is a sectarian reinterpretation, it must be explicitly labeled as derivative/commentary work, not presented as the primary text."
+    },
+    {
+      "severity": "P1",
+      "message": "Missing companion sources: Chapter cross-references ('where this episode opens/picks up') suggest reliance on external narrative framework not present in provided source files. Cannot verify if chapters are self-contained or depend on unstated material."
+    },
+    {
+      "severity": "P2",
+      "message": "Editorial opacity: Chapter titles use modern phrasing ('khadijah-and-the-first-response') inconsistent with historical manuscript conventions. Presence of 'chapters-rationale.md' suggests post-hoc organizational layer added by editors—degree of intervention unclear."
+    },
+    {
+      "severity": "P2",
+      "message": "Incomplete metadata: No publication date, no edition identifier (manuscript base? printed edition?), no translator credited. 'Publication: status: draft' indicates work incomplete and unvetted."
+    }
+  ],
+  "reviewed_at": "2026-08-17T19:56:17Z",
+  "approved_at": null
+}
