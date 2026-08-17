@@ -223,7 +223,19 @@ def _run_claude_p(
     _resolved_model_flag = model_flag or PHASE_MODEL_OVERRIDE.get(phase)
     if _resolved_model_flag:
         argv.extend(["--model", _resolved_model_flag])
-    argv.append(prompt)
+    # A prompt passed as a positional argv element hits the OS's ARG_MAX
+    # (1 MiB on macOS, shared with the environment) well before any phase-level
+    # word-count ceiling does — surfaced by a 182k-word single-PDF volume of
+    # uyoon-al-akhbaar, where 0book-design's whole-book TOC pass raised
+    # `OSError: [Errno 7] Argument list too long`. `claude -p` reads the prompt
+    # from stdin when no positional prompt is given (verified empirically), so
+    # route large prompts there instead — argv is left untouched below the
+    # threshold to avoid changing behavior for the thousands of calls already
+    # proven to work that way.
+    _STDIN_PROMPT_THRESHOLD = 200_000
+    _prompt_via_stdin = len(prompt) > _STDIN_PROMPT_THRESHOLD
+    if not _prompt_via_stdin:
+        argv.append(prompt)
     # P0 COST POLICY (2026-06-04): `claude -p` MUST use the flat-rate Claude Max
     # subscription, NEVER the metered Anthropic API. Strip any API-key env from the
     # child so the Claude CLI authenticates via the Max / OAuth session. The paid
@@ -241,6 +253,7 @@ def _run_claude_p(
             text=True,
             timeout=timeout,
             env=child_env,
+            input=prompt if _prompt_via_stdin else None,
         )
         rc, raw_stdout, stderr = proc.returncode, proc.stdout, proc.stderr
         _elapsed_ms = int((time.monotonic() - _t0) * 1000)
