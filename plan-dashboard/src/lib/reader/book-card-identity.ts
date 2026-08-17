@@ -152,7 +152,17 @@ export async function resolveBookCardIdentity(
   // form and carries the subtitle — "Degrees of Excellence: A Fatimid Treatise on
   // Leadership in Islam" is 64 characters and wraps to four lines in a card that
   // is meant to look like its neighbours. It is the last resort, not the first.
+  //
+  // `title_english` is FIRST, ahead of the hand-typed map, because it is the
+  // book's own file saying its own English name — the same precedence every
+  // other field on this card already follows. It was backfilled INTO the books
+  // from that map on 2026-08-17 (scripts/podcast/normalize_book_metadata.py):
+  // until then the English name of five books existed only in a browser-side
+  // TypeScript dictionary that no Python reads, so the Podcast Factory Library
+  // called a book "Kitab al-Riyad" while this shelf called it "The Book of
+  // Gardens" and nothing anywhere reconciled the two.
   const englishTitle =
+    str(meta?.title_english) ??
     fallback.displayTitle ??
     (isArabic(str(meta?.title)) ? undefined : str(meta?.title)) ??
     str(work?.title) ??
