@@ -1,0 +1,20 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0a",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 1,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PA1",
+      "name": "source-text-present",
+      "kind": "own",
+      "passed": true,
+      "note": "raw-extract.md present (152,494 bytes)"
+    }
+  ]
+}

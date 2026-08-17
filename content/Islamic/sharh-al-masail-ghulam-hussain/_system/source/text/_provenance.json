@@ -1,0 +1,32 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-08-17T14:06:44.542357+00:00",
+  "source": {
+    "path": "/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/sharh-al-masail-ghulam-hussain/_source/sharh-al-masail-ghulam-hussain-source.pdf",
+    "byte_size": 41007328
+  },
+  "book_slug": "sharh-al-masail-ghulam-hussain",
+  "book_dir": "content/Islamic/sharh-al-masail-ghulam-hussain",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 124,
+    "ocr_char_count": 98659,
+    "elapsed_seconds": 14.17,
+    "operation_id": "succeeded"
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 152463,
+    "elapsed_seconds": 7.79
+  },
+  "outputs": {
+    "raw_extract": "content/Islamic/sharh-al-masail-ghulam-hussain/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/sharh-al-masail-ghulam-hussain/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/sharh-al-masail-ghulam-hussain/_system/source/text/_extraction-notes.md"
+  }
+}
