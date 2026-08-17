@@ -14,7 +14,7 @@
       "name": "book-toc-parses",
       "kind": "own",
       "passed": true,
-      "note": "book-toc.json declares 56 chapter(s)"
+      "note": "book-toc.json declares 65 chapter(s)"
     },
     {
       "gate": "RA1",
@@ -28,14 +28,14 @@
       "name": "refined-text-still-present (from 0b)",
       "kind": "recheck",
       "passed": true,
-      "note": "refined-english.md present (1,016,133 bytes)"
+      "note": "refined-english.md present (975,113 bytes)"
     },
     {
       "gate": "RB2",
       "name": "refined-still-covers-source (from 0b)",
       "kind": "recheck",
       "passed": true,
-      "note": "refined text is 94% of the source (182,137 of 193,757 words)"
+      "note": "refined text is 91% of the source (175,670 of 193,757 words)"
     },
     {
       "gate": "RB3",
