@@ -299,7 +299,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-17T20:52:34Z",
-      "ts_completed": "2026-08-17T21:11:58Z",
+      "ts_completed": "2026-08-17T21:16:18Z",
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -311,7 +311,7 @@
     "0book-compose": {
       "status": "failed",
       "ts_started": "2026-08-17T20:53:14Z",
-      "ts_completed": "2026-08-17T21:11:27Z",
+      "ts_completed": "2026-08-17T21:15:47Z",
       "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings."
     },
     "0book-illustrate": {
@@ -346,7 +346,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T21:11:58Z",
+  "ts_updated": "2026-08-17T21:16:18Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -354,11 +354,11 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260817T211158Z-e35f0a",
+  "run_id": "20260817T211618Z-4b1ee3",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
     "finalize": 18,
-    "0book-compose": 4
+    "0book-compose": 5
   }
 }
