@@ -1,0 +1,32 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-08-17T13:45:50.876127+00:00",
+  "source": {
+    "path": "/Users/ahmac/Code/podcast-factory/content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
+    "byte_size": 158078292
+  },
+  "book_slug": "uyoon-al-akhbaar-vol-01",
+  "book_dir": "content/Islamic/uyoon-al-akhbaar/vol-01",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 637,
+    "ocr_char_count": 820722,
+    "elapsed_seconds": 33.98,
+    "operation_id": "succeeded"
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 1031562,
+    "elapsed_seconds": 68.46
+  },
+  "outputs": {
+    "raw_extract": "content/Islamic/uyoon-al-akhbaar/vol-01/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/uyoon-al-akhbaar/vol-01/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/uyoon-al-akhbaar/vol-01/_system/source/text/_extraction-notes.md"
+  }
+}
