@@ -43,7 +43,7 @@ It is reported from Jafar ibn Muhammad (ع) that he said: "Seek knowledge, and a
 
 **On the merits of purity**
 
-God Almighty said: *"Indeed, God loves those who constantly repent and loves those who purify themselves"* [Surah al-Baqarah: 222]. He also said: *"Within it are men who love to purify themselves, and God loves those who purify themselves"* [Surah al-Tawbah: 108]. And He said: *"And He sent down upon you rain from the sky to purify you thereby, and to remove the harm of Satan from you, and to fortify your hearts and make your feet firm thereby"* [Surah al-Anfal: 11].
+God Almighty said: *"Indeed, Allah loves those who constantly repent and loves those who purify themselves"* [Surah al-Baqarah: 222]. He also said: *"Within it are men who love to purify themselves, and God loves those who purify themselves"* [Surah al-Tawbah: 108]. And He said: *"And He sent down upon you rain from the sky to purify you thereby, and to remove the harm of Satan from you, and to fortify your hearts and make your feet firm thereby"* [Surah al-Anfal: 11].
 
 > خُذْ مِنْ أَمْوَلِهِمْ صَدَقَةًۭ تُطَهِّرُهُمْ وَتُزَكِّيهِم بِهَا
 >
