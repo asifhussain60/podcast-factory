@@ -1,0 +1,23 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Dignity of Earning Your Bread",
+      "chapter_file": "book/_chapters/ch01-the-dignity-of-earning-your-bread.txt",
+      "source_line_ranges": [
+        [
+          115,
+          142
+        ]
+      ],
+      "source_words": 747,
+      "output_words": 1500,
+      "folded_opening_words": 407
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}
