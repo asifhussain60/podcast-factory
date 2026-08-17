@@ -1,0 +1,55 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0book-design",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 6,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PG1",
+      "name": "book-toc-parses",
+      "kind": "own",
+      "passed": true,
+      "note": "book-toc.json declares 11 chapter(s)"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (152,494 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (154,577 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 92% of the source (27,856 of 30,172 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (11 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "5 chapter contract(s)"
+    }
+  ]
+}
