@@ -1,0 +1,13 @@
+{
+  "ts": "2026-08-17T16:40Z",
+  "book": "sharh-al-masail-ghulam-hussain",
+  "chapters_in_scope": 1,
+  "p0": 0,
+  "p1": 14,
+  "p2": 6,
+  "auto_fixes": 6,
+  "score": 0.0,
+  "badge": "Unstable",
+  "verdict": "SHIP-WITH-CAUTION",
+  "challenger_version": "2.6"
+}
