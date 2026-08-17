@@ -1,0 +1,82 @@
+chapter_ref: ch24b-the-ansars-grief-and-the-march-to-tabuk
+slug: the-ansars-grief-and-the-march-to-tabuk
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 12
+section_index: 2
+episode_number: 24
+title: The Ansar's Portion and Tabuk
+audience: Listeners who have just watched the spoils of Hunayn counted out at al-Ji'ranah and heard the reason given for who received the most. No prior knowledge is needed beyond that distribution and the community's two halves — the Emigrants who came from Mecca and the Ansar who took them in. What this episode asks of them is to sit through an address given to one section of the community alone, and then to follow a months-long expedition that fought nobody and is therefore measured entirely by who stayed behind, who was left in charge, and what was said about both.
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event, reported speech and one formal address: a grievance brought by a named intermediary, an assembly, a sermon, a poet''s repentance, a march with its halts and incidents, treaties, a demolition, and a delegation. The book''s exposition of the saying about Aaron and Moses and its weighing of the call across the desert against the report of ''Umar and Sariyah are the author arguing in his own voice with no named party answering him in dialogue, so there is no sustained named opposition; this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries Hassan ibn Thabit's reproach, Sa'd ibn 'Ubadah's report and the question put back to him, the address to the Ansar recited whole, the weeping and the answer that they are content with the Messenger of God as their lot, the lesser pilgrimage and the deputies left at Mecca, Ka'b ibn Zuhayr's letter and ode and the line redirecting praise to the Ansar, the seven men who wept for lack of mounts, the lost camel and the hypocrite's taunt, Abu Dharr walking alone, the treaties at Ayla and Jarba' and Adhruh, Ukaydir taken while hunting, the water at Wadi al-Mashqaq, the demolished mosque with chapter 9 verse 107, the three who offered no excuse with chapter 9 verse 118, the saying about Aaron and Moses with chapter 7 verse 142, the raised hand before the delegation of Thaqif, and the chapter of Immunity taken back on the road with chapter 9 verses 1 to 2; the companion presses on why the address argues the Ansar's own case better than they did, on what an expedition that fought nobody actually achieved, and on how the book defends its hardest report by pricing it against one its opponents already accept.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the address to the Ansar whole — the only time in this volume one section of the community is assembled alone and answered — together with the saying that Ali stands to the Prophet as Aaron stood to Moses and the book's exposition of it, the three men whose repentance brought down a verse, the destruction of the mosque of dissension, and the chapter of Immunity taken from Abu Bakr on the road and delivered by Ali.
+sermon:
+  present: true
+  section_title: The Ansar's portion
+key_tensions:
+  - 'A grievance that is not about property at all: not that the division was unlawful, but that he has found his own people again.'
+  - An intermediary who comes reporting other men's feelings and is asked, before anything is conceded, where he himself stands.
+  - An address that extracts agreement with three questions and then argues the other side's case for them, better than they had made it, and says they would be believed if they made it.
+  - 'The principle from the distribution restated as a compliment: those men were bound with a portion of the world, and you were entrusted to your Islam.'
+  - A community left off a list twice in weeks — once a list of camels, once a poem — and answered the second time by a single line from the man being praised.
+  - Seven men named with their clans for a campaign they did not join, recorded with more care than most who marched.
+  - A taunt about a lost camel answered by conceding the whole of it — I know nothing except what God has taught me — and then applying the concession.
+  - A description of a man walking alone on a road that runs forward past the end of his life, and a history that closes the loop by naming the exile and the man who ordered it.
+  - The longest expedition of the Prophet's life meets no army and returns with three written settlements and one captive king.
+  - An order that forbade not drinking but drinking first, broken by men who arrived ahead of the column, and answered with water rather than a rebuke.
+  - A building raised by men with excuses pulled to the ground, set against three men who offered no excuse at all and had a verse of relenting sent down for them.
+  - A comparison spoken once before at a gate of Khaybar, said here to send a man back rather than to praise him, and expounded for the first time as an office.
+  - The hardest report in the episode defended not by proof but by weighing it against a miracle the other side already accepts.
+  - A hand taken and raised in front of a delegation, and a bystander telling him to turn it aside — the interruption recorded rather than any reply.
+  - A chapter of the Quran taken back off its first bearer on the road, and the argument the Shi'a build from that recall.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene or motive may be invented around it.
+  - The address to the Ansar is rendered whole and unbroken — invocation, the three questions, the four clauses the Prophet speaks on their behalf, the statement about the emigration and the path, and the closing prayer over three generations. It is never summarised or split.
+  - The verse of Hassan ibn Thabit, of Ka'b ibn Zuhayr in both his poems, of Bujayr ibn Zuhayr and of Bajir ibn Bajrah al-Ta'i is damaged in this manuscript. It is carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - 'Where the source carries a variant it is preserved rather than resolved: the uncertain identity of one of the seven who wept, and the two datings offered for the affair of the chapter of Immunity.'
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The distribution at al-Ji'ranah, the failed siege of Ta'if, the day of Hunayn, the emigration from Mecca, and the saying about Aaron and Moses first spoken at Khaybar were all taught earlier in this history. Each appears here only as a one-line callback in fresh words, and the Khaybar occurrence is named as a callback rather than re-expounded.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The injury in the Ansar''s own words: ''The Messenger of God has found his own people.'''
+  - 'The question to the intermediary: ''And where do you stand in all of this, Sa''d?'' — ''O Messenger of God, I am only a man of my people.'''
+  - 'The opening of the address: ''Did I not find you astray and God guided you? Were you not poor and God enriched you? Were you not enemies to one another and God made your hearts one?'''
+  - 'The case argued on their behalf: ''You came to us rejected, and we believed in you; you came to us abandoned, and we supported you; you came to us driven out, and we sheltered you; you came to us destitute, and we brought you comfort.'''
+  - 'The principle applied to them: ''You have felt it over a portion of the world by which I bound certain men so that they might submit, while I entrusted you to your Islam. Are you not content that the people should depart with sheep and camels while you return with the Messenger of God?'''
+  - 'The closing of the address: ''If the people took one path and the Ansar took another, I would follow the path of the Ansar. O God, have mercy on the Ansar, the sons of the Ansar, and the sons of the sons of the Ansar.'''
+  - 'The line on the poet''s omission: ''Had he not mentioned the Ansar well, they would have been worthy of it.'''
+  - 'The answer to the taunt about the camel: ''I know nothing except what God has taught me, and God has now shown me where the camel is.'''
+  - 'The saying over Abu Dharr: ''May God have mercy on Abu Dharr — he walks alone, dies alone, and will be resurrected alone.'''
+  - 'The promise over the valley: ''it will be one of the most fertile valleys in the land, and all that lies before it and behind it.'''
+  - 'The verse on the three: ''until the earth, vast as it is, closed in upon them, and their own souls became too narrow for them'' (chapter 9, verse 118).'
+  - 'The saying at the encampment: ''They have lied. I left you behind as my deputy. Return, for you are my successor among my family. Are you not content to stand to me as Aaron stood to Moses — except that there is no prophet after me?'''
+  - 'The delegation of Thaqif: ''establish the prayer and pay the alms — otherwise I will send upon you a man who is as I am'' — and ''Umar''s ''Deflect, deflect.'''
+  - 'The recall on the road: ''None shall deliver this but a man of your own people'' — and the report''s closing line, ''not one of them gave me any trouble.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'What do you say to the men who gave you their city when nobody else would, and who have just watched a hundred camels apiece go to the men who spent twenty years trying to kill you? This episode opens with the Ansar working out what their empty hands mean, and with the only assembly in the volume where one section of the community is gathered alone behind a fence and answered — an address that puts their own case better than they had put it, then names the reason they were given nothing as the highest compliment available. Weeks later a pardoned poet recites the most famous ode of the era in the Prophet''s presence and leaves them out again, and the correction comes in a single line. Then the march north to Tabuk, the longest expedition of the Prophet''s life and the one with no battle in it, made instead of what happens on a road: seven men who wept because there was nothing to carry them, a lost camel and the hypocrite who mocked it, a man walking alone under his own baggage and told what his death would look like, a Christian king caught out hunting, a rock made to give water to a whole column, a mosque pulled down, and three men who offered no excuse at all. And the thread the book most wants followed is gathered at the close: a man riding out to answer a slander and told he stands as Aaron stood to Moses, a report of a voice heard across a desert defended by weighing it against one the other side already believes, and a chapter of the Quran taken back off its first bearer on the road and carried into a city where every man had sworn against the one who carried it.'
+  related_episodes:
+    - taif-and-the-division-of-the-spoils
+    - the-idols-brought-down-and-the-stand-at-hunayn
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from Hassan ibn Thabit's reproach to Ali's account of the proclamation of Immunity at Mecca
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the address to the Ansar, the story of Ka'b ibn Zuhayr, the expedition to Tabuk, and the saying about Aaron and Moses
+    - Sharh al-Akhbar of al-Qadi al-Nu'man — cited by the source for the Ansar's grievance and the assembly that answered it
+    - Da'a'im al-Islam, Kitab al-'Ayn and al-Majalis al-Mu'ayyadiyyah — the source's citations for the saying that you will follow the ways of those who came before you
+    - Diwan Hassan ibn Thabit and Sharh Diwan Ka'b ibn Zuhayr — the source's citations for the verse of this stretch, including the ode beginning 'Su'ad appeared'
+    - The Quran, chapter 7 verse 142, chapter 9 verse 107, chapter 9 verse 118 and chapter 9 verses 1 to 2 — the passages the source attaches to this stretch
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by gathering the campaign''s three designations into one place: the deputyship over Medina defended with the saying that Ali stands to the Prophet as Aaron stood to Moses and expounded through the verse commanding Aaron to succeed among his people, the hand raised before the delegation of Thaqif and the bystander who told him to turn it aside, and the chapter of Immunity recalled from Abu Bakr on the road because none could deliver it but a man of the Prophet''s own house.'
+session_index: 12
+session_title: Ta'if, the Spoils, and the Northern March
+session_slug: taif-the-spoils-and-the-northern-march
+session_episode: 2
+session_episode_count: 2

@@ -1,0 +1,58 @@
+chapter_ref: ch11b-badr-the-two-armies-meet
+slug: badr-the-two-armies-meet
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 6
+section_index: 2
+episode_number: 11
+title: 'Badr: The Two Armies Meet'
+audience: 'Listeners who have watched a community assemble itself in a new town and now want to see what happened the first time it went out armed. No prior knowledge is assumed beyond the founding of Medina in the previous episode. What this episode asks of them is attention to numbers: this is the part of the history where the author starts counting everything, and where he prints two different totals side by side rather than choosing between them.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is military and biographical narration end to end: a first banner and five expeditions that mostly end without contact, a caravan, a dream, a mobilization, a scouting report, three duels and a rout, followed by a roll of the slain, a roll of the martyrs and two executions. Exchanges do occur — al-''Abbas against Abu Jahl, ''Utbah against Abu Jahl, ''Abdullah ibn Jahsh''s verse answering the charge about the sacred month — but each is a short altercation inside the events rather than a sustained contest over a proposition, so this is not debate; and nothing here is one doctrine unfolded layer by layer, so it is not deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the expeditions, the two marches, the reconnaissance and the fighting, and reads the roll of the slain and the martyrs at the pace the source sets it down; the companion presses on how much of this battle is arithmetic — camels slaughtered per day standing in for a headcount, seventy camels ridden in shifts standing in for a force, and a scout's accurate estimate of the cost being overruled by a man who had just been called a coward.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the first raised banner in Islam, the incident at the palm grove that gave Quraysh the grievance it mobilized on, and the whole of the Great Battle of Badr with its single combats, its casualty rolls and its named martyrs — the founding military event of the community and the reference point for everything the next volume narrates.
+key_tensions:
+  - A year of expeditions in which almost nothing happens, kept in full. Four marches end without contact, and the author records every one of them — including the raid whose only surviving incident is a nickname given to a man asleep in a dust-heap and, in the same breath, the naming of the man who would one day kill him.
+  - One death in a forbidden month outweighing everything else. Not the migration, not the caravan, but eight men at a palm grove killing 'Amr ibn al-Hadrami is the grievance Quraysh names as it mobilizes — and the answer given is never a denial, only a comparison of offences, with the question itself serious enough to be answered in the Book.
+  - A warning delivered three days early and argued about instead of acted on. 'Atikah's vision names the losses and the interval; the dispute it produces is not over whether it is accurate but over whether a woman may have one, and the messenger confirming it arrives in the middle of that quarrel.
+  - An army that could have gone home. The caravan is already safe and its owner sends word to turn back; the scout reports that every man opposite will take one of theirs with him; the most senior man present calls for withdrawal — and the assembly follows the man who called him a coward.
+  - A history that counts, and prints both answers. Nine or ten camels a day gives nine hundred to a thousand men; fifty dead, or seventy dead and seventy captive, depending on whose opinion is cited; a killer named for every man killed, with 'some say' attached wherever the sources disagree.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it, and no detail of the fighting beyond what the source states.
+  - The rolls of the slain and of the martyrs are read as the source sets them down — every man named, every 'some say' preserved. They are not to be summarized into a count, and no disputed attribution may be resolved.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - The verses of Hamza, of 'Abdullah ibn Jahsh and of Talib ibn Abi Talib all survive in damaged transmission and are carried at the level of their surviving sense. Do not reconstruct a line and do not repair a garbled name into the one it probably was.
+  - The dispute over Abu Talib's faith was taught in full in an earlier episode. Where 'Ubaydah ibn al-Harith raises it as he is dying, it is a callback and a deathbed citation, never a second teaching.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib throughout.
+anchor_passages:
+  - 'The prophecy on the expedition to al-''Ushayrah: ''What is the matter with you, O Abu Turab?'' — followed by ''the most wicked of the later ones, who will strike you, O Ali, on this... until this becomes wet from it.'''
+  - '''Atikah''s vision, from the rider crying ''Hasten to your fallen warriors — in three days'' to the rock shattering until no house in Mecca was left unstruck.'
+  - 'The promise at Dhafran: ''Advance and be of good cheer, for God has promised me one of the two parties, and by God, it is as though I can see right now where the enemy will fall.'''
+  - 'The interrogation at the water: ''How many camels do they slaughter each day?'' — ''Nine one day and ten another.'' — ''Then the people number between nine hundred and a thousand.'''
+  - '''Umayr ibn Wahb''s report: ''Yathrib has sent you soaking death: a people who have no shield and no refuge except their swords... If they kill among you a number equal to their own, what good is life after that?'''
+  - 'The call to single combat and the answer: ''O Muhammad, send out to us men who are our equals from among our own people.'' — ''Rise, O ''Ubaydah ibn al-Harith; rise, O Hamzah; rise, O Ali.'''
+  - 'The last exchange of the episode: ''Who will look after my children?'' — ''The Fire.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'Nobody who left Medina that Ramadan expected a battle. They went out after a caravan, on seventy camels ridden in shifts, with the man in command taking his turn on foot — and they met an army of somewhere between nine hundred and a thousand, a number worked out by asking two captured water-slaves how many camels the other side slaughtered for dinner. This episode carries the year that led there: the first banner ever raised in Islam and the thirty riders who faced three hundred without a blow struck, four expeditions that ended with everyone home, and one patrol at a palm grove that killed a man in a forbidden month and handed Quraysh the grievance it went to war on. Then Mecca — a woman''s dream three days ahead of the messenger, dismissed because a woman had it, and a rock in it that broke into fragments reaching every house in the city. Then Badr itself: a man who swore an oath about a water basin and crawled to keep it, three duels of which two ended instantly, a handful of pebbles thrown into the faces of an advancing line, and afterwards the count — every man killed with the man who killed him, both totals where the sources disagree, fourteen martyrs by name, and a dying man at al-Safra'' arguing about somebody else''s faith.'
+  related_episodes:
+    - the-hijra-and-alis-vigil
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from Hamza's expedition to the coast through the executions after Badr
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited repeatedly by the source for the expeditions, the mobilization of Quraysh, the rolls of the slain and the martyrs
+    - Mu'jam al-Buldan — cited by the source for al-'Is, al-Kharrar, al-Safra' and Dhafran
+    - Diwan Ka'b ibn Malik — cited by the source for the line on the seventy
+    - Diwan Abi Talib — cited by the source for the verse 'Ubaydah ibn al-Harith quoted as he was dying
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by naming Ali as the scout, the banner-holder, the youngest of the three called out to single combat and the killer of a named list of Quraysh's leaders — and by carrying the prophecy of his own death, spoken on a dust-heap years before, inside the account of a battle he helped win.
+session_index: 6
+session_title: The Migration and the First Battle
+session_slug: the-migration-and-the-first-battle
+session_episode: 2
+session_episode_count: 2

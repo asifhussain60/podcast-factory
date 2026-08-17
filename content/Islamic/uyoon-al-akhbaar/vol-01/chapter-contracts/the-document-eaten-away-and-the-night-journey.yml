@@ -1,0 +1,57 @@
+chapter_ref: ch08a-the-document-eaten-away-and-the-night-journey
+slug: the-document-eaten-away-and-the-night-journey
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 5
+section_index: 1
+episode_number: 8
+title: The Document and the Night Journey
+audience: 'Listeners who watched two clans walk into a valley behind a man who never converted, and now want to know how they got out and what it cost. No prior knowledge is assumed beyond the boycott established in the previous episode. What this episode asks of them is patience with a deliberate double vision: every turn in it is explained twice, once by what men arranged among themselves and once by something the men in the account could not reach, and the author never collapses the two into one.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is historical exposition organised around events: three years of blockade, a smuggling operation, a street assault, a mockery campaign, a five-man conspiracy that unmakes the boycott in one morning, the night journey and the fixing of the daily prayers, and two deaths a few days apart. Named disagreement does surface — al-Husayn''s correction on the origin of the call to prayer, and the divided testimony over whether Abu Talib spoke the word at the end — but each is settled or left standing inside a few lines rather than argued back and forth, so nothing approaches sustained named-opposition-with-dialogue. Not deep_dive either: no single doctrine is unfolded layer by layer; the spine is the sequence of events.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the blockade, the night the document was repudiated, the Isra' and Mi'raj reports, and the deathbed scene, and delivers the Prophet's announcement about the parchment and the reduction of the fifty prayers as the set pieces they are; the companion presses on the double causation running through the whole episode — a boycott beaten by a conspiracy and by a creature, an obligation fixed in heaven and then argued down by an earlier prophet, and a protection removed by nothing more remarkable than two ordinary deaths.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the end of the boycott, the night journey and the origin of the five daily prayers, and the deaths of Abu Talib and Khadijah — the losses that make the search for a new refuge, and ultimately the migration, unavoidable.
+key_tensions:
+  - A pact that could only be enforced as a performance. The blockade held for three years on paper while food came through by night from a man too well protected to touch; its enforcer took a beating over a smuggled load and his own side suppressed the story; and when five men from five clans agreed on an order of speaking, it fell in a single morning to nothing but consecutive refusals.
+  - Two accounts of the same event that never meet. The document is repudiated by a conspiracy that had been assembled for weeks, and independently reported eaten of every name of God — the injustice, the severance and the falsehood left legible — with the whole dispute staked in public on that being true before anyone unrolled it.
+  - A vindication that cost followers. He led the prophets in prayer at Jerusalem and ascended by a ladder every dying person looks toward; the daily prayers were settled at five because Moses kept sending him back on the evidence of what he had watched his own people do; and when he described the journey at home some accepted, some called him a liar, and some left the religion — after which the revelation called the whole thing a trial rather than a proof.
+  - A word withheld for the same reason it was worth having. Abu Talib declines the testimony on his deathbed not because he disputes it but because of the reading that would be put on its timing — and the record then keeps two incompatible testimonies side by side, a brother who says he heard it and a nephew who says he did not, without adjudicating between them.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - The verse in this slice — Abu Talib's appeals to Abu Lahab, his two poems on the torn document, Ali ibn Abi Talib's lament and Hamza's lament — survives in damaged transmission and is carried at the level of its surviving sense. Do not reconstruct a line and do not repair a garbled name into the one it probably was.
+  - The question of whether Abu Talib accepted Islam at the end is reported as the source reports it — as a claim, with both testimonies preserved and neither endorsed. The hosts must not settle it.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib throughout.
+  - The drafting of the boycott parchment and the conversions of Hamza and 'Umar were covered in full in the previous episode. Refer back to them in a sentence where the account requires it; do not re-narrate them.
+anchor_passages:
+  - 'Abu al-Bakhtari re-describing the smuggled cargo: ''This is food belonging to his aunt that she had left with him — he is sending it to her. Are you going to prevent a man from bringing food to his aunt? Get out of this man''s way.'''
+  - 'The Prophet''s announcement to his uncle: ''O uncle, my Lord has sent a small creature against the document of the Quraysh, and it has eaten away every name of God that was in it, leaving only the injustice, the severance of ties, and the falsehood in it.'''
+  - 'Moses sending him back: ''Return to your Lord and ask Him to lighten the burden upon your community, for I have seen what the Children of Israel were like — even when the commandments were revealed to them, they rejected them.'''
+  - 'Abu Talib''s refusal of the word: ''O son of my brother, were it not that it would be said I spoke out of fear as death approached, I would have said it.'''
+  - 'The measure of what was lost: ''The Quraysh had never visited upon me anything I found hateful — until Abu Talib died.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'A boycott that lasted three years in a valley that grew nothing was beaten twice over, and the two victories never touch each other. Five men from five different clans met at night at the head of a pilgrim track, agreed on an order of speaking, and dismantled the pact the next morning by refusing it out loud one after another until its author had nobody left to answer. And separately, the parchment hanging inside the Ka''bah was reported eaten of every name of God, with the injustice and the severed kinship left legible — a claim staked in public and checked on the spot. This episode also carries the night journey to Jerusalem and the ascent beyond it, the account of how fifty daily prayers became five at the insistence of an earlier prophet arguing from his own community''s failure, and the year that took both of the people who had made Mecca survivable: an uncle who refused the testimony to the end for the sake of what refusing it had bought, and a wife who died three days after him.'
+  related_episodes:
+    - abyssinia-the-negus-and-the-parchment
+    - taif-the-arab-tribes-and-the-pledges-of-al-aqaba
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the blockade of Banu Hashim to the deaths of Abu Talib and Khadijah
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited by the source for the harm the Prophet received, the Isra', and the deathbed audience
+    - Da'a'im al-Islam by al-Qadi al-Nu'man — cited by the source for the call to prayer and the reduction of the fifty prayers
+    - Diwan Abi Talib — cited by the source for the appeals to Abu Lahab and the poems on the torn document
+    - Al-Manaqib wa al-Mathalib — cited by the source for Hamza's verse and his lament for Abu Talib
+    - Sharh al-Akhbar — cited by the source for the glad tidings given to Fatimah about Khadijah's house in Paradise
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by carrying the household's own corrections into the narrative — al-Husayn refusing the account that the call to prayer began in another man's dream, the angel made in the likeness of Ali ibn Abi Talib, and the report that when the last protector was buried there was nobody left to shelter the Prophet except the successor this history has been naming from its opening pages.
+session_index: 5
+session_title: The Boycott Broken, the Night Journey, and the Year of Sorrow
+session_slug: the-boycott-broken-the-night-journey-and-the-year-of-sorrow
+session_episode: 1
+session_episode_count: 2

@@ -1,0 +1,82 @@
+chapter_ref: ch30b-the-final-moments-and-the-elegies
+slug: the-final-moments-and-the-elegies
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 15
+section_index: 2
+episode_number: 30
+title: The Final Moments and the Elegies
+audience: 'Listeners who arrived with the previous episode at a room where writing materials were called for and never brought. No prior knowledge is needed beyond that. What this episode asks of them is a tolerance for three very different textures in sequence: a crowded sickroom of small physical arrangements, a stretch of procedure recorded with the flatness of a manual because it is establishing the law of every Muslim funeral, and then poetry that reaches this manuscript in pieces and is carried at the level of surviving sense.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event and reported speech from the first line to the last: the grandchildren carried in, an address delivered from the pulpit, a companion displaced at the bedside, a question about guardians answered, the death itself, then the washing, the shrouding, the funeral prayer and the grave, and finally an address at the graveside and four elegies. The one passage that reasons rather than narrates — the objection that the gathering at the hall of the Bani Sa''idah was held in the wrong place, at the wrong hour and without the family — is a single unopposed statement that the history expressly defers to its next volume. No named party answers back anywhere in the slice, so this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the sequence in the order the source gives it — the last conversations and the death, then the washing, the shrouding, the contested choice of grave and the burial, then the address at the graveside recited whole and the four damaged elegies; the companion presses on why a dying man tells his own aunt and daughter in public that he can spare them nothing, on why the washing and the shroud are recorded with the precision of a manual rather than as a scene, and on why a volume that has just spent an episode assembling proofs chooses to end on broken poetry about a mosque quarter and a damp grave.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the death itself with the charge given at it, the washing, shrouding and burial as the source narrates them and as the law it derives from them, the history's objection to the gathering at the hall of the Bani Sa'idah, and the address at the graveside in which the guardian states his claims in his own words.
+sermon:
+  present: true
+  section_title: What was said over him
+key_tensions:
+  - A dying man who tells his own aunt and his own daughter, by name and in public, that he cannot spare them anything before God.
+  - An authority narrowed to nothing by its holder — permitting only what the Book permits, forbidding only what it forbids — in the same address.
+  - A companion holding the Prophet up who is told to make room, in the language of a better claim, over the use of a chest to lean on.
+  - A teaching about how to seal a life, dictated by a man sealing his own, whose five routes are all deliberately small enough to reach.
+  - A question that assumes every prophet has a guardian and asks only for the name.
+  - A last instruction that is not a doctrine or a title but a responsibility for a people, repeated three times.
+  - A succession settled in a meeting hall while the people with the strongest claim to attend were washing the body.
+  - A funeral recorded twice over — as the account of one burial and as the specification for every burial after it.
+  - A washer permitted to look and touch, and a second man required for the work and present with his eyes covered under a warning.
+  - A proposal that would have made the funeral itself a demonstration of who was in charge, answered with a precedent about prophets rather than a rival claim.
+  - 'An arrangement that dissolves the office it was asked to fill: ten mourners at a time, a doorway, and nobody at the front.'
+  - A graveside address that states its claims in ascending order of controversy and then asks for nothing at all.
+  - Four elegies that survive only in fragments, and whose surviving subject is not doctrine but places, furniture and a manner of leading people.
+tone_constraints:
+  - The address delivered at the graveside, reported by Abu Rafi', is this episode's formal address under R-SERMON-VERBATIM. It is rendered whole and unbroken, from the praise of God and the blessing on the Prophet to the closing instruction to fear God, and the discussion of it follows it rather than interrupting it.
+  - Third-person narrative report throughout, matching how the source narrates, except where the source itself gives a first-person account — Abu Dharr at the bedside, Salman al-Farsi's question, the two reports of the death from Ali, and the washer's own account of the washing — which stay in their own voices.
+  - Arabic technical terms, titles and place names are preserved as the source supplies them — Baqi' al-Gharqad, Bani Sa'idah, al-Baqi', Banu al-Najjar — with the source's own glosses kept where it supplies them, including its explanation of the niche cut into the side of the grave.
+  - The four elegies of Hassan ibn Thabit are damaged in this manuscript. They are carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired — the same discipline used for the poetry of Badr, Uhud, Mu'tah and the day of the designation earlier in this volume.
+  - The copyist's colophons that close the manuscript — the dates of completion, the scribe's name and his dedication — are book-object provenance and are dropped per the denoise contract; the episode notes only that the volume ends with the poetry.
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - Quranic quotations are given as English translation with the reference in plain English, following the practice of every earlier episode in this volume; no Arabic script or transliterated formula is carried in the chapter text.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The word spoken after the faint: ''Let them take pleasure in me and I in them — though my passing will weigh heavily on them.'''
+  - 'The withdrawal of privilege from the pulpit: ''O people, do not cling to me. I make lawful only what God has made lawful in the Quran, and I forbid only what the Quran has forbidden.'''
+  - 'The limit set on kinship, by name: ''O Safiyyah bint ''Abd al-Muttalib, aunt of the Messenger of God; O Fatimah bint Muhammad — work for what is with God, for I cannot spare you anything from God.'''
+  - 'The displacement at the bedside: ''Rise, O Abu Dharr — Ali has more right to this than you.'''
+  - 'The contract on final moments: ''whoever seals his final moments with the testimony that there is no god but God will enter Paradise'' — through to struggle in the way of God ''even if it amounts to no more than a brief moment.'''
+  - 'Salman''s question and its answer: ''every prophet has had a guardian — who is yours?'' — ''My guardian, my confidant, and my successor over my family... is Ali ibn Abi Talib.'''
+  - 'The last charge, given three times: ''O Ali, I commend the Arabs to your good care'' — ''and then he breathed his last in my arms.'''
+  - 'The consolation heard from an unseen speaker: ''In God there is consolation for every calamity, and a successor to every perishing thing'' (chapter 3, verse 185).'
+  - 'The instruction about the washing: ''Gabriel will be with you to wash him'' — and ''tell him to cover his eyes, for no one who looks upon my nakedness except you will retain his sight.'''
+  - 'The voice heard during the washing: ''Do not remove his shirt'' — and later, ''Do not tire yourself.'''
+  - 'The precedent that settled the grave: ''the Messenger of God was a living and present Imam, and no prophet has ever been taken except that he was buried in the very place where he died.'''
+  - 'The opening of the graveside address: ''I am the cousin of the Messenger of God — no one can say this truthfully but me.'''
+  - 'Its close: ''We are the People of the House of Mercy, through whom God guided you out of error and gave sight to your blindness. So fear God, that He may preserve His grace upon you.'''
+  - 'The surviving close of the first elegy: that this is a catastrophe, and that Ahmad has departed.'
+  - 'The direct address that survives in the third elegy: ''O best of those who ever trod on pebbles, do not depart.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'While the succession was being settled in a meeting hall on the other side of the city, where was his cousin? Washing the body. This history reports the two events inside a single sentence, and much of this episode depends on taking that sentence literally. It carries the last hours as a series of small physical arrangements, each of which is doing something: two grandchildren carried in and lifted away again when he loses consciousness; an address from the pulpit that narrows his own authority to nothing and then, in the same breath, tells his aunt and his daughter by name that he can spare them nothing before God; a companion propping him up who is told to make room in the language of a better claim; a list of five reachable ways to finish a life, dictated by a man finishing his own; a question that assumes every prophet has a guardian and asks only for the name; and a responsibility for a whole people commended three times before he dies against the man he commends it to. Then the procedural middle, recorded with the flatness of a manual because it is establishing the law of every Muslim funeral: three washings in a fixed order with named preparations, in a shirt that a voice forbade removing, by one man permitted to look and another present with his eyes covered; three garments for the shroud; a proposal to bury him in the public cemetery with one man leading the prayer over him, answered with a precedent about prophets rather than a rival claim, and an arrangement that dissolves the office the proposal would have created — ten mourners at a time, a doorway, and nobody at the front; a recess cut on the side facing the direction of prayer, palm fronds laid because the ground was damp, and a quarter of the grave filled. And then speech: an address at the graveside that states its claims in ascending order of controversy and closes by asking for nothing, and four elegies by the poet who had defended him in verse for twenty years — all of which reach us in pieces, and which turn out to be about the quarter of the mosque, the pulpit, the worn chambers, the damp grave, an eye that will not close, and a way of leading people that consisted mainly of not making things hard for them.'
+  related_episodes:
+    - the-virtues-of-the-commander-of-the-faithful
+    - arafah-mina-and-the-designation-of-ali
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the final moments of the Prophet to the elegies of Hassan ibn Thabit that close the volume
+    - Da'a'im al-Islam of al-Qadi al-Nu'man — the source's citation for the address warning of discord, for Abu Dharr's account of the bedside, for the consolation heard after the death, and for the washing, the shrouding, the funeral prayer and the details of the grave
+    - Sharh al-Akhbar — the source's citation for the calling of al-Hasan and al-Husayn, for Salman al-Farsi's question about the guardian, and for Abu Rafi's account of the address delivered at the graveside
+    - Nahj al-Balagha and Manaqib Amir al-Mu'minin — the source's citations for the two reports of the death transmitted from Ali
+    - The Diwan of Hassan ibn Thabit — the source's citation for the four elegies, all of which reach this manuscript damaged
+    - The Quran, chapter 3 verse 185 — the verse carried in the consolation spoken to the People of the House
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by closing the volume on the succession as the household itself narrates it: the last charge given and the death received in the guardian''s arms, the funeral performed by him while the caliphate was being settled elsewhere, and the claims he stated in his own words over the grave.'
+session_index: 15
+session_title: The Virtues, the Illness, and the Burial
+session_slug: the-virtues-the-illness-and-the-burial
+session_episode: 2
+session_episode_count: 2

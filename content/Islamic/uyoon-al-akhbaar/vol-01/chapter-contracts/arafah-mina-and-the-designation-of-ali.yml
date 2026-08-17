@@ -1,0 +1,78 @@
+chapter_ref: ch28b-arafah-mina-and-the-designation-of-ali
+slug: arafah-mina-and-the-designation-of-ali
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 14
+section_index: 2
+episode_number: 28
+title: Arafah, Mina and the Designation
+audience: 'Listeners who arrived with the previous episode at the seventh circuit of the House and were told that a verse had been quoted and then deliberately held back. No prior knowledge is needed beyond that. What this episode asks of them is attention to three very different registers in sequence: a long formal address delivered from a camel''s back and recited here whole, a stretch of procedural instruction about stones and hair and where you sleep, and then a sustained argument about why the last thing proclaimed on the road home had to be proclaimed at all.'
+angle: faithful_exposition
+episode_format: deep_dive
+format_rationale: 'The spine of this slice is one doctrine unfolded layer by layer: that guardianship was sent down in the same summary form as prayer, alms, fasting and the pilgrimage, and therefore had to be demonstrated as those four were demonstrated. The narrative and the rites are the ground the argument is built on, and the final third is the source reasoning in its own voice through al-Baqir''s exposition, Zayd ibn Arqam''s account, al-Sadiq''s version and the author''s closing statement. Al-Hasan al-Basri is named as having suppressed the content of the message, but he never answers — there is no named opposition in dialogue anywhere in the slice — so this is deep_dive rather than debate.'
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_rationale: The scholar companion recites the sermon at Arafah whole before any discussion of it, then carries the rites from the departure at sunset to the last night at Mina, and then the designation argument in its own order — the four obligations filled in by demonstration, the verse of conveyance, the shelter at Ghadir Khumm, the raised hand, and the author's closing case; the curious mind presses on why a farewell address spends most of its length cancelling debts, on why a ruling keeps naming a preferred form and then removing the penalty for missing it, and on why a proclamation is extracted as a consequence of a question rather than simply asserted.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the Farewell Sermon whole and the account of the designation at Ghadir Khumm with the reasoning the book builds on it — the argument from the four demonstrated obligations, the verse of conveyance, the verse of completion, and the author's own closing statement that this is the clearest evidence for the Imamate.
+sermon:
+  present: true
+  section_title: The sermon at Arafah
+key_tensions:
+  - A farewell address that spends most of its length cancelling claims, and strikes out the speaker's own uncle's lending and his own clan's blood debt first.
+  - An adversary who has given up on being worshipped outright and will settle for obedience in whatever you think too small to count.
+  - A calendar snapped back to its created shape because a sliding month can make a forbidden thing lawful without anyone breaking a rule.
+  - The sermon's sharpest curse falling on a man who claims a father or a guardian that is not his — inside the address that names what the community is to hold onto after him.
+  - 'A disclaimer nobody asked for: that this is not family business, and that a messenger''s only duty is to convey.'
+  - A tribe's inherited shortcut at the sanctuary abolished by a verse that sends everyone out from the same place.
+  - Rites fixed to a whole plain rather than to the spot where one man stood, so that the ground cannot become a scarcity.
+  - A preferred form stated with its reason and then the penalty lifted from whoever could not manage it.
+  - A prophet described as afraid to deliver the thing he was sent with, and a verse that answers the fear by making non-delivery equivalent to having delivered nothing.
+  - A duty imposed in summary form that nobody could identify, argued to require the same demonstration that prayer, alms, fasting and pilgrimage received.
+  - A witness who transmits the whole account and admits inside it that when he was later asked in public to stand and confirm it, he stayed seated.
+tone_constraints:
+  - The Farewell Sermon at Arafah is rendered whole and unbroken, from the opening address to the closing curse and the gloss on obligatory and voluntary acts. It is never summarised, abridged or split, and the discussion of it follows it rather than interrupting it.
+  - Third-person narrative report throughout, matching how the source narrates, except where the source itself gives a first-person account — Zayd ibn Arqam at Ghadir Khumm and again at al-Rahbah — which stays in his voice.
+  - Arabic technical terms and place names are preserved as the source supplies them — Arafah, Muzdalifah, Mina, al-Abtah, al-Batha', Ghadir Khumm, al-Qaswa, Jamrat al-Aqabah, talbiyah, Ka'bah — with the source's own brief glosses kept where it supplies them.
+  - The verses attributed to Hassan ibn Thabit on the day of Ghadir are damaged in this manuscript. They are carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The lesser pilgrimage made under the truce, and the martyrdom of Ja'far al-Tayyar, were both taught earlier in this history and appear here only as one-line datings in fresh words, never re-expounded.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The opening of the sermon: ''O people, listen to me, for I do not know — I may never meet you again after this year in this place.'''
+  - 'What is left behind: ''I have left among you something by which, if you hold fast to it, you will never go astray after me: the Book of God and my family. They will not part from one another until they return to the Basin.'''
+  - 'The cancellation applied to the speaker''s own house first: ''God has decreed that there is no usury, and the usury of ''Abbas ibn ''Abd al-Muttalib is all annulled.'''
+  - 'The warning about scale: ''Satan despairs of ever being worshipped in this land of yours again, but if he is obeyed in anything less than that, he will be satisfied with what you regard as trifling among your deeds.'''
+  - 'The curse on false attachment: ''Whoever claims a father other than his own, or claims a guardian other than his rightful one, the curse of God, of the angels, and of all mankind is upon him.'''
+  - 'The disclaimer at Arafah: ''I harbour no fear of my people, nor do I seek refuge in my kinship with them. I am only the Messenger of God — and the Messenger has no duty but to convey clearly'' (chapter 24, verse 54).'
+  - 'The instruction on the descent: ''O people, tranquility, tranquility.'''
+  - 'The rite fixed to the whole ground: ''All of Arafah is a standing place, all of Muzdalifah is a standing place, and all of Mina is a place of sacrifice.'''
+  - 'The share settled by a bowl: ''Whoever has eaten of the broth has eaten of the meat.'''
+  - 'The reason a summary duty needed a demonstration: ''God imposed the guardianship upon them, and they did not know what it entailed, so God commanded His Prophet to explain to them what the guardianship is, just as he had explained to them prayer, alms, fasting, pilgrimage and struggle in His way.'''
+  - 'The verse of conveyance: ''O Messenger, convey what has been revealed to you from your Lord; and if you do not, then you will not have conveyed His message. And God will protect you from the people'' (chapter 5, verse 67).'
+  - 'The question and the transfer at Ghadir Khumm: ''Who has greater claim over you than your own selves?'' — ''Whoever I am his master, Ali is his master. O God, be the guardian of whoever is his guardian, and be the adversary of whoever is his adversary.'''
+  - 'The verse of completion: ''Today I have perfected your religion for you and completed My favour upon you, and I have approved Islam as your religion'' (chapter 5, verse 3).'
+  - 'The witness against himself: ''As for me, I was among those who suppressed it, and my sight was then gone.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'A man tells a crowd of tens of thousands that he does not expect to see them again, and then spends the rest of the hour cancelling debts. What is he actually doing? This episode carries the Farewell Sermon whole — blood and wealth declared as inviolable as the day everyone is standing in, trusts returned, interest wiped out while principal is protected, the vendettas of the old order annulled, and both cancellations applied to the speaker''s own family first. It fixes the calendar back to its created shape, states the rights of wives and husbands in the same sentence, puts inheritance shares beyond the reach of any will, and saves its sharpest curse for a man who claims a father or a guardian not his own. Then the ground between Arafah and Mecca, in the same instructional detail as the rites of consecration: the shortcut of the tribe that owned the sanctuary abolished by a verse, the descent made at a measured pace with a single word repeated to the crowd, the prayers combined at Muzdalifah, the permission given to the weak to leave early, the stoning, the slaughter, the shaving, and the share of the man who brought no animal settled with a taste of broth. And then the thing the whole journey had been carrying. Prayer arrived in outline and was filled in by demonstration; so did alms, fasting and the pilgrimage. Guardianship arrived in exactly that form — so, this history argues, it had to be filled in the same way. It was, in the heat at a watering place eight days after the sacrifice, under a shelter with thorns swept beneath it, with a question the crowd could not answer wrongly and a hand raised high enough that seventy thousand people could see whose it was.'
+  related_episodes:
+    - the-farewell-pilgrimage-and-the-rites-of-ihram
+    - the-expeditions-and-the-question-of-precedence
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the descent to Nimrah to the author's closing statement on the textual designation
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the Farewell Sermon at Arafah
+    - Da'a'im al-Islam of al-Qadi al-Nu'man — the source's citation for the narrations of the Ahl al-Bayt on the departure from Arafah, the night at Muzdalifah, the stoning of the pillars, the sacrifice, the shaving and the days at Mina, and for al-Baqir's exposition of the last obligation
+    - Sharh al-Akhbar — the source's citation for the account of Zayd ibn Arqam at Ghadir Khumm and at al-Rahbah, and for the address at Arafah reported from Abu Ayyub al-Ansari
+    - Manaqib Amir al-Mu'minin, al-Amali of al-Saduq, al-Irshad of al-Mufid and Dala'il al-Imamah — the source's citations for the pledge taken that day and for the verses attributed to Hassan ibn Thabit
+    - The Quran, chapter 2 verses 199, 233 and 279, chapter 4 verse 19, chapter 5 verses 3, 55 and 67, chapter 9 verses 36 and 37, chapter 24 verse 54, chapter 33 verse 6 and chapter 48 verse 10 — the passages the source attaches to this stretch
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by carrying the designation at Ghadir Khumm together with the reasoning the book rests on it: that guardianship was the last obligation sent down, that it arrived in the same summary form as prayer, alms, fasting and pilgrimage and therefore required the same demonstration, and that with its proclamation the religion was declared complete.'
+session_index: 14
+session_title: The Farewell Pilgrimage and the Designation
+session_slug: the-farewell-pilgrimage-and-the-designation
+session_episode: 2
+session_episode_count: 2

@@ -1,0 +1,78 @@
+chapter_ref: ch26b-the-expeditions-and-the-question-of-precedence
+slug: the-expeditions-and-the-question-of-precedence
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 13
+section_index: 2
+episode_number: 26
+title: The Expeditions and Precedence
+audience: 'Listeners who have just watched the ninth year conducted by letter and covenant and now meet the other half of the same period. No prior knowledge is needed beyond the shape of the community by this point: a settled Medina sending out small parties under other men''s command. What this episode asks of them is to follow a list rather than a story — a dozen short operations, several told by the men who went — and then to see the whole list turned into an argument by a single administrative detail about who led the prayer on one of them.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'Roughly two thirds of the slice is a bare catalogue of dispatched detachments, several of them first-person field reports, with no doctrinal dispute in sight. The closing section does carry a contested proposition — whether leading the prayer designates the leader of the community — and names the parties, but the opposing side never speaks: its claim is reported in a clause and answered by the author, and the only dialogue is Rafi'' ibn Abi Rafi''s exchange with Abu Bakr, which the source quotes as evidence rather than as a contest. The spine of the slice is the expedition list, so this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries Jundub's account of lying still under two arrows and the torrent at Qadid, the raid on Fadak and the land given to Fatimah as ransom, the recovery expedition that returned the plunder taken from Muslims, the staff given to 'Abd Allah ibn Anis and buried with him, the sea creature and the rib a rider passed under, 'Amr ibn Umayyah's failed mission into Mecca, the killing of Mirdas after the declaration, the case of 'Amir ibn al-Adbat and Muhallim ibn Jathamah, the five warnings and the four prohibitions tied on with a turban, Thumamah's release and his embargo, and then the prayer at al-Silsil with Abu Bakr's own two reports; the companion presses on why so many of these rules arrive only after the harm, on what a staff is worth to a man who is given nothing else, and on how one detail about who stood in front at prayer becomes the chapter's argument about the succession.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the ruling that those who declare there is no god but God are not to be fought, the four prohibitions given to a commander as standing law, and the chapter's central argument — that if leading the prayer designates a successor it designates 'Amr ibn al-'As, that the man this history follows was never placed under anyone's command, and that the division Abu Bakr said he feared is the one his choice produced.
+sermon:
+  present: false
+  section_title: null
+key_tensions:
+  - A scout who must let two arrows go into him without moving, saved by the archer's own ordinary reasoning about what a living thing would do.
+  - A raid that lands on people who had already accepted Islam, corrected not by punishment but by a second party sent to hand every item back.
+  - A man who kills to order and is paid in an object with no earthly value, and who has it buried with him.
+  - A mission to assassinate the chief of Mecca that fails completely and is recorded in full anyway.
+  - A man killed in the field a moment after saying the sentence that admits him, answered by a rule that takes the judgement out of the raider's hands.
+  - A greeting of peace on a road answered with a killing over a grudge from before Islam, and a verse that names the motive as the goods of this world.
+  - An ordinary settlement in blood money, and on top of it a prayer against the killer that this history says was staged as an example rather than earned as a verdict.
+  - A commander told plainly that there is no money for his dowry, and paid from the spoils of an operation sent out for something else entirely.
+  - Five warnings about how a community rots from inside, followed immediately by four prohibitions given to a man about to leave with an army.
+  - A captive released before he believes anything, who converts, then uses his new position to starve Mecca of grain and is overruled by the man he thought he was serving.
+  - Two of the three most senior men in Islam praying for weeks behind a young commander, in a report nobody disputes.
+  - 'An argument that concedes all the facts and simply applies the other side''s own rule: if leading the prayer designates a successor, the successor is ''Amr ibn al-''As.'
+  - A man advised never to take charge of two Muslims, standing years later before the same man who now has charge of all of them.
+  - A fear of division named as the reason, and answered with the claim that the fear produced the thing it feared.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates, except where the source itself supplies a first-person field report — Jundub ibn Mukayth, 'Abd Allah ibn Anis, 'Ubadah ibn al-Samit, 'Amr ibn Umayyah, Ibn Abi Hadrad and Rafi' ibn Abi Rafi' — which stays in the speaker's voice.
+  - 'The source''s own filing distinction is kept: these are detachments dispatched under other commanders, set apart from the campaigns already narrated. The list order is the source''s own except where noted in the rationale.'
+  - The verse attached to the raids of 'Abd Allah ibn Rawahah and 'Abd Allah ibn Anis, to the captives of Banu al-'Anbar, and to the killings of Abu 'Afak and Asma' bint Marwan is severely damaged in this manuscript. It is carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - Killings ordered against named individuals are reported exactly as the source reports them, without embellishment, invented motive, or added justification, and without dwelling beyond what the source supplies.
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The saying that Ali stands to the Prophet as Aaron stood to Moses, the martyrdom of Zayd ibn Haritha at Mu'tah, and the day of Dhu Qarad were all taught earlier in this history. Each appears here only as a one-line callback in fresh words and is never re-expounded; the argument built on the first of them in this episode is new.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The archer''s reasoning that saved the scout: ''If it were a living thing it would have moved — my arrows have found it.'''
+  - 'The reward that cannot be spent: ''This will be a sign between me and you on the Day of Resurrection.'''
+  - 'The ruling that came after the killing of Mirdas ibn Nuhayk: those who say there is no god but God are not to be fought.'
+  - 'The verse on the greeting: ''And do not say to one who greets you with peace, You are not a believer, seeking the goods of this worldly life'' (chapter 4, verse 94).'
+  - 'The correction of the obvious inference: ''By God, the earth accepts those far more wicked than him, but God wished to make an example for you in the sanctity of what I have forbidden you.'''
+  - 'The four prohibitions tied on with the turban: ''Fight those who disbelieve in God. Do not be treacherous. Do not mutilate. Do not kill children. This is the covenant of God and the way of His Prophet with you.'''
+  - 'The complaint that ended the embargo: ''You command the bonds of kinship, and yet you have severed ours.'''
+  - 'The argument from the expedition of Chains: ''''Amr ibn al-''As has a stronger claim to the leadership than Abu Bakr by that reasoning, for the Messenger of God appointed ''Amr to lead them in prayer.'''
+  - 'The second half of that argument: the Messenger of God never appointed anyone over Ali ibn Abi Talib, and no one led prayer over him save the Messenger of God himself.'
+  - 'The counsel and the question it produced years later: ''I advise you never to take command over two Muslim men'' — ''Abu Bakr, did you not release me from commanding two Muslim men?'''
+  - 'The answer given and the answer returned: ''I find no justification for it, but I feared division for the community of Muhammad'' — ''by my life, he brought about the very division he feared.'''
+  - 'The pattern named in advance: ''You will follow the ways of the nations before you, span by span and cubit by cubit and rung by rung — even if they had entered the burrow of a lizard, you would have entered it.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'If a man raiding your camp says, in the second before your blow lands, the one sentence that makes him one of you — what then? This episode gathers the small detachments of the closing years, the parties sent out under other men''s command and kept separate from the campaigns the Prophet led himself. Several are told by the men who went, and they are the plainest narration in the volume: a scout who takes two arrows and cannot move, a valley that floods with no cloud in the sky, a raid that lands on people who were already Muslims and is repaired item by item, a killer paid in a staff whose only value is a promise about the Day of Resurrection, a company that lives twenty nights on a creature the sea gave them, and two men who fail entirely to assassinate the chief of Mecca and have the failure written down in full. Then the cases where a rule came out of the damage — a man killed after declaring the faith, a greeting of peace answered with an old grudge, a commander sent out with four prohibitions tied on with his turban, a captive fed before he believed and overruled after he did. And finally one administrative detail that stops the chapter: on one expedition a young commander led the prayer for weeks with Abu Bakr, ''Umar and Abu ''Ubaydah in the rows behind him. If leading the prayer names the next leader, this history asks, then whose name does it name — and what do you do with the man''s own admission, years later, that he could find no justification but feared the community would split?'
+  related_episodes:
+    - the-year-of-delegations-and-the-mission-to-yemen
+    - the-ansars-grief-and-the-march-to-tabuk
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the raid of Ghalib ibn 'Abd Allah al-Laythi to the saying about following the ways of the nations before
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the detachments, the affair of Muhallim ibn Jathamah, the expedition of 'Amr ibn Umayyah al-Damri and the capture of Thumamah ibn Athal
+    - Da'a'im al-Islam of al-Qadi al-Nu'man, Ikhtilaf Usul al-Madhahib, Kitab al-'Ayn and al-Majalis al-Mu'ayyadiyyah — the source's citations for the argument on precedence and for the saying about following the ways of those who came before
+    - Diwan Hassan ibn Thabit — the source's citation for the answering verse of this stretch
+    - The Quran, chapter 4 verse 94 — the passage the source attaches to the killing of 'Amir ibn al-Adbat al-Ashja'i
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by turning the opponents'' own strongest argument against itself: if leading the prayer in the Prophet''s lifetime designates the leader of the community, then the expedition of Chains designates ''Amr ibn al-''As — while the man this history follows was never placed under another''s command and never had anyone but the Prophet lead a prayer before him, and the division that was offered as the reason for setting his appointment aside is the division that followed.'
+session_index: 13
+session_title: The Year of Delegations and the Expeditions
+session_slug: the-year-of-delegations-and-the-expeditions
+session_episode: 2
+session_episode_count: 2

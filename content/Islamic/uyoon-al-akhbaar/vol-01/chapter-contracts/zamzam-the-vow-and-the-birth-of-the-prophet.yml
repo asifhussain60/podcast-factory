@@ -1,0 +1,56 @@
+chapter_ref: ch04a-zamzam-the-vow-and-the-birth-of-the-prophet
+slug: zamzam-the-vow-and-the-birth-of-the-prophet
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 3
+section_index: 1
+episode_number: 4
+title: Zamzam and the Hundred Camels
+audience: 'Listeners who have followed the custody of the Sacred House down four generations and now arrive at the birth itself. No prior knowledge is assumed beyond what the previous episodes established: who the family is, what office they hold, and what happened in the Year of the Elephant. What this episode asks of them is patience with a mode of evidence rather than a doctrine — the author treats dreams as data and expects public vindication to settle what argument could not, and the listener has to sit with that long enough to see him use it three separate times.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is biographical exposition end to end: a repeated dream, an excavation, a property dispute settled by a spring in the desert, a vow, a ransom by lot, a marriage, two deaths, a birth, a wet-nurse in the desert, and a grandfather''s will. No named party argues a proposition against another. The Quraysh do object twice — over the digging and over the ownership of Zamzam — but each objection is a single sentence answered by a single sentence and then abandoned, which is nowhere near sustained named opposition. The author''s own theological readings (a true dream as a fraction of prophecy, the ransom as Abraham''s trial repeating) are asserted into the narration, not contested by anyone, so this is narrative rather than debate or deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: 'The narrator carries the chronology straight through — the three dreams, the dig, the desert spring, the vow, the arrows, the birth, the mattress, the death — while the companion stops the narration wherever the record is stranger than it first sounds: directions made of events that have not happened yet, a man who submits his own share of a treasure to a draw and loses it, a father who asks not to be released from his vow but only whether a postponement will be accepted, and a priestess who wanted the light rather than the man and missed it by one night.'
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It delivers the Prophet's birth, his parentage, his orphaning and his upbringing in his grandfather's house — the biographical floor that every later episode in the volume stands on — together with the author's working rule that a true vision counts as evidence.
+key_tensions:
+  - An instruction that cannot be obeyed when it is given. The third dream's directions are not landmarks but events — a butchering, a crow landing, an anthill — so the only possible obedience is to sit in the mosque and wait for the world to arrange itself. The hosts should let that sound absurd before the cow bolts.
+  - A vow that everyone agrees must be kept and nobody wants kept. The Quraysh do not tell 'Abd al-Muttalib the vow was wicked; they tell him it will set a precedent other fathers will follow, and their counter-proposal is to stand by it and find another way. The entire resolution turns on that one sentence.
+  - Recognition as a danger rather than an honour. The light in 'Abd Allah's face brings a scripture-reading priestess to offer him a hundred camels; the marks on the weaned child bring strangers who want to carry him off to their king, and his foster-mother escapes them only with difficulty. Being identified is repeatedly what puts this family at risk.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - 'Much of the verse in this slice survives only in fragments — al-Ghayrah''s lines, Fatima bint Murr''s, Amina''s laments, Hudhayfa ibn Ghanem''s elegy. These are paraphrased at the level of their surviving sense and must stay that way: do not reconstruct a line and do not repair a garbled name into the one it probably was. ''Abd al-Muttalib''s own verse on the vow is coherent and is given as a quotation.'
+  - Never pair the leadership title with the personal name of the Father of Imams. Where the source narrates a report on his authority, he is named as Ali ibn Abi Talib exactly as the source has it.
+  - Quranic quotations carry their reference in plain English as (chapter N, verse M). This slice supplies no Arabic script for any term, so none is to be added; transliterated forms stay as they are. Established English names are used for Abraham, Ishmael, Gabriel, Jesus and Mecca; every other name stays as transliterated.
+anchor_passages:
+  - 'The third dream''s directions: ''Dig Zamzam, between al-Farth and the blood, where the crow alights, hottest above the village of the ants, toward the red monuments.'''
+  - '''Abd al-Muttalib in the waterless country: ''By Allah, it is weakness and surrender to simply sit here and wait for death without striking the earth in search of water.'''
+  - 'The Quraysh conceding the vow without conceding the principle: ''Stand by your vow, yet find another way'' — and ''Abd al-Muttalib at the hundredth camel: ''No, by Allah, I will not accept this once — the arrow must fall on the camels three times.'''
+  - 'Fatima bint Murr, one night too late: ''I saw a light in your face, and I know of a prophet who is to be sent near the time of his birth. I had hoped that I might be the one, but now I see that light has departed from you.'''
+  - '''Abd al-Muttalib on the mattress in the shade of the Ka''bah: ''Leave my son — Allah has a great matter destined for him.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'A man is told three times in his sleep to dig, and the directions he is given are not places but events: between the stomach contents and the blood, where the crow lands, above the anthill. So he sits down in the Sacred Mosque and waits for a cow to bolt. This episode follows ''Abd al-Muttalib from the recovery of Zamzam — Ishmael''s buried well, dug out of the floor of somebody else''s sanctuary over the objections of the whole tribe — through the property dispute that followed it, which ended when the men who had refused him water in the desert drank from a spring that came up under his camel. Then it turns to the vow he had made years earlier: that if a tenth son were born to him, he would sacrifice him. The tenth son was ''Abd Allah, and he was taken by the hand and led out. What saved him was not a repudiation but a substitution — stand by your vow and find another way — and a hundred camels bought at ten a time, with an arrow that had to fall three times before his father would believe it. That son carried a light between his eyes that a scripture-reading priestess recognised on sight and lost by a single evening, and he died before his own son was old enough to remember him. The episode ends with the boy: named in a dream before birth, born in the Year of the Elephant, nursed in the desert, opened and weighed by two men in white, orphaned twice before he was six, and raised by a grandfather who lifted him onto a mattress no one else in the family was permitted to sit on.'
+  related_episodes:
+    - qusay-hashim-and-the-year-of-the-elephant
+    - abu-talibs-guardianship-khadijah-and-the-first-response
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the excavation of Zamzam to the death of 'Abd al-Muttalib
+    - Al-Qadi al-Nu'man ibn Muhammad — cited by the source for the report from the Ahl al-Bayt on the intended sacrifice and the ransom
+    - Sirat Ibn Ishaq — cited by the source for the vow, the casting of the lots, and the hundred camels
+    - Al-Fada'il wa-l-Manaqib — cited throughout for 'Abd al-Muttalib's visions and the desert spring
+    - Akhbar Makkah; Ansab al-Ashraf; Al-'Iqd al-Farid — cited for the excavation of Zamzam and the verse attached to it
+    - Tabaqat Ibn Sa'd; Tarikh al-Tabari; Tarikh al-Ya'qubi; Muruj al-Dhahab — cited for Fatima bint Murr, Amina's vision, the birth, and the elegies
+  thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by bringing that line to the Prophet's own birth — showing the generation immediately before him marked out by true visions, delivered from a vow by a ransom that repeats Abraham's, and carrying a light that passes from father to son under the author's own eyes.
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by bringing that line to the Prophet's own birth — showing the generation immediately before him marked out by true visions, delivered from a vow by a ransom that repeats Abraham's, and carrying a light that passes from father to son under the author's own eyes.
+session_index: 3
+session_title: Zamzam, the Ransom, and the Growing Boy
+session_slug: zamzam-the-ransom-and-the-growing-boy
+session_episode: 1
+session_episode_count: 2

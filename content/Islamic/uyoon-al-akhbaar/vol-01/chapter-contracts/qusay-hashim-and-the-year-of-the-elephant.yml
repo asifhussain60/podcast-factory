@@ -1,0 +1,57 @@
+chapter_ref: ch03b-qusay-hashim-and-the-year-of-the-elephant
+slug: qusay-hashim-and-the-year-of-the-elephant
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 2
+section_index: 2
+episode_number: 3
+title: The Year of the Elephant
+audience: 'Listeners who have followed the descent down to a single Meccan household and now want the household itself — four men across roughly a century and a half, ending in the year the Prophet was born. No prior knowledge of pre-Islamic Mecca is assumed. What the episode asks of them is attention to an office rather than a doctrine: who held the keys of the Sacred House, how they got them, what they were obliged to do with them, and what happened when an army arrived to demolish the building they were charged with.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is pure historical and biographical exposition: a childhood exile and return, a purchase, a war, an administrative settlement, a clan standoff, an annual address, a trade compact, a naming accident, an invasion, and a deliverance. Nobody argues a proposition against anybody. The one doctrinal element — the tradition of the creation divided into parts, which the author places under Hashim as his warrant for that lineage — is asserted, not contested, and no named party replies to it. There is no opposing voice and nothing to adjudicate, so this is narrative rather than debate or deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the chronology of the four lives in order — Qusay, 'Abd Manaf, Hashim, 'Abd al-Muttalib — reciting Hashim's annual address whole at the point it falls; the companion stops the narration where the record is stranger than it looks (a key sold for a wineskin and then presented as a clean restoration, a grandfather permanently named for being mistaken as a slave, a custodian who asks for his camels and not for the House) and draws out what the author is claiming through each of them.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+sermon:
+  present: true
+  section_title: Hashim's charge to Quraysh
+essential: core
+essential_rationale: It delivers the custodial office, the clan map, and the Year of the Elephant — the three things the Prophet's birth narrative in the next episodes lands directly on top of.
+key_tensions:
+  - A holy trust acquired by a squalid transaction. The key of the Ka'bah was bought for a skin of wine, contested by a woman who said it had been pledged and not sold, and settled by a war fought largely by a northern tribe rather than by Quraysh — and the author presents the outcome as an inheritance cleanly restored to the line it belonged to. The hosts should hold both descriptions at once rather than choosing one.
+  - Generosity with a gate on it. Hashim raises money to feed pilgrims and, in the same address, refuses in advance any contribution that came from a severed kinship tie or an unjust taking — including his own. It would have raised more to ask fewer questions, and the conditions are the point.
+  - A custodian who declines to defend what he guards. Asked why he petitions for camels while the House is about to be demolished, 'Abd al-Muttalib answers that the camels are his and the House has a Lord. It sounds like indifference and is a claim about the limits of his own office; the hosts should let it sound wrong first.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it, and no dialogue, motive, or scene may be invented around it.
+  - Hashim's address to the Quraysh is recited ALOUD AND WHOLE, both paragraphs, word for word as it stands in the chapter, before any discussion of it. It is the episode's set piece and must not be summarized, split, or paraphrased.
+  - Much of the verse in this slice survives only in fragmentary form. It is paraphrased in the chapter rather than quoted, and it must stay that way — do not reconstruct a line, and do not repair a garbled name into the one it probably was.
+  - Never pair the leadership title with the personal name of the Father of Imams. In the tradition of the four sleeping men, the angel's designation is given as the master of the guardians, exactly as the source has it.
+  - Quranic quotations carry their reference in plain English as (chapter N, verse M). Arabic terms stay in the transliterated forms used here; this slice supplies no Arabic script for any term, so none is to be added. Established English names are used for Abraham, Ishmael, Gabriel, and Mecca; every other name stays as transliterated.
+anchor_passages:
+  - 'Qusay presenting the purchased key to his people: ''This is the key of your father Ishmael, which Allah has returned to you without injustice or treachery.'''
+  - Hashim's annual address, recited whole, from 'O gathering of Quraysh, you are the masters of the Arabs' through the condition on every gift — that nothing unjustly taken and no severed kinship tie may be mixed into it.
+  - '''Abd al-Muttalib refusing to leave the emptied city: ''By Allah, I shall not abandon the Haram. I seek no glory elsewhere.'''
+  - 'The exchange in Abraha''s tent: ''Those camels are mine, and I am their owner. As for the House, it has a Lord who will protect it from you if He wills.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'The custody of the holiest building in Arabia changed hands for a skin of wine, and this episode follows what the family that acquired it did with the office over four generations. Qusay was carried out of Mecca as a small child and named for the distance; he came back with a pilgrim caravan, bought the key of the Ka''bah from its custodian, fought a war to keep it when his own tribe hesitated, and then built the institution — doorkeeping, watering, provisioning, a council house with its door facing the shrine, and a town divided into quarters. His grandson Hashim, remembered under a nickname meaning ''the breaker'' because he was the first to crumble bread into broth for the pilgrims, stood once a year with his back to the Ka''bah and told the Quraysh that their honour was a function of their nearness to something not their own — then refused, in advance, any contribution that came from an unjust taking. He also rode to the Levant, talked a Byzantine emperor into a letter of safe passage, and turned every tribe on the road home from a predator into an investor. The episode closes with his son ''Abd al-Muttalib: named for an uncle''s evasive answer at the edge of town, blind in old age, and the one man who would not leave Mecca when an Abyssinian army arrived to demolish the House. Asked why he was petitioning for his camels rather than for the building, he drew a line between what was his and what was not — and that same year, the Year of the Elephant, the Prophet was born.'
+  related_episodes:
+    - the-will-the-imamate-and-the-line-from-ishmael
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from Qusay ibn Kilab through the Year of the Elephant
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited by the source for Qusay, 'Abd al-Muttalib, and the campaign of Abraha
+    - Ansab al-Ashraf — cited throughout for the Meccan genealogies and the verse
+    - Al-Fada'il wa-l-Manaqib — cited by the source for the tradition of the creation divided into parts and for 'Abd al-Muttalib's early life
+    - Tafsir al-Furat al-Kufi; Sharh al-Akhbar — cited for the tradition of the four at al-Abtah
+    - Tabaqat Ibn Sa'd; Tarikh al-Tabari; Mu'jam al-Buldan — cited for the genealogy, the elegies, and the places named
+  thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by showing the four generations immediately before the Prophet holding the custody of the Sacred House as an inherited charge kept in Abraham's terms — and by ending in the year that custody was vindicated and the Prophet was born.
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by showing the four generations immediately before the Prophet holding the custody of the Sacred House as an inherited charge kept in Abraham's terms — and by ending in the year that custody was vindicated and the Prophet was born.
+session_index: 2
+session_title: The Purpose of the Work and the Line of Descent to Quraysh
+session_slug: the-purpose-of-the-work-and-the-line-of-descent-to-quraysh
+session_episode: 2
+session_episode_count: 2

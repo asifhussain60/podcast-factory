@@ -1,0 +1,56 @@
+chapter_ref: ch07b-abyssinia-the-negus-and-the-parchment
+slug: abyssinia-the-negus-and-the-parchment
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 4
+section_index: 2
+episode_number: 7
+title: Abyssinia, the Negus, and the Parchment
+audience: Listeners who have watched Mecca run out of arguments and now want to see what it did once abuse stopped working. No prior knowledge is assumed beyond the open call and the protector established in the previous episode. What this episode asks of them is attention to a single pattern — every escalation the opposition attempts recruits someone to the other side — and to one long speech delivered in a foreign court by a man who had to describe a religion to people who had never heard of it.
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is historical exposition organised around events: a persecution driving a migration, a letter to a foreign king, an embassy carrying gifts, two royal hearings, a rebellion, two conversions in Mecca, and a boycott document. There is a contested proposition in the middle of it — what the Muslims say about ''Isa ibn Maryam — but it is put and settled inside a single audience by a ruler''s judgment rather than argued back and forth by named parties across the chapter, and ''Amr ibn al-''As voices nothing like the sustained named-opposition-with-dialogue threshold. So narrative, not debate, and not deep_dive: no single doctrine is unfolded layer by layer here.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the crossing, the two hearings before the Negus and the drafting of the boycott, and recites Ja'far ibn Abi Talib's address to the king whole at the point it falls; the companion presses on how each Quraysh escalation produced its own answer — torture producing a migration, the migration producing a foreign protector, public abuse producing Hamza, a murder attempt producing a convert, and a boycott producing two clans in one valley behind one old man who still had not converted.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+sermon:
+  present: true
+  section_title: Ja'far before the Negus
+essential: core
+essential_rationale: It carries the first migration of the Muslim community, the first full public statement of what Islam was — delivered to an outsider — and the boycott of Banu Hashim and Banu al-Muttalib, which sets the conditions for everything the next volume of this history narrates.
+key_tensions:
+  - Shelter sought from a faith that is not the same faith. Abu Talib writes to a Christian king arguing from the king's own scripture that Muhammad belongs in the series the king already accepts; the king weeps at the account of the mother of Jesus and says the two came from the same lamp. Then the Meccan envoy finds the exact place where the two do not agree and puts it to the throne.
+  - An answer that cannot be softened without being false. Asked what they say about 'Isa ibn Maryam, the refugees huddle and ask each other what to say — and then lead with the hardest term available in that court, slave of God, before Messenger, Spirit and Word. The king measures the remaining distance with a stick picked up off the floor and rules it too small to hand anyone over.
+  - Every escalation recruiting for the other side. Torture inside the clans produces the migration; the migration produces a foreign protector and a court's gifts sent back; public abuse produces Hamza, who declares the religion mid-assault; a prayer naming two enemies is answered when one of them arrives with a sword and leaves a Muslim; and the harshest measure Quraysh ever devised puts two whole clans into one valley together.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it.
+  - Ja'far ibn Abi Talib's address to the Negus is recited ALOUD AND WHOLE, both paragraphs, word for word as it stands in the chapter, before any discussion of it. It is the episode's set piece and must not be summarized, split, or paraphrased.
+  - The passage recited to the Negus is identified only as a passage from the chapter of Maryam, as the source has it. No verse numbers are supplied and no text is reconstructed for it, because the source names none.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - Abu Talib's verse in this slice — the letter to the Negus, the lines praising him, and the two poems on the boycott document — survives in damaged transmission and is carried at the level of its surviving sense. Do not reconstruct a line and do not repair a garbled name into the one it probably was. The same applies to Hamza's verse against Abu Jahl.
+  - Never pair the leadership title with the personal name of the Father of Imams. Ja'far is named as Ja'far ibn Abi Talib, and his brother, where he is named at all, as Ali ibn Abi Talib.
+anchor_passages:
+  - Ja'far ibn Abi Talib's address to the Negus, recited whole, from 'O king, we were a people of ignorance' through 'we hoped that we would suffer no injustice in your presence, O king.'
+  - 'The Negus refusing the Meccan embassy before hearing anyone: ''I will not hand over to them a people who have come near me and chosen me over all others, until I invite them and hear what they have to say.'''
+  - 'The answer on ''Isa ibn Maryam and the king''s ruling on it: ''We say that he is what our Prophet brought to us — a slave of God, His Messenger, His Spirit, and His Word, which He conveyed to the Virgin Mary.'' — ''What separates ''Isa ibn Maryam from what you have just said is no more than this stick.'''
+  - 'The gifts returned: ''What need do I have of them? God did not take a bribe from me when He restored my kingdom to me, so I will not take a bribe from Him.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'When Mecca finally made life unlivable, eighty-three men and their families crossed the sea to a Christian king — and the argument that saved them there was an argument about Jesus. Quraysh sent two envoys after them with enough wealth to buy the entire royal court, and bought it; the court advised the king to hand the refugees back unheard. He refused, on the grounds that these people had chosen him, and called them in with his bishops'' scriptures spread open on the floor. This episode covers what was said in that hall: a speech by Ja''far ibn Abi Talib, recited whole, that answered the charge of abandoning his people by itemizing what the religion of his people had actually consisted of; a recitation from the chapter of Maryam that left a court in tears; and then the second hearing, when the Meccan envoy came back having found the one question on which the Muslims could not shade the truth. It closes back in Mecca, with two conversions that changed the town''s arithmetic — an uncle who announced the religion in the middle of hitting a man with a bow, and a man who set out with a sword to commit a murder — and with the document Quraysh wrote when nothing else had worked, hung inside the hollow of the Ka''bah.'
+  related_episodes:
+    - the-open-call-and-abu-talibs-defence
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the migration to Abyssinia to the boycott of Banu Hashim
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited by the source for the audience before the Negus and Ja'far's address
+    - Sirat Ibn Ishaq — cited by the source for the Islam of Hamza
+    - Diwan Abi Talib — cited by the source for the letter to the Negus, the verses praising him, and the poems on the boycott document
+    - Al-Manaqib wa al-Mathalib — cited by the source for the torment of the Muslims and the numbers of the emigrants
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by showing the household of Abu Talib carrying the mission beyond Arabia — a father writing to a foreign king that Muhammad is the counterpart of Moses and the Messiah, and a son of that house speaking for the whole community before a throne — while the clans that would later contest the succession are the ones drafting the boycott.
+session_index: 4
+session_title: The Open Call and the Boycott of Banu Hashim
+session_slug: the-open-call-and-the-boycott-of-banu-hashim
+session_episode: 2
+session_episode_count: 2

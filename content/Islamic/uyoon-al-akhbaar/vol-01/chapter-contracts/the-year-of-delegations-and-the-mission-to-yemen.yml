@@ -1,0 +1,77 @@
+chapter_ref: ch25a-the-year-of-delegations-and-the-mission-to-yemen
+slug: the-year-of-delegations-and-the-mission-to-yemen
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 13
+section_index: 1
+episode_number: 25
+title: The Year of Delegations
+audience: 'Listeners who have followed this history through eight years of marches and sieges and have just watched the longest expedition of them all return without a battle. No prior knowledge is needed beyond that: the fighting is over and the peninsula is arriving on its own feet. What this episode asks of them is patience with a roll-call — dozens of tribal embassies entered a sentence at a time — and then attention to two very different things the roll-call is carrying: one long first-person account of a man deciding whether the claim is true, and two written documents that legislate a province, followed by an argument about which transmission of those documents may be relied on.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is overwhelmingly narrated event and reported speech: arrivals, conversions, a siege, a martyrdom, one conversion narrative told by the convert himself, and three dispatched documents quoted in full. The one argumentative passage — the source setting Ibn Hisham''s version of the alms and poll-tax figures against the version narrated through the Ahl al-Bayt — is the author reasoning in his own voice; Ibn Hisham is named but never answers, and the passage is a small fraction of the slice rather than its spine. There is no sustained named opposition in dialogue, so this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the roll of delegations from Banu Tamim's shout through the wall to the Hamadan riders in striped cloth, the whole of 'Adi ibn Hatim's account in his own voice — the camels kept saddled, the sister left behind, her counsel, the old woman in the street, the leather cushion, the three futures and the exchange about rabbis and monks — and then the letters to Himyar and to Zur'ah Dhu Yazan, Mu'adh's charge, and the covenant for Najran read whole; the companion presses on why a delegation that was entirely in the right had its manners recorded in scripture, on what 'Adi is actually testing when he watches where a man sits, and on why a disagreement about camel-counts is the place this history chooses to state whose narration binds.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the covenant to 'Amr ibn Hazm whole — the fullest statement of practice in the volume — together with the letter to Himyar written by Ali, the description of the men sent to Yemen as the righteous of the Prophet's family, and the source's own ruling that where transmissions of the law conflict the narration of the Ahl al-Bayt is the one that binds, warranted by the saying about the two weighty things.
+sermon:
+  present: true
+  section_title: The covenant carried into Yemen
+key_tensions:
+  - A year defined not by what was fought but by who arrived, and by the fact that most of the arrivals are worth only one sentence each.
+  - A delegation that submits sincerely and is corrected anyway — for how it knocked, not for what it believed.
+  - A boast about filling a country with cavalry answered in four words, and ending in a swelling on the throat under a stranger's roof.
+  - A delegation that carried inside it a man offering himself as a partner in prophecy rather than a rival to it.
+  - A chief commended for exceeding everything said about him, dead of fever at a well before he reached home.
+  - A siege in Yemen described in Medina on the day it was fought, turning on whether a mountain's name means Syria or thanks.
+  - A man who kept his camels saddled for months so he could outrun this religion, and left a member of his own household behind when he finally ran.
+  - A captive's request refused twice — not for mercy but for want of anyone to answer for her on the road — and granted the moment her own tribe arrives.
+  - Advice to join early that works whether the claim is true or false, given by the person with most reason to resent the people giving it.
+  - A question settled not by doctrine but by watching who is kept waiting in the street and who ends up sitting on the floor.
+  - Three objections named for a man before he can raise them, each answered with a future rather than an argument.
+  - A denial of worship that collapses when worship is redefined as obedience in matters of what is permitted and forbidden.
+  - A province taken by letter rather than by army — alms rates, prayer times, the length of a garment — with the tribal war-cry abolished in a single clause.
+  - Two transmissions of the same letter that disagree about camels and dinars, and a rule for choosing between them that rests on identity rather than on counting narrators.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates, except where the source itself gives a first-person account — 'Adi ibn Hatim's conversion — which stays in his voice.
+  - The letter to the kings of Himyar, the letter to Zur'ah Dhu Yazan and the covenant to 'Amr ibn Hazm are rendered whole and unbroken, invocation to closing blessing, with their livestock and tax schedules intact. They are never summarised, abridged or split.
+  - Arabic technical terms in the documents are preserved as the source supplies them — zakat, jizyah, shirk, dhimmi, 'umrah, 'awrah, and the livestock grades bint labun, ibn labun, bint makhad, hiqqah and tabi' — with the source's own brief glosses kept where it supplies them.
+  - The verse of Zayd al-Khayl, Farwah ibn Masik, the Hamadan poets and Farwah ibn 'Amr al-Judhami is damaged in this manuscript. It is carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The truce of al-Hudaybiyah, the conquest of Khaybar and the return from Tabuk were all taught earlier in this history and appear here only as one-line datings in fresh words, never re-expounded.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The verse on the delegation that shouted through the wall: ''Those who call to you from behind the rooms — most of them do not understand'' (chapter 49, verse 4).'
+  - 'The boast and its answer: ''By God, I will fill this land with horses and men'' — ''God is sufficient for you.'''
+  - 'The correction that decided a battle''s outcome before the news arrived: ''It is not Sham — it is Thanks. There, the army of God is engaged with your companions at this very hour.'''
+  - 'The sister''s counsel: ''If this man is a prophet, then whoever preceded him to his side will have a distinction; and if his authority is that of a king, you will not be diminished in the glory of Yemen.'''
+  - 'The two silent tests: ''By God, this is no king'' — and ''By God, this is the humility of prophethood, and not the manner of kings.'''
+  - 'The three futures: wealth poured out with no one left to receive it, a woman travelling alone from the village without fear, and the white palaces of Babylon opening.'
+  - 'The redefinition of worship: ''Did they not make lawful things forbidden for you, so you forbade them; and make forbidden things lawful for you, so you permitted them? That is your worship of them.'''
+  - 'The clause in the covenant that ends the old order: whoever does not call upon God but instead calls upon tribes and clans is to be put to the sword, so that their call is directed to God alone.'
+  - 'The description of the men sent to Yemen: ''I have sent you from the righteous of my family — guardians of their religion and repositories of their knowledge.'''
+  - 'The charge to Mu''adh: ''Be easy and do not be harsh; give glad tidings and do not drive people away.'''
+  - 'The warrant for preferring one transmission over another: ''I am leaving behind two weighty things. If you hold fast to them, you will not go astray: the Book of God and my household. They will not part from each other until they return to me at the Pond.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'What does a war look like when it stops being fought and starts arriving at your door on its own feet? The ninth year is the one the Arabs themselves named the Year of Delegations, and this episode opens with the roll of them: a delegation that shouted through a wall and had its manners entered in the Quran, a chief who promised to fill the country with cavalry and died of a swelling in his throat under a stranger''s roof, a delegation that carried inside it the man who would offer himself as a partner in prophecy, and a siege in Yemen narrated in Medina on the day it was fought. Then the one arrival told at length and in the man''s own voice: a Christian chief of Tayy who kept his camels saddled for months so he could outrun this religion, ran so fast he left his sister in the camp, and came back to test the claim by watching an old woman hold up the head of state in the street and a host give away his only cushion. And then the paperwork that carried more of the settlement than any battle in this volume — a reply to the kings of Himyar written by Ali, a second letter naming the men sent to Yemen as the righteous of the Prophet''s family, and a covenant for Najran that fixes the hours of prayer by the height of the sun and abolishes the tribal war-cry in a single clause — followed by the question this history most wants asked of them: when two transmissions of the same law disagree about camels and dinars, whose do you take?'
+  related_episodes:
+    - the-ansars-grief-and-the-march-to-tabuk
+    - the-expeditions-and-the-question-of-precedence
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the naming of the Year of Delegations to the author's closing note on why he set out the narrations of the Ahl al-Bayt here
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the delegations, the letters to Himyar and Zur'ah Dhu Yazan, the covenant to 'Amr ibn Hazm, and the death of Farwah ibn 'Amr al-Judhami
+    - Da'a'im al-Islam of al-Qadi al-Nu'man — the source's citation for the narrations of the Ahl al-Bayt on the alms due on camels and on the incidence of the jizyah
+    - Mu'jam al-Buldan — the source's citation for the water called 'Afra in Palestine
+    - The Quran, chapter 49 verse 4, chapter 9 verse 31, chapter 5 verse 1 and chapter 11 verse 18 — the passages the source attaches to this stretch
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by showing the household holding the pen and then holding the law: Ali writes the reply to the kings of Himyar, the men dispatched to Yemen are described as the righteous of the Prophet''s family and the repositories of its knowledge, and where Ibn Hisham''s transmission of the alms and poll-tax rules conflicts with the narration running through the Ahl al-Bayt the source rules for the household on the warrant of the two weighty things that do not separate.'
+session_index: 13
+session_title: The Year of Delegations and the Expeditions
+session_slug: the-year-of-delegations-and-the-expeditions
+session_episode: 1
+session_episode_count: 2

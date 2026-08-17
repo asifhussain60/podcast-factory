@@ -6,9 +6,9 @@
   "source_path": "content/Islamic/uyoon-al-akhbaar/vol-01/_source/Uyoon Al-Akhbaar vol-1.pdf",
   "source_kind": "pdf",
   "input_type": "pdf",
-  "phase": "0ci",
+  "phase": "0d",
   "phase_status": "completed",
-  "last_completed_phase": "0ci",
+  "last_completed_phase": "0d",
   "last_error": null,
   "category": "books",
   "content_profile": "islamic_scholarly",
@@ -63,17 +63,30 @@
         "total": 4,
         "blocking_fail": null
       }
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:45:27Z",
+      "ts_completed": "2026-08-17T19:56:10Z",
+      "manual_fallback": "Inspect stdout/stderr attached to this error. If the prompt needs adjusting, edit and resume. If transient quota, retry. DO NOT silently advance.",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
     }
   },
   "intake_via": "scripts/podcast/intake_book.py --work",
   "unattended": true,
-  "ts_updated": "2026-08-17T14:45:24Z",
+  "ts_updated": "2026-08-17T19:56:10Z",
   "phase_attempts": {
     "preflight": 6
   },
   "branch": "Islamic/uyoon-al-akhbaar",
   "deliverable_mode": "translation_edition",
   "pipeline_mode": "reading_edition_only",
-  "run_id": "20260817T134404Z-40e3a8",
-  "next_phase": "0d"
+  "run_id": "20260817T152947Z-e37260",
+  "next_phase": "0e"
 }

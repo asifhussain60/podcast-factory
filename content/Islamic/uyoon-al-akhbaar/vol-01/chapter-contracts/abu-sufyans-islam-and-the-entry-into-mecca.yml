@@ -1,0 +1,77 @@
+chapter_ref: ch21a-abu-sufyans-islam-and-the-entry-into-mecca
+slug: abu-sufyans-islam-and-the-entry-into-mecca
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 11
+section_index: 1
+episode_number: 21
+title: Abu Sufyan's Islam, Mecca Opened
+audience: Listeners who have followed a ten-year truce come apart at a watering place and a ten-thousand-strong army march south in Ramadan, and who now want to know how a city that size changed hands without a battle. No prior knowledge is needed beyond the breach of the truce and the march. What this episode asks of them is to follow a safe-conduct drafted around one man's vanity, a list of condemned men that dissolves in the hands of whoever finds them, and an address at the door of the Ka'bah that cancels the inherited law of blood in a single clause.
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event and reported speech from end to end: a night ride, a capture, a profession of faith, a parade at a defile, an entry in two wings, three cases of condemned men, a massacre and its restitution, and two formal addresses. The exchanges that come closest to dispute — ''Umar asking to strike Abu Sufyan''s neck, Umm Hani'' wresting the sword from her brother — are single challenges settled on the spot, not a proposition contested across the chapter by named parties on both sides, so this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries al-'Abbas's night ride and the meeting at the Arak trees, Abu Sufyan's profession and the three clauses of safety, the parade at the bend of the pass and the correction of kingship to prophethood, the warning shouted in Mecca and Hind seizing his moustache, the entry and the banner taken from Sa'd ibn 'Ubadah, the cases of 'Abdullah ibn Sa'd, al-Huwayrith and Umm Hani', Khalid at Bani Judhimah and Ali's restitution, the keys returned to 'Uthman ibn Talha with chapter 9 verses 19 to 22, and the two addresses at the Ka'bah; the companion presses on why a list of forfeited lives is handed back to whoever finds them, on why a prophet will not kill by signal, and on why two ancient offices are lifted clear of an abolition that spares nothing else.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the conquest of Mecca itself — the safe-conduct that emptied the city into three sanctuaries, the banner transferred to Ali at the gate, the rule on who might be killed and its dissolution, Khalid's massacre at Bani Judhimah with Ali's restitution and the twice-spoken disavowal, the verse ranking belief and striving above the two offices of the sanctuary, and the sermon at the door of the Ka'bah abolishing the pre-Islamic law of blood and rank.
+sermon:
+  present: true
+  section_title: The sermon at the Ka'bah door
+key_tensions:
+  - 'A rescue and an arrest performed by the same act: a man is carried to safety into the camp of the army about to take his city, on a pledge nobody has yet given.'
+  - A profession of faith recorded together with its condition — faith or the sword — with neither half softened nor annulled.
+  - Kingship corrected to prophethood in a single noun, and conceded not by argument but because the other word could no longer be held.
+  - A grant made to flatter one man that functions as an evacuation plan for a whole city, and works because he was proud enough to announce it first.
+  - Two lines of verse that cost a commander his wing at the gate, not for boasting but for announcing the wrong rule about the sanctuary.
+  - 'A rule and its own undoing on the same page: fight nobody who does not fight you, except a named few — and then the exception handed to whoever finds them.'
+  - A silence that was the standing order, read as hesitation; and a refusal to supply the wordless signal that would have resolved the doubt.
+  - A sword wrested from a brother's hand in a doorway, and the protection upheld with a compliment paid to both of them at once.
+  - A commander sent to preach who kills men on no list at all over a blood-claim from before Islam — answered with total restitution, a surplus nobody was owed, and a disavowal larger after the payment than before it.
+  - Two ancient offices lifted clear of an abolition that spares nothing else, and then publicly outranked by belief and striving in the verse that follows.
+  - A sanctuary declared inviolable from the creation of the world to the resurrection and made lawful for exactly one hour, with the argument against citing that hour supplied in the same address.
+  - A compliment about lineage offered back to the man who had just struck lineage out, and left uncorrected.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene or motive may be invented around it.
+  - The two addresses at the Ka'bah are rendered whole in refined English, in the source's own order and wording, and are never summarised or fragmented. The sermon section is the one place they appear.
+  - Where the source stumbles it keeps the stumble. The doubled question and answer at Abu Sufyan's profession are carried as they stand, and the obscure clause in the answer about the keys ('what you seek, not what you desire') is flagged rather than smoothed into a sentence that reads easily.
+  - The conquest poetry of Hassan ibn Thabit, Buhayr ibn Zuhayr, al-'Abbas ibn Mardas, the verses of Ibn al-Zuba'ari and Sa'd ibn 'Ubadah's rajaz have come down badly damaged. They are carried at the level of their surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - Footnote apparatus, manuscript sigla, folio marks and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The breach of the truce, Abu Sufyan's failed embassy to Medina, the office of watering the pilgrims and the settlement of Mecca under Qusay, and Hind's conduct after Uhud were all taught earlier in this history. Each appears here only as a one-line callback in fresh words.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'Al-''Abbas''s calculation at Marr al-Zahran: ''Woe to the Quraysh. By God, if the Messenger of God enters Mecca by force before they come out to him and seek his pledge of security, it will be the destruction of the Quraysh for all time.'''
+  - 'The morning exchange: ''Woe to you, O Abu Sufyan — do you not yet know that there is no god but God?'' — ''how I honour you, revere you, and follow your guidance — yet I confess, by God, that something still lingers in my soul regarding this.'''
+  - 'The three clauses of safety: ''Whoever enters the house of Abu Sufyan is safe, whoever closes his door is safe, and whoever enters the mosque is safe.'''
+  - 'The correction at the defile: ''your nephew''s kingship has grown mighty today'' — ''It is prophethood, O Abu Sufyan'' — ''Yes — then it is prophethood.'''
+  - 'The banner at the gate, after Sa''d ibn ''Ubadah''s rajaz: ''Go and take the banner from him, and be the one who enters with it'' — and in this way Ali was the bearer of the Prophet''s banner in war and the standard of his peace.'
+  - 'The refusal of the signal: ''I stayed silent for so long so that one of you might rise and strike his neck, as I had commanded — yet none of you did'' — ''A prophet does not kill by signal.'''
+  - 'Umm Hani'' and the sword: ''Umm Hani'' has prevailed over you'' — ''If Abu Talib had filled the world with his children, they would all have been courageous and strong.'''
+  - 'The disavowal of Khalid, spoken twice: ''O God, I am innocent before You of what Khalid ibn al-Walid has done.'''
+  - 'The commission to Ali at Bani Judhimah: ''go out to these people, assess their situation, and put the ways of the pre-Islamic era under your feet'' — ''Compensate those who were killed... and pay for everything that was taken from them and more.'''
+  - 'The verse revealed on the boasting in the Sacred Mosque: ''Do you consider the providing of water to the pilgrim and the maintenance of the Sacred Mosque equal to the deeds of one who believes in God and the Last Day and strives in the cause of God?'' (chapter 9, verses 19 to 22).'
+  - 'The sermon''s abolition clause: ''Every claim of blood, wealth, or feudal privilege is hereby placed under my feet — except the custodianship of the Ka''bah and the watering of the pilgrims.'''
+  - 'The sermon''s answer to descent: ''All people descend from Adam, and Adam was created from dust'' — with chapter 49, verse 13 — and the closing ''Go, for you are free.'''
+  - 'The address on the sanctity of Mecca: ''It was made lawful to me only for this hour... And if anyone claims that the Messenger of God fought here, say to him: God made it lawful to His Messenger and did not make it lawful to you.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'What is the smallest thing you could give a proud man to make him carry your safe-conduct through a city that is about to fall? On the last night of the march to Mecca, the Prophet''s uncle rides out alone hoping to find a woodcutter who can warn the city in time — and runs instead into the head of Quraysh, arguing in the dark about the fires he cannot account for. What follows is a rescue that is also an arrest, a profession of faith recorded together with the sword that was its alternative, and a parade staged at a chokepoint for an audience of exactly one man, ending in a single word: not kingship, but prophethood. Then the city opens, and the harder question arrives. A short list of names is issued whose blood is forfeit even beneath the curtains of the Ka''bah — and almost every one of them survives, because the command over each life is handed back to whoever finds him. Meanwhile a commander sent out to preach disarms a tribe with the true news that the war is over, and executes them over a grievance from before Islam. And at the door of the Ka''bah, an address cancels the entire inherited law of blood, wealth and rank in one clause, keeps exactly two things out of the wreckage, declares the city sacred from the creation of the world to the resurrection and lawful for one hour, and sends the assembled Quraysh home free.'
+  related_episodes:
+    - mourning-mutah-and-the-march-in-ramadan
+    - the-idols-brought-down-and-the-stand-at-hunayn
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from al-'Abbas's night ride at Marr al-Zahran through the conversion of Ibn al-Zuba'ari
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for Abu Sufyan's Islam, the entry into Mecca, and the affair of Khalid at Bani Judhimah
+    - Sharh al-Akhbar of al-Qadi al-Nu'man — cited throughout this stretch for the banner given to Ali, the cases of the condemned men, Umm Hani', and the key of the Ka'bah
+    - Da'a'im al-Islam, Manaqib al-Imam, Tafsir Furat al-Kufi, Tafsir al-Qummi and Dala'il al-Tanzil — the source's citations for the boasting in the Sacred Mosque and the verse revealed about it
+    - The Quran, chapter 6 verse 93, chapter 9 verses 19 to 22, and chapter 49 verse 13 — the three passages the source attaches to this stretch
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by placing Ali ibn Abi Talib at every hinge of the conquest — bearing the banner into the city after it was taken from Sa'd ibn 'Ubadah, executing the one sentence nobody else would carry out, receiving and returning the key of the Ka'bah, and being sent to undo Khalid's massacre with a restitution paid down to the value of a dog's bowl — and by carrying the verse that ranks belief and striving above the two hereditary offices of the sanctuary.
+session_index: 11
+session_title: The Conquest of Mecca and the Day of Hunayn
+session_slug: the-conquest-of-mecca-and-the-day-of-hunayn
+session_episode: 1
+session_episode_count: 2

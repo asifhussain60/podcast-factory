@@ -1,0 +1,61 @@
+chapter_ref: ch10a-the-hijra-and-alis-vigil
+slug: the-hijra-and-alis-vigil
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 6
+section_index: 1
+episode_number: 10
+title: The Hijra and Ali's Vigil
+audience: 'Listeners who have followed the Meccan years to the point where a town in the north agreed to defend a man it had barely met, and now want to see how he got there and what he built when he arrived. No prior knowledge is assumed beyond the pledges that closed the previous episode. What this episode asks of them is patience with an argument: the author interrupts the narrative twice to reason from the wording of Quranic verses about who deserved what, and the reasoning is worth following closely rather than skipping to the story.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is historical exposition organised around events: a council in Mecca, a night of escape, three days in a cave, an arrival, the purchase of a plot and the building of a mosque, two sermons, a set of pacts, and the arrival of Salman al-Farsi. The one stretch of sustained argument — the author''s answer to those who read the cave as proof of Abu Bakr''s standing — is a single voice reasoning against an unnamed party who is never given words of his own, so it is not a contest between named voices and does not qualify as debate; and since the chapter is not one doctrine unfolded layer by layer but a sequence of distinct events, it is not deep_dive either.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the council at Dar al-Nadwa, the night of the swords, the journey, the founding of the town, and recites both Medinan sermons whole at the point they fall; the companion presses on the accounting that runs under the whole episode — a murder plan designed so nobody could be charged for it, abandoned in a doorway by the same calculation, and then the vendetta system itself abolished by decree a few weeks later in another town.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+sermon:
+  present: true
+  section_title: The first sermons and the brotherhood
+essential: core
+essential_rationale: It carries the migration itself, the night Ali took the Prophet's place in his bed, the author's argument about what the cave does and does not prove, and the founding acts of the community in Medina — the pacts, the brotherhood, and the designation attached to it — without which nothing in the rest of this volume has a setting.
+key_tensions:
+  - A killing designed to be uncollectable. The council's whole ingenuity goes not into overcoming his defenders but into spreading the blood-guilt across every clan so that no family could be charged — and the plan is abandoned in the doorway when the same arithmetic, run again on the man they actually find, comes out the other way.
+  - A man left behind to return the property of the people trying to kill him. The instruction to Ali is not only to lie in the marked bed but to stay on in a hostile city afterwards and discharge the trusts and debts left with the Prophet for safekeeping — which is why he arrives at Quba' three days late, and why the Prophet waits there rather than going on.
+  - The most-cited proof of another man's standing, conceded fact by fact and then denied. The author does not dispute that Abu Bakr was in the cave or that the fear was human; he argues from a singular pronoun and from a verse in which the same word for companion describes a disbeliever, and concludes that the true distinction belongs to the man who slept in the bed.
+  - A distinction whose whole value is that it was not earned. Asked for his greatest virtue, Ali chooses the one he had no hand in making — the door left open in the mosque wall — and the Prophet's answer to those who objected is not that Ali deserved it but that he himself did not decide it.
+  - A town assembled out of covenants by a man who had just been the target of one clan's evasion of them. A pact with the Jews, peace between the Aws and the Khazraj, the abolition of the pre-Islamic blood feud, and a register of manufactured brothers — and two first sermons that mention neither Mecca nor the migration and price the first act of obedience at half a date.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it. Nothing about the night in the bed or the cave beyond what the source states.
+  - Both Medinan sermons are recited ALOUD AND WHOLE, word for word as they stand in the chapter, before any discussion of either. They are the episode's set piece and must not be summarized, split, or paraphrased.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - The verses of Sarmah ibn Abi Anas survive in damaged transmission and are carried at the level of their surviving sense. Do not reconstruct a line and do not repair a garbled name into the one it probably was.
+  - The argument about the cave is the author's own and is delivered as argument, not as an aside. It concedes every fact about Abu Bakr's presence; the hosts must not soften it into vagueness, and must not sharpen it into abuse.
+  - The two pledges of al-Aqaba, the seasons of presenting the call, and the deaths of Abu Talib and Khadijah were taught in full in earlier episodes. Where they surface here they are callbacks, never a second teaching.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib throughout.
+anchor_passages:
+  - 'The council''s method, in the words of the shaykh of Najd: ''Take one man from each clan and arm each with a sword. Let them strike him together as one, so that his blood falls on every branch of Quraysh alike.'''
+  - 'What was said to the two angels: ''Neither of you shows the same selfless devotion to his companion that Ali has shown to Muhammad. Go, therefore, and guard him from every harm of My enemy until dawn.'''
+  - 'The verse the author turns against the reading of the cave: ''His companion said to him, while he was speaking with him, "Do you disbelieve in the One who created you from dust...?"'' (chapter 18, verses 37 and 38).'
+  - The first sermon in Medina, recited whole, from 'O people, send forth provision for yourselves' through 'a good deed is rewarded ten times over — up to seven hundred times over.'
+  - The second sermon, recited whole, from 'Praise be to God — we praise Him, seek His help' through 'God is angered when His covenant is broken.'
+  - 'The last pairing of the brotherhood: ''This is my brother, my guardian and the fulfilment of my pledge, and my successor after me.'''
+  - 'The answer about the doors: ''By God, I did not do this of my own accord — God did it. God revealed to Moses to take a house of purification in which none would dwell except him, Aaron, and his sons.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'Quraysh spent an evening in its council chamber solving a legal problem rather than a military one: how to kill a man so that no family could ever be charged for it. The answer was one swordsman from every clan. This episode carries what happened that night — the young man who lay down in the marked bed, the handful of dust thrown in the doorway, the men who burst in and stopped because the same arithmetic that made the plot possible made this killing unaffordable, and the two angels who were asked the identical question and hesitated. Then the cave, and the author''s long argument that being there proves nothing, run off a pronoun and off a verse in which the word for companion describes a disbeliever. Then the founding of a town: a camel nobody was allowed to steer, a plot of ground bought from two orphans, a mosque built by hand, two sermons recited here whole that mention neither Mecca nor the migration, a pact with the Jews, the abolition of the blood feud, a register of manufactured brothers ending in a designation, a Persian who converted by testing a prophet with a meal, and a class of people the Prophet governed by their public words while everyone else learned to identify them by a single antipathy.'
+  related_episodes:
+    - taif-the-arab-tribes-and-the-pledges-of-al-aqaba
+    - badr-the-two-armies-meet
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the permission to emigrate to the appearance of the hypocrites in Medina
+    - Da'a'im al-Islam by al-Qadi al-Nu'man — cited by the source for the report on the closing of the doors
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited by the source for the first Friday sermon, the second sermon, the brotherhood pairings and the account of Salman al-Farsi
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by placing Ali's night in the bed at the centre of the migration, arguing directly against the standard reading of the cave, and closing the founding of Medina with the door left open in the mosque wall and the words spoken over the last pairing of the brotherhood.
+session_index: 6
+session_title: The Migration and the First Battle
+session_slug: the-migration-and-the-first-battle
+session_episode: 1
+session_episode_count: 2

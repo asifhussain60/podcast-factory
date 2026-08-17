@@ -1,0 +1,52 @@
+chapter_ref: ch01-who-wrote-this-history-and-how-it-survived
+slug: who-wrote-this-history-and-how-it-survived
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 1
+section_index: null
+episode_number: 1
+title: How This History Survived
+audience: 'Listeners opening a seven-volume history of the Ismaili Imams and wanting to know, before anything else, why such a history is rare, who wrote it, and how much weight to put on it. They do not need prior Ismaili background. They do need three things settled: why almost every account of this community for a thousand years came from its opponents, what office put a lost Fatimid library in one Yemeni scholar''s hands, and where the work''s own admirers say it should be read with caution.'
+angle: faithful_exposition
+episode_format: deep_dive
+format_rationale: 'The episode unfolds one position layer by layer — that this history exists at all because a single custodial chain held while every comparable archive was destroyed — moving from the state of the evidence, to the man who held the office, to the book''s own construction. No named party argues back at any point: the Hafizi and Nizari divergences are noted as positions the work takes, not staged as a contest, and there is nothing to adjudicate. That is deep_dive, not debate.'
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_rationale: The curious_mind asks the newcomer's questions (if the Cairo libraries were destroyed in 1171, how could a man writing in Yemen in the 1430s have the sources? why would a whole tradition write so little history?); the scholar_companion supplies the answers — taqiyya and the vocation of the jurist-preacher, the migration of the Fatimid heritage to Yemen, the office of absolute da'i, and the seven-part architecture of the work.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: optional
+essential_rationale: Orientation rather than the source's own teaching — it is the editorial apparatus reconfigured into one listening unit, so a listener can skip straight to the author's own voice in episode 2 and still follow the history, though they will read it less well.
+key_tensions:
+  - A record kept by the people who wanted it gone. Until the mid-twentieth century the evidence for Ismaili history was gathered — and often fabricated — by the Ismailis' adversaries, and it held the field because its preservers had won. The hosts should let that land as the scandal it is before moving on to the recovery, not soften it into a story about scholarly progress.
+  - Concealment as both survival and cost. Taqiyya kept the community alive and kept it from writing its own history; the two periods when the Ismailis did write official histories both ended with their archives systematically destroyed. The hosts should hold both halves at once — the silence is a strategy working as intended, and its price is paid by everyone who came after.
+  - An indispensable source that its own admirers call partisan. The work is the only comprehensive Ismaili-authored history of the Imams, and the scholars who value it most say it suppresses, distorts, and omits, and does not distinguish Ismaili sources from hostile ones. The hosts should treat that as orientation, not as a disclaimer to hurry past.
+tone_constraints:
+  - Follow the episode's own order — the state of the evidence, then the man and his office, then the book and its sources. Do not import the content of the history itself; the Prophet's life belongs to the episodes that follow and nothing about it should be previewed here beyond naming what the first part covers.
+  - Arabic terms are kept in their transliterated form as the source supplies them (da'wa, da'i, taqiyya, ta'wil, satr, nass, hujja, sab', al-haqa'iq) and explained in one plain line at first mention. Do not substitute an English equivalent for a term the source states in Arabic, and do not add Arabic script the source does not supply.
+  - This slice contains no Qur'anic quotation and no hadith. Do not introduce either, and invent no citations, dates, or manuscript details beyond those stated. Where the source gives a date in both calendars, keep both.
+  - Name the first Imam as the Father of Imams, or as the Commander of the Faithful, Ali ibn Abi Talib. The reigning Imam is not named. Refer to the author as Idris Imad al-Din, and to his office as the nineteenth absolute da'i, never as an Imam.
+  - Titles of works are spoken in transliteration as given (Uyun al-Akhbar, Nuzhat al-Afkar, Rawdat al-Akhbar, Zahr al-Ma'ani), never rendered into English equivalents, and never paired with an Arabic transliteration run beside a translation.
+anchor_passages:
+  - 'The rarity stated outright: ''The seven-volume Uyun al-Akhbar is the only comprehensive history of the Ismaili Imams, from earliest times to the late Fatimid period, written by an Ismaili author.'''
+  - 'Idris in his own words, on returning to Mount Haraz after thirteen years: ''The people of the da''wa welcomed my return as though a father long absent had come home after a lengthy journey.'''
+  - 'The preservation system disguised as a curriculum: every student at the Ismaili university at Surat was required to make a complete and faithful copy of the manuscript by hand, reviewed and corrected by the professors, with all such copies retained in the library.'
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'For most of a thousand years, what the world knew about the Ismailis came from the people who wanted them gone — and a good deal of that evidence had been manufactured. This opening episode explains how that changed, and why the seven-volume history we are about to read is the only comprehensive account of the Ismaili Imams written by an Ismaili. It traces the twin reasons the archive was so thin: a community that survived by concealment could not safely write its own chronicles, and the two periods when it did ended with the Fatimid libraries of Cairo destroyed in 1171 and the records of Alamut burned by the Mongols in 1256. Then it follows the one chain that held — Ismaili books carried out of Cairo to Yemen before the burning, kept for three centuries by the mission there, and inherited in 1428 by Idris Imad al-Din, the nineteenth absolute da''i, who read sources that survive nowhere else. It closes with the book itself: seven parts the author calls sevens, the lost histories and Fatimid archives behind them, the students at Surat required to copy the whole manuscript by hand, and the frank verdict of the work''s own scholarly admirers that its partisanship must be read with open eyes.'
+  related_episodes:
+    - the-will-the-imamate-and-the-line-from-ishmael
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the seven-part history introduced here
+    - Idris Imad al-Din, Nuzhat al-Afkar and Rawdat al-Akhbar — his second and third historical works
+    - Qutb al-Din al-Burhanpuri, Muntaza' al-Akhbar fi Akhbar al-Du'at al-Akhyar — the biographical notice on Idris
+    - W. Ivanow, A Guide to Ismaili Literature (1933) and Ismaili Literature - A Bibliographical Survey (1963)
+    - I. K. Poonawala, Bibliography of Ismaili Literature
+  thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by establishing that this work is the only surviving comprehensive Ismaili-authored history of the Imams and by naming the custodial chain that allowed it to reach us.
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by establishing that this work is the only surviving comprehensive Ismaili-authored history of the Imams and by naming the custodial chain that allowed it to reach us.
+session_index: 1
+session_title: The Author, His Sources, and Why This History Survives
+session_slug: the-author-his-sources-and-why-this-history-survives
+session_episode: 1
+session_episode_count: 1

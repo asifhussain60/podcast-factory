@@ -1,0 +1,80 @@
+chapter_ref: ch23a-taif-and-the-division-of-the-spoils
+slug: taif-and-the-division-of-the-spoils
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 12
+section_index: 1
+episode_number: 23
+title: Ta'if and the Division of Spoils
+audience: 'Listeners who have followed the community from the conquest of Mecca through the rout and recovery at Hunayn, and who now watch the same army fail at a wall. No prior knowledge is needed beyond the captives and herds left under guard at al-Ji''ranah at the close of the previous episode. What this episode asks of them is to hold two uncomfortable things at once: a siege abandoned on grounds that are not military, and a distribution of wealth in which the largest gifts go to the men most recently on the other side, with the reason stated aloud.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event and reported speech throughout: a march with its halts named, a siege with its engineering described, a withdrawal, a private consultation, a delegation, and a distribution counted out by name. The one passage that argues rather than narrates — the book''s own case for the distinction of Ali ibn Abi Talib, built from the verse of private counsel and two counter-exhibits — is the author speaking in his own voice with no named interlocutor answering him, so there is no sustained named opposition and this is narrative rather than debate. Dhu al-Khuwaysirah''s objection is a single challenge answered in one sentence, not a contest.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the march along the Palm of Yemen and the mosque built at Layyah, the first blood case adjudicated in Islam, the catapult and the covered ram met by a burning iron beam, the twenty nights and the vineyards, 'Permission has not been granted to conquer Ta'if', 'Uyaynah's stated reason for joining the siege, the enslaved who came down and were freed, the prolonged private counsel with the answer that God chose him, the verse of private counsel with the dinar broken into ten dirhams (chapter 58, verse 12), the thousand doors, the woman who corrected 'Umar with chapter 4 verse 20, the Hawazin delegation and the six thousand captives returned, Malik ibn 'Awf's hundred camels, the robe pulled off and the tuft of camel hair, 'Aqil's needle, the roll of hundred-camel gifts, Ja'il ibn Suraqah entrusted to his Islam, and the arrow that passes clean through its target; the companion presses on why a cracked wall is left standing, on what it means that the only lasting gain of a siege is a handful of freed people, and on how a complaint about fairness at a distribution becomes the seed named at Nahrawan.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the only campaign of the Prophet's life abandoned before its objective and the reason given for it, the first homicide adjudicated in Islam, the prolonged private counsel at Ta'if with 'It was not I who chose him — it was God who chose him', the verse of private counsel that this history says only one man obeyed, the return of six thousand captives, the stated policy behind the hundred-camel gifts, and the prophecy of the arrow that passes clean through its target.
+sermon:
+  present: false
+key_tensions:
+  - A siege abandoned with the wall already cracked, on the stated ground that permission was not granted — the one withdrawal in this volume that carries no reproach and no military explanation.
+  - A homicide between two clans brought to a judge on the march instead of settled between the clans, and marked by the book as a first.
+  - 'A prayer over the enemy at the moment of failure: guide Thaqif and bring them to us, asked for in place of the curse that was requested.'
+  - A man who joined the siege hoping it would succeed so he could take a woman of good stock out of the wreckage, and who says so when challenged on his loyalty.
+  - The only lasting gain of twenty nights is the people who walked out of the besieged city on their own feet and were freed at the gate of the camp besieging it.
+  - A conversation whose length, not its content, is the provocation — and a reply that refuses the complaint's premise rather than answering it.
+  - A commandment that priced access to the Prophet in single coins, obeyed on this account by one man until his ten coins ran out, and then lifted.
+  - A ruling announced from the pulpit and overturned from the floor by a woman quoting a verse, reported by the man she corrected.
+  - Six thousand captives returned for nothing on a request the Prophet scripted for the petitioners and had them make in public after the noon prayer.
+  - Three commanders refusing in identical words, and one of them overruled on the spot by his own tribe.
+  - A woman held not as a captive but as an expected ransom, released only when someone itemised in four clauses why the ransom would never come.
+  - A single hair from a camel's hump held up between two fingers as the smallest unit at which the rule on spoils has to hold.
+  - Hundreds of camels going in blocks of a hundred to men who commanded the other side a month earlier, while the man given nothing is named better than the earth's fill of two who received the most.
+  - A poet's grievance answered by instruction — silence his tongue with gifts — which is the policy rather than an accusation against it.
+  - A complaint about the fairness of a distribution, answered with an image of an arrow passing clean through its target and leaving nothing on it, and traced forward to Nahrawan.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene or motive may be invented around it.
+  - The verse of Malik ibn 'Awf, the Hawazin poets, Ka'b ibn Malik, Shaddad ibn 'Arid al-Jashmi, Bujayr ibn Zuhayr, Abu Muhajin al-Thaqafi and 'Abbas ibn Mardas has come down in this stretch as badly damaged as anything in the volume. It is carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - 'Where the source carries a variant it is preserved rather than resolved: twenty nights or seventeen, al-Ji''ranah or Mecca as the place of Malik''s submission, and the uncertain identity of the man of Banu ''Abd al-Dar.'
+  - Footnote apparatus, manuscript sigla, folio marks, edition locators and the editor's note on a clause he elected to omit are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The Prophet's earlier rejection at Ta'if before the emigration, the day of Hunayn and its captives, the loan of shields from Safwan ibn Umayyah, and the conquest of Mecca were all taught earlier in this history. Each appears here only as a one-line callback in fresh words.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The withdrawal: ''Permission has not been granted to conquer Ta''if'' — and the answer of the Muslims, ''O Messenger of God, then give the order to withdraw.'''
+  - '''Uyaynah''s stated reason: ''I did not come to fight Thaqif alongside you. What I wanted was for Muhammad to open Ta''if, so that Thaqif might give up a slave girl whom I could take.'''
+  - 'The prayer asked for and the prayer given: ''Pray against Thaqif, O Messenger of God'' — ''O God, guide Thaqif and bring them to us.'''
+  - 'The answer on the private counsel: ''It was not I who chose him — it was God who chose him.'''
+  - 'The verse of private counsel and the dinar: ''O you who believe, when you consult the Messenger in private, offer charity before your consultation'' (chapter 58, verse 12) — ''No one fulfilled the verse of private counsel other than me.'''
+  - '''The Messenger of God placed his mouth to my ear and opened to me a thousand doors of knowledge, and from each of those doors a thousand more doors were opened to me.'''
+  - '''Umar corrected from the floor: ''You hear such a thing from me and do not object — until a woman who knows little corrects me?'' (the verse cited against him is chapter 4, verse 20).'
+  - 'The choice put to Hawazin: ''Which is dearer to you — your wealth, or your women and children?'''
+  - 'Zuhayr ibn Surad on the old woman: ''Give her up — by God, her breast gives no milk, her belly bears no child, her husband is gone, and her youth is spent.'''
+  - 'The robe and the three denials: ''if you had as many camels as the trees of Tihamah, I would divide them all among you, and you would not find me miserly, cowardly, or a liar.'''
+  - 'The tuft of hair: ''I have nothing of your spoils — not even this thread — that is not returned to you. So hand over even the needle and thread.'''
+  - 'The policy stated in full: ''Ja''il ibn Suraqah is better than the whole earth filled with the likes of ''Uyaynah ibn Husn and al-Aqra'' ibn Habis. But I gave to those two in order to draw them toward surrender, while I entrusted Ja''il ibn Suraqah to his Islam.'''
+  - 'The objection and the answer: ''O Muhammad, you have not been just in what you have divided'' — ''Woe to you — if I am not just, then who is?'''
+  - 'The arrow: ''a group who immerse themselves so deeply in religion that they pass right through it, just as an arrow passes clean through its target — nothing remains on the arrowhead, nothing on the shaft, nothing on the fletching.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'Which is the harder sentence for an army to hear at the foot of a wall it has been battering for three weeks — that the wall will not fall, or that permission to bring it down was never given? This episode follows the march up from Hunayn to Ta''if, along a road where the first homicide in Islam is brought before a judge instead of settled between clans, to a siege that builds a catapult, cracks the wall, walks a covered ram up to the breach, and is met with a burning iron beam. Twenty nights later the order to withdraw is given, and what the siege leaves behind is a prayer for the guidance of the people who shut the gate and a handful of enslaved men who walked out and were freed. Inside those nights a conversation runs on too long in front of a watching army, and the book stops narrating to argue: a verse that priced access to the Prophet in single coins, obeyed here by one man until his ten coins ran out; a claim of a thousand doors opened at the ear; and a caliph overruled from the floor by a woman quoting a verse he had missed. Then al-Ji''ranah, where six thousand captives go home for nothing and hundreds of camels go out in blocks of a hundred to men who commanded the other side a month before — until someone asks why a man who fought well got nothing, and the answer inverts the whole ledger. And a complaint about the fairness of it all draws the image of an arrow that passes clean through its target and comes out with nothing on it.'
+  related_episodes:
+    - the-idols-brought-down-and-the-stand-at-hunayn
+    - the-ansars-grief-and-the-march-to-tabuk
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the poetry after Hunayn to the objection of Dhu al-Khuwaysirah
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the march to Ta'if, the siege, the return of the Hawazin captives, the Islam of Malik ibn 'Awf, and the roll of hundred-camel gifts
+    - Sharh al-Akhbar of al-Qadi al-Nu'man — cited by the source for the private counsel at Ta'if, the verse of private counsel, and the answer about Ja'il ibn Suraqah
+    - Basa'ir al-Darajat, al-Khisal, Fara'id al-Simtayn, al-Tara'if of Ibn Tawus and Ibn 'Asakir's biography of Imam Ali — the source's citations for the thousand doors of knowledge
+    - Tabaqat Ibn Sa'd and Da'a'im al-Islam — cited by the source for the exchange over the dowries of women
+    - The Quran, chapter 58 verse 12 and chapter 4 verse 20 — the two passages the source attaches to this stretch
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by making the long private counsel at Ta'if the hinge of the whole source chapter — answered with 'it was God who chose him', grounded in a Quranic commandment this history says only Ali ibn Abi Talib obeyed, and traced forward to the party that first objected to a distribution here and was killed at Nahrawan by the man kept in that counsel.
+session_index: 12
+session_title: Ta'if, the Spoils, and the Northern March
+session_slug: taif-the-spoils-and-the-northern-march
+session_episode: 1
+session_episode_count: 2

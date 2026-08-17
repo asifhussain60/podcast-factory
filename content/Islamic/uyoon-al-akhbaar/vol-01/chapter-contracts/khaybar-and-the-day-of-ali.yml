@@ -1,0 +1,81 @@
+chapter_ref: ch19a-khaybar-and-the-day-of-ali
+slug: khaybar-and-the-day-of-ali
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 10
+section_index: 1
+episode_number: 19
+title: Khaybar and the Day of Ali
+audience: Listeners who have followed this community from a truce that conceded almost everything to an army marching north two months later against the strongest fortress complex in the Hijaz. No prior knowledge is needed beyond al- Hudaybiyah. What this episode asks of them is to weigh a conquest whose commander was announced the night before by four properties and not by his name, and then to weigh the address spoken over him afterwards — an address that opens by naming a word deliberately not said.
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event throughout: a march with its halting places, a rajaz-chanter''s death and the doubt about it, three banners issued, a single combat, a gate torn out, the taking of the fortresses, a poisoned meal, a contract over the produce of the land, a licensed deception carried out in Mecca, a pilgrimage performed at a trot, and the dispatch and destruction of an army at Mu''tah. The one sustained monologue — the address to Ali at the gate — is a formal address delivered without a reply, not a contest over a proposition, so this is neither debate nor deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the march from Medina, 'Amir ibn al-Akwa's death and the ruling that settled it, the supplication said over every settlement, the two banners returned without victory and the third given with a promise, Marhab and the door used as a shield, Ali's own first-person account, the address at the gate and the prostration that answered it, the prohibitions and the sermon, the poisoned foreleg, al-Hajjaj ibn 'Ilat's ruse in Mecca, the Umrah of the fulfilment, and then the three commanders at Mu'tah; the companion presses on why the naming was withheld a night, on why a word was refused rather than spoken, and on what it means to appoint three commanders in sequence before an army has left.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the conquest of Khaybar with Ali's own account of opening the gate, the full address delivered to him afterwards including the Aaron-and-Moses standing and the sentence about the believers not recognising the Messenger after him, the sermon of the five prohibitions, and the whole of the fighting at Mu'tah — none of which is recoverable from any other episode in this volume.
+sermon:
+  present: true
+  section_title: The reckoning of Khaybar
+key_tensions:
+  - A martyr established by ruling rather than by evidence. A man dies on his own sword, the army suspects him, and the prayer over him is withheld until a judgment settles what the visible facts cannot.
+  - A supplication that asks for a town's good before asking protection from its evil — and was said outside every settlement he ever entered, so it carries no verdict on Khaybar at all.
+  - A commander named the night before by four properties and not by name. The whole camp spends a night measuring itself against a public criterion, so the naming lands as a verdict rather than an appointment.
+  - The enemy supplies the assessment. A sentry hears the name called up at the wall and tells his own people, swearing on the revelation to Moses, that they are already defeated.
+  - A door carried through a fight by one man and not lifted afterward by eight — a measurement staged rather than an adjective supplied.
+  - A word withheld because a community would misuse it. The veneration that would have followed is described in physical detail and then refused, and what is given instead is a list of positions rather than praises.
+  - Five prohibitions anchored in the listener's own profession of faith rather than in the commander's authority — and three of the five are about wear on property that is not quite yours.
+  - 'An experiment rather than a plot. Zaynab bint al-Harith poisons a foreleg and states the design aloud: if he is a king they are rid of him, and if he is a prophet he will be told.'
+  - A deception carried out with permission that empties Mecca's purses, and a three-day silence broken in the most public place in the city.
+  - A gesture improvised for spectators that becomes a rite. The trot stops the moment the House comes between him and the watching crowd.
+  - A verse revealed a year after the fortress fell that reaches backwards and calls it the near victory.
+  - A chain of command announced as a chain of deaths before the army leaves Medina — and it runs to the end of its length exactly as announced.
+  - An argument that disqualifies the currency the numbers were counted in. We do not fight by numbers, strength or equipment, so two hundred thousand is not a larger figure than three thousand.
+  - A hesitation the account refuses to hide. The third commander stops, argues with his own soul aloud in verse, and goes forward having said the fear rather than having lost it.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene or motive may be invented around it.
+  - The address delivered to Ali after the opening of the gate is carried whole, in the order the source gives it, with no clause paraphrased away and none added. The sermon of the five prohibitions is likewise carried whole.
+  - Where the source contradicts itself it keeps both readings. The banner is given to Ali at the outset and also given first to Abu Bakr and then to 'Umar; Ja'far is cut down by degrees and also cut in two by a single blow. Neither pair is resolved.
+  - The poetry of Khaybar — Ibn Luqaym al-'Absi, Hassan ibn Thabit, Ka'b ibn Malik — has come down badly damaged, and is carried at the level of its surviving sense with the damage named. No line is reconstructed and no garbled name is repaired into the one it probably was. One damaged phrase inside Ali's prostration is flagged where it stands.
+  - Footnote apparatus, manuscript sigla, folio marks and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - The crossing to Abyssinia, Ja'far's speech before the Negus, Huyayy ibn Akhtab's work during the siege of Medina, and the truce of al-Hudaybiyah were all taught earlier in this history. Each appears here only as a one-line callback in fresh words.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful, never as a title joined to the personal name.
+anchor_passages:
+  - 'The supplication over the settlement: ''O God, Lord of the seven heavens and all they shade, Lord of the seven earths and all they carry... we ask You for the good of this settlement, the good of its people, and the good of what lies within it.'''
+  - 'The announcement the night before: ''Tomorrow I shall give the banner to a man who loves God and His Messenger, and whom God and His Messenger love. He does not flee. God will open Khaybar at his hands.'''
+  - 'The sentry''s cry from the wall: ''By what was revealed to Moses son of ''Imran, you have been defeated.'''
+  - 'The two rajaz challenges: Marhab''s ''Khaybar knows well that I am Marhab'' and the answer, ''I am the one whose mother named him Haydara. I shall feed you the blade of the sword, full measure.'''
+  - Ali's own account of the day, from 'its people met us like mountains of horses and weapons' through 'I opened it alone, and I had no helper except God alone.'
+  - The address at the gate, carried whole — from 'Were it not that a group among my community would say of you what the Christians say of Christ' through 'no lover of yours will fail to find you there with him.'
+  - 'The closing word of that scene: ''Were it not for you, O Ali, the believers would not have recognised me after me.'''
+  - The sermon at Khaybar, carried whole — the five clauses each opening 'It is not lawful for a man who believes in God and the Last Day.'
+  - 'Zaynab bint al-Harith''s answer: ''If you are a king, we shall be rid of you; and if you are a prophet, you will be told.'''
+  - 'The coda in the final illness: ''O mother of Bishr, this is the time — I find in it the severing effect of that food which I ate with your brother at Khaybar.'''
+  - 'The verse of the fulfilled vision: ''God has fulfilled the vision of His Messenger in truth... and He has appointed a near victory besides that'' (chapter 48, verse 27), with the near victory identified as Khaybar.'
+  - 'The balance struck on the day of the conquest: ''I do not know which of the two brings me greater joy — the opening of Khaybar, or the coming of Ja''far.'''
+  - 'The order of dispatch to Mu''tah: ''If Ja''far is struck down, then Zayd ibn Haritha shall lead the people; if Zayd is struck down, then ''Abd Allah ibn Rawahah shall lead.'''
+  - 'The answer at Ma''an: ''We do not fight by force of numbers, nor by strength, nor by equipment — we fight with this religion by which God has honoured us... either victory or martyrdom.'''
+  - 'Ibn Rawahah addressing his own soul: ''How long have you dwelt at ease in this frame? Are you not merely a drop in its vessel? O soul — unless you are killed, you die.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'What does it mean that the man who opened Khaybar was the third man sent to open it? Two months after a truce that conceded almost everything, an army marches north against the strongest fortress complex in the Hijaz — and the banner is issued twice and returned twice before it is issued a third time, the night before, to a man described by four properties whose name is withheld. What follows is a challenge answered in two lines, a fortress gate torn out and used as a shield, eight men who cannot afterwards lift it, and then an address spoken over the man holding it that begins by naming a word deliberately not said, because a party of the community would misuse it. Then the reckoning: five prohibitions preached over a camp that has just become rich, a contract for half the produce of Fadak, a roasted foreleg that carried poison and a woman who explains her own experiment to the man she poisoned, a Muslim who lies to Quraysh with permission and walks out with their money, and a verse revealed a year later that looks back and calls all of it a near victory. And then Mu''tah, where the chain of command was announced as a chain of deaths before the army left Medina, and ran to the end of its length exactly as announced.'
+  related_episodes:
+    - banu-al-mustaliq-and-the-pledge-of-al-ridwan
+    - mourning-mutah-and-the-march-in-ramadan
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the march on Khaybar in Muharram of the seventh year through the handing of the banner to Khalid ibn al-Walid at Mu'tah
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the march, the halting places, Marhab, the poisoned sheep, the affair of al-Hajjaj ibn 'Ilat, the Umrah of the fulfilment and the battle of Mu'tah
+    - Sharh al-Akhbar of al-Qadi al-Nu'man, Manaqib Amir al-Mu'minin, and Manaqib Ali of Ibn al-Maghazali — cited by the source for Ali's own account of Khaybar and for the address delivered to him at the gate
+    - Mu'jam al-Buldan — cited by the source for the halting places on the road to Khaybar
+    - The Quran, chapter 48 verse 27 — the verse the source attaches to the Umrah of the fulfilment, identifying the near victory as Khaybar
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by carrying whole the address delivered at the gate of Khaybar — the Aaron-and-Moses standing, the place at the basin held as successor, the four clauses equating the man addressed with the man speaking, and the closing statement that without him the believers would not have recognised the Messenger after him.
+session_index: 10
+session_title: Khaybar, Mu'tah, and the Road to Mecca
+session_slug: khaybar-mutah-and-the-road-to-mecca
+session_episode: 1
+session_episode_count: 2

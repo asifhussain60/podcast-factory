@@ -1,0 +1,61 @@
+chapter_ref: ch12a-the-poetry-of-badr-and-the-campaigns-that-followed
+slug: the-poetry-of-badr-and-the-campaigns-that-followed
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 7
+section_index: 1
+episode_number: 12
+title: 'After Badr: Poets and Marches'
+audience: 'Listeners who have just heard a battle narrated from the winning side and now get the same event from inside the city that lost it. No prior knowledge is needed beyond the outcome of Badr in the previous episode. What this episode asks of them is patience with poetry: for several pages the history stops narrating and simply prints what nine poets said about the battle, and the verse has come down damaged, so it is given at the level of its surviving sense rather than reconstructed.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is historical exposition throughout: a return march with captives, a domestic scene in Mecca, an anthology of nine poems and fragments, four expeditions of which three meet no enemy, a siege settled by a plea, a caravan raid, and an assassination. There is no proposition under contest and no named opposing voice sustained across the slice — the exchanges that do occur (the Banu Qaynuqa'' answer in the market, Salkan''s approach to Ka''b ibn al-Ashraf) are short altercations inside events rather than a debate, and no single doctrine is unfolded layer by layer, so this is neither debate nor deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the ransom of al-'Abbas, Abu Rafi's eyewitness scene at the well, the poems in the order the source prints them, the four marches with their routes and months, and the killing of Ka'b ibn al-Ashraf at the pace the source sets it down; the companion presses on why a chronicler gives more words to verse than to fighting, and on the fact that both sides' poetry agrees something was in the air over Badr and disagrees only about whose side it was.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the ransom that converted the Prophet's uncle, the only eyewitness view in this volume from inside Mecca on the day the news arrived, the complete poetic record of Badr including the one poem that refuses to take a side, and the whole thirteen-month interval that ends at Uhud — the campaigns, the breaking of Banu Qaynuqa' and the killing of Ka'b ibn al-Ashraf.
+key_tensions:
+  - The same chapter has al-'Abbas professing faith as a captive and already Muslim in secret. The ransom scene has him bearing witness at Badr because a private instruction to his wife was quoted back to him; the narration that follows says Islam had entered his household before the battle and he concealed it out of fear of his people. Both are printed and neither is reconciled.
+  - Both sides report the same thing over the battlefield and disagree only about whose it was. A defeated Qurayshi commander explains the loss by white horsemen between heaven and earth that nothing could be done about; Hamza's verse says the soldiers of God were there and Gabriel led them beneath the banner; and a slave in a Meccan storeroom is beaten for supplying the word 'angels'.
+  - A history built on doctrinal authority prints, at length, the one poem that will not choose a side. Talib ibn Abi Talib praises the Messenger of God and mourns Quraysh's dead in the same poem, names his kin by clan, and asks them to send no war between them.
+  - An elegy for a man killed in battle that says nothing about battle. Hind bint Athathah's lament for 'Ubaydah ibn al-Harith praises the cooking pot, the firewood, the orphans fed and the cold hearth — the vocabulary of pre-Islamic generosity, unchanged, applied to a new kind of dead man.
+  - Three of four marches meet nobody, and the two things that do happen happen at home. A market insult becomes a fifteen-night siege that ends with a man the author names a hypocrite winning his plea outright; and a poet is killed at night by his own milk-brother, under a permission asked for and granted in advance, with his wedding perfume used as the signal.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it.
+  - The poetry of this slice survives in damaged transmission and is carried at the level of its surviving sense only. Do not reconstruct a line, do not repair a garbled proper name into the one it probably was, and do not present an opaque fragment as though it were followable verse — say that it is damaged, as the chapter does.
+  - Chains of transmission, manuscript sigla, folio marks and the source's footnote locators are book-object provenance and are not narrated; the attributions are preserved in the references list instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - Badr itself was narrated in full in the previous episode. Its single combats, its arithmetic and its casualty rolls appear here only as callbacks — never a second telling.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib throughout.
+anchor_passages:
+  - 'The ransom of al-''Abbas: ''Where is the money you left with Umm al-Fadl on the day you departed from Mecca?'' — followed by ''No one knew of this except God, and so I bear witness...'''
+  - 'Abu Sufyan ibn al-Harith''s report in the room at Zamzam: ''we had barely met the enemy when they turned on us and did with us as they pleased... between heaven and earth we saw white horsemen, and there was nothing we could do against them.'''
+  - 'Abu Rafi'' and Umm al-Fadl against Abu Lahab: ''Those, by God, were angels.'' — ''You bully him because his master is away?'' — and the seven nights he had left.'
+  - '''Ubaydah ibn al-Harith, composing from the litter with his leg severed: ''If my leg is cut off, then I am still a Muslim, among the sincere, like a swaying palm.'''
+  - 'Talib ibn Abi Talib to the clans: ''O our brothers of ''Abd Shams and Nawfal, a ransom for you both — send no war between us... war was not something noble men desired.'''
+  - 'The address in the market of Banu Qaynuqa'' and the answer: ''do not be deceived by having defeated a people who had no knowledge of war... if we were to fight you, you would know that we are truly a people.'''
+  - '''Abd Allah ibn Ubayy''s plea and its answer: ''They are four hundred men in armour and three hundred without, who have protected me against every foe.'' — ''They are yours.'''
+  - 'The permission and the signal: ''Say whatever seems necessary to you, and I grant you leave in that.'' — ''I have never smelled anything more fragrant.'' — ''Strike the enemy of God.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'The battle is over; this is the week after, and it opens in the city that lost. A slave carving cups by the well hears a defeated commander explain the defeat by white horsemen nobody could fight, says out loud that they were angels, and gets a beating for it — ended by the lady of the house with a tent-pole. The Prophet''s uncle is argued into belief not by doctrine but by having his own instructions to his wife about his estate quoted back to him. Then the history stops narrating altogether and prints the poetry of Badr: nine poems and fragments, most of them damaged in transmission, including a love-prelude that turns into a reproach of a named survivor, an elegy that praises a dead fighter entirely for his cooking pot, and one poem by the Prophet''s own cousin that praises him and mourns the enemy dead in the same breath and begs the clans to stop. Then the year in between: four expeditions, three of which meet nobody, one named after the flour the raiders dropped while running away; an enemy commander briefed on the state of Medina over a cup of water inside the city''s own confederacy; a market insult that becomes a fifteen-night siege and ends with a hypocrite''s plea granted; and a poet killed at night by his milk-brother, who spent an hour teaching him to be comfortable with a hand in his hair.'
+  related_episodes:
+    - badr-the-two-armies-meet
+    - the-marriage-of-ali-and-fatima-and-the-march-to-uhud
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the return to Medina with the captives through the killing of Ka'b ibn al-Ashraf
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — cited by the source for the ransom of al-'Abbas, Abu Rafi's account, the verse of Hamza, 'Ubaydah and Talib, the lament of Hind bint Athathah, and the killing of Ka'b ibn al-Ashraf
+    - Diwan Ali ibn Abi Talib — cited by the source for the verses recited on the day of Badr
+    - Diwan Ka'b ibn Malik — cited by the source for the Badr poem, the elegy for 'Ubaydah and the lines on the killing of Ka'b ibn al-Ashraf
+    - Diwan Hassan ibn Thabit — cited by the source for the Badr ode, the reproach over the Iraq road and the reply to Ka'b ibn al-Ashraf
+    - Al-Maghazi — cited by the source alongside the Sira for the Ka'b ibn al-Ashraf narrative
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by showing the tradition preserving its own inconvenient evidence: an uncle recorded both as a Badr captive professing faith and as a secret believer beforehand, and a cousin of the Prophet given full space to grieve the enemy dead. It is also where Ali is named urging entry against Banu Qaynuqa'' during the settlement of accounts that fills the year before Uhud.'
+session_index: 7
+session_title: 'After Badr: The Campaigns and the Turn at Uhud'
+session_slug: after-badr-the-campaigns-and-the-turn-at-uhud
+session_episode: 1
+session_episode_count: 2

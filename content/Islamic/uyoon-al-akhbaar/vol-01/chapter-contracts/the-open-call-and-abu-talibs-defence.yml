@@ -1,0 +1,56 @@
+chapter_ref: ch06a-the-open-call-and-abu-talibs-defence
+slug: the-open-call-and-abu-talibs-defence
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 4
+section_index: 1
+episode_number: 6
+title: The Open Call and Its Cost
+audience: Listeners who have followed a religion of three people praying in the ravines outside Mecca and now want to know what happened the day it was announced in public. No prior knowledge is assumed beyond the household and the designation established in the previous episode. What this episode asks of them is attention to a single recurring situation — a person is given evidence, and then has to decide what to do with it — as it plays out with an uncle who will not convert, a chief who cannot find an honest accusation, and a crowd watching a tree move.
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is historical exposition organised around events: a command to proclaim openly, three successive Quraysh delegations to Abu Talib, a pre-pilgrimage strategy meeting run by al-Walid ibn al-Mughirah, several poems, a narrated sign, and an assault that failed. The one exchange that looks like a contest — al-Walid''s four-round elimination of soothsayer, madman, poet and sorcerer — is a single meeting inside a much longer narrative and voices no sustained named opposition arguing a proposition across the chapter; the Quraysh delegations put demands rather than arguments. So narrative, not debate, and not deep_dive: no single doctrine is unfolded layer by layer here, and the one doctrinal passage (Abu Talib''s concealed faith) is the author''s own commentary landing an event sequence.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the escalation through the three delegations and recites the sermon of the Commander of the Faithful whole at the point it falls; the companion presses on what each party does after it has already seen enough — an uncle who calls the new religion the finest of religions and still refuses it, a chief who demolishes every available accusation and then assembles one anyway, and a crowd that calls a moving tree sorcery while it is still moving.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+sermon:
+  present: true
+  section_title: The tree and the sealed hearts
+essential: core
+essential_rationale: It carries the transition from private religion to public proclamation, the full escalation of Quraysh pressure on the Prophet's protector, and the author's central doctrinal argument about Abu Talib — that the concealment of his faith was the condition on which the religion survived.
+key_tensions:
+  - 'A protector who does not share the religion. Abu Talib refuses to convert in public, testifies in verse that the religion is the finest of religions and that only fear of reproach keeps him from following it, and pays for the protection out of his own standing. The author argues this was not weakness but the only arrangement in which the mission survived: a convert could be persecuted like any other convert, while a chief of Hashim who had not converted could forbid the whole of Quraysh.'
+  - An accusation that its own author knows to be false. Al-Walid ibn al-Mughirah convenes Quraysh to agree one story before the pilgrimage season, rejects soothsayer, madman, poet and sorcerer on the grounds that they are experienced men who know what each of those looks like, concedes that the speech is sweet — and then builds a usable charge out of the one fact he cannot deny. The Qur'an answers by describing the deliberation step by step.
+  - Evidence that changes nothing. The sign is requested on stated terms, with both verdicts named and consent given in advance; it is granted with the outcome announced beforehand; the crowd calls it sorcery before it stops moving, runs it twice more on their own terms, and then attacks the single witness rather than the testimony. The same failure recurs with the scholars of the older scriptures and with the man who dropped the stone.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene, or motive may be invented around it.
+  - The sermon of the Commander of the Faithful is recited ALOUD AND WHOLE, word for word as it stands in the chapter, before any discussion of it. It is the episode's set piece and must not be summarized, split, or paraphrased.
+  - Never pair the leadership title with the personal name of the Father of Imams. In the sermon section he is named only as the Commander of the Faithful; elsewhere in the series he is Ali ibn Abi Talib. The two forms are never placed together.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - Abu Talib's poems in this slice — the rebuke of Banu 'Abd Manaf, the rally to Hashim, the open declaration, the praise poem, the long sanctuary poem, the warning about Thamud and 'Ad — survive in damaged transmission and are carried at the level of their surviving sense. Do not reconstruct a line and do not repair a garbled name into the one it probably was. The same applies to the poem of Abu Qays ibn al-Aslat.
+  - Quranic quotations carry their reference in plain English as (chapter N, verse M); the passage revealed concerning al-Walid ibn al-Mughirah is given in English translation only, with its range stated in words. The source supplies that passage in Arabic script alone with no translation, so the accurate English rendering stands in the chapter and no transliteration run is paired with it.
+anchor_passages:
+  - 'The answer to the threat of war: ''O uncle, if you wish, do not be overwhelmed. But I, by God — even if they placed the sun on my right hand and the moon on my left — I would not abandon this matter until God caused it to prevail or I perished in its pursuit.'''
+  - 'Al-Walid ibn al-Mughirah''s settlement after rejecting every accusation: ''By God, his speech is sweet — and none of what you have said fits it. The closest thing you can say is this: he is a sorcerer who has come with a magic that divides a man from his father, from his wife, and from his brother and his clan.'''
+  - The sermon of the Commander of the Faithful, recited whole, from 'I was with him when the Quraysh came to him' through the closing description of the righteous whose hearts are tender and whose bodies are at work.
+  - 'Abu Talib''s refusal of the exchange offered for his nephew: ''By God, what a terrible bargain you offer me — that you give me your son to clothe and feed, while I hand over my son to be killed! That, by God, will never happen.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'The leaders of Mecca once held a meeting to agree on a single word for what Muhammad was doing — and their own chairman threw out every word the language gave them. He had seen soothsayers, and it was not that. He had seen madness, and it was not that. He knew every metre of poetry, and it was not poetry. He knew sorcerers, and it was not sorcery. Then he built a charge anyway, out of the one thing he could not deny: that this was splitting families apart. This episode covers the day the call went public and everything Mecca tried in response. Three delegations went to Abu Talib — one with a complaint, one threatening war until one side was destroyed, and one offering him the finest young man in Quraysh as a replacement son if he would hand his nephew over. He refused all three, wrote poems that spread across Arabia reminding the tribes what the sanctuary was for, and went on saying in public that he did not follow the religion — which the author argues was precisely what kept it alive. The episode closes with a sermon of the Commander of the Faithful, recited whole, describing a tree that was called and came, a crowd that had agreed the terms in advance, and what they said when it happened.'
+  related_episodes:
+    - abu-talibs-guardianship-khadijah-and-the-first-response
+    - abyssinia-the-negus-and-the-parchment
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the command to proclaim openly to the stone dropped in the sanctuary
+    - Nahj al-Balagha, 406-408 — cited by the source for the sermon of the Commander of the Faithful on the tree
+    - Diwan Abi Talib — cited by the source for the long sanctuary poem and the verses against Banu 'Abd Shams
+    - Al-Manaqib wa al-Mathalib — cited by the source for the account of Abu Jahl and the stone
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by defending Abu Talib — the protector on whom the entire mission depended — against the charge that he died outside the faith, and by placing the community's own witness to the Prophet's signs in the mouth of the Father of Imams rather than in the reports of those who opposed him.
+session_index: 4
+session_title: The Open Call and the Boycott of Banu Hashim
+session_slug: the-open-call-and-the-boycott-of-banu-hashim
+session_episode: 1
+session_episode_count: 2

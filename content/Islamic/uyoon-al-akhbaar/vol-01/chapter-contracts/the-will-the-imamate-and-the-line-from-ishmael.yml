@@ -1,0 +1,53 @@
+chapter_ref: ch02a-the-will-the-imamate-and-the-line-from-ishmael
+slug: the-will-the-imamate-and-the-line-from-ishmael
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 2
+section_index: 1
+episode_number: 2
+title: The Will and the Imamate
+audience: 'Listeners who now know who wrote this history and want to hear the author himself for the first time. They need no prior Ismaili background, but they do need to see why he opens with two arguments instead of a birth narrative: one about who may appoint the leadership of a religious community, and one about whether the Prophet''s own forefathers were idolaters. The episode assumes curiosity about how a medieval scholar builds a case, not familiarity with the case itself.'
+angle: faithful_exposition
+episode_format: deep_dive
+format_rationale: 'One position unfolds layer by layer — that guidance has always come in pairs, the one who is sent and the one who carries it forward, so the sealing of prophethood ended the sending and not the need. The argument moves from the general rule about earlier prophets, to the impossibility of a community supplying its own foundation, to the inference from the Prophet''s rule about written wills, and then extends the same logic to the ancestral line. No named opposing voice runs through the slice: the deniers are unnamed and never quoted, and al-Farabi appears as a supporting authority on Quraysh''s speech, not as an interlocutor. Nothing is adjudicated, so this is deep_dive.'
+host_dynamic: curious_mind + scholar_companion
+host_dynamic_rationale: The curious_mind presses the obvious objections a newcomer would raise (if prophethood is sealed, why is any further office needed? if the designation was as clear as he says, why did almost nobody act on it? why does an argument about leadership suddenly turn into a genealogy?); the scholar_companion supplies the author's answers — the interruption of prophethood passing to successors, the Imamate as the load-bearing foundation of religion, the argument from the Prophet's rule about wills, and the syllogism from nobility and purity that clears the forefathers of idolatry.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: This is the doctrinal floor of the whole seven-part work — the designated succession and the prepared lineage — and every later volume assumes both claims have already been made.
+key_tensions:
+  - The Prophet's own rule turned back on the account of his death. He forbade any believer to let two nights pass without a written will at the bedside; the author's inference is that the man who legislated that did not leave the community itself without one. The hosts should let the force of the inference land before anyone weighs whether it settles the matter.
+  - 'A pure line running through a mixed field. The author argues from premises his opponents share — the Prophet called his ancestry noble, the Prophet defined nobility as piety, the Qur''an calls idolaters impure — and yet he concedes freely that idolaters were mixed among that lineage, taking pride in descent from Abraham while worshipping images. His claim is narrower than it first sounds: that within the crowd, somebody was still carrying Abraham''s religion, sometimes without disclosing it.'
+  - A charge of unwillingness rather than error. He does not say the community was mistaken about the succession; he says it denied what its own souls were convinced of. That is the strongest form his case can take and the hardest to argue, and the hosts should name it as the partisan claim it is rather than smoothing it into a difference of interpretation.
+tone_constraints:
+  - Third-person transmitted report throughout, matching how the source opens. The author reports, cites, and infers; he is never staged as speaking in a scene, and no dialogue may be invented for him or for anyone he cites.
+  - Never pair the leadership title with the personal name of the Father of Imams. Say Ali ibn Abi Talib, the Commander of the Faithful, the Father of Imams, or the guardian. Name al-Hasan and al-Husayn as the two heirs exactly as the source does, and give no ordinal numbers to any Imam.
+  - Quranic quotations carry their reference in plain English as (chapter N, verse M). Where the source names no verse, the quotation stands without a reference and none is to be supplied. Two Qur'anic passages are deliberately paraphrased rather than quoted because the source's rendering of them is unreliable; do not restore them to quotation form.
+  - Arabic terms and names stay in the transliterated forms used here. This slice supplies no Arabic script for any term, so none is to be added. Established English names are used for Abraham, Isaac, Ishmael, Jacob, Moses, Jesus, and Hagar; every other name stays as transliterated.
+  - The book's own architecture, its title, and its author's office were covered in the opening episode. Refer back in a single line if needed and spend no further time on them — the front matter about the book as a published object is deliberately compressed here to one paragraph.
+anchor_passages:
+  - 'The rule the whole argument turns on, in the Prophet''s words: ''A Muslim should not sleep two nights without his will written at his bedside.'''
+  - 'The saying the ancestral argument rests on: ''You and I, O Ali ibn Abi Talib, have been carried from the noble loins to the purified wombs.'''
+  - 'The author''s four unanswerable questions: it was not possible for the community to converge on a single person by their own accord, nor could such a matter be known through reports alone without a clear trace — and who would determine it, and from where?'
+  - 'Al-Farabi on the speech of Quraysh: ''The Quraysh were the finest of the Arabs in their command of words — easiest on the tongue when pronounced, most pleasing to the ear, most precise in conveying what is held in the soul.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'The author of this seven-part history speaks for himself for the first time, and he does not begin with the Prophet''s birth. He begins with two arguments. The first is that God has never sent a prophet without also appointing the one who carries what he brought, and that sealing prophethood ended the sending rather than the need — so the leadership of the community was never the community''s to arrange. His sharpest proof is the smallest rule he could have chosen: a Prophet who forbade any believer to let two nights pass without a written will did not leave the community itself without one. The second argument answers a charge laid against the Prophet''s forefathers, that they were idolaters. Working only from premises his opponents accept — that the Prophet called his ancestry noble, that he defined nobility as piety, that the Qur''an calls idolaters impure — the author concludes that the line he came through was not idolatrous, while granting that idolaters lived among it and that some of the faithful kept their belief unspoken, as a believer in Pharaoh''s household did. The episode closes by walking the descent itself: Abraham''s division of his household, Ishmael settled at the Sacred House, Jacob recognising the light of prophethood in a young cousin''s face, Adnan in the age of Moses, and the northern Arab branches narrowing to the tribe of Quraysh — with a philosopher''s verdict, quoted at length, that Quraysh spoke the clearest Arabic any of the tribes had.'
+  related_episodes:
+    - who-wrote-this-history-and-how-it-survived
+    - qusay-hashim-and-the-year-of-the-elephant
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the foreword through the descent to Quraysh
+    - Abu Nasr al-Farabi, Kitab al-Huruf — quoted at length on the speech of Quraysh and the tribes from whom Arabic was taken
+    - Da'a'im al-Islam — cited by the source for the Prophet's instruction on wills
+    - Tabaqat Ibn Sa'd; Tafsir Furat al-Kufi; Lubab al-Ansab — cited by the source for the saying on the noble loins and the purified wombs
+  thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by supplying the two arguments the rest of the work assumes: that guidance descends only by designation, and that the lineage it descended through was prepared and kept rather than incidental.'
+thesis_relevance: 'This chapter advances the book''s central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents'' record, by supplying the two arguments the rest of the work assumes: that guidance descends only by designation, and that the lineage it descended through was prepared and kept rather than incidental.'
+session_index: 2
+session_title: The Purpose of the Work and the Line of Descent to Quraysh
+session_slug: the-purpose-of-the-work-and-the-line-of-descent-to-quraysh
+session_episode: 1
+session_episode_count: 2

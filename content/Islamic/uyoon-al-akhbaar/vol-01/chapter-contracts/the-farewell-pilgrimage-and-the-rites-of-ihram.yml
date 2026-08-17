@@ -1,0 +1,76 @@
+chapter_ref: ch27a-the-farewell-pilgrimage-and-the-rites-of-ihram
+slug: the-farewell-pilgrimage-and-the-rites-of-ihram
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 14
+section_index: 1
+episode_number: 27
+title: The Farewell Pilgrimage
+audience: 'Listeners who have followed nine years of marches, sieges and dispatched detachments and are now watching the fighting stop. No prior knowledge is needed beyond that. What this episode asks of them is a shift of expectation: the first half is still command and complaint — an officer who ordered his men into a fire, and three separate objections raised against the same commander after three separate missions — but the second half has no enemy in it at all, and turns into a step-by-step record of a set of actions performed in front of a crowd that had been summoned specifically to learn them.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is narrated event and reported speech throughout: an army halted at a fire, a punitive pursuit to the edge of Yemen, two campaigns into Yemen and one into Najran, three complaints answered by the Messenger of God, a rescue in a valley of Tihama, and then the ordered performance of the pilgrimage rites as reported by the household. The one passage that reasons rather than narrates — al-Baqir''s reading of the wording of the verse on al-Safa and al-Marwah — is a single unopposed exposition, not a contest. No named party answers back anywhere in the slice, so this is narrative rather than debate.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the fire on the road and the ruling that followed it, the pursuit of Banu Dha, the Najran and Yemen commands with Buraydah's letter and the two accounts of 'Amr ibn Shas, Khalid bound in palm fronds and cut down, and then the whole sequence of the rites from the announcement in Medina to the seventh circuit; the companion presses on why every complaint in this episode is answered without being investigated, on what a consecration made in another man's terms actually commits you to, and on how a permission in a verse can be read as proof of an obligation.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the sayings issued each time a complaint came back from Yemen — including that Ali is of the Prophet and the Prophet of him and that he is guardian after him — and then the pilgrimage rites themselves as the household narrates them, including the sharing of the Prophet's own offering that ties the two men into a single sacrifice.
+sermon:
+  present: false
+  section_title: null
+key_tensions:
+  - A lawful commander issuing an unlawful order, and men who refuse on the ground that the fire in front of them and the Fire they converted to escape are the same thing.
+  - Guests treated at public expense from a charitable herd who repay it by killing the men who tended them.
+  - A written complaint from one commander about another, answered without any reference to what the complaint alleged.
+  - A grievance whose owner admits, in his own telling, that it had no content — only resentment carried home and repeated to whoever would sit with him.
+  - The officer who wrote the complaint from Yemen ending up bound in palm fronds and writing to the man he complained about.
+  - A pilgrimage announced in advance so that a community could come and watch a practice being performed, rather than be told about it.
+  - A dispensation that looks like a relaxation of the law and is argued to be a correction for distance.
+  - A consecration made in a formula that copies another man's state, and therefore cannot be dissolved on its own terms.
+  - Five stations named after five peoples, and then immediately detached from those peoples so that the road decides, not the birthplace.
+  - A verse that removes blame from those who perform a rite, read as proof that the rite is obligatory rather than optional.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates, except where the source itself gives a first-person account — Abu Sa'id al-Khudri at the fire, Buraydah with the letter, 'Amr ibn Shas in the mosque — which stay in those voices.
+  - The formulae of consecration, the talbiyah, the rewards of the pilgrimage and the rulings on the sanctuary are rendered as the source gives them, not paraphrased into summary.
+  - Arabic technical terms are preserved as the source supplies them — ihram, tamattu', qiran, miqat, talbiyah, hajj, 'umrah — with the source's own brief glosses kept where it supplies them.
+  - The verses in Khalid ibn al-Walid's letter from captivity are damaged in this manuscript. They are carried at the level of surviving sense with the damage named — no line reconstructed, no garbled name repaired.
+  - Footnote apparatus, manuscript sigla, folio marks, chains of transmission and edition locators are dropped per the denoise contract; the attributions are preserved in the show-notes references instead.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in earlier episodes.
+  - The lesser pilgrimage made under the truce, and the detachment roll of the closing years, were both taught earlier in this history and appear here only as one-line datings in fresh words, never re-expounded.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, as the Father of Imams, or — where the source itself does so — as the Commander of the Faithful.
+anchor_passages:
+  - 'The limit on a command: ''Had you entered it, you would never have come out of it until the Day of Judgement. Obedience is due only in what is good.'''
+  - 'The general form of the same rule: ''There is no obedience to a creature in disobedience to the Creator.'''
+  - 'The answer given to the courier from Yemen: ''Do not speak against Ali — for Ali is from me and I am from him, and he is your guardian after me.'''
+  - 'The question that decided the complaint of ''Amr ibn Shas: ''Did you find any injustice in his judgements, or any unfairness in his conduct?'' — ''No.'''
+  - 'The chain drawn from it: ''Whoever claims to love me yet hates Ali has hated me, and whoever hates me has hated God.'''
+  - 'Its most physical statement: ''Whoever harms Ali has wounded my very ear.'''
+  - 'The defence made after the garments were taken back: ''Do not reproach Ali, for he is among the most rigorous in the way of God to ever be complained against.'''
+  - 'The verse that gives the pilgrimage its second name: ''O Messenger, convey what has been revealed to you from your Lord; if you do not, you will not have conveyed His message'' (chapter 5, verse 67).'
+  - 'The revelation that created the combined rite: ''Had I known in advance what has now been shown to me, I would not have brought a sacrificial animal. So whoever has no sacrificial animal, let him dissolve his ihram.'''
+  - 'The consecration that could not be dissolved alone: ''O God, I enter ihram with what Your Prophet, Your servant and Your Messenger Muhammad has entered ihram with.'''
+  - 'The reward stated at the pace of a walk: ''For every sandal they lift, a good deed is recorded for them, and for every sandal they set down, another good deed is written.'''
+  - 'The talbiyah at al-Bayda'': ''O God, here I am. Here I am. You have no partner. Praise is Yours, and grace is Yours, and the dominion is Yours.'''
+  - 'The argument from the wording: ''Had there been a dispensation to abandon the walk between them, He would have said: There is no blame on one who does not walk between them.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'What do you do when the man you have been ordered to obey builds a fire and orders you to walk into it? This episode opens on the limits of a command — an angry officer, a fire on the road, and a ruling that says obedience is due only in what is good — and then on a group of guests who were sheltered, treated and restored at public expense and repaid it by murdering the men who tended the herd. From there it follows the commander who was sent after them: Najran, then Yemen twice, and the three complaints that came back. A written objection carried by a reluctant courier, answered without a word about what it alleged. A soldier who admits in his own telling that the grievance was only resentment. An army annoyed at having to hand back new clothes before a parade. And then, without comment, the officer who wrote the first complaint hanging in palm fronds in a valley of Tihama, writing to the man he had complained about. The second half changes register completely. In the tenth year the pilgrimage was announced in advance so that people could come and learn the rites by watching them performed — and what follows is that curriculum, step by step: where you consecrate yourself and in what words, why a distant pilgrim may take two rites out of one journey, why a consecration made in another man''s terms had to be settled by sharing a hundred animals between two hands, which corners are touched on every circuit, and why a verse that removes blame from those who walk between two hills is read as proof that the walk is required.'
+  related_episodes:
+    - the-expeditions-and-the-question-of-precedence
+    - arafah-mina-and-the-designation-of-ali
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the army halted at the fire to al-Baqir's reading of the verse on al-Safa and al-Marwah
+    - Da'a'im al-Islam of al-Qadi al-Nu'man — the source's citation for the narrations of the Ahl al-Bayt on the pilgrimage rites, the stations of consecration, the talbiyah, the circumambulation and the sacrificial animal
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the Yemen command, the garments taken back from the soldiers, and the exchange with Ali over his consecration
+    - Sharh al-Akhbar and Manaqib Amir al-Mu'minin — the source's citations for the sayings issued in answer to the complaints of Buraydah and 'Amr ibn Shas
+    - Mu'jam al-Buldan — the source's citation for Sarf, where the instruction to convert to the lesser pilgrimage was given
+    - The Quran, chapter 5 verse 33, chapter 5 verse 67, chapter 2 verse 196 and chapter 2 verse 158 — the passages the source attaches to this stretch
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by showing that every complaint brought against Ali ibn Abi Talib on the Yemen and Najran commands was answered not by adjudicating the complaint but by restating who he is — from me and I am from him, and your guardian after me — and then by having the Prophet resolve his consecration by taking him into his own offering.
+session_index: 14
+session_title: The Farewell Pilgrimage and the Designation
+session_slug: the-farewell-pilgrimage-and-the-designation
+session_episode: 1
+session_episode_count: 2

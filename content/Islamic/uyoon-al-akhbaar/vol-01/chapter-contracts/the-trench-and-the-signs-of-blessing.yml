@@ -1,0 +1,69 @@
+chapter_ref: ch16a-the-trench-and-the-signs-of-blessing
+slug: the-trench-and-the-signs-of-blessing
+source_type: book-chapter
+book_slug: vol-01
+source_chapter_ref: 9
+section_index: 1
+episode_number: 16
+title: The Trench and the Signs
+audience: 'Listeners who have followed this community through Badr, Uhud and a year of marches that produced no fighting, and who now watch it besieged in its own city by the largest coalition the peninsula had assembled. No prior knowledge is needed beyond the expulsion of the Banu al-Nadir. What this episode asks of them is to follow a siege in which almost nothing is thrown: the decisive acts are a ditch, a phrase carried into a fortress, a few minutes of single combat, and one man telling two frightened parties the truth about each other.'
+angle: faithful_narrative
+episode_format: narrative
+format_rationale: 'The slice is a chronicle of a campaign: a delegation to Mecca, the mustering of Quraysh and Ghatafan, the digging, four wonders reported by named witnesses, a breach of covenant, twenty-five days of archery, a duel, a stratagem and a withdrawal. The only extended exchanges are the challenge and answer before the single combat and Hudhayfah''s reply to Rabi''ah al-Sa''di — short altercations inside events rather than a sustained contest over a proposition — so this is neither debate nor deep_dive.'
+host_dynamic: narrator + companion
+host_dynamic_rationale: The narrator carries the embassy to Quraysh and Ghatafan, the digging of the trench with the rock, the dates and Jabir's sheep, Salman's three flashes, the breaking of the Banu Qurayza's covenant, the fear in the camp, Safiyyah at the fortress of Fara', the crossing of 'Amr ibn 'Abd Wudd and his death, Na'im ibn Mas'ud's double errand, the wind and the withdrawal; the companion presses on why every wonder at the trench concerns food or stone rather than weapons, and on how a siege of ten thousand men was decided by things said rather than things thrown.
+debate: null
+host_dynamic_custom: null
+length_target: extended
+essential: core
+essential_rationale: It carries the whole of the Battle of the Trench, including the single combat the book identifies as the cause of the deliverance in three separate ways — the closing sentence naming two causes, Ibn Mas'ud's recitation of chapter 33 verse 25, and Hudhayfah ibn al-Yaman's answer to a room that thought the claim was exaggeration.
+key_tensions:
+  - Quraysh ask the people of a revealed scripture to adjudicate between idolatry and the message of one God, and are told that their religion is the better one and that they are more deserving.
+  - Every wonder at the trench is about subsistence — a rock that crumbles, a handful of dates that overflows a garment, one sheep that feeds relays of men — while the single sign that looks past the siege promises Yemen, the Levant, the Maghreb and the East.
+  - A covenant broken by a phrase. Huyayy ibn Akhtab carries 'glory undying' into the fortress of a man the record calls faithful, and stays until the answer changes; no threat and no bribe is recorded.
+  - News of the breach is met with congratulation. Four senior men confirm that the city's rear is open, and the answer is 'give glad tidings' — followed at once by the terror of the camp and the hypocrites' complaint about the latrine.
+  - The poet who would not go down the wall and the woman who did. Safiyyah bint 'Abd al-Muttalib kills the scout with a tent pole and then has to explain why she will not strip the body.
+  - A duel framed before it is fought. 'All of faith has gone forth to meet all of disbelief' removes both fighters from the category of individuals before a blow is struck.
+  - The invitation before the combat. 'Amr ibn 'Abd Wudd is offered Islam first and single combat second, and his reluctance to strike rests on a friendship with Abu Talib.
+  - A coalition dissolved without a further casualty. Na'im ibn Mas'ud tells the Banu Qurayza a true thing about their allies and the allies a true thing about the Jews, and sets a demand for hostages between them that each reads as proof of the other's treachery.
+  - The claim about Ali stated three ways and then cross-examined. Hudhayfah ibn al-Yaman is told to his face that the people of Basra call it exaggeration, and answers by asking where everyone else was standing.
+tone_constraints:
+  - Third-person narrative report throughout, matching how the source narrates. Quoted speech appears only where the source supplies it; no dialogue, scene or motive may be invented around it.
+  - The poetry of this chapter is damaged in transmission. Every poem is carried at the level of its surviving sense, with the damage named rather than patched. Do not reconstruct a line and do not repair a garbled proper name.
+  - Ibn Mas'ud's recitation of chapter 33, verse 25 is reported as a variant reading with its transmission named, and is not presented as the standard text. The book's own framing is preserved exactly.
+  - Footnote apparatus, manuscript sigla, folio marks and edition locators are dropped per the denoise contract; attributions are preserved in the show-notes references instead. The chain behind Ibn Mas'ud's reading is compressed to plain attribution because the authority of the reading is part of the teaching.
+  - Honorific formulae are not read aloud after every name. The source's repeated blessing formulae are carried by the narration itself, as in the previous episodes of this series.
+  - The expulsion of the Banu al-Nadir, the single combat at Badr and the defeat at Uhud were all taught earlier in this history. Each appears here only as a one-line callback in fresh words, never a second telling.
+  - Never pair the leadership title with the personal name of the Father of Imams. He is named as Ali ibn Abi Talib, or as the Father of Imams, throughout.
+anchor_passages:
+  - 'Quraysh''s question and the answer to it: ''you are the people of the First Book... are we on the side of right, or is he?'' — ''Your religion is better than his, and you are more deserving than he.'''
+  - 'Salman al-Farisi and the three flashes: ''As for the first flash, God has granted me the opening of Yemen; as for the second, the Levant and the Maghreb; and as for the third, the East.'''
+  - 'Huyayy ibn Akhtab at the fortress: ''I have come to you with glory undying'' — and the note that Ka''b ibn Asad was a man who had kept faith.'
+  - 'The report of the breach and the answer to it: ''There is no covenant between us and Muhammad'' — ''God is greatest: give glad tidings, O community of Muslims.'''
+  - 'The hypocrites'' complaint: ''Muhammad used to promise us that we would eat the treasures of Chosroes and Caesar, yet now not one of us can be sure he will even make it to the latrine.'''
+  - 'The prayer over the champion and the sentence that follows it: ''O God, protect him from what is before him and behind him'' — ''All of faith has gone forth to meet all of disbelief.'''
+  - 'The two choices put to ''Amr ibn ''Abd Wudd, and his reply: ''Your father Abu Talib was a dear friend to me, and I hate to kill you.'''
+  - 'The refusal of the ransom: ''We have no need of his body or its price.'''
+  - 'Ibn Mas''ud''s recitation: ''And God has sufficed the believers in fighting — with Ali — and God is Strong and Mighty'' (chapter 33, verse 25).'
+  - 'The commission given to Na''im ibn Mas''ud: ''You are but one man among us, a single voice. But go to your people and sow discord among them if you can, for war is deception.'''
+  - 'Hudhayfah ibn al-Yaman to Rabi''ah al-Sa''di: ''Where were Abu Bakr and ''Umar and all the companions of Muhammad on the day of ''Amr ibn ''Abd al-Wad... his deed on that day outweighs in reward the deeds of all the followers of Muhammad until the Day of Judgment.'''
+adaptation_mode: faithful
+phonetic_overrides: {}
+show_notes:
+  blurb: 'How do you lose a war you are never allowed to fight? Ten thousand men came for Medina in the fifth year after the emigration and went home without a battle — stopped by a ditch the Arabs said had never been dug before, then by a rumour, then by a wind. Almost everything decisive in this episode happens off the battlefield. A rock crumbles like a dune, a handful of dates feeds an army and spills over the edges of the garment, and a pickaxe strikes three flashes of light that promise Yemen, Syria and Persia to men who cannot be sure of reaching the latrine. Behind the defenders, a single phrase carried into a fortress turns an ally into an enemy without a threat being spoken. And in the salt flat beyond the ditch, one champion crosses and one man is sent out to meet him under a sentence spoken before the fight: all of faith has gone forth to meet all of disbelief. What follows — a stratagem that dissolves a coalition of ten thousand without another casualty, a windstorm, and a companion cross-examined about whether the claim made for that duel is exaggeration — is the rest of this episode.'
+  related_episodes:
+    - al-raji-bir-maunah-and-the-expulsion-of-banu-al-nadir
+    - the-judgment-on-banu-qurayza
+  references:
+    - Idris Imad al-Din, Uyun al-Akhbar wa Funun al-Athar — the source of this episode, from the embassy of the Banu al-Nadir to Quraysh through Hudhayfah's testimony
+    - Al-Sira al-Nabawiyyah / Sirat Ibn Hisham — the underlying narrative the source follows for the muster of the confederates, the digging, the crossing of 'Amr ibn 'Abd Wudd and the withdrawal
+    - Sharh al-Akhbar, Qadi al-Nu'man — cited by the source for the single combat, the verses spoken at it, and Hudhayfah's answer to Rabi'ah al-Sa'di
+    - Al-Ikmal fi Raf' al-Irtiyab, Ibn Makula — cited by the source for Ibn Mas'ud's recitation of chapter 33, verse 25
+    - Diwan Hassan ibn Thabit — the verses mocking 'Ikrimah ibn Abi Jahl at the ditch
+    - Al-Irshad, Shaykh al-Mufid, and Sharh Nahj al-Balagha — cited by the source for the exchange between Ali ibn Abi Talib and 'Amr ibn 'Abd Wudd
+thesis_relevance: This chapter advances the book's central claim that the line of the Imams, beginning with the Prophet and his designated legatee, is the spine of sacred history and can be told from inside the tradition rather than from its opponents' record, by giving the deliverance of Medina from ten thousand men two causes and no others — the blessing of the Messenger and the struggle of Ali ibn Abi Talib — and then defending that claim twice over, once through a recitation that names him inside chapter 33, verse 25, and once through a companion answering a room that called it exaggeration.
+session_index: 9
+session_title: The Trench, Banu Qurayza, and Hudaybiyah
+session_slug: the-trench-banu-qurayza-and-hudaybiyah
+session_episode: 1
+session_episode_count: 3
