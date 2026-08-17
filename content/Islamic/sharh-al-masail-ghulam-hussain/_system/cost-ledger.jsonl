@@ -11,3 +11,10 @@
 {"ts": "2026-08-17T14:31:52Z", "phase": "0b", "step": "win-009", "model": "claude-sonnet-4-6", "input_tokens": 4887, "output_tokens": 3716, "cache_read": 0, "cache_create": 0, "cost_usd": 0.070401, "engine": "api"}
 {"ts": "2026-08-17T14:32:26Z", "phase": "0b", "step": "win-010", "model": "claude-sonnet-4-6", "input_tokens": 4787, "output_tokens": 2118, "cache_read": 0, "cache_create": 0, "cost_usd": 0.046131, "engine": "api"}
 {"ts": "2026-08-17T14:32:34Z", "phase": "0b", "step": "win-011", "model": "claude-sonnet-4-6", "input_tokens": 3466, "output_tokens": 2264, "cache_read": 0, "cache_create": 0, "cost_usd": 0.044358, "engine": "api"}
+{"ts": "2026-08-17T14:35:26Z", "phase": "0d", "step": "toc", "model": "claude-opus-5", "input_tokens": 25, "output_tokens": 11285, "cache_read": 1238526, "cache_create": 115333, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-17T14:50:39Z", "phase": "0d", "step": "sc-001", "model": "claude-opus-5", "input_tokens": 2335, "output_tokens": 71584, "cache_read": 13084656, "cache_create": 187793, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-17T14:59:30Z", "phase": "0d", "step": "sc-002", "model": "claude-opus-5", "input_tokens": 84, "output_tokens": 38651, "cache_read": 6272052, "cache_create": 141226, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-17T15:10:00Z", "phase": "0d", "step": "sc-003", "model": "claude-opus-5", "input_tokens": 81, "output_tokens": 46978, "cache_read": 6230001, "cache_create": 149797, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-17T15:32:49Z", "phase": "0a", "step": "vowel-source", "model": "gemini-2.5-pro", "input_tokens": 92857, "output_tokens": 32085, "cache_read": 0, "cache_create": 0, "cost_usd": 0.10923, "engine": "api"}
+{"ts": "2026-08-17T15:33:48Z", "phase": "0d", "step": "sc-004", "model": "claude-opus-5", "input_tokens": 106, "output_tokens": 116418, "cache_read": 11449362, "cache_create": 222602, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-17T15:48:47Z", "phase": "0d", "step": "sc-005", "model": "claude-opus-5", "input_tokens": 85, "output_tokens": 77166, "cache_read": 7643283, "cache_create": 193707, "cost_usd": 0.0, "engine": "max"}
