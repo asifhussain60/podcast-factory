@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0d",
+  "phase": "0e",
   "phase_status": "completed",
-  "last_completed_phase": "0d",
-  "next_phase": "0e",
+  "last_completed_phase": "0e",
+  "next_phase": "0literary",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -84,7 +84,16 @@
       }
     },
     "0e": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-08-17T15:48:56Z",
+      "ts_completed": "2026-08-17T15:48:56Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     },
     "0literary": {
       "status": "pending"
@@ -157,7 +166,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-17T15:48:48Z",
+  "ts_updated": "2026-08-17T15:48:56Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
