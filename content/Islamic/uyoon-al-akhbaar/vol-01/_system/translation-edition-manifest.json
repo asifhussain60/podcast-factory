@@ -667,6 +667,19 @@
       ],
       "source_words": 3315,
       "output_words": 3485
+    },
+    {
+      "index": 52,
+      "title": "Ambush in the Valley of Hunayn",
+      "chapter_file": "book/_chapters/ch52-ambush-in-the-valley-of-hunayn.txt",
+      "source_line_ranges": [
+        [
+          7780,
+          7936
+        ]
+      ],
+      "source_words": 2173,
+      "output_words": 1908
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
