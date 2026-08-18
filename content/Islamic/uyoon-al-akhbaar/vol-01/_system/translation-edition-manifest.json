@@ -43,6 +43,32 @@
       ],
       "source_words": 1180,
       "output_words": 1361
+    },
+    {
+      "index": 4,
+      "title": "Abd Manaf and the Breaker of Bread",
+      "chapter_file": "book/_chapters/ch04-abd-manaf-and-the-breaker-of-bread.txt",
+      "source_line_ranges": [
+        [
+          302,
+          446
+        ]
+      ],
+      "source_words": 2363,
+      "output_words": 2209
+    },
+    {
+      "index": 5,
+      "title": "Shaybah al-Hamd: The Boy Brought Back from Yathrib",
+      "chapter_file": "book/_chapters/ch05-shaybah-al-hamd-the-boy-brought-back-from-yathrib.txt",
+      "source_line_ranges": [
+        [
+          447,
+          527
+        ]
+      ],
+      "source_words": 951,
+      "output_words": 1199
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
