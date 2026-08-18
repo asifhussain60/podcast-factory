@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0book-render",
-  "phase_status": "failed",
-  "last_completed_phase": "0book-compose",
-  "next_phase": "0book-illustrate",
-  "last_error": {
-    "phase": "0book-render",
-    "message": "deliverable failed validation: B3 book-arabic-coverage: 5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt",
-    "ts": "2026-08-18T11:33:12Z"
-  },
+  "phase": "0book-design",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-design",
+  "next_phase": "0book-compose",
+  "last_error": null,
   "human_overrides": [
     {
       "gate": "G13",
@@ -309,7 +305,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-17T20:52:34Z",
-      "ts_completed": "2026-08-18T09:51:40Z",
+      "ts_completed": "2026-08-18T15:57:51Z",
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -430,7 +426,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T11:33:46Z",
+  "ts_updated": "2026-08-18T15:57:51Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -438,11 +434,11 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260818T095140Z-259cf1",
+  "run_id": "20260818T155751Z-f234f4",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
     "finalize": 18,
-    "0book-render": 1
+    "0book-render": 2
   }
 }
