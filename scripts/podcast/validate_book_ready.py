@@ -231,8 +231,18 @@ def gate_b3_book_arabic_coverage(book_dir: Path) -> tuple[bool, str]:
 
                 status = chapter_arabic_status(book_dir)
                 if not status.get("ok"):
-                    return False, str(status.get("note") or "Arabic chapter coverage failed")
-                notes.append(str(status.get("note") or "chapter Arabic ok"))
+                    from _gate_overrides import gate_override
+
+                    override = gate_override(book_dir, "B3")
+                    if override:
+                        notes.append(
+                            f"{status.get('note')} — human override accepted "
+                            f"(decided_by={override['decided_by']!r}, reason={override['reason']!r})"
+                        )
+                    else:
+                        return False, str(status.get("note") or "Arabic chapter coverage failed")
+                else:
+                    notes.append(str(status.get("note") or "chapter Arabic ok"))
             if is_faithful_translation_deliverable(book_dir):
                 md = _pick_book_md(book_dir)
                 rendered = md.read_text(encoding="utf-8", errors="replace") if md.exists() else ""

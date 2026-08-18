@@ -40,31 +40,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 
-def _gate_override(workspace: Path, gate: str) -> dict | None:
-    """Return a matching book-level human override for `gate`, if one is
-    recorded in orchestrator-state.json's top-level `human_overrides` list.
-
-    Requires `gate` + `reason` + `decided_by` to all be present — an override
-    is never inferred, only explicitly recorded and attributed. Distinct from
-    G7's per-chapter override (phases.per-chapter.human_override): this is for
-    gates whose finding is book-wide, not attributable to one chapter.
-    """
-    state_path = workspace / "_system" / "orchestrator-state.json"
-    if not state_path.exists():
-        return None
-    try:
-        state = json.loads(state_path.read_text())
-    except Exception:
-        return None
-    for override in state.get("human_overrides") or []:
-        if (
-            isinstance(override, dict)
-            and override.get("gate") == gate
-            and override.get("reason")
-            and override.get("decided_by")
-        ):
-            return override
-    return None
+from _gate_overrides import gate_override as _gate_override
 
 
 def main() -> int:
