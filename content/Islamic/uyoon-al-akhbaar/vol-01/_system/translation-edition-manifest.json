@@ -381,6 +381,58 @@
       ],
       "source_words": 1589,
       "output_words": 1440
+    },
+    {
+      "index": 30,
+      "title": "Ransom, Grief, and Triumph in Verse",
+      "chapter_file": "book/_chapters/ch30-ransom-grief-and-triumph-in-verse.txt",
+      "source_line_ranges": [
+        [
+          3847,
+          4188
+        ]
+      ],
+      "source_words": 3082,
+      "output_words": 3031
+    },
+    {
+      "index": 31,
+      "title": "Reprisals: Suwaiq, Qaynuqa, and Ka'b ibn al-Ashraf",
+      "chapter_file": "book/_chapters/ch31-reprisals-suwaiq-qaynuqa-and-ka-b-ibn-al-ashraf.txt",
+      "source_line_ranges": [
+        [
+          4189,
+          4340
+        ]
+      ],
+      "source_words": 2448,
+      "output_words": 2595
+    },
+    {
+      "index": 32,
+      "title": "Fatimah's Wedding",
+      "chapter_file": "book/_chapters/ch32-fatimah-s-wedding.txt",
+      "source_line_ranges": [
+        [
+          4341,
+          4407
+        ]
+      ],
+      "source_words": 1417,
+      "output_words": 1352
+    },
+    {
+      "index": 33,
+      "title": "Uhud: The Archers Who Left the Hill",
+      "chapter_file": "book/_chapters/ch33-uhud-the-archers-who-left-the-hill.txt",
+      "source_line_ranges": [
+        [
+          4408,
+          4585
+        ]
+      ],
+      "source_words": 3082,
+      "output_words": 3233
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
