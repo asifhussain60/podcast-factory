@@ -711,12 +711,14 @@ blockquote.quran .ar-inline {
     serif
   );
   font-weight: var(--q-ar-inline-weight, 400);
-  /* --q-ar-inline-size, default 1.26em — chosen by Asif on 2026-08-02 from three
+  /* --q-ar-inline-size was 1.26em — chosen by Asif on 2026-08-02 from three
      candidates rendered side by side in the Composer, and moved onto a token the
      same day so the book's Arabic-size setting could carry it. It was a bare
      1.26em here and in book-composer.css, hand-mirrored; a token both files read
      is what a "MIRROR" comment was standing in for, so the note stays but the
-     number no longer needs copying.
+     number no longer needs copying. Reset to 1.1em on 2026-08-18 to match the
+     Podcast Factory Library's fixed `.reader .ar-inline` exactly — see the
+     token's own comment in quote-typography.css.
 
      NOT a reinstatement of `size-adjust: 135%` (removed 2026-07-31). That scaled
      the FACE and so inflated display quotations too, where it was measured and

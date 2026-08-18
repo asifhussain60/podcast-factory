@@ -1,0 +1,8 @@
+{
+  "schema": "book.citation-style/v1",
+  "family": "plain",
+  "translation_font": "eb-garamond",
+  "arabic_font": "scheherazade-new",
+  "arabic_size": "standard",
+  "arabic_ink": "maroon"
+}
