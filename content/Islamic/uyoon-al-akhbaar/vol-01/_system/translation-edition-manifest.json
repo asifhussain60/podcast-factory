@@ -433,6 +433,19 @@
       ],
       "source_words": 3082,
       "output_words": 3233
+    },
+    {
+      "index": 34,
+      "title": "The Lion of God and the Liver of Hind",
+      "chapter_file": "book/_chapters/ch34-the-lion-of-god-and-the-liver-of-hind.txt",
+      "source_line_ranges": [
+        [
+          4586,
+          4772
+        ]
+      ],
+      "source_words": 2676,
+      "output_words": 2483
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"

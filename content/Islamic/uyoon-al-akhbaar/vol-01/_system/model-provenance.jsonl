@@ -104,3 +104,5 @@
 {"phase": "0book-compose", "step": "translation-bk-33-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-34", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-34-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-35", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-35-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
