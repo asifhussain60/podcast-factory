@@ -190,6 +190,21 @@ def _state_for(phase: str, status: str) -> dict:
     # fixture that left it pointing at the previous phase would send completed
     # states down branches production never sends them down.
     last = phase if status == "completed" else (PHASES[idx - 1] if idx else None)
+    phases = {p: {"status": "completed" if PHASES.index(p) < idx else "pending"} for p in PHASES} | {
+        phase: {"status": status}
+    }
+    if phase in _BOOK_LANE:
+        # The book lane is the one place canonical PHASES order does NOT predict
+        # execution order: it is reached either by the early-build path (BEFORE
+        # finalize/audio-ingest ever run) or by `_drive_publish_through_done`'s own
+        # call into it (AFTER audio-ingest). A crashed run most commonly belongs to
+        # the former — the latter is the specific, narrower case
+        # `test_resume_dispatcher_book_lane.py` exercises by name, with the
+        # dispatcher deliberately routing it to the publish driver (2026-08-18 fix
+        # for the sharh-al-masail-ghulam-hussain incident). Forcing "pending" here
+        # keeps this harness asserting the invariant that actually holds: an
+        # UNAPPROVED book-lane crash must never leak into the publish driver.
+        phases["audio-ingest"] = {"status": "pending"}
     return {
         "schema_version": 1,
         "book_slug": "flow-harness-book",
@@ -198,8 +213,7 @@ def _state_for(phase: str, status: str) -> dict:
         "phase_status": top,
         "ts_updated": stale.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "last_completed_phase": last,
-        "phases": {p: {"status": "completed" if PHASES.index(p) < idx else "pending"} for p in PHASES}
-        | {phase: {"status": status}},
+        "phases": phases,
         "config": {},
     }
 
