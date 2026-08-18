@@ -296,5 +296,3 @@
 {"phase": "0book-fluency", "step": "reconcile-03-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "rearticulate", "step": "reconcile-03-part-08-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
 {"phase": "0book-fluency", "step": "reconcile-03-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
-{"phase": "0book-fluency", "step": "fluency-03-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
-{"phase": "rearticulate", "step": "fluency-03-part-08-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}

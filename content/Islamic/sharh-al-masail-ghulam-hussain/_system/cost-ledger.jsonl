@@ -311,5 +311,3 @@
 {"ts": "2026-08-18T16:17:12Z", "phase": "0book-fluency", "step": "reconcile-03-part-08", "model": "claude-sonnet-4-6", "input_tokens": 3, "output_tokens": 1165, "cache_read": 3386, "cache_create": 0, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-18T16:17:25Z", "phase": "rearticulate", "step": "reconcile-03-part-08-repair", "model": "claude-sonnet-4-6", "input_tokens": 3, "output_tokens": 493, "cache_read": 0, "cache_create": 2994, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-18T16:17:57Z", "phase": "0book-fluency", "step": "reconcile-03-part-09", "model": "claude-sonnet-4-6", "input_tokens": 3, "output_tokens": 1518, "cache_read": 0, "cache_create": 3489, "cost_usd": 0.0, "engine": "max"}
-{"ts": "2026-08-18T16:20:41Z", "phase": "0book-fluency", "step": "fluency-03-part-08", "model": "claude-sonnet-4-6", "input_tokens": 3, "output_tokens": 934, "cache_read": 3352, "cache_create": 0, "cost_usd": 0.0, "engine": "max"}
-{"ts": "2026-08-18T16:20:48Z", "phase": "rearticulate", "step": "fluency-03-part-08-repair", "model": "claude-sonnet-4-6", "input_tokens": 3, "output_tokens": 87, "cache_read": 0, "cache_create": 2775, "cost_usd": 0.0, "engine": "max"}
