@@ -30,6 +30,19 @@
       ],
       "source_words": 2211,
       "output_words": 2234
+    },
+    {
+      "index": 3,
+      "title": "Clean and Unclean: Meat, the Knife, and the Hunt",
+      "chapter_file": "book/_chapters/ch03-clean-and-unclean-meat-the-knife-and-the-hunt.txt",
+      "source_line_ranges": [
+        [
+          218,
+          295
+        ]
+      ],
+      "source_words": 2124,
+      "output_words": 2454
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
