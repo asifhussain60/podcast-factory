@@ -111,6 +111,39 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         )
         return 0
 
+    # Skip the whole design->compose->illustrate->slide-import->render chain
+    # when every one of those phases already finished (completed OR skipped)
+    # on a prior run AND nothing that governs the model passes has changed
+    # since. Without this check the function below always re-executes from
+    # 0book-design, no matter what a resume was actually asked to continue —
+    # cheap for 0book-design (its own "book-toc.json exists" skip), but
+    # 0book-compose has no equivalent: a resume that only needed to continue
+    # past a LATER phase restarted the fluency/augment model passes from
+    # scratch, silently rewriting chapters that were already correct. This
+    # directly contradicted the module's own stated design ("the upstream
+    # 0book phases are artifact-idempotent, so re-entry is effectively
+    # free" — see this file's own docstring above). Confirmed live on
+    # `sharh-al-masail-ghulam-hussain` (2026-08-18): three separate resumes
+    # each re-triggered a full re-compose; two were caught mid-rewrite before
+    # they could be committed. `needs_model_recompose` already existed for
+    # exactly this determination (added 2026-08-08 for the equivalent
+    # `--retry-phase` case) but was only ever used to print an advisory,
+    # never to actually skip anything.
+    _state = read_state(book_dir)
+    _phases_state = _state.get("phases") or {}
+    _all_book_phases_finished = all(
+        (_phases_state.get(ph) or {}).get("status") in ("completed", "skipped") for ph in _BOOK_PHASES
+    )
+    if _all_book_phases_finished and (book_dir / "book" / "book.md").exists():
+        from _compose_scope import needs_model_recompose
+
+        if not needs_model_recompose(book_dir):
+            _info(
+                "book branch: all phases already finished and nothing model-governing "
+                "changed since — skipping design/compose/render re-entry"
+            )
+            return 0
+
     # 0book-design
     update_phase(book_dir, phase="0book-design", status="running")
     try:
