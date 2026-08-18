@@ -100,6 +100,59 @@ def _unq(s: str) -> str:
     return s.replace('\\"', '"').replace("\\\\", "\\")
 
 
+# Arabic-block ranges wide enough to cover the letters, harakat, and the
+# Uthmani alif wasla the corpus path emits — deliberately NOT a general Unicode
+# "is this Arabic" test, just the code points this pipeline's own passes ever
+# legitimately produce.
+_ARABIC_CHAR_RE = re.compile(r"[؀-ۿݐ-ݿ]")
+_NON_ARABIC_LETTER_RE = re.compile(r"[A-Za-z]")
+
+
+def _script_is_well_formed(phonetic: str, script: str) -> bool:
+    """Cheap, deterministic sanity check on a model-supplied ``arabic_script``
+    fill, applied BEFORE it is ever written to the glossary.
+
+    Neither LLM pass (OCR-grounded or lexicon-fallback) is asked to justify its
+    answer beyond "point to it in the text" / "recall it from a lexicon" — so a
+    malformed reply (a stray space splitting one word into two, a Latin
+    character leaking into the "Arabic" field) had no check standing between it
+    and the glossary. That is how ``dirham`` was written as ``در هما`` — not a
+    real word — and, because ``harvested_confidence`` measures something else
+    entirely (whether the ENGLISH term was detected with certainty at harvest
+    time, not whether this SCRIPT is well-formed), it carried the exact same
+    "weak" label as eleven other perfectly good fills, so there was no way to
+    tell the one real defect from the routine harvest-time noise around it
+    (RCA: sharh-al-masail-ghulam-hussain, 2026-08-18).
+
+    Two checks, both real signals a genuine Arabic word violates:
+      1. every character is Arabic-block or whitespace/punctuation — no Latin
+         letters, no stray glyphs;
+      2. the script does not carry MORE space-separated tokens than the
+         phonetic it is glossing — a single transliterated word (no internal
+         hyphen-split syllables collapse to one Latin token) must fill to a
+         single Arabic token; a word growing an extra token mid-fill is
+         exactly the ``در هما`` shape.
+
+    A script that fails either check is treated as a refusal — the row stays
+    empty, exactly like the "not actually a term" refusal already built into
+    the lexicon-fallback prompt, and is free to be attempted by the next
+    (narrower) tier or left for a human to fill later. Never fabricate a
+    "better" guess here; declining is always the correct fallback.
+    """
+    script = script.strip()
+    if not script:
+        return False
+    if _NON_ARABIC_LETTER_RE.search(script):
+        return False
+    if not _ARABIC_CHAR_RE.search(script):
+        return False
+    phon_tokens = phonetic.strip().split()
+    script_tokens = script.split()
+    if len(phon_tokens) <= 1 and len(script_tokens) > 1:
+        return False
+    return True
+
+
 CLAUDE_TIMEOUT_S = 1800  # 30 min — bumped 2026-05-24 after 600s proved too tight for
 # 75-entry / 106KB-OCR master-disciple. Sonnet streams output
 # slower on long context windows than the dense per-entry
@@ -461,6 +514,8 @@ def main() -> int:
         print(build_prompt(empty[:batch_size], ocr_text))
         return 0
 
+    malformed: list[tuple[str, str]] = []
+
     def _merge(fills: dict[str, str], *, mark_lexicon: bool) -> tuple[int, int]:
         """Merges {phonetic: arabic_script} into entries. Returns (n_filled, n_skipped_unknown).
 
@@ -478,6 +533,9 @@ def main() -> int:
                 n_skipped_unknown += 1
                 continue
             if not script:
+                continue
+            if not _script_is_well_formed(phon, script):
+                malformed.append((phon, script))
                 continue
             for r in entries:
                 if r["phonetic"] == phon and not r.get("arabic_script"):
