@@ -1,0 +1,152 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Dignity of Earning Your Bread",
+      "chapter_file": "book/_chapters/ch01-the-dignity-of-earning-your-bread.txt",
+      "source_line_ranges": [
+        [
+          95,
+          142
+        ]
+      ],
+      "source_words": 1015,
+      "output_words": 1077
+    },
+    {
+      "index": 2,
+      "title": "At the Table: Eating, Feeding, and Being Fed",
+      "chapter_file": "book/_chapters/ch02-at-the-table-eating-feeding-and-being-fed.txt",
+      "source_line_ranges": [
+        [
+          143,
+          217
+        ]
+      ],
+      "source_words": 2211,
+      "output_words": 2234
+    },
+    {
+      "index": 3,
+      "title": "Clean and Unclean: Meat, the Knife, and the Hunt",
+      "chapter_file": "book/_chapters/ch03-clean-and-unclean-meat-the-knife-and-the-hunt.txt",
+      "source_line_ranges": [
+        [
+          218,
+          295
+        ]
+      ],
+      "source_words": 2124,
+      "output_words": 2454
+    },
+    {
+      "index": 4,
+      "title": "The Anatomy of a Sale",
+      "chapter_file": "book/_chapters/ch04-the-anatomy-of-a-sale.txt",
+      "source_line_ranges": [
+        [
+          296,
+          318
+        ]
+      ],
+      "source_words": 1175,
+      "output_words": 1223
+    },
+    {
+      "index": 5,
+      "title": "Lending Without Riba",
+      "chapter_file": "book/_chapters/ch05-lending-without-riba.txt",
+      "source_line_ranges": [
+        [
+          319,
+          356
+        ]
+      ],
+      "source_words": 2236,
+      "output_words": 2273
+    },
+    {
+      "index": 6,
+      "title": "Trusts, Pledges, and Shared Walls",
+      "chapter_file": "book/_chapters/ch06-trusts-pledges-and-shared-walls.txt",
+      "source_line_ranges": [
+        [
+          357,
+          444
+        ]
+      ],
+      "source_words": 3610,
+      "output_words": 3969
+    },
+    {
+      "index": 7,
+      "title": "Why Marry at All",
+      "chapter_file": "book/_chapters/ch07-why-marry-at-all.txt",
+      "source_line_ranges": [
+        [
+          445,
+          495
+        ]
+      ],
+      "source_words": 2633,
+      "output_words": 3394
+    },
+    {
+      "index": 8,
+      "title": "Choosing Well, Looking Rightly",
+      "chapter_file": "book/_chapters/ch08-choosing-well-looking-rightly.txt",
+      "source_line_ranges": [
+        [
+          496,
+          548
+        ]
+      ],
+      "source_words": 3376,
+      "output_words": 3908
+    },
+    {
+      "index": 9,
+      "title": "The Contract: Forbidden Degrees, Guardians, and the Bride-Price",
+      "chapter_file": "book/_chapters/ch09-the-contract-forbidden-degrees-guardians-and-the-bride-price.txt",
+      "source_line_ranges": [
+        [
+          549,
+          587
+        ]
+      ],
+      "source_words": 1977,
+      "output_words": 2291
+    },
+    {
+      "index": 10,
+      "title": "Milk, Maintenance, and the Untying of a Marriage",
+      "chapter_file": "book/_chapters/ch10-milk-maintenance-and-the-untying-of-a-marriage.txt",
+      "source_line_ranges": [
+        [
+          588,
+          702
+        ]
+      ],
+      "source_words": 3182,
+      "output_words": 3655
+    },
+    {
+      "index": 11,
+      "title": "What Outlives You: Charity, Endowment, and Inheritance",
+      "chapter_file": "book/_chapters/ch11-what-outlives-you-charity-endowment-and-inheritance.txt",
+      "source_line_ranges": [
+        [
+          703,
+          810
+        ]
+      ],
+      "source_words": 3548,
+      "output_words": 4008
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

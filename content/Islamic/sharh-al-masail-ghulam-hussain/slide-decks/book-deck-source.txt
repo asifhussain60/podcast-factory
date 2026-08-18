@@ -1,0 +1,310 @@
+# Sharh al-Masa'il of Sayyidna Ghulam Hussain
+
+## Lawful Earning and the Table
+
+Hierarchy tree. The three teachings of the opening chapter, as one descending line.
+
+Level 1: Ordinary acts carry religious weight.
+  Level 2: Earning is devotion.
+    Level 3: Ranked with striving in God's path.
+    Level 3: Measured by lawfulness of means, not by amount gained.
+    Level 3: Directed at sparing dependants from having to ask.
+  Level 2: Eating is discipline.
+    Level 3: Posture and hand.
+    Level 3: Speech at the table.
+    Level 3: Duties of guest and of host.
+  Level 2: Substance has a boundary.
+    Level 3: What may be eaten.
+    Level 3: How an animal must be killed.
+    Level 3: What may be worn.
+Reading of the levels: the third teaching is the driest and is where the logic of the first two becomes visible. Nothing passing through a person's hands or mouth is neutral.
+
+Comparison matrix. Four positions on work and dignity, held together without contradiction.
+
+Rows: The man with the rope, The needle worker, The man who asks the wealthy, The noble man carrying low goods
+Columns: What he does | How the text ranks it | Reason given | Boundary
+- The man with the rope: takes a load on his back for a wage | better than asking | the asking was the loss, whether the rich man gives or withholds | none
+- The needle worker: drives his needle through leather | sworn to be the most tender path in the way of God | the workbench is a form of striving, not a detour from it | none
+- The man who asks the wealthy: requests from one God has blessed | the lesser path | dependence is the injury, regardless of the answer | applies even where the request succeeds
+- The noble man carrying low goods: carries the lowest of things in public | disliked | he diminishes himself in the eyes of others | a matter of fitness, not a retraction of the rope
+
+Shared row: the dignity of work and the dignity of the worker are held together, and neither cancels the other.
+
+> Trade, and keep away from laziness.
+> Attributed to the Messenger of God at the head of the section on earning.
+
+Contrast pair. The guest and the host, obligation by obligation.
+
+Column A: The guest
+- Entry: does not enter uninvited at a time when people are eating
+- Reading the invitation: accepts only where the desire is sincere, declines where it is offered out of obligation
+- If fasting: breaks a voluntary fast when offered food, keeps an obligatory one
+- Bearing in the room: does not crowd the gathering, does not look around as though searching for what is missing
+- Competing invitations: honours the one that reached first, gives priority to the poor over the rich, declines the invitation of the unjust
+- Purpose of attending: to bring joy to the heart of the host, not to satisfy an appetite
+
+Column B: The host
+- Provision: brings out the finest food in the house and does not stint
+- Timing: keeps the hour he appointed, and does not hold the meal for late arrivals once most have come
+- Intention: not to boast, but to gladden his brothers and to follow the practice of feeding others
+- Grading of gifts: does not overpraise the offering of the wealthy woman, does not belittle that of the woman of lesser means
+- Conduct: honours guests with generous speech, and admits any shortcoming in his service rather than concealing it
+- Close: sees them to the door
+
+Shared row: the scholars fixed the guest's right at three days. Past that, what is given becomes charity rather than the discharge of a duty. The host owes hospitality and the guest owes his presence.
+
+Process flow. The method of slaughter, as a sequence of restraints on haste.
+
+Start: The animal is alive and the slaughterer approaches.
+  Down to: Treat it gently.
+  Down to: Lay it on its side on the ground.
+  Down to: Say in the name of God, God is the Greatest.
+  Down to: Cut quickly across the throat with a sharp blade.
+  Down to: Do not press down on the animal.
+  Down to: Let the blood flow, watching through the final convulsions until it collapses.
+  Down to: Only now sever the head and skin the animal.
+End state: A lawful animal.
+Branch, invalidating: the name of God forgotten, or spoken without proper intention, or the head cut off outright without the method. Result, not permissible.
+Branch, permitted exception: cattle or buffalo become agitated and fall into a pit where the throat cut cannot be reached. Result, the animal may be struck and stabbed wherever one can reach, and it is permissible to eat.
+Branch, tolerated: a limb left hanging after the cut. Result, still fully lawful. But a limb severed before life has fully departed makes the animal forbidden.
+Node attached to the whole flow, on who may perform it: the blind man, the woman, the boy not yet adult, and the mute who forms the intention and holds the name of God in his heart. What qualifies a slaughterer is intention and competence, not status.
+
+## Sale, Debt, and the Trust
+
+Hierarchy tree. The anatomy of a valid sale, three pillars with the five conditions nested under the second.
+
+Level 1: A valid sale.
+  Level 2: Pillar one, the contracting parties.
+    Level 3: Excluded, the minor, the insane, the one who cannot examine the object.
+    Level 3: Reason, a contract binds a person to consequences he must be capable of grasping when he consents.
+  Level 2: Pillar two, the object of the contract.
+    Level 3: Condition one, usability. A dog kept for guarding, hunting or tracking may be sold; a dog kept for no purpose whatsoever may not.
+    Level 3: Condition two, ownership. A sale by someone with no title is not a bad sale but no sale at all.
+    Level 3: Condition three, possession already taken. Movable goods pass by inspection, testing and receipt; immovable property passes when cleared of what was in it.
+    Level 3: Condition four, deliverability. Air, fish in the water, a fetus in the womb, grass growing in a field, a defective limb, all void.
+    Level 3: Condition five, identification. One animal from this herd, ten cubits from this land, any garment you like from among these, all corrupt.
+  Level 2: Pillar three, the wording.
+    Level 3: Offer and acceptance must correspond.
+    Level 3: Ambiguous terms or obscure meaning make the sale invalid.
+    Level 3: The seller may reserve the right of option against a raised price.
+Reading across conditions four and five: every failing case fails for one reason, that the thing cannot be clearly separated from what is not being sold. The fish is not distinguishable from the pond, the grass is not distinguishable from the field. Sell either, and neither party can say afterwards what changed hands.
+
+Contrast pair. The two loans, divided by intention alone.
+
+Column A: The loan made for worldly benefit
+- Lender's purpose: gain in this world
+- Legal status: recognised and regulated, not placed outside the law
+- Lender's listed rights: to reduce the repayment, to excuse it, to extend the time while reducing the principal, to forgive the debt entirely
+- Direction of every listed right: toward taking less
+- Where the borrower is in hardship: forgive the increase, and stop pressing for the principal
+
+Column B: The loan made for the reward of the Hereafter
+- Lender's purpose: the next life
+- Legal status: an act of devotion designated by God
+- Reward: eighteen-fold for maintaining the bond of brotherhood, twenty-four-fold for the bond of kinship, the latter extending the lender's own lifespan
+- Lender's rights over the principal: none whatsoever, small or great, and no condition may be imposed that burdens it
+- Reason for the severity: once a thing is an act of devotion, every worldly benefit drawn from it is forbidden. You cannot be paid twice for the same act.
+
+Shared row: both categories fall within legally regulated transactions, and actions are judged by their intentions. What the prohibition targets is a worldly benefit stipulated in advance as a condition of the loan. A borrower's gratitude is not that, and neither is a gift he chooses to return afterwards with no condition ever set. The line runs between what was demanded and what was freely given.
+
+Timeline. Why the ruling on riba arrived when it did.
+
+Before Islam: both categories of lending in use among the Arabs, the Christians, the Jews and their associates, with transactions held in the grip of documented contracts.
+Before the conquest: Muslims oppressed in trade, given a paltry sum in ready cash and enormous amounts taken in return, with no stratagem by which to escape. The Prophet waiting on divine guidance.
+Year eight: the conquest of Mecca. Muslim strength increases, and capacity to resist exploitation with it.
+Year nine: revelation that the polytheists may not approach the Sacred Mosque after their year, with the assurance that God will enrich from His bounty if poverty is feared. The Commander of the Believers conveys the disavowal.
+From that year onward: Muslims put their own money into the field and deal in both categories, with fellow Muslims for the reward of the Hereafter and with ordinary buyers and sellers for worldly benefit.
+Period reading across the whole axis: the prohibition is not presented as a timeless abstraction handed down in a vacuum. It arrives at the moment the community was strong enough to live by it. Guidance waited on capacity.
+
+> O you who believe, fear God and give up whatever riba remains outstanding, if you are truly believers. If you do not, then be warned of war from God and His Messenger. But if you repent, you shall have your principal. Do no wrong and you will not be wronged. If the debtor is in hardship, grant him time until he is at ease; and if you remit it as charity, that is better for you, if only you knew.
+> The passage the whole section on lending is built to reach.
+
+Process flow. The hundred dinars, and the judgement that returns everyone to the terms.
+
+Start: Two men deposit a hundred dinars with a woman of the Prophet's tribe, on the express condition that they will come to her together to collect it.
+  Down to: One man comes alone, saying his companion sent him with a sign.
+  Down to: Trusting him, she pays.
+  Down to: The second man comes and asks for the money.
+  Down to: She tells him his companion already came. He replies that he gave no such instruction.
+  Down to: The matter is brought before the second caliph, who finds it a heavy affair.
+  Down to: He sends them to the Commander of the Believers.
+End state: The judgement does not establish who was lying and does not make the woman bear a loss for having believed a plausible man. It holds the parties to the condition they themselves set. Go, bring your companion, and take what is yours.
+Reading against the opening of the chapter: the sale of a fish still in the water was void because nobody could say afterwards what changed hands. This deposit was safe because the parties had said at the outset exactly how it would change hands. The condition was the protection, and it had been there the whole time.
+
+## Pledge, Shared Wall, and Marriage
+
+Contrast pair. The two forms of pledge, and the inversion the chapter is built on.
+
+Column A: The pledge held without a written record
+- What the creditor holds: the object itself, in his grip
+- What the debtor holds: nothing
+- Legal status: the blameworthy form, the forbidden one
+- Failure mode: when the moment comes to acknowledge the debt, it can be denied, and the debtor has no instrument with which to answer
+- If the pledged thing is destroyed: the debt is in ruins along with the object, and the parties are back to argument
+
+Column B: The pledge recorded in a written document
+- What the creditor holds: a deed recording what was lent and against what
+- What the debtor holds: the same deed
+- Legal status: lawful
+- Failure mode: the debtor destroys the document, at which point his position collapses back to that of a man merely holding a thing in another's grip
+- If the pledged thing is destroyed: the destruction diminishes nothing, because the deed goes on recording what was lent after the goods are gone
+
+Shared row: what distinguishes the two, in the treatise's own accounting, is nothing but an increase in formality. Nothing has changed about the goods, the debt, or the intentions of the parties. That modest addition is what moves the transaction from the forbidden category into the lawful one, and the insistence rests on the verse instructing believers to write down a debt contracted for a fixed term.
+
+Comparison matrix. The shared wall and its neighbours, decided by harm rather than by title.
+
+Rows: The fallen drainage channel, The broken wall, A door in a shared wall, A private way, The ceiling between two storeys
+Columns: Who owns it | What is asked | The ruling | The reason
+- The fallen drainage channel: one neighbour's own ground | must he build what benefits the other | the judge compels him to build it | not building is itself an injury
+- The broken wall: shared between two houses | who rebuilds it | in partnership, each bearing half; or another builds it and places his beam in it; or it is settled with the road by common consent | the one who paid for the structure acquires the right to use it
+- A door in a shared wall: half belongs to each party | may one be opened | no | nothing is taken and no ground trespassed, but an opening that lets one household see into another has removed something from it
+- A private way: belongs to the people themselves, not the public | may a man alter it | not without permission, unlike a public thoroughfare which belongs to everyone | the ground being used decides the answer
+- The ceiling between two storeys: between an upper and a lower dwelling | who repairs it | the owner of the lower portion | the benefit is like the ground itself, so the ceiling is a structural part of the lower dwelling and not a convenience the upper owner borrowed
+
+Governing standard for the whole row set: a saying on harm and harm. Not ownership, and not who paid for what. The same standard divides jointly held land, where a valuation must price the access along with the ground, the pathways, doors, shared street, well and courtyard, because a share nobody can reach is not a share.
+
+Process flow. The argument against abstaining from marriage, as the treatise builds it.
+
+Start: A scrupulous man calculates that he cannot afford a household and concludes that abstaining is the safer, humbler course.
+  Down to: Charge one. Whoever abandons marriage out of fear of the hardship a family brings has wronged himself, because God promised His worshippers that the poor would be enriched from His bounty.
+  Down to: Charge two. There is no monasticism in Islam. Celibacy is forbidden, for men and women alike.
+  Down to: Argument from appetite. Hunger, thirst, sleep and wakefulness operate on a person whether he consents or not, and desire appears at puberty as the others appear in their season. The sacred law does not pretend the impulse is absent and does not undertake to abolish it, but calls for its regulation, which is the path of the prophets.
+  Down to: Argument from the household. A man who leaves his house each day cannot also keep it. The provisioning, the ordering of the day and the care of the children are a distinct competence, and the house is not sound without the woman.
+  Down to: Argument from etymology. The word for immunity comes from the root meaning fortress. Chastity is fortification, not the elimination of desire.
+  Down to: The diseases it guards against are of character rather than of body, bad temperament, hardness of nature, agitation, inertia. Against them marriage increases composure, tranquility, forbearance, restraint, patience and gentleness.
+Branch, the ascetic answered on his own ground: the man who abandoned women, refused good food and would not raise his head. The Messenger of God never abandoned marriage, ate meat and honey, and taught that true humility is in the heart. Who was more God-fearing than he. The ascetic has invented a standard the Prophet did not meet, which means it is not a standard.
+End state: It is not the intention of the devout Muslim to abandon marriage. The real home is the man and the woman together, and it exists whether they live under a tree in the desert or in a high place of hardship. The rented house and its provisions were never the purpose.
+
+Annotated structure. The verse on plural marriage, read as restriction dressed as permission.
+
+Whole: one verse from the chapter on women.
+Parts, in order of appearance:
+- Opening clause, the licence. If from among women you take two, three, or four. Annotation, this is the half the critics read.
+- Second clause, the condition. Treat them equitably. Annotation, this closes off the permissibility granted a sentence earlier, and reduces the man to one.
+- Third clause, the fallback. And if you fear you will not be just, then one only. Annotation, the withdrawal made explicit.
+- Closing clause. So give equitably and fear God.
+Reading given: the sentence permits with one clause and withdraws with the next, which the treatise calls one of the highest degrees of eloquence. A man who reads only the first half has not read the verse.
+Attached image: this licence is a remedy and a mercy for a pressing need. Medicine is not taken for its own sake and is not for healthy people whom no necessity compels. The man who marries more than one without necessity is like a man dosing himself while in perfect health.
+Attached qualification from Judge al-Nu'man: the merit belongs to those capable of providing and possessed of the power of justice. It does no good to men who cannot be fair among their children.
+
+## The Marriage Contract and Its Bonds
+
+Process flow. The look a man is allowed before he commits himself.
+
+Start: A man intends to marry a particular woman.
+  Down to: He may look, for God commanded believing men and women alike to lower their gaze.
+  Down to: Look once. That is for you.
+  Down to: The second look is against you.
+  Down to: The third is an arrow from the arrows of Satan.
+End state for the one who stops: whoever abandons it for the sake of God, God will grant him in its place faith whose taste he will find in his heart.
+Parallel node, on the man who looks past what is before him: a man should occupy his gaze with his own family.
+Parallel node, on entering a room where a sister sits: seek permission first. The reason given is not what the man might see. I fear that if you enter upon her suddenly it may startle her and diminish some of her good deeds toward you.
+Node on the choosing itself: it is lifted out of the hands of the two people most affected and given to the wise and discerning of their age, at a meeting point of about eighteen years, and suspended where disorder makes waiting dangerous.
+
+Annotated structure. What the marriage payment actually is.
+
+Whole: the mahr.
+Parts:
+- Its size. Annotation, a ring will serve. Twelve and a half uqiyyas of silver, roughly forty rupees in the author's own conversion, is the moderate level the Prophet set for his wives and the level it is preferable to settle at.
+- Its inflation. Annotation, named a cause of enmity rather than a mark of honour. Make peace, and do not exaggerate in the matter of bride-prices.
+- Its place in the contract. Annotation, not one of the essential pillars. A marriage entered without naming an amount is valid, though naming it before consummation is recommended.
+- Who sets it. Annotation, the judge, considering the woman's standing among her peers, her circumstances and her wealth. Not the husband paying it.
+- Whose it is. Annotation, hers. It does not belong to the parents, the guardian, the agent, or the one exercising jealous guardianship over her.
+- Gifts, sorted by timing. Annotation, gifts that reached her before the marriage belong to the husband, and gifts at the time of the marriage or after belong to her by right.
+Reading: that the mahr is not one of the pillars is the clearest statement of what it is. Not the price of the marriage, but a debt inside it. The same instrument governs the contract itself, where any condition stipulated is neither valid nor enforceable if it violates the Quran or contradicts the Sunnah, and where a marriage concluded through anyone outside the four named guardians is void rather than defective.
+
+> Fear Allah regarding women, for they are in your care like captives. You took them in trust by the word of Allah, and it is impermissible to use them as fuel for the Fire.
+> Transmitted in this chapter as a saying people went on repeating until their tongues grew weary of it.
+
+Genealogy chain. The family that milk creates, traced outward from a single nursing.
+
+One nursing woman → her own mother and female ancestors → all forbidden to the nursed child's father
+One nursing woman → her daughters and granddaughters → all forbidden
+One nursing woman → the nursed child → forbidden to her as a son is
+One nursing woman → several children nursed by her → all become milk-siblings to one another and may not marry each other
+A man's several wives → one of them nurses a boy → the boy is milk-son of that wife only → yet all the co-wives are forbidden to one another's milk-children by the shared household bond
+A man → his foster-daughters and foster-granddaughters → forbidden
+A man → his foster-sister → forbidden
+A man → his foster-nieces through brother or sister → forbidden
+A man → his foster-aunts on both sides → forbidden
+Combination rules carried across: two foster-sisters may not be combined in one marriage, nor a woman with her foster-aunt on either side, whether the relation arose through nursing or through direct marriage.
+Edge of the circle, drawn deliberately: a man whose son was nursed by a certain woman may marry a different woman who was not nursed by her, and the daughters of a nurse may be married so long as those daughters did not themselves suckle the son or his children.
+Governing principle over every edge: breastfeeding creates the same prohibitions as birth. Not similar prohibitions and not lesser ones.
+
+Comparison matrix. What makes a nursing count.
+
+Rows: Quantity, Timing, Route of delivery, Consent, Proof
+Columns: The rule | The threshold | What it excludes
+- Quantity: milk taken within the period creates the bond | a single swallow | nothing, at the low end
+- Timing: two full years from the day of birth, calculated as complete months | all who nurse within that period fall under the prohibition | nursing past the threshold, which is permitted where undertaken out of necessity
+- Route of delivery: what creates the bond is a nursing relationship, not the mechanical delivery of milk | an actual nursing | dripping through the nose or ear, feeding by tube in case of injury, injection into the throat
+- Consent: applies where nursing takes place with the consent of the one responsible for the newborn | consent given, or the newborn inevitably swallows | an unintentional feeding, which does not establish prohibition
+- Proof: complete nursing must be shown | three consecutive days, or ten separate sucklings | testimony rejected merely on suspicion, since a foster-brother's testimony is acceptable
+
+Governing case at the edge: nursing discovered after the contract but before consummation. The judge may confirm the prohibition. If intimacy had already been established before the matter was proven, the dowry remains owed, the husband has no further claim, and the two are to be separated. The husband's intention is declared irrelevant throughout. A threshold set with this much care is deciding whether two people already married are relatives.
+
+## Maintenance, Dissolution, and What a Person Leaves Behind
+
+Process flow. What a judge does when a wife comes forward without maintenance.
+
+Start: A wife complains that her missing husband has left her without support.
+  Prior distinction, which decides everything after it: a man whose whereabouts are known is absent. A man whose location is entirely unknown is missing.
+  Down to: The judge investigates whether the man left property behind. He begins with the property, not with the marriage.
+  Down to: If property exists, it is used to provide for her. It is not frozen pending his return.
+  Down to: If a guardian was appointed to administer it, that guardian spends from it on her behalf.
+  Down to: Only when the property is exhausted and she is still without support, the judge writes to the place where the husband was last known to be.
+  Branch, if he returns before the waiting period is complete and wishes to reclaim her: he may, and the time he was absent counts toward the period.
+  Branch, if he returns after it has elapsed: her right in the matter stands.
+End state reading: feed her from his money, then go looking for him. The ordering tells you what the law thinks it is protecting. On maintenance the missing man is counted among those present from the day he went missing, so his absence does not suspend the obligation.
+Standard applied throughout: the median standard of living, neither wasteful nor miserly, covering religious knowledge and upbringing as well as food, owed to a wife young or old and owed even to one who does not observe prayer. The one thing that suspends it is her own withdrawal from the marriage, and the suspension ends the moment she returns.
+
+Comparison matrix. The counted waiting periods.
+
+Rows: Widow, Divorced woman still menstruating, Woman past the age of menstruation, Pregnant woman, Woman not yet adult or not yet touched
+Columns: The count | What governs during it | What it decides
+- Widow: four months and ten days, whether she is an adult or a minor | she is not required to travel or attend gatherings of women | when she may remarry
+- Divorced woman still menstruating: three menstrual cycles | in a revocable divorce the marriage is not yet over, and she observes it in her husband's house where possible | maintenance, housing, and his right to take her back
+- Woman past the age of menstruation: three months from the divorce | the same | the same
+- Pregnant woman: until she gives birth | maintenance and housing continue from his resources | the same
+- Woman not yet adult, or not yet touched, or pregnant short of full term: three months from the divorce | conditions dispensed with in these cases | when the period is complete
+
+Governing line: the waiting periods are counted precisely because everything hangs on them.
+- After the third divorce: no maintenance and no housing.
+- The husband's only route back: she marries another husband who consummates the marriage and then divorces her or dies.
+- Guard on that route: the dissolution must be genuine, without any manipulation or arrangement.
+Procedural note carried from the chapter on debt, on what makes a divorce count:
+- Purity from menstruation, and no relations after it.
+- A written record, and two witnesses before the proper authority.
+- An explicit spoken utterance. Writing alone will not do it, and neither will a wink or a gesture.
+- A marriage cannot be ended by implication.
+
+Contrast pair. Two ways wealth leaves a person's hands during his life.
+
+Column A: The gift
+- Definition: transfer of something from one person's ownership to another's
+- Duration: for a set period or indefinitely
+- Return: where a term was set, the giver may reclaim it once the term has elapsed, provided the asset remains intact; if it has perished, there is nothing to return
+- Where given in perpetuity seeking the face of God: the bond of return is severed and it cannot revert to him
+- Completion: a charity is not complete because it was intended, but because it was received
+
+Column B: The endowment
+- Definition: perpetual dedication of an asset
+- Duration: it cannot be inherited or sold after the founder's death
+- Return: none, and the intended benefit continues as long as the asset remains
+- Best suited to: real property rather than something subject to loss or damage
+- Administration: recorded conditions, an administrator drawing reasonable compensation, a trustee to oversee, and terms observed after the founder's death
+
+Shared row: between the two sit the arrangements hardest to classify, such as permitting someone to live in a house for an unspecified period without compensation, which resembles an endowment in name without meeting the full definition. The model given is the testament of the Father of Imams, summarised rather than quoted, dedicating his properties for the sake of Allah, forbidding sale or gift, naming Banu Hashim and Banu Abd al-Muttalib as beneficiaries, and setting the administration in succession: al-Hasan ibn Ali → al-Husayn ibn Ali → whoever is of the sons of Fatima → each successor to look after the matter to its end.
+
+Process flow. The order in which an estate is emptied.
+
+Start: A person dies leaving property.
+  Down to: The shroud and the expenses for preparing the body are taken first.
+  Down to: Then the debt, if he had one that was limited.
+  Down to: Then one-third, to his bequest and to the charities, if he was disposed to that.
+  Branch: if he recommended nothing, no third is taken out at all, and everything remaining goes to the heirs.
+  Down to: The remaining two-thirds are divided among the heirs by the prescribed shares. For the male the equivalent of two females. Women above two in number receive two-thirds, and a single daughter one-half. Each parent one-sixth where there is a child, and the mother one-third where there is none, reduced to one-sixth if he has brothers. The husband one-half where there is no child and one-quarter where there is. The wife one-quarter where there is no child and one-eighth where there is. Siblings on the mother's side one-sixth each, or one-third shared if more than two.
+  Down to: The heirs are taken in strict order of proximity. Where the first class is united there is no need to look beyond it, then the second, and only then the third.
+End state: the estate is exhausted. The rule of the layers is exclusionary rather than proportional, and the will reaches only a third because two-thirds already belong to the heirs before anyone writes anything.
+Note on the source: beyond these fractions the treatise carries pages of tabulated cases, schematic in the original, a legal table rather than prose, and the manuscript deteriorates there badly enough that only principles survive.
+Closing image the section opens on: wealth spent in the way of Allah is like a grain that sprouts seven ears, each ear containing a hundred grains, spoiled only by following the gift with reminder of it or with harm. A man goes on receiving wages after his death, so long as good works continue in his name.

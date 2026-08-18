@@ -1,0 +1,62 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "per-chapter",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 7,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PPC1",
+      "name": "every-chapter-has-an-episode",
+      "kind": "own",
+      "passed": true,
+      "note": "5 episode text(s) for 5 chapter(s)"
+    },
+    {
+      "gate": "PPC2",
+      "name": "completed-slugs-cover-contracts",
+      "kind": "own",
+      "passed": true,
+      "note": "all 5 chapter(s) recorded as shipped"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (152,494 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (154,577 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 92% of the source (27,856 of 30,172 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (11 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "5 chapter contract(s)"
+    }
+  ]
+}

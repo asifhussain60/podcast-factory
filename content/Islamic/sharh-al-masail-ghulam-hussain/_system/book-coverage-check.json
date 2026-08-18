@@ -1,0 +1,6 @@
+{
+  "schema": "book.coverage-check/v1",
+  "findings": [
+    "lines 1-94 (94 lines) not assigned to any chapter"
+  ]
+}
