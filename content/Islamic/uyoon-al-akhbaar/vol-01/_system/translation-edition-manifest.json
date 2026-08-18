@@ -615,6 +615,58 @@
       ],
       "source_words": 2880,
       "output_words": 3392
+    },
+    {
+      "index": 48,
+      "title": "Khuza'ah Calls for Help",
+      "chapter_file": "book/_chapters/ch48-khuza-ah-calls-for-help.txt",
+      "source_line_ranges": [
+        [
+          7138,
+          7302
+        ]
+      ],
+      "source_words": 2630,
+      "output_words": 2311
+    },
+    {
+      "index": 49,
+      "title": "On the Road to Mecca",
+      "chapter_file": "book/_chapters/ch49-on-the-road-to-mecca.txt",
+      "source_line_ranges": [
+        [
+          7303,
+          7409
+        ]
+      ],
+      "source_words": 1827,
+      "output_words": 2015
+    },
+    {
+      "index": 50,
+      "title": "Whoever Enters His House Is Safe",
+      "chapter_file": "book/_chapters/ch50-whoever-enters-his-house-is-safe.txt",
+      "source_line_ranges": [
+        [
+          7410,
+          7509
+        ]
+      ],
+      "source_words": 1590,
+      "output_words": 1667
+    },
+    {
+      "index": 51,
+      "title": "Breaking the Idols",
+      "chapter_file": "book/_chapters/ch51-breaking-the-idols.txt",
+      "source_line_ranges": [
+        [
+          7510,
+          7779
+        ]
+      ],
+      "source_words": 3315,
+      "output_words": 3485
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
