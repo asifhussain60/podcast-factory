@@ -693,6 +693,19 @@
       ],
       "source_words": 5996,
       "output_words": 5500
+    },
+    {
+      "index": 54,
+      "title": "Camels for the Newly Reconciled",
+      "chapter_file": "book/_chapters/ch54-camels-for-the-newly-reconciled.txt",
+      "source_line_ranges": [
+        [
+          8509,
+          8709
+        ]
+      ],
+      "source_words": 3034,
+      "output_words": 2774
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
