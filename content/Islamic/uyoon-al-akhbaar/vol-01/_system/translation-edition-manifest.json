@@ -173,6 +173,32 @@
       ],
       "source_words": 1724,
       "output_words": 1762
+    },
+    {
+      "index": 14,
+      "title": "By God, I Will Not Abandon You",
+      "chapter_file": "book/_chapters/ch14-by-god-i-will-not-abandon-you.txt",
+      "source_line_ranges": [
+        [
+          1430,
+          1517
+        ]
+      ],
+      "source_words": 1588,
+      "output_words": 1850
+    },
+    {
+      "index": 15,
+      "title": "The Long Poem of the Protector",
+      "chapter_file": "book/_chapters/ch15-the-long-poem-of-the-protector.txt",
+      "source_line_ranges": [
+        [
+          1518,
+          1878
+        ]
+      ],
+      "source_words": 3439,
+      "output_words": 3646
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"

@@ -63,3 +63,9 @@
 {"phase": "0book-compose", "step": "translation-bk-13-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "translation-bk-14-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-15", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-15-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-16", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-16-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
