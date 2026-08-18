@@ -540,6 +540,44 @@ def test_translation_edition_fails_on_model_commentary(tmp_path):
     assert "B4" in res["summary"]
 
 
+def test_translation_edition_fails_on_embedded_arabic_in_translation(tmp_path):
+    """RCA regression: sharh-al-masail-ghulam-hussain, 2026-08-18 — the compose
+    model duplicated fragments of a hadith's Arabic into its own English
+    translation line, on top of the full Arabic already shown separately."""
+    bd = _make_book(tmp_path, enable=False, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(
+            {"book_title": "T", "chapters": [{"title": f"Marriage and the Household {i}"} for i in range(1, 4)]}
+        ),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n"
+        + "".join(f"## {i}. Marriage and the Household {i}\nBody text " + ("x " * 220) + "\n" for i in range(1, 3))
+        + "## 3. Marriage and the Household 3\nBody text "
+        + ("x " * 220)
+        + "\n\n> اَلتَّاجِرُ الصَّدُوقُ يحشر يوم القيمة مع الصِّدِّيقِينَ\n>\n"
+        + '> "The truthful merchant — اَلتَّاجِرُ الصَّدُوقُ — is raised with الصِّدِّيقِينَ."\n',
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B10" in res["summary"], res["summary"]
+
+
 def test_translation_edition_fails_on_heading_only_chapter(tmp_path):
     bd = _make_book(tmp_path, chapters=1, md_sections=1, content_profile="islamic_scholarly")
     (bd / "_system" / "series-config.yaml").write_text(
