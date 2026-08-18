@@ -1,0 +1,12 @@
+slug: sharh-al-masail-ghulam-hussain
+title: "Sharh al-Masa'il"
+title_arabic: "شرح المسائل"
+author: "Sayyidna Ghulam Hussain"
+study_track: shariah
+source_pdf: _system/source/multi/pdf/sharh-al-masail-urdu.pdf
+
+series:
+  enable_book_branch: true
+
+publication:
+  status: draft
