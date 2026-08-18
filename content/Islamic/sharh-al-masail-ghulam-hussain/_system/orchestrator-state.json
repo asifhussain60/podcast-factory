@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0book-design",
+  "phase": "0book-render",
   "phase_status": "completed",
-  "last_completed_phase": "0book-design",
-  "next_phase": "0book-compose",
+  "last_completed_phase": "0book-render",
+  "next_phase": "reader-narration",
   "last_error": null,
   "human_overrides": [
     {
@@ -338,12 +338,12 @@
       "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "pending",
+      "status": "completed",
       "ts_started": "2026-08-18T11:32:48Z",
       "book_validation": {
         "slug": "sharh-al-masail-ghulam-hussain",
-        "verdict": "BOOK-BROKEN",
-        "summary": "B3 book-arabic-coverage: 5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (9 gates checked)",
         "gates": [
           {
             "gate": "B1",
@@ -355,13 +355,13 @@
             "gate": "B2",
             "name": "book-pdf-renderable",
             "passed": true,
-            "note": "book.pdf: 2226 KB, 125 pages ≥ 11 chapters"
+            "note": "book.pdf: 2228 KB, 125 pages ≥ 11 chapters"
           },
           {
             "gate": "B3",
             "name": "book-arabic-coverage",
-            "passed": false,
-            "note": "5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt"
+            "passed": true,
+            "note": "5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt — human override accepted (decided_by='Asif', reason=\"The book reached compose stage and the glossary now has real Arabic-script terms (13, up from 0), but most are marked harvested_confidence=weak by the tool's own scoring, and one checked term (dirham) is visibly wrong (در هما, not a real word). Injecting unverified Arabic into a religious text's per-chapter audio-bundle files risks shipping wrong script, worse than shipping none. Deferred to a dedicated review pass rather than injected now. Per Asif's 2026-08-18 decision.\") · translation-edition Arabic preservation signal: 2004 rendered Arabic runs from 16991 source runs"
           },
           {
             "gate": "B4",
@@ -396,10 +396,18 @@
           {
             "gate": "B9",
             "name": "articulation-complete",
-            "passed": false,
-            "note": "2 chapter(s) still not fully articulated and unresolved in articulation-reconcile.json: ['The Dignity of Earning Your Bread', 'Clean and Unclean: Meat, the Knife, and the Hunt'] — run reconcile_articulation.py"
+            "passed": true,
+            "note": "11 chapter(s) all articulated"
           }
         ]
+      },
+      "ts_completed": "2026-08-18T16:27:09Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 7,
+        "blocking_fail": null
       }
     },
     "reader-narration": {
@@ -425,7 +433,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T16:20:14Z",
+  "ts_updated": "2026-08-18T16:27:09Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -433,11 +441,10 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260818T162014Z-421f2f",
+  "run_id": "20260818T162709Z-1b2b4f",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
-    "finalize": 18,
-    "0book-render": 3
+    "finalize": 18
   }
 }
