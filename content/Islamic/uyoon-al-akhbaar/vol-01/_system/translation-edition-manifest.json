@@ -511,6 +511,110 @@
       ],
       "source_words": 1886,
       "output_words": 1634
+    },
+    {
+      "index": 40,
+      "title": "Amr ibn Abd Wudd Crosses the Ditch",
+      "chapter_file": "book/_chapters/ch40-amr-ibn-abd-wudd-crosses-the-ditch.txt",
+      "source_line_ranges": [
+        [
+          5776,
+          5913
+        ]
+      ],
+      "source_words": 2772,
+      "output_words": 2578
+    },
+    {
+      "index": 41,
+      "title": "Judgment on Banu Qurayza",
+      "chapter_file": "book/_chapters/ch41-judgment-on-banu-qurayza.txt",
+      "source_line_ranges": [
+        [
+          5914,
+          6186
+        ]
+      ],
+      "source_words": 2778,
+      "output_words": 3441
+    },
+    {
+      "index": 42,
+      "title": "Banu Lahyan, Dhu Qarad, and al-Muraysi",
+      "chapter_file": "book/_chapters/ch42-banu-lahyan-dhu-qarad-and-al-muraysi.txt",
+      "source_line_ranges": [
+        [
+          6187,
+          6341
+        ]
+      ],
+      "source_words": 2063,
+      "output_words": 2140
+    },
+    {
+      "index": 43,
+      "title": "A Quarrel at the Watering Place",
+      "chapter_file": "book/_chapters/ch43-a-quarrel-at-the-watering-place.txt",
+      "source_line_ranges": [
+        [
+          6342,
+          6397
+        ]
+      ],
+      "source_words": 1351,
+      "output_words": 1216
+    },
+    {
+      "index": 44,
+      "title": "The Treaty at Hudaybiyah",
+      "chapter_file": "book/_chapters/ch44-the-treaty-at-hudaybiyah.txt",
+      "source_line_ranges": [
+        [
+          6398,
+          6508
+        ]
+      ],
+      "source_words": 2708,
+      "output_words": 2634
+    },
+    {
+      "index": 45,
+      "title": "The Gate of Khaybar",
+      "chapter_file": "book/_chapters/ch45-the-gate-of-khaybar.txt",
+      "source_line_ranges": [
+        [
+          6509,
+          6690
+        ]
+      ],
+      "source_words": 2881,
+      "output_words": 3130
+    },
+    {
+      "index": 46,
+      "title": "Khaybar's Echo and the Compensatory Umrah",
+      "chapter_file": "book/_chapters/ch46-khaybar-s-echo-and-the-compensatory-umrah.txt",
+      "source_line_ranges": [
+        [
+          6691,
+          6818
+        ]
+      ],
+      "source_words": 1698,
+      "output_words": 1441
+    },
+    {
+      "index": 47,
+      "title": "Three Commanders at Mu'tah",
+      "chapter_file": "book/_chapters/ch47-three-commanders-at-mu-tah.txt",
+      "source_line_ranges": [
+        [
+          6819,
+          7137
+        ]
+      ],
+      "source_words": 2880,
+      "output_words": 3392
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
