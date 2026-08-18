@@ -680,6 +680,19 @@
       ],
       "source_words": 2173,
       "output_words": 1908
+    },
+    {
+      "index": 53,
+      "title": "Awtas, Ta'if, and the Siege That Failed",
+      "chapter_file": "book/_chapters/ch53-awtas-ta-if-and-the-siege-that-failed.txt",
+      "source_line_ranges": [
+        [
+          7937,
+          8508
+        ]
+      ],
+      "source_words": 5996,
+      "output_words": 5500
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
