@@ -329,6 +329,32 @@
       ],
       "source_words": 1398,
       "output_words": 1418
+    },
+    {
+      "index": 26,
+      "title": "Sermons, Brotherhood, and the New Community",
+      "chapter_file": "book/_chapters/ch26-sermons-brotherhood-and-the-new-community.txt",
+      "source_line_ranges": [
+        [
+          3322,
+          3423
+        ]
+      ],
+      "source_words": 1772,
+      "output_words": 1687
+    },
+    {
+      "index": 27,
+      "title": "First Raids and the Sacred Month",
+      "chapter_file": "book/_chapters/ch27-first-raids-and-the-sacred-month.txt",
+      "source_line_ranges": [
+        [
+          3424,
+          3548
+        ]
+      ],
+      "source_words": 1472,
+      "output_words": 1440
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
