@@ -1,0 +1,16 @@
+{
+  "vowelled": 7,
+  "marks_added": 28,
+  "already": 4,
+  "refused": 2,
+  "refusals": [
+    {
+      "term": "در هما",
+      "reason": "letters changed, not just marks (first difference at character 3: source \" هما\" vs proposal \"هم\")"
+    },
+    {
+      "term": "تفليسا",
+      "reason": "empty"
+    }
+  ]
+}

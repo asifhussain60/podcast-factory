@@ -2,7 +2,7 @@
   "book_title": "Al-Muhannadī: A Guide to Lawful Living",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "How This Book Came to India — and Why It Still Speaks",
     "source_line_ranges": [
       [
@@ -17,7 +17,7 @@
       "title": "The Dignity of Earning Your Bread",
       "source_line_ranges": [
         [
-          115,
+          95,
           142
         ]
       ],

@@ -1,0 +1,448 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 11,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Dignity of Earning Your Bread",
+      "base_words": 1347,
+      "output_words": 1347,
+      "windows": 13,
+      "windows_kept": 12,
+      "windows_cached": 0,
+      "windows_repaired": 3,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 12,
+      "status": "partial",
+      "gates": [
+        "reconcile-01-part-13: abridged re-voice (49<59 words)",
+        "reconcile-01-part-13: repair still failed: abridged re-voice (52<59 words)"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-01-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-12: protected source artifact copied verbatim",
+        "assembled chapter is partial \u2014 12/13 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"Tahsin ibn\" appears to be an incomplete name \u2014 the father's name is missing from the source, leaving the attribution unresolved."
+      ],
+      "comprehension_flags": [
+        "The phrase \"in the thirty-seventh year\" and \"the thirty-eighth year\" lack a reference era; a modern reader cannot determine which calendar or reign is meant."
+      ],
+      "terminology_notes": [
+        "al-Muhannadi \u2014 confirm standardized spelling and italicization policy for this title throughout the book."
+      ]
+    },
+    {
+      "title": "At the Table: Eating, Feeding, and Being Fed",
+      "base_words": 2234,
+      "output_words": 2163,
+      "windows": 7,
+      "windows_kept": 7,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 7,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-02-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-02-part-06: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source lists twelve Arabic-script runs as dropped, but names only three explicitly (\u0623\u0643\u0644, \u0625\u0644\u064a\u0647, \u0627\u0644\u0637\u0639\u0627\u0645); the remaining nine cannot be positioned without the original Arabic-annotated source, so only the three named runs have been restored here."
+      ],
+      "comprehension_flags": [
+        "\"Anoint him\" in the opening hadith likely refers to anointing with oil or perfume when the fasting guest cannot be fed \u2014 a modern reader may not recognize this practice without a note this pass is not authorized to add."
+      ],
+      "terminology_notes": []
+    },
+    {
+      "title": "Clean and Unclean: Meat, the Knife, and the Hunt",
+      "base_words": 2287,
+      "output_words": 2272,
+      "windows": 9,
+      "windows_kept": 8,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 8,
+      "status": "partial",
+      "gates": [
+        "reconcile-03-part-08: abridged re-voice (70<77 words)",
+        "reconcile-03-part-08: repair still failed: abridged re-voice (68<77 words)"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-03-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-03-part-02: protected source artifact copied verbatim",
+        "reconcile-03-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-03-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-03-part-07: protected source artifact copied verbatim",
+        "assembled chapter is partial \u2014 8/9 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The phrase \"everything that has a crop\" (regarding lawful birds) refers to the bird's crop \u2014 a pouch in the digestive tract \u2014 which a modern reader may not recognize as a legal criterion without a note."
+      ],
+      "terminology_notes": [
+        "\"Magians\" \u2014 confirm this is the book's established rendering for Zoroastrians and standardize accordingly."
+      ]
+    },
+    {
+      "title": "The Anatomy of a Sale",
+      "base_words": 1223,
+      "output_words": 1180,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"Something depicted on an animal's back\" is an obscure phrase that may refer to an unborn animal gestured at on the mother's body, or to markings \u2014 the precise juristic referent is unclear from the English alone."
+      ],
+      "comprehension_flags": [
+        "\"Arrested asset\" (property under legal restraint) and the prohibition on a blind person as a contracting party may puzzle modern readers without the brief juristic context this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "\"serious transactor\" (source) \u2014 rendered here as \"competent transactor\"; this term should be standardized book-wide to whichever rendering the editors prefer."
+      ]
+    },
+    {
+      "title": "Lending Without Riba",
+      "base_words": 2273,
+      "output_words": 2154,
+      "windows": 6,
+      "windows_kept": 6,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-05-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 9,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"the Shaykh\" is cited without identification; if this figure has been named earlier in the chapter, the book-wide rendering of his name and title should be confirmed."
+      ],
+      "comprehension_flags": [
+        "The phrase \"reads the Quran\" as a criterion for the orphan's maturity likely means has completed or memorized the Quran \u2014 a traditional marker of readiness \u2014 and may puzzle modern readers without that context."
+      ],
+      "terminology_notes": [
+        "dhimmi \u2014 confirm book-wide spelling and whether a gloss is provided elsewhere, as a modern general reader may not know the term.",
+        "*dowry* \u2014 the source uses this word for what Islamic law would more precisely call the *mahr* (the husband's obligatory gift to the wife); if the book uses a more precise rendering elsewhere, standardize accordingly."
+      ]
+    },
+    {
+      "title": "Trusts, Pledges, and Shared Walls",
+      "base_words": 3969,
+      "output_words": 3731,
+      "windows": 7,
+      "windows_kept": 7,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 7,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-06-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-06-part-05: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The phrase \"whether what is hired is a mount ridden upon another conveyance or for some other purpose\" is opaque \u2014 it may refer to a fiqh distinction between an animal used in relay with another vehicle versus one used independently, but the precise legal meaning is not clear from the English alone."
+      ],
+      "comprehension_flags": [
+        "\"That is the field of the believer\" is an idiomatic expression whose meaning \u2014 that trade and commerce are the proper domain of the believer \u2014 may not be immediately apparent to a modern reader.",
+        "\"Haruri\" is a term for the Khawarij sect and may be unfamiliar to general readers without a note this pass is not authorized to add.",
+        "The phrase \"apportioned by planting when its parts are equal\" in the second kind of division is obscure to a modern reader and likely refers to a technical legal method (possibly lot-drawing or physical demarcation by stakes); a footnote may be warranted."
+      ],
+      "terminology_notes": [
+        "\"pre-emption\" (shuf'a) \u2014 confirm book-wide rendering is consistently \"pre-emption\" rather than \"preemption\" or \"right of first refusal.\"",
+        "\"deposit\" / \"trust\" \u2014 the source uses both for the same Arabic concept (amana/wadi'a); a book-wide decision on which English term covers which Arabic term would aid consistency.",
+        "\"division by trial\" \u2014 the source's term for the second type of land division is unusual; a book-wide decision on whether to gloss or retain this rendering should be made consistently across chapters treating division of property."
+      ]
+    },
+    {
+      "title": "Why Marry at All",
+      "base_words": 3394,
+      "output_words": 3158,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 2,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-07-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-07-part-07: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source verse citation renders \"God is Vast and Knowing\" but the Arabic in the failed candidate showed \ufd3f\u0648\u064e\u0627\u0644\u0644\u0647\u064f \u0648\u064e\u0627\u0633\u0650\u0639\u064c \u0639\u0644\u064a\u0645\ufd3e \u2014 it is unclear whether \u0627\u0644\u0644\u0647 and \u0639\u0644\u064a\u0645\ufd3e are the full Arabic the source intended or only partial fragments; the repair restores them as they appeared in the failed candidate alongside the English rendering."
+      ],
+      "comprehension_flags": [
+        "\"The children of the bathhouses\" is an idiom whose meaning \u2014 likely illegitimate children abandoned at foundling institutions \u2014 will not be immediately clear to modern readers, but the contract does not authorize an explanatory addition.",
+        "\"The riding of appetites\" is a translated Arabic idiom for indulging carnal desires; a modern reader may find it opaque, but the contract does not authorize a gloss."
+      ],
+      "terminology_notes": [
+        "\"magnification of God\" (source wording) \u2014 rendered here as \"reverence for God Almighty\"; if this term (likely translating \u062a\u0639\u0638\u064a\u0645) recurs elsewhere in the book, the rendering should be standardized consistently across all occurrences."
+      ]
+    },
+    {
+      "title": "Choosing Well, Looking Rightly",
+      "base_words": 3908,
+      "output_words": 3681,
+      "windows": 5,
+      "windows_kept": 5,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 5,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-08-part-04: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"The rope of Muhammad\" in the hadith listing five sources of happiness is an unusual phrase that modern readers may not recognize; it likely refers to adherence to the Prophet's way or community bond, but the source gives no gloss.",
+        "\"Marry the fair-eyed\" may puzzle readers \u2014 the term appears to denote a specific physical trait (large, bright eyes regarded as beautiful) but the source does not explain it.",
+        "\"The state of consecration\" (ihram) \u2014 the ritual state entered upon beginning the Hajj pilgrimage \u2014 may not be immediately clear to general readers unfamiliar with Islamic law."
+      ],
+      "terminology_notes": [
+        "\"common man\" / \"common people\" \u2014 in context this refers to those outside the specific believing community described, not to social class in a general sense; standardizing this rendering book-wide would help clarity.",
+        "\"Kinship of lineage\" and \"kinship of affinity\" appear to render the classical Arabic legal pair nasab and musahara; the book-wide rendering of these two terms should be standardized."
+      ]
+    },
+    {
+      "title": "The Contract: Forbidden Degrees, Guardians, and the Bride-Price",
+      "base_words": 2291,
+      "output_words": 2194,
+      "windows": 12,
+      "windows_kept": 12,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 12,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-09-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-09-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-09-part-12: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The furthest point from puberty is the age of *musahara*\" is opaque \u2014 it is unclear whether this means *musahara* represents the earliest or latest boundary of guardianship, or something else entirely.",
+        "\"when the number exceeds thirteen\" has no clear referent in context and may be a corrupted or incomplete transmission of the source argument."
+      ],
+      "comprehension_flags": [
+        "The sentence \"Guardianship in marriage belongs to no one other than the father \u2014 where one can be found \u2014 or his duly appointed agent\" may puzzle readers, as the source's phrasing (\"No one denies guardianship\u2026except the father\") is ambiguous about whether the father holds or withholds guardianship.",
+        "\"the one who has assumed authority\" (rendered from \"the one who has usurped authority\" in the source) is opaque \u2014 the source may refer to a specific legal figure such as the judge or guardian, and a book-wide ruling on this phrase would help consistency."
+      ],
+      "terminology_notes": [
+        "*musahara* \u2014 confirm the book-wide rendering; used here as \"affinity by marriage.\"",
+        "*rajah* \u2014 should be standardized book-wide as *rajah* (the husband's right of revocable return during the waiting period)."
+      ]
+    },
+    {
+      "title": "Milk, Maintenance, and the Untying of a Marriage",
+      "base_words": 3655,
+      "output_words": 3593,
+      "windows": 12,
+      "windows_kept": 12,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 4,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 12,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-10-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-10-part-04: protected source artifact copied verbatim",
+        "fluency-10-part-06: protected source artifact copied verbatim",
+        "fluency-10-part-09: protected source artifact copied verbatim",
+        "fluency-10-part-11: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage states that breastfeeding conducted \"through a proper nursing arrangement\" does not establish prohibited degrees of kinship, which appears to contradict the chapter's central premise; it is unclear whether the source intends \"does not\" or \"does\" in this sentence, and the wording has been preserved unchanged pending verification.",
+        "The source names \"five categories\" of wives exempt from the conditions but enumerates only four; it is unclear whether a fifth item was omitted in transmission."
+      ],
+      "comprehension_flags": [
+        "\"The milk of the sire creates prohibition\" is an Islamic legal concept that a modern reader may not understand without background knowledge of how the husband's role in producing the milk extends milk-kinship prohibitions through the paternal line.",
+        "\"the period was one of sitting in marriage\" is an opaque phrase in the source; it has been rendered as \"the kind in which the couple lived together,\" but the precise technical sense may differ and could warrant a footnote in the final edition."
+      ],
+      "terminology_notes": [
+        "\"the person responsible for the newborn/child\" \u2014 a consistent English rendering should be established book-wide for the Arabic legal term (likely wal\u012b or father) to avoid variation across chapters."
+      ]
+    },
+    {
+      "title": "What Outlives You: Charity, Endowment, and Inheritance",
+      "base_words": 3811,
+      "output_words": 3812,
+      "windows": 13,
+      "windows_kept": 13,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 13,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-11-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-11-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-11-part-05: protected source artifact copied verbatim",
+        "reconcile-11-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-11-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-11-part-11: protected source artifact copied verbatim",
+        "reconcile-11-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-11-part-13: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source window for this passage consists entirely of Arabic-script placeholders with no English prose to articulate; it is unclear whether English connective or expository text was lost in preprocessing or whether the passage is wholly Arabic at this point in the source."
+      ],
+      "comprehension_flags": [
+        "\"The person named is then assessed\" may be opaque to modern readers \u2014 the source does not clarify what the assessment entails or by whom it is conducted.",
+        "A modern reader will receive no English-language exposition here until the placeholders are restored and any surrounding English prose is confirmed present.",
+        "\"The third \u2014 the deceased's own share\" refers to the Islamic rule that a person may bequeath only up to one-third of their estate; a modern reader unfamiliar with this principle may not follow why \"the third\" is set aside as a distinct portion before the heirs divide the remainder.",
+        "\"The ransom of any outstanding fast or pilgrimage\" refers to the fidya \u2014 a compensatory payment made on behalf of a deceased person who died with unfulfilled religious obligations; a brief note or glossary entry may help readers who do not know the term."
+      ],
+      "terminology_notes": [
+        "No English terms appear in this window to standardize.",
+        "\"milk-mother,\" \"milk-sister,\" \"milk-aunt,\" etc. \u2014 confirm book-wide rendering for relations established by nursing (sometimes rendered \"foster-mother,\" \"foster-sister\"); the current pass uses the \"milk-\" prefix throughout and that should be standardized across chapters."
+      ]
+    }
+  ]
+}

@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0book-design",
+  "phase": "0book-compose",
   "phase_status": "completed",
-  "last_completed_phase": "0book-design",
-  "next_phase": "0book-compose",
+  "last_completed_phase": "0book-compose",
+  "next_phase": "0book-illustrate",
   "last_error": null,
   "human_overrides": [
     {
@@ -309,10 +309,17 @@
       }
     },
     "0book-compose": {
-      "status": "failed",
+      "status": "completed",
       "ts_started": "2026-08-17T20:53:14Z",
-      "ts_completed": "2026-08-18T09:49:27Z",
-      "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings."
+      "ts_completed": "2026-08-18T11:32:42Z",
+      "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings.",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 11,
+        "blocking_fail": null
+      }
     },
     "0book-illustrate": {
       "status": "pending"
@@ -346,7 +353,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T09:51:40Z",
+  "ts_updated": "2026-08-18T11:32:42Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -358,7 +365,6 @@
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
-    "finalize": 18,
-    "0book-compose": 24
+    "finalize": 18
   }
 }

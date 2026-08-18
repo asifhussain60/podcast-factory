@@ -1,0 +1,76 @@
+{
+  "schema": "podcast.articulation-reconcile/v1",
+  "chapters": {
+    "The Dignity of Earning Your Bread": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-01-part-13: abridged re-voice (53<59 words)",
+            "fluency-01-part-13: repair still failed: abridged re-voice (54<59 words)"
+          ],
+          "at": "2026-08-18T11:12:45.486728+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-01-part-13: abridged re-voice (49<59 words)",
+            "reconcile-01-part-13: repair still failed: abridged re-voice (52<59 words)"
+          ],
+          "at": "2026-08-18T11:25:30.771688+00:00"
+        }
+      ]
+    },
+    "Clean and Unclean: Meat, the Knife, and the Hunt": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-03-part-08: abridged re-voice (72<77 words)",
+            "fluency-03-part-08: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved",
+            "fluency-03-part-08: repair still failed: abridged re-voice (69<77 words)",
+            "fluency-03-part-08: repair still failed: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved"
+          ],
+          "at": "2026-08-18T11:12:45.487844+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-03-part-08: abridged re-voice (70<77 words)",
+            "reconcile-03-part-08: repair still failed: abridged re-voice (68<77 words)"
+          ],
+          "at": "2026-08-18T11:25:30.773278+00:00"
+        }
+      ]
+    },
+    "What Outlives You: Charity, Endowment, and Inheritance": {
+      "resolved": true,
+      "needs_human": false,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-11-part-02: abridged re-voice (28<41 words)",
+            "fluency-11-part-02: repair still failed: abridged re-voice (28<41 words)"
+          ],
+          "at": "2026-08-18T11:12:45.488385+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "adapted",
+          "gate_findings": [],
+          "at": "2026-08-18T11:25:30.774479+00:00"
+        }
+      ]
+    }
+  }
+}

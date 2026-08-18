@@ -1,0 +1,191 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 16,
+    "prophet-wrong-honorific": 2,
+    "translation-outside-card": 2,
+    "translation-leads-a-paragraph": 2,
+    "translation-fused-with-prose": 3,
+    "bare-arabic": 7,
+    "orphaned-heading": 0,
+    "stale-provenance": 1
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [],
+    "english-rtl": [],
+    "romanized-arabic": [],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [],
+    "honorific-overuse": [
+      [
+        "2. At the Table: Eating, Feeding, and Being Fed",
+        "Al-Hasan",
+        3
+      ],
+      [
+        "2. At the Table: Eating, Feeding, and Being Fed",
+        "Ali",
+        3
+      ],
+      [
+        "2. At the Table: Eating, Feeding, and Being Fed",
+        "Hasan",
+        2
+      ],
+      [
+        "2. At the Table: Eating, Feeding, and Being Fed",
+        "Jafar ibn Muhammad",
+        2
+      ],
+      [
+        "3. Clean and Unclean: Meat, the Knife, and the Hunt",
+        "Jafar ibn Muhammad",
+        4
+      ],
+      [
+        "3. Clean and Unclean: Meat, the Knife, and the Hunt",
+        "Ali",
+        2
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "Sadiq",
+        4
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "Messenger of Allah",
+        3
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "(no name attached)",
+        2
+      ],
+      [
+        "7. Why Marry at All",
+        "Ali",
+        2
+      ],
+      [
+        "7. Why Marry at All",
+        "Sadiq",
+        2
+      ],
+      [
+        "8. Choosing Well, Looking Rightly",
+        "Ali",
+        3
+      ],
+      [
+        "8. Choosing Well, Looking Rightly",
+        "Jafar ibn Muhammad",
+        2
+      ],
+      [
+        "10. Milk, Maintenance, and the Untying of a Marriage",
+        "Ali",
+        3
+      ],
+      [
+        "11. What Outlives You: Charity, Endowment, and Inheritance",
+        "Sadiq",
+        3
+      ],
+      [
+        "11. What Outlives You: Charity, Endowment, and Inheritance",
+        "Ali ibn Abi Talib",
+        2
+      ]
+    ],
+    "prophet-wrong-honorific": [
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "the Messenger of Allah (ع)"
+      ]
+    ],
+    "translation-outside-card": [
+      [
+        "10. Milk, Maintenance, and the Untying of a Marriage",
+        "God Almighty said: *\"Those of you who die and leave behind wives, they shall wait four months and ten days. And divorced women shall wait three menstrual cycles. As for those of your women who have despaired of menstruation, if you are in doubt, their waiting period is three months, and likewise those who have not menstruated. And those who are pregnant, their term is that they deliver, even if it be an hour after the divorce.\"*"
+      ],
+      [
+        "11. What Outlives You: Charity, Endowment, and Inheritance",
+        "God Almighty said: \"It is prescribed for you, when death approaches أَحَدُكُمْ إِذَا and he leaves behind wealth, that he make a bequest for parents and near relatives in the proper manner, a duty upon the God-fearing.\""
+      ]
+    ],
+    "translation-leads-a-paragraph": [
+      [
+        "1. The Dignity of Earning Your Bread",
+        "\"Have you gained understanding in the religion of God?\""
+      ],
+      [
+        "11. What Outlives You: Charity, Endowment, and Inheritance",
+        "The verse reads: \"The example of those who spend their wealth in the way of God is like a grain that sprouts seven ears, in every ear a hundred grains. And God multiplies for whom He wills, and God is Vast and Knowing.\""
+      ]
+    ],
+    "translation-fused-with-prose": [
+      [
+        "1. The Dignity of Earning Your Bread",
+        "\"I will not supplicate for you. Seek, as you have been commanded.\" Then he said:"
+      ],
+      [
+        "1. The Dignity of Earning Your Bread",
+        "\"It befits the Muslim to seek his رزق until the heat of الشمس reaches him.\" ان"
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "\"O you who believe, when you contract a debt for a stated term, write it down,\" to His words, \"And if you are upon a journey and find no scribe, then a pledge taken in hand.\""
+      ]
+    ],
+    "bare-arabic": [
+      [
+        "1. The Dignity of Earning Your Bread",
+        "اَلتَّاجِرُ الصَّدُوقُ يحشر يوم القيمة مع الصِّدِّيقِينَ والشهداء"
+      ],
+      [
+        "1. The Dignity of Earning Your Bread",
+        "انه يكره للرجل السرى ان يحمل الشئ الدنى لئلا يجترىء عليه احد"
+      ],
+      [
+        "5. Lending Without Riba",
+        "صلى الله عليه وآله وسلم"
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "رضي الله عنه"
+      ],
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "يا أيها الذين آمنوا إذا تداينتم بدين إلى أجل مسمى فاكتبوه"
+      ],
+      [
+        "8. Choosing Well, Looking Rightly",
+        "يا آدم اسكن أنت وزوجك الجنة وكلا منها رغدًا حيث شئتما ولا تقربا هذه الشجرة فتكونا من الظالمين"
+      ],
+      [
+        "8. Choosing Well, Looking Rightly",
+        "يا أيها النبي قل لأزواجك وبناتك ونساء المؤمنين يدنين عليهن من جلابيبهن ذلك أدنى أن يعرفن فلا يؤذين"
+      ]
+    ],
+    "orphaned-heading": [],
+    "stale-provenance": [
+      [
+        "6. Trusts, Pledges, and Shared Walls",
+        "رضي الله عنه"
+      ]
+    ]
+  }
+}
