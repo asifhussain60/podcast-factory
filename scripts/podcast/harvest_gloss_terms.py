@@ -37,6 +37,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _gloss_terms import _looks_english, gloss_candidates, normalize_term
 from _glossary_io import load_glossary, save_glossary
+from _islamic_names import name_candidates
 
 #: Written beside the glossary so a re-compose does not re-harvest. Same idiom as
 #: `_system/etymology-report.json`: the harvest is cheap, but `fill_glossary_arabic`
@@ -77,8 +78,23 @@ def harvest(book_dir: Path) -> dict:
     # filter is right for the candidate list; what is WRITTEN to the glossary
     # must be stricter.
     new = [c for c in candidates if normalize_term(c["term"]) not in known and not _looks_english(c["term"])]
+
+    # SECOND, INDEPENDENT SOURCE: curated proper names (`_islamic_names`).
+    # `gloss_candidates` above can only ever find a term the SOURCE glosses
+    # parenthetically — a translator almost never does that for a well-known
+    # name, so "al-Husayn ibn 'Ali" reached a finished, published-ready book
+    # with zero glossary entries for any Ahl al-Bayt or Companion name at all
+    # (RCA: sharh-al-masail-ghulam-hussain, 2026-08-18). These candidates
+    # already carry their `arabic_script` (curated, not model-recalled) —
+    # `apply()` below writes it straight through, the same zero-cost,
+    # zero-recall path `corpus_fill` uses for Qur'anic terms.
+    name_new = [
+        c for c in name_candidates(book_md.read_text(encoding="utf-8")) if normalize_term(c["term"]) not in known
+    ]
+    new = new + name_new
+
     return {
-        "candidates": len(candidates),
+        "candidates": len(candidates) + len(name_new),
         "known": len(known),
         "new": new,
         "entries": entries,
@@ -87,7 +103,14 @@ def harvest(book_dir: Path) -> dict:
 
 
 def apply(book_dir: Path, plan: dict) -> int:
-    """Append the new terms as empty-script rows. Returns how many were added."""
+    """Append the new terms as rows. Returns how many were added.
+
+    Most candidates arrive with an empty ``arabic_script`` — `fill_glossary_arabic.py`
+    fills it next. A curated `_islamic_names` candidate already carries its
+    script and is written straight through, same as `corpus_fill`'s output: a
+    deterministic, provenance-grounded value is never routed through a fill
+    pass that could only ever match or degrade it.
+    """
     if not plan["new"]:
         return 0
     entries = list(plan["entries"])
@@ -99,7 +122,7 @@ def apply(book_dir: Path, plan: dict) -> int:
             {
                 "phonetic": c["term"],
                 "transliteration": c["term"],
-                "arabic_script": "",
+                "arabic_script": str(c.get("arabic_script") or ""),
                 "audio_phonetic": "",
                 "first_seen_snippet": c["first_seen_snippet"][:160],
                 "harvested_confidence": c["confidence"],

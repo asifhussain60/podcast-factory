@@ -39,6 +39,10 @@ reproducible on identical input:
                           ``_system/compose-skips.json``.
   B9  articulation-complete — no chapter left stuck partial/reverted with open
                           reconcile debt (``_articulation_reconcile``).
+  B10 translation-purity — an English translation of a quoted verse or saying
+                          must carry no Arabic embedded mid-sentence; the
+                          Arabic belongs in its own quotation block, once
+                          (``_book_translation_purity``).
 
 USAGE
 
@@ -431,6 +435,40 @@ def gate_b8_compose_completed_every_step(book_dir: Path) -> tuple[bool, str]:
     return verdict(book_dir)
 
 
+def gate_b10_translation_purity(book_dir: Path) -> tuple[bool, str]:
+    """Reject Arabic embedded mid-sentence inside an English translation line.
+
+    RCA (sharh-al-masail-ghulam-hussain, 2026-08-18): a hadith's Arabic already
+    sits in its own quotation block, vowelled and complete — the translation
+    line beneath it must be clean English. Told to "preserve Arabic script"
+    and to preserve every quoted hadith, the compose model sometimes satisfies
+    both by duplicating fragments of the Arabic into the English rendering
+    itself. Scoped to translation editions, same as B4: the once-per-book
+    inline-annotation convention (`the ranks (حُدُود)`) is a DIFFERENT,
+    deliberate mechanism this gate never flags — see
+    `_book_translation_purity`'s own docstring for the exact boundary.
+    """
+    try:
+        from _translation_edition import is_faithful_translation_deliverable
+
+        if not is_faithful_translation_deliverable(book_dir):
+            return True, "n/a (not a translation edition)"
+    except Exception as e:
+        return False, f"translation-purity check unavailable: {e}"
+
+    from _book_translation_purity import translation_purity_findings
+
+    md = _pick_book_md(book_dir)
+    if not md.exists():
+        return False, f"render input missing ({md.name})"
+    findings = translation_purity_findings(md.read_text(encoding="utf-8", errors="replace"))
+    if findings:
+        shown = "; ".join(findings[:4])
+        more = f"; +{len(findings) - 4} more" if len(findings) > 4 else ""
+        return False, shown + more
+    return True, f"{md.name}: no Arabic embedded in an English translation line"
+
+
 def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     """Run B1-B8 and return a verdict dict."""
     book_dir = Path(book_dir).resolve()
@@ -494,6 +532,11 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     gates.append({"gate": "B9", "name": "articulation-complete", "passed": ok9, "note": why9})
     if not ok9:
         blocking_fail = blocking_fail or f"B9 articulation-complete: {why9}"
+
+    ok10, why10 = gate_b10_translation_purity(book_dir)
+    gates.append({"gate": "B10", "name": "translation-purity", "passed": ok10, "note": why10})
+    if not ok10:
+        blocking_fail = blocking_fail or f"B10 translation-purity: {why10}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail
