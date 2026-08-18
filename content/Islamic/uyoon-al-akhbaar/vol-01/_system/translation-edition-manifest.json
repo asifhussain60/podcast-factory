@@ -69,6 +69,110 @@
       ],
       "source_words": 951,
       "output_words": 1199
+    },
+    {
+      "index": 6,
+      "title": "The Elephant and the Well",
+      "chapter_file": "book/_chapters/ch06-the-elephant-and-the-well.txt",
+      "source_line_ranges": [
+        [
+          528,
+          690
+        ]
+      ],
+      "source_words": 2494,
+      "output_words": 2373
+    },
+    {
+      "index": 7,
+      "title": "Abd al-Muttalib and the Hundred Camels",
+      "chapter_file": "book/_chapters/ch07-abd-al-muttalib-and-the-hundred-camels.txt",
+      "source_line_ranges": [
+        [
+          691,
+          825
+        ]
+      ],
+      "source_words": 1634,
+      "output_words": 2115
+    },
+    {
+      "index": 8,
+      "title": "A Light Born in the Year of the Elephant",
+      "chapter_file": "book/_chapters/ch08-a-light-born-in-the-year-of-the-elephant.txt",
+      "source_line_ranges": [
+        [
+          826,
+          950
+        ]
+      ],
+      "source_words": 1327,
+      "output_words": 1813
+    },
+    {
+      "index": 9,
+      "title": "The Orphan and His Grandfather",
+      "chapter_file": "book/_chapters/ch09-the-orphan-and-his-grandfather.txt",
+      "source_line_ranges": [
+        [
+          951,
+          1097
+        ]
+      ],
+      "source_words": 1318,
+      "output_words": 1786
+    },
+    {
+      "index": 10,
+      "title": "Bahira Sees the Sign",
+      "chapter_file": "book/_chapters/ch10-bahira-sees-the-sign.txt",
+      "source_line_ranges": [
+        [
+          1098,
+          1229
+        ]
+      ],
+      "source_words": 1466,
+      "output_words": 1896
+    },
+    {
+      "index": 11,
+      "title": "Born in the Ka'bah, Raised Beside Him",
+      "chapter_file": "book/_chapters/ch11-born-in-the-ka-bah-raised-beside-him.txt",
+      "source_line_ranges": [
+        [
+          1230,
+          1302
+        ]
+      ],
+      "source_words": 1175,
+      "output_words": 965
+    },
+    {
+      "index": 12,
+      "title": "Khadijah Proposes",
+      "chapter_file": "book/_chapters/ch12-khadijah-proposes.txt",
+      "source_line_ranges": [
+        [
+          1303,
+          1366
+        ]
+      ],
+      "source_words": 781,
+      "output_words": 939
+    },
+    {
+      "index": 13,
+      "title": "Tuesday: The First to Believe",
+      "chapter_file": "book/_chapters/ch13-tuesday-the-first-to-believe.txt",
+      "source_line_ranges": [
+        [
+          1367,
+          1429
+        ]
+      ],
+      "source_words": 1724,
+      "output_words": 1762
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
