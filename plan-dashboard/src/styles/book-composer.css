@@ -1725,11 +1725,13 @@ body:has(.composer-grid) .to-top {
      still just the number 1.45, recomputed here exactly the same way.
      Dividing 1.45 by the term's own scale is what actually cancels it —
      see --q-ar-inline-scale's own comment in quote-typography.css. */
-  line-height: calc(1.45 / var(--q-ar-inline-scale, 1.26));
-  /* --q-ar-inline-size, default 1.26em, chosen by Asif on 2026-08-02 from three
+  line-height: calc(1.45 / var(--q-ar-inline-scale, 1.1));
+  /* --q-ar-inline-size was 1.26em, chosen by Asif on 2026-08-02 from three
      candidates rendered side by
      side in this very paragraph (1.10 / 1.18 / 1.26); he picked the honorific
-     `عَلَيْهِمُ السَّلَامُ` at the largest.
+     `عَلَيْهِمُ السَّلَامُ` at the largest. Reset to 1.1em on 2026-08-18 to match
+     `.reader .ar-inline` in the Podcast Factory Library exactly — see the
+     token's own current comment in quote-typography.css for why.
 
      This does NOT reinstate the `size-adjust: 135%` these faces carried until
      2026-07-31, and the distinction matters. That descriptor scaled the FACE, so

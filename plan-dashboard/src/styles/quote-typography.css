@@ -230,11 +230,22 @@
      `--q-ar-inline-scale` below, a bare-number twin of this value each
      consuming rule uses to compute a line-height that CANCELS the term's own
      bigger font-size back down to the paragraph's own line box, instead of
-     shrinking the term to make the overshoot smaller. */
-  --q-ar-inline-size: 1.15em;
+     shrinking the term to make the overshoot smaller.
+
+     Set to 1.1em (Asif, 2026-08-18), matching `.reader .ar-inline`'s fixed
+     1.1em in the Podcast Factory Library's podcast-factory.css exactly. The
+     Library carries no per-book override for this token at all, so a book
+     read there always shows inline Arabic at 1.1em regardless of what its
+     own citation-style.json requests — meaning the Composer's STANDARD step
+     is the only place "what the author sees" and "what the reader gets" can
+     ever agree, and until this change they did not (1.15em here vs 1.1em
+     there). The larger/compact per-book steps below still exist for the
+     Composer/PDF's own reading edition, where a step really does render
+     differently on the page — they were never the mismatch being closed. */
+  --q-ar-inline-size: 1.1em;
   /* The bare-number twin of --q-ar-inline-size above, same value with no
      unit. calc() can only divide two <number>s, not two lengths, so a
-     consuming rule cannot derive "1.26" back out of "1.26em" — it has to be
+     consuming rule cannot derive "1.1" back out of "1.1em" — it has to be
      handed the number directly. Every consumer that scales this term's
      font-size (book-composer.css, book-print.css) reads this alongside
      --q-ar-inline-size and computes `line-height: calc(<its own paragraph
@@ -242,7 +253,7 @@
      makes the term's own line box equal its paragraph's, whatever size step
      is active. (book-reader.css never scales this term's font-size at all —
      "at the body size" — so it has no blowout and needs no compensation.) */
-  --q-ar-inline-scale: 1.15;
+  --q-ar-inline-scale: 1.1;
   /* Inline Arabic in running English keeps the same regular weight as display
      Arabic. The Arabic face, size, colour and bidi isolation already set it
      apart; bold script reads like emphasis the author did not ask for.
