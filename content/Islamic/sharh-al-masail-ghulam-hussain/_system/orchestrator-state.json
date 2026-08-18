@@ -19,6 +19,12 @@
       "reason": "No glossary entries carry Arabic script (build_glossary.py's input file has had no writer since 2026-06-08; its replacement needs a composed book.md that doesn't exist at this stage). Accepted as a deferred gap per Asif's 2026-08-17 decision; see _system/source-notes.md. Arabic injection runs automatically at the book-compose stage regardless of this per-chapter gap.",
       "decided_by": "Asif",
       "decided_at": "2026-08-17T20:50:00Z"
+    },
+    {
+      "gate": "B3",
+      "reason": "The book reached compose stage and the glossary now has real Arabic-script terms (13, up from 0), but most are marked harvested_confidence=weak by the tool's own scoring, and one checked term (dirham) is visibly wrong (در هما, not a real word). Injecting unverified Arabic into a religious text's per-chapter audio-bundle files risks shipping wrong script, worse than shipping none. Deferred to a dedicated review pass rather than injected now. Per Asif's 2026-08-18 decision.",
+      "decided_by": "Asif",
+      "decided_at": "2026-08-18T11:40:00Z"
     }
   ],
   "phases": {
@@ -424,7 +430,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T11:33:12Z",
+  "ts_updated": "2026-08-18T11:33:46Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -436,6 +442,7 @@
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
-    "finalize": 18
+    "finalize": 18,
+    "0book-render": 1
   }
 }
