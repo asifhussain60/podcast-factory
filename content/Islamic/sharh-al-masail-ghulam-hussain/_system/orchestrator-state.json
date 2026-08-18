@@ -305,7 +305,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-08-17T20:52:34Z",
-      "ts_completed": "2026-08-18T15:57:51Z",
+      "ts_completed": "2026-08-18T16:20:14Z",
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -338,9 +338,8 @@
       "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "failed",
+      "status": "pending",
       "ts_started": "2026-08-18T11:32:48Z",
-      "ts_completed": "2026-08-18T11:33:12Z",
       "book_validation": {
         "slug": "sharh-al-masail-ghulam-hussain",
         "verdict": "BOOK-BROKEN",
@@ -426,7 +425,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T15:57:51Z",
+  "ts_updated": "2026-08-18T16:20:14Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -434,11 +433,11 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260818T155751Z-f234f4",
+  "run_id": "20260818T162014Z-421f2f",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
     "finalize": 18,
-    "0book-render": 2
+    "0book-render": 3
   }
 }
