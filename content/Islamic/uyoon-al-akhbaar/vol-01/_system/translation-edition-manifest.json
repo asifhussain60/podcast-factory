@@ -446,6 +446,71 @@
       ],
       "source_words": 2676,
       "output_words": 2483
+    },
+    {
+      "index": 35,
+      "title": "Hamra al-Asad and the Roll of the Fallen",
+      "chapter_file": "book/_chapters/ch35-hamra-al-asad-and-the-roll-of-the-fallen.txt",
+      "source_line_ranges": [
+        [
+          4773,
+          5177
+        ]
+      ],
+      "source_words": 3083,
+      "output_words": 3194
+    },
+    {
+      "index": 36,
+      "title": "Betrayal at al-Raji and Bir Ma'unah",
+      "chapter_file": "book/_chapters/ch36-betrayal-at-al-raji-and-bir-ma-unah.txt",
+      "source_line_ranges": [
+        [
+          5178,
+          5406
+        ]
+      ],
+      "source_words": 2359,
+      "output_words": 2699
+    },
+    {
+      "index": 37,
+      "title": "Expelling Banu al-Nadir",
+      "chapter_file": "book/_chapters/ch37-expelling-banu-al-nadir.txt",
+      "source_line_ranges": [
+        [
+          5407,
+          5562
+        ]
+      ],
+      "source_words": 1521,
+      "output_words": 1772
+    },
+    {
+      "index": 38,
+      "title": "Dhat al-Riqa, Badr al-Akhirah, and a Mother Buried",
+      "chapter_file": "book/_chapters/ch38-dhat-al-riqa-badr-al-akhirah-and-a-mother-buried.txt",
+      "source_line_ranges": [
+        [
+          5563,
+          5658
+        ]
+      ],
+      "source_words": 1585,
+      "output_words": 1434
+    },
+    {
+      "index": 39,
+      "title": "Digging the Trench",
+      "chapter_file": "book/_chapters/ch39-digging-the-trench.txt",
+      "source_line_ranges": [
+        [
+          5659,
+          5775
+        ]
+      ],
+      "source_words": 1886,
+      "output_words": 1634
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
