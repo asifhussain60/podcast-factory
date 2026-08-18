@@ -290,6 +290,45 @@
       ],
       "source_words": 1945,
       "output_words": 1796
+    },
+    {
+      "index": 23,
+      "title": "The Pledges at al-Aqabah",
+      "chapter_file": "book/_chapters/ch23-the-pledges-at-al-aqabah.txt",
+      "source_line_ranges": [
+        [
+          3033,
+          3178
+        ]
+      ],
+      "source_words": 1803,
+      "output_words": 1664
+    },
+    {
+      "index": 24,
+      "title": "The Bed and the Cave",
+      "chapter_file": "book/_chapters/ch24-the-bed-and-the-cave.txt",
+      "source_line_ranges": [
+        [
+          3179,
+          3250
+        ]
+      ],
+      "source_words": 1858,
+      "output_words": 1958
+    },
+    {
+      "index": 25,
+      "title": "Building the Mosque, Closing the Doors",
+      "chapter_file": "book/_chapters/ch25-building-the-mosque-closing-the-doors.txt",
+      "source_line_ranges": [
+        [
+          3251,
+          3321
+        ]
+      ],
+      "source_words": 1398,
+      "output_words": 1418
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"
