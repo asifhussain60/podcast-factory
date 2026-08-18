@@ -4,11 +4,15 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "0book-compose",
-  "phase_status": "completed",
+  "phase": "0book-render",
+  "phase_status": "failed",
   "last_completed_phase": "0book-compose",
   "next_phase": "0book-illustrate",
-  "last_error": null,
+  "last_error": {
+    "phase": "0book-render",
+    "message": "deliverable failed validation: B3 book-arabic-coverage: 5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt",
+    "ts": "2026-08-18T11:33:12Z"
+  },
   "human_overrides": [
     {
       "gate": "G13",
@@ -322,13 +326,80 @@
       }
     },
     "0book-illustrate": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-08-18T11:32:48Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-slide-import": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-08-18T11:32:48Z",
+      "reason": "book_visuals=manual_only"
     },
     "0book-render": {
-      "status": "pending"
+      "status": "failed",
+      "ts_started": "2026-08-18T11:32:48Z",
+      "ts_completed": "2026-08-18T11:33:12Z",
+      "book_validation": {
+        "slug": "sharh-al-masail-ghulam-hussain",
+        "verdict": "BOOK-BROKEN",
+        "summary": "B3 book-arabic-coverage: 5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 179 KB, 11 sections ≥ 11 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 2226 KB, 125 pages ≥ 11 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": false,
+            "note": "5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 11 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 11 chapters aligned"
+          },
+          {
+            "gate": "B7",
+            "name": "book-gloss-coverage",
+            "passed": true,
+            "note": "only 0 romanized glossed term(s) left — nothing to measure · 2 term(s) never given in Arabic script (4 uses): musahara, nasab"
+          },
+          {
+            "gate": "B8",
+            "name": "compose-steps-complete",
+            "passed": true,
+            "note": "compose recorded no skipped steps"
+          },
+          {
+            "gate": "B9",
+            "name": "articulation-complete",
+            "passed": false,
+            "note": "2 chapter(s) still not fully articulated and unresolved in articulation-reconcile.json: ['The Dignity of Earning Your Bread', 'Clean and Unclean: Meat, the Knife, and the Hunt'] — run reconcile_articulation.py"
+          }
+        ]
+      }
     },
     "reader-narration": {
       "status": "pending"
@@ -353,7 +424,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T11:32:42Z",
+  "ts_updated": "2026-08-18T11:33:12Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

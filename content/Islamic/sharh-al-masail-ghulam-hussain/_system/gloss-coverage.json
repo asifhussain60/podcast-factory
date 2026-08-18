@@ -1,0 +1,26 @@
+{
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 6,
+  "strong": 0,
+  "covered": 6,
+  "missing_strong": [],
+  "glossary_entries": 13,
+  "coverage": 1.0,
+  "strong_coverage": 1.0,
+  "bare_terms": 2,
+  "bare_uses": 4,
+  "bare": [
+    {
+      "term": "musahara",
+      "uses": 3,
+      "confidence": "weak",
+      "first_seen_snippet": "- Affinity by marriage (صِهَارِيَّة, *musahara* (صِهَارِي"
+    },
+    {
+      "term": "nasab",
+      "uses": 1,
+      "confidence": "weak",
+      "first_seen_snippet": "- Blood relation (نسبية, *nasab* (نَسَبِيّ"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 125,
+  "terms_tracked": 13,
+  "prerequisite_gaps": [
+    {
+      "term": "Daaim",
+      "first_use_page": 64,
+      "explained_page": 69,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [],
+  "long_sentences": [
+    {
+      "page": 9,
+      "words": 237,
+      "text": "Those present said: \"O Messenger of God, if only the strength of this man, his vigor and his soundness, were spent in the way of God, it would be better.\" The M"
+    },
+    {
+      "page": 122,
+      "words": 232,
+      "text": "What Outlives You: Charity, Endowment, and Inheritance‬‬ ‫‪God Almighty said:‬‬ ‫‪AN-NISA: 11‬‬ ‫ُيوِصيُكُم الَّل ُه ِفي َأ ْوَلاِدُكْم ِلَّذَكِر ِمْثُل َحِّظ ا"
+    },
+    {
+      "page": 8,
+      "words": 196,
+      "text": "The Dignity of Earning Your Bread ‫َالَّتاِج ُر الَّص ُد وُق يحشر يوم القيمة مع الِّص ِّد يِق يَن والشهداء‬ \"The truthful merchant — ‫ — َالَّتاِج ُر الَّص ُد و"
+    },
+    {
+      "page": 79,
+      "words": 193,
+      "text": "God Almighty said: SAYING ‫ُح ِّر َم ْت َع َلْي ُك ْم ُأَّم َه اُتُك ْم َو َبَناُتُك ْم َو َأَخ َو اُتُك ْم َوَع َّم اُتُك ْم‬ ‫َو َخ اَل ُتُك ْم َو َبَناُت اَأ"
+    },
+    {
+      "page": 12,
+      "words": 190,
+      "text": "The Dignity of Earning Your Bread And he used to say: SAYING ‫ِاِّنى َاَلْب َغ ُض الَّرُج َل َيُك وُن َك ُس واًل ِفى َاْم ِر ُد ْنَي اُه َاِل َّنُه ِاَذ ا َكاَن"
+    },
+    {
+      "page": 17,
+      "words": 187,
+      "text": "God Most High says: SAYING ‫َو ُيْط ِع ُم وَن الَّطَع اَم َع َلى ُح ِّبِه ِم ْس ِك يًنا َو َيِتيًم ا َو َأِس يًر ا ِإَّنَم ا ُنْط ِع ُم ُك ْم‬ ‫ِلَوْج ِه الَّلِ"
+    },
+    {
+      "page": 93,
+      "words": 182,
+      "text": "The Contract: Forbidden Degrees, Guardians, and the Bride-Price made this clear in His words: SAYING ‫\"َو َخ َلَق َلُك ْم ِم ْن َاْنُف ِس ُك ْم َاْز َو اًج ا ِل"
+    },
+    {
+      "page": 49,
+      "words": 178,
+      "text": "From Jabir (‫رضي الله‬ ‫)عنه‬, it is related that he said: SAYING ‫ َفِإَذ ا َو َقَع ِت اْلُح ُد وُد‬، ‫«َقَض ى الَّنِبُّي ِبالُّش ْف َع ِة ِفي ُك ِّل َم ا َلْم"
+    },
+    {
+      "page": 13,
+      "words": 176,
+      "text": "The Dignity of Earning Your Bread he said: SAYING ‫َيْنَب ِغ ى ِلْل ُم ْس ِلِم َاْن َيْل َتِم َس الِّر ْزَق َح َّتى ُيِص يَب ُه َح ُّر الَّش ْم ِس‬ \"It befits t"
+    },
+    {
+      "page": 10,
+      "words": 170,
+      "text": "The Dignity of Earning Your Bread shade on a day when there is no shade but His: SAYING ‫ُج ٌل َخ َج َض اِرًبا ِفى اَاْلْرِض َيْط ُل ِم َفْض ِل الَّلِه َم ا َيُ"
+    },
+    {
+      "page": 43,
+      "words": 167,
+      "text": "A further category of riba is recorded in the hadith: \" ‫الَّذ َه ُب ِبالَّذ َه ِب َو اْلِف َّض ُة‬ ‫ِباْلِف َّض ِة َو اْل ِباْل َو الَّش ِع ي ِبالَّش ِع يِر َو"
+    },
+    {
+      "page": 120,
+      "words": 163,
+      "text": "What Outlives You: Charity, Endowment, and Inheritance And He said: AL-MA'IDAH: 106 ‫َيا َأ ُّي َها اَّلِذيَن آَمُنوا َشَهاَدُة َبْيِنُكْم ِإ َذا َحَضَر َأ َحَد"
+    },
+    {
+      "page": 29,
+      "words": 153,
+      "text": "Clean and Unclean: Meat, the Knife, and the Hunt Hunting, and What is Lawful and Forbidden in It God Almighty said: SAYING ‫ُأِح َّل َلُك ْم َص ْي ُد اْلَب ْح ِ"
+    },
+    {
+      "page": 61,
+      "words": 152,
+      "text": "He (‫ )َص َّلع‬said that whoever abandons marriage out of fear of the burden of a household has thought ill of his Lord, for God has promised His servants and s"
+    },
+    {
+      "page": 64,
+      "words": 152,
+      "text": "It is narrated from 'Ali (‫ )ع‬that he said: Uthman ibn Mazun came to the Messenger of God (‫ )َص َّلع‬and said, \"O Messenger of God, the promptings of my soul "
+    },
+    {
+      "page": 18,
+      "words": 150,
+      "text": "At the Table: Eating, Feeding, and Being Fed what is his state?\" He said: \"He is open-handed, generous with food.\" He said: \"Is this from you or from your Lord?"
+    },
+    {
+      "page": 102,
+      "words": 150,
+      "text": "Milk, Maintenance, and the Untying of a Marriage The hadith makes plain that neglecting those who depend on one is a grave matter: SAYING ‫ َو َأْن اَل َيْش َب "
+    },
+    {
+      "page": 109,
+      "words": 150,
+      "text": "Milk, Maintenance, and the Untying of a Marriage God Almighty said: SAYING ‫َو اَّلِذ يَن ُيَتَو َّفْو َن ِم ْن ُك ْم َو َيَذ ُر وَن َأْز َو اًج ا َيَتَر َّبْص "
+    },
+    {
+      "page": 95,
+      "words": 144,
+      "text": "The Contract: Forbidden Degrees, Guardians, and the Bride-Price A woman asked the Prophet (‫)َص َّلع‬, saying: \"What is the right of the husband over the wife?\""
+    },
+    {
+      "page": 20,
+      "words": 139,
+      "text": "As for entering the houses of those whose closeness is established, God Most High has said: SAYING ‫َو اَل َع َلى َأنُف ِس ُك ْم َأن َتْأُك ُلوا ِم ن ُبُيو ِتُك"
+    }
+  ],
+  "summary": {
+    "never_explained": 0,
+    "explained_late": 1,
+    "referent_collisions": 0
+  }
+}

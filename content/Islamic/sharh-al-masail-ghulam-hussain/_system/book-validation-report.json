@@ -1,0 +1,61 @@
+{
+  "slug": "sharh-al-masail-ghulam-hussain",
+  "verdict": "BOOK-BROKEN",
+  "summary": "B3 book-arabic-coverage: 5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt",
+  "gates": [
+    {
+      "gate": "B1",
+      "name": "book-md-complete",
+      "passed": true,
+      "note": "book.md: 179 KB, 11 sections \u2265 11 TOC chapters"
+    },
+    {
+      "gate": "B2",
+      "name": "book-pdf-renderable",
+      "passed": true,
+      "note": "book.pdf: 2226 KB, 125 pages \u2265 11 chapters"
+    },
+    {
+      "gate": "B3",
+      "name": "book-arabic-coverage",
+      "passed": false,
+      "note": "5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt"
+    },
+    {
+      "gate": "B4",
+      "name": "book-prose-integrity",
+      "passed": true,
+      "note": "book.md: no model commentary or generated headings detected"
+    },
+    {
+      "gate": "B5",
+      "name": "book-chapter-body-coverage",
+      "passed": true,
+      "note": "book.md: 11 numbered chapters have body text"
+    },
+    {
+      "gate": "B6",
+      "name": "book-source-crosswalk",
+      "passed": true,
+      "note": "source-crosswalk.json: 11 chapters aligned"
+    },
+    {
+      "gate": "B7",
+      "name": "book-gloss-coverage",
+      "passed": true,
+      "note": "only 0 romanized glossed term(s) left \u2014 nothing to measure \u00b7 2 term(s) never given in Arabic script (4 uses): musahara, nasab"
+    },
+    {
+      "gate": "B8",
+      "name": "compose-steps-complete",
+      "passed": true,
+      "note": "compose recorded no skipped steps"
+    },
+    {
+      "gate": "B9",
+      "name": "articulation-complete",
+      "passed": false,
+      "note": "2 chapter(s) still not fully articulated and unresolved in articulation-reconcile.json: ['The Dignity of Earning Your Bread', 'Clean and Unclean: Meat, the Knife, and the Hunt'] \u2014 run reconcile_articulation.py"
+    }
+  ]
+}
