@@ -14,13 +14,13 @@ The treatise opens with the words of its own beginning:
 
 > All praise is due to God alone, and misguidance falls upon whoever strays after guidance has come to him.
 
-What follows is an explanatory treatise. It sets out the standing of Fallah Husayn and his brother and records the care taken over its printing by Muhammad Ibrahim, may God pardon him.
+The work that follows is an explanatory treatise. It sets out the standing of Fallah Husayn and his brother, and records the care taken over its printing by Muhammad Ibrahim, may God pardon him.
 
-The work's foundations lie in Hind — that is, India — composed in answer to the need there for its rulings. Drawing on the sources available to him, the author summarized the issues translated in al-Muhannadi, setting aside matters that earlier times had already laid to rest: questions relating to enslaved persons, certain technical difficulties, and topics of that kind. He likewise omitted issues such as those of usury, mortgages, and the like.
+Its foundations lie in Hind — that is, India — composed in answer to the need there for its rulings. Drawing on the sources available to him, the author summarized the issues translated in al-Muhannadi, setting aside matters that earlier times had already laid to rest: questions relating to enslaved persons, certain technical difficulties, and topics of that kind. He likewise omitted issues such as those of usury, mortgages, and the like.
 
 This was accomplished in the presence of the supporter Sa'd 'Ali ibn Hasan, may God preserve him, in the thirty-seventh year, when the review was undertaken alongside the judge and the scholar until the first of the month.
 
-Tahsin ibn carried the work with him on his journey to the Indian subcontinent — concerning the conditions of the mission and the brotherhood — in the thirty-eighth year. He was pleased to present it and to engage with it. The book was set out and rendered into Arabic, then brought forward, and God's provision was permitted for it. He was instructed to take it with him to the Arabs, so that whoever among them wished might benefit from it. God is their sufficiency for success.
+Tahsin ibn carried the work with him on his journey to the Indian subcontinent — concerning the conditions of the mission and the brotherhood — in the thirty-eighth year. He was pleased to present it and engage with it. The book was set out and rendered into Arabic, then brought forward, and God's provision was permitted for it. He was instructed to take it to the Arabs, so that whoever among them wished might benefit from it. God is their sufficiency for success.
 
 God Most High says:
 
@@ -36,31 +36,31 @@ The Messenger of God said:
 
 And he said:
 
+The Master said:
+
 > مَنْ طَلَبَ الرِّزْقَ حَلَالًا وَتَعَفُّفًا عَنِ الْمَسْئَلَةِ وَسَعْيًا عَلَى عِيَالِهِ وَتَعَطُّفًا عَلَى جَارِهِ لَقِىَ اللَّهَ وَوَجْهُهُ كَالْبَدْرِ
 >
 > "Whoever seeks his provision lawfully, keeping himself from begging, striving for his dependents, and showing kindness to his neighbor, will meet God with a face like the full moon."
 
-And he said:
+The Master said:
 
 > اِتَّقُوا اللَّهَ وَاَجْمِلُوا فِى الطَّلَبِ
 >
 > "Fear God, and be measured in seeking."
 
-And he said:
-
 > لَإَنْ يَأْخُذَ اَحَدُكُمْ حَبْلَهُ فَيَحْطِبَ عَلَى ظَهْرِهِ خَيْرٌ مِنْ اَنْ يَأْتِىَ رَجُلًا اَعْطَاهُ اللَّهُ مِنْ فَضْلِهِ فَيَسْأَلَهُ اَعْطَاهُ اَوْ مَنَعَهُ
 >
 > "That احدكم takes his rope and carries firewood upon his back is better for him than that he come to a man whom اَعْطَاهُ اللَّهُ of His bounty and beg from him, whether that man gives him or refuses him."
 
-It is related of him that he passed, during the expedition of Tabuk, by a strong young man driving his beasts and laboring hard. Those present said: "O Messenger of God, if only the strength of this man, his vigor and his soundness, were spent in the way of God, it would be better." The Messenger of God heard them and said: "What is this labor of yours, and for what do you toil at it?" The young man said: "I have a wife and dependants, and I earn by this labor, and I spend upon my dependants, and I keep them from having to ask of people, and I discharge a debt that lies upon me." He said: "Perhaps it is for other than that." The young man said: "No." And when he had turned away, the Messenger of God said: "If he is truthful, then he has a reward like the reward of the fighter, and the reward of the pilgrim, and the reward of the one who performs the lesser pilgrimage."
+It is related of him that during the expedition of Tabuk, he passed by a strong young man driving his beasts and laboring hard. Those present said: "O Messenger of God, if only this man's strength, vigor, and soundness were spent in the way of God — that would be better." The Messenger of God heard them and asked: "What is this work of yours, and for what do you toil at it?" The young man said: "I have a wife and dependants. I earn by this labor, I spend upon my dependants, I keep them from having to beg, and I discharge a debt that lies upon me." He said: "Perhaps it is for other than that." The young man said: "No." When the young man had turned away, the Messenger of God said: "If he is truthful, then he has a reward like the reward of the fighter, and the reward of the pilgrim, and the reward of the one who performs the lesser pilgrimage."
 
-And he said: When a man's circumstances become straitened,
+He said: When a man's circumstances become straitened,
 
 > فَلْيَخْرُجْ مِنْ بَلَدِهِ وَيَضْرِبْ فِى الْاَرْضِ يَبْتَغِى مِنْ فَضْلِ اللَّهِ وَلَا يَغُمَّ نَفْسَهُ وَاَهْلَهُ
 >
 > "let him go out from his town — بلده — and strike out into الارض seeking of الله's bounty, and let him not bring grief upon himself and his household."
 
-It is also related of him that he spoke of those whom God shelters in His shade on a day when there is no shade but His:
+It is also related of him that he spoke of those whom God shelters in His shade on the day when no shade exists but His:
 
 > رَجُلٌ خَرَجَ ضَارِبًا فِى الْاَرْضِ يَطْلُبُ مِنْ فَضْلِ اللَّهِ مَا يَكُفُّ بِهِ نَفْسَهُ وَيَعُودُ بِهِ عَلَى عِيَالِهِ
 >
@@ -80,7 +80,7 @@ That is how he described trade — he loved it and urged people toward it, for i
 
 At that, they shut their doors and withdrew from trading. The Messenger of God came out and asked: "What is the matter with the people?" He was told: "O Messenger of God, they heard what you said yesterday, and they have held back." He said: "And I say it again today: unless a man takes what is rightfully his and gives what is rightfully due."
 
-In the same spirit, a report has come down of a man who said to the Commander of the Believers: "O Commander of the Believers, I wish to enter into trade." He said:
+A report has also come down of a man who said to the Commander of the Believers: "O Commander of the Believers, I wish to enter into trade." He said:
 
 > اُفْقِهْتَ فِى دِينِ اللهِ
 
@@ -114,7 +114,7 @@ He then counseled one of his companions, saying:
 >
 > "Do not be one who circles about in the markets, and do not be one who buys trifling things himself; for it does not befit you, nor does it befit the Muslim man of religion and standing, that he purchase trifling things himself."
 
-And one day he looked at a man from among the companions carrying a bundle of greens in his hand, and he said:
+One day the Master noticed a man among his companions carrying a bundle of greens, and said:
 
 > انه يكره للرجل السرى ان يحمل الشئ الدنى لئلا يجترىء عليه احد
 >
@@ -242,15 +242,15 @@ God Almighty said:
 
 > حُرِّمَتْ عَلَيْكُمُ ٱلْمَيْتَةُ وَٱلدَّمُ وَلَحْمُ ٱلْخِنزِيرِ وَمَآ أُهِلَّ لِغَيْرِ ٱللَّهِ بِهِۦ وَٱلْمُنْخَنِقَةُ وَٱلْمَوْقُوذَةُ وَٱلْمُتَرَدِّيَةُ وَٱلنَّطِيحَةُ وَمَآ أَكَلَ ٱلسَّبُعُ إِلَّا مَا ذَكَّيْتُمْ وَمَا ذُبِحَ عَلَى ٱلنُّصُبِ
 
-From Mawla Jafar ibn Muhammad (ع), it is related that he set out what is lawful and what is forbidden in a concise summary. The lawful foods from the earth's produce, he said, fall into three classes:
+It is related from Mawla Jafar ibn Muhammad (ع) that he set out what is lawful and what is forbidden in a concise summary. The lawful foods from the earth's produce fall into three classes:
 
 1. Grains in all their varieties — wheat, barley, and the rest;
 2. Fruits, of every kind;
 3. Vegetables and growing plants.
 
-Whatever among these nourishes, benefits, and strengthens a person is lawful to eat; whatever causes harm is forbidden, except when taken as medicine for treatment.
+Whatever among these nourishes, benefits, and strengthens a person is lawful; whatever causes harm is forbidden, except when taken as medicine for treatment.
 
-Of animal flesh, what is lawful includes the cow, the camel, and the sheep, along with what comes from them. Among wild animals, everything that has neither fang nor claw is lawful — the gazelle and the hare, for instance, both of which are cloven-hoofed. Among birds, everything that has a crop. Among the game of the sea, everything that has scales. Whatever falls outside these classes is forbidden. As for eggs, an egg whose two ends differ in shape is lawful; an egg whose two ends are alike belongs to a creature whose flesh is not eaten. The creeping things of the earth — the snake, the scorpion, and their like — are forbidden as food.
+Of animal flesh, what is lawful includes the cow, the camel, and the sheep, together with what comes from them. Among wild animals, everything that has neither fang nor claw is lawful — the gazelle and the hare, for instance, both of which are cloven-hoofed. Among birds, everything that has a crop. Among the game of the sea, everything that has scales. Whatever falls outside these classes is forbidden. As for eggs: an egg whose two ends differ in shape is lawful; an egg whose two ends are alike belongs to a creature whose flesh is not eaten. The creeping things of the earth — the snake, the scorpion, and their like — are forbidden as food.
 
 A dispensation exists concerning the food of the People of the Book and other sects, provided the food contains nothing slaughtered by an idolater. The slaughter of Jews, Christians, and Magians is lawful to eat when it has been carried out according to the conditions of proper slaughter.
 
@@ -284,9 +284,9 @@ Ali (ع) said:
 >
 > "When one of you slaughters a beast, let him turn it toward the qibla and lay it upon the ground, then say: In the name of God, and God is the Greatest."
 
-The slaughterer cuts through the windpipe with a sharp blade without severing the spinal cord, and waits until the animal has died. He lets the blood flow until death is certain, waits for the animal to grow still, and only then removes the head and strips away the hide.
+The slaughterer cuts through the windpipe with a sharp blade, taking care not to sever the spinal cord, then waits until the animal has died. He lets the blood flow until death is certain, waits for the animal to grow still, and only then removes the head and strips away the hide.
 
-If a man, through ignorance or forgetfulness, does any of the following, there is no harm in eating the animal:
+If a man does any of the following through ignorance or forgetfulness, there is no harm in eating the animal:
 
 - He forgets to mention the name of God.
 - He mentions God with glorification and declaration of His unity rather than the prescribed formula.
@@ -297,13 +297,13 @@ If a man, through ignorance or forgetfulness, does any of the following, there i
 
 If, however, he deliberately abandons any of these requirements — in defiance of God's rulings — his slaughter may not be eaten.
 
-When cattle, buffalo, or other animals bolt at the time of slaughter and resist so that the slaughterer cannot reach the throat, or when an animal falls into a well and cannot be retrieved and its throat cannot be reached, he may strike or stab it with a spear or sword wherever he is able. If the animal dies from that blow, eating it is permitted.
+When cattle, buffalo, or other animals bolt at the time of slaughter and resist so that the slaughterer cannot reach the throat — or when an animal falls into a well, cannot be retrieved, and its throat cannot be reached — he may strike or stab it with a spear or sword wherever he is able. If the animal dies from that blow, eating it is permitted.
 
 The Prophet considered it disagreeable to slaughter a milk-giving animal or one bearing young, provided another animal is at hand.
 
-The slaughter of a Jew, a Christian, or a Magian is permitted when they mention the name of God over the animal. Whoever among them — or among the Muslims — deliberately abandons the mention and is under suspicion of having done so, his slaughter may not be eaten. Whoever apostatizes from Islam, whether he becomes a Jew, a Christian, or joins one of the sects, his slaughter is likewise forbidden.
+The slaughter of a Jew, a Christian, or a Magian is permitted when they mention the name of God over the animal. Whoever among them — or among the Muslims — deliberately abandons that mention and is under suspicion of having done so, his slaughter may not be eaten. Whoever apostatizes from Islam, whether by becoming a Jew, a Christian, or by joining one of the sects, his slaughter is likewise forbidden.
 
-A dispensation covers the slaughter performed by a blind person, a woman, or a boy who has not yet reached maturity, provided it is done correctly. It also covers the slaughter of a mute person who understands, forms the mention of the name in his mind, and gestures toward it.
+A dispensation covers the slaughter performed by a blind person, a woman, or a boy who has not yet reached maturity, provided it is done correctly. It also covers the slaughter of a mute person who understands, holds the mention of the name in his mind, and gestures toward it.
 
 There is no harm in buying and eating meat, eggs, milk, or clarified butter sold in Muslim markets without investigating the one who slaughtered. Whatever is taken from the sea — fish and locusts — is lawful to eat regardless of whether the one who caught it was a Muslim, a Jew, a Christian, or a Magian. What idolaters hunt and bring alive is also lawful to eat.
 
@@ -315,20 +315,20 @@ God Almighty said:
 >
 > "Lawful to you is the game of the sea and its food, a provision for you and for travelers; and the game of the sea is forbidden to you so long as you remain in the state of ihram; and when you have left that state, then hunt."
 
-It is related that the game of God's sanctuary is regarded as disagreeable; yet if such game takes flight and leaves the sanctuary, it may be taken. The Prophet said that a bird caught and then released, and afterward taken again, is lawful for whoever takes it.
+Game taken within God's sanctuary is held to be undesirable. Yet should such game take flight and leave the sanctuary, it may lawfully be taken. The Prophet said that a bird caught and then released, and afterward taken again, is lawful for whoever takes it.
 
-There is no harm in eating what trained hunting animals seize — dogs, hunting leopards, falcons, hawks, and other beasts and birds — provided:
+There is no harm in eating what trained hunting animals seize — dogs, hunting leopards, falcons, hawks, and other trained beasts and birds — provided:
 
-- the name of God Almighty was spoken at the moment of sending them out, and
-- it is known that the quarry died from the hunting animal's blow.
+- the name of God Almighty was spoken at the moment of releasing them, and
+- it is established that the quarry died from the hunting animal's blow.
 
-If the quarry is reached while still alive, it is slaughtered first and then eaten. If the name of God was forgotten at the moment of sending, there is still no harm in eating what the dogs or other trained animals have killed. As for the dog of a Magian: when a Muslim, a Jew, or a Christian trains it, takes it, and sends it out, eating whatever game it seizes is permitted.
+If the quarry is found while still alive, it must be slaughtered before it is eaten. If the name of God was omitted at the moment of release, there is still no harm in eating what the dogs or other trained animals have killed. As for a Magian's dog: when a Muslim, a Jew, or a Christian trains it, takes possession of it, and releases it, eating whatever game it seizes is permitted.
 
-When a hunter cannot reach the quarry to slaughter it and kills it instead with a sword, an arrow, or a spear — wounding it in any part of the body — there is no harm in eating it. The flesh of the wild ass is lawful, and its slaughter differs from that of the domestic donkey.
+When a hunter cannot reach the quarry in time to slaughter it, and kills it instead with a sword, an arrow, or a spear — wounding it in any part of the body — there is no harm in eating it. The flesh of the wild ass is lawful, and its slaughter differs from that of the domestic donkey.
 
-If a man shoots at game and strikes it, and the animal then disappears and falls from a height and dies, its flesh may be eaten only if it is known that it died from the shot; if this is not known, it may not be eaten. What is struck with a stone or a pellet may not be eaten unless something with an iron edge reaches it for slaughter before it dies.
+If a man shoots at game, strikes it, and the animal then disappears and falls from a height and dies, its flesh may be eaten only if it is known that it died from the shot. If this is not known, it may not be eaten. What is struck with a stone or a pellet may not be eaten unless something with an iron edge reaches it for slaughter before it dies.
 
-There is no harm in eating the fish and locusts that an idolater or a Magian has hunted, when he brings them alive to a Muslim, a Jew, or a Christian and they die in the hands of those persons.
+There is no harm in eating the fish and locusts that an idolater or a Magian has caught, when he brings them alive to a Muslim, a Jew, or a Christian and they die in the hands of those persons.
 
 ### Dress and Ornament
 
@@ -347,26 +347,26 @@ And in the hadith:
 - Whoever keeps hair, let him tend it well.
 - Whoever takes a wife, let him honor her.
 - Whoever takes a sandal, let him keep it in good repair.
-- Whoever takes a riding beast, let him give it its full measure.
+- Whoever takes a riding beast, let him give it سعته — its full measure.
 - Whoever takes a garment, let him keep it clean.
 
-The honoring of a garment is its cleanliness; the honoring of a house is its sweeping.
+The honor due to a garment is its cleanliness; the honor due to a house is its sweeping.
 
-Mawlana Jafar ibn Muhammad (ع) was asked about a man, and the questioner said: "O son of the Messenger of God, is it counted as extravagance that a man should keep many garments, adorning himself with them and preserving some by means of others?" He replied: "No, that is not extravagance."
+Mawlana Jafar ibn Muhammad (ع) was asked about a man, and the questioner said: "O son of the Messenger of God, is it counted as extravagance that a man should keep many garments — adorning himself with them, and preserving some by means of others?" He replied: "No, that is not extravagance. God loves to see the mark of His favor upon His servant. The blameworthy thing is that a man of سعة should constrict himself, for God Almighty said concerning the man ذي سعة: he ought to spend from what God has given him."
 
 A man then said to him that the person he held most dear was one who wore coarse cloth, ate food without seasoning, and made himself humble, so that the mark of humility showed plainly upon him. He said:
 
 > وَيْحَكَ إِنَّمَا الْخُشُوعُ فِي الْقَلْبِ لَا فِي اللِّبَاسِ، وَمَا عَلِمْتَ اَنَّ نَبِيَّنَا يُوسُفَ نَبِىَّ ابْنَ النَّبِىِّ كَانَ يَلْبَسُ أَقْبِيَةَ الدِّيبَاجِ مُزَرَّرَةً بِالذَّهَبِ وَيَجْلِسُ مَجْلِسَ فِرْعَوْنَ يَحْكُمُ بَيْنَ النَّاسِ وَإِنَّمَا كَانَ النَّاسُ يَحْتَاجُونَ إِلَى عَدْلِهِ وَقِسْطِهِ
 >
-> "Woe to you! Reverence is in the heart, not in the dress. Did you not know that our prophet Yusuf was a prophet, the son of a prophet, who used to wear robes of brocade buttoned with gold, and sit in the council of Pharaoh judging between the people? For the people had need only of his justice and his equity."
+> "Woe to you!
 
-Sufyan al-Thawri entered upon Imam Jafar al-Sadiq (ع) and saw fine garments upon him, and said: "O son of the Messenger of God, you relate to us that Ali (ع) used to wear coarse garments, and you wear better than that." He said:
+Sufyan al-Thawri entered upon Imam Jafar al-Sadiq (ع) and saw fine garments upon him. He said: "O son of the Messenger of God, you relate to us that Ali (ع) used to wear coarse garments, and you wear better than that." The Imam said:
 
 > وَيْحَكَ يَا سُفْيَانُ إِنَّ عَلِيًّا كَانَ فِي زَمَانٍ ضَيِّقٍ وَإِنَّ اللَّهَ قَدْ وَسَّعَ عَلَيْنَا وَيُسْتَحَبُّ لِمَنْ وَسَّعَ اللَّهُ عَلَيْهِ أَنْ يُرَى أَثَرُ ذَلِكَ عَلَيْهِ
 >
 > "Woe to you, Sufyan. Ali lived in a time of straitness, and God has widened His provision upon us; and it is fitting for one upon whom God has widened His provision that the mark of it be seen upon him."
 
-Imam Jafar ibn Muhammad (ع) laid down what is lawful in dress in a single governing statement. Everything the earth produces may be worn without harm, and prayer performed in it. Of any animal whose flesh is lawful to eat, there is no harm in wearing its hide after lawful slaughter, nor its wool, its hair, or its fur, provided the animal was slaughtered according to the rite. If it was not so slaughtered, wearing it outside of prayer carries no harm, but prayer may not be performed in it.
+Imam Jafar ibn Muhammad (ع) laid down the governing principle on lawful dress in a single statement. Everything the earth produces may be worn without harm, and prayer may be performed in it. From any animal whose flesh is lawful to eat, the hide, wool, hair, and fur are all permissible to wear, provided the animal was slaughtered according to the rite. If it was not, wearing it outside of prayer carries no harm, but prayer may not be performed in it.
 
 The Messenger of God loved white cotton garments, and he used to say:
 
@@ -374,9 +374,15 @@ The Messenger of God loved white cotton garments, and he used to say:
 >
 > "Wear white, and shroud your dead in it."
 
-If a man wears silk and prays in it, not intending thereby any display or boasting before his companions, there is no harm in it. It is related of Jafar ibn Muhammad (ع) that he was seen seated upon a carpet bearing figures; when this was put to him, he said that the Sunnah is that such things be trodden upon.
+If a man wears silk and prays in it — not intending thereby any display or boasting before his companions — there is no harm in it. It is related of Jafar ibn Muhammad (ع) that he was seen seated upon a carpet bearing figures; when this was put to him, he said that the Sunnah is that such things be trodden upon.
 
-For a woman, the neck, the hand, and the foot are the places of adornment. It is not fitting for her to go without ornament, whether that ornament be of gold or of silver. A woman is forbidden to strike the ground with her foot so that the sound of her anklet is heard. For men, adorning oneself with gold is forbidden, though for young girls and for women there is no harm in it.
+For a woman, the following rules govern adornment:
+
+- The neck, the hand, and the foot are the places of adornment.
+- It is not fitting for her to go without ornament, whether of gold or of silver.
+- She is forbidden to strike the ground with her foot so that the sound of her anklet is heard.
+
+For men, adorning oneself with gold is forbidden, though for young girls and for women there is no harm in it.
 
 ## 4. The Anatomy of a Sale
 

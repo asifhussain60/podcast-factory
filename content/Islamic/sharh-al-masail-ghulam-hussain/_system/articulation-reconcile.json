@@ -26,8 +26,8 @@
       ]
     },
     "Clean and Unclean: Meat, the Knife, and the Hunt": {
-      "resolved": false,
-      "needs_human": true,
+      "resolved": true,
+      "needs_human": false,
       "log": [
         {
           "attempt_kind": "pass",
@@ -48,6 +48,21 @@
             "reconcile-03-part-08: repair still failed: abridged re-voice (68<77 words)"
           ],
           "at": "2026-08-18T11:25:30.773278+00:00"
+        },
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-03-part-08: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved",
+            "fluency-03-part-08: repair still failed: speech tag cut into a quotation (1 interior vs 0 in source) \u2014 attribution may have moved"
+          ],
+          "at": "2026-08-18T16:14:21.573435+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "adapted",
+          "gate_findings": [],
+          "at": "2026-08-18T16:17:57.885994+00:00"
         }
       ]
     },

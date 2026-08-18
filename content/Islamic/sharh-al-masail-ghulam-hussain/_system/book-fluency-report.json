@@ -7,30 +7,31 @@
   "chapters": [
     {
       "title": "The Dignity of Earning Your Bread",
-      "base_words": 1347,
-      "output_words": 1347,
+      "base_words": 1374,
+      "output_words": 1354,
       "windows": 13,
-      "windows_kept": 12,
+      "windows_kept": 13,
       "windows_cached": 0,
-      "windows_repaired": 3,
+      "windows_repaired": 2,
       "windows_source_preserved": 1,
       "model_failures": 0,
       "fresh_calls_disabled": false,
-      "pre_assembly_windows_kept": 12,
-      "status": "partial",
-      "gates": [
-        "reconcile-01-part-13: abridged re-voice (49<59 words)",
-        "reconcile-01-part-13: repair still failed: abridged re-voice (52<59 words)"
-      ],
+      "pre_assembly_windows_kept": 13,
+      "status": "adapted",
+      "gates": [],
       "assembly_gates": [],
       "warnings": [
-        "reconcile-01-part-01: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-01-part-03: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-01-part-04: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-01-part-09: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-01-part-10: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-01-part-12: protected source artifact copied verbatim",
-        "assembled chapter is partial \u2014 12/13 windows kept; review voice continuity"
+        "fluency-01-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-01-part-12: protected source artifact copied verbatim"
       ],
       "lecture_voice_before": {
         "reader_address": 0,
@@ -41,14 +42,14 @@
         "stage_directions": 0
       },
       "editorial_queries": [
-        "\"Tahsin ibn\" appears to be an incomplete name \u2014 the father's name is missing from the source, leaving the attribution unresolved."
+        "\"Tahsin ibn\" appears to be an incomplete name \u2014 the father's name following \"ibn\" is absent from the source, and it is unclear whether this is a transcription gap or a deliberate omission.",
+        "The pronoun \"he\" in the closing tag \u2014 \"He said: When a man's circumstances become straitened\" \u2014 is unresolved: it may refer to the Messenger of God (continuing the hadith sequence) or to the Master (introducing a new saying), and the surrounding book context is needed to confirm which.",
+        "\"It is related of him\" \u2014 the referent of \"him\" is not established within this passage window; a broader context check is needed to confirm whether it refers to the Prophet or another figure."
       ],
       "comprehension_flags": [
-        "The phrase \"in the thirty-seventh year\" and \"the thirty-eighth year\" lack a reference era; a modern reader cannot determine which calendar or reign is meant."
+        "\"al-Muhannadi\" is cited as a source text without explanation; a modern reader will have no context for what it is."
       ],
-      "terminology_notes": [
-        "al-Muhannadi \u2014 confirm standardized spelling and italicization policy for this title throughout the book."
-      ]
+      "terminology_notes": []
     },
     {
       "title": "At the Table: Eating, Feeding, and Being Fed",
@@ -87,32 +88,30 @@
     },
     {
       "title": "Clean and Unclean: Meat, the Knife, and the Hunt",
-      "base_words": 2287,
-      "output_words": 2272,
+      "base_words": 2330,
+      "output_words": 2279,
       "windows": 9,
-      "windows_kept": 8,
-      "windows_cached": 0,
-      "windows_repaired": 0,
+      "windows_kept": 9,
+      "windows_cached": 1,
+      "windows_repaired": 2,
       "windows_source_preserved": 2,
       "model_failures": 0,
       "fresh_calls_disabled": false,
-      "pre_assembly_windows_kept": 8,
-      "status": "partial",
-      "gates": [
-        "reconcile-03-part-08: abridged re-voice (70<77 words)",
-        "reconcile-03-part-08: repair still failed: abridged re-voice (68<77 words)"
-      ],
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
       "assembly_gates": [],
       "warnings": [
         "reconcile-03-part-01: output near-identical to base \u2014 copied, not re-voiced",
         "reconcile-03-part-02: protected source artifact copied verbatim",
+        "reconcile-03-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-03-part-04: output near-identical to base \u2014 copied, not re-voiced",
         "reconcile-03-part-05: output near-identical to base \u2014 copied, not re-voiced",
-        "reconcile-03-part-06: output near-identical to base \u2014 copied, not re-voiced",
         "reconcile-03-part-07: protected source artifact copied verbatim",
-        "assembled chapter is partial \u2014 8/9 windows kept; review voice continuity"
+        "reconcile-03-part-09: output near-identical to base \u2014 copied, not re-voiced"
       ],
       "lecture_voice_before": {
-        "reader_address": 0,
+        "reader_address": 3,
         "stage_directions": 0
       },
       "lecture_voice_after": {
@@ -120,12 +119,8 @@
         "stage_directions": 0
       },
       "editorial_queries": [],
-      "comprehension_flags": [
-        "The phrase \"everything that has a crop\" (regarding lawful birds) refers to the bird's crop \u2014 a pouch in the digestive tract \u2014 which a modern reader may not recognize as a legal criterion without a note."
-      ],
-      "terminology_notes": [
-        "\"Magians\" \u2014 confirm this is the book's established rendering for Zoroastrians and standardize accordingly."
-      ]
+      "comprehension_flags": [],
+      "terminology_notes": []
     },
     {
       "title": "The Anatomy of a Sale",
