@@ -330,6 +330,10 @@ _workspace/experiments/
 # Local-only orchestrator/runtime logs and supervisor run registry
 _workspace/logs/
 _workspace/runs/
+# _workspace/plan/logs/ is a separate leaf the two rules above never covered
+# (see the 2026-08-19 repo-surgeon sweep, which found two run-transcript .log
+# files from a Sessions articulation resume committed by accident there).
+_workspace/plan/logs/*.log
 
 # Local-only audit snapshots (pre-rerun copies of book artifacts for diff/review)
 _workspace/audit/
