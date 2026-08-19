@@ -32,7 +32,7 @@ The Messenger of God said:
 
 > اَلتَّاجِرُ الصَّدُوقُ يحشر يوم القيمة مع الصِّدِّيقِينَ والشهداء
 >
-> "The truthful merchant — اَلتَّاجِرُ الصَّدُوقُ — is raised on the Day of Resurrection with الصِّدِّيقِينَ and the martyrs."
+> "The truthful merchant is raised on the Day of Resurrection with the truthful and the martyrs."
 
 And he said:
 
@@ -50,7 +50,7 @@ The Master said:
 
 > لَإَنْ يَأْخُذَ اَحَدُكُمْ حَبْلَهُ فَيَحْطِبَ عَلَى ظَهْرِهِ خَيْرٌ مِنْ اَنْ يَأْتِىَ رَجُلًا اَعْطَاهُ اللَّهُ مِنْ فَضْلِهِ فَيَسْأَلَهُ اَعْطَاهُ اَوْ مَنَعَهُ
 >
-> "That احدكم takes his rope and carries firewood upon his back is better for him than that he come to a man whom اَعْطَاهُ اللَّهُ of His bounty and beg from him, whether that man gives him or refuses him."
+> "That one of you takes his rope and carries firewood upon his back is better for him than that he come to a man whom God has given of His bounty and beg from him, whether that man gives him or refuses him."
 
 It is related of him that during the expedition of Tabuk, he passed by a strong young man driving his beasts and laboring hard. Those present said: "O Messenger of God, if only this man's strength, vigor, and soundness were spent in the way of God — that would be better." The Messenger of God heard them and asked: "What is this work of yours, and for what do you toil at it?" The young man said: "I have a wife and dependants. I earn by this labor, I spend upon my dependants, I keep them from having to beg, and I discharge a debt that lies upon me." He said: "Perhaps it is for other than that." The young man said: "No." When the young man had turned away, the Messenger of God said: "If he is truthful, then he has a reward like the reward of the fighter, and the reward of the pilgrim, and the reward of the one who performs the lesser pilgrimage."
 
@@ -58,7 +58,7 @@ He said: When a man's circumstances become straitened,
 
 > فَلْيَخْرُجْ مِنْ بَلَدِهِ وَيَضْرِبْ فِى الْاَرْضِ يَبْتَغِى مِنْ فَضْلِ اللَّهِ وَلَا يَغُمَّ نَفْسَهُ وَاَهْلَهُ
 >
-> "let him go out from his town — بلده — and strike out into الارض seeking of الله's bounty, and let him not bring grief upon himself and his household."
+> "let him go out from his town and strike out into the earth seeking of God's bounty, and let him not bring grief upon himself and his household."
 
 It is also related of him that he spoke of those whom God shelters in His shade on the day when no shade exists but His:
 
@@ -106,7 +106,7 @@ A man once asked Imam Jafar ibn Muhammad (عليه السلام) to call upon Go
 
 > يَنْبَغِى لِلْمُسْلِمِ اَنْ يَلْتَمِسَ الرِّزْقَ حَتَّى يُصِيبَهُ حَرُّ الشَّمْسِ
 
-"It befits the Muslim to seek his رزق until the heat of الشمس reaches him." ان
+"It befits the Muslim to seek his provision until the heat of the sun reaches him."
 
 He then counseled one of his companions, saying:
 
@@ -189,7 +189,7 @@ He also forbade a man to feed another from food (اَلطَّعَام) to which 
 
 It is related of al-Husayn ibn 'Ali (ع) that he saw a man who had been invited to a meal say to the one inviting him: "Excuse me." Al-Husayn (ع) said: "Rise and answer the invitation. If you are not fasting, then eat; and if you are fasting, then bless them."
 
-Jafar ibn Muhammad (ع) said: when one of you enters upon his brother while fasting and his brother asks him to break the fast, let him break it — unless the fast is a make-up fast or a vow, or unless the sun has already passed its meridian. And he said: when your brother says to you "eat," then eat, and do not oblige him to swear upon you, for he desires only to honor you. And he said: when your brother comes to you, offer him what is easy for you; and if you invite him, take trouble for him as far as you are able.
+Jafar ibn Muhammad (ع) said: when one of you enters upon his brother while fasting, and his brother asks him to break the fast, let him break it — unless the fast is a make-up fast or a vow, or unless the sun has already passed its meridian. And he said: when your brother says to you "eat," then eat, and do not oblige him to swear upon you, for he desires only to honor you. And he said: when your brother comes to you, offer him what is easy for you; and if you invite him, take trouble for him as far as you are able.
 
 He said to one of his companions who was eating with him: a man's affection for his brother is known by the goodness of his eating (أَكْل) from his food. It pleases me that a man should eat of my food and eat well — that gladdens me. And he used to say: when you gather over food with family and children, do not sit in silence, but speak of what is good and relate the stories of the righteous.
 
@@ -199,7 +199,9 @@ It is not of the Sunnah to enter a house uninvited at the time of eating, for th
 
 As for entering the houses of those whose closeness is established, God Most High has said:
 
-> وَلَا عَلَى أَنفُسِكُمْ أَن تَأْكُلُوا مِن بُيُوتِكُمْ أَوْ بُيُوتِ آبَائِكُمْ أَوْ بُيُوتِ أُمَّهَاتِكُمْ أَوْ بُيُوتِ إِخْوَانِكُمْ أَوْ بُيُوتِ أَخَوَاتِكُمْ أَوْ بُيُوتِ أَعْمَامِكُمْ أَوْ بُيُوتِ عَمَّاتِكُمْ أَوْ بُيُوتِ أَخْوَالِكُمْ أَوْ بُيُوتِ خَالَاتِكُمْ أَوْ مَا مَلَكْتُم مَّفَاتِحَهُ أَوْ صَدِيقِكُمْ لَيْسَ عَلَيْكُمْ جُنَاحٌ أَن تَأْكُلُوا جَمِيعًا أَوْ أَشْتَاتًا
+> وَلَا عَلَى أَنفُسِكُمْ أَن تَأْكُلُوا مِن بُيُوتِكُمْ أَوْ بُيُوتِ آبَائِكُمْ أَوْ بُيُوتِ أُمَّهَاتِكُمْ أَوْ بُيُوتِ إِخْوَانِكُمْ أَوْ بُيُوتِ أَخَوَاتِكُمْ أَوْ بُيُوتِ أَعْمَامِكُمْ أَوْ بُيُوتِ عَمَّاتِكُمْ أَوْ بُيُوتِ أَخْوَالِكُمْ أَوْ بُيُوتِ خَالَاتِكُمْ أَوْ مَا مَلَكْتُم مَّفَاتِحَهُ أَوْ صَدِيقِكُمْ لَيْسَ عَلَيْكُمْ جُنَاحٌ أَن تَأْكُلُوا جَمِيعًا أَوْ أَشْتَاتًا "
+>
+> ...nor on yourselves, that you eat from your own houses, or the houses of your fathers, or the houses of your mothers, or the houses of your brothers, or the houses of your sisters, or the houses of your paternal uncles, or the houses of your paternal aunts, or the houses of your maternal uncles, or the houses of your maternal aunts, or from those whose keys you possess, or from your friend. There is no blame upon you whether you eat together or separately."
 
 The Messenger of God entered the house of Barira in her absence and found food there — food that had come to her as charity. When she returned and was asked about it, she said that the charity had reached where it belonged; he had eaten knowing this, and she was glad of it.
 
@@ -388,7 +390,7 @@ For men, adorning oneself with gold is forbidden, though for young girls and for
 
 God Most High said:
 
-> ⟪ar:وَلَا تَأْكُلُوا أَمْوَالَكُم بَيْنَكُم بِالْبَاطِلِ إِلَّا أَن تَكُونَ تِجَارَةً عَن تَرَاضٍ⟫
+> وَلَا تَأْكُلُوا أَمْوَالَكُم بَيْنَكُم بِالْبَاطِلِ إِلَّا أَن تَكُونَ تِجَارَةً عَن تَرَاضٍ
 >
 > "Do not consume one another's wealth wrongfully, unless it be through trade conducted with mutual consent."
 
@@ -665,7 +667,7 @@ He (صَلَّع) said that whoever abandons marriage out of fear of the burden 
 
 > ﴿إِنْ يَكُونُوا فُقَرَاءَ يُغْنِهِمُ اللهُ مِنْ فَضْلِهِ وَاللهُ وَاسِعٌ عَلِيمٌ﴾
 >
-> "If they are poor, God will enrich them from His bounty, and God is Vast and Knowing — وَٱللَّهُ وَسِعٌ عَلِيمٌۭ."
+> "If they are poor, God will enrich them from His bounty, and God is Vast and Knowing."
 
 And he used to say:
 
@@ -1197,10 +1199,14 @@ The written record does not substitute for a spoken pronouncement. A sound and e
 God Almighty said:
 
 > وَلَا يَحِلُّ لَكُمْ أَنْ تَأْخُذُوا مِمَّا آتَيْتُمُوهُنَّ شَيْئًا إِلَّا أَنْ يَخَافَا أَلَّا يُقِيمَا حُدُودَ اللَّهِ فَإِنْ خِفْتُمْ أَلَّا يُقِيمَا حُدُودَ اللَّهِ فَلَا جُنَاحَ عَلَيْهِمَا فِيمَا افْتَدَتْ بِهِ ...
-
-> God Almighty said: وَإِنْ خِفْتُمْ شِقَاقَ بَيْنِهِمَا فَابْعَثُوا حَكَمًا مِنْ أَهْلِهِ وَحَكَمًا مِنْ أَهْلِهَا إِنْ يُرِيدَا إِصْلَاحًا يُوَفِّقِ اللَّهُ بَيْنَهُمَا
 >
-> "It is not permissible for you to take back anything of what you have given them, unless both fear that they cannot maintain the limits of God. If you fear that they cannot maintain the limits of God, there is no blame upon either of them for what she gives in ransom… And if you fear discord between them, appoint an arbitrator from his family, أهله, and an arbitrator from her family, أهلها. If they seek reconciliation, إصلاحا, God will bring them together."
+> "It is not permissible for you to take back anything of what you have given them, unless both fear that they cannot maintain the limits of God. If you fear that they cannot maintain the limits of God, there is no blame upon either of them for what she gives in ransom."
+
+God Almighty said:
+
+> وَإِنْ خِفْتُمْ شِقَاقَ بَيْنِهِمَا فَابْعَثُوا حَكَمًا مِنْ أَهْلِهِ وَحَكَمًا مِنْ أَهْلِهَا إِنْ يُرِيدَا إِصْلَاحًا يُوَفِّقِ اللَّهُ بَيْنَهُمَا
+>
+> "And if you fear discord between them, appoint an arbitrator from his family and an arbitrator from her family. If they seek reconciliation, God will bring them together."
 
 Ali (ع) said: اَلْخَلْعُ طَلَاقٌ, "khula is divorce." Where union and agreement between the couple are no longer possible, and the woman says, "I cannot fulfill your rights as a returning wife — take this amount from me in exchange," she is offering something in return for her release, whether an unspecified amount or a known sum. That offering may be her dowry returned to him, or the use of her mount for a period, or her service for a period of time, or something of a similar kind. If the husband agrees and says, "I accept your satisfaction," and the matter is brought before the authority with witnesses and a written document — recording that on such a date the husband is content and the wife has offered a sum acceptable to both — then, if both parties accept, the khula is valid, and neither will be judged unjustly on account of it. It is fitting for the husband, if he is content with a sum at all, to be content with less than the dowry he originally gave her, or with whatever the two have agreed upon.
 
