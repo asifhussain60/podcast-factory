@@ -7,11 +7,11 @@ Praise belongs to God for the blessings of earlier and later times.
 The treatise opens with the words of its own beginning:
 
 > بِسْمِ ٱللَّهِ ٱلرَّحْمَنِ ٱلرَّحِيمِ
-
+>
 > In the name of God, the Most Merciful, the Most Compassionate.
 
 > الْحَمْدُ لِلَّهِ وَحْدَهُ وَالصَّلَاةُ عَلَى مَنْ لَا نَبِيَّ بَعْدَهُ
-
+>
 > All praise is due to God alone, and misguidance falls upon whoever strays after guidance has come to him.
 
 The work that follows is an explanatory treatise. It sets out the standing of Fallah Husayn and his brother, and records the care taken over its printing by Muhammad Ibrahim, may God pardon him.
@@ -594,8 +594,8 @@ A further question. It is not proper for the one holding a trust to spend anythi
 Concerning the pledge, الرهن. God Almighty said:
 
 > «يا أيها الذين آمنوا إذا تداينتم بدين إلى أجل مسمى فاكتبوه» ... «وَإِن كُنتُمْ عَلَىٰ سَفَرٍۢ وَلَمْ تَجِدُوا۟ كَاتِبًۭا فَرِهَنٌۭ مَّقْبُوضَةٌۭ»
-
-"O you who believe, when you contract a debt for a stated term, write it down," to His words, "And if you are upon a journey and find no scribe, then a pledge taken in hand."
+>
+> "O you who believe, when you contract a debt for a stated term, write it down," to His words, "And if you are upon a journey and find no scribe, then a pledge taken in hand."
 
 A hadith runs:
 
@@ -1140,7 +1140,7 @@ As for the divorced woman, maintenance remains her husband's responsibility, exc
 And God Almighty said:
 
 > يَا أَيُّهَا النَّبِيُّ إِذَا طَلَّقْتُمُ النِّسَاءَ فَطَلِّقُوهُنَّ لِعِدَّتِهِنَّ وَأَحْصُوا الْعِدَّةَ ...
-
+>
 > فَإِذَا بَلَغْنَ أَجَلَهُنَّ فَأَمْسِكُوهُنَّ بِمَعْرُوفٍ أَوْ فَارِقُوهُنَّ بِمَعْرُوفٍ وَأَشْهِدُوا ذَوَيْ عَدْلٍ مِنْكُمْ وَأَقِيمُوا الشَّهَادَةَ لِلَّهِ
 >
 > "O Prophet, when you divorce women, divorce them at the beginning of their waiting periods, and count the waiting period... And when they reach their term, either retain them honorably or part from them honorably, and call to witness two just men among you, and establish the testimony for God."
@@ -1217,8 +1217,8 @@ On the Waiting Period
 God Almighty said:
 
 > وَالَّذِينَ يُتَوَفَّوْنَ مِنْكُمْ وَيَذَرُونَ أَزْوَاجًا يَتَرَبَّصْنَ بِأَنْفُسِهِنَّ أَرْبَعَةَ أَشْهُرٍ وَعَشْرًا، وَالْمُطَلَّقَاتُ يَتَرَبَّصْنَ بِأَنْفُسِهِنَّ ثَلَاثَةَ قُرُوءٍ، وَاللَّائِي يَئِسْنَ مِنَ الْمَحِيضِ مِنْ نِسَائِكُمْ إِنِ ارْتَبْتُمْ فَعِدَّتُهُنَّ ثَلَاثَةُ أَشْهُرٍ وَاللَّائِي لَمْ يَحِضْنَ، وَأُولَاتُ الْأَحْمَالِ أَجَلُهُنَّ أَنْ يَضَعْنَ حَمْلَهُنَّ وَلَوْ كَانَ بَعْدَ الطَّلَاقِ بِسَاعَةٍ
-
-God Almighty said: *"Those of you who die and leave behind wives, they shall wait four months and ten days. And divorced women shall wait three menstrual cycles. As for those of your women who have despaired of menstruation, if you are in doubt, their waiting period is three months, and likewise those who have not menstruated. And those who are pregnant, their term is that they deliver, even if it be an hour after the divorce."*
+>
+> "Those of you who die and leave behind wives, they shall wait four months and ten days. And divorced women shall wait three menstrual cycles. As for those of your women who have despaired of menstruation, if you are in doubt, their waiting period is three months, and likewise those who have not menstruated. And those who are pregnant, their term is that they deliver, even if it be an hour after the divorce."
 
 The waiting period for a divorced woman is three menstrual cycles; for a woman past menstruation, three months; and for a woman whose husband has died, four months and ten days — whether she is an adult or a minor, whether the marriage was consummated or not.
 
@@ -1324,8 +1324,8 @@ The remainder of the testament is as it is recorded.
 God Almighty said:
 
 > كُتِبَ عَلَيْكُمْ إِذَا حَضَرَ أَحَدَكُمُ الْمَوْتُ إِنْ تَرَكَ خَيْرًا الْوَصِيَّةُ لِلْوَالِدَيْنِ وَالْأَقْرَبِينَ بِالْمَعْرُوفِ حَقًّا عَلَى الْمُتَّقِينَ
-
-God Almighty said: "It is prescribed for you, when death approaches أَحَدُكُمْ إِذَا and he leaves behind wealth, that he make a bequest for parents and near relatives in the proper manner, a duty upon the God-fearing."
+>
+> "It is prescribed for you, when death approaches one of you and he leaves behind wealth, that he make a bequest for parents and near relatives in the proper manner, a duty upon the God-fearing."
 
 And He said:
 
@@ -1359,7 +1359,7 @@ The executor of an executor is himself an executor. If the executor is permitted
 God Almighty said:
 
 > يُوصِيكُمُ اللَّهُ فِي أَوْلَادِكُمْ لِلذَّكَرِ مِثْلُ حَظِّ الْأُنْثَيَيْنِ فَإِنْ كُنَّ نِسَاءً فَوْقَ اثْنَتَيْنِ فَلَهُنَّ ثُلُثَا مَا تَرَكَ وَإِنْ كَانَتْ وَاحِدَةً فَلَهَا النِّصْفُ وَلِأَبَوَيْهِ لِكُلِّ وَاحِدٍ مِنْهُمَا السُّدُسُ مِمَّا تَرَكَ إِنْ كَانَ لَهُ وَلَدٌ فَإِنْ لَمْ يَكُنْ لَهُ وَلَدٌ وَوَرِثَهُ أَبَوَاهُ فَلِأُمِّهِ الثُّلُثُ فَإِنْ كَانَ لَهُ إِخْوَةٌ فَلِأُمِّهِ السُّدُسُ مِنْ بَعْدِ وَصِيَّةٍ يُوصِي بِهَا أَوْ دَيْنٍ آبَاؤُكُمْ وَأَبْنَاؤُكُمْ لَا تَدْرُونَ أَيُّهُمْ أَقْرَبُ لَكُمْ نَفْعًا فَرِيضَةً مِنَ اللَّهِ إِنَّ اللَّهَ كَانَ عَلِيمًا حَكِيمًا.
-
+>
 > وَلَكُمْ نِصْفُ مَا تَرَكَ أَزْوَاجُكُمْ إِنْ لَمْ يَكُنْ لَهُنَّ وَلَدٌ فَإِنْ كَانَ لَهُنَّ وَلَدٌ فَلَكُمُ الرُّبُعُ مِمَّا تَرَكْنَ مِنْ بَعْدِ وَصِيَّةٍ يُوصِينَ بِهَا أَوْ دَيْنٍ وَلَهُنَّ الرُّبُعُ مِمَّا تَرَكْتُمْ إِنْ لَمْ يَكُنْ لَكُمْ وَلَدٌ فَإِنْ كَانَ لَكُمْ وَلَدٌ فَلَهُنَّ الثُّمُنُ مِمَّا تَرَكْتُمْ مِنْ بَعْدِ وَصِيَّةٍ تُوصُونَ بِهَا أَوْ دَيْنٍ وَإِنْ كَانَ رَجُلٌ يُورَثُ كَلَالَةً أَوِ امْرَأَةٌ وَلَهُ أَخٌ أَوْ أُخْتٌ فَلِكُلِّ وَاحِدٍ مِنْهُمَا السُّدُسُ فَإِنْ كَانُوا أَكْثَرَ مِنْ ذَلِكَ فَهُمْ شُرَكَاءُ فِي الثُّلُثِ مِنْ بَعْدِ وَصِيَّةٍ يُوصَى بِهَا أَوْ دَيْنٍ غَيْرَ مُضَارٍّ وَصِيَّةً مِنَ اللَّهِ وَاللَّهُ عَلِيمٌ حَلِيمٌ
 >
 > "God enjoins you concerning your children: for the male the like of the portion of two females. If they are women, more than two, theirs is two thirds of what he left; and if she is one, hers is the half. And to his parents, to each one of them a sixth of what he left, if he had a child. If he had no child and his parents inherit from him, then to his mother a third; and if he had brothers, then to his mother a sixth, after a bequest he may have made or a debt. Your fathers and your sons, you do not know which of them is nearer to you in benefit. An ordinance from God; indeed God is Knowing, Wise. And yours is half of what your wives leave if they have no child; but if they have a child, then yours is a fourth of what they leave, after a bequest they may have made or a debt. And theirs is a fourth of what you leave if you have no child; but if you have a child, then theirs is an eighth of what you leave, after a bequest you may have made or a debt. And if a man or a woman is inherited from without direct heirs and he has a brother or a sister, then to each one of them a sixth; but if they are more than that, they are partners in the third, after a bequest made or a debt, without injury. A charge from God, and God is Knowing, Forbearing."
