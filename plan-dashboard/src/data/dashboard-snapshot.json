@@ -1914,10 +1914,10 @@
     {
       "slug": "kunooz-al-hikmah",
       "title": "Kunooz al Hikmah",
-      "phase": "finalize",
-      "phase_status": "halted",
+      "phase": "0book-render",
+      "phase_status": "failed",
       "cost_to_date_usd": 0,
-      "kind": "unknown"
+      "kind": "islamic_scholarly"
     },
     {
       "slug": "love-of-the-prophet",

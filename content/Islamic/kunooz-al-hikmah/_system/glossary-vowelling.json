@@ -1,17 +1,9 @@
 {
-  "vowelled": 65,
-  "marks_added": 334,
-  "already": 247,
-  "refused": 14,
+  "vowelled": 33,
+  "marks_added": 132,
+  "already": 1076,
+  "refused": 11,
   "refusals": [
-    {
-      "term": "القرآن",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"القرآن\" vs proposal \"ألقرءان\")"
-    },
-    {
-      "term": "كهيعص",
-      "reason": "empty"
-    },
     {
       "term": "اثنا عشري إمامي",
       "reason": "empty"
@@ -21,15 +13,7 @@
       "reason": "empty"
     },
     {
-      "term": "اللهُ أكبر",
-      "reason": "empty"
-    },
-    {
       "term": "الحجاب الطبيعي",
-      "reason": "empty"
-    },
-    {
-      "term": "سبحان الله",
       "reason": "empty"
     },
     {
@@ -45,20 +29,24 @@
       "reason": "letters changed, not just marks (first difference at character 1: source \"مولانا عدان \" vs proposal \"عدان\")"
     },
     {
-      "term": "عبد الله بن رواحة",
-      "reason": "letters changed, not just marks (first difference at character 10: source \"بن رواحة\" vs proposal \"ابن رواحة\")"
-    },
-    {
-      "term": "حضرت گیانی صاحب مقدس",
+      "term": "الم",
       "reason": "empty"
     },
     {
-      "term": "صورة علمية",
-      "reason": "letters changed, not just marks (first difference at character 10: source \"ة\" vs proposal \"\")"
+      "term": "بالحجج الواضحة",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" الواضحة\" vs proposal \"\")"
     },
     {
-      "term": "نوح",
-      "reason": "empty"
+      "term": "بالقتل لدى أهل الريبة",
+      "reason": "letters changed, not just marks (first difference at character 7: source \" لدى أهل الر\" vs proposal \"\")"
+    },
+    {
+      "term": "داعٍ غير منفرد",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" غير منفرد\" vs proposal \"\")"
+    },
+    {
+      "term": "ذكر قربانه ومثوبته",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"ذكر قربانه و\" vs proposal \"مثوبته\")"
     }
   ]
 }

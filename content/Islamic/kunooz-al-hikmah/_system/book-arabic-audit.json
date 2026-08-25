@@ -9,8 +9,8 @@
     },
     {
       "chapter": "Introduction to the Book",
-      "arabic_runs": 3,
-      "unverified": 3,
+      "arabic_runs": 4,
+      "unverified": 4,
       "runs": [
         {
           "text": "نَجْرَان",
@@ -23,6 +23,11 @@
           "skeleton": "سيدنا"
         },
         {
+          "text": "سَيِّدُنَا هِبَةُ اللهِ",
+          "resolution": "unverified",
+          "skeleton": "سيدناهبهالله"
+        },
+        {
           "text": "إِبْرَاهِيم",
           "resolution": "unverified",
           "skeleton": "ابراهيم"
@@ -31,18 +36,13 @@
     },
     {
       "chapter": "1. The Author and His Only Book",
-      "arabic_runs": 11,
-      "unverified": 2,
+      "arabic_runs": 22,
+      "unverified": 13,
       "runs": [
         {
-          "text": "عَلَيْهِمُ السَّلَامُ",
-          "resolution": "honorific-formula",
-          "skeleton": "عليهمالسلام"
-        },
-        {
-          "text": "أَئِمَّة",
+          "text": "أَرْبَابُ الْعِصْمَةِ",
           "resolution": "unverified",
-          "skeleton": "ايمه"
+          "skeleton": "اربابالعصمه"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -50,9 +50,39 @@
           "skeleton": "عليهمالسلام"
         },
         {
+          "text": "أَئِمَّة طَاهِرِين",
+          "resolution": "unverified",
+          "skeleton": "ايمهطاهرين"
+        },
+        {
+          "text": "كُلِّيِّ عِصْمَة",
+          "resolution": "unverified",
+          "skeleton": "كليعصمه"
+        },
+        {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "جُزْئِي عِصْمَة",
+          "resolution": "unverified",
+          "skeleton": "جزييعصمه"
+        },
+        {
+          "text": "رِسَالَةٌ",
+          "resolution": "unverified",
+          "skeleton": "رساله"
+        },
+        {
+          "text": "عَلَيْهِمُ السَّلَامُ",
+          "resolution": "honorific-formula",
+          "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "قَائِمِي دُعَاةٍ",
+          "resolution": "unverified",
+          "skeleton": "قايميدعاه"
         },
         {
           "text": "عَلَيْهِ السَّلَامُ",
@@ -60,14 +90,44 @@
           "skeleton": "عليهالسلام"
         },
         {
+          "text": "غَيْرُ مُنْفَرِد دَاعٍ",
+          "resolution": "unverified",
+          "skeleton": "غيرمنفردداع"
+        },
+        {
           "text": "إِسْمَاعِيل",
           "resolution": "unverified",
           "skeleton": "اسماعيل"
         },
         {
+          "text": "جَمَاعَة",
+          "resolution": "unverified",
+          "skeleton": "جماعه"
+        },
+        {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "قَصِيدَة",
+          "resolution": "unverified",
+          "skeleton": "قصيده"
+        },
+        {
+          "text": "الِاسْمُ الْأَعْظَم",
+          "resolution": "unverified",
+          "skeleton": "الاسمالاعظم"
+        },
+        {
+          "text": "أَهْلُ الشَّرَف",
+          "resolution": "unverified",
+          "skeleton": "اهلالشرف"
+        },
+        {
+          "text": "حُدُودٌ عَالِيَة",
+          "resolution": "unverified",
+          "skeleton": "حدودعاليه"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -93,9 +153,39 @@
     },
     {
       "chapter": "2. Praise, the Three Human Natures, and the Unknowable God",
-      "arabic_runs": 5,
-      "unverified": 5,
+      "arabic_runs": 16,
+      "unverified": 15,
       "runs": [
+        {
+          "text": "أَهْلُ الِاخْتِصَاص",
+          "resolution": "unverified",
+          "skeleton": "اهلالاختصاص"
+        },
+        {
+          "text": "نَاسُوتٌ أَدْنَى",
+          "resolution": "unverified",
+          "skeleton": "ناسوتادني"
+        },
+        {
+          "text": "نَاسُوتٌ طَبِيعِيٌّ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتطبيعي"
+        },
+        {
+          "text": "نَاسُوتٌ تَنَاسُلِي",
+          "resolution": "unverified",
+          "skeleton": "ناسوتتناسلي"
+        },
+        {
+          "text": "نَاسُوتٌ أَوْسَطُ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتاوسط"
+        },
+        {
+          "text": "نَاسُوتٌ ظِلِّيٌّ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتظلي"
+        },
         {
           "text": "حُدُودُ الدَّعْوَة",
           "resolution": "unverified",
@@ -112,28 +202,119 @@
           "skeleton": "ناسوتخاص"
         },
         {
+          "text": "ظَاهِرِي",
+          "resolution": "unverified",
+          "skeleton": "ظاهري"
+        },
+        {
+          "text": "بَاطِنِيّ",
+          "resolution": "unverified",
+          "skeleton": "باطني"
+        },
+        {
+          "text": "كُلِّيٌّ",
+          "resolution": "knowledge-base",
+          "skeleton": "كلي"
+        },
+        {
           "text": "سُلَيْمَان",
           "resolution": "unverified",
           "skeleton": "سليمان"
         },
         {
+          "text": "تَوْزِيع",
+          "resolution": "unverified",
+          "skeleton": "توزيع"
+        },
+        {
           "text": "عَبْدُ اللّٰه",
           "resolution": "unverified",
           "skeleton": "عبدالله"
+        },
+        {
+          "text": "أَفْضَل الْمَوْجُودَات",
+          "resolution": "unverified",
+          "skeleton": "افضلالموجودات"
         }
       ]
     },
     {
       "chapter": "3. The Prophet, His Brother, and the Veiled Successors",
-      "arabic_runs": 0,
-      "unverified": 0,
-      "runs": []
+      "arabic_runs": 10,
+      "unverified": 9,
+      "runs": [
+        {
+          "text": "جَبَرُوت",
+          "resolution": "unverified",
+          "skeleton": "جبروت"
+        },
+        {
+          "text": "أَوْصِيَاء",
+          "resolution": "unverified",
+          "skeleton": "اوصياء"
+        },
+        {
+          "text": "أَنْفُسَنَا",
+          "resolution": "knowledge-base",
+          "skeleton": "انفسنا"
+        },
+        {
+          "text": "الْعَاشِر",
+          "resolution": "unverified",
+          "skeleton": "العاشر"
+        },
+        {
+          "text": "صَاحِبُ الْقَوْر",
+          "resolution": "unverified",
+          "skeleton": "صاحبالقور"
+        },
+        {
+          "text": "أَفْضَلُ الْحُجَّةِ",
+          "resolution": "unverified",
+          "skeleton": "افضلالحجه"
+        },
+        {
+          "text": "حُجَّةُ الْعُظْمَى",
+          "resolution": "unverified",
+          "skeleton": "حجهالعظمي"
+        },
+        {
+          "text": "أَرْبَابُ الزَّعَامَة",
+          "resolution": "unverified",
+          "skeleton": "اربابالزعامه"
+        },
+        {
+          "text": "مُسْتَوْدَع",
+          "resolution": "unverified",
+          "skeleton": "مستودع"
+        },
+        {
+          "text": "أَئِمَّة",
+          "resolution": "unverified",
+          "skeleton": "ايمه"
+        }
+      ]
     },
     {
       "chapter": "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran",
-      "arabic_runs": 7,
-      "unverified": 4,
+      "arabic_runs": 18,
+      "unverified": 14,
       "runs": [
+        {
+          "text": "مَجَامِعُ الْأَنْوَارِ",
+          "resolution": "unverified",
+          "skeleton": "مجامعالانوار"
+        },
+        {
+          "text": "أَنْوَارٌ",
+          "resolution": "unverified",
+          "skeleton": "انوار"
+        },
+        {
+          "text": "أَسْرَار",
+          "resolution": "unverified",
+          "skeleton": "اسرار"
+        },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
@@ -143,6 +324,11 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "دَوْرُ السَّتْر",
+          "resolution": "unverified",
+          "skeleton": "دورالستر"
         },
         {
           "text": "مُحَمَّد بِن فُؤَاد",
@@ -150,14 +336,49 @@
           "skeleton": "محمدبنفواد"
         },
         {
-          "text": "عَلِيّ بِن سُلَيْمَان",
+          "text": "سَيِّدُنَا عَلِيُّ بْنُ سُلَيْمَانَ",
           "resolution": "unverified",
-          "skeleton": "عليبنسليمان"
+          "skeleton": "سيدناعليبنسليمان"
+        },
+        {
+          "text": "حَقَائِق",
+          "resolution": "unverified",
+          "skeleton": "حقايق"
+        },
+        {
+          "text": "دَقَائِق",
+          "resolution": "unverified",
+          "skeleton": "دقايق"
+        },
+        {
+          "text": "تَأْوِيل",
+          "resolution": "knowledge-base",
+          "skeleton": "تاويل"
+        },
+        {
+          "text": "مُحْتَجِب",
+          "resolution": "unverified",
+          "skeleton": "محتجب"
+        },
+        {
+          "text": "مَلَكُوت",
+          "resolution": "unverified",
+          "skeleton": "ملكوت"
         },
         {
           "text": "مُحَمَّد بِن إِسْمَاعِيل",
           "resolution": "unverified",
           "skeleton": "محمدبناسماعيل"
+        },
+        {
+          "text": "غَيْرِ جَزِيرَة",
+          "resolution": "unverified",
+          "skeleton": "غيرجزيره"
+        },
+        {
+          "text": "اعْتِكَاف",
+          "resolution": "unverified",
+          "skeleton": "اعتكاف"
         },
         {
           "text": "زِيَارَة",
@@ -173,18 +394,43 @@
     },
     {
       "chapter": "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai",
-      "arabic_runs": 5,
-      "unverified": 5,
+      "arabic_runs": 10,
+      "unverified": 10,
       "runs": [
+        {
+          "text": "تَعَوُّذ",
+          "resolution": "unverified",
+          "skeleton": "تعوذ"
+        },
+        {
+          "text": "اهْتِزَاز",
+          "resolution": "unverified",
+          "skeleton": "اهتزاز"
+        },
         {
           "text": "تَكْبِيرَة",
           "resolution": "unverified",
           "skeleton": "تكبيره"
         },
         {
+          "text": "آيَةُ الْعِزّ",
+          "resolution": "unverified",
+          "skeleton": "ايهالعز"
+        },
+        {
+          "text": "مُدَّعِي",
+          "resolution": "unverified",
+          "skeleton": "مدعي"
+        },
+        {
           "text": "تَسْبِيح",
           "resolution": "unverified",
           "skeleton": "تسبيح"
+        },
+        {
+          "text": "صَحِيفَات",
+          "resolution": "unverified",
+          "skeleton": "صحيفات"
         },
         {
           "text": "يَا ذَا الْجَلَالِ وَالْإِكْرَام",
@@ -205,9 +451,14 @@
     },
     {
       "chapter": "6. The Reluctant Answerer: How These Questions Came to Be Written",
-      "arabic_runs": 9,
-      "unverified": 9,
+      "arabic_runs": 20,
+      "unverified": 20,
       "runs": [
+        {
+          "text": "الْعَالَمِي",
+          "resolution": "unverified",
+          "skeleton": "العالمي"
+        },
         {
           "text": "عَلَمُ الدِّين",
           "resolution": "unverified",
@@ -239,6 +490,41 @@
           "skeleton": "ناميه"
         },
         {
+          "text": "جُزْئِيَّةُ عِصْمَةٍ",
+          "resolution": "unverified",
+          "skeleton": "جزييهعصمه"
+        },
+        {
+          "text": "الْعَقْلُ الْأَوَّل",
+          "resolution": "unverified",
+          "skeleton": "العقلالاول"
+        },
+        {
+          "text": "آخِرُ الْمَوْجُودِ",
+          "resolution": "unverified",
+          "skeleton": "اخرالموجود"
+        },
+        {
+          "text": "مُسْتَجِيب",
+          "resolution": "unverified",
+          "skeleton": "مستجيب"
+        },
+        {
+          "text": "حَضْرَةٌ شَرِيفَة",
+          "resolution": "unverified",
+          "skeleton": "حضرهشريفه"
+        },
+        {
+          "text": "مَعْرِفَة",
+          "resolution": "unverified",
+          "skeleton": "معرفه"
+        },
+        {
+          "text": "مُبْدَأٌ تَعَالَى",
+          "resolution": "unverified",
+          "skeleton": "مبداتعالي"
+        },
+        {
           "text": "تَقْدِيم",
           "resolution": "unverified",
           "skeleton": "تقديم"
@@ -252,13 +538,28 @@
           "text": "وِلَايَة",
           "resolution": "unverified",
           "skeleton": "ولايه"
+        },
+        {
+          "text": "حُدُودُ الدِّين",
+          "resolution": "unverified",
+          "skeleton": "حدودالدين"
+        },
+        {
+          "text": "قَائِمِيَّة",
+          "resolution": "unverified",
+          "skeleton": "قايميه"
+        },
+        {
+          "text": "الدَّارَيْن",
+          "resolution": "unverified",
+          "skeleton": "الدارين"
         }
       ]
     },
     {
       "chapter": "7. What Was There Before Origination",
-      "arabic_runs": 14,
-      "unverified": 13,
+      "arabic_runs": 34,
+      "unverified": 33,
       "runs": [
         {
           "text": "أَوْلِيَآءَ ٱللَّهِ",
@@ -267,7 +568,32 @@
           "reference": "Yunus: 62"
         },
         {
-          "text": "ذاتِ إمام",
+          "text": "عَالَمُ الْإِبْدَاع",
+          "resolution": "unverified",
+          "skeleton": "عالمالابداع"
+        },
+        {
+          "text": "رِيَاضُ الْحَضْرَةِ",
+          "resolution": "unverified",
+          "skeleton": "رياضالحضره"
+        },
+        {
+          "text": "حِجَابُ الْخَاصّ",
+          "resolution": "unverified",
+          "skeleton": "حجابالخاص"
+        },
+        {
+          "text": "طَبِيعِيّ",
+          "resolution": "unverified",
+          "skeleton": "طبيعي"
+        },
+        {
+          "text": "ظِلِّيٌّ",
+          "resolution": "unverified",
+          "skeleton": "ظلي"
+        },
+        {
+          "text": "ذَاتُ إِمَام",
           "resolution": "unverified",
           "skeleton": "ذاتامام"
         },
@@ -287,6 +613,11 @@
           "skeleton": "الحجابالتناسلي"
         },
         {
+          "text": "حِجَابُ الظِّلِّيّ",
+          "resolution": "unverified",
+          "skeleton": "حجابالظلي"
+        },
+        {
           "text": "حُجَجُ الْجَزَائِر",
           "resolution": "unverified",
           "skeleton": "حججالجزاير"
@@ -297,9 +628,29 @@
           "skeleton": "مولاناعبدالمطلب"
         },
         {
-          "text": "مَوْلَانَا عَدَّانُ صَاحِبُ",
+          "text": "جَدُّ الْقَائِم",
+          "resolution": "unverified",
+          "skeleton": "جدالقايم"
+        },
+        {
+          "text": "جَدُّ الْعَيْن",
+          "resolution": "unverified",
+          "skeleton": "جدالعين"
+        },
+        {
+          "text": "أَئِمَّةٌ فَاطِمِيُّون",
+          "resolution": "unverified",
+          "skeleton": "ايمهفاطميون"
+        },
+        {
+          "text": "مَوْلَانَا عَدَّانٌ صَاحِبُ",
           "resolution": "unverified",
           "skeleton": "مولاناعدانصاحب"
+        },
+        {
+          "text": "صُدُورُ الْإِبْدَاع",
+          "resolution": "unverified",
+          "skeleton": "صدورالابداع"
         },
         {
           "text": "إِبْدَاعْ",
@@ -307,9 +658,44 @@
           "skeleton": "ابداع"
         },
         {
-          "text": "المُبدِع",
+          "text": "خَوَاطِرٌ",
           "resolution": "unverified",
-          "skeleton": "المبدع"
+          "skeleton": "خواطر"
+        },
+        {
+          "text": "مُبْدِئٌ تَعَالَى",
+          "resolution": "unverified",
+          "skeleton": "مبديتعالي"
+        },
+        {
+          "text": "هُوِيَّةُ الْمُتَعَالِيَة",
+          "resolution": "unverified",
+          "skeleton": "هويهالمتعاليه"
+        },
+        {
+          "text": "عُقُولٌ إِبْدَاعِيَّةٌ",
+          "resolution": "unverified",
+          "skeleton": "عقولابداعيه"
+        },
+        {
+          "text": "حِجَابُ الْعَالِي",
+          "resolution": "unverified",
+          "skeleton": "حجابالعالي"
+        },
+        {
+          "text": "نَاسُوت الْخَاصّ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتالخاص"
+        },
+        {
+          "text": "نَاسُوت الطَّبِيعِيّ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتالطبيعي"
+        },
+        {
+          "text": "رِيَاضَةُ أَهْلِ الِاخْتِصَاصِ",
+          "resolution": "unverified",
+          "skeleton": "رياضهاهلالاختصاص"
         },
         {
           "text": "رِيَاضَات",
@@ -317,12 +703,22 @@
           "skeleton": "رياضات"
         },
         {
+          "text": "سِرٌّ الرَّبَّانِيّ",
+          "resolution": "unverified",
+          "skeleton": "سرالرباني"
+        },
+        {
           "text": "سَيِّدُنَا إِبْرَاهِيمُ بْنُ مُحَمَّدٍ بْنِ فَهْد",
           "resolution": "unverified",
           "skeleton": "سيدناابراهيمبنمحمدبنفهد"
         },
         {
-          "text": "حَضْرَتُ گِیَانِی صَاحِبُ مُقَدَّسُ",
+          "text": "نَاسُوتٌ خَاصّ",
+          "resolution": "unverified",
+          "skeleton": "ناسوتخاص"
+        },
+        {
+          "text": "حَضْرَت گِیَانِی صَاحِب مُقَدَّس",
           "resolution": "unverified",
           "skeleton": "حضرتانصاحبمقدس"
         },
@@ -330,18 +726,28 @@
           "text": "أُبَيّ بِن كَعْب",
           "resolution": "unverified",
           "skeleton": "ابيبنكعب"
+        },
+        {
+          "text": "بَطْحَاء",
+          "resolution": "unverified",
+          "skeleton": "بطحاء"
         }
       ]
     },
     {
       "chapter": "8. The Fifteen Ranks of the Repentant and How Far We Fell",
-      "arabic_runs": 16,
-      "unverified": 16,
+      "arabic_runs": 22,
+      "unverified": 22,
       "runs": [
         {
-          "text": "اَلذَّوَاتُ النَّادِمَة",
+          "text": "أَسْبَاب",
           "resolution": "unverified",
-          "skeleton": "الذواتالنادمه"
+          "skeleton": "اسباب"
+        },
+        {
+          "text": "ذَوَاتُ النَّادِمَةِ",
+          "resolution": "unverified",
+          "skeleton": "ذواتالنادمه"
         },
         {
           "text": "نَادِمِين",
@@ -352,6 +758,16 @@
           "text": "أَفْلَاك",
           "resolution": "unverified",
           "skeleton": "افلاك"
+        },
+        {
+          "text": "جُثَّة إِبْدَاعِيَّة",
+          "resolution": "unverified",
+          "skeleton": "جثهابداعيه"
+        },
+        {
+          "text": "النَّفْسُ الْكُلِّيَّةُ",
+          "resolution": "unverified",
+          "skeleton": "النفسالكليه"
         },
         {
           "text": "الْعَاشِر",
@@ -372,6 +788,11 @@
           "text": "دُعَاء يَزُول الْقَدَر",
           "resolution": "unverified",
           "skeleton": "دعاءيزولالقدر"
+        },
+        {
+          "text": "ضُعَفَاء",
+          "resolution": "unverified",
+          "skeleton": "ضعفاء"
         },
         {
           "text": "سَيِّدَنَا مُحَمَّدُ بْنُ طَاهِر",
@@ -409,7 +830,7 @@
           "skeleton": "المنبعثالاول"
         },
         {
-          "text": "صُورَةٌ عِلْمِيَّةٌ",
+          "text": "صُورَة عِلْمِيَّة",
           "resolution": "unverified",
           "skeleton": "صورهعلميه"
         },
@@ -417,18 +838,38 @@
           "text": "صُورَة عَمَلِيَّة",
           "resolution": "unverified",
           "skeleton": "صورهعمليه"
+        },
+        {
+          "text": "نَظَرِ أَشْرَف",
+          "resolution": "unverified",
+          "skeleton": "نظراشرف"
+        },
+        {
+          "text": "نَظَرِ أَدْوَن",
+          "resolution": "unverified",
+          "skeleton": "نظرادون"
         }
       ]
     },
     {
       "chapter": "9. The Sphere That Rises From Where It Stands",
-      "arabic_runs": 6,
-      "unverified": 6,
+      "arabic_runs": 13,
+      "unverified": 13,
       "runs": [
         {
           "text": "الْإِمَامُ أَحْمَدُ بْنُ يُوسُف",
           "resolution": "unverified",
           "skeleton": "الاماماحمدبنيوسف"
+        },
+        {
+          "text": "فَلَكُ الْمُسْتَقِيمِ",
+          "resolution": "unverified",
+          "skeleton": "فلكالمستقيم"
+        },
+        {
+          "text": "اسْتِفَادَة",
+          "resolution": "unverified",
+          "skeleton": "استفاده"
         },
         {
           "text": "رُبَاطَات",
@@ -441,14 +882,39 @@
           "skeleton": "تامور"
         },
         {
+          "text": "بِالْفِعْل",
+          "resolution": "unverified",
+          "skeleton": "بالفعل"
+        },
+        {
+          "text": "بِالْقُوَّة",
+          "resolution": "unverified",
+          "skeleton": "بالقوه"
+        },
+        {
           "text": "فُضَالَة",
           "resolution": "unverified",
           "skeleton": "فضاله"
         },
         {
+          "text": "جَزِيرَةٌ",
+          "resolution": "unverified",
+          "skeleton": "جزيره"
+        },
+        {
+          "text": "رُكْنُ الْأَسْوَد",
+          "resolution": "unverified",
+          "skeleton": "ركنالاسود"
+        },
+        {
           "text": "ذَخَائِر",
           "resolution": "unverified",
           "skeleton": "ذخاير"
+        },
+        {
+          "text": "أَسَاطِير",
+          "resolution": "unverified",
+          "skeleton": "اساطير"
         },
         {
           "text": "أَتْقِيَاء",
@@ -459,14 +925,19 @@
     },
     {
       "chapter": "10. Subtle Essences: What Rises From the Dead and What Feeds the Living",
-      "arabic_runs": 3,
-      "unverified": 2,
+      "arabic_runs": 5,
+      "unverified": 4,
       "runs": [
         {
           "text": "إِنَّا نَحْنُ نُحْىِ ٱلْمَوْتَىٰ وَنَكْتُبُ مَا قَدَّمُوا۟ وَآثَرَهُمْۚ وَكُلَّ شَىْءٍ أَحْصَيْنَهُ فِىٓ إِمَامٍۢ مُّبِينٍۢ",
           "resolution": "canonical-mushaf",
           "skeleton": "انانحننحيالموتيونكتبماقدمواواثرهموكلشيءا",
           "reference": "Ya-Sin: 12"
+        },
+        {
+          "text": "نَوَاصِي",
+          "resolution": "unverified",
+          "skeleton": "نواصي"
         },
         {
           "text": "بِیسْوَا خَوَانِی",
@@ -477,42 +948,97 @@
           "text": "بَابُ الْأَبْوَاب",
           "resolution": "unverified",
           "skeleton": "بابالابواب"
+        },
+        {
+          "text": "إِسْبَاغُ الْوُضُوء",
+          "resolution": "unverified",
+          "skeleton": "اسباغالوضوء"
         }
       ]
     },
     {
       "chapter": "11. Three Veils, Four Ranks, Twenty-Eight",
-      "arabic_runs": 1,
-      "unverified": 0,
+      "arabic_runs": 5,
+      "unverified": 4,
       "runs": [
+        {
+          "text": "جَوَاهِرُ",
+          "resolution": "unverified",
+          "skeleton": "جواهر"
+        },
+        {
+          "text": "أَمَانَة",
+          "resolution": "unverified",
+          "skeleton": "امانه"
+        },
+        {
+          "text": "نِظَامُ الْعَالَمِ الْأَعْلَى",
+          "resolution": "unverified",
+          "skeleton": "نظامالعالمالاعلي"
+        },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "الدَّعْوَتَيْن",
+          "resolution": "unverified",
+          "skeleton": "الدعوتين"
         }
       ]
     },
     {
       "chapter": "12. The Middle Way and the Heart Beneath the House",
-      "arabic_runs": 1,
-      "unverified": 1,
+      "arabic_runs": 4,
+      "unverified": 4,
       "runs": [
+        {
+          "text": "صَالِحُ الْمُؤْمِنِينَ",
+          "resolution": "unverified",
+          "skeleton": "صالحالمومنين"
+        },
+        {
+          "text": "كَلِمَاتُ الشَّهَادَةِ",
+          "resolution": "unverified",
+          "skeleton": "كلماتالشهاده"
+        },
         {
           "text": "زِيَادَة",
           "resolution": "unverified",
           "skeleton": "زياده"
+        },
+        {
+          "text": "عَهْدُ الشَّرِيفِ",
+          "resolution": "unverified",
+          "skeleton": "عهدالشريف"
         }
       ]
     },
     {
       "chapter": "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth",
-      "arabic_runs": 6,
-      "unverified": 6,
+      "arabic_runs": 27,
+      "unverified": 26,
       "runs": [
+        {
+          "text": "حُدُودُ الدَّعْوَة",
+          "resolution": "unverified",
+          "skeleton": "حدودالدعوه"
+        },
+        {
+          "text": "حَسَنَات",
+          "resolution": "unverified",
+          "skeleton": "حسنات"
+        },
         {
           "text": "مَنْسُوب",
           "resolution": "unverified",
           "skeleton": "منسوب"
+        },
+        {
+          "text": "نَصٌّ شَرِيف",
+          "resolution": "unverified",
+          "skeleton": "نصشريف"
         },
         {
           "text": "حُسَيْنُ بْنُ حَسَن",
@@ -520,9 +1046,29 @@
           "skeleton": "حسينبنحسن"
         },
         {
+          "text": "صَاحِبُ الْوَقْتِ",
+          "resolution": "unverified",
+          "skeleton": "صاحبالوقت"
+        },
+        {
+          "text": "مَنَاصِب",
+          "resolution": "unverified",
+          "skeleton": "مناصب"
+        },
+        {
           "text": "عَبْدُ اللَّهِ بْنُ حَامِد",
           "resolution": "unverified",
           "skeleton": "عبداللهبنحامد"
+        },
+        {
+          "text": "نُبُوَّة",
+          "resolution": "knowledge-base",
+          "skeleton": "نبوه"
+        },
+        {
+          "text": "وَصَايَت",
+          "resolution": "unverified",
+          "skeleton": "وصايت"
         },
         {
           "text": "عَالَمُ الرُّوحَانِي",
@@ -535,16 +1081,86 @@
           "skeleton": "محمدبنفرج"
         },
         {
+          "text": "دَاعٍ غَيْرُ مُنْفَرِدٍ",
+          "resolution": "unverified",
+          "skeleton": "داعغيرمنفرد"
+        },
+        {
+          "text": "مُنْفَرِد",
+          "resolution": "unverified",
+          "skeleton": "منفرد"
+        },
+        {
+          "text": "قَائِمُ الدُّعَاةِ",
+          "resolution": "unverified",
+          "skeleton": "قايمالدعاه"
+        },
+        {
+          "text": "دَاعِي الْبَلَاغ",
+          "resolution": "unverified",
+          "skeleton": "داعيالبلاغ"
+        },
+        {
+          "text": "ذُو الْمَعَانِي",
+          "resolution": "unverified",
+          "skeleton": "ذوالمعاني"
+        },
+        {
           "text": "مُقَطَّعَات",
           "resolution": "unverified",
           "skeleton": "مقطعات"
+        },
+        {
+          "text": "نُورَانِي",
+          "resolution": "unverified",
+          "skeleton": "نوراني"
+        },
+        {
+          "text": "ظُلْمَانِيّ",
+          "resolution": "unverified",
+          "skeleton": "ظلماني"
+        },
+        {
+          "text": "نُورَانِيَّةٌ خَفِيفَة",
+          "resolution": "unverified",
+          "skeleton": "نورانيهخفيفه"
+        },
+        {
+          "text": "نُورَانِيَّةٌ ثَقِيلَة",
+          "resolution": "unverified",
+          "skeleton": "نورانيهثقيله"
+        },
+        {
+          "text": "ظُلْمَانِيَّة خَفِيفَة",
+          "resolution": "unverified",
+          "skeleton": "ظلمانيهخفيفه"
+        },
+        {
+          "text": "ظُلْمَانِيَّة ثَقِيلَة",
+          "resolution": "unverified",
+          "skeleton": "ظلمانيهثقيله"
+        },
+        {
+          "text": "وَسِيلَة",
+          "resolution": "unverified",
+          "skeleton": "وسيله"
+        },
+        {
+          "text": "تَعْوِيذَات",
+          "resolution": "unverified",
+          "skeleton": "تعويذات"
+        },
+        {
+          "text": "وَلَايَت",
+          "resolution": "unverified",
+          "skeleton": "ولايت"
         }
       ]
     },
     {
       "chapter": "14. The Black Stone and the Cycles of Return",
-      "arabic_runs": 2,
-      "unverified": 2,
+      "arabic_runs": 8,
+      "unverified": 8,
       "runs": [
         {
           "text": "سَيِّدُنَا عَلِيّ بِن هِبَةِ اللَّه",
@@ -555,32 +1171,144 @@
           "text": "أُمُّ النَّدَى",
           "resolution": "unverified",
           "skeleton": "امالندي"
+        },
+        {
+          "text": "فُضُولَات",
+          "resolution": "unverified",
+          "skeleton": "فضولات"
+        },
+        {
+          "text": "وَلِيُّ الْعَصْرِ وَالزَّمَانِ",
+          "resolution": "unverified",
+          "skeleton": "وليالعصروالزمان"
+        },
+        {
+          "text": "أَنَا ابْنُ الْكَرَّاتِ",
+          "resolution": "unverified",
+          "skeleton": "اناابنالكرات"
+        },
+        {
+          "text": "سَيِّدُنَا حُسَيْنُ بْنُ إِسْمَاعِيلَ",
+          "resolution": "unverified",
+          "skeleton": "سيدناحسينبناسماعيل"
+        },
+        {
+          "text": "هَيَاكِل",
+          "resolution": "unverified",
+          "skeleton": "هياكل"
+        },
+        {
+          "text": "هَيْكَلٌ",
+          "resolution": "unverified",
+          "skeleton": "هيكل"
         }
       ]
     },
     {
       "chapter": "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
-      "arabic_runs": 0,
-      "unverified": 0,
-      "runs": []
+      "arabic_runs": 6,
+      "unverified": 6,
+      "runs": [
+        {
+          "text": "أَضْدَاد",
+          "resolution": "unverified",
+          "skeleton": "اضداد"
+        },
+        {
+          "text": "مَنَافِذ",
+          "resolution": "unverified",
+          "skeleton": "منافذ"
+        },
+        {
+          "text": "مَوَاقِفُ",
+          "resolution": "unverified",
+          "skeleton": "مواقف"
+        },
+        {
+          "text": "تَأْيِيد",
+          "resolution": "unverified",
+          "skeleton": "تاييد"
+        },
+        {
+          "text": "حَيَوَانِيّ",
+          "resolution": "unverified",
+          "skeleton": "حيواني"
+        },
+        {
+          "text": "مُجَرَّد",
+          "resolution": "unverified",
+          "skeleton": "مجرد"
+        }
+      ]
     },
     {
       "chapter": "16. Harun to Musa: The Successor Who Dies Before the Prophet",
-      "arabic_runs": 1,
-      "unverified": 1,
+      "arabic_runs": 10,
+      "unverified": 8,
       "runs": [
+        {
+          "text": "صَلَّى اللَّهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ",
+          "resolution": "honorific-formula",
+          "skeleton": "صلياللهعليهوالهوسلم"
+        },
         {
           "text": "فَاطِمِيّ",
           "resolution": "unverified",
           "skeleton": "فاطمي"
+        },
+        {
+          "text": "عَزِيمَة",
+          "resolution": "unverified",
+          "skeleton": "عزيمه"
+        },
+        {
+          "text": "حِجَابَات",
+          "resolution": "unverified",
+          "skeleton": "حجابات"
+        },
+        {
+          "text": "الْقُرُونُ الثَّلَاثَةُ",
+          "resolution": "unverified",
+          "skeleton": "القرونالثلاثه"
+        },
+        {
+          "text": "الْأَوَّلُ وَالْآخِرُ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "الاولوالاخر",
+          "reference": "Al-Hadid: 3"
+        },
+        {
+          "text": "ثَلَاثَةُ سُفَرَاء",
+          "resolution": "unverified",
+          "skeleton": "ثلاثهسفراء"
+        },
+        {
+          "text": "عَيْنِ عَظِيمَةٍ",
+          "resolution": "unverified",
+          "skeleton": "عينعظيمه"
+        },
+        {
+          "text": "مِيمِ مَرْيَمَة",
+          "resolution": "unverified",
+          "skeleton": "ميممريمه"
+        },
+        {
+          "text": "نَفْسُ الرَّسُولِ",
+          "resolution": "unverified",
+          "skeleton": "نفسالرسول"
         }
       ]
     },
     {
       "chapter": "17. The Fifth Intellect and the Verdict on the Caliphs",
-      "arabic_runs": 5,
-      "unverified": 5,
+      "arabic_runs": 9,
+      "unverified": 9,
       "runs": [
+        {
+          "text": "نُطَقَاء",
+          "resolution": "unverified",
+          "skeleton": "نطقاء"
+        },
         {
           "text": "حُذَيْفَةُ الْيَمَانِيُّ",
           "resolution": "unverified",
@@ -602,6 +1330,21 @@
           "skeleton": "اسامه"
         },
         {
+          "text": "مُصَافَحَة",
+          "resolution": "unverified",
+          "skeleton": "مصافحه"
+        },
+        {
+          "text": "مُحْتَجِبِينَ",
+          "resolution": "unverified",
+          "skeleton": "محتجبين"
+        },
+        {
+          "text": "دَوْرِ كَشْف",
+          "resolution": "unverified",
+          "skeleton": "دوركشف"
+        },
+        {
           "text": "وَلَايَة",
           "resolution": "unverified",
           "skeleton": "ولايه"
@@ -610,31 +1353,172 @@
     },
     {
       "chapter": "18. Returning as You Left: The Doctrine of the Second Cycle",
-      "arabic_runs": 1,
-      "unverified": 1,
+      "arabic_runs": 5,
+      "unverified": 5,
       "runs": [
         {
           "text": "مُكَاسِر",
           "resolution": "unverified",
           "skeleton": "مكاسر"
+        },
+        {
+          "text": "خِلَافَة",
+          "resolution": "unverified",
+          "skeleton": "خلافه"
+        },
+        {
+          "text": "نَفْسٌ نَامِيَة",
+          "resolution": "unverified",
+          "skeleton": "نفسناميه"
+        },
+        {
+          "text": "نَفْسٌ حِسِّيَّة",
+          "resolution": "unverified",
+          "skeleton": "نفسحسيه"
+        },
+        {
+          "text": "نَفْسٌ نَاطِقَةٌ",
+          "resolution": "unverified",
+          "skeleton": "نفسناطقه"
         }
       ]
     },
     {
       "chapter": "19. Offerings, Trials, and the Making of a Dai",
-      "arabic_runs": 0,
-      "unverified": 0,
-      "runs": []
+      "arabic_runs": 7,
+      "unverified": 7,
+      "runs": [
+        {
+          "text": "رَوْضَةٌ",
+          "resolution": "unverified",
+          "skeleton": "روضه"
+        },
+        {
+          "text": "إِخْوَان",
+          "resolution": "unverified",
+          "skeleton": "اخوان"
+        },
+        {
+          "text": "قِيَامَة",
+          "resolution": "unverified",
+          "skeleton": "قيامه"
+        },
+        {
+          "text": "جَوْهَرٌ",
+          "resolution": "unverified",
+          "skeleton": "جوهر"
+        },
+        {
+          "text": "مَوْصُول",
+          "resolution": "unverified",
+          "skeleton": "موصول"
+        },
+        {
+          "text": "دَوْرُ النَّبَوِيّ",
+          "resolution": "unverified",
+          "skeleton": "دورالنبوي"
+        },
+        {
+          "text": "دَوْرُ الطَّيِّبِيّ",
+          "resolution": "unverified",
+          "skeleton": "دورالطيبي"
+        }
+      ]
     },
     {
       "chapter": "20. The Cold Edges of the World: Where the Opponents Are Cast",
-      "arabic_runs": 3,
-      "unverified": 3,
+      "arabic_runs": 30,
+      "unverified": 26,
       "runs": [
+        {
+          "text": "نُحُوسَةٌ",
+          "resolution": "unverified",
+          "skeleton": "نحوسه"
+        },
+        {
+          "text": "وَظِيفَة",
+          "resolution": "unverified",
+          "skeleton": "وظيفه"
+        },
+        {
+          "text": "عَلِيٌّ الْعَظِيمُ",
+          "resolution": "knowledge-base",
+          "skeleton": "عليالعظيم"
+        },
+        {
+          "text": "عَلِيِّ الْعَظِيمِ",
+          "resolution": "knowledge-base",
+          "skeleton": "عليالعظيم"
+        },
         {
           "text": "اِسْتِغْفَار",
           "resolution": "unverified",
           "skeleton": "استغفار"
+        },
+        {
+          "text": "عَلِيًّا",
+          "resolution": "knowledge-base",
+          "skeleton": "عليا"
+        },
+        {
+          "text": "دَوْرُ السِّتْر",
+          "resolution": "unverified",
+          "skeleton": "دورالستر"
+        },
+        {
+          "text": "الشِّمَالُ",
+          "resolution": "unverified",
+          "skeleton": "الشمال"
+        },
+        {
+          "text": "أَضْدَاد",
+          "resolution": "unverified",
+          "skeleton": "اضداد"
+        },
+        {
+          "text": "فِي الْمَغْرِبِ",
+          "resolution": "unverified",
+          "skeleton": "فيالمغرب"
+        },
+        {
+          "text": "أَضْدَادُ الْأَئِمَّة",
+          "resolution": "unverified",
+          "skeleton": "اضدادالايمه"
+        },
+        {
+          "text": "الْجَنُوبُ",
+          "resolution": "unverified",
+          "skeleton": "الجنوب"
+        },
+        {
+          "text": "الْمَشْرِقُ",
+          "resolution": "unverified",
+          "skeleton": "المشرق"
+        },
+        {
+          "text": "رَأْسٌ وَذَنَبٌ",
+          "resolution": "unverified",
+          "skeleton": "راسوذنب"
+        },
+        {
+          "text": "نِطَاقُ الْقَمَرِ",
+          "resolution": "unverified",
+          "skeleton": "نطاقالقمر"
+        },
+        {
+          "text": "أَجْسَاد",
+          "resolution": "unverified",
+          "skeleton": "اجساد"
+        },
+        {
+          "text": "عِنَايَة إِلَهِيَّة",
+          "resolution": "unverified",
+          "skeleton": "عنايهالهيه"
+        },
+        {
+          "text": "حُدُودٌ صِدِّيقِيَّة",
+          "resolution": "unverified",
+          "skeleton": "حدودصديقيه"
         },
         {
           "text": "النَّفْسُ الْحِسِّيَّةُ",
@@ -642,22 +1526,98 @@
           "skeleton": "النفسالحسيه"
         },
         {
+          "text": "ذَبِيحَة",
+          "resolution": "unverified",
+          "skeleton": "ذبيحه"
+        },
+        {
+          "text": "اِنْتِقَال",
+          "resolution": "unverified",
+          "skeleton": "انتقال"
+        },
+        {
+          "text": "بَابِ ظَاهِر",
+          "resolution": "unverified",
+          "skeleton": "بابظاهر"
+        },
+        {
+          "text": "بَابِ بَاطِن",
+          "resolution": "unverified",
+          "skeleton": "بابباطن"
+        },
+        {
+          "text": "حُدُودٌ دَانِيَّة",
+          "resolution": "unverified",
+          "skeleton": "حدوددانيه"
+        },
+        {
+          "text": "حُدُودٌ عَلِيَّة",
+          "resolution": "unverified",
+          "skeleton": "حدودعليه"
+        },
+        {
+          "text": "فَصْلُ الْخِطَاب",
+          "resolution": "unverified",
+          "skeleton": "فصلالخطاب"
+        },
+        {
+          "text": "قَلْبُ الْهَيْكَلِ",
+          "resolution": "unverified",
+          "skeleton": "قلبالهيكل"
+        },
+        {
           "text": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللهِ",
           "resolution": "unverified",
           "skeleton": "لاحولولاقوهالابالله"
+        },
+        {
+          "text": "عَيْنُ الْأَئِمَّة",
+          "resolution": "unverified",
+          "skeleton": "عينالايمه"
+        },
+        {
+          "text": "عَلِيٍّ الْعَظِيمِ",
+          "resolution": "knowledge-base",
+          "skeleton": "عليالعظيم"
         }
       ]
     },
     {
       "chapter": "21. Rubies, Elephants, and Believers: The Summit of Each Kind",
-      "arabic_runs": 0,
-      "unverified": 0,
-      "runs": []
+      "arabic_runs": 5,
+      "unverified": 5,
+      "runs": [
+        {
+          "text": "أَحْجَار",
+          "resolution": "unverified",
+          "skeleton": "احجار"
+        },
+        {
+          "text": "أَهْلُ الْجَلِيسِ",
+          "resolution": "unverified",
+          "skeleton": "اهلالجليس"
+        },
+        {
+          "text": "كَوَاكِبُ",
+          "resolution": "unverified",
+          "skeleton": "كواكب"
+        },
+        {
+          "text": "تَأْيِيد",
+          "resolution": "unverified",
+          "skeleton": "تاييد"
+        },
+        {
+          "text": "عَقْلُ الْكُلِّي",
+          "resolution": "unverified",
+          "skeleton": "عقلالكلي"
+        }
+      ]
     },
     {
       "chapter": "22. Visiting the Graves: Traces, Intercession, and Free Will",
-      "arabic_runs": 2,
-      "unverified": 2,
+      "arabic_runs": 21,
+      "unverified": 21,
       "runs": [
         {
           "text": "عَبْدُ اللهِ بْنُ ثَامِرٍ",
@@ -665,21 +1625,196 @@
           "skeleton": "عبداللهبنثامر"
         },
         {
+          "text": "أُخْدُود",
+          "resolution": "unverified",
+          "skeleton": "اخدود"
+        },
+        {
+          "text": "إِرَادَة",
+          "resolution": "unverified",
+          "skeleton": "اراده"
+        },
+        {
+          "text": "صُورَةٌ نَيِّرَة",
+          "resolution": "unverified",
+          "skeleton": "صورهنيره"
+        },
+        {
+          "text": "فُضَلَاءُ",
+          "resolution": "unverified",
+          "skeleton": "فضلاء"
+        },
+        {
+          "text": "هَيَاكِل",
+          "resolution": "unverified",
+          "skeleton": "هياكل"
+        },
+        {
+          "text": "إِشْرَاقٌ",
+          "resolution": "unverified",
+          "skeleton": "اشراق"
+        },
+        {
+          "text": "مَعْرِفَة",
+          "resolution": "unverified",
+          "skeleton": "معرفه"
+        },
+        {
+          "text": "صُورَة شَرِيف",
+          "resolution": "unverified",
+          "skeleton": "صورهشريف"
+        },
+        {
           "text": "تَهَجُّد",
           "resolution": "unverified",
           "skeleton": "تهجد"
+        },
+        {
+          "text": "صَلَاة اللَّيْل",
+          "resolution": "unverified",
+          "skeleton": "صلاهالليل"
+        },
+        {
+          "text": "بَابُ السَّلْسَال",
+          "resolution": "unverified",
+          "skeleton": "بابالسلسال"
+        },
+        {
+          "text": "بَابُ الْأَنْبِيَاءِ",
+          "resolution": "unverified",
+          "skeleton": "بابالانبياء"
+        },
+        {
+          "text": "اِخْتِيَار",
+          "resolution": "unverified",
+          "skeleton": "اختيار"
+        },
+        {
+          "text": "إِقَامَة",
+          "resolution": "unverified",
+          "skeleton": "اقامه"
+        },
+        {
+          "text": "حُدُودٌ عَالِيَة",
+          "resolution": "unverified",
+          "skeleton": "حدودعاليه"
+        },
+        {
+          "text": "لَحْمُهَا",
+          "resolution": "unverified",
+          "skeleton": "لحمها"
+        },
+        {
+          "text": "عَظْمُهَا",
+          "resolution": "unverified",
+          "skeleton": "عظمها"
+        },
+        {
+          "text": "أَعْصَابُهَا",
+          "resolution": "unverified",
+          "skeleton": "اعصابها"
+        },
+        {
+          "text": "مَنَازِل",
+          "resolution": "unverified",
+          "skeleton": "منازل"
+        },
+        {
+          "text": "حُدُودٌ مُعَظَّمَة",
+          "resolution": "unverified",
+          "skeleton": "حدودمعظمه"
         }
       ]
     },
     {
       "chapter": "23. The Knife and the Name: Sacrifice at Mina",
-      "arabic_runs": 2,
-      "unverified": 1,
+      "arabic_runs": 18,
+      "unverified": 17,
       "runs": [
+        {
+          "text": "هَدِيَّة",
+          "resolution": "unverified",
+          "skeleton": "هديه"
+        },
+        {
+          "text": "نَفْسٌ حِسِّيَّةٌ",
+          "resolution": "unverified",
+          "skeleton": "نفسحسيه"
+        },
+        {
+          "text": "قُرْبَان",
+          "resolution": "unverified",
+          "skeleton": "قربان"
+        },
+        {
+          "text": "عَلِيِّ عِلِّيِّينَ",
+          "resolution": "unverified",
+          "skeleton": "عليعليين"
+        },
+        {
+          "text": "نَفْس نَامِيَّة",
+          "resolution": "unverified",
+          "skeleton": "نفسناميه"
+        },
+        {
+          "text": "وَظِيفَة",
+          "resolution": "unverified",
+          "skeleton": "وظيفه"
+        },
+        {
+          "text": "نَيِّرَةٌ",
+          "resolution": "unverified",
+          "skeleton": "نيره"
+        },
+        {
+          "text": "عَلِيّ بِن سُلَيْمَان",
+          "resolution": "unverified",
+          "skeleton": "عليبنسليمان"
+        },
+        {
+          "text": "تَسْمِيَة",
+          "resolution": "unverified",
+          "skeleton": "تسميه"
+        },
+        {
+          "text": "رَأْسُ الذَّنَبِ",
+          "resolution": "unverified",
+          "skeleton": "راسالذنب"
+        },
+        {
+          "text": "دَرَكَات",
+          "resolution": "unverified",
+          "skeleton": "دركات"
+        },
+        {
+          "text": "عَقِيقَةٌ",
+          "resolution": "unverified",
+          "skeleton": "عقيقه"
+        },
         {
           "text": "عَقِيقَة",
           "resolution": "unverified",
           "skeleton": "عقيقه"
+        },
+        {
+          "text": "كَلِمَةٌ",
+          "resolution": "unverified",
+          "skeleton": "كلمه"
+        },
+        {
+          "text": "مُنَاجَاتٌ",
+          "resolution": "unverified",
+          "skeleton": "مناجات"
+        },
+        {
+          "text": "قَائِمٌ عَلَى ذِكْرِهِ السَّلَامُ",
+          "resolution": "unverified",
+          "skeleton": "قايمعليذكرهالسلام"
+        },
+        {
+          "text": "صَفْرَاء",
+          "resolution": "unverified",
+          "skeleton": "صفراء"
         },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
@@ -690,19 +1825,65 @@
     },
     {
       "chapter": "24. Standing at 'Arafat",
-      "arabic_runs": 0,
-      "unverified": 0,
-      "runs": []
+      "arabic_runs": 5,
+      "unverified": 5,
+      "runs": [
+        {
+          "text": "سِرٌّ لَطِيفٌ",
+          "resolution": "unverified",
+          "skeleton": "سرلطيف"
+        },
+        {
+          "text": "مَقَامَات",
+          "resolution": "unverified",
+          "skeleton": "مقامات"
+        },
+        {
+          "text": "خُدَّامٌ",
+          "resolution": "unverified",
+          "skeleton": "خدام"
+        },
+        {
+          "text": "خَمَائِرُ",
+          "resolution": "unverified",
+          "skeleton": "خماير"
+        },
+        {
+          "text": "طَيُّ الْأَرْض",
+          "resolution": "unverified",
+          "skeleton": "طيالارض"
+        }
+      ]
     },
     {
       "chapter": "25. Prayer Outside the Island: The Eleventh Question",
-      "arabic_runs": 3,
-      "unverified": 3,
+      "arabic_runs": 8,
+      "unverified": 8,
       "runs": [
         {
           "text": "أَمِينُ الْمُؤْتَمَن",
           "resolution": "unverified",
           "skeleton": "امينالموتمن"
+        },
+        {
+          "text": "دَرَجَات",
+          "resolution": "unverified",
+          "skeleton": "درجات"
+        },
+        {
+          "text": "كَلِمَةُ الشَّهَادَةِ",
+          "resolution": "unverified",
+          "skeleton": "كلمهالشهاده"
+        },
+        {
+          "text": "إِفَاضَة",
+          "resolution": "unverified",
+          "skeleton": "افاضه"
+        },
+        {
+          "text": "حَدِّ عَالِي",
+          "resolution": "unverified",
+          "skeleton": "حدعالي"
         },
         {
           "text": "الطَّائِف",
@@ -713,14 +1894,136 @@
           "text": "سُلَيْمَانِ هُمَام",
           "resolution": "unverified",
           "skeleton": "سليمانهمام"
+        },
+        {
+          "text": "مَرَاسِمُ الدَّعْوَةِ",
+          "resolution": "unverified",
+          "skeleton": "مراسمالدعوه"
         }
       ]
     },
     {
       "chapter": "26. Seven Ranks Within Every Rank",
-      "arabic_runs": 2,
-      "unverified": 0,
+      "arabic_runs": 28,
+      "unverified": 22,
       "runs": [
+        {
+          "text": "دَارُ الْهِجْرَة",
+          "resolution": "unverified",
+          "skeleton": "دارالهجره"
+        },
+        {
+          "text": "رُتَبٌ الْعَالِيَةُ",
+          "resolution": "unverified",
+          "skeleton": "رتبالعاليه"
+        },
+        {
+          "text": "ثَوَابِت",
+          "resolution": "unverified",
+          "skeleton": "ثوابت"
+        },
+        {
+          "text": "رُتْبَةٌ",
+          "resolution": "unverified",
+          "skeleton": "رتبه"
+        },
+        {
+          "text": "حُجِّيَّة",
+          "resolution": "unverified",
+          "skeleton": "حجيه"
+        },
+        {
+          "text": "قَائِمِيَّة",
+          "resolution": "unverified",
+          "skeleton": "قايميه"
+        },
+        {
+          "text": "دَوْرُ الْقَائِم",
+          "resolution": "unverified",
+          "skeleton": "دورالقايم"
+        },
+        {
+          "text": "مُسْتَقَرٌّ",
+          "resolution": "knowledge-base",
+          "skeleton": "مستقر"
+        },
+        {
+          "text": "اسْتِعْدَاد",
+          "resolution": "unverified",
+          "skeleton": "استعداد"
+        },
+        {
+          "text": "مُسْتَوْدَعِين",
+          "resolution": "unverified",
+          "skeleton": "مستودعين"
+        },
+        {
+          "text": "مُسْتَقِرِّين",
+          "resolution": "unverified",
+          "skeleton": "مستقرين"
+        },
+        {
+          "text": "اِسْتِقْرَار",
+          "resolution": "unverified",
+          "skeleton": "استقرار"
+        },
+        {
+          "text": "مَجَامِع",
+          "resolution": "unverified",
+          "skeleton": "مجامع"
+        },
+        {
+          "text": "تَجَلِّي",
+          "resolution": "unverified",
+          "skeleton": "تجلي"
+        },
+        {
+          "text": "دُعَاةٌ مُسْتَقَرِّينَ",
+          "resolution": "unverified",
+          "skeleton": "دعاهمستقرين"
+        },
+        {
+          "text": "غَيْرُ مُنْفَرِد",
+          "resolution": "unverified",
+          "skeleton": "غيرمنفرد"
+        },
+        {
+          "text": "رِجَال الدَّعْوَة",
+          "resolution": "unverified",
+          "skeleton": "رجالالدعوه"
+        },
+        {
+          "text": "دُعَاةٌ غَيْرُ مُنْفَرِدٍ",
+          "resolution": "unverified",
+          "skeleton": "دعاهغيرمنفرد"
+        },
+        {
+          "text": "الْعَلِيُّ الْمَجِيدُ",
+          "resolution": "unverified",
+          "skeleton": "العليالمجيد"
+        },
+        {
+          "text": "عَذَابُ الْأَدْنَى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "عذابالادني",
+          "reference": "As-Sajdah: 21"
+        },
+        {
+          "text": "أَذْهَاب الْأَوْسَاط",
+          "resolution": "unverified",
+          "skeleton": "اذهابالاوساط"
+        },
+        {
+          "text": "عَذَابُ الْأَكْبَرِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "عذابالاكبر",
+          "reference": "As-Sajdah: 21"
+        },
+        {
+          "text": "نُورَانِيَّةٌ",
+          "resolution": "unverified",
+          "skeleton": "نورانيه"
+        },
         {
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
@@ -730,14 +2033,135 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "honorific-formula",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "المُبدِع",
+          "resolution": "unverified",
+          "skeleton": "المبدع"
+        },
+        {
+          "text": "تَفَضُّل",
+          "resolution": "unverified",
+          "skeleton": "تفضل"
+        },
+        {
+          "text": "ذُو الْجَلَالِ وَالْإِكْرَامِ",
+          "resolution": "canonical-mushaf",
+          "skeleton": "ذوالجلالوالاكرام",
+          "reference": "Ar-Rahman: 27"
         }
       ]
     },
     {
       "chapter": "27. The Mahdi, the Qaim, and the Straight Path",
-      "arabic_runs": 3,
-      "unverified": 3,
+      "arabic_runs": 26,
+      "unverified": 26,
       "runs": [
+        {
+          "text": "مَوْلَانَا مَهْدِي",
+          "resolution": "unverified",
+          "skeleton": "مولانامهدي"
+        },
+        {
+          "text": "إِمَامَة",
+          "resolution": "unverified",
+          "skeleton": "امامه"
+        },
+        {
+          "text": "مَهْدِيُّ آخِرِ الزَّمَان",
+          "resolution": "unverified",
+          "skeleton": "مهدياخرالزمان"
+        },
+        {
+          "text": "أَبُو الْقَائِم",
+          "resolution": "unverified",
+          "skeleton": "ابوالقايم"
+        },
+        {
+          "text": "سَوَابِقَات",
+          "resolution": "unverified",
+          "skeleton": "سوابقات"
+        },
+        {
+          "text": "دَوْرُ الْكَشْف",
+          "resolution": "unverified",
+          "skeleton": "دورالكشف"
+        },
+        {
+          "text": "مُتَمِّمِين",
+          "resolution": "unverified",
+          "skeleton": "متممين"
+        },
+        {
+          "text": "دَوْرُ السِّتْر",
+          "resolution": "unverified",
+          "skeleton": "دورالستر"
+        },
+        {
+          "text": "سَيِّدُنَا عَلِيُّ بْنُ حَنْظَلَةَ",
+          "resolution": "unverified",
+          "skeleton": "سيدناعليبنحنظله"
+        },
+        {
+          "text": "دَوْرُ الْفَتْرَة",
+          "resolution": "unverified",
+          "skeleton": "دورالفتره"
+        },
+        {
+          "text": "رُبَاطَاتٌ",
+          "resolution": "unverified",
+          "skeleton": "رباطات"
+        },
+        {
+          "text": "الرُّكْنُ الْأَشَمُّ",
+          "resolution": "unverified",
+          "skeleton": "الركنالاشم"
+        },
+        {
+          "text": "رُكْنُ الْأَسَدِ",
+          "resolution": "unverified",
+          "skeleton": "ركنالاسد"
+        },
+        {
+          "text": "مَوْلَانَا الْقَائِم",
+          "resolution": "unverified",
+          "skeleton": "مولاناالقايم"
+        },
+        {
+          "text": "جُزْئِيّ دَاعِي",
+          "resolution": "unverified",
+          "skeleton": "جزييداعي"
+        },
+        {
+          "text": "جُزْئِيٌّ",
+          "resolution": "unverified",
+          "skeleton": "جزيي"
+        },
+        {
+          "text": "صِرَاط مُسْتَقِيم",
+          "resolution": "unverified",
+          "skeleton": "صراطمستقيم"
+        },
+        {
+          "text": "حَضْرَةُ الْمُقَدَّس",
+          "resolution": "unverified",
+          "skeleton": "حضرهالمقدس"
+        },
+        {
+          "text": "حُدُودٌ دَانِيَة",
+          "resolution": "unverified",
+          "skeleton": "حدوددانيه"
+        },
+        {
+          "text": "تَرَقِّيَات",
+          "resolution": "unverified",
+          "skeleton": "ترقيات"
+        },
+        {
+          "text": "طَهَارَة",
+          "resolution": "unverified",
+          "skeleton": "طهاره"
+        },
         {
           "text": "نَامِيَة",
           "resolution": "unverified",
@@ -752,14 +2176,55 @@
           "text": "نَاطِقَة",
           "resolution": "unverified",
           "skeleton": "ناطقه"
+        },
+        {
+          "text": "ظُهُورَات",
+          "resolution": "unverified",
+          "skeleton": "ظهورات"
+        },
+        {
+          "text": "طَرِيقَة",
+          "resolution": "unverified",
+          "skeleton": "طريقه"
         }
       ]
     },
     {
       "chapter": "28. Rolling Up the Sky: Cycles Without End",
-      "arabic_runs": 2,
-      "unverified": 1,
+      "arabic_runs": 8,
+      "unverified": 6,
       "runs": [
+        {
+          "text": "تَدْبِيرَات",
+          "resolution": "unverified",
+          "skeleton": "تدبيرات"
+        },
+        {
+          "text": "سِدْرَةُ الْمُنْتَهَى",
+          "resolution": "canonical-mushaf",
+          "skeleton": "سدرهالمنتهي",
+          "reference": "An-Najm: 14"
+        },
+        {
+          "text": "جَنَّةُ الْمَأْوَى",
+          "resolution": "unverified",
+          "skeleton": "جنهالماوي"
+        },
+        {
+          "text": "بَابُ الظَّاهِر",
+          "resolution": "unverified",
+          "skeleton": "بابالظاهر"
+        },
+        {
+          "text": "بَابُ الْبَاطِن",
+          "resolution": "unverified",
+          "skeleton": "بابالباطن"
+        },
+        {
+          "text": "الْمَلَوَانِ",
+          "resolution": "unverified",
+          "skeleton": "الملوان"
+        },
         {
           "text": "قُطْبُ الدِّين",
           "resolution": "unverified",
@@ -774,12 +2239,12 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 2,
+    "canonical-mushaf": 7,
     "ocr": 0,
-    "knowledge-base": 0,
-    "honorific-formula": 17,
-    "unverified": 94,
-    "arabic_runs": 113
+    "knowledge-base": 9,
+    "honorific-formula": 18,
+    "unverified": 370,
+    "arabic_runs": 404
   },
   "note": "no OCR ground truth for this book — every run falls back to the knowledge base",
   "quran_coverage": {
@@ -791,130 +2256,37 @@
     "uncited_inserted": 0
   },
   "stages": {
-    "base": {
-      "(front matter)": 0,
-      "1. The Author and His Only Book": 9,
-      "2. Praise, the Three Human Natures, and the Unknowable God": 0,
-      "3. The Prophet, His Brother, and the Veiled Successors": 0,
-      "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran": 3,
-      "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai": 0,
-      "6. The Reluctant Answerer: How These Questions Came to Be Written": 0,
-      "7. What Was There Before Origination": 0,
-      "8. The Fifteen Ranks of the Repentant and How Far We Fell": 0,
-      "9. The Sphere That Rises From Where It Stands": 0,
-      "10. Subtle Essences: What Rises From the Dead and What Feeds the Living": 1,
-      "11. Three Veils, Four Ranks, Twenty-Eight": 1,
-      "12. The Middle Way and the Heart Beneath the House": 0,
-      "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth": 0,
-      "14. The Black Stone and the Cycles of Return": 0,
-      "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn": 0,
-      "16. Harun to Musa: The Successor Who Dies Before the Prophet": 0,
-      "17. The Fifth Intellect and the Verdict on the Caliphs": 0,
-      "18. Returning as You Left: The Doctrine of the Second Cycle": 0,
-      "19. Offerings, Trials, and the Making of a Dai": 0,
-      "20. The Cold Edges of the World: Where the Opponents Are Cast": 0,
-      "21. Rubies, Elephants, and Believers: The Summit of Each Kind": 0,
-      "22. Visiting the Graves: Traces, Intercession, and Free Will": 0,
-      "23. The Knife and the Name: Sacrifice at Mina": 1,
-      "24. Standing at 'Arafat": 0,
-      "25. Prayer Outside the Island: The Eleventh Question": 0,
-      "26. Seven Ranks Within Every Rank": 2,
-      "27. The Mahdi, the Qaim, and the Straight Path": 0,
-      "28. Rolling Up the Sky: Cycles Without End": 1
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "1. The Author and His Only Book": 9,
-      "2. Praise, the Three Human Natures, and the Unknowable God": 0,
-      "3. The Prophet, His Brother, and the Veiled Successors": 0,
-      "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran": 3,
-      "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai": 0,
-      "6. The Reluctant Answerer: How These Questions Came to Be Written": 0,
-      "7. What Was There Before Origination": 0,
-      "8. The Fifteen Ranks of the Repentant and How Far We Fell": 0,
-      "9. The Sphere That Rises From Where It Stands": 0,
-      "10. Subtle Essences: What Rises From the Dead and What Feeds the Living": 1,
-      "11. Three Veils, Four Ranks, Twenty-Eight": 1,
-      "12. The Middle Way and the Heart Beneath the House": 0,
-      "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth": 0,
-      "14. The Black Stone and the Cycles of Return": 0,
-      "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn": 0,
-      "16. Harun to Musa: The Successor Who Dies Before the Prophet": 0,
-      "17. The Fifth Intellect and the Verdict on the Caliphs": 0,
-      "18. Returning as You Left: The Doctrine of the Second Cycle": 0,
-      "19. Offerings, Trials, and the Making of a Dai": 0,
-      "20. The Cold Edges of the World: Where the Opponents Are Cast": 0,
-      "21. Rubies, Elephants, and Believers: The Summit of Each Kind": 0,
-      "22. Visiting the Graves: Traces, Intercession, and Free Will": 0,
-      "23. The Knife and the Name: Sacrifice at Mina": 1,
-      "24. Standing at 'Arafat": 0,
-      "25. Prayer Outside the Island: The Eleventh Question": 0,
-      "26. Seven Ranks Within Every Rank": 2,
-      "27. The Mahdi, the Qaim, and the Straight Path": 0,
-      "28. Rolling Up the Sky: Cycles Without End": 1
-    },
-    "augment": {
-      "(front matter)": 0,
-      "1. The Author and His Only Book": 9,
-      "2. Praise, the Three Human Natures, and the Unknowable God": 0,
-      "3. The Prophet, His Brother, and the Veiled Successors": 0,
-      "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran": 3,
-      "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai": 0,
-      "6. The Reluctant Answerer: How These Questions Came to Be Written": 0,
-      "7. What Was There Before Origination": 0,
-      "8. The Fifteen Ranks of the Repentant and How Far We Fell": 0,
-      "9. The Sphere That Rises From Where It Stands": 0,
-      "10. Subtle Essences: What Rises From the Dead and What Feeds the Living": 1,
-      "11. Three Veils, Four Ranks, Twenty-Eight": 1,
-      "12. The Middle Way and the Heart Beneath the House": 0,
-      "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth": 0,
-      "14. The Black Stone and the Cycles of Return": 0,
-      "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn": 0,
-      "16. Harun to Musa: The Successor Who Dies Before the Prophet": 0,
-      "17. The Fifth Intellect and the Verdict on the Caliphs": 0,
-      "18. Returning as You Left: The Doctrine of the Second Cycle": 0,
-      "19. Offerings, Trials, and the Making of a Dai": 0,
-      "20. The Cold Edges of the World: Where the Opponents Are Cast": 0,
-      "21. Rubies, Elephants, and Believers: The Summit of Each Kind": 0,
-      "22. Visiting the Graves: Traces, Intercession, and Free Will": 0,
-      "23. The Knife and the Name: Sacrifice at Mina": 1,
-      "24. Standing at 'Arafat": 0,
-      "25. Prayer Outside the Island: The Eleventh Question": 0,
-      "26. Seven Ranks Within Every Rank": 2,
-      "27. The Mahdi, the Qaim, and the Straight Path": 0,
-      "28. Rolling Up the Sky: Cycles Without End": 1
-    },
     "final": {
       "(front matter)": 0,
-      "Introduction to the Book": 3,
-      "1. The Author and His Only Book": 11,
-      "2. Praise, the Three Human Natures, and the Unknowable God": 5,
-      "3. The Prophet, His Brother, and the Veiled Successors": 0,
-      "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran": 7,
-      "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai": 5,
-      "6. The Reluctant Answerer: How These Questions Came to Be Written": 9,
-      "7. What Was There Before Origination": 14,
-      "8. The Fifteen Ranks of the Repentant and How Far We Fell": 16,
-      "9. The Sphere That Rises From Where It Stands": 6,
-      "10. Subtle Essences: What Rises From the Dead and What Feeds the Living": 3,
-      "11. Three Veils, Four Ranks, Twenty-Eight": 1,
-      "12. The Middle Way and the Heart Beneath the House": 1,
-      "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth": 6,
-      "14. The Black Stone and the Cycles of Return": 2,
-      "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn": 0,
-      "16. Harun to Musa: The Successor Who Dies Before the Prophet": 1,
-      "17. The Fifth Intellect and the Verdict on the Caliphs": 5,
-      "18. Returning as You Left: The Doctrine of the Second Cycle": 1,
-      "19. Offerings, Trials, and the Making of a Dai": 0,
-      "20. The Cold Edges of the World: Where the Opponents Are Cast": 3,
-      "21. Rubies, Elephants, and Believers: The Summit of Each Kind": 0,
-      "22. Visiting the Graves: Traces, Intercession, and Free Will": 2,
-      "23. The Knife and the Name: Sacrifice at Mina": 2,
-      "24. Standing at 'Arafat": 0,
-      "25. Prayer Outside the Island: The Eleventh Question": 3,
-      "26. Seven Ranks Within Every Rank": 2,
-      "27. The Mahdi, the Qaim, and the Straight Path": 3,
-      "28. Rolling Up the Sky: Cycles Without End": 2
+      "Introduction to the Book": 4,
+      "1. The Author and His Only Book": 22,
+      "2. Praise, the Three Human Natures, and the Unknowable God": 16,
+      "3. The Prophet, His Brother, and the Veiled Successors": 10,
+      "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran": 18,
+      "5. Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai": 10,
+      "6. The Reluctant Answerer: How These Questions Came to Be Written": 20,
+      "7. What Was There Before Origination": 34,
+      "8. The Fifteen Ranks of the Repentant and How Far We Fell": 22,
+      "9. The Sphere That Rises From Where It Stands": 13,
+      "10. Subtle Essences: What Rises From the Dead and What Feeds the Living": 5,
+      "11. Three Veils, Four Ranks, Twenty-Eight": 5,
+      "12. The Middle Way and the Heart Beneath the House": 4,
+      "13. Registers of Rank: Who Stands Where, and the Twenty-Ninth": 27,
+      "14. The Black Stone and the Cycles of Return": 8,
+      "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn": 6,
+      "16. Harun to Musa: The Successor Who Dies Before the Prophet": 10,
+      "17. The Fifth Intellect and the Verdict on the Caliphs": 9,
+      "18. Returning as You Left: The Doctrine of the Second Cycle": 5,
+      "19. Offerings, Trials, and the Making of a Dai": 7,
+      "20. The Cold Edges of the World: Where the Opponents Are Cast": 30,
+      "21. Rubies, Elephants, and Believers: The Summit of Each Kind": 5,
+      "22. Visiting the Graves: Traces, Intercession, and Free Will": 21,
+      "23. The Knife and the Name: Sacrifice at Mina": 18,
+      "24. Standing at 'Arafat": 5,
+      "25. Prayer Outside the Island: The Eleventh Question": 8,
+      "26. Seven Ranks Within Every Rank": 28,
+      "27. The Mahdi, the Qaim, and the Straight Path": 26,
+      "28. Rolling Up the Sky: Cycles Without End": 8
     }
   },
   "stage_losses": []

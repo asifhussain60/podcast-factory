@@ -1,14 +1,8 @@
 {
   "schema": "podcast.book-render-checks/v1",
   "verdict": "RENDER-CAUTION",
-  "pages": 245,
+  "pages": 246,
   "findings": [
-    {
-      "check": "BR-RUNNING-HEAD",
-      "severity": "P1",
-      "page": 168,
-      "detail": "running head names chapter 21; the page belongs to chapter 20"
-    },
     {
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
@@ -31,7 +25,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 172,
-      "detail": "running head names chapter 22; the page belongs to chapter 20"
+      "detail": "running head names chapter 21; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -133,7 +127,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 189,
-      "detail": "running head names chapter 23; the page belongs to chapter 20"
+      "detail": "running head names chapter 22; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -205,7 +199,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 201,
-      "detail": "running head names chapter 24; the page belongs to chapter 20"
+      "detail": "running head names chapter 23; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -235,7 +229,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 206,
-      "detail": "running head names chapter 25; the page belongs to chapter 20"
+      "detail": "running head names chapter 24; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -295,7 +289,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 216,
-      "detail": "running head names chapter 26; the page belongs to chapter 20"
+      "detail": "running head names chapter 25; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -373,7 +367,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 229,
-      "detail": "running head names chapter 27; the page belongs to chapter 20"
+      "detail": "running head names chapter 26; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -421,7 +415,7 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 237,
-      "detail": "running head names chapter 28; the page belongs to chapter 20"
+      "detail": "running head names chapter 27; the page belongs to chapter 20"
     },
     {
       "check": "BR-RUNNING-HEAD",
@@ -469,6 +463,12 @@
       "check": "BR-RUNNING-HEAD",
       "severity": "P1",
       "page": 245,
+      "detail": "running head names chapter 28; the page belongs to chapter 20"
+    },
+    {
+      "check": "BR-RUNNING-HEAD",
+      "severity": "P1",
+      "page": 246,
       "detail": "running head names chapter 28; the page belongs to chapter 20"
     }
   ]

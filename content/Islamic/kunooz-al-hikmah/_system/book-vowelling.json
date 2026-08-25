@@ -1,25 +1,20 @@
 {
-  "vowelled": 6,
-  "marks_added": 71,
-  "already": 88,
+  "vowelled": 4,
+  "marks_added": 60,
+  "already": 371,
   "quranic": 0,
   "from_mushaf": 1,
-  "refused": 1,
+  "refused": 0,
   "recovered": 0,
   "transferred": 1,
-  "in_chars": 84,
-  "out_chars": 146,
+  "in_chars": 68,
+  "out_chars": 116,
   "mushaf_pairs": [
     [
       "أولياء الله",
       "أَوْلِيَآءَ ٱللَّهِ"
     ]
   ],
-  "refusals": [
-    {
-      "run": "ذاتِ إمام",
-      "reason": "empty"
-    }
-  ],
-  "lexical": 0
+  "refusals": [],
+  "lexical": 1
 }

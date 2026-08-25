@@ -1,495 +1,481 @@
 {
   "schema": "book.comprehension/v1",
-  "pages": 245,
+  "pages": 246,
   "terms_tracked": 800,
   "prerequisite_gaps": [
     {
       "term": "Mahdi",
       "first_use_page": 7,
-      "explained_page": 231,
-      "pages_carried": 224,
+      "explained_page": 232,
+      "pages_carried": 225,
+      "kind": "explained-late"
+    },
+    {
+      "term": "island",
+      "first_use_page": 7,
+      "explained_page": 208,
+      "pages_carried": 201,
       "kind": "explained-late"
     },
     {
       "term": "kutub",
       "first_use_page": 44,
-      "explained_page": 237,
-      "pages_carried": 193,
+      "explained_page": 238,
+      "pages_carried": 194,
       "kind": "explained-late"
     },
     {
       "term": "Hadrat",
       "first_use_page": 37,
-      "explained_page": 222,
-      "pages_carried": 185,
+      "explained_page": 223,
+      "pages_carried": 186,
       "kind": "explained-late"
     },
     {
       "term": "Mina",
       "first_use_page": 7,
-      "explained_page": 189,
-      "pages_carried": 182,
+      "explained_page": 190,
+      "pages_carried": 183,
       "kind": "explained-late"
     },
     {
       "term": "Medina",
       "first_use_page": 54,
-      "explained_page": 228,
-      "pages_carried": 174,
+      "explained_page": 229,
+      "pages_carried": 175,
+      "kind": "explained-late"
+    },
+    {
+      "term": "surat",
+      "first_use_page": 10,
+      "explained_page": 175,
+      "pages_carried": 165,
       "kind": "explained-late"
     },
     {
       "term": "creatures",
       "first_use_page": 46,
-      "explained_page": 205,
-      "pages_carried": 159,
+      "explained_page": 206,
+      "pages_carried": 160,
       "kind": "explained-late"
     },
     {
       "term": "kawakib",
       "first_use_page": 10,
-      "explained_page": 169,
-      "pages_carried": 159,
+      "explained_page": 170,
+      "pages_carried": 160,
       "kind": "explained-late"
     },
     {
       "term": "sadaqallah",
-      "first_use_page": 72,
-      "explained_page": 230,
+      "first_use_page": 73,
+      "explained_page": 231,
       "pages_carried": 158,
       "kind": "explained-late"
     },
     {
-      "term": "unique",
-      "first_use_page": 69,
-      "explained_page": 222,
-      "pages_carried": 153,
+      "term": "appearance",
+      "first_use_page": 56,
+      "explained_page": 211,
+      "pages_carried": 155,
       "kind": "explained-late"
     },
     {
-      "term": "greatness",
-      "first_use_page": 47,
-      "explained_page": 195,
-      "pages_carried": 148,
+      "term": "unique",
+      "first_use_page": 70,
+      "explained_page": 223,
+      "pages_carried": 153,
       "kind": "explained-late"
     },
     {
       "term": "polytheists",
       "first_use_page": 54,
-      "explained_page": 197,
-      "pages_carried": 143,
-      "kind": "explained-late"
-    },
-    {
-      "term": "hissiyah",
-      "first_use_page": 37,
-      "explained_page": 178,
-      "pages_carried": 141,
-      "kind": "explained-late"
-    },
-    {
-      "term": "natiqah",
-      "first_use_page": 37,
-      "explained_page": 178,
-      "pages_carried": 141,
-      "kind": "explained-late"
-    },
-    {
-      "term": "sirat",
-      "first_use_page": 94,
-      "explained_page": 234,
-      "pages_carried": 140,
-      "kind": "explained-late"
-    },
-    {
-      "term": "realities",
-      "first_use_page": 20,
-      "explained_page": 159,
-      "pages_carried": 139,
-      "kind": "explained-late"
-    },
-    {
-      "term": "duas",
-      "first_use_page": 31,
-      "explained_page": 166,
-      "pages_carried": 135,
-      "kind": "explained-late"
-    },
-    {
-      "term": "nufus",
-      "first_use_page": 28,
-      "explained_page": 163,
-      "pages_carried": 135,
+      "explained_page": 198,
+      "pages_carried": 144,
       "kind": "explained-late"
     },
     {
       "term": "subtleties",
       "first_use_page": 27,
-      "explained_page": 161,
-      "pages_carried": 134,
+      "explained_page": 171,
+      "pages_carried": 144,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hissiyah",
+      "first_use_page": 37,
+      "explained_page": 179,
+      "pages_carried": 142,
+      "kind": "explained-late"
+    },
+    {
+      "term": "natiqah",
+      "first_use_page": 37,
+      "explained_page": 179,
+      "pages_carried": 142,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sirat",
+      "first_use_page": 95,
+      "explained_page": 235,
+      "pages_carried": 140,
+      "kind": "explained-late"
+    },
+    {
+      "term": "duas",
+      "first_use_page": 31,
+      "explained_page": 167,
+      "pages_carried": 136,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nufus",
+      "first_use_page": 28,
+      "explained_page": 164,
+      "pages_carried": 136,
       "kind": "explained-late"
     },
     {
       "term": "ablution",
-      "first_use_page": 72,
-      "explained_page": 200,
+      "first_use_page": 73,
+      "explained_page": 201,
       "pages_carried": 128,
       "kind": "explained-late"
     },
     {
       "term": "succession",
       "first_use_page": 10,
-      "explained_page": 132,
-      "pages_carried": 122,
+      "explained_page": 133,
+      "pages_carried": 123,
       "kind": "explained-late"
     },
     {
       "term": "ra's",
       "first_use_page": 42,
-      "explained_page": 159,
-      "pages_carried": 117,
+      "explained_page": 160,
+      "pages_carried": 118,
       "kind": "explained-late"
     },
     {
       "term": "period",
       "first_use_page": 29,
-      "explained_page": 141,
-      "pages_carried": 112,
+      "explained_page": 142,
+      "pages_carried": 113,
       "kind": "explained-late"
     },
     {
       "term": "Zayd",
       "first_use_page": 6,
-      "explained_page": 116,
-      "pages_carried": 110,
+      "explained_page": 117,
+      "pages_carried": 111,
       "kind": "explained-late"
     },
     {
       "term": "lam",
       "first_use_page": 44,
-      "explained_page": 153,
-      "pages_carried": 109,
-      "kind": "explained-late"
-    },
-    {
-      "term": "wali",
-      "first_use_page": 62,
-      "explained_page": 170,
-      "pages_carried": 108,
+      "explained_page": 154,
+      "pages_carried": 110,
       "kind": "explained-late"
     },
     {
       "term": "Arafat",
       "first_use_page": 7,
-      "explained_page": 114,
-      "pages_carried": 107,
+      "explained_page": 115,
+      "pages_carried": 108,
+      "kind": "explained-late"
+    },
+    {
+      "term": "wali",
+      "first_use_page": 63,
+      "explained_page": 171,
+      "pages_carried": 108,
+      "kind": "explained-late"
+    },
+    {
+      "term": "slaughter",
+      "first_use_page": 84,
+      "explained_page": 190,
+      "pages_carried": 106,
       "kind": "explained-late"
     },
     {
       "term": "shajarah",
       "first_use_page": 9,
-      "explained_page": 113,
-      "pages_carried": 104,
+      "explained_page": 114,
+      "pages_carried": 105,
       "kind": "explained-late"
     },
     {
       "term": "bataih",
       "first_use_page": 6,
-      "explained_page": 108,
-      "pages_carried": 102,
+      "explained_page": 109,
+      "pages_carried": 103,
       "kind": "explained-late"
     },
     {
       "term": "intercession",
       "first_use_page": 7,
-      "explained_page": 107,
-      "pages_carried": 100,
+      "explained_page": 108,
+      "pages_carried": 101,
       "kind": "explained-late"
     },
     {
       "term": "muqaddas",
       "first_use_page": 52,
-      "explained_page": 150,
-      "pages_carried": 98,
+      "explained_page": 151,
+      "pages_carried": 99,
       "kind": "explained-late"
     },
     {
       "term": "marifah",
       "first_use_page": 37,
-      "explained_page": 134,
-      "pages_carried": 97,
-      "kind": "explained-late"
-    },
-    {
-      "term": "ghaybah",
-      "first_use_page": 23,
-      "explained_page": 119,
-      "pages_carried": 96,
-      "kind": "explained-late"
-    },
-    {
-      "term": "kashf",
-      "first_use_page": 134,
-      "explained_page": 230,
-      "pages_carried": 96,
+      "explained_page": 135,
+      "pages_carried": 98,
       "kind": "explained-late"
     },
     {
       "term": "munfarid",
-      "first_use_page": 12,
-      "explained_page": 107,
-      "pages_carried": 95,
+      "first_use_page": 10,
+      "explained_page": 108,
+      "pages_carried": 98,
       "kind": "explained-late"
     },
     {
       "term": "body",
       "first_use_page": 6,
-      "explained_page": 99,
-      "pages_carried": 93,
+      "explained_page": 100,
+      "pages_carried": 94,
       "kind": "explained-late"
     },
     {
       "term": "Nuh",
-      "first_use_page": 131,
-      "explained_page": 223,
+      "first_use_page": 132,
+      "explained_page": 224,
       "pages_carried": 92,
       "kind": "explained-late"
     },
     {
-      "term": "truthful",
-      "first_use_page": 69,
-      "explained_page": 158,
+      "term": "azdad",
+      "first_use_page": 110,
+      "explained_page": 199,
       "pages_carried": 89,
       "kind": "explained-late"
     },
     {
       "term": "battle",
       "first_use_page": 20,
-      "explained_page": 108,
-      "pages_carried": 88,
+      "explained_page": 109,
+      "pages_carried": 89,
+      "kind": "explained-late"
+    },
+    {
+      "term": "truthful",
+      "first_use_page": 70,
+      "explained_page": 159,
+      "pages_carried": 89,
       "kind": "explained-late"
     },
     {
       "term": "Muzdalifah",
-      "first_use_page": 114,
-      "explained_page": 201,
+      "first_use_page": 115,
+      "explained_page": 202,
       "pages_carried": 87,
       "kind": "explained-late"
     },
     {
-      "term": "family",
-      "first_use_page": 9,
-      "explained_page": 95,
-      "pages_carried": 86,
-      "kind": "explained-late"
-    },
-    {
       "term": "opposites",
-      "first_use_page": 109,
-      "explained_page": 194,
+      "first_use_page": 110,
+      "explained_page": 195,
       "pages_carried": 85,
       "kind": "explained-late"
     },
     {
       "term": "nass",
       "first_use_page": 9,
-      "explained_page": 91,
-      "pages_carried": 82,
+      "explained_page": 92,
+      "pages_carried": 83,
       "kind": "explained-late"
     },
     {
       "term": "hadith",
-      "first_use_page": 112,
-      "explained_page": 191,
+      "first_use_page": 113,
+      "explained_page": 192,
       "pages_carried": 79,
       "kind": "explained-late"
     },
     {
-      "term": "slaughter",
-      "first_use_page": 83,
-      "explained_page": 162,
-      "pages_carried": 79,
+      "term": "kashf",
+      "first_use_page": 153,
+      "explained_page": 231,
+      "pages_carried": 78,
       "kind": "explained-late"
     },
     {
       "term": "unveiling",
-      "first_use_page": 152,
-      "explained_page": 230,
+      "first_use_page": 153,
+      "explained_page": 231,
       "pages_carried": 78,
       "kind": "explained-late"
     },
     {
       "term": "animal",
-      "first_use_page": 112,
-      "explained_page": 189,
+      "first_use_page": 113,
+      "explained_page": 190,
       "pages_carried": 77,
       "kind": "explained-late"
     },
     {
       "term": "Friday",
       "first_use_page": 17,
-      "explained_page": 88,
-      "pages_carried": 71,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Madinah",
-      "first_use_page": 126,
-      "explained_page": 196,
-      "pages_carried": 70,
+      "explained_page": 89,
+      "pages_carried": 72,
       "kind": "explained-late"
     },
     {
       "term": "Adam",
       "first_use_page": 9,
-      "explained_page": 78,
-      "pages_carried": 69,
+      "explained_page": 79,
+      "pages_carried": 70,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Madinah",
+      "first_use_page": 127,
+      "explained_page": 197,
+      "pages_carried": 70,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nayyirah",
+      "first_use_page": 105,
+      "explained_page": 175,
+      "pages_carried": 70,
       "kind": "explained-late"
     },
     {
       "term": "bir",
       "first_use_page": 42,
-      "explained_page": 108,
-      "pages_carried": 66,
+      "explained_page": 109,
+      "pages_carried": 67,
       "kind": "explained-late"
     },
     {
       "term": "return",
       "first_use_page": 6,
-      "explained_page": 72,
-      "pages_carried": 66,
+      "explained_page": 73,
+      "pages_carried": 67,
       "kind": "explained-late"
     },
     {
       "term": "muhtajib",
       "first_use_page": 21,
-      "explained_page": 85,
-      "pages_carried": 64,
+      "explained_page": 86,
+      "pages_carried": 65,
       "kind": "explained-late"
     },
     {
       "term": "athar",
-      "first_use_page": 114,
-      "explained_page": 176,
+      "first_use_page": 115,
+      "explained_page": 177,
       "pages_carried": 62,
       "kind": "explained-late"
     },
     {
       "term": "haykal",
-      "first_use_page": 104,
-      "explained_page": 166,
-      "pages_carried": 62,
-      "kind": "explained-late"
-    },
-    {
-      "term": "nayyirah",
-      "first_use_page": 104,
-      "explained_page": 166,
+      "first_use_page": 105,
+      "explained_page": 167,
       "pages_carried": 62,
       "kind": "explained-late"
     },
     {
       "term": "al-mashriq",
-      "first_use_page": 99,
-      "explained_page": 159,
+      "first_use_page": 100,
+      "explained_page": 160,
       "pages_carried": 60,
       "kind": "explained-late"
     },
     {
       "term": "mashriq",
-      "first_use_page": 99,
-      "explained_page": 159,
+      "first_use_page": 100,
+      "explained_page": 160,
       "pages_carried": 60,
-      "kind": "explained-late"
-    },
-    {
-      "term": "gatherings",
-      "first_use_page": 151,
-      "explained_page": 209,
-      "pages_carried": 58,
-      "kind": "explained-late"
-    },
-    {
-      "term": "island",
-      "first_use_page": 7,
-      "explained_page": 65,
-      "pages_carried": 58,
       "kind": "explained-late"
     },
     {
       "term": "jazirah",
       "first_use_page": 7,
-      "explained_page": 65,
-      "pages_carried": 58,
+      "explained_page": 66,
+      "pages_carried": 59,
       "kind": "explained-late"
     },
     {
       "term": "qalb",
       "first_use_page": 6,
-      "explained_page": 64,
-      "pages_carried": 58,
+      "explained_page": 65,
+      "pages_carried": 59,
       "kind": "explained-late"
     },
     {
-      "term": "sayyid",
-      "first_use_page": 61,
-      "explained_page": 117,
-      "pages_carried": 56,
+      "term": "gatherings",
+      "first_use_page": 152,
+      "explained_page": 210,
+      "pages_carried": 58,
       "kind": "explained-late"
     },
     {
       "term": "Husayn",
       "first_use_page": 33,
-      "explained_page": 88,
-      "pages_carried": 55,
+      "explained_page": 89,
+      "pages_carried": 56,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sayyid",
+      "first_use_page": 62,
+      "explained_page": 118,
+      "pages_carried": 56,
       "kind": "explained-late"
     },
     {
       "term": "maghrib",
-      "first_use_page": 75,
-      "explained_page": 130,
+      "first_use_page": 76,
+      "explained_page": 131,
       "pages_carried": 55,
       "kind": "explained-late"
     },
     {
       "term": "Fatiha",
       "first_use_page": 29,
-      "explained_page": 81,
-      "pages_carried": 52,
+      "explained_page": 82,
+      "pages_carried": 53,
       "kind": "explained-late"
     },
     {
       "term": "zuhur",
-      "first_use_page": 105,
-      "explained_page": 157,
+      "first_use_page": 106,
+      "explained_page": 158,
       "pages_carried": 52,
-      "kind": "explained-late"
-    },
-    {
-      "term": "azdad",
-      "first_use_page": 109,
-      "explained_page": 159,
-      "pages_carried": 50,
       "kind": "explained-late"
     },
     {
       "term": "Salman",
       "first_use_page": 54,
-      "explained_page": 102,
-      "pages_carried": 48,
+      "explained_page": 103,
+      "pages_carried": 49,
       "kind": "explained-late"
     },
     {
       "term": "covenant",
       "first_use_page": 38,
-      "explained_page": 86,
-      "pages_carried": 48,
+      "explained_page": 87,
+      "pages_carried": 49,
       "kind": "explained-late"
     },
     {
       "term": "sadiq",
-      "first_use_page": 72,
-      "explained_page": 120,
+      "first_use_page": 73,
+      "explained_page": 121,
       "pages_carried": 48,
       "kind": "explained-late"
     },
@@ -501,9 +487,16 @@
       "kind": "explained-late"
     },
     {
+      "term": "suwar",
+      "first_use_page": 26,
+      "explained_page": 70,
+      "pages_carried": 44,
+      "kind": "explained-late"
+    },
+    {
       "term": "anbiya'",
-      "first_use_page": 116,
-      "explained_page": 159,
+      "first_use_page": 117,
+      "explained_page": 160,
       "pages_carried": 43,
       "kind": "explained-late"
     },
@@ -515,44 +508,30 @@
       "kind": "explained-late"
     },
     {
-      "term": "suwar",
-      "first_use_page": 26,
-      "explained_page": 69,
-      "pages_carried": 43,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Sindh",
-      "first_use_page": 81,
-      "explained_page": 122,
-      "pages_carried": 41,
-      "kind": "explained-late"
-    },
-    {
       "term": "fudulat",
       "first_use_page": 56,
-      "explained_page": 97,
-      "pages_carried": 41,
-      "kind": "explained-late"
-    },
-    {
-      "term": "gate",
-      "first_use_page": 72,
-      "explained_page": 113,
-      "pages_carried": 41,
+      "explained_page": 98,
+      "pages_carried": 42,
       "kind": "explained-late"
     },
     {
       "term": "salawat",
       "first_use_page": 32,
-      "explained_page": 73,
+      "explained_page": 74,
+      "pages_carried": 42,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Sindh",
+      "first_use_page": 82,
+      "explained_page": 123,
       "pages_carried": 41,
       "kind": "explained-late"
     },
     {
-      "term": "surat",
-      "first_use_page": 10,
-      "explained_page": 51,
+      "term": "gate",
+      "first_use_page": 73,
+      "explained_page": 114,
       "pages_carried": 41,
       "kind": "explained-late"
     },
@@ -593,9 +572,37 @@
     },
     {
       "term": "bab",
-      "first_use_page": 72,
-      "explained_page": 104,
+      "first_use_page": 73,
+      "explained_page": 105,
       "pages_carried": 32,
+      "kind": "explained-late"
+    },
+    {
+      "term": "natural",
+      "first_use_page": 14,
+      "explained_page": 46,
+      "pages_carried": 32,
+      "kind": "explained-late"
+    },
+    {
+      "term": "piety",
+      "first_use_page": 42,
+      "explained_page": 74,
+      "pages_carried": 32,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Khadijah",
+      "first_use_page": 53,
+      "explained_page": 84,
+      "pages_carried": 31,
+      "kind": "explained-late"
+    },
+    {
+      "term": "dhabihah",
+      "first_use_page": 164,
+      "explained_page": 195,
+      "pages_carried": 31,
       "kind": "explained-late"
     },
     {
@@ -613,37 +620,23 @@
       "kind": "explained-late"
     },
     {
-      "term": "piety",
-      "first_use_page": 42,
-      "explained_page": 73,
-      "pages_carried": 31,
-      "kind": "explained-late"
-    },
-    {
-      "term": "Khadijah",
-      "first_use_page": 53,
-      "explained_page": 83,
-      "pages_carried": 30,
-      "kind": "explained-late"
-    },
-    {
       "term": "allegiance",
-      "first_use_page": 99,
-      "explained_page": 129,
+      "first_use_page": 100,
+      "explained_page": 130,
       "pages_carried": 30,
       "kind": "explained-late"
     },
     {
       "term": "masjid",
-      "first_use_page": 85,
-      "explained_page": 113,
+      "first_use_page": 86,
+      "explained_page": 114,
       "pages_carried": 28,
       "kind": "explained-late"
     },
     {
       "term": "umrah",
-      "first_use_page": 85,
-      "explained_page": 113,
+      "first_use_page": 86,
+      "explained_page": 114,
       "pages_carried": 28,
       "kind": "explained-late"
     },
@@ -656,8 +649,8 @@
     },
     {
       "term": "mission",
-      "first_use_page": 67,
-      "explained_page": 89,
+      "first_use_page": 68,
+      "explained_page": 90,
       "pages_carried": 22,
       "kind": "explained-late"
     },
@@ -673,13 +666,6 @@
       "first_use_page": 7,
       "explained_page": 29,
       "pages_carried": 22,
-      "kind": "explained-late"
-    },
-    {
-      "term": "al-mayamin",
-      "first_use_page": 93,
-      "explained_page": 112,
-      "pages_carried": 19,
       "kind": "explained-late"
     },
     {
@@ -704,16 +690,23 @@
       "kind": "explained-late"
     },
     {
+      "term": "gathering",
+      "first_use_page": 54,
+      "explained_page": 71,
+      "pages_carried": 17,
+      "kind": "explained-late"
+    },
+    {
       "term": "nobility",
-      "first_use_page": 180,
-      "explained_page": 197,
+      "first_use_page": 181,
+      "explained_page": 198,
       "pages_carried": 17,
       "kind": "explained-late"
     },
     {
       "term": "Fatimi",
-      "first_use_page": 116,
-      "explained_page": 132,
+      "first_use_page": 117,
+      "explained_page": 133,
       "pages_carried": 16,
       "kind": "explained-late"
     },
@@ -721,13 +714,6 @@
       "term": "Jafar",
       "first_use_page": 10,
       "explained_page": 26,
-      "pages_carried": 16,
-      "kind": "explained-late"
-    },
-    {
-      "term": "gathering",
-      "first_use_page": 54,
-      "explained_page": 70,
       "pages_carried": 16,
       "kind": "explained-late"
     },
@@ -753,6 +739,13 @@
       "kind": "explained-late"
     },
     {
+      "term": "tayid",
+      "first_use_page": 111,
+      "explained_page": 126,
+      "pages_carried": 15,
+      "kind": "explained-late"
+    },
+    {
       "term": "Hasan",
       "first_use_page": 7,
       "explained_page": 20,
@@ -761,8 +754,8 @@
     },
     {
       "term": "hijrah",
-      "first_use_page": 216,
-      "explained_page": 228,
+      "first_use_page": 217,
+      "explained_page": 229,
       "pages_carried": 12,
       "kind": "explained-late"
     },
@@ -781,16 +774,16 @@
       "kind": "explained-late"
     },
     {
-      "term": "muminin",
-      "first_use_page": 15,
-      "explained_page": 25,
-      "pages_carried": 10,
+      "term": "Yusuf",
+      "first_use_page": 54,
+      "explained_page": 62,
+      "pages_carried": 8,
       "kind": "explained-late"
     },
     {
       "term": "spirit",
-      "first_use_page": 56,
-      "explained_page": 64,
+      "first_use_page": 57,
+      "explained_page": 65,
       "pages_carried": 8,
       "kind": "explained-late"
     },
@@ -802,13 +795,6 @@
       "kind": "explained-late"
     },
     {
-      "term": "Yusuf",
-      "first_use_page": 54,
-      "explained_page": 61,
-      "pages_carried": 7,
-      "kind": "explained-late"
-    },
-    {
       "term": "ibda",
       "first_use_page": 41,
       "explained_page": 48,
@@ -816,50 +802,50 @@
       "kind": "explained-late"
     },
     {
-      "term": "istifadah",
-      "first_use_page": 61,
-      "explained_page": null,
-      "pages_carried": 7,
-      "kind": "never-explained"
-    },
-    {
       "term": "appointment",
-      "first_use_page": 79,
-      "explained_page": null,
-      "pages_carried": 6,
-      "kind": "never-explained"
-    },
-    {
-      "term": "designation",
-      "first_use_page": 9,
+      "first_use_page": 80,
       "explained_page": null,
       "pages_carried": 6,
       "kind": "never-explained"
     },
     {
       "term": "ifadah",
-      "first_use_page": 114,
+      "first_use_page": 115,
+      "explained_page": null,
+      "pages_carried": 6,
+      "kind": "never-explained"
+    },
+    {
+      "term": "istifadah",
+      "first_use_page": 115,
       "explained_page": null,
       "pages_carried": 6,
       "kind": "never-explained"
     },
     {
       "term": "riyat",
-      "first_use_page": 65,
-      "explained_page": 71,
+      "first_use_page": 66,
+      "explained_page": 72,
       "pages_carried": 6,
       "kind": "explained-late"
     },
     {
-      "term": "era",
-      "first_use_page": 21,
-      "explained_page": 26,
+      "term": "designation",
+      "first_use_page": 9,
+      "explained_page": null,
       "pages_carried": 5,
-      "kind": "explained-late"
+      "kind": "never-explained"
     },
     {
       "term": "mansub",
-      "first_use_page": 88,
+      "first_use_page": 89,
+      "explained_page": null,
+      "pages_carried": 5,
+      "kind": "never-explained"
+    },
+    {
+      "term": "namiyah",
+      "first_use_page": 37,
       "explained_page": null,
       "pages_carried": 5,
       "kind": "never-explained"
@@ -894,7 +880,7 @@
     },
     {
       "term": "Ya-Sin",
-      "first_use_page": 69,
+      "first_use_page": 70,
       "explained_page": null,
       "pages_carried": 4,
       "kind": "never-explained"
@@ -914,6 +900,13 @@
       "kind": "never-explained"
     },
     {
+      "term": "era",
+      "first_use_page": 22,
+      "explained_page": 26,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
       "term": "hijab",
       "first_use_page": 20,
       "explained_page": 24,
@@ -928,18 +921,18 @@
       "kind": "explained-late"
     },
     {
-      "term": "namiyah",
-      "first_use_page": 37,
-      "explained_page": null,
-      "pages_carried": 4,
-      "kind": "never-explained"
-    },
-    {
       "term": "natiq",
       "first_use_page": 20,
       "explained_page": 24,
       "pages_carried": 4,
       "kind": "explained-late"
+    },
+    {
+      "term": "qiyam",
+      "first_use_page": 199,
+      "explained_page": null,
+      "pages_carried": 4,
+      "kind": "never-explained"
     },
     {
       "term": "veil",
@@ -950,14 +943,14 @@
     },
     {
       "term": "Hijri",
-      "first_use_page": 113,
+      "first_use_page": 114,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
     },
     {
       "term": "Hind",
-      "first_use_page": 88,
+      "first_use_page": 89,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -978,7 +971,7 @@
     },
     {
       "term": "Yazid",
-      "first_use_page": 126,
+      "first_use_page": 127,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -989,6 +982,13 @@
       "explained_page": 10,
       "pages_carried": 3,
       "kind": "explained-late"
+    },
+    {
+      "term": "al-mayamin",
+      "first_use_page": 94,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
     },
     {
       "term": "appointments",
@@ -1006,28 +1006,28 @@
     },
     {
       "term": "ayimmah",
-      "first_use_page": 61,
-      "explained_page": 64,
+      "first_use_page": 62,
+      "explained_page": 65,
       "pages_carried": 3,
       "kind": "explained-late"
     },
     {
       "term": "bil-fil",
-      "first_use_page": 63,
-      "explained_page": 66,
+      "first_use_page": 64,
+      "explained_page": 67,
       "pages_carried": 3,
       "kind": "explained-late"
     },
     {
       "term": "bil-quwwah",
-      "first_use_page": 63,
-      "explained_page": 66,
+      "first_use_page": 64,
+      "explained_page": 67,
       "pages_carried": 3,
       "kind": "explained-late"
     },
     {
       "term": "helper",
-      "first_use_page": 61,
+      "first_use_page": 62,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -1048,14 +1048,14 @@
     },
     {
       "term": "kalimah",
-      "first_use_page": 197,
+      "first_use_page": 198,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
     },
     {
       "term": "khilafat",
-      "first_use_page": 140,
+      "first_use_page": 141,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -1070,13 +1070,6 @@
     {
       "term": "qasidah",
       "first_use_page": 10,
-      "explained_page": null,
-      "pages_carried": 3,
-      "kind": "never-explained"
-    },
-    {
-      "term": "saba",
-      "first_use_page": 131,
       "explained_page": null,
       "pages_carried": 3,
       "kind": "never-explained"
@@ -1097,8 +1090,8 @@
     },
     {
       "term": "caliph",
-      "first_use_page": 103,
-      "explained_page": 105,
+      "first_use_page": 104,
+      "explained_page": 106,
       "pages_carried": 2,
       "kind": "explained-late"
     },
@@ -1111,15 +1104,22 @@
     },
     {
       "term": "dawat",
-      "first_use_page": 96,
-      "explained_page": 98,
+      "first_use_page": 97,
+      "explained_page": 99,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "family",
+      "first_use_page": 9,
+      "explained_page": 11,
       "pages_carried": 2,
       "kind": "explained-late"
     },
     {
       "term": "hudad",
-      "first_use_page": 87,
-      "explained_page": 89,
+      "first_use_page": 88,
+      "explained_page": 90,
       "pages_carried": 2,
       "kind": "explained-late"
     },
@@ -1134,6 +1134,13 @@
       "term": "mawr",
       "first_use_page": 57,
       "explained_page": 59,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "realities",
+      "first_use_page": 20,
+      "explained_page": 22,
       "pages_carried": 2,
       "kind": "explained-late"
     }
@@ -1252,23 +1259,23 @@
     },
     {
       "page": 9,
-      "term_count": 21,
+      "term_count": 20,
       "terms": [
         "Adam",
         "Aimmah",
         "Ali",
-        "Dai",
         "Hussain",
         "Ibrahim",
         "Imams",
         "Muhammad",
         "Sahib",
-        "Sayyidna"
+        "Sayyidna",
+        "designation"
       ]
     },
     {
       "page": 10,
-      "term_count": 29,
+      "term_count": 28,
       "terms": [
         "Ali",
         "Bismillah",
@@ -1284,34 +1291,48 @@
     },
     {
       "page": 11,
-      "term_count": 24,
+      "term_count": 23,
       "terms": [
         "Aimmah",
         "Ali",
         "Bismillah",
-        "Hussain",
         "Imams",
         "Muhammad",
         "Rahim",
         "Rahman",
         "Sayyidna",
-        "al-Rahim"
+        "al-Rahim",
+        "al-Rahman"
       ]
     },
     {
       "page": 12,
-      "term_count": 28,
+      "term_count": 31,
       "terms": [
         "Adam",
+        "Aimmah",
         "Ali",
         "Dai",
         "Hasan",
+        "Hussain",
         "Ibrahim",
         "Ismail",
         "Jafar",
-        "Muhammad",
-        "Sahib",
-        "Sayyidna"
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 13,
+      "term_count": 8,
+      "terms": [
+        "Ali",
+        "Sayyidna",
+        "duat",
+        "father",
+        "hadd",
+        "hudud",
+        "means",
+        "risalah"
       ]
     },
     {
@@ -1412,7 +1433,7 @@
     },
     {
       "page": 21,
-      "term_count": 26,
+      "term_count": 22,
       "terms": [
         "Aimmah",
         "Ali",
@@ -1421,14 +1442,14 @@
         "Fatimah",
         "Imams",
         "Sahib",
-        "Umar",
         "absolute",
-        "afdal"
+        "afdal",
+        "al-ashir"
       ]
     },
     {
       "page": 22,
-      "term_count": 21,
+      "term_count": 24,
       "terms": [
         "Fatimah",
         "Hasan",
@@ -1438,13 +1459,13 @@
         "Qaim",
         "Umar",
         "al-Hasan",
-        "father",
-        "head"
+        "duat",
+        "era"
       ]
     },
     {
       "page": 23,
-      "term_count": 18,
+      "term_count": 23,
       "terms": [
         "Aimmah",
         "Hasan",
@@ -1794,7 +1815,7 @@
     },
     {
       "page": 46,
-      "term_count": 21,
+      "term_count": 22,
       "terms": [
         "Imam",
         "alam",
@@ -1810,18 +1831,18 @@
     },
     {
       "page": 47,
-      "term_count": 25,
+      "term_count": 22,
       "terms": [
-        "Aimmah",
         "Ali",
         "Ayn",
         "Bismillah",
         "Dai",
         "Fatima",
-        "Imams",
         "Mawlana",
         "Qaim",
-        "Rahim"
+        "Rahim",
+        "Rahman",
+        "Sayyidna"
       ]
     },
     {
@@ -1842,7 +1863,7 @@
     },
     {
       "page": 49,
-      "term_count": 15,
+      "term_count": 16,
       "terms": [
         "Mubdi",
         "alam",
@@ -1874,7 +1895,7 @@
     },
     {
       "page": 51,
-      "term_count": 27,
+      "term_count": 24,
       "terms": [
         "Dai",
         "Ibrahim",
@@ -1890,10 +1911,9 @@
     },
     {
       "page": 52,
-      "term_count": 22,
+      "term_count": 19,
       "terms": [
         "Abdullah",
-        "Adam",
         "Hadrat",
         "Husayn",
         "Imam",
@@ -1901,13 +1921,15 @@
         "Sahib",
         "father",
         "ghusl",
-        "hijab"
+        "hijab",
+        "hijabs"
       ]
     },
     {
       "page": 53,
-      "term_count": 8,
+      "term_count": 11,
       "terms": [
+        "Adam",
         "Ali",
         "Isa",
         "Khadijah",
@@ -1915,6 +1937,7 @@
         "Rasulullah",
         "Sayyidna",
         "bathah",
+        "indebted",
         "mamnun"
       ]
     },
@@ -1936,7 +1959,7 @@
     },
     {
       "page": 55,
-      "term_count": 13,
+      "term_count": 12,
       "terms": [
         "Imam",
         "Rasulullah",
@@ -1952,7 +1975,7 @@
     },
     {
       "page": 56,
-      "term_count": 20,
+      "term_count": 18,
       "terms": [
         "aflak",
         "appearance",
@@ -1984,7 +2007,7 @@
     },
     {
       "page": 58,
-      "term_count": 18,
+      "term_count": 17,
       "terms": [
         "Anwar",
         "Imam",
@@ -2016,7 +2039,7 @@
     },
     {
       "page": 60,
-      "term_count": 15,
+      "term_count": 12,
       "terms": [
         "Ali",
         "Ashir",
@@ -2025,14 +2048,14 @@
         "Muhammad",
         "Sayyidna",
         "blessings",
-        "connected",
         "family",
-        "form"
+        "form",
+        "nazar"
       ]
     },
     {
-      "page": 61,
-      "term_count": 19,
+      "page": 62,
+      "term_count": 18,
       "terms": [
         "Imam",
         "Imams",
@@ -2047,7 +2070,7 @@
       ]
     },
     {
-      "page": 62,
+      "page": 63,
       "term_count": 15,
       "terms": [
         "Dai",
@@ -2063,7 +2086,7 @@
       ]
     },
     {
-      "page": 63,
+      "page": 64,
       "term_count": 14,
       "terms": [
         "Anwar",
@@ -2079,7 +2102,7 @@
       ]
     },
     {
-      "page": 64,
+      "page": 65,
       "term_count": 17,
       "terms": [
         "Imam",
@@ -2095,7 +2118,7 @@
       ]
     },
     {
-      "page": 65,
+      "page": 66,
       "term_count": 25,
       "terms": [
         "Imam",
@@ -2111,7 +2134,7 @@
       ]
     },
     {
-      "page": 66,
+      "page": 67,
       "term_count": 7,
       "terms": [
         "abstract",
@@ -2124,7 +2147,7 @@
       ]
     },
     {
-      "page": 67,
+      "page": 68,
       "term_count": 12,
       "terms": [
         "Anwar",
@@ -2140,7 +2163,7 @@
       ]
     },
     {
-      "page": 68,
+      "page": 69,
       "term_count": 13,
       "terms": [
         "Dai",
@@ -2156,7 +2179,7 @@
       ]
     },
     {
-      "page": 69,
+      "page": 70,
       "term_count": 18,
       "terms": [
         "Ali",
@@ -2172,7 +2195,7 @@
       ]
     },
     {
-      "page": 70,
+      "page": 71,
       "term_count": 18,
       "terms": [
         "Imam",
@@ -2188,7 +2211,7 @@
       ]
     },
     {
-      "page": 71,
+      "page": 72,
       "term_count": 17,
       "terms": [
         "Imam",
@@ -2204,7 +2227,7 @@
       ]
     },
     {
-      "page": 72,
+      "page": 73,
       "term_count": 21,
       "terms": [
         "Bismillah",
@@ -2220,7 +2243,7 @@
       ]
     },
     {
-      "page": 73,
+      "page": 74,
       "term_count": 13,
       "terms": [
         "Burudat",
@@ -2236,7 +2259,7 @@
       ]
     },
     {
-      "page": 74,
+      "page": 75,
       "term_count": 10,
       "terms": [
         "Ali",
@@ -2252,7 +2275,7 @@
       ]
     },
     {
-      "page": 75,
+      "page": 76,
       "term_count": 6,
       "terms": [
         "Mawlana",
@@ -2264,7 +2287,7 @@
       ]
     },
     {
-      "page": 77,
+      "page": 78,
       "term_count": 23,
       "terms": [
         "Hasan",
@@ -2280,8 +2303,8 @@
       ]
     },
     {
-      "page": 78,
-      "term_count": 18,
+      "page": 79,
+      "term_count": 17,
       "terms": [
         "Adam",
         "Adam-e-Aal-e-Aba",
@@ -2296,7 +2319,7 @@
       ]
     },
     {
-      "page": 79,
+      "page": 80,
       "term_count": 23,
       "terms": [
         "Abdullah",
@@ -2312,7 +2335,7 @@
       ]
     },
     {
-      "page": 80,
+      "page": 81,
       "term_count": 21,
       "terms": [
         "Ashir",
@@ -2328,7 +2351,7 @@
       ]
     },
     {
-      "page": 81,
+      "page": 82,
       "term_count": 30,
       "terms": [
         "Ali",
@@ -2344,7 +2367,7 @@
       ]
     },
     {
-      "page": 82,
+      "page": 83,
       "term_count": 6,
       "terms": [
         "Rahman",
@@ -2356,7 +2379,7 @@
       ]
     },
     {
-      "page": 83,
+      "page": 84,
       "term_count": 11,
       "terms": [
         "Ali",
@@ -2372,7 +2395,7 @@
       ]
     },
     {
-      "page": 84,
+      "page": 85,
       "term_count": 7,
       "terms": [
         "Ali",
@@ -2385,7 +2408,7 @@
       ]
     },
     {
-      "page": 85,
+      "page": 86,
       "term_count": 19,
       "terms": [
         "Hajj",
@@ -2401,7 +2424,7 @@
       ]
     },
     {
-      "page": 86,
+      "page": 87,
       "term_count": 8,
       "terms": [
         "amir",
@@ -2415,10 +2438,9 @@
       ]
     },
     {
-      "page": 87,
-      "term_count": 16,
+      "page": 88,
+      "term_count": 15,
       "terms": [
-        "Dai",
         "Mawlana",
         "appointment",
         "bari",
@@ -2427,14 +2449,14 @@
         "fursat",
         "hasanat",
         "heart",
-        "hudad"
+        "hudad",
+        "jawahir"
       ]
     },
     {
-      "page": 88,
-      "term_count": 22,
+      "page": 89,
+      "term_count": 21,
       "terms": [
-        "Abdullah",
         "Ali",
         "Dai",
         "Friday",
@@ -2443,12 +2465,13 @@
         "Husayn",
         "Ibrahim",
         "Ismail",
-        "Najran"
+        "Najran",
+        "Sahib"
       ]
     },
     {
-      "page": 89,
-      "term_count": 28,
+      "page": 90,
+      "term_count": 24,
       "terms": [
         "Abdullah",
         "Ali",
@@ -2463,73 +2486,74 @@
       ]
     },
     {
-      "page": 90,
-      "term_count": 21,
+      "page": 91,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Imam",
-        "Imams",
         "Jafar",
         "Mawlana",
         "Rasulullah",
         "Sayyidna",
         "Sulayman",
-        "duat",
-        "form"
+        "ashar",
+        "form",
+        "forms"
       ]
     },
     {
-      "page": 91,
+      "page": 92,
       "term_count": 29,
       "terms": [
         "Ali",
         "Dai",
-        "Husayn",
+        "Imam",
+        "Imams",
         "Jafar",
         "Muhammad",
         "Qaim",
         "Rasulullah",
         "Sayyidna",
-        "Sulayman",
-        "absolute"
-      ]
-    },
-    {
-      "page": 92,
-      "term_count": 24,
-      "terms": [
-        "Ayn",
-        "Imam",
-        "Jafar",
-        "Kaf-Ha-Ya-Ayn-Sad",
-        "Muhammad",
-        "Nun",
-        "Rasulullah",
-        "Ya-Sin",
-        "alif",
-        "amulets"
+        "Sulayman"
       ]
     },
     {
       "page": 93,
-      "term_count": 30,
+      "term_count": 18,
       "terms": [
-        "Abdullah",
         "Ali",
-        "Bismillah",
         "Husayn",
-        "Imam",
-        "Jafar",
-        "Mawlana",
-        "Rahim",
-        "Rahman",
-        "Sayyidna"
+        "Muhammad",
+        "Rasulullah",
+        "Sayyidna",
+        "amulets",
+        "duat",
+        "letters",
+        "luminous",
+        "means"
       ]
     },
     {
       "page": 94,
-      "term_count": 12,
+      "term_count": 33,
       "terms": [
+        "Ali",
+        "Ayn",
+        "Bismillah",
+        "Husayn",
+        "Imam",
+        "Jafar",
+        "Kaf-Ha-Ya-Ayn-Sad",
+        "Mawlana",
+        "Nun",
+        "Rahim"
+      ]
+    },
+    {
+      "page": 95,
+      "term_count": 17,
+      "terms": [
+        "Abdullah",
         "Bismillah",
         "Imam",
         "Mawlana",
@@ -2538,12 +2562,11 @@
         "Sayyidna",
         "al-Rahim",
         "al-Rahman",
-        "dawah",
-        "hudud"
+        "alam"
       ]
     },
     {
-      "page": 95,
+      "page": 96,
       "term_count": 10,
       "terms": [
         "Ali",
@@ -2559,7 +2582,7 @@
       ]
     },
     {
-      "page": 96,
+      "page": 97,
       "term_count": 17,
       "terms": [
         "Imam",
@@ -2575,7 +2598,7 @@
       ]
     },
     {
-      "page": 97,
+      "page": 98,
       "term_count": 24,
       "terms": [
         "Aimmah",
@@ -2591,8 +2614,8 @@
       ]
     },
     {
-      "page": 98,
-      "term_count": 23,
+      "page": 99,
+      "term_count": 22,
       "terms": [
         "Aimmah",
         "Ali",
@@ -2600,15 +2623,15 @@
         "amir",
         "blessings",
         "body",
-        "carnelian",
         "cycles",
         "dawat",
-        "duat"
+        "duat",
+        "form"
       ]
     },
     {
-      "page": 99,
-      "term_count": 25,
+      "page": 100,
+      "term_count": 24,
       "terms": [
         "Imam",
         "Imams",
@@ -2623,8 +2646,8 @@
       ]
     },
     {
-      "page": 100,
-      "term_count": 22,
+      "page": 101,
+      "term_count": 21,
       "terms": [
         "Ali",
         "Imam",
@@ -2633,14 +2656,14 @@
         "Rasulullah",
         "amir",
         "blessings",
-        "circumambulation",
         "cycles",
-        "dua"
+        "dua",
+        "family"
       ]
     },
     {
-      "page": 101,
-      "term_count": 21,
+      "page": 102,
+      "term_count": 20,
       "terms": [
         "Aristotle",
         "Dai",
@@ -2655,7 +2678,7 @@
       ]
     },
     {
-      "page": 102,
+      "page": 103,
       "term_count": 28,
       "terms": [
         "Ali",
@@ -2671,7 +2694,7 @@
       ]
     },
     {
-      "page": 103,
+      "page": 104,
       "term_count": 16,
       "terms": [
         "Ashir",
@@ -2687,7 +2710,7 @@
       ]
     },
     {
-      "page": 104,
+      "page": 105,
       "term_count": 26,
       "terms": [
         "Abdullah",
@@ -2703,23 +2726,23 @@
       ]
     },
     {
-      "page": 105,
-      "term_count": 17,
+      "page": 106,
+      "term_count": 16,
       "terms": [
         "Ashir",
         "Qaim",
         "al-mashriq",
-        "body",
         "caliph",
         "cycles",
         "dawr",
         "gathering",
         "kawr",
-        "khalifah"
+        "khalifah",
+        "manifestation"
       ]
     },
     {
-      "page": 106,
+      "page": 107,
       "term_count": 18,
       "terms": [
         "Ali",
@@ -2735,7 +2758,7 @@
       ]
     },
     {
-      "page": 107,
+      "page": 108,
       "term_count": 10,
       "terms": [
         "Dai",
@@ -2751,7 +2774,7 @@
       ]
     },
     {
-      "page": 108,
+      "page": 109,
       "term_count": 9,
       "terms": [
         "Ali",
@@ -2766,7 +2789,7 @@
       ]
     },
     {
-      "page": 109,
+      "page": 110,
       "term_count": 24,
       "terms": [
         "Aimmah",
@@ -2782,7 +2805,7 @@
       ]
     },
     {
-      "page": 110,
+      "page": 111,
       "term_count": 28,
       "terms": [
         "Qaim",
@@ -2798,9 +2821,10 @@
       ]
     },
     {
-      "page": 111,
-      "term_count": 18,
+      "page": 112,
+      "term_count": 19,
       "terms": [
+        "Aimmah",
         "Imams",
         "Sayyidna",
         "al-mayamin",
@@ -2809,32 +2833,30 @@
         "bi-majari",
         "gates",
         "heart",
-        "lowlands",
-        "luminous"
+        "lowlands"
       ]
     },
     {
-      "page": 112,
-      "term_count": 27,
+      "page": 113,
+      "term_count": 26,
       "terms": [
         "Aimmah",
         "Sahih",
         "Sayyidna",
         "abstract",
-        "al-mayamin",
         "alam",
         "amir",
         "animal",
         "bir",
-        "dawat"
+        "dawat",
+        "dhat"
       ]
     },
     {
-      "page": 113,
-      "term_count": 22,
+      "page": 114,
+      "term_count": 21,
       "terms": [
         "Ali",
-        "Arafat",
         "Hajj",
         "Hijri",
         "asrar",
@@ -2842,12 +2864,13 @@
         "bir",
         "connected",
         "fudulat",
-        "gate"
+        "gate",
+        "intention"
       ]
     },
     {
-      "page": 114,
-      "term_count": 26,
+      "page": 115,
+      "term_count": 27,
       "terms": [
         "Ali",
         "Anwar",
@@ -2855,14 +2878,14 @@
         "Bismillah",
         "Fatiha",
         "Fatimah",
+        "Hajj",
         "Mawlana",
         "Mina",
-        "Muzdalifah",
-        "Rahim"
+        "Muzdalifah"
       ]
     },
     {
-      "page": 115,
+      "page": 116,
       "term_count": 12,
       "terms": [
         "Ali",
@@ -2878,7 +2901,7 @@
       ]
     },
     {
-      "page": 116,
+      "page": 117,
       "term_count": 26,
       "terms": [
         "Aimmah",
@@ -2894,7 +2917,7 @@
       ]
     },
     {
-      "page": 117,
+      "page": 118,
       "term_count": 25,
       "terms": [
         "Ali",
@@ -2910,8 +2933,8 @@
       ]
     },
     {
-      "page": 118,
-      "term_count": 26,
+      "page": 119,
+      "term_count": 24,
       "terms": [
         "Aimmah",
         "Ali",
@@ -2926,8 +2949,8 @@
       ]
     },
     {
-      "page": 119,
-      "term_count": 20,
+      "page": 120,
+      "term_count": 17,
       "terms": [
         "Abdullah",
         "Ali",
@@ -2938,12 +2961,12 @@
         "Mubahalah",
         "Musa",
         "azimah",
-        "ghaybah"
+        "hijab"
       ]
     },
     {
-      "page": 120,
-      "term_count": 26,
+      "page": 121,
+      "term_count": 25,
       "terms": [
         "Ali",
         "Fatimah",
@@ -2958,8 +2981,8 @@
       ]
     },
     {
-      "page": 121,
-      "term_count": 15,
+      "page": 122,
+      "term_count": 14,
       "terms": [
         "Imam",
         "Jafar",
@@ -2968,14 +2991,14 @@
         "Rasulullah",
         "dawah",
         "gathering",
-        "hijab",
         "hudud",
-        "sadiq"
+        "sadiq",
+        "shan"
       ]
     },
     {
-      "page": 122,
-      "term_count": 11,
+      "page": 123,
+      "term_count": 10,
       "terms": [
         "Ahmedabad",
         "Dai",
@@ -2985,12 +3008,12 @@
         "Sayyidna",
         "Sindh",
         "dhan-wala",
-        "ghani",
-        "means"
+        "means",
+        "successor"
       ]
     },
     {
-      "page": 124,
+      "page": 125,
       "term_count": 22,
       "terms": [
         "Abdullah",
@@ -3006,7 +3029,7 @@
       ]
     },
     {
-      "page": 125,
+      "page": 126,
       "term_count": 10,
       "terms": [
         "Abdullah",
@@ -3022,7 +3045,7 @@
       ]
     },
     {
-      "page": 126,
+      "page": 127,
       "term_count": 15,
       "terms": [
         "Ali",
@@ -3038,7 +3061,7 @@
       ]
     },
     {
-      "page": 127,
+      "page": 128,
       "term_count": 6,
       "terms": [
         "Ali",
@@ -3050,7 +3073,7 @@
       ]
     },
     {
-      "page": 128,
+      "page": 129,
       "term_count": 14,
       "terms": [
         "Dai",
@@ -3066,7 +3089,7 @@
       ]
     },
     {
-      "page": 129,
+      "page": 130,
       "term_count": 20,
       "terms": [
         "Abdullah",
@@ -3082,7 +3105,7 @@
       ]
     },
     {
-      "page": 130,
+      "page": 131,
       "term_count": 15,
       "terms": [
         "Abdullah",
@@ -3098,7 +3121,7 @@
       ]
     },
     {
-      "page": 131,
+      "page": 132,
       "term_count": 18,
       "terms": [
         "Adam",
@@ -3114,7 +3137,7 @@
       ]
     },
     {
-      "page": 132,
+      "page": 133,
       "term_count": 20,
       "terms": [
         "Aimmah",
@@ -3130,7 +3153,7 @@
       ]
     },
     {
-      "page": 133,
+      "page": 134,
       "term_count": 21,
       "terms": [
         "Abdullah",
@@ -3146,8 +3169,8 @@
       ]
     },
     {
-      "page": 134,
-      "term_count": 32,
+      "page": 135,
+      "term_count": 30,
       "terms": [
         "Aimmah",
         "Ali",
@@ -3162,7 +3185,7 @@
       ]
     },
     {
-      "page": 135,
+      "page": 136,
       "term_count": 30,
       "terms": [
         "Abdullah",
@@ -3178,7 +3201,7 @@
       ]
     },
     {
-      "page": 136,
+      "page": 137,
       "term_count": 9,
       "terms": [
         "Bismillah",
@@ -3193,7 +3216,7 @@
       ]
     },
     {
-      "page": 137,
+      "page": 138,
       "term_count": 9,
       "terms": [
         "Dai",
@@ -3208,7 +3231,7 @@
       ]
     },
     {
-      "page": 138,
+      "page": 139,
       "term_count": 17,
       "terms": [
         "Dai",
@@ -3224,7 +3247,7 @@
       ]
     },
     {
-      "page": 139,
+      "page": 140,
       "term_count": 9,
       "terms": [
         "Dai",
@@ -3239,7 +3262,7 @@
       ]
     },
     {
-      "page": 140,
+      "page": 141,
       "term_count": 14,
       "terms": [
         "Dai",
@@ -3255,23 +3278,23 @@
       ]
     },
     {
-      "page": 141,
-      "term_count": 14,
+      "page": 142,
+      "term_count": 13,
       "terms": [
         "Dai",
         "Imam",
         "allegiance",
-        "covenant",
         "cycle",
         "duat",
         "era",
         "iman",
         "liberation",
-        "mumin"
+        "mumin",
+        "muminin"
       ]
     },
     {
-      "page": 142,
+      "page": 143,
       "term_count": 16,
       "terms": [
         "cycle",
@@ -3287,7 +3310,7 @@
       ]
     },
     {
-      "page": 143,
+      "page": 144,
       "term_count": 13,
       "terms": [
         "Dai",
@@ -3303,7 +3326,7 @@
       ]
     },
     {
-      "page": 144,
+      "page": 145,
       "term_count": 6,
       "terms": [
         "Ali",
@@ -3315,7 +3338,7 @@
       ]
     },
     {
-      "page": 145,
+      "page": 146,
       "term_count": 14,
       "terms": [
         "Ali",
@@ -3331,40 +3354,40 @@
       ]
     },
     {
-      "page": 146,
-      "term_count": 19,
+      "page": 147,
+      "term_count": 17,
       "terms": [
         "Abyssinia",
         "Dai",
         "Habasha",
         "Ibrahim",
         "Imam",
+        "Imams",
         "Ismail",
         "Muhammad",
         "Najran",
-        "Sayyidna",
-        "brethren"
+        "Sayyidna"
       ]
     },
     {
-      "page": 147,
-      "term_count": 22,
+      "page": 148,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Dai",
         "Ibrahim",
-        "Imams",
         "Jafar",
         "Muhammad",
         "Qiyamah",
         "Sayyidna",
         "Sulayman",
-        "dawat"
+        "dawat",
+        "designation"
       ]
     },
     {
-      "page": 148,
-      "term_count": 15,
+      "page": 149,
+      "term_count": 14,
       "terms": [
         "Ali",
         "Dai",
@@ -3379,7 +3402,7 @@
       ]
     },
     {
-      "page": 149,
+      "page": 150,
       "term_count": 22,
       "terms": [
         "Ali",
@@ -3395,7 +3418,7 @@
       ]
     },
     {
-      "page": 150,
+      "page": 151,
       "term_count": 21,
       "terms": [
         "Ali",
@@ -3411,7 +3434,7 @@
       ]
     },
     {
-      "page": 151,
+      "page": 152,
       "term_count": 15,
       "terms": [
         "Anwar",
@@ -3427,7 +3450,7 @@
       ]
     },
     {
-      "page": 152,
+      "page": 153,
       "term_count": 15,
       "terms": [
         "Ali",
@@ -3443,8 +3466,8 @@
       ]
     },
     {
-      "page": 153,
-      "term_count": 22,
+      "page": 154,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Dai",
@@ -3454,12 +3477,12 @@
         "Ismail",
         "Mawlana",
         "Muhammad",
-        "Qiyamah",
-        "Sahib"
+        "Sahib",
+        "Sayyidna"
       ]
     },
     {
-      "page": 154,
+      "page": 155,
       "term_count": 27,
       "terms": [
         "Ali",
@@ -3475,7 +3498,7 @@
       ]
     },
     {
-      "page": 155,
+      "page": 156,
       "term_count": 6,
       "terms": [
         "Bismillah",
@@ -3487,8 +3510,8 @@
       ]
     },
     {
-      "page": 156,
-      "term_count": 13,
+      "page": 157,
+      "term_count": 10,
       "terms": [
         "Imam",
         "Jafar",
@@ -3497,78 +3520,78 @@
         "duas",
         "father",
         "form",
-        "nadir",
-        "nahusat",
-        "sadiq"
+        "wa-lakum",
+        "wa-likum",
+        "zabar"
       ]
     },
     {
-      "page": 157,
-      "term_count": 22,
+      "page": 158,
+      "term_count": 18,
       "terms": [
-        "Ali",
         "Aliyyan",
         "Aliyyun",
-        "Maryam",
         "adiyah",
         "cycles",
         "dawr",
         "dua",
         "form",
-        "forms"
-      ]
-    },
-    {
-      "page": 158,
-      "term_count": 11,
-      "terms": [
-        "Ali",
-        "Aliyyan",
-        "books",
-        "hudud",
-        "intention",
-        "reward",
-        "sabi",
-        "sadiq",
-        "truthful",
-        "zabar"
+        "forms",
+        "istighfar",
+        "manifestation"
       ]
     },
     {
       "page": 159,
-      "term_count": 24,
+      "term_count": 13,
       "terms": [
-        "Aimmah",
-        "al-junub",
-        "al-mashriq",
-        "al-shimal",
-        "anbiya'",
-        "azdad",
-        "dhanab",
-        "duat",
-        "head",
-        "hijabs"
+        "Ali",
+        "Aliyyan",
+        "Aliyyun",
+        "Maryam",
+        "intention",
+        "majlis",
+        "reward",
+        "sabi",
+        "sadiq",
+        "surah"
       ]
     },
     {
       "page": 160,
-      "term_count": 13,
+      "term_count": 22,
+      "terms": [
+        "Aimmah",
+        "al-mashriq",
+        "anbiya'",
+        "azdad",
+        "books",
+        "dhanab",
+        "duat",
+        "head",
+        "hijabs",
+        "hudud"
+      ]
+    },
+    {
+      "page": 161,
+      "term_count": 10,
       "terms": [
         "Abdullah",
         "Aimmah",
         "Sayyidna",
         "ajsad",
         "anbiya'",
-        "dabur",
         "islands",
         "ismah",
         "nufus",
-        "period"
+        "period",
+        "souls"
       ]
     },
     {
-      "page": 161,
-      "term_count": 19,
+      "page": 162,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Anwar",
@@ -3579,45 +3602,46 @@
         "al-Rahim",
         "al-Rahman",
         "alam",
-        "blessings"
-      ]
-    },
-    {
-      "page": 162,
-      "term_count": 12,
-      "terms": [
-        "Aimmah",
-        "Imams",
-        "animal",
-        "azdad",
-        "body",
-        "covenant",
-        "dhabihah",
-        "form",
-        "hudud",
-        "nafs"
+        "anbiya'"
       ]
     },
     {
       "page": 163,
-      "term_count": 10,
+      "term_count": 15,
+      "terms": [
+        "Aimmah",
+        "Imams",
+        "Rahim",
+        "Rahman",
+        "animal",
+        "azdad",
+        "blessings",
+        "body",
+        "covenant",
+        "forms"
+      ]
+    },
+    {
+      "page": 164,
+      "term_count": 13,
       "terms": [
         "Qaim",
         "Tabaqat",
+        "dhabihah",
+        "form",
         "hellfire",
         "intiqal",
         "nafs",
         "nufus",
         "punishment",
-        "saqar",
-        "souls",
-        "wal-aghlal"
+        "saqar"
       ]
     },
     {
-      "page": 164,
-      "term_count": 6,
+      "page": 165,
+      "term_count": 7,
       "terms": [
+        "ajsad",
         "body",
         "greatness",
         "punishment",
@@ -3627,7 +3651,7 @@
       ]
     },
     {
-      "page": 165,
+      "page": 166,
       "term_count": 12,
       "terms": [
         "Imam",
@@ -3643,55 +3667,55 @@
       ]
     },
     {
-      "page": 166,
-      "term_count": 21,
+      "page": 167,
+      "term_count": 14,
       "terms": [
         "Dai",
         "Imam",
-        "actually",
         "bab",
-        "bil-fil",
-        "bil-quwwah",
         "duas",
-        "fil",
         "form",
-        "forms"
+        "forms",
+        "gate",
+        "gates",
+        "haykal",
+        "hudud"
       ]
     },
     {
-      "page": 167,
-      "term_count": 18,
+      "page": 168,
+      "term_count": 24,
       "terms": [
         "Aimmah",
         "Ali",
         "Ayn",
         "Imam",
         "Imams",
+        "actually",
         "bab",
         "believer",
-        "era",
-        "essence",
-        "gathering"
+        "bil-fil",
+        "bil-quwwah"
       ]
     },
     {
-      "page": 168,
-      "term_count": 15,
+      "page": 169,
+      "term_count": 14,
       "terms": [
         "Ali",
         "Bismillah",
         "Rahman",
         "Sayyidna",
-        "ahjar",
         "al-Rahman",
         "believer",
         "fil",
         "ghayah",
-        "jawahir"
+        "jawahir",
+        "madan"
       ]
     },
     {
-      "page": 169,
+      "page": 170,
       "term_count": 16,
       "terms": [
         "Ali",
@@ -3707,7 +3731,7 @@
       ]
     },
     {
-      "page": 170,
+      "page": 171,
       "term_count": 22,
       "terms": [
         "Rahim",
@@ -3723,7 +3747,7 @@
       ]
     },
     {
-      "page": 171,
+      "page": 172,
       "term_count": 8,
       "terms": [
         "Adam",
@@ -3737,7 +3761,7 @@
       ]
     },
     {
-      "page": 172,
+      "page": 173,
       "term_count": 14,
       "terms": [
         "Abdullah",
@@ -3753,7 +3777,7 @@
       ]
     },
     {
-      "page": 173,
+      "page": 174,
       "term_count": 9,
       "terms": [
         "Mawlana",
@@ -3768,7 +3792,7 @@
       ]
     },
     {
-      "page": 174,
+      "page": 175,
       "term_count": 27,
       "terms": [
         "aflak",
@@ -3784,7 +3808,7 @@
       ]
     },
     {
-      "page": 175,
+      "page": 176,
       "term_count": 15,
       "terms": [
         "Yasin",
@@ -3800,7 +3824,7 @@
       ]
     },
     {
-      "page": 176,
+      "page": 177,
       "term_count": 12,
       "terms": [
         "athar",
@@ -3816,7 +3840,7 @@
       ]
     },
     {
-      "page": 177,
+      "page": 178,
       "term_count": 10,
       "terms": [
         "Imam",
@@ -3832,7 +3856,7 @@
       ]
     },
     {
-      "page": 178,
+      "page": 179,
       "term_count": 24,
       "terms": [
         "Fatiha",
@@ -3848,8 +3872,8 @@
       ]
     },
     {
-      "page": 179,
-      "term_count": 27,
+      "page": 180,
+      "term_count": 25,
       "terms": [
         "Dai",
         "Imam",
@@ -3864,21 +3888,23 @@
       ]
     },
     {
-      "page": 180,
-      "term_count": 8,
+      "page": 181,
+      "term_count": 12,
       "terms": [
         "aflak",
+        "form",
+        "hissiyah",
         "ikhtiyar",
         "intention",
         "intercession",
         "juzur",
+        "namiyah",
         "natiqah",
-        "nobility",
-        "piety"
+        "nobility"
       ]
     },
     {
-      "page": 181,
+      "page": 182,
       "term_count": 7,
       "terms": [
         "adhan",
@@ -3891,23 +3917,21 @@
       ]
     },
     {
-      "page": 182,
-      "term_count": 10,
+      "page": 183,
+      "term_count": 8,
       "terms": [
         "Abdullah",
         "Sayyidna",
-        "asabuha",
         "fil",
         "fudala",
         "hudud",
         "intercession",
         "jamiuha",
-        "lahmuha",
         "period"
       ]
     },
     {
-      "page": 183,
+      "page": 184,
       "term_count": 9,
       "terms": [
         "athar",
@@ -3922,7 +3946,7 @@
       ]
     },
     {
-      "page": 184,
+      "page": 185,
       "term_count": 21,
       "terms": [
         "Hasan",
@@ -3938,7 +3962,7 @@
       ]
     },
     {
-      "page": 185,
+      "page": 186,
       "term_count": 13,
       "terms": [
         "Ali",
@@ -3954,7 +3978,7 @@
       ]
     },
     {
-      "page": 186,
+      "page": 187,
       "term_count": 13,
       "terms": [
         "Husayn",
@@ -3970,7 +3994,7 @@
       ]
     },
     {
-      "page": 187,
+      "page": 188,
       "term_count": 14,
       "terms": [
         "Ali",
@@ -3986,7 +4010,7 @@
       ]
     },
     {
-      "page": 188,
+      "page": 189,
       "term_count": 6,
       "terms": [
         "Bismillah",
@@ -3998,7 +4022,7 @@
       ]
     },
     {
-      "page": 189,
+      "page": 190,
       "term_count": 23,
       "terms": [
         "Arafat",
@@ -4014,8 +4038,8 @@
       ]
     },
     {
-      "page": 190,
-      "term_count": 15,
+      "page": 191,
+      "term_count": 14,
       "terms": [
         "Arafat",
         "Mina",
@@ -4024,13 +4048,13 @@
         "duas",
         "form",
         "halal",
-        "jaiz",
         "mawquf",
-        "nafs"
+        "nafs",
+        "natural"
       ]
     },
     {
-      "page": 191,
+      "page": 192,
       "term_count": 22,
       "terms": [
         "Ali",
@@ -4046,7 +4070,7 @@
       ]
     },
     {
-      "page": 192,
+      "page": 193,
       "term_count": 15,
       "terms": [
         "Hajj",
@@ -4062,8 +4086,8 @@
       ]
     },
     {
-      "page": 193,
-      "term_count": 25,
+      "page": 194,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Dai",
@@ -4078,8 +4102,8 @@
       ]
     },
     {
-      "page": 194,
-      "term_count": 20,
+      "page": 195,
+      "term_count": 21,
       "terms": [
         "Bismillah",
         "Mina",
@@ -4094,24 +4118,24 @@
       ]
     },
     {
-      "page": 195,
-      "term_count": 12,
+      "page": 196,
+      "term_count": 10,
       "terms": [
         "Bismillah",
         "Mina",
         "Muhammad",
         "Sayyidna",
         "aqiqah",
-        "body",
         "darakat",
         "dhabihah",
         "fil",
-        "form"
+        "greatness",
+        "halal"
       ]
     },
     {
-      "page": 196,
-      "term_count": 22,
+      "page": 197,
+      "term_count": 23,
       "terms": [
         "Dai",
         "Imam",
@@ -4120,77 +4144,77 @@
         "Mina",
         "Sayyidna",
         "animal",
+        "aqiqah",
         "believer",
-        "body",
-        "buruj"
+        "body"
       ]
     },
     {
-      "page": 197,
-      "term_count": 19,
+      "page": 198,
+      "term_count": 15,
       "terms": [
         "Madinah",
         "Mina",
         "animal",
         "bawl-o-baraz",
-        "body",
-        "dammar",
         "dawah",
         "form",
         "fudala",
-        "halal"
+        "halal",
+        "hudud",
+        "kalimah"
       ]
     },
     {
-      "page": 198,
+      "page": 199,
       "term_count": 16,
       "terms": [
-        "Hadramaut",
-        "Imam",
         "Mina",
         "Qayam",
         "Qiyamah",
         "Yazid",
         "azdad",
+        "body",
+        "dawah",
         "form",
         "kashf",
-        "nafs"
+        "munajat"
       ]
     },
     {
-      "page": 199,
-      "term_count": 22,
+      "page": 200,
+      "term_count": 16,
       "terms": [
         "Ali",
         "Arafat",
         "Bagh-e-Fadak",
+        "Hadramaut",
+        "Imam",
+        "Mina",
+        "Sayyidna",
+        "Sulayman",
+        "Umar",
+        "caliph"
+      ]
+    },
+    {
+      "page": 201,
+      "term_count": 22,
+      "terms": [
+        "Ali",
         "Bismillah",
+        "Husayn",
         "Mina",
         "Muhammad",
         "Qaim",
         "Rahim",
         "Rahman",
-        "Sayyidna"
-      ]
-    },
-    {
-      "page": 200,
-      "term_count": 12,
-      "terms": [
-        "Husayn",
-        "Mina",
-        "Muhammad",
         "Sayyidna",
-        "ablution",
-        "animal",
-        "body",
-        "dawah",
-        "father",
-        "form"
+        "ablution"
       ]
     },
     {
-      "page": 201,
+      "page": 202,
       "term_count": 28,
       "terms": [
         "Ali",
@@ -4206,7 +4230,7 @@
       ]
     },
     {
-      "page": 202,
+      "page": 203,
       "term_count": 28,
       "terms": [
         "Ali",
@@ -4222,8 +4246,8 @@
       ]
     },
     {
-      "page": 203,
-      "term_count": 22,
+      "page": 204,
+      "term_count": 21,
       "terms": [
         "Arafat",
         "Khumm",
@@ -4232,13 +4256,13 @@
         "Muzdalifah",
         "Rasulullah",
         "Umar",
-        "asrar",
         "balaya",
-        "caliph"
+        "caliph",
+        "father"
       ]
     },
     {
-      "page": 204,
+      "page": 205,
       "term_count": 15,
       "terms": [
         "Arafat",
@@ -4254,7 +4278,7 @@
       ]
     },
     {
-      "page": 206,
+      "page": 207,
       "term_count": 19,
       "terms": [
         "Aliyyun",
@@ -4270,7 +4294,7 @@
       ]
     },
     {
-      "page": 207,
+      "page": 208,
       "term_count": 20,
       "terms": [
         "Dai",
@@ -4286,7 +4310,7 @@
       ]
     },
     {
-      "page": 208,
+      "page": 209,
       "term_count": 25,
       "terms": [
         "Ali",
@@ -4302,8 +4326,8 @@
       ]
     },
     {
-      "page": 209,
-      "term_count": 25,
+      "page": 210,
+      "term_count": 24,
       "terms": [
         "Ali",
         "Bohra",
@@ -4318,8 +4342,8 @@
       ]
     },
     {
-      "page": 210,
-      "term_count": 11,
+      "page": 211,
+      "term_count": 14,
       "terms": [
         "Ali",
         "Hasan",
@@ -4328,14 +4352,14 @@
         "Sayyidna",
         "Sulayman",
         "appearance",
+        "asbaq",
         "gathering",
-        "ikhwan",
-        "island"
+        "ikhwan"
       ]
     },
     {
-      "page": 211,
-      "term_count": 22,
+      "page": 212,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Hasan",
@@ -4350,8 +4374,8 @@
       ]
     },
     {
-      "page": 212,
-      "term_count": 25,
+      "page": 213,
+      "term_count": 23,
       "terms": [
         "Dai",
         "Hasan",
@@ -4366,39 +4390,39 @@
       ]
     },
     {
-      "page": 213,
-      "term_count": 22,
+      "page": 214,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Husayn",
         "Imam",
-        "Muhammad",
         "Najran",
         "Sayyidna",
         "Yemen",
         "blessings",
         "dawah",
-        "family"
+        "form",
+        "greatness"
       ]
     },
     {
-      "page": 214,
-      "term_count": 19,
+      "page": 215,
+      "term_count": 23,
       "terms": [
         "Bismillah",
         "Hajj",
         "Husayn",
         "Mawlana",
+        "Muhammad",
         "Rahim",
         "Rahman",
+        "Sayyidna",
         "Yazid",
-        "al-Rahim",
-        "al-Rahman",
-        "alam"
+        "al-Rahim"
       ]
     },
     {
-      "page": 215,
+      "page": 216,
       "term_count": 8,
       "terms": [
         "alif",
@@ -4412,7 +4436,7 @@
       ]
     },
     {
-      "page": 216,
+      "page": 217,
       "term_count": 17,
       "terms": [
         "Ali",
@@ -4428,7 +4452,7 @@
       ]
     },
     {
-      "page": 217,
+      "page": 218,
       "term_count": 16,
       "terms": [
         "Hasan",
@@ -4444,7 +4468,7 @@
       ]
     },
     {
-      "page": 218,
+      "page": 219,
       "term_count": 12,
       "terms": [
         "Dai",
@@ -4460,7 +4484,7 @@
       ]
     },
     {
-      "page": 219,
+      "page": 220,
       "term_count": 24,
       "terms": [
         "Aimmah",
@@ -4476,7 +4500,7 @@
       ]
     },
     {
-      "page": 220,
+      "page": 221,
       "term_count": 30,
       "terms": [
         "Anwar",
@@ -4492,7 +4516,7 @@
       ]
     },
     {
-      "page": 221,
+      "page": 222,
       "term_count": 20,
       "terms": [
         "Abdullah",
@@ -4508,7 +4532,7 @@
       ]
     },
     {
-      "page": 222,
+      "page": 223,
       "term_count": 16,
       "terms": [
         "Ali",
@@ -4524,7 +4548,7 @@
       ]
     },
     {
-      "page": 223,
+      "page": 224,
       "term_count": 23,
       "terms": [
         "Ali",
@@ -4540,7 +4564,7 @@
       ]
     },
     {
-      "page": 224,
+      "page": 225,
       "term_count": 15,
       "terms": [
         "Dai",
@@ -4556,7 +4580,7 @@
       ]
     },
     {
-      "page": 225,
+      "page": 226,
       "term_count": 16,
       "terms": [
         "Aimmah",
@@ -4572,7 +4596,7 @@
       ]
     },
     {
-      "page": 226,
+      "page": 227,
       "term_count": 15,
       "terms": [
         "Aimmah",
@@ -4588,7 +4612,7 @@
       ]
     },
     {
-      "page": 227,
+      "page": 228,
       "term_count": 11,
       "terms": [
         "Mubdi",
@@ -4604,8 +4628,8 @@
       ]
     },
     {
-      "page": 229,
-      "term_count": 17,
+      "page": 230,
+      "term_count": 13,
       "terms": [
         "Imam",
         "Imamat",
@@ -4620,23 +4644,23 @@
       ]
     },
     {
-      "page": 230,
-      "term_count": 21,
+      "page": 231,
+      "term_count": 19,
       "terms": [
         "Ali",
         "Husayn",
         "Ismail",
         "Janab-e-Ali",
-        "Janab-e-Mehdi",
         "Mahdi",
         "Mehdi",
         "Qaim",
         "Sayyidna",
-        "amir"
+        "amir",
+        "cycle"
       ]
     },
     {
-      "page": 231,
+      "page": 232,
       "term_count": 23,
       "terms": [
         "Ashir",
@@ -4652,8 +4676,8 @@
       ]
     },
     {
-      "page": 232,
-      "term_count": 21,
+      "page": 233,
+      "term_count": 20,
       "terms": [
         "Ali",
         "Imamat",
@@ -4668,7 +4692,7 @@
       ]
     },
     {
-      "page": 233,
+      "page": 234,
       "term_count": 19,
       "terms": [
         "Ashir",
@@ -4684,8 +4708,8 @@
       ]
     },
     {
-      "page": 234,
-      "term_count": 15,
+      "page": 235,
+      "term_count": 14,
       "terms": [
         "Aimmah",
         "Farzand-e-Imam",
@@ -4700,8 +4724,8 @@
       ]
     },
     {
-      "page": 235,
-      "term_count": 29,
+      "page": 236,
+      "term_count": 28,
       "terms": [
         "Ali",
         "Imams",
@@ -4716,7 +4740,7 @@
       ]
     },
     {
-      "page": 236,
+      "page": 237,
       "term_count": 13,
       "terms": [
         "Ashir",
@@ -4732,7 +4756,7 @@
       ]
     },
     {
-      "page": 237,
+      "page": 238,
       "term_count": 8,
       "terms": [
         "Ali",
@@ -4746,7 +4770,7 @@
       ]
     },
     {
-      "page": 238,
+      "page": 239,
       "term_count": 9,
       "terms": [
         "Sayyidna",
@@ -4761,7 +4785,7 @@
       ]
     },
     {
-      "page": 239,
+      "page": 240,
       "term_count": 13,
       "terms": [
         "Dai",
@@ -4777,24 +4801,24 @@
       ]
     },
     {
-      "page": 240,
-      "term_count": 14,
+      "page": 241,
+      "term_count": 11,
       "terms": [
         "Ashir",
         "aql",
         "bab",
         "cycles",
-        "era",
         "forms",
         "gate",
         "gathering",
-        "humanity",
-        "intellects"
+        "intellects",
+        "mawr",
+        "tadbirat"
       ]
     },
     {
-      "page": 241,
-      "term_count": 21,
+      "page": 242,
+      "term_count": 22,
       "terms": [
         "Aimmah",
         "Ibrahim",
@@ -4809,7 +4833,7 @@
       ]
     },
     {
-      "page": 242,
+      "page": 243,
       "term_count": 26,
       "terms": [
         "Ali",
@@ -4825,7 +4849,7 @@
       ]
     },
     {
-      "page": 243,
+      "page": 244,
       "term_count": 24,
       "terms": [
         "Ali",
@@ -4841,8 +4865,8 @@
       ]
     },
     {
-      "page": 244,
-      "term_count": 16,
+      "page": 245,
+      "term_count": 15,
       "terms": [
         "Ali",
         "Fatiha",
@@ -4853,7 +4877,7 @@
         "body",
         "books",
         "cycles",
-        "heart"
+        "ifadah"
       ]
     }
   ],
@@ -4870,18 +4894,18 @@
     },
     {
       "page": 44,
-      "words": 120,
-      "text": "The questioner said: \"Inni basartu wa taammaltu fima tafaddaltum bihi min kutub awliya Allah ( ‫ )َأْو ِلَي ٓاَء ٱلَّلِه‬wa ba'd al-mufidin, lam ajid ma dallani"
+      "words": 129,
+      "text": "The questioner said: \"Inni basartu wa taammaltu fima tafaddaltum bihi min kutub awliya Allah ( ‫ )َأْو ِلَي ٓاَء ٱلَّلِه‬wa ba'd al-mufidin, lam ( ‫ )اَل ٌم‬aji"
     },
     {
-      "page": 85,
+      "page": 101,
+      "words": 120,
+      "text": "\"fa-dhalika huwa al-haqq alladhi la shakka yatarihi wal-sirr al-khafi alladhi la maryata fihi.\" \"That is the truth which no doubt can befall, and the hidden sec"
+    },
+    {
+      "page": 86,
       "words": 115,
       "text": "The Middle Way and the Heart Beneath the House \"And We made the House a place of resort for the people and a place of security.\" Two qualities are thus assigned"
-    },
-    {
-      "page": 100,
-      "words": 113,
-      "text": "\"fa-dhalika huwa al-haqq alladhi la shakka yatarihi wal-sirr al-khafi alladhi la maryata fihi.\" \"That is the truth which no doubt can befall, and the hidden sec"
     },
     {
       "page": 38,
@@ -4894,73 +4918,73 @@
       "text": "An editorial aside: Readers meeting the language of gathered asrar and the haqaiq of Shual alAnwar for the first time may find help in a related teaching preser"
     },
     {
-      "page": 151,
+      "page": 152,
       "words": 106,
       "text": "The saying of the Messenger, `alayh alsalam`, likewise suffices: `man arada khayr al-dunya wa al-akhirah` — whoever desires the good of this world and the Herea"
     },
     {
-      "page": 103,
+      "page": 104,
       "words": 105,
       "text": "The Black Stone and the Cycles of Return \"As for the Black Stone and the Most Fortunate Corner, it may be, and Allah knows best, that the statement of Sayyidna "
     },
     {
-      "page": 72,
+      "page": 100,
+      "words": 99,
+      "text": "May Allah, glory be to Him, lengthen your lives.\" The answer: \"al-jawab 'ala dhalika al-sual, naqulu bi-awn Allah al-Kabir alMutaal wa minnat Wali al-Asr wal-Za"
+    },
+    {
+      "page": 73,
       "words": 96,
       "text": "Subtle Essences: What Rises From the Dead and What Feeds the Living For the one who has passed away, the riyat that emerge over those three days carry a spiritu"
     },
     {
-      "page": 139,
+      "page": 88,
+      "words": 96,
+      "text": "An elder once had occasion to grant fursat (an appointment) to someone, and one of the hudad al-dawah (‫( )ُح ُد وُد الَّد ْع َو ة‬ranks of the mission) remarke"
+    },
+    {
+      "page": 140,
       "words": 96,
       "text": "Once, someone asked Amir al-Muminin (‫)ع‬: \"O Mawla, in the state of prayer — the two prostrations, the two sajdahs, that we perform — what is the reason for th"
     },
     {
-      "page": 108,
+      "page": 82,
+      "words": 93,
+      "text": "And for the sake of Sayyidna al-Dai al-Mutlaq, the chief of the two dawahs (‫)الَّد ْع َو َتْي ن‬, the zill ( ‫( )ِظ ّل‬shadow) of the hadd ( ‫ )َح ّد‬of Sindh,"
+    },
+    {
+      "page": 109,
       "words": 93,
       "text": "It continues with wa min ayna abwabuhum — \"And from where are their gates?\" — asking where their doors are; then wa ma tasir wa yasiru ilayha — \"And what travel"
     },
     {
-      "page": 82,
+      "page": 95,
+      "words": 92,
+      "text": "Wa tawwala Allahu baqa Mawlana azz taala, yaquruhu wa yahmihi wa yuidduhu wa yukfihi wa yushfihi, min sharri jami' al-amrad wa-l-asqam wa-l-awja wa-l-alam, min "
+    },
+    {
+      "page": 50,
+      "words": 90,
+      "text": "The reality of both is to be taken from the preface at the very opening of this book, where it is written: \"All praise is for Allah, who made the nasut al-khass"
+    },
+    {
+      "page": 83,
       "words": 90,
       "text": "A parallel verse stands in Surah al-Furqan, in the passage concerning the `'Ibad al-Rahman` (the servants of the Most Merciful): Walladhina idha anfaqu lam yusr"
     },
     {
-      "page": 99,
+      "page": 121,
       "words": 90,
-      "text": "May Allah, glory be to Him, lengthen your lives.\" The answer: \"al-jawab 'ala dhalika al-sual, naqulu bi-awn Allah al-Kabir alMutaal wa minnat Wali al-Asr wal-Za"
+      "text": "In the gathering where Ismail (‫ )ع‬had passed away and his body lay there, Imam Jafar al-Sadiq (‫ )ع‬said, \"Who will become my ransom (‫ \"?)ِفْد َية‬All the hu"
     },
     {
-      "page": 120,
-      "words": 89,
-      "text": "In the gathering where Ismail (‫ )ع‬had passed away and his body lay there, Imam Jafar al-Sadiq (‫ )ع‬said, \"Who will become my ransom (fidyah)?\" All the hudud "
-    },
-    {
-      "page": 223,
+      "page": 224,
       "words": 89,
       "text": "Seven Ranks Within Every Rank belongs to a time before that: when Khadijah bint Nuh was pregnant and Sayyidna Jafar bin Sulayman was still in the womb, Sayyidna"
-    },
-    {
-      "page": 161,
-      "words": 87,
-      "text": "The Answer Al-jawab 'ala dhalika al-sual, naqulu bi-awnillahi al-kabir al-mutaal wa minnati waliyyi al-asri wal-zaman (The answer to that question: we say with "
-    },
-    {
-      "page": 87,
-      "words": 86,
-      "text": "An elder once had occasion to grant fursat (an appointment) to someone, and one of the hudad al-dawah (ranks of the mission) remarked: \"Mawlana, we did not thin"
-    },
-    {
-      "page": 111,
-      "words": 85,
-      "text": "wa minhu yanbau ila tahti tilka albataih — \"And from it gushes forth to beneath those lowlands\" — from those waters things ascend toward the bataih, bi-majari —"
-    },
-    {
-      "page": 112,
-      "words": 85,
-      "text": "wa amma qawluka Bir Dhat al-Alam — \"As for your statement, 'the Well of Dhat al-Alam'\" — that is, the question concerning Bir Dhat al-Alam — wa qatluhu Amir al-"
     }
   ],
   "summary": {
-    "never_explained": 24,
+    "never_explained": 25,
     "explained_late": 138,
     "referent_collisions": 0
   }

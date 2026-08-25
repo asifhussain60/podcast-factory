@@ -14,7 +14,7 @@
       "name": "book-md-present",
       "kind": "own",
       "passed": true,
-      "note": "book.md present (400,529 bytes)"
+      "note": "book.md present (410,286 bytes)"
     },
     {
       "gate": "PC2",
@@ -42,7 +42,7 @@
       "name": "no-new-reading-edition-defects",
       "kind": "own",
       "passed": true,
-      "note": "first scan — 18 defect(s) recorded as the baseline"
+      "note": "18 recorded defect(s), none new this compose"
     },
     {
       "gate": "RB1",
