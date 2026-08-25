@@ -21,6 +21,9 @@ pipeline:
 publication:
   status: draft
 
+series:
+  enable_book_branch: true
+
 provenance:
   reshape_date: 2026-05-28
   reshape_method: moved from content/published/lectures/ to content/drafts/lectures/ as part of single-source-of-truth restructure; status reset to draft

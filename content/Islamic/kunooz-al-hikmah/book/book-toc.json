@@ -1,0 +1,356 @@
+{
+  "book_title": "Kunooz al-Hikmah: The Stored Treasures of Wisdom for the Masters of Infallibility",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "How to Read a Book of Stored Secrets",
+    "source_line_ranges": [
+      [
+        7,
+        17
+      ],
+      [
+        196,
+        197
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Author and His Only Book",
+      "source_line_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "theme": "authorship and lineage",
+      "rationale": "The opening frame identifies the book's title, its meaning of partial infallibility, and the single treatise left by Sayyidna Ali ibn Hibatullah."
+    },
+    {
+      "bk_index": 2,
+      "title": "Praise, the Three Human Natures, and the Unknowable God",
+      "source_line_ranges": [
+        [
+          20,
+          44
+        ]
+      ],
+      "theme": "invocation and nasut",
+      "rationale": "The doxology's own argument: the special, middle, and lowest nasut, and the equality of first and last creature in failing to know God."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Prophet, His Brother, and the Veiled Successors",
+      "source_line_ranges": [
+        [
+          45,
+          78
+        ]
+      ],
+      "theme": "prophet and successors",
+      "rationale": "The salutation moves through Muhammad's ascent, Ali as his very self, Fatimah as greatest hujjah, and Hasan and Husayn as trustee and manifester of occultation."
+    },
+    {
+      "bk_index": 4,
+      "title": "Blessings on the Chain: Imams, Gates, and the Du'at of Najran",
+      "source_line_ranges": [
+        [
+          79,
+          129
+        ]
+      ],
+      "theme": "salutation to du'at",
+      "rationale": "The remainder of the salutation names the Imams, the hidden Imam, and the individual du'at down to the migration to Najran and Habuna."
+    },
+    {
+      "bk_index": 5,
+      "title": "Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Da'i",
+      "source_line_ranges": [
+        [
+          130,
+          158
+        ]
+      ],
+      "theme": "liturgical preliminaries",
+      "rationale": "The second lecture's opening treats ta'awwudh, the adhan, the order of praise and salawat, and the supplication for the da'i's protection."
+    },
+    {
+      "bk_index": 6,
+      "title": "The Reluctant Answerer: How These Questions Came to Be Written",
+      "source_line_ranges": [
+        [
+          159,
+          191
+        ]
+      ],
+      "theme": "author's apologia",
+      "rationale": "The introduction proper: questions arrive from the children of the da'wah, the author pleads incapacity, names the book, and binds readers by covenant."
+    },
+    {
+      "bk_index": 7,
+      "title": "What Was There Before Origination",
+      "source_line_ranges": [
+        [
+          192,
+          228
+        ]
+      ],
+      "theme": "first question, ibda'",
+      "rationale": "The first question and its answer: nothing preceded the World of Origination, and the questioner's account of the veils is corrected."
+    },
+    {
+      "bk_index": 8,
+      "title": "The Fifteen Ranks of the Repentant and How Far We Fell",
+      "source_line_ranges": [
+        [
+          229,
+          243
+        ]
+      ],
+      "theme": "the fall of souls",
+      "rationale": "The same answer's second half turns to the penitent souls, their fifteen categories, and the illusion of equality that caused the fall."
+    },
+    {
+      "bk_index": 9,
+      "title": "The Sphere That Rises From Where It Stands",
+      "source_line_ranges": [
+        [
+          244,
+          295
+        ]
+      ],
+      "theme": "second question, spheres",
+      "rationale": "The second question concerns the encompassing sphere, the sun's light, and the ascent of the Imam's soul through the Sacred House."
+    },
+    {
+      "bk_index": 10,
+      "title": "Subtle Essences: What Rises From the Dead and What Feeds the Living",
+      "source_line_ranges": [
+        [
+          296,
+          376
+        ]
+      ],
+      "theme": "riyat and nourishment",
+      "rationale": "This stretch traces the riyat from the grave through moon and spheres into the Imam's body, ablution, and the fast."
+    },
+    {
+      "bk_index": 11,
+      "title": "Three Veils, Four Ranks, Twenty-Eight",
+      "source_line_ranges": [
+        [
+          377,
+          424
+        ]
+      ],
+      "theme": "veils and numbers",
+      "rationale": "The answer closes by matching the Imam's three veils and four ranks to the clauses and letters of the testimony of faith."
+    },
+    {
+      "bk_index": 12,
+      "title": "The Middle Way and the Heart Beneath the House",
+      "source_line_ranges": [
+        [
+          425,
+          445
+        ]
+      ],
+      "theme": "spending and the true heart",
+      "rationale": "Lecture five opens on neither miserliness nor extravagance, then turns to the true heart beneath the Frequented House."
+    },
+    {
+      "bk_index": 13,
+      "title": "Registers of Rank: Who Stands Where, and the Twenty-Ninth",
+      "source_line_ranges": [
+        [
+          446,
+          470
+        ]
+      ],
+      "theme": "rank and sequence",
+      "rationale": "A sustained meditation on rank-lists, designations passed over, the special status of the twenty-eighth and twenty-ninth, and the disjoined letters."
+    },
+    {
+      "bk_index": 14,
+      "title": "The Black Stone and the Cycles of Return",
+      "source_line_ranges": [
+        [
+          471,
+          547
+        ]
+      ],
+      "theme": "third question, the Rukn",
+      "rationale": "The third question: the Rukn as remnant of Amir al-Mu'minin, testing in the da'wah, and whether glorification may be applied to him."
+    },
+    {
+      "bk_index": 15,
+      "title": "Beneath the Ka'bah: Lowlands, Waters, and the Well of the Jinn",
+      "source_line_ranges": [
+        [
+          548,
+          588
+        ]
+      ],
+      "theme": "fourth question, Ka'bah",
+      "rationale": "The fourth question on the four lowlands, their channels, the well where Ali fought the jinn, and the stations of pilgrimage."
+    },
+    {
+      "bk_index": 16,
+      "title": "Harun to Musa: The Successor Who Dies Before the Prophet",
+      "source_line_ranges": [
+        [
+          589,
+          625
+        ]
+      ],
+      "theme": "fifth question, veiling",
+      "rationale": "The fifth question turns on Ali's station as Harun, the exchange of veils between the mim and the 'ayn, and Ja'far al-Sadiq's veiling through Isma'il."
+    },
+    {
+      "bk_index": 17,
+      "title": "The Fifth Intellect and the Verdict on the Caliphs",
+      "source_line_ranges": [
+        [
+          626,
+          718
+        ]
+      ],
+      "theme": "intellects and caliphate",
+      "rationale": "The answer identifies Husayn as the fifth intellect and the Fatimi powers, framed by an extended historical indictment of the first caliphs."
+    },
+    {
+      "bk_index": 18,
+      "title": "Returning as You Left: The Doctrine of the Second Cycle",
+      "source_line_ranges": [
+        [
+          719,
+          790
+        ]
+      ],
+      "theme": "sixth question, raj'at",
+      "rationale": "The sixth question asks whether one returns at the same rank, and the answer fixes rank, place, era, and the settling of accounts."
+    },
+    {
+      "bk_index": 19,
+      "title": "Offerings, Trials, and the Making of a Da'i",
+      "source_line_ranges": [
+        [
+          791,
+          853
+        ]
+      ],
+      "theme": "offerings and biography",
+      "rationale": "The same answer's tail gathers examples of designation, offering, and hardship among the du'at, closing with Hajj and pure intention."
+    },
+    {
+      "bk_index": 20,
+      "title": "The Cold Edges of the World: Where the Opponents Are Cast",
+      "source_line_ranges": [
+        [
+          854,
+          911
+        ]
+      ],
+      "theme": "seventh question, punishment",
+      "rationale": "The seventh question locates the opponents of Imams and prophets at the frozen extremities and describes their punishment and the winds."
+    },
+    {
+      "bk_index": 21,
+      "title": "Rubies, Elephants, and Believers: The Summit of Each Kind",
+      "source_line_ranges": [
+        [
+          912,
+          937
+        ]
+      ],
+      "theme": "eighth question, jewels",
+      "rationale": "The eighth question on jewels and rubies, their gathering, dissolution, and succession to the celestial spheres."
+    },
+    {
+      "bk_index": 22,
+      "title": "Visiting the Graves: Traces, Intercession, and Free Will",
+      "source_line_ranges": [
+        [
+          938,
+          1009
+        ]
+      ],
+      "theme": "ninth question, graves",
+      "rationale": "The ninth question on the visitation of graves, the illumination cast toward the remains, and the choice that makes man alone answerable."
+    },
+    {
+      "bk_index": 23,
+      "title": "The Knife and the Name: Sacrifice at Mina",
+      "source_line_ranges": [
+        [
+          1010,
+          1101
+        ]
+      ],
+      "theme": "tenth question, slaughter",
+      "rationale": "The tenth question on the slaughter of the sacrifice at Mina, the expulsion of the sensory soul, and what becomes lawful."
+    },
+    {
+      "bk_index": 24,
+      "title": "Standing at 'Arafat",
+      "source_line_ranges": [
+        [
+          1102,
+          1122
+        ]
+      ],
+      "theme": "'Arafat and Ghadir",
+      "rationale": "The answer on Mount 'Arafat, the revelation descending there, and the covenant sealed at Ghadir Khumm."
+    },
+    {
+      "bk_index": 25,
+      "title": "Prayer Outside the Island: The Eleventh Question",
+      "source_line_ranges": [
+        [
+          1123,
+          1169
+        ]
+      ],
+      "theme": "eleventh question, du'at",
+      "rationale": "The eleventh question on Sulayman ibn Hasan, his son at the two wells, and the unique permission to lead prayer beyond the three islands."
+    },
+    {
+      "bk_index": 26,
+      "title": "Seven Ranks Within Every Rank",
+      "source_line_ranges": [
+        [
+          1170,
+          1281
+        ]
+      ],
+      "theme": "grades of the du'at",
+      "rationale": "The answer distinguishes trustee from established du'at and the sevenfold grading within each rank, sealed by the covenant of secrecy."
+    },
+    {
+      "bk_index": 27,
+      "title": "The Mahdi, the Qa'im, and the Straight Path",
+      "source_line_ranges": [
+        [
+          1282,
+          1342
+        ]
+      ],
+      "theme": "appended first question",
+      "rationale": "The first appended question distinguishes the Mahdi of concealment from the Qa'im and reads the straight path as the line of succession."
+    },
+    {
+      "bk_index": 28,
+      "title": "Rolling Up the Sky: Cycles Without End",
+      "source_line_ranges": [
+        [
+          1343,
+          1415
+        ]
+      ],
+      "theme": "final question, cycles",
+      "rationale": "The last question on the folding of the heavens, the endless alternation of concealment and unveiling, and the scribe's closing colophon."
+    }
+  ]
+}

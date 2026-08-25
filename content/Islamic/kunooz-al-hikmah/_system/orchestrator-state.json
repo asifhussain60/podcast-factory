@@ -3,9 +3,9 @@
   "book_slug": "kunooz-al-hikmah",
   "source_kind": "audio",
   "source_language": "ur",
-  "last_completed_phase": "per-chapter-slides",
-  "phase": "finalize",
-  "phase_status": "halted",
+  "last_completed_phase": "0book-design",
+  "phase": "0book-design",
+  "phase_status": "completed",
   "last_error": null,
   "category": "lectures",
   "status": "draft",
@@ -344,11 +344,23 @@
       "ts_started": "2026-06-16T00:51:02Z",
       "ts_completed": "2026-06-16T00:51:03Z",
       "verdict": "SHIP-READY"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-25T15:52:25Z",
+      "ts_completed": "2026-08-25T15:53:17Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
     }
   },
-  "next_phase": "audio-script",
+  "next_phase": "0book-compose",
   "content_profile": "islamic_scholarly",
-  "ts_updated": "2026-06-16T00:51:03Z",
+  "ts_updated": "2026-08-25T15:53:17Z",
   "slide_decks": {
     "lectures-six-seven-eight-continued": {
       "slide_deck_phase": "stalled",
@@ -415,5 +427,6 @@
       "slide_challenger_iter": 0,
       "slide_challenger_verdict": "BLOCKED"
     }
-  }
+  },
+  "run_id": "20260825T155225Z-feff7f"
 }

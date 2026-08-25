@@ -1,0 +1,23 @@
+content_profile: islamic_scholarly
+
+# Narrative frame — a property of the SOURCE, not of the delivery route.
+# The source is 15 spoken lectures by a contemporary teacher expounding the
+# classical text (author of record: Sayyidna Ali bin Hibatullah al-Shamsi).
+# The lecturer transmits and glosses the book's teachings; he is not the
+# book's author speaking in his own first person. That is `transmitted_report`
+# — the islamic_scholarly default, and the same frame declared for
+# al-anwaar-al-lateefah, the repo's other audio-lecture-derived Ismaili book.
+# Confirmed against the source: refined-english.md opens "This is a book
+# whose name is..." / "This book was written by Sayyidna Ali ibn
+# Hibatullah..." — third-person exposition of someone else's book, not the
+# lecturer's own authored voice. R-NO-LECTURE-VOICE and
+# R-NO-NAVIGATION-APPARATUS strip leftover audience-address and lecture
+# navigation phrasing regardless of frame.
+narrative_frame: transmitted_report
+source_medium: audio_lecture
+
+# Articulation route: faithful base + 0book-fluency de-calque pass under the
+# Book Articulation Standard — the islamic_scholarly default since 2026-07-31,
+# pinned explicitly per the discipline the-master-and-the-disciple documents.
+book_augmentation: source_only
+book_voice: faithful
