@@ -85,6 +85,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from _arabic_coverage import ARABIC_BASE_AND_SUPPLEMENT
 from _glossary_io import dump_glossary, load_glossary
 
 
@@ -104,7 +105,7 @@ def _unq(s: str) -> str:
 # Uthmani alif wasla the corpus path emits — deliberately NOT a general Unicode
 # "is this Arabic" test, just the code points this pipeline's own passes ever
 # legitimately produce.
-_ARABIC_CHAR_RE = re.compile(r"[؀-ۿݐ-ݿ]")
+_ARABIC_CHAR_RE = re.compile(f"[{ARABIC_BASE_AND_SUPPLEMENT}]")
 _NON_ARABIC_LETTER_RE = re.compile(r"[A-Za-z]")
 
 

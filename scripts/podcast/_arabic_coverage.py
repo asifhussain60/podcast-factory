@@ -45,6 +45,23 @@ ARABIC_RE = re.compile(_ARABIC_CLASS)
 # allowed to spell an Arabic range out, so a caller importing it does not
 # re-declare the range and drift from it.
 ARABIC_INDIC_DIGITS = r"٠-٩"
+
+# The base Arabic block plus the Supplement, and DELIBERATELY not the three
+# ranges ARABIC_BODY adds on top of them — Extended-A and the two
+# presentation-forms blocks. `fill_glossary_arabic._script_is_well_formed`
+# wants exactly this narrower class: it is a sanity check on script a model
+# just supplied, and the code points this pipeline's own passes legitimately
+# produce are letters, harakat and the Uthmani alif wasla. Presentation forms
+# are legacy compatibility characters that a well-formed modern string has no
+# business containing, so accepting them would weaken the check rather than
+# generalise it.
+#
+# Named here rather than spelled out at the call site for the same reason as
+# the two above: this is the one module allowed to write an Arabic range, so a
+# caller that needs a narrower class asks for it instead of re-declaring one
+# that then drifts. `fill_glossary_arabic` spelled it out and was the last
+# module holding the `test_arabic_coverage` ratchet red.
+ARABIC_BASE_AND_SUPPLEMENT = r"؀-ۿݐ-ݿ"
 _ARABIC_SCRIPT_RE = ARABIC_RE
 # A verse/hadith/saying fenced by the printed edition's quotation delimiters. OCR
 # mangles individual marks, so openers and closers are matched loosely and the span
