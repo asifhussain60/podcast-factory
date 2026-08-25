@@ -1,0 +1,21 @@
+{
+  "schema": "book.seam-dedup/v1",
+  "removed": [
+    {
+      "pass": "base",
+      "rule": "boundary-echo",
+      "chapter": "18. Returning as You Left: The Doctrine of the Second Cycle",
+      "words": 41,
+      "removed_text": "In the name of Allah, the Most Gracious, the Most Merciful. In Him we seek help, and may Allah's blessings be upon His Messenger, our master Muhammad, and upon the family of Muhammad, and may He grant them blessings and peace.",
+      "kept_neighbour_head": "Bismillah al-Rahman al-Rahim. O Allah, convey the blessings of these holy offerings, a gift and a means, pure and pleasing, to the souls of the Holy Five, our masters Muhammad,"
+    },
+    {
+      "pass": "base",
+      "rule": "adjacent-echo",
+      "chapter": "22. Visiting the Graves: Traces, Intercession, and Free Will",
+      "words": 17,
+      "removed_text": "According to the rank of the visitor and the one visited, they are met by the *zubad*.",
+      "kept_neighbour_head": "And according to the rank of the visitor and the visited, the manifest quintessences meet him."
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 0,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 12,
+    "prophet-wrong-honorific": 5,
+    "translation-outside-card": 0,
+    "translation-leads-a-paragraph": 0,
+    "translation-fused-with-prose": 0,
+    "bare-arabic": 1,
+    "orphaned-heading": 0,
+    "stale-provenance": 0
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [],
+    "english-rtl": [],
+    "romanized-arabic": [],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [],
+    "honorific-overuse": [
+      [
+        "1. The Author and His Only Book",
+        "(no name attached)",
+        6
+      ],
+      [
+        "1. The Author and His Only Book",
+        "Adam",
+        2
+      ],
+      [
+        "1. The Author and His Only Book",
+        "Bayt",
+        2
+      ],
+      [
+        "4. Blessings on the Chain: Imams, Gates, and the Duat of Najran",
+        "(no name attached)",
+        2
+      ],
+      [
+        "11. Three Veils, Four Ranks, Twenty-Eight",
+        "Imam",
+        2
+      ],
+      [
+        "14. The Black Stone and the Cycles of Return",
+        "Abwab of Janab Ali",
+        2
+      ],
+      [
+        "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+        "Ali",
+        2
+      ],
+      [
+        "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+        "Prophet",
+        2
+      ],
+      [
+        "16. Harun to Musa: The Successor Who Dies Before the Prophet",
+        "Ali",
+        10
+      ],
+      [
+        "16. Harun to Musa: The Successor Who Dies Before the Prophet",
+        "Ismail",
+        2
+      ],
+      [
+        "26. Seven Ranks Within Every Rank",
+        "(no name attached)",
+        2
+      ],
+      [
+        "27. The Mahdi, the Qaim, and the Straight Path",
+        "(no name attached)",
+        2
+      ]
+    ],
+    "prophet-wrong-honorific": [
+      [
+        "14. The Black Stone and the Cycles of Return",
+        "the Prophet (ع)"
+      ],
+      [
+        "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+        "the Prophet (ع)"
+      ],
+      [
+        "15. Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+        "the Prophet (ع)"
+      ],
+      [
+        "17. The Fifth Intellect and the Verdict on the Caliphs",
+        "the Prophet (ع)"
+      ],
+      [
+        "22. Visiting the Graves: Traces, Intercession, and Free Will",
+        "the Prophet (ع)"
+      ]
+    ],
+    "translation-outside-card": [],
+    "translation-leads-a-paragraph": [],
+    "translation-fused-with-prose": [],
+    "bare-arabic": [
+      [
+        "16. Harun to Musa: The Successor Who Dies Before the Prophet",
+        "صلى الله عليه وآله وسلم"
+      ]
+    ],
+    "orphaned-heading": [],
+    "stale-provenance": []
+  }
+}

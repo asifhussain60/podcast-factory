@@ -1,0 +1,745 @@
+{
+  "schema": "podcast.book-augment/v3",
+  "accepted": 16,
+  "dropped": 12,
+  "chapters_seen": 28,
+  "chapters_no_relevant_atom": 0,
+  "chapters_composer_authored": 0,
+  "atoms_per_chapter": 8,
+  "relevance_threshold": 0.08,
+  "per_chapter": [
+    {
+      "chapter": "The Author and His Only Book",
+      "selected": [
+        {
+          "id": "etymology:hdd",
+          "score": 0.2045
+        },
+        {
+          "id": "etymology:ml",
+          "score": 0.1621
+        },
+        {
+          "id": "etymology:shtn",
+          "score": 0.1558
+        },
+        {
+          "id": "etymology:mm",
+          "score": 0.1524
+        },
+        {
+          "id": "etymology:ry",
+          "score": 0.151
+        },
+        {
+          "id": "etymology:dd",
+          "score": 0.1348
+        },
+        {
+          "id": "doctrine:kashkole:1459:2",
+          "score": 0.1252
+        },
+        {
+          "id": "doctrine:kashkole:886:0",
+          "score": 0.1064
+        }
+      ],
+      "used": [
+        "etymology:hdd",
+        "etymology:ml",
+        "etymology:shtn",
+        "etymology:mm",
+        "etymology:ry",
+        "etymology:dd",
+        "doctrine:kashkole:1459:2",
+        "doctrine:kashkole:886:0"
+      ]
+    },
+    {
+      "chapter": "Praise, the Three Human Natures, and the Unknowable God",
+      "selected": [
+        {
+          "id": "etymology:wl",
+          "score": 0.168
+        },
+        {
+          "id": "etymology:ql",
+          "score": 0.1455
+        },
+        {
+          "id": "etymology:btn",
+          "score": 0.1417
+        },
+        {
+          "id": "etymology:qdr",
+          "score": 0.131
+        },
+        {
+          "id": "etymology:mn",
+          "score": 0.1271
+        },
+        {
+          "id": "etymology:qdy",
+          "score": 0.1226
+        },
+        {
+          "id": "doctrine:kashkole:1477:0",
+          "score": 0.1032
+        },
+        {
+          "id": "doctrine:kashkole:5734:3",
+          "score": 0.1029
+        }
+      ],
+      "used": [
+        "etymology:wl",
+        "etymology:ql",
+        "etymology:btn",
+        "doctrine:kashkole:1477:0",
+        "doctrine:kashkole:5734:3"
+      ]
+    },
+    {
+      "chapter": "The Prophet, His Brother, and the Veiled Successors",
+      "selected": [
+        {
+          "id": "quote:prophet-muhammad:31084f2bda",
+          "score": 0.2038
+        },
+        {
+          "id": "etymology:hjb",
+          "score": 0.1749
+        },
+        {
+          "id": "etymology:nfs",
+          "score": 0.1552
+        },
+        {
+          "id": "etymology:ntq",
+          "score": 0.1515
+        },
+        {
+          "id": "etymology:hjj",
+          "score": 0.1326
+        },
+        {
+          "id": "etymology:wly",
+          "score": 0.1315
+        },
+        {
+          "id": "etymology:whd",
+          "score": 0.1279
+        },
+        {
+          "id": "doctrine:wisdom:1:78:4",
+          "score": 0.1273
+        }
+      ],
+      "used": [
+        "etymology:hjb",
+        "etymology:nfs",
+        "etymology:ntq",
+        "etymology:hjj",
+        "etymology:wly",
+        "etymology:whd",
+        "doctrine:wisdom:1:78:4"
+      ]
+    },
+    {
+      "chapter": "Blessings on the Chain: Imams, Gates, and the Duat of Najran",
+      "selected": [
+        {
+          "id": "doctrine:kashkole:5697:1",
+          "score": 0.215
+        },
+        {
+          "id": "doctrine:kashkole:5757:5",
+          "score": 0.2118
+        },
+        {
+          "id": "doctrine:kashkole:1466:0",
+          "score": 0.2111
+        },
+        {
+          "id": "doctrine:kashkole:1470:0",
+          "score": 0.2085
+        },
+        {
+          "id": "doctrine:kashkole:5735:6",
+          "score": 0.2081
+        },
+        {
+          "id": "doctrine:kashkole:5675:5",
+          "score": 0.2079
+        },
+        {
+          "id": "doctrine:kashkole:5734:1",
+          "score": 0.2057
+        },
+        {
+          "id": "doctrine:kashkole:886:1",
+          "score": 0.2046
+        }
+      ],
+      "used": [
+        "doctrine:kashkole:5697:1",
+        "doctrine:kashkole:5757:5",
+        "doctrine:kashkole:1466:0",
+        "doctrine:kashkole:1470:0",
+        "doctrine:kashkole:5735:6",
+        "doctrine:kashkole:5675:5",
+        "doctrine:kashkole:5734:1",
+        "doctrine:kashkole:886:1"
+      ]
+    },
+    {
+      "chapter": "The Reluctant Answerer: How These Questions Came to Be Written",
+      "selected": [
+        {
+          "id": "etymology:rf",
+          "score": 0.1742
+        },
+        {
+          "id": "etymology:hd",
+          "score": 0.1581
+        },
+        {
+          "id": "etymology:wsy",
+          "score": 0.1563
+        },
+        {
+          "id": "etymology:shrk~1",
+          "score": 0.1525
+        },
+        {
+          "id": "etymology:sn",
+          "score": 0.1517
+        },
+        {
+          "id": "etymology:smt",
+          "score": 0.1446
+        },
+        {
+          "id": "etymology:shrk",
+          "score": 0.1418
+        },
+        {
+          "id": "etymology:hwy",
+          "score": 0.1349
+        }
+      ],
+      "used": [
+        "etymology:rf",
+        "etymology:hd",
+        "etymology:wsy",
+        "etymology:shrk~1",
+        "etymology:sn",
+        "etymology:shrk",
+        "etymology:hwy"
+      ]
+    },
+    {
+      "chapter": "The Fifteen Ranks of the Repentant and How Far We Fell",
+      "selected": [
+        {
+          "id": "etymology:slm",
+          "score": 0.2597
+        },
+        {
+          "id": "etymology:khb",
+          "score": 0.1442
+        },
+        {
+          "id": "etymology:khms",
+          "score": 0.1401
+        },
+        {
+          "id": "etymology:mn",
+          "score": 0.1334
+        },
+        {
+          "id": "doctrine:kashkole:1469:0",
+          "score": 0.1282
+        },
+        {
+          "id": "etymology:qbl",
+          "score": 0.1252
+        },
+        {
+          "id": "etymology:qdr",
+          "score": 0.1219
+        },
+        {
+          "id": "doctrine:wisdom:1:78:6",
+          "score": 0.1198
+        }
+      ],
+      "used": [
+        "etymology:slm",
+        "etymology:khb",
+        "etymology:khms",
+        "doctrine:kashkole:1469:0",
+        "doctrine:wisdom:1:78:6"
+      ]
+    },
+    {
+      "chapter": "The Sphere That Rises From Where It Stands",
+      "selected": [
+        {
+          "id": "etymology:qwy",
+          "score": 0.1319
+        },
+        {
+          "id": "etymology:mn",
+          "score": 0.1301
+        },
+        {
+          "id": "etymology:hll",
+          "score": 0.12
+        },
+        {
+          "id": "doctrine:wisdom:1:80:14",
+          "score": 0.1136
+        },
+        {
+          "id": "doctrine:wisdom:1:80:9",
+          "score": 0.1095
+        },
+        {
+          "id": "doctrine:wisdom:1:125:3",
+          "score": 0.1022
+        },
+        {
+          "id": "doctrine:wisdom:1:81:6",
+          "score": 0.101
+        },
+        {
+          "id": "doctrine:kashkole:1251:1",
+          "score": 0.101
+        }
+      ],
+      "used": [
+        "etymology:qwy",
+        "etymology:mn",
+        "etymology:hll",
+        "doctrine:wisdom:1:80:14",
+        "doctrine:wisdom:1:80:9",
+        "doctrine:wisdom:1:125:3",
+        "doctrine:wisdom:1:81:6",
+        "doctrine:kashkole:1251:1"
+      ]
+    },
+    {
+      "chapter": "Subtle Essences: What Rises From the Dead and What Feeds the Living",
+      "selected": [
+        {
+          "id": "doctrine:kashkole:1226:0",
+          "score": 0.1393
+        },
+        {
+          "id": "doctrine:kashkole:1257:0",
+          "score": 0.1274
+        },
+        {
+          "id": "doctrine:kashkole:1247:0",
+          "score": 0.1211
+        },
+        {
+          "id": "etymology:qb",
+          "score": 0.12
+        },
+        {
+          "id": "doctrine:kashkole:1229:0",
+          "score": 0.1177
+        },
+        {
+          "id": "doctrine:wisdom:1:78:2",
+          "score": 0.1143
+        },
+        {
+          "id": "doctrine:wisdom:1:81:5",
+          "score": 0.1142
+        },
+        {
+          "id": "doctrine:kashkole:1330:0",
+          "score": 0.1129
+        }
+      ],
+      "used": [
+        "doctrine:kashkole:1226:0",
+        "doctrine:kashkole:1257:0",
+        "doctrine:kashkole:1247:0",
+        "etymology:qb",
+        "doctrine:kashkole:1229:0",
+        "doctrine:wisdom:1:78:2",
+        "doctrine:wisdom:1:81:5",
+        "doctrine:kashkole:1330:0"
+      ]
+    },
+    {
+      "chapter": "Three Veils, Four Ranks, Twenty-Eight",
+      "selected": [
+        {
+          "id": "quote:prophet-muhammad:31084f2bda",
+          "score": 0.1727
+        },
+        {
+          "id": "doctrine:kashkole:1234:0",
+          "score": 0.1188
+        },
+        {
+          "id": "doctrine:kashkole:1463:0",
+          "score": 0.1101
+        },
+        {
+          "id": "doctrine:kashkole:1232:1",
+          "score": 0.106
+        },
+        {
+          "id": "doctrine:wisdom:1:84:3",
+          "score": 0.105
+        },
+        {
+          "id": "quote:the-prophet:7c3df831aa",
+          "score": 0.1025
+        },
+        {
+          "id": "doctrine:kashkole:1476:0",
+          "score": 0.1018
+        },
+        {
+          "id": "doctrine:wisdom:1:75:2",
+          "score": 0.1006
+        }
+      ],
+      "used": [
+        "doctrine:kashkole:1234:0",
+        "doctrine:kashkole:1463:0",
+        "doctrine:kashkole:1232:1",
+        "doctrine:wisdom:1:84:3",
+        "quote:the-prophet:7c3df831aa",
+        "doctrine:kashkole:1476:0",
+        "doctrine:wisdom:1:75:2"
+      ]
+    },
+    {
+      "chapter": "Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+      "selected": [
+        {
+          "id": "etymology:jrd",
+          "score": 0.1408
+        },
+        {
+          "id": "etymology:hrm",
+          "score": 0.1392
+        },
+        {
+          "id": "etymology:dhkr",
+          "score": 0.1303
+        },
+        {
+          "id": "etymology:zkw",
+          "score": 0.1247
+        },
+        {
+          "id": "doctrine:wisdom:1:20:5",
+          "score": 0.1072
+        },
+        {
+          "id": "doctrine:wisdom:1:74:11",
+          "score": 0.1025
+        },
+        {
+          "id": "doctrine:kashkole:1235:0",
+          "score": 0.0943
+        },
+        {
+          "id": "doctrine:kashkole:1462:1",
+          "score": 0.0931
+        }
+      ],
+      "used": [
+        "etymology:jrd",
+        "etymology:hrm",
+        "etymology:dhkr",
+        "etymology:zkw",
+        "doctrine:wisdom:1:20:5",
+        "doctrine:wisdom:1:74:11",
+        "doctrine:kashkole:1235:0",
+        "doctrine:kashkole:1462:1"
+      ]
+    },
+    {
+      "chapter": "Harun to Musa: The Successor Who Dies Before the Prophet",
+      "selected": [
+        {
+          "id": "etymology:thbt",
+          "score": 0.1287
+        },
+        {
+          "id": "etymology:qbl",
+          "score": 0.1268
+        },
+        {
+          "id": "doctrine:kashkole:5676:9",
+          "score": 0.1118
+        },
+        {
+          "id": "doctrine:wisdom:1:73:1",
+          "score": 0.1063
+        },
+        {
+          "id": "quote:sayyidna-ali-bin-hiba-al-makrami:9e93a01ae8",
+          "score": 0.106
+        },
+        {
+          "id": "doctrine:kashkole:1240:0",
+          "score": 0.105
+        },
+        {
+          "id": "doctrine:kashkole:4665:1",
+          "score": 0.104
+        },
+        {
+          "id": "doctrine:wisdom:1:75:4",
+          "score": 0.1036
+        }
+      ],
+      "used": [
+        "doctrine:kashkole:5676:9",
+        "doctrine:wisdom:1:73:1",
+        "doctrine:kashkole:4665:1",
+        "doctrine:wisdom:1:75:4"
+      ]
+    },
+    {
+      "chapter": "The Knife and the Name: Sacrifice at Mina",
+      "selected": [
+        {
+          "id": "etymology:qbl",
+          "score": 0.1436
+        },
+        {
+          "id": "doctrine:kashkole:1329:0",
+          "score": 0.1081
+        },
+        {
+          "id": "doctrine:kashkole:5784:6",
+          "score": 0.1047
+        },
+        {
+          "id": "doctrine:wisdom:1:20:6",
+          "score": 0.1026
+        },
+        {
+          "id": "doctrine:kashkole:5787:5",
+          "score": 0.101
+        },
+        {
+          "id": "doctrine:kashkole:5748:10",
+          "score": 0.1007
+        },
+        {
+          "id": "doctrine:kashkole:1248:0",
+          "score": 0.0995
+        },
+        {
+          "id": "doctrine:kashkole:1240:0",
+          "score": 0.0995
+        }
+      ],
+      "used": [
+        "etymology:qbl",
+        "doctrine:kashkole:1329:0",
+        "doctrine:kashkole:5784:6",
+        "doctrine:wisdom:1:20:6",
+        "doctrine:kashkole:5787:5",
+        "doctrine:kashkole:5748:10",
+        "doctrine:kashkole:1248:0",
+        "doctrine:kashkole:1240:0"
+      ]
+    },
+    {
+      "chapter": "Standing at 'Arafat",
+      "selected": [
+        {
+          "id": "etymology:bshr",
+          "score": 0.1237
+        },
+        {
+          "id": "etymology:qdy",
+          "score": 0.12
+        },
+        {
+          "id": "doctrine:kashkole:1460:1",
+          "score": 0.1101
+        },
+        {
+          "id": "doctrine:kashkole:3559:2",
+          "score": 0.095
+        },
+        {
+          "id": "doctrine:wisdom:1:78:5",
+          "score": 0.0944
+        },
+        {
+          "id": "doctrine:kashkole:5726:15",
+          "score": 0.0939
+        },
+        {
+          "id": "doctrine:kashkole:1228:0",
+          "score": 0.0915
+        },
+        {
+          "id": "hadith:other:b211c1758724",
+          "score": 0.0898
+        }
+      ],
+      "used": [
+        "etymology:bshr",
+        "doctrine:kashkole:1460:1",
+        "doctrine:kashkole:3559:2",
+        "doctrine:wisdom:1:78:5",
+        "doctrine:kashkole:5726:15"
+      ]
+    },
+    {
+      "chapter": "Prayer Outside the Island: The Eleventh Question",
+      "selected": [
+        {
+          "id": "etymology:qdy",
+          "score": 0.1421
+        },
+        {
+          "id": "etymology:smt",
+          "score": 0.1253
+        },
+        {
+          "id": "etymology:jhd",
+          "score": 0.1229
+        },
+        {
+          "id": "doctrine:wisdom:1:125:1",
+          "score": 0.106
+        },
+        {
+          "id": "doctrine:kashkole:5727:28",
+          "score": 0.1051
+        },
+        {
+          "id": "doctrine:kashkole:5727:3",
+          "score": 0.1021
+        },
+        {
+          "id": "doctrine:kashkole:1462:0",
+          "score": 0.0997
+        },
+        {
+          "id": "doctrine:wisdom:1:74:7",
+          "score": 0.0996
+        }
+      ],
+      "used": [
+        "etymology:smt",
+        "doctrine:wisdom:1:125:1",
+        "doctrine:kashkole:5727:28",
+        "doctrine:kashkole:5727:3",
+        "doctrine:kashkole:1462:0",
+        "doctrine:wisdom:1:74:7"
+      ]
+    },
+    {
+      "chapter": "Seven Ranks Within Every Rank",
+      "selected": [
+        {
+          "id": "etymology:hjr",
+          "score": 0.1411
+        },
+        {
+          "id": "doctrine:kashkole:5793:7",
+          "score": 0.1122
+        },
+        {
+          "id": "doctrine:kashkole:1232:0",
+          "score": 0.1098
+        },
+        {
+          "id": "doctrine:kashkole:1460:0",
+          "score": 0.1043
+        },
+        {
+          "id": "doctrine:kashkole:5698:0",
+          "score": 0.1039
+        },
+        {
+          "id": "doctrine:kashkole:5776:0",
+          "score": 0.0999
+        },
+        {
+          "id": "doctrine:kashkole:5727:10",
+          "score": 0.0997
+        },
+        {
+          "id": "doctrine:kashkole:1249:0",
+          "score": 0.0994
+        }
+      ],
+      "used": [
+        "etymology:hjr",
+        "doctrine:kashkole:5793:7",
+        "doctrine:kashkole:1232:0",
+        "doctrine:kashkole:1460:0",
+        "doctrine:kashkole:5698:0",
+        "doctrine:kashkole:5776:0",
+        "doctrine:kashkole:5727:10",
+        "doctrine:kashkole:1249:0"
+      ]
+    },
+    {
+      "chapter": "Rolling Up the Sky: Cycles Without End",
+      "selected": [
+        {
+          "id": "doctrine:kashkole:1459:1",
+          "score": 0.2213
+        },
+        {
+          "id": "doctrine:kashkole:1468:0",
+          "score": 0.2194
+        },
+        {
+          "id": "doctrine:kashkole:5734:6",
+          "score": 0.2151
+        },
+        {
+          "id": "doctrine:kashkole:1461:1",
+          "score": 0.2141
+        },
+        {
+          "id": "doctrine:kashkole:5691:12",
+          "score": 0.213
+        },
+        {
+          "id": "doctrine:kashkole:4665:0",
+          "score": 0.213
+        },
+        {
+          "id": "doctrine:kashkole:5689:4",
+          "score": 0.2118
+        },
+        {
+          "id": "doctrine:kashkole:5760:3",
+          "score": 0.2112
+        }
+      ],
+      "used": [
+        "doctrine:kashkole:1459:1",
+        "doctrine:kashkole:1468:0",
+        "doctrine:kashkole:5734:6",
+        "doctrine:kashkole:5691:12",
+        "doctrine:kashkole:4665:0",
+        "doctrine:kashkole:5689:4",
+        "doctrine:kashkole:5760:3"
+      ]
+    }
+  ]
+}

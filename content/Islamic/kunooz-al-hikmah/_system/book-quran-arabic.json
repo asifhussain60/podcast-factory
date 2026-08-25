@@ -1,0 +1,814 @@
+{
+  "cited": 0,
+  "inserted": 0,
+  "already": 0,
+  "uncovered": [],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 0,
+  "uncited_review": [
+    {
+      "line": 142,
+      "passage": "I give Ali the right that after my passing, he may divorce you.",
+      "proposed_ref": "2:237",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 282,
+      "passage": "and magnify Him with great magnification",
+      "proposed_ref": "17:111",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 330,
+      "passage": "And whatever mistake is in it — and in Allah I seek refuge — ",
+      "proposed_ref": "114:1",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 332,
+      "passage": " — *illa bi-fushin min huwa al-naqid* — ",
+      "proposed_ref": "27:26",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 336,
+      "passage": "My sins are like mountains, *idhama intalat al-jibali*",
+      "proposed_ref": "70:9",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 342,
+      "passage": "And if you associate partners, your work will surely become worthless.",
+      "proposed_ref": "30:13",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And convey to him everything that he intends and desires",
+      "proposed_ref": "54:3",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And upon him from his servant, the best of peace.",
+      "proposed_ref": "98:7",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And what is requested from his grace is the answer to what I have asked about.",
+      "proposed_ref": "16:24",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And I absolve myself from those who deny their lowest ones",
+      "proposed_ref": "12:53",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And I supplicate to him through the connection of the noble world of creation",
+      "proposed_ref": "3:39",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 346,
+      "passage": "And by the right of every great successor and Imam",
+      "proposed_ref": "8:29",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 348,
+      "passage": "For your example is one who covers the faults of someone like me.",
+      "proposed_ref": "43:57",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 348,
+      "passage": "And when you show grace, that you may not disappoint me in what I have hoped for.",
+      "proposed_ref": "31:31",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 348,
+      "passage": "But rather, I fell short of drinking from the head of the spring",
+      "proposed_ref": "48:27",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 436,
+      "passage": "O Ubayy, do you know which verse of the Quran is the finest? You are the finest reciter (*qari*) — you recite abundantly and well. So which verse is the most ex",
+      "proposed_ref": "16:101",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 438,
+      "passage": "Who taught you this prayer? Is prayer greater, or my command and call? Is my calling not greater?",
+      "proposed_ref": "29:45",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 440,
+      "passage": "And in that are aspects and reasons, and for him is the wondrous proof.",
+      "proposed_ref": "55:29",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 442,
+      "passage": "As for your saying: how was it before the existence of the heavens and the earths.",
+      "proposed_ref": "14:10",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 444,
+      "passage": "So know, may Allah guide you to what is right and settle you in all the means",
+      "proposed_ref": "13:33",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 460,
+      "passage": "Two true Imams, whether they stand or sit",
+      "proposed_ref": "40:77",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 586,
+      "passage": "What you ate, and what we are eating: you have not eaten what we are eating. And what you ate, we do not eat.",
+      "proposed_ref": "23:33",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 620,
+      "passage": " The next day, Avicenna brought up the scene they had witnessed: ",
+      "proposed_ref": "9:105",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 700,
+      "passage": "And those who, when they spend, are neither extravagant nor miserly, and there is ever a just middle way between them.",
+      "proposed_ref": "25:67",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 712,
+      "passage": "Nothing is left but this. You have given everything in charity and alms.",
+      "proposed_ref": "23:60",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 726,
+      "passage": "Your hearts have indeed inclined away from the right.",
+      "proposed_ref": "61:5",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 734,
+      "passage": "And We made the House a place of resort for the people and a place of security.",
+      "proposed_ref": "2:125",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 741,
+      "passage": "And that is because the true heart, gleaming with light, lies beneath this Frequented House.",
+      "proposed_ref": "18:28",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 741,
+      "passage": "In all the means, like the negation and the affirmation.",
+      "proposed_ref": "38:10",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 743,
+      "passage": "The testimony of faith, which whoever says with sincerity enters Paradise.",
+      "proposed_ref": "3:97",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 745,
+      "passage": "Which is prepared for those who do good; for them is the best reward and an increase.",
+      "proposed_ref": "53:31",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 749,
+      "passage": "The good deed is our love, and the evil deed is hatred of us.",
+      "proposed_ref": "6:160",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 757,
+      "passage": "Mawlana, we did not think you would give him *fursat*.",
+      "proposed_ref": "41:50",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 757,
+      "passage": "We do not grant *fursat* on the basis of present merit alone, but on the basis that the recipient may complete his *hasanat* (good deeds) and virtues.",
+      "proposed_ref": "42:23",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 761,
+      "passage": "And in the heart are three cavities, like the three jewels.",
+      "proposed_ref": "54:51",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 775,
+      "passage": "And in the twelve islands are twelve noble hearts, like the twelve letters in the testimony of faith.",
+      "proposed_ref": "57:16",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 810,
+      "passage": "The path of Ali is truth; we hold to it.",
+      "proposed_ref": "43:43",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 834,
+      "passage": "Mawlana, tell me how much time has passed over the world, and how much remains.",
+      "proposed_ref": "13:8",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 854,
+      "passage": "And the east has become the west, and the north has become the south. Do us the favor of the sufficient answer. May Allah, glory be to Him, lengthen your lives.",
+      "proposed_ref": "45:5",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 870,
+      "passage": "That is the truth which no doubt can befall, and the hidden secret in which there is no ambiguity.",
+      "proposed_ref": "20:7",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 876,
+      "passage": "I am the son of the recurring cycles and the one tried by the times.",
+      "proposed_ref": "23:91",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 878,
+      "passage": "Allah tested me seven times before the risalat (prophethood), and seven times after.",
+      "proposed_ref": "18:22",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 878,
+      "passage": "Yes, you speak the truth; it happened just so.",
+      "proposed_ref": "51:23",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 882,
+      "passage": " But at that very moment the Dai called out from his veranda: ",
+      "proposed_ref": "68:42",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 894,
+      "passage": "Aba Muhammad Aristotle was from us, the People of the House.",
+      "proposed_ref": "14:28",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 900,
+      "passage": "Salman is from us, the People of the House; blessings and peace are to be sent upon him.",
+      "proposed_ref": "11:48",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 906,
+      "passage": "So the questioner said to him: O my Master, were you there in your persons or in your representatives? And he said to him: Rather, in our persons and our repres",
+      "proposed_ref": "12:23",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 956,
+      "passage": "As for the period of that, Sayyidna Humam has mentioned it.",
+      "proposed_ref": "76:1",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 964,
+      "passage": "You perform the Hajj of Sayyidna Sahab as a qada (make-up) and complete it.",
+      "proposed_ref": "22:29",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 970,
+      "passage": "The fourth question, concerning the lowlands that are beneath the Kabah: how many are they?",
+      "proposed_ref": "18:22",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 972,
+      "passage": "We have a well in which there are shayatin who trouble us greatly, and all the people here are in distress.",
+      "proposed_ref": "12:49",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 972,
+      "passage": " Two young men stepped forward. He said: ",
+      "proposed_ref": "12:36",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 972,
+      "passage": "I fought them with my sword, and I fought them by reciting and blowing the verses of the Quran upon them.",
+      "proposed_ref": "3:164",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 974,
+      "passage": "No, they remain, but the coming Qaim will bring them to an end.",
+      "proposed_ref": "2:48",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 976,
+      "passage": "We cannot endure this state, and yet we must remain in the valley of Mina until the thirteenth.",
+      "proposed_ref": "2:196",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 984,
+      "passage": "The answer to that question: we say with the help of Allah, the Great, the Most High.",
+      "proposed_ref": "34:23",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 986,
+      "passage": "that the lowlands which are around the brilliant heart are four.",
+      "proposed_ref": "2:260",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 986,
+      "passage": "And your statement that it is beneath the luminous House: it is not so; rather it is around it.",
+      "proposed_ref": "5:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 988,
+      "passage": "So know that beneath the heart is a subtle water",
+      "proposed_ref": "54:28",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 988,
+      "passage": " — from those waters things ascend towards the *bataih*, *bi-majari* — ",
+      "proposed_ref": "3:15",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 992,
+      "passage": "who appeared when he, (ع), called them, but they turned away and denied.",
+      "proposed_ref": "64:6",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 994,
+      "passage": " — many among them accepted faith and became Muslim. *wa la yunabbiuka mithlu khabir* — ",
+      "proposed_ref": "5:71",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 998,
+      "passage": "When Allah has made you weak and has made you deficient, then you must bear it,",
+      "proposed_ref": "3:123",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1034,
+      "passage": "): the saying of the *Natiq* — that is, of Rasulullah — to Kalilah, meaning to the jackal: ",
+      "proposed_ref": "4:46",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1054,
+      "passage": " the Messenger brought Hasan and Husayn. For ",
+      "proposed_ref": "69:40",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1068,
+      "passage": "You may pray your prayer separately, and we will pray ours separately.",
+      "proposed_ref": "40:49",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1088,
+      "passage": "O Mawla, I do not know that place; how should I go?",
+      "proposed_ref": "67:14",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1088,
+      "passage": "I sent you for one task, and you have returned having done two.",
+      "proposed_ref": "18:73",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1098,
+      "passage": "I will not hand it over. This camel is mine.",
+      "proposed_ref": "12:93",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1098,
+      "passage": "Why did you not do as the two Shaykhs did, and treat me the way they treated me?",
+      "proposed_ref": "38:22",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1110,
+      "passage": "Whoever does not give the oath, my sword is on his head.",
+      "proposed_ref": "25:19",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1150,
+      "passage": "and worship your Lord until there comes to you the certainty.",
+      "proposed_ref": "15:99",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1154,
+      "passage": " Another said fasting, another said Hajj, another said jihad. For each the Rasul said, ",
+      "proposed_ref": "37:27",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1181,
+      "passage": "From it We created you, and into it We will return you, and from it We will bring you forth another time.",
+      "proposed_ref": "20:55",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1185,
+      "passage": "O Mawla, in the state of prayer — the two prostrations, the two sajdahs, that we perform — what is the reason for them?",
+      "proposed_ref": "4:43",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1185,
+      "passage": "Have you read this verse of the Holy Quran?",
+      "proposed_ref": "17:71",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1185,
+      "passage": "From it We created you, and into it We will return you, and from it We will bring you forth another time.",
+      "proposed_ref": "20:55",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1229,
+      "passage": "And for you in legal retribution there is life, O you of understanding.",
+      "proposed_ref": "2:179",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1233,
+      "passage": "I am afraid of Allah that I may not get caught in small sins.",
+      "proposed_ref": "4:31",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1241,
+      "passage": "I am greater in knowledge than Sayyidna Hibatullah Saheb.",
+      "proposed_ref": "28:78",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1247,
+      "passage": "Maulana, during the wars that used to happen, we were occupied by day — but there was not a single night, not a single night, that he slept without my teaching ",
+      "proposed_ref": "34:33",
+      "english_similarity": 0.357,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1253,
+      "passage": "We are so close to the Imam, but who is this person who becomes even closer to the Imam than we are? The Imam honors him so much.",
+      "proposed_ref": "38:31",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1253,
+      "passage": "Who is this person whom you honor so highly and show such regard?",
+      "proposed_ref": "31:31",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1367,
+      "passage": "Are they bodies or the souls cast into the lands and misery?",
+      "proposed_ref": "81:7",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1752,
+      "passage": "Had it not been decided in pre-eternity that I would precede Ibrahim, I could never have preceded him.",
+      "proposed_ref": "42:14",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1774,
+      "passage": "No, the pigeons of Madinah are not like the pigeons of Baitullah, because the station of the pigeons of Baitullah is very high.",
+      "proposed_ref": "47:9",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1830,
+      "passage": "Do not lift her; she sits down from the weight of the revelation.",
+      "proposed_ref": "69:43",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1836,
+      "passage": "I am instructing you to keep this a secret and not tell anyone.",
+      "proposed_ref": "67:13",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1836,
+      "passage": "Rasulullah made me swear not to say this to anyone.",
+      "proposed_ref": "16:38",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1864,
+      "passage": "La ilaha illa Allah, Muhammadun Rasulullah, Aliyyun Waliyullah",
+      "proposed_ref": "27:26",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1890,
+      "passage": "Tomorrow the judge will ask you this question. Give this answer.",
+      "proposed_ref": "9:65",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1977,
+      "passage": "Ghulam, you people are always worried about your handwriting.",
+      "proposed_ref": "9:101",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1981,
+      "passage": " the matter would be understandable; but at such a young age it was said, ",
+      "proposed_ref": "78:33",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1987,
+      "passage": "Mawla, who knows whether it will be a boy or a girl?",
+      "proposed_ref": "3:29",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1996,
+      "passage": "For our grandfather, a Hindustani brother would perform *Hajj* every year.",
+      "proposed_ref": "22:27",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2037,
+      "passage": "except on account of the greatness of his station",
+      "proposed_ref": "16:41",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2122,
+      "passage": " Its address appears to be to Allah, as though saying, ",
+      "proposed_ref": "42:13",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2136,
+      "passage": "The Day when We will roll up the heaven like the rolling up of a scroll for the books.",
+      "proposed_ref": "21:104",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2156,
+      "passage": "Just as We began the first creation, We shall repeat it. A promise binding upon Us.",
+      "proposed_ref": "21:104",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 2227,
+      "passage": "we have answers to questions that have not yet even been asked",
+      "proposed_ref": "5:102",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 0
+}

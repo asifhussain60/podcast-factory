@@ -1,0 +1,374 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Author and His Only Book",
+      "chapter_file": "book/_chapters/ch01-the-author-and-his-only-book.txt",
+      "source_line_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "source_words": 808,
+      "output_words": 1300,
+      "folded_opening_words": 737
+    },
+    {
+      "index": 2,
+      "title": "Praise, the Three Human Natures, and the Unknowable God",
+      "chapter_file": "book/_chapters/ch02-praise-the-three-human-natures-and-the-unknowable-god.txt",
+      "source_line_ranges": [
+        [
+          20,
+          44
+        ]
+      ],
+      "source_words": 870,
+      "output_words": 868
+    },
+    {
+      "index": 3,
+      "title": "The Prophet, His Brother, and the Veiled Successors",
+      "chapter_file": "book/_chapters/ch03-the-prophet-his-brother-and-the-veiled-successors.txt",
+      "source_line_ranges": [
+        [
+          45,
+          78
+        ]
+      ],
+      "source_words": 1359,
+      "output_words": 1280
+    },
+    {
+      "index": 4,
+      "title": "Blessings on the Chain: Imams, Gates, and the Du'at of Najran",
+      "chapter_file": "book/_chapters/ch04-blessings-on-the-chain-imams-gates-and-the-du-at-of-najran.txt",
+      "source_line_ranges": [
+        [
+          79,
+          129
+        ]
+      ],
+      "source_words": 1440,
+      "output_words": 1376
+    },
+    {
+      "index": 5,
+      "title": "Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Da'i",
+      "chapter_file": "book/_chapters/ch05-before-the-words-begin-refuge-the-call-to-prayer-and-the-prayer-for-the-.txt",
+      "source_line_ranges": [
+        [
+          130,
+          158
+        ]
+      ],
+      "source_words": 1259,
+      "output_words": 1236
+    },
+    {
+      "index": 6,
+      "title": "The Reluctant Answerer: How These Questions Came to Be Written",
+      "chapter_file": "book/_chapters/ch06-the-reluctant-answerer-how-these-questions-came-to-be-written.txt",
+      "source_line_ranges": [
+        [
+          159,
+          191
+        ]
+      ],
+      "source_words": 2393,
+      "output_words": 2328
+    },
+    {
+      "index": 7,
+      "title": "What Was There Before Origination",
+      "chapter_file": "book/_chapters/ch07-what-was-there-before-origination.txt",
+      "source_line_ranges": [
+        [
+          192,
+          228
+        ]
+      ],
+      "source_words": 3700,
+      "output_words": 3113
+    },
+    {
+      "index": 8,
+      "title": "The Fifteen Ranks of the Repentant and How Far We Fell",
+      "chapter_file": "book/_chapters/ch08-the-fifteen-ranks-of-the-repentant-and-how-far-we-fell.txt",
+      "source_line_ranges": [
+        [
+          229,
+          243
+        ]
+      ],
+      "source_words": 2317,
+      "output_words": 2063
+    },
+    {
+      "index": 9,
+      "title": "The Sphere That Rises From Where It Stands",
+      "chapter_file": "book/_chapters/ch09-the-sphere-that-rises-from-where-it-stands.txt",
+      "source_line_ranges": [
+        [
+          244,
+          295
+        ]
+      ],
+      "source_words": 1861,
+      "output_words": 1696
+    },
+    {
+      "index": 10,
+      "title": "Subtle Essences: What Rises From the Dead and What Feeds the Living",
+      "chapter_file": "book/_chapters/ch10-subtle-essences-what-rises-from-the-dead-and-what-feeds-the-living.txt",
+      "source_line_ranges": [
+        [
+          296,
+          376
+        ]
+      ],
+      "source_words": 3021,
+      "output_words": 2936
+    },
+    {
+      "index": 11,
+      "title": "Three Veils, Four Ranks, Twenty-Eight",
+      "chapter_file": "book/_chapters/ch11-three-veils-four-ranks-twenty-eight.txt",
+      "source_line_ranges": [
+        [
+          377,
+          424
+        ]
+      ],
+      "source_words": 1560,
+      "output_words": 1296
+    },
+    {
+      "index": 12,
+      "title": "The Middle Way and the Heart Beneath the House",
+      "chapter_file": "book/_chapters/ch12-the-middle-way-and-the-heart-beneath-the-house.txt",
+      "source_line_ranges": [
+        [
+          425,
+          445
+        ]
+      ],
+      "source_words": 1239,
+      "output_words": 1218
+    },
+    {
+      "index": 13,
+      "title": "Registers of Rank: Who Stands Where, and the Twenty-Ninth",
+      "chapter_file": "book/_chapters/ch13-registers-of-rank-who-stands-where-and-the-twenty-ninth.txt",
+      "source_line_ranges": [
+        [
+          446,
+          470
+        ]
+      ],
+      "source_words": 2181,
+      "output_words": 2102
+    },
+    {
+      "index": 14,
+      "title": "The Black Stone and the Cycles of Return",
+      "chapter_file": "book/_chapters/ch14-the-black-stone-and-the-cycles-of-return.txt",
+      "source_line_ranges": [
+        [
+          471,
+          547
+        ]
+      ],
+      "source_words": 3795,
+      "output_words": 3404
+    },
+    {
+      "index": 15,
+      "title": "Beneath the Ka'bah: Lowlands, Waters, and the Well of the Jinn",
+      "chapter_file": "book/_chapters/ch15-beneath-the-ka-bah-lowlands-waters-and-the-well-of-the-jinn.txt",
+      "source_line_ranges": [
+        [
+          548,
+          588
+        ]
+      ],
+      "source_words": 2104,
+      "output_words": 1979
+    },
+    {
+      "index": 16,
+      "title": "Harun to Musa: The Successor Who Dies Before the Prophet",
+      "chapter_file": "book/_chapters/ch16-harun-to-musa-the-successor-who-dies-before-the-prophet.txt",
+      "source_line_ranges": [
+        [
+          589,
+          625
+        ]
+      ],
+      "source_words": 2800,
+      "output_words": 2492
+    },
+    {
+      "index": 17,
+      "title": "The Fifth Intellect and the Verdict on the Caliphs",
+      "chapter_file": "book/_chapters/ch17-the-fifth-intellect-and-the-verdict-on-the-caliphs.txt",
+      "source_line_ranges": [
+        [
+          626,
+          718
+        ]
+      ],
+      "source_words": 4318,
+      "output_words": 4101
+    },
+    {
+      "index": 18,
+      "title": "Returning as You Left: The Doctrine of the Second Cycle",
+      "chapter_file": "book/_chapters/ch18-returning-as-you-left-the-doctrine-of-the-second-cycle.txt",
+      "source_line_ranges": [
+        [
+          719,
+          790
+        ]
+      ],
+      "source_words": 2581,
+      "output_words": 2501
+    },
+    {
+      "index": 19,
+      "title": "Offerings, Trials, and the Making of a Da'i",
+      "chapter_file": "book/_chapters/ch19-offerings-trials-and-the-making-of-a-da-i.txt",
+      "source_line_ranges": [
+        [
+          791,
+          853
+        ]
+      ],
+      "source_words": 3729,
+      "output_words": 3337
+    },
+    {
+      "index": 20,
+      "title": "The Cold Edges of the World: Where the Opponents Are Cast",
+      "chapter_file": "book/_chapters/ch20-the-cold-edges-of-the-world-where-the-opponents-are-cast.txt",
+      "source_line_ranges": [
+        [
+          854,
+          911
+        ]
+      ],
+      "source_words": 4306,
+      "output_words": 3660
+    },
+    {
+      "index": 21,
+      "title": "Rubies, Elephants, and Believers: The Summit of Each Kind",
+      "chapter_file": "book/_chapters/ch21-rubies-elephants-and-believers-the-summit-of-each-kind.txt",
+      "source_line_ranges": [
+        [
+          912,
+          937
+        ]
+      ],
+      "source_words": 1410,
+      "output_words": 1291
+    },
+    {
+      "index": 22,
+      "title": "Visiting the Graves: Traces, Intercession, and Free Will",
+      "chapter_file": "book/_chapters/ch22-visiting-the-graves-traces-intercession-and-free-will.txt",
+      "source_line_ranges": [
+        [
+          938,
+          1009
+        ]
+      ],
+      "source_words": 3789,
+      "output_words": 3693
+    },
+    {
+      "index": 23,
+      "title": "The Knife and the Name: Sacrifice at Mina",
+      "chapter_file": "book/_chapters/ch23-the-knife-and-the-name-sacrifice-at-mina.txt",
+      "source_line_ranges": [
+        [
+          1010,
+          1101
+        ]
+      ],
+      "source_words": 4065,
+      "output_words": 3424
+    },
+    {
+      "index": 24,
+      "title": "Standing at 'Arafat",
+      "chapter_file": "book/_chapters/ch24-standing-at-arafat.txt",
+      "source_line_ranges": [
+        [
+          1102,
+          1122
+        ]
+      ],
+      "source_words": 1290,
+      "output_words": 1207
+    },
+    {
+      "index": 25,
+      "title": "Prayer Outside the Island: The Eleventh Question",
+      "chapter_file": "book/_chapters/ch25-prayer-outside-the-island-the-eleventh-question.txt",
+      "source_line_ranges": [
+        [
+          1123,
+          1169
+        ]
+      ],
+      "source_words": 2844,
+      "output_words": 2686
+    },
+    {
+      "index": 26,
+      "title": "Seven Ranks Within Every Rank",
+      "chapter_file": "book/_chapters/ch26-seven-ranks-within-every-rank.txt",
+      "source_line_ranges": [
+        [
+          1170,
+          1281
+        ]
+      ],
+      "source_words": 4455,
+      "output_words": 3879
+    },
+    {
+      "index": 27,
+      "title": "The Mahdi, the Qa'im, and the Straight Path",
+      "chapter_file": "book/_chapters/ch27-the-mahdi-the-qa-im-and-the-straight-path.txt",
+      "source_line_ranges": [
+        [
+          1282,
+          1342
+        ]
+      ],
+      "source_words": 2464,
+      "output_words": 2070
+    },
+    {
+      "index": 28,
+      "title": "Rolling Up the Sky: Cycles Without End",
+      "chapter_file": "book/_chapters/ch28-rolling-up-the-sky-cycles-without-end.txt",
+      "source_line_ranges": [
+        [
+          1343,
+          1415
+        ]
+      ],
+      "source_words": 3930,
+      "output_words": 2327
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

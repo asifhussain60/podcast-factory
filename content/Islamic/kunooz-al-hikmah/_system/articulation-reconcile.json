@@ -1,0 +1,26 @@
+{
+  "schema": "podcast.articulation-reconcile/v1",
+  "chapters": {
+    "Returning as You Left: The Doctrine of the Second Cycle": {
+      "resolved": true,
+      "needs_human": false,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "reverted",
+          "gate_findings": [
+            "fluency-18: lecture voice added \u2014 narration addresses the reader (21 vs 5 in source) under transmitted_report frame",
+            "fluency-18: repair still failed: lecture voice added \u2014 narration addresses the reader (21 vs 5 in source) under transmitted_report frame"
+          ],
+          "at": "2026-08-25T18:46:37.541145+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "adapted",
+          "gate_findings": [],
+          "at": "2026-08-25T18:51:36.624073+00:00"
+        }
+      ]
+    }
+  }
+}

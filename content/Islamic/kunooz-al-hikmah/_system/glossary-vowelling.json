@@ -1,0 +1,64 @@
+{
+  "vowelled": 65,
+  "marks_added": 334,
+  "already": 247,
+  "refused": 14,
+  "refusals": [
+    {
+      "term": "القرآن",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"القرآن\" vs proposal \"ألقرءان\")"
+    },
+    {
+      "term": "كهيعص",
+      "reason": "empty"
+    },
+    {
+      "term": "اثنا عشري إمامي",
+      "reason": "empty"
+    },
+    {
+      "term": "أولياء الله",
+      "reason": "empty"
+    },
+    {
+      "term": "اللهُ أكبر",
+      "reason": "empty"
+    },
+    {
+      "term": "الحجاب الطبيعي",
+      "reason": "empty"
+    },
+    {
+      "term": "سبحان الله",
+      "reason": "empty"
+    },
+    {
+      "term": "ذاتِ إمام",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" إمام\" vs proposal \"\")"
+    },
+    {
+      "term": "ناسوت طبيعي الداني",
+      "reason": "empty"
+    },
+    {
+      "term": "مولانا عدّان صاحب",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"مولانا عدان \" vs proposal \"عدان\")"
+    },
+    {
+      "term": "عبد الله بن رواحة",
+      "reason": "letters changed, not just marks (first difference at character 10: source \"بن رواحة\" vs proposal \"ابن رواحة\")"
+    },
+    {
+      "term": "حضرت گیانی صاحب مقدس",
+      "reason": "empty"
+    },
+    {
+      "term": "صورة علمية",
+      "reason": "letters changed, not just marks (first difference at character 10: source \"ة\" vs proposal \"\")"
+    },
+    {
+      "term": "نوح",
+      "reason": "empty"
+    }
+  ]
+}

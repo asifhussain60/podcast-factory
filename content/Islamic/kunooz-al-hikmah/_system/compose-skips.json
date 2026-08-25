@@ -1,0 +1,9 @@
+{
+  "schema": "book.compose-skips/v1",
+  "skips": [
+    {
+      "step": "glossary-harvest",
+      "error": "TimeoutExpired: Command '['/Library/Developer/CommandLineTools/usr/bin/python3', '/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/fill_glossary_arabic.py', '--book-dir', '/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/kunooz-al-hikmah']' timed out after 900 seconds"
+    }
+  ]
+}

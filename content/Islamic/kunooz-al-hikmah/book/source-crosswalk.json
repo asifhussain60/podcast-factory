@@ -1,0 +1,613 @@
+{
+  "schema": "podcast.translation-edition.source-crosswalk/v1",
+  "book": "kunooz-al-hikmah",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Author and His Only Book",
+      "source_line_ranges": [
+        [
+          1,
+          19
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Please recite *Bismillah al-Rahman al-Rahim*. (In the name of Allah, the Most Gracious, the Most Merciful.)"
+      ],
+      "source_excerpt": "<!-- lecture 1 --> *A'udhu billahi minash shaytanir rajim*. (I seek refuge in Allah from the accursed Satan.) Please recite *Bismillah al-Rahman al-Rahim*. (In the name of Allah, the Most Gracious, the Most Merciful.) *Wa bihi nasta'in, sallallahu 'ala rasulihi Sayyidina Muhammadin wa 'ala aali Sayyidina Muhammadin wa barik wa sallim*. (And in Him we seek help. May God's blessings, peace, and benedictions be upon…",
+      "drift_findings": []
+    },
+    {
+      "index": 2,
+      "title": "Praise, the Three Human Natures, and the Unknowable God",
+      "source_line_ranges": [
+        [
+          20,
+          44
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "*Bismillah al-Rahman al-Rahim. Al-hamdu lillahi rabbil-'alamin. Wal-'aqibatu lil-muttaqin. Was-salatu was-salamu 'ala Sayyidina Muhammadin wa alihi ajma'in*. (In the name of Allah, the Most Gracious, the Most Merciful. All praise is for Allah, Lord of the worlds. And the best outcome is for the righteous. And blessings and peace be upon our master Muhammad and all his family.) *Al-hamdu lillahil-'azim jalla nasutun…",
+      "drift_findings": []
+    },
+    {
+      "index": 3,
+      "title": "The Prophet, His Brother, and the Veiled Successors",
+      "source_line_ranges": [
+        [
+          45,
+          78
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "*Wa ashhadu anna Muhammadan 'abduhu wa rasuluh*. (And I bear witness that Muhammad is His slave and His messenger.) And I bear witness that Muhammad is His slave and His messenger. *Al-murtaqi min nasut al-khas ila jawar dhi al-'izzah wal-jabarut*. (The one who ascended from the special *nasut* to the proximity of the Possessor of Might and Power.) He ascended from the special *nasut* to the proximity of the…",
+      "drift_findings": []
+    },
+    {
+      "index": 4,
+      "title": "Blessings on the Chain: Imams, Gates, and the Du'at of Najran",
+      "source_line_ranges": [
+        [
+          79,
+          129
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "*Wa 'alal a'immati min dhurriyyatihi majami' al-anwar* — and upon the Imams from his progeny, the assemblages of lights. `Majami' al-anwar` — assemblages of lights — means what? `Anwar` (lights) and `asrar` (secrets) are two different things. `Asrar` is used for `niyyat` (intention). As for `anwar`, Sayyidna Sulayman has written in this very book that he is the `jami' al-asrar` — the assembler of secrets — of the…",
+      "drift_findings": []
+    },
+    {
+      "index": 5,
+      "title": "Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Da'i",
+      "source_line_ranges": [
+        [
+          130,
+          158
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "But here we see that the opposition is greater. Yes — there it was not so, but here there is a Pharaoh."
+      ],
+      "source_excerpt": "<!-- lecture 2 --> Bismillah al-Rahman al-Rahim. By His name, the Exalted, the High. *Wa bihi nasta'in, wa sallallahu 'ala rasulih, Sayyidna Muhammadin wa 'ala aali Muhammadin wa barik wa sallim.* As it is said, it is the statement of Allah Ta'ala: *Wa idha qara'ta al-Qur'an fasta'idh billahi min al-shaytan al-rajim* — and when you recite the Quran, seek refuge in Allah from Satan the accursed. Since this is the…",
+      "drift_findings": []
+    },
+    {
+      "index": 6,
+      "title": "The Reluctant Answerer: How These Questions Came to Be Written",
+      "source_line_ranges": [
+        [
+          159,
+          191
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "It is a subtle point — everyone tends to read `sawab` as `thawab`."
+      ],
+      "source_excerpt": "`Wa ba'du, fa-inna-ha waradat masa'il 'aliyatun` — \"And after this, there came lofty issues.\" Some lofty questions were presented (`warid`) — they came forward — `ila al-hadrat al-samiyah`, to the elevated presence, that is, to the venerable `da'i`. `min ba'd al-awlad` — from some of the children (`awlad`). That is, to Sayyidna Hibtullah al-Mu'ayyad, from one of the children — the questions that the `abna'…",
+      "drift_findings": []
+    },
+    {
+      "index": 7,
+      "title": "What Was There Before Origination",
+      "source_line_ranges": [
+        [
+          192,
+          228
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- lecture 3 --> In the name of Allah, the Most Gracious, the Most Merciful. And in Him we seek help. May Allah's blessings and peace be upon His Messenger, Sayyidna Muhammad, and upon the family of Muhammad. This book of ours — as you all know — is `Kunooz al-Hikmah al-madhkura li-arbab al-'ismah` (The Treasures of Wisdom Mentioned for the People of 'Ismah). This is the name of the book. It is a work by Sayyidna…",
+      "drift_findings": []
+    },
+    {
+      "index": 8,
+      "title": "The Fifteen Ranks of the Repentant and How Far We Fell",
+      "source_line_ranges": [
+        [
+          229,
+          243
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "But I wonder — did Ubayy ibn Ka'b and all those who were `hijabs` have any awareness that they were `hijabs` in that form? Yes, absolutely. Without `ma'rifah` (gnosis) it cannot be. `Ma'rifah` is a very essential thing. Yes, they knew. And they are people of great station. Were they to manifest, they themselves would manifest as prophets and messengers. They are people of such exalted rank. But we have never seen in…",
+      "drift_findings": []
+    },
+    {
+      "index": 9,
+      "title": "The Sphere That Rises From Where It Stands",
+      "source_line_ranges": [
+        [
+          244,
+          295
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Yes.",
+        "Yes, the *asatir*.",
+        "Yes, they are the *atqiyah* (pious ones).",
+        "Yes, they are present in their physical form."
+      ],
+      "source_excerpt": "<!-- lecture 4 --> <!-- page N --> markers are not present in this input window's prose body (they were omitted from the provided content). I will refine the prose faithfully, preserving all transliterations, citations, Arabic phrases, and inline structural markers exactly as they appear, and omit the context-overlap block. And from Imam Ahmad bin Yusuf on the *falak al-mustaqeem* (the straight sphere), the *muheet*…",
+      "drift_findings": []
+    },
+    {
+      "index": 10,
+      "title": "Subtle Essences: What Rises From the Dead and What Feeds the Living",
+      "source_line_ranges": [
+        [
+          296,
+          376
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "This is it, is it not? `Kullu shay'in ahsaynahu fi imamim mubeen`.",
+        "Everything will come into it.",
+        "Yes.",
+        "Yes.",
+        "Now, once… whom did we visit in Iran? Who was he?"
+      ],
+      "source_excerpt": "And when the time of his passing comes, he finds dissolution in the *qalb* (heart). `Thumma sara mawaddan wa qiwaman li quloob al-ulama min al-hudood` (Then he becomes substance and strength for the hearts of the learned ones from the *hudood*). And after dissolving, they become substance and strength for the hearts of the learned ones who are the *hudood* — the great *hudood* of the *da'wah* (mission). Substance…",
+      "drift_findings": []
+    },
+    {
+      "index": 11,
+      "title": "Three Veils, Four Ranks, Twenty-Eight",
+      "source_line_ranges": [
+        [
+          377,
+          424
+        ]
+      ],
+      "source_pages": [
+        1
+      ],
+      "source_page_range": "pp. 1-1",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Go ahead and reconnect.",
+        "Yes…",
+        "Yes.",
+        "Are you back?"
+      ],
+      "source_excerpt": "So, *nasut* and *lahut* stand in relation to the negation and affirmation within the word of the *shahadah*. Just as negation and affirmation — `li 'izzat wal-jabarut` (for the Almighty and the All-Powerful) — belong to Allah Ta'ala, the possessor of might and power. `Wa lil-imam 'alayhi al-salam thalathat hujub` (And for the Imam, peace be upon him, there are three veils). The Imam, peace be upon him, has three…",
+      "drift_findings": []
+    },
+    {
+      "index": 12,
+      "title": "The Middle Way and the Heart Beneath the House",
+      "source_line_ranges": [
+        [
+          425,
+          445
+        ]
+      ],
+      "source_pages": [
+        1,
+        22
+      ],
+      "source_page_range": "pp. 1-22",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- lecture 5 --> ...that you do not make it, that your hands are tied to your neck. Nor should you open it completely — for if you do, you will be blamed and regretful. You will regret, thinking: \"What have I done?\" This is what the image of the hand upon the neck means. Do not let your hands be bound to your neck, and do not open them utterly wide. A parallel verse appears in Surah al-Furqan, in the passage…",
+      "drift_findings": []
+    },
+    {
+      "index": 13,
+      "title": "Registers of Rank: Who Stands Where, and the Twenty-Ninth",
+      "source_line_ranges": [
+        [
+          446,
+          470
+        ]
+      ],
+      "source_pages": [
+        22
+      ],
+      "source_page_range": "pp. 22-22",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "In another context it is said that a believer, at whatever rank he departs this life, it is incumbent upon the power of the Creator — *Bari' zubanuhu qudratuhu* — to bring him back to that rank in the next `karrah`, by one means or another. This is why we observe that some people progress rapidly and leap forward, apparently from far behind. The reason is that in their previous `karrah` they were already established…",
+      "drift_findings": []
+    },
+    {
+      "index": 14,
+      "title": "The Black Stone and the Cycles of Return",
+      "source_line_ranges": [
+        [
+          471,
+          547
+        ]
+      ],
+      "source_pages": [
+        22
+      ],
+      "source_page_range": "pp. 22-22",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- lecture 6 --> Bismillah al-Rahman al-Rahim. Wa bihi nasta'in wa sallallahu 'ala Rasulihi Sayyidina Muhammadin wa aali Muhammadin wa barik wa sallim (In the name of Allah, the Most Gracious, the Most Merciful. And in Him we seek help, and may Allah's blessings and peace be upon His Messenger, our Master Muhammad, and the family of Muhammad). These two are the counterparts of the Kalima-e-Shahadat that had been…",
+      "drift_findings": []
+    },
+    {
+      "index": 15,
+      "title": "Beneath the Ka'bah: Lowlands, Waters, and the Well of the Jinn",
+      "source_line_ranges": [
+        [
+          548,
+          588
+        ]
+      ],
+      "source_pages": [
+        22
+      ],
+      "source_page_range": "pp. 22-22",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "\"al-su'al al-rabi' 'an al-bata'ih allati tahta al-Ka'bah, kam hiya\" (The fourth question, concerning the lowlands that are beneath the Ka'bah — how many are they?). The fourth question concerns the bata'ih (lowlands) that lie beneath the Ka'bah: how many are they? \"wa min ayna abwabuhum\" (And from where are their gates?). Which are their doors? \"wa ma tasir wa yasiru ilayha\" (And what travels and goes towards it?)…",
+      "drift_findings": []
+    },
+    {
+      "index": 16,
+      "title": "Harun to Musa: The Successor Who Dies Before the Prophet",
+      "source_line_ranges": [
+        [
+          589,
+          625
+        ]
+      ],
+      "source_pages": [
+        22
+      ],
+      "source_page_range": "pp. 22-22",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The wilah of a person is accepted in the end."
+      ],
+      "source_excerpt": "<!-- lecture 7 --> The wilah of a person is accepted in the end. So, Mawlana Zayd — regarding his saying — a questioner has asked about it. \"'alayhi salawatullahi 'alayh fi du'a'i yawm al-arbi'a'\" (upon him be the blessings of Allah, in the supplication for Wednesday). In the supplication for Wednesday, as it says: \"wa bayanihi fi al-manzilah\" (and his statement in the station) — and in the station, those who were…",
+      "drift_findings": []
+    },
+    {
+      "index": 17,
+      "title": "The Fifth Intellect and the Verdict on the Caliphs",
+      "source_line_ranges": [
+        [
+          626,
+          718
+        ]
+      ],
+      "source_pages": [
+        22,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124
+      ],
+      "source_page_range": "pp. 22-124",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- page N --> markers are not present in this window's input with explicit page numbers — I must preserve the structure exactly as given, with no `<!-- page N -->` markers invented. The input contains no `<!-- page N -->` markers (only the context-overlap block), so I output the refined prose with no page markers added. --- And Maulana Ismail was seen in the veil of his father, and it became a mutual exchange. *Fi…",
+      "drift_findings": []
+    },
+    {
+      "index": 18,
+      "title": "Returning as You Left: The Doctrine of the Second Cycle",
+      "source_line_ranges": [
+        [
+          719,
+          790
+        ]
+      ],
+      "source_pages": [
+        124
+      ],
+      "source_page_range": "pp. 124-124",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "The sixth question.",
+        "And the `ahl-o-'ayal` (family) also — they stay together...",
+        "Yes...",
+        "Their `raj'at`, like everyone's `raj'at` is happening together... The `ahl-o-'ayal` and children also come together...",
+        "No, that is not mentioned here. But..."
+      ],
+      "source_excerpt": "<!-- lecture 8 --> In the name of Allah, the Most Gracious, the Most Merciful. In Him we seek help, and may Allah's blessings be upon His Messenger, our master Muhammad, and upon the family of Muhammad, and may He grant them blessings and peace. The sixth question. I reflected within my soul that I fell short of drinking from the spring's source — that is, from the presence of the Da'i. I was not in the presence of…",
+      "drift_findings": []
+    },
+    {
+      "index": 19,
+      "title": "Offerings, Trials, and the Making of a Da'i",
+      "source_line_ranges": [
+        [
+          791,
+          853
+        ]
+      ],
+      "source_pages": [
+        145,
+        146,
+        147,
+        148
+      ],
+      "source_page_range": "pp. 145-148",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Yes. That is also in *Mahfuz* — it is in *Mahfuz*.",
+        "Yes.",
+        "Yes. Whose phone is it? It's my phone. Yes, I'll take it."
+      ],
+      "source_excerpt": "Okay. Another matter — we had the wife of an Imam whose name was Aziza Bu. Her grave is also present in the mausoleum of Maulana Shahid Saheb Muqaddas, inside the *rawdah* (tomb). Who is Aziza Bu? She is Aziza Bu bint Qasim Khan, and she is the *zawjah* (wife) of Muhammad Ali bin Swaleh Badri, who is the first *mansoob* (high-ranking official), buried in Ghash. She was so wealthy that she had trade in seven cities…",
+      "drift_findings": []
+    },
+    {
+      "index": 20,
+      "title": "The Cold Edges of the World: Where the Opponents Are Cast",
+      "source_line_ranges": [
+        [
+          854,
+          911
+        ]
+      ],
+      "source_pages": [
+        148
+      ],
+      "source_page_range": "pp. 148-148",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "As-salamu alaykum, Bidayat Sahab.",
+        "It is also the day marking the passing of the *awsiya'*. Yes.",
+        "That is why in the North Pole and such places, there is no namaz. Yes."
+      ],
+      "source_excerpt": "<!-- lecture 9 --> As-salamu alaykum, Bidayat Sahab. A'udhu billahi min al-shaytan al-rajim. Bi-fadhli Bismillah al-Rahman al-Rahim, wa bihi nasta'in. Wa salla Allahu 'ala rasulihi, Sayyidina Muhammadin wa 'ala aali Muhammadin wa barik wa sallim (I seek refuge in Allah from the accursed Satan. By the grace of, in the name of Allah, the Most Gracious, the Most Merciful, and in Him we seek help. And may Allah's…",
+      "drift_findings": []
+    },
+    {
+      "index": 21,
+      "title": "Rubies, Elephants, and Believers: The Summit of Each Kind",
+      "source_line_ranges": [
+        [
+          912,
+          937
+        ]
+      ],
+      "source_pages": [
+        148,
+        237
+      ],
+      "source_page_range": "pp. 148-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- lecture 10 --> *A'udhu billahi minash shaitanir rajim. Bi fadli Bismillah al-Rahman al-Rahim. Wa bihi nasta'in wa salla'llahu 'ala rasulihi Sayyidna Muhammadin wa 'ala ali Muhammadin wa barik wa sallim.* *Al-su'al al-thamin 'an al-jawahir wa'l-yawaqit* (The eighth question, concerning jewels and rubies). The eighth question concerns jewels and rubies — the stone — and is related to that. Now, every thing has a…",
+      "drift_findings": []
+    },
+    {
+      "index": 22,
+      "title": "Visiting the Graves: Traces, Intercession, and Free Will",
+      "source_line_ranges": [
+        [
+          938,
+          1009
+        ]
+      ],
+      "source_pages": [
+        237
+      ],
+      "source_page_range": "pp. 237-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Yes, yes.",
+        "There is, there is.",
+        "Yes, a very long `du'ā`.",
+        "Yes, the `du'ā` is very long.",
+        "After no other prayer is there such a `du'ā`.",
+        "For the one endowed with `nāṭiqah`, with `juzur`."
+      ],
+      "source_excerpt": "*Al-su'al al-tasi' 'an ziyarat al-qubur* (The ninth question, concerning the visitation of graves). Concerning the visitation performed at graves — *kayfa dhalika* (how is that?), *wa ma yahduru'l-qasidina li'l-ajsman* (and what attends those who visit the bodies?) — when visitors present themselves at the graves of those buried therein, *kayfa shu'uru'l-maqsud* (how is the feeling of the one intended?) — do the…",
+      "drift_findings": []
+    },
+    {
+      "index": 23,
+      "title": "The Knife and the Name: Sacrifice at Mina",
+      "source_line_ranges": [
+        [
+          1010,
+          1101
+        ]
+      ],
+      "source_pages": [
+        237
+      ],
+      "source_page_range": "pp. 237-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "As-salamu alaykum. Wa alaykum as-salam.",
+        "Those of us who eat meat that comes from outside ought to exercise great caution regarding how it has been prepared.",
+        "And *Jabal 'Arafat* (Mount 'Arafat)…",
+        "As-salamu alaykum."
+      ],
+      "source_excerpt": "<!-- lecture 11 --> As-salamu alaykum. Wa alaykum as-salam. From *Kunooz al-Hikmah*, the tenth question — *as-su'āl al-'āshir* (the tenth question) — is now before us. After that comes *al-hādī*. *Dhibh al-hadī*. *Dhibh al-hadī*. The *dhibh* (slaughter) of the *hadī*. *Dhibh al-hadī fī Minā*. *Ma al-ḥaqīqatuhu* — what is its reality? One meaning of *hadiyyah* is a gift. And *al-hadī* is the name given to the…",
+      "drift_findings": []
+    },
+    {
+      "index": 24,
+      "title": "Standing at 'Arafat",
+      "source_line_ranges": [
+        [
+          1102,
+          1122
+        ]
+      ],
+      "source_pages": [
+        237
+      ],
+      "source_page_range": "pp. 237-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [],
+      "source_excerpt": "<!-- lecture 12 --> As-salamu 'alaykum wa rahmatullahi wa barakatuhu. These are two editions. I have page 57, and what you all have is page 26. I will read. *Wa amma Jabal 'Arafat*. Bismillah al-Rahman al-Rahim. Allahumma salli 'ala Muhammad wa aali Muhammad. *Wa amma Jabal 'Arafat al-sharif* — And as for the noble Mount 'Arafat — *fa-tahtahu sirrun latifun* — beneath it is a subtle secret — *wa fi Yawm 'Arafah…",
+      "drift_findings": []
+    },
+    {
+      "index": 25,
+      "title": "Prayer Outside the Island: The Eleventh Question",
+      "source_line_ranges": [
+        [
+          1123,
+          1169
+        ]
+      ],
+      "source_pages": [
+        237
+      ],
+      "source_page_range": "pp. 237-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Maulana, may I?",
+        "Thank you. Fi amanillah."
+      ],
+      "source_excerpt": "The eleventh question, from Sayyidna Amin al-Mu'taman Sulayman ibn Hasan. The title of Amin al-Mu'taman was given to him by Sayyidna Da'ud ibn 'Ajabshah. Da'ud ibn 'Ajabshah had Sayyidna Sulayman ibn Hasan write two *nussus* (texts of appointment). The first *nass* is very long, written by the hand of Da'ud ibn Qutb, and at its conclusion he wrote that \"*ana turabu na'layhi*\" — I, Da'ud ibn Qutb, am the dust of the…",
+      "drift_findings": []
+    },
+    {
+      "index": 26,
+      "title": "Seven Ranks Within Every Rank",
+      "source_line_ranges": [
+        [
+          1170,
+          1281
+        ]
+      ],
+      "source_pages": [
+        62,
+        237
+      ],
+      "source_page_range": "pp. 62-237",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "But Sayyidna Husayn — Ali bin Husayn — the one just mentioned, he is the one whose *rawdah* is..."
+      ],
+      "source_excerpt": "<!-- lecture 13 --> ...the matter of praying in the *ghayr jazirah* was under discussion — in Habashah, so its mention was coming up. This is page 62 in my book. Which book do you have? Twenty-eight. Okay. Is there a *da'wah* in Habashah? Yes, there is a *da'wah* in Habashah. There is a *da'wah*. But they do not give allegiance to our *Da'i*. No. It was up to the time of Sayyidna Husayn bin Isma'il — up to Sayyidna…",
+      "drift_findings": []
+    },
+    {
+      "index": 27,
+      "title": "The Mahdi, the Qa'im, and the Straight Path",
+      "source_line_ranges": [
+        [
+          1282,
+          1342
+        ]
+      ],
+      "source_pages": [
+        62
+      ],
+      "source_page_range": "pp. 62-62",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "Let us stop here for today, as the need has been met."
+      ],
+      "source_excerpt": "<!-- lecture 14 --> *As-salamu alaykum wa rahmatullahi wa barakatuh*. *Wa alaykum as-salam*. *As-salamu alaykum wa rahmatullah*. *Wa alaykum as-salam*. *As-salamu alaykum*. *Wa alaykum as-salam*. *A'udhu billahi minash shaitanir rajim* — I seek refuge in Allah from the accursed Satan. *Bismillah al-Rahman al-Rahim* — In the name of Allah, the Most Gracious, the Most Merciful. *Wa bihi nasta'in, sallallahu ala…",
+      "drift_findings": []
+    },
+    {
+      "index": 28,
+      "title": "Rolling Up the Sky: Cycles Without End",
+      "source_line_ranges": [
+        [
+          1343,
+          1415
+        ]
+      ],
+      "source_pages": [
+        62
+      ],
+      "source_page_range": "pp. 62-62",
+      "arabic_source_pages": [],
+      "arabic_source_page_range": "",
+      "source_headings": [
+        "This — *ya'lamu kha'inata al-a'yun* — is a Qur'anic *ayat*. Yes. It knows the secrets of the hearts. Yes. The end.",
+        "And one *mawr* has passed upon the world. Nine *mawr* remain.",
+        "Yes, it is reaching."
+      ],
+      "source_excerpt": "<!-- lecture 15 --> *…wa salli Allahu 'ala rasulihi sayyidina Muhammadin wa 'ala aali Muhammadin wa barik wa sallim.* This — before showing the camera — this is *al-su'al al-thani* (the second question). Yes. *Al-su'al al-thani 'an qawlihi ta'ala: Yawnma natwi al-sama'a katayyi al-sijilli lil-kitabi. Wa hal dhalika lahu haddun ma'roof am huwa ma yakunu dhalika illa min ba'di an tafattatat al-jibalu wal-hijara…* (The…",
+      "drift_findings": []
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "podcast.etymology/v1",
+  "book": "kunooz-al-hikmah",
+  "candidates": 30,
+  "generated": 3,
+  "kept": 3,
+  "written": 3,
+  "dropped": 0,
+  "drop_reasons": [],
+  "entries": [
+    {
+      "term": "Hasan",
+      "root": "H-s-n",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "Rasulullah",
+      "root": "r-s-l",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    },
+    {
+      "term": "Qaim",
+      "root": "q-w-m",
+      "confirmed_by_reference": true,
+      "corpus_grounded": true
+    }
+  ]
+}

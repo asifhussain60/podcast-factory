@@ -1,0 +1,959 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "transmitted_report",
+  "adapted": 28,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Author and His Only Book",
+      "base_words": 1300,
+      "output_words": 1274,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage repeats its opening two paragraphs almost verbatim after the formal invocation; it is unclear whether this is a lecture transcription artifact or an intentional structure in which the invocation divides a preface from the risalah's own opening \u2014 both blocks have been rendered in full to preserve all Arabic placeholders and avoid losing any content."
+      ],
+      "comprehension_flags": [
+        "A modern reader will not know what *nass* (designation of a successor) means without the brief parenthetical gloss the source provides, which has been retained; no additional explanation has been added."
+      ],
+      "terminology_notes": [
+        "*ghayr-munfarid Dai* \u2014 confirm the book's preferred hyphenation and capitalization of *Dai* / *Da'i* for consistency throughout."
+      ]
+    },
+    {
+      "title": "Praise, the Three Human Natures, and the Unknowable God",
+      "base_words": 868,
+      "output_words": 871,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source phrase \"this last existent thing has not attained lesser gnosis of the First Intellect\" is syntactically ambiguous \u2014 it may mean the believer's gnosis of God is not lesser than the First Intellect's, or it may mean the believer has not attained some gnosis directed at the First Intellect as its object; the rendering follows the contextual logic of equality in inability but an editor may wish to verify against the original Arabic."
+      ],
+      "comprehension_flags": [],
+      "terminology_notes": [
+        "*Ahl al-Sharif* \u2014 this term appears without definition; if it recurs elsewhere in the book, a consistent gloss or note should be established."
+      ]
+    },
+    {
+      "title": "The Prophet, His Brother, and the Veiled Successors",
+      "base_words": 1280,
+      "output_words": 1266,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "Blessings on the Chain: Imams, Gates, and the Duat of Najran",
+      "base_words": 1376,
+      "output_words": 1381,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The reference \"from here to Grand Road station\" is an oral, location-specific measure of distance that a reader outside the original audience cannot place; it has been preserved as given since no substitution is authorized.",
+        "The shift from Najran and Abuna to India in the travel narrative is abrupt and may puzzle readers, as the text does not explain why or when the *duat* settled in India; the passage stops before providing that context."
+      ],
+      "terminology_notes": [
+        "*dawr* \u2014 should be standardized book-wide as *dawr* (not \"era\" alone, since the Arabic term carries technical weight the English gloss does not fully render)."
+      ]
+    },
+    {
+      "title": "Before the Words Begin: Refuge, the Call to Prayer, and the Prayer for the Dai",
+      "base_words": 1236,
+      "output_words": 1240,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"That closing utterance is bound to the *ihtizaz* of a particular being\" \u2014 the passage does not identify the being or explain what his *ihtizaz* consists of, leaving the referent obscure."
+      ],
+      "comprehension_flags": [
+        "\"Hujjat\" is used as a setting or occasion without explanation; modern readers unfamiliar with Ismaili terminology may not know what kind of gathering or event is meant."
+      ],
+      "terminology_notes": [
+        "*taawwudh* \u2014 should be standardized book-wide as this term's one established spelling; the source also uses the spelling without the final *h* in one instance (\"taawwudh\" vs a potential \"taawwudh\") \u2014 confirm uniform rendering throughout."
+      ]
+    },
+    {
+      "title": "The Reluctant Answerer: How These Questions Came to Be Written",
+      "base_words": 2328,
+      "output_words": 2383,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 20,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage identifies \"Hamza b. al-Walid is the speaker\" in connection with the command that flowed \"to his other servant,\" but then says \"It is the *dai*, Sayyidna Ali, who says this\" about the immediately following excuse passage \u2014 it is unclear whether Hamza b. al-Walid and Sayyidna Ali are the same person writing in two capacities, or whether one of them is recording the other's account, and which of them is the actual author of the treatise."
+      ],
+      "comprehension_flags": [
+        "The statement \"He was both Muhsin's son-in-law and his father-in-law, Muhsin b. Ali\" appears contradictory on its face, and the source provides no genealogical explanation; a reader unfamiliar with the family will find this impossible to resolve without editorial annotation."
+      ],
+      "terminology_notes": [
+        "*dai* \u2014 rendered consistently throughout this passage; book-wide standardization of this spelling (with or without diacritical mark) should be confirmed before typesetting."
+      ]
+    },
+    {
+      "title": "What Was There Before Origination",
+      "base_words": 3113,
+      "output_words": 3060,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the closing paragraphs, \"after their teaching they became mamnun\" is grammatically ambiguous \u2014 it is unclear whether \"they\" refers to the five teachers (who became indebted to Rasulullah) or to Rasulullah himself (who became indebted to each teacher); the parallel with the Ubayy sentence suggests the former, but the point is not settled by the source text."
+      ],
+      "comprehension_flags": [
+        "The term *bathah* appears without explanation in the final paragraph (\"before the *bathah*\") and modern readers will not know its referent."
+      ],
+      "terminology_notes": [
+        "*mamnun* \u2014 rendered throughout as \"indebted\"; should be standardized book-wide to this single English gloss paired with the Arabic on first occurrence only."
+      ]
+    },
+    {
+      "title": "The Fifteen Ranks of the Repentant and How Far We Fell",
+      "base_words": 2063,
+      "output_words": 2062,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The passage about the third-night prayer names *atiran*, *dua yazul qadr*, and *damad* without any gloss; a modern reader outside the tradition will not be able to situate these liturgical terms."
+      ],
+      "terminology_notes": [
+        "*Nafs al-Kulliyyah* \u2014 rendered once as \"Universal Soul\" and left untranslated elsewhere in this passage; a book-wide decision is needed on whether to translate or retain the Arabic on each occurrence."
+      ]
+    },
+    {
+      "title": "The Sphere That Rises From Where It Stands",
+      "base_words": 1696,
+      "output_words": 1457,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source alternates between \"fuzala'\" (with apostrophe) and \"fuzala\" (without) for what appears to be the same term; the book-wide spelling should be standardized."
+      ],
+      "comprehension_flags": [
+        "The terms *zuubat*, *riyat*, *taamur*, and *jazirah* are used without explanation and may be opaque to modern readers who lack context from surrounding chapters."
+      ],
+      "terminology_notes": [
+        "*fuzala'* \u2014 the source is inconsistent; a single form should be established and applied throughout the book."
+      ]
+    },
+    {
+      "title": "Subtle Essences: What Rises From the Dead and What Feeds the Living",
+      "base_words": 2936,
+      "output_words": 2656,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 14,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"Then came the matter of the one visited in Iran\" is obscure in the source \u2014 it is unclear whether Avicenna was the visitor or the one visited, and whether this transition marks a shift in the teaching session or introduces a new topic; the phrasing has been preserved as given."
+      ],
+      "comprehension_flags": [
+        "The term *riyat* (subtle essences) is used throughout without a single stable definition, shifting between spiritual emanations at death, nourishment for the Imam, and particles received during wudu \u2014 a book-level note or glossary entry would help the general reader."
+      ],
+      "terminology_notes": [
+        "*riyat* \u2014 confirm the book-wide standard spelling and whether it takes an article or stands alone (the source uses both \"the *riyat*\" and plain \"*riyat*\"); also confirm *burudat* / *sabarat* \u2014 these two variant-recorded terms should have a standardized note if they recur."
+      ]
+    },
+    {
+      "title": "Three Veils, Four Ranks, Twenty-Eight",
+      "base_words": 1296,
+      "output_words": 1299,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [],
+      "terminology_notes": []
+    },
+    {
+      "title": "The Middle Way and the Heart Beneath the House",
+      "base_words": 1218,
+      "output_words": 1172,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The Arabic phrase *La tuzara hidayatuhu* is left untranslated in the source and may be opaque to general readers without a gloss."
+      ],
+      "terminology_notes": [
+        "`karrah` \u2014 confirm book-wide rendering as \"cycle of existence\" or establish a preferred standard term."
+      ]
+    },
+    {
+      "title": "Registers of Rank: Who Stands Where, and the Twenty-Ninth",
+      "base_words": 2102,
+      "output_words": 2126,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"Daud ibn Fi\" appears to be an incomplete name; the source may contain a lacuna or transcription gap after \"Fi,\" and a book editor should verify the full form against the original manuscript."
+      ],
+      "comprehension_flags": [
+        "The term *karrah* (used twice in the opening paragraphs) is given no inline gloss; a modern general reader will not know it means a cycle or turn of existence, and a first-use definition or glossary entry is needed."
+      ],
+      "terminology_notes": [
+        "*karrah* \u2014 should be glossed at its first occurrence in the book and rendered consistently throughout."
+      ]
+    },
+    {
+      "title": "The Black Stone and the Cycles of Return",
+      "base_words": 3404,
+      "output_words": 3403,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In \"fi awwal al-jussah al-mudhamam,\" the adjective al-mudhamam appears to be masculine, while jussah is a feminine noun in Arabic; this may be a transcript irregularity or a conventional spelling in the source tradition, and Arabic correction falls outside this pass."
+      ],
+      "comprehension_flags": [
+        "Modern readers without prior exposure to Ismaili cosmological doctrine will find the interlocking technical framework \u2014 akwar, rajat, jussah-e-ibtidaiyyah, nafs-e-hissiyah, kathif, barzakh, Ashir, Mudabbir \u2014 opaque at first encounter, as no explanatory gloss has been authorized for this pass."
+      ],
+      "terminology_notes": [
+        "fudulat, riyat, kawr, dawr, mawr, kathif, hayakil, sufarah \u2014 these terms recur throughout the passage and should be rendered with fixed, consistent spellings established book-wide; the current rendering holds each term stable within this chapter."
+      ]
+    },
+    {
+      "title": "Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn",
+      "base_words": 1979,
+      "output_words": 2038,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source announces five miqats and then introduces \"the sixth miqat\" without having named miqats two through five; it is unclear whether this is an error in the source, an abridgement of an enumeration, or an intentional structural quirk."
+      ],
+      "comprehension_flags": [
+        "The terms *riyat* and *fudulat* are left entirely unexplained in the source and may be opaque to general readers; the pass was not authorized to add glosses."
+      ],
+      "terminology_notes": [
+        "*riyat* and *fudulat* \u2014 these technical Ismaili terms should be rendered consistently book-wide and may warrant a glossary entry."
+      ]
+    },
+    {
+      "title": "Harun to Musa: The Successor Who Dies Before the Prophet",
+      "base_words": 2492,
+      "output_words": 2462,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-16: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage states that the three generations (*qurun al-thalathah*) \"are the Messenger of God and Mawlana Ali,\" naming two figures for a grouping of three \u2014 the third member of this grouping is not named in the source text and may require clarification in a later editorial pass."
+      ],
+      "comprehension_flags": [
+        "The technical distinction between *muhtajib* (the one who is veiled) and *hijab* (the veil itself) shifts rapidly and without introduction; a modern reader unfamiliar with this Ismaili cosmological vocabulary may lose the thread of the argument about the *mim* and the *'ayn*."
+      ],
+      "terminology_notes": [
+        "*hudud* \u2014 rendered without translation throughout; verify whether the book uses a consistent English gloss (such as \"ranks of the dawah\") or always retains the Arabic term."
+      ]
+    },
+    {
+      "title": "The Fifth Intellect and the Verdict on the Caliphs",
+      "base_words": 4101,
+      "output_words": 4074,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 11,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The sentence \"as long as Muhammad ibn Abi Bakr was still in his father's loins, certain things were as they were\" is cryptic in the source, and the specific argument it is meant to support is not stated; the passage has been preserved faithfully but may require editorial clarification.",
+        "It is unclear whether the passage beginning \"For the essence of the matter is this: once, Rasulullah asked his companions\u2026\" is still within the Master's quoted speech or is a separate narrative introducing a new account; the source does not close the speech tag."
+      ],
+      "comprehension_flags": [
+        "The source describes Usamah ibn Zayd as \"the son of Harithah,\" but Usamah's father was Zayd ibn Harithah \u2014 it is Zayd who is the son of Harithah, not Usamah; a modern reader is likely to be confused, and the source may contain an error that a subject-matter editor should adjudicate.",
+        "The terms *muhtajib*, *hijab*, *awsiya*, *ayn*, and *nutuqa* are used without explanation across multiple paragraphs and will require a glossary or footnote for a general reader."
+      ],
+      "terminology_notes": [
+        "*nas* \u2014 standardize as \"nas (appointment)\" on every occurrence throughout the book; *musafahah* \u2014 standardize as \"musafahah (handshake of recognition)\" on first occurrence per chapter.",
+        "*aimmah* \u2014 confirm book-wide spelling (not \"imams\" or \"a'immah\"); *dai* / *duat* / *dain* \u2014 confirm book-wide forms for singular, plural, and dual."
+      ]
+    },
+    {
+      "title": "Returning as You Left: The Doctrine of the Second Cycle",
+      "base_words": 2460,
+      "output_words": 2427,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the dialogue exchange, the phrase \"and the answer is that it is through his niyabat\" appears at the close of an \"It was said\" turn, making it unclear whether the questioner is anticipating the answer or restating one already given earlier in the exchange."
+      ],
+      "comprehension_flags": [
+        "The sustained discussion of nashist alignment across karrahs and the Imam's niyabat bridging different cycles presupposes familiarity with Ismaili cyclical cosmology; a reader without that background may lose the thread of the exchange."
+      ],
+      "terminology_notes": [
+        "\"nashist\" \u2014 confirm book-wide spelling (the source uses this form consistently; confirm it is not rendered elsewhere as \"nishast\" or another variant)."
+      ]
+    },
+    {
+      "title": "Offerings, Trials, and the Making of a Dai",
+      "base_words": 3337,
+      "output_words": 3227,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 6,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The sequence of nass in the Sayyidna Hatim passage is narratively complex \u2014 it is unclear whether Sayyidna Hatim performed nass on both Sayyidna Ali bin Muhammad Walid and later on his own son, and what it means for Ali bin Hatim to subsequently perform nass on his own teacher; an editor with the Arabic sources may wish to clarify the succession."
+      ],
+      "comprehension_flags": [
+        "The term \"waqih Imam,\" applied once to the 35th Imam Sayyidna Ahmad, is used without any gloss and will be opaque to general readers."
+      ],
+      "terminology_notes": [
+        "jaza \u2014 rendered throughout as \"jaza\" with occasional apposition (\"reward\"); standardize this rendering book-wide and decide whether a gloss is needed on first occurrence."
+      ]
+    },
+    {
+      "title": "The Cold Edges of the World: Where the Opponents Are Cast",
+      "base_words": 3660,
+      "output_words": 3649,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 20,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 20,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The source lists the three forms of Aliyy \u2014 *Aliyyun*, *Aliyya*, *Aliyyi* \u2014 and then gives the diacritics in the order \"zabar, zer, and pesh\"; linguistically, *Aliyyun* carries *pesh* (dammah), *Aliyya* carries *zabar* (fathah), and *Aliyyi* carries *zer* (kasrah), so the stated order of diacritics does not match the listed order of forms \u2014 this may be an error in the source or a different convention of ordering, and was reproduced exactly as given.",
+        "The phrase \"makes his soul out of his bodies\" in the source is obscure; the articulation renders it as the Qudrat's gift drawing the soul upward and beyond the body, but the precise doctrinal meaning may warrant review by a subject-matter editor."
+      ],
+      "comprehension_flags": [
+        "A modern reader unfamiliar with Ismaili cosmology may not follow the distinction between *ra's* and *dhanab* as imaginal (*wahmi*) loci versus the physical poles, or why this distinction determines the absence of namaz in polar regions \u2014 a note may help in a glossary or footnote pass.",
+        "\"Qudrat\" is used as a proper noun throughout without explanation; modern readers unfamiliar with Ismaili theological usage will not know it refers to Divine Power or Providence as an active force."
+      ],
+      "terminology_notes": [
+        "*nafs al-hissiyyah* \u2014 standardize as \"sensory soul\" throughout, with the Arabic retained on first occurrence per passage.",
+        "\"Allah taala\" \u2014 the source uses this unhyphenated, unapostrophized form consistently; confirm this is the book-wide standard spelling before finalizing."
+      ]
+    },
+    {
+      "title": "Rubies, Elephants, and Believers: The Summit of Each Kind",
+      "base_words": 1291,
+      "output_words": 1228,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The cosmological terms *kawr*, *aflak*, *kawakib*, and *Falak al-Muhit* are used without explanation and may be opaque to general readers; a glossary or footnote pass may help."
+      ],
+      "terminology_notes": [
+        "*ghayah* \u2014 rendered throughout as \"ultimate point\"; confirm this is the book-wide standard rendering."
+      ]
+    },
+    {
+      "title": "Visiting the Graves: Traces, Intercession, and Free Will",
+      "base_words": 3676,
+      "output_words": 3565,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The phrase \"For the one endowed with *natiqah*, with *juzur*\" appears without explanation of *juzur* in the source; it is unclear whether this is an unattributed dialogue reply or a stand-alone doctrinal clause, and the term is not explained anywhere in this passage.",
+        "The phrase \"Which has no limit\" following ### Seeking Help from the People of the Graves and > *Allati la hadatah* lacks a clear grammatical referent; it is rendered as given but may require context from the artifacts to resolve."
+      ],
+      "comprehension_flags": [
+        "The terms *fudul*, *fudala*, and *fudala'* are used in close proximity with related but distinct senses (emanations, spiritual particle, progressed emanation); a modern reader without doctrinal context may find these distinctions difficult to follow.",
+        "\"Anderganj Charkhan\" is a place name given without identification; a modern reader outside the tradition will not know where it lies in relation to Baytullah or the twenty-eight stages described."
+      ],
+      "terminology_notes": [
+        "*fudala* \u2014 used throughout as a technical term for the spiritual particle or soul-emanation of the deceased; the book should settle on one consistent English gloss used alongside the Arabic on every occurrence.",
+        "*hudud* \u2014 appears in three forms (*hudud*, *hudud aliyah*, *hudud muazzamah*) across the passage; the book-wide rendering of each should be standardized for consistency."
+      ]
+    },
+    {
+      "title": "The Knife and the Name: Sacrifice at Mina",
+      "base_words": 3424,
+      "output_words": 3443,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-23: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The term *yawm an-na* appears twice in the passage but is never defined; a modern reader will not know what level or realm it designates.",
+        "The term *safrah* (the place with four doors to which corpses are taken) is used without definition, which may puzzle readers unfamiliar with the cosmological geography of this tradition."
+      ],
+      "terminology_notes": [
+        "*qawr-e-azam* \u2014 the source glosses it as \"one great epoch\"; confirm whether the book uses a standardized English rendering elsewhere and apply it consistently."
+      ]
+    },
+    {
+      "title": "Standing at 'Arafat",
+      "base_words": 1207,
+      "output_words": 1179,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The sequence \"Immediately after Hajj, Rasulullah set out for Medina. On the thirteenth of the month he arrived in Makkah\" appears internally inconsistent \u2014 the source may intend that on the thirteenth (the final day of tashriq, while still in Makkah) he spoke to 'Aishah before departing; the articulation preserves the source wording while slightly softening \"arrived in\" to \"was in\" to remove the apparent contradiction."
+      ],
+      "comprehension_flags": [
+        "*khuddam* is used without translation or gloss; a modern reader will not know what appeared at Jabal 'Arafat \u2014 the term may need a standardized gloss book-wide."
+      ],
+      "terminology_notes": [
+        "*khuddam* \u2014 establish and apply a consistent English gloss or parenthetical across all occurrences in the edition."
+      ]
+    },
+    {
+      "title": "Prayer Outside the Island: The Eleventh Question",
+      "base_words": 2686,
+      "output_words": 2715,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-25: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 9,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 9,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The passage \"Do not fear, for I am with you both\" follows > *La takhafa, inna ana maakuma* without a clear attribution tag \u2014 it may be the translation of the Quranic verse in the artifact, or additional words spoken by the appearing figure; the source does not distinguish, so both have been left in sequence as given."
+      ],
+      "comprehension_flags": [
+        "The concept of the *jazirah* (island) as an administrative-spiritual territory of the Dawah, distinct from a geographical island, may require a book-wide reader note, as the chapter uses it as established terminology without definition."
+      ],
+      "terminology_notes": [
+        "*nass* / *nussus* \u2014 confirm this as the book's standard spelling throughout; the source uses both \"nussus\" and \"nass\" and the plural form should be standardized."
+      ]
+    },
+    {
+      "title": "Seven Ranks Within Every Rank",
+      "base_words": 3879,
+      "output_words": 3891,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The Arabic phrase *Wa fiiluhu bi-al-wail* and its gloss \u2014 \"and his action by the earlier ones, who were lying in the abyss\" \u2014 is syntactically opaque; the relationship between \"his action\" and \"the earlier ones\" is unclear and may reflect an unusual or specialized reading of the Arabic.",
+        "\"Since when he is\" is an unusual English phrase preserved from the source; it appears to mean \"from what point in time he came into being,\" but the exact intent is unclear enough that a reader may stumble."
+      ],
+      "comprehension_flags": [
+        "*shurur al-sharifah* is translated as \"the noble secrets,\" but *shurur* ordinarily means \"evils\" or \"wickedness\" in standard Arabic; a reader with any Arabic may be puzzled, and a note on its specialized technical sense in this tradition may be needed.",
+        "\"Ghulam\" is used as a term of address by Sayyidna Husayn bin Hasan but is not explained; a general reader will not know it is an affectionate form of address comparable to \"my boy\" or \"dear one.\""
+      ],
+      "terminology_notes": [
+        "*mustawda* / *mustaqarr* \u2014 the book should settle on one spelling pattern for these and their derivatives (*mustawdain*, *mustaqarrin*, *mustawdaan*, *mustaqarran*, *istidaiyyat*) and apply it consistently throughout.",
+        "*tafaddul* and *mihrabani* \u2014 both used without gloss; if either term recurs, a consistent rendering (e.g., *tafaddul* as \"grace\" or \"favor,\" *mihrabani* as \"kindness\" or \"mercy\") should be established book-wide."
+      ]
+    },
+    {
+      "title": "The Mahdi, the Qaim, and the Straight Path",
+      "base_words": 2070,
+      "output_words": 2084,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-27: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the passage discussing > *Inna rabbi 'ala siratin mustaqim*, the source states that \"his Lord is on the straight path, referring to Abu Talib\" \u2014 it is unclear whether this is the Prophet's interpretation of the verse (i.e., \"Lord\" here meaning the one who raised him, namely Abu Talib) or a separate doctrinal claim; the rendering preserves the source's wording without resolving the ambiguity."
+      ],
+      "comprehension_flags": [
+        "The technical distinction between *juzi* (partial) and *kulli* (total) capacity in the context of the *Qaim*'s station is used without elaboration, and a general reader may need a footnote \u2014 none has been added, as no explanation appears in the source."
+      ],
+      "terminology_notes": [
+        "*surah* \u2014 used in this passage both for Quranic chapters and for a person's spiritual form; the book should standardize a disambiguating convention (e.g., capitalization or a consistent qualifier) to prevent confusion across chapters."
+      ]
+    },
+    {
+      "title": "Rolling Up the Sky: Cycles Without End",
+      "base_words": 2327,
+      "output_words": 2315,
+      "windows": 1,
+      "windows_kept": 1,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 1,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-28: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 2,
+        "stage_directions": 0
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "The term *nazar-maqam* is used without full definition beyond \"taking the name of the Imam of the Time at every moment\"; a reader unfamiliar with the practice may want a brief gloss that this pass is not authorized to supply."
+      ],
+      "terminology_notes": [
+        "*Dawah* / *Da'wa* \u2014 the book should standardize a single spelling for this term throughout, as the source uses \"Dawah\" here; check all other occurrences for consistency."
+      ]
+    }
+  ]
+}

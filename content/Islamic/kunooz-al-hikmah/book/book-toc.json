@@ -2,7 +2,7 @@
   "book_title": "Kunooz al-Hikmah: The Stored Treasures of Wisdom for the Masters of Infallibility",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "How to Read a Book of Stored Secrets",
     "source_line_ranges": [
       [
@@ -23,6 +23,10 @@
         [
           1,
           19
+        ],
+        [
+          196,
+          197
         ]
       ],
       "theme": "authorship and lineage",

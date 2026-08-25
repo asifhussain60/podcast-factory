@@ -1,0 +1,56 @@
+{
+  "schema": "book.work-titles/v1",
+  "terms": [
+    "Ghurar al-Hikam wa Durar al-Kalim",
+    "Saqilat al-Quloob min al-Fikr",
+    "al-Munawwirah lil-Basair",
+    "kitab fadail al-sahabah",
+    "al-Kawakib al-Durriyah",
+    "al-Musfiyah lil-Suwar",
+    "Al-Bahirat al-Adillah",
+    "Al-Hijab wal-Muhtajib",
+    "Anwar al-Shashaniyyah",
+    "Al-Adab al-Saghir",
+    "kitab al-maghazi",
+    "Rawdat al-Taslim",
+    "Kunooz al-Hikmah",
+    "Anwar al-Latifah",
+    "Al-Adab al-Kabir",
+    "Kunuz al-Hikmah",
+    "Badiat al-Bayan",
+    "Hibat al-Rahman",
+    "Daaim al-Islam",
+    "Shual al-Anwar",
+    "Kanz al-Walad",
+    "Kanz al-Ulum",
+    "Ismailis",
+    "Hashiyah",
+    "Tabaqat",
+    "Musnad",
+    "Sahih",
+    "Diwan",
+    "Mahdi",
+    "Sunan"
+  ],
+  "changes": [
+    {
+      "title": "Saqilat al-Quloob min al-Fikr",
+      "action": "englished",
+      "printed": "The Polisher of Hearts from Thought"
+    },
+    {
+      "title": "al-Munawwirah lil-Basair",
+      "action": "englished",
+      "printed": "The Illuminator of Insights"
+    },
+    {
+      "title": "al-Musfiyah lil-Suwar",
+      "action": "englished",
+      "printed": "The Purifier of Forms"
+    },
+    {
+      "title": "مَهْدِيّ",
+      "action": "dropped-orphan-script"
+    }
+  ]
+}
