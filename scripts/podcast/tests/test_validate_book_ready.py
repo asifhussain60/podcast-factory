@@ -265,6 +265,75 @@ def test_b3_fails_islamic_book_without_chapter_arabic(tmp_path):
     assert "B3" in res["summary"], res["summary"]
 
 
+def test_b3_accepts_a_recorded_human_override(tmp_path):
+    """A book-level override for B3 in orchestrator-state.json lets a book with
+    genuinely missing chapter Arabic through — attributed, never inferred.
+
+    Mirrors G13's per-book override (validate_ship_ready.py), extended to the
+    render-time gate since the deferred fix here belongs to a later stage of
+    the SAME book, not a different gate ID with its own bespoke mechanism.
+    """
+    import json
+
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_faithful_route_fixture(bd)
+    (bd / "_system" / "glossary.yml").write_text(
+        "schema_version: 2\nentries:\n"
+        '  - phonetic: "tawhid"\n'
+        '    transliteration: "tawhid"\n'
+        '    arabic_script: "توحيد"\n'
+        '    audio_phonetic: "taw-heed"\n'
+        '    first_seen_snippet: "x"\n',
+        encoding="utf-8",
+    )
+    ch = bd / "chapters"
+    ch.mkdir()
+    (ch / "ch01.txt").write_text("Chapter with tawhid but no script.", encoding="utf-8")
+
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert not ok, note
+
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        json.dumps(
+            {
+                "human_overrides": [
+                    {"gate": "B3", "reason": "deferred to a dedicated pass", "decided_by": "Asif"},
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert ok, note
+    assert "human override accepted" in note, note
+
+
+def test_b3_ignores_an_override_for_a_different_gate(tmp_path):
+    import json
+
+    bd = _make_book(tmp_path, content_profile="islamic_scholarly")
+    _add_faithful_route_fixture(bd)
+    (bd / "_system" / "glossary.yml").write_text(
+        "schema_version: 2\nentries:\n"
+        '  - phonetic: "tawhid"\n'
+        '    transliteration: "tawhid"\n'
+        '    arabic_script: "توحيد"\n'
+        '    audio_phonetic: "taw-heed"\n'
+        '    first_seen_snippet: "x"\n',
+        encoding="utf-8",
+    )
+    ch = bd / "chapters"
+    ch.mkdir()
+    (ch / "ch01.txt").write_text("Chapter with tawhid but no script.", encoding="utf-8")
+    (bd / "_system" / "orchestrator-state.json").write_text(
+        json.dumps({"human_overrides": [{"gate": "G13", "reason": "x", "decided_by": "Asif"}]}),
+        encoding="utf-8",
+    )
+
+    ok, note = V.gate_b3_book_arabic_coverage(bd)
+    assert not ok, note
+
+
 def test_b3_passes_islamic_book_with_chapter_arabic(tmp_path):
     bd = _make_book(tmp_path, content_profile="islamic_scholarly")
     _add_faithful_route_fixture(bd)
@@ -469,6 +538,44 @@ def test_translation_edition_fails_on_model_commentary(tmp_path):
 
     assert res["verdict"] == "BOOK-BROKEN"
     assert "B4" in res["summary"]
+
+
+def test_translation_edition_fails_on_embedded_arabic_in_translation(tmp_path):
+    """RCA regression: sharh-al-masail-ghulam-hussain, 2026-08-18 — the compose
+    model duplicated fragments of a hadith's Arabic into its own English
+    translation line, on top of the full Arabic already shown separately."""
+    bd = _make_book(tmp_path, enable=False, content_profile="islamic_scholarly")
+    (bd / "_system" / "series-config.yaml").write_text(
+        "content_profile: islamic_scholarly\n"
+        "deliverable_mode: translation_edition\n"
+        "visual_style: black_white\n"
+        "translation_policy:\n"
+        "  augmentation: forbidden\n"
+        "  preserve_arabic_terms: true\n"
+        "  monochrome_visuals: true\n",
+        encoding="utf-8",
+    )
+    (bd / "book" / "book-toc.json").write_text(
+        json.dumps(
+            {"book_title": "T", "chapters": [{"title": f"Marriage and the Household {i}"} for i in range(1, 4)]}
+        ),
+        encoding="utf-8",
+    )
+    (bd / "book" / "book.md").write_text(
+        "# Title\n"
+        + "".join(f"## {i}. Marriage and the Household {i}\nBody text " + ("x " * 220) + "\n" for i in range(1, 3))
+        + "## 3. Marriage and the Household 3\nBody text "
+        + ("x " * 220)
+        + "\n\n> اَلتَّاجِرُ الصَّدُوقُ يحشر يوم القيمة مع الصِّدِّيقِينَ\n>\n"
+        + '> "The truthful merchant — اَلتَّاجِرُ الصَّدُوقُ — is raised with الصِّدِّيقِينَ."\n',
+        encoding="utf-8",
+    )
+    _add_translation_crosswalk_fixture(bd)
+
+    res = V.validate_book(bd)
+
+    assert res["verdict"] == "BOOK-BROKEN"
+    assert "B10" in res["summary"], res["summary"]
 
 
 def test_translation_edition_fails_on_heading_only_chapter(tmp_path):

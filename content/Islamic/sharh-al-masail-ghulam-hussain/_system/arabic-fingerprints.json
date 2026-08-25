@@ -1,0 +1,1749 @@
+{
+  "schema_version": 1,
+  "book_slug": "sharh-al-masail-ghulam-hussain",
+  "rule_id": "R-ARABIC-INTEGRITY",
+  "fingerprint_version": "1.0",
+  "snapshot_phase": "pre-0a",
+  "ts_created": "2026-08-17T14:32:34Z",
+  "spans": [
+    {
+      "hash": "3bddef417802fb2677a771032731bf617e85a6c020b86cfab812a99f99d93f41",
+      "skeleton_hash": "b68558596644c56fd06ff9f378edd7589352fb29afa4d5abac278ba6d9a2f1aa",
+      "nfc_text": "وَلَا تَأْكُلُوا أَمْوَالَكُم بَيْنَكُم بِالْبَاطِلِ إِلَّا أَن تَكُونَ تِجَارَةً عَن تَرَاضٍ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 298
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "God Most High says: ⟪ar:وَلَا تَأْكُلُوا أَمْوَالَكُم بَيْنَكُم بِالْبَاطِلِ إِل"
+    },
+    {
+      "hash": "188405869685b46d89d9b6961220579c4ab2288b91b87b2bdadec93cb515dcac",
+      "skeleton_hash": "73446b1b593dd984c5afd17e1408a382c1a742e22fbe09f63147369d82baaf63",
+      "nfc_text": "وَمَا آتَيْتُم مِّن رِّبًا لِّيَرْبُوَ فِي أَمْوَالِ النَّاسِ فَلَا يَرْبُو عِندَ اللَّهِ وَمَا آتَيْتُم مِّن زَكَاةٍ تُرِيدُونَ وَجْهَ اللَّهِ فَأُولَٰئِكَ هُمُ الْمُضْعِفُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 321
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "God Most High says — and He is the Lord of charity, the One who grants that a lo"
+    },
+    {
+      "hash": "d7c812c43674a06d54719bb0703ec13a4d2aadd9964be2df47a30a23d0800041",
+      "skeleton_hash": "96503b590d078e5b3d3cccd84e552701cbc2d09730d5ce8bd32d15b1736ad080",
+      "nfc_text": "يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَذَرُوا مَا بَقِيَ مِنَ الرِّبَا إِن كُنتُم مُّؤْمِنِينَ فَإِن لَّمْ تَفْعَلُوا فَأْذَنُوا بِحَرْبٍ مِّنَ اللَّهِ وَرَسُولِهِ وَإِن تُبْتُمْ فَلَكُمْ رُءُوسُ أَمْوَالِكُمْ لَا تَظْلِمُونَ وَلَا تُظْلَمُونَ وَإِن كَانَ ذُو عُسْرَةٍ فَنَظِرَةٌ إِلَىٰ مَيْسَرَةٍ وَأَن تَصَدَّقُوا خَيْرٌ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 330
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "grant him additional time and even remit his principal — as was done in the case"
+    },
+    {
+      "hash": "b29067e39ef695d972cd07527b79e6f47c75f6bf375ced8bb0e3b53c6846cd68",
+      "skeleton_hash": "aedcce3147a5a3eb04125b2bd431cfae5ef2f21819cfe9afdaa8b7119141adef",
+      "nfc_text": "إِنَّمَا الْمُشْرِكُونَ نَجَسٌ فَلَا يَقْرَبُوا الْمَسْجِدَ الْحَرَامَ بَعْدَ عَامِهِمْ هَٰذَا وَإِنْ خِفْتُمْ عَيْلَةً فَسَوْفَ يُغْنِيكُمُ اللَّهُ مِن فَضْلِهِ إِن شَاءَ إِنَّ اللَّهَ عَلِيمٌ حَكِيمٌ",
+      "source_artifact": "_system/source/text/refined-english.md",
+      "anchor": {
+        "line": 336
+      },
+      "provenance": "unknown-preexisting",
+      "context_excerpt": "Then in the ninth year it was revealed: ⟪ar:إِنَّمَا الْمُشْرِكُونَ نَجَسٌ فَلَا"
+    },
+    {
+      "hash": "ba67ab07dd2f4903e03ecfb4e3859d374e2d8c2c65d68d5adb1ac0a0dca66a84",
+      "skeleton_hash": "647fe5bd2705df9cbeb800f2cc7078282bd8b36ee6e1510d5a497a1de404a5be",
+      "nfc_text": "كَلَامُ الْمُلُوكِ مُلُوكُ الْكَلَامِ",
+      "source_artifact": "atom:quote:quote:qadi-al-numan:47f25cdaa2",
+      "anchor": {
+        "atom_id": "quote:qadi-al-numan:47f25cdaa2",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Maulana, this is Kalam al-muluk, muluk al-kalam. What can I say about your words"
+    },
+    {
+      "hash": "7627960258073e27348d2d6951548fb593ae7954bfac6897240d1f6882efaf94",
+      "skeleton_hash": "0d794320ad96ff118056450db691d9a8e4672453db353d24ff8978381fad56ed",
+      "nfc_text": "إِلَّا جَعْفَرَ",
+      "source_artifact": "atom:quote:quote:qadi-al-numan:add5785f92",
+      "anchor": {
+        "atom_id": "quote:qadi-al-numan:add5785f92",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Everyone came, illa Ja‘far. Except for Ja‘far, everyone came."
+    },
+    {
+      "hash": "11bdf4a33eef3fb73733029602b3e88b7162147fc2ee58937e6856478b66b5bc",
+      "skeleton_hash": "087738a5e28838c4091fbb2906b6a15b04490d1e92ac533a2d12e4d0e9b63618",
+      "nfc_text": "كُنْتُ نَبِيًّا وَآدَمُ بَيْنَ الْمَاءِ وَالطِّينِ",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:0b4f786082",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:0b4f786082",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "I was a Prophet when Adam was between water and clay."
+    },
+    {
+      "hash": "2747cec30cb789d81cf5246cfdb39813fa56e2475d805dc2c86c163aedc3160a",
+      "skeleton_hash": "5ee63248e1bc2132129204c7c73d8b707fc479742b8435733b91c7922f4d4bd3",
+      "nfc_text": "مَنْ قَالَ لَا إِلَهَ إِلَّا اللهُ دَخَلَ الْجَنَّةَ",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:81bb121181",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:81bb121181",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Whoever says there is no god but Allah will enter Paradise."
+    },
+    {
+      "hash": "7b5584adbf8ea8fac9959769bcae1574140e1bb479eba39280edc7f56a33074b",
+      "skeleton_hash": "58374040da9e04a87a2ed175b61b037df10f86beb32623db04a7871fa4ce619c",
+      "nfc_text": "قُولُوا لَا إِلَهَ إِلَّا اللهُ تُفْلِحُوا",
+      "source_artifact": "atom:quote:quote:the-prophet-muhammad:ee10e61ef8",
+      "anchor": {
+        "atom_id": "quote:the-prophet-muhammad:ee10e61ef8",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Say there is no god but Allah and you will be successful."
+    },
+    {
+      "hash": "29b41d33ed1c2b62cbd1b347c437e494ebef297cf59ad05e4850f0894ba48a1f",
+      "skeleton_hash": "136742129c1da9d1b1cb893ec8f50988c425ab3f09d9bc9c24a73411bd82f47d",
+      "nfc_text": "فَوَجَدَا عَبْدًا مِّنْ عِبَادِنَا آتَيْنَاهُ رَحْمَةً مِّنْ عِندِنَا وَعَلَّمْنَاهُ مِن لَّدُنَّا عِلْمًا",
+      "source_artifact": "atom:quote:quote:allah-taala:5903800f70",
+      "anchor": {
+        "atom_id": "quote:allah-taala:5903800f70",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "fa-wajada 'abdan min 'ibadina ataynahu rahmatan min 'indina wa-'allamnahu min la"
+    },
+    {
+      "hash": "39304a77bc2da96e52f63c15219e48e6779d5591d17c14c4b728d2332cae9e5c",
+      "skeleton_hash": "39988f445954f4a78dd4c7302fa62075547b7ba889bd3cce4639b447fcee6daf",
+      "nfc_text": "أَنِ اقْذِفِيهِ فِي الْيَمِّ",
+      "source_artifact": "atom:quote:quote:allah-taala:5c53b61327",
+      "anchor": {
+        "atom_id": "quote:allah-taala:5c53b61327",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "an iqdhifihi fi al-yamm (Cast him into the river)."
+    },
+    {
+      "hash": "d36800b6067edcaf841a830a3a7f0d6ad7069124dda3eff721e8d12952822651",
+      "skeleton_hash": "96314a25a9b899e8683307e23b062c22d2050b71d441bf5c8fa4bd556ac8c63b",
+      "nfc_text": "فَاسْأَلُوا أَهْلَ الذِّكْرِ إِنْ كُنْتُمْ لَا تَعْلَمُونَ",
+      "source_artifact": "atom:quote:quote:allah:700f642995",
+      "anchor": {
+        "atom_id": "quote:allah:700f642995",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "`f-as'alu ahl al-zikr in kuntum la ta'lamun` (so ask the people of remembrance i"
+    },
+    {
+      "hash": "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5",
+      "skeleton_hash": "f8f4cad980d08eed1b605db32ab00fa7c520510c9da8c75f510dfff70ba946c2",
+      "nfc_text": "مَا لَا عَيْنٌ رَأَتْ وَلَا أُذُنٌ سَمِعَتْ وَلَا خَطَرَ عَلَى قَلْبِ بَشَرٍ",
+      "source_artifact": "atom:quote:quote:noble-prophet:564c909229",
+      "anchor": {
+        "atom_id": "quote:noble-prophet:564c909229",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "ma la `aynun ra'at wa la uzunun sami`at wa la khatara `ala qalbi bashar (what no"
+    },
+    {
+      "hash": "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5",
+      "skeleton_hash": "f8f4cad980d08eed1b605db32ab00fa7c520510c9da8c75f510dfff70ba946c2",
+      "nfc_text": "مَا لَا عَيْنٌ رَأَتْ وَلَا أُذُنٌ سَمِعَتْ وَلَا خَطَرَ عَلَى قَلْبِ بَشَرٍ",
+      "source_artifact": "atom:quote:quote:the-prophet-(alayhi-al-salatu-wa-al-salam):b3e83d7c9f",
+      "anchor": {
+        "atom_id": "quote:the-prophet-(alayhi-al-salatu-wa-al-salam):b3e83d7c9f",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "jannah (paradise) is that house where ma la 'aynun ra'at wa la udhunun sami'at w"
+    },
+    {
+      "hash": "29bc64aafce79e5c66860c5f81267901b34da95d04ddeb66002d6963a4cd89e2",
+      "skeleton_hash": "e64f5b49eaee2b1c8d25d85bad36133a7d4d1e4e5d3c5fce393a545cce7a7ca3",
+      "nfc_text": "مَنْ عَرَفَ نَفْسَهُ فَقَدْ عَرَفَ رَبَّهُ",
+      "source_artifact": "atom:quote:quote:the-prophet-of-the-lord-of-the-worlds:ff1f5f63e3",
+      "anchor": {
+        "atom_id": "quote:the-prophet-of-the-lord-of-the-worlds:ff1f5f63e3",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Man 'arafa nafsahu faqad 'arafa Rabbahu (He who knows himself knows his Lord). T"
+    },
+    {
+      "hash": "8227f914c5b9894e7186844d5d73dca36d97b675289b534de231e7a9ce5b92aa",
+      "skeleton_hash": "2eb2f03da91e3fa39dc386ef060bad91e0370ea22c9ae3d4d131f04d23cceaf3",
+      "nfc_text": "لَوْلَا عَلِيٌّ لَهَلَكَ عُمَرُ",
+      "source_artifact": "atom:quote:quote:umar-ibn-al-khattab:630a4a7c64",
+      "anchor": {
+        "atom_id": "quote:umar-ibn-al-khattab:630a4a7c64",
+        "atom_type": "quote"
+      },
+      "provenance": "atom-sdk-verified",
+      "context_excerpt": "Had it not been for 'Ali, 'Umar would have perished."
+    },
+    {
+      "hash": "3fae4fb47d8931a8f0f7b63fad30f83f511784ad5efaa245b886230e01839152",
+      "skeleton_hash": "3a8e0bb93bc4146c7df63e165773009919a68d0caf99929bc05c5d45687356f0",
+      "nfc_text": "إِنَّا نَحْنُ نَزَّلْنَا ٱلذِّكْرَ وَإِنَّا لَهُۥ لَحَفِظُونَ",
+      "source_artifact": "atom:quran:quran:15:9",
+      "anchor": {
+        "atom_id": "quran:15:9",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Indeed, it is We who sent down the Reminder, and indeed, We will be its guardian"
+    },
+    {
+      "hash": "6c89ca1a3f0ce15326087f9e05d46520488d49ab0c98bdbe3666360df2bfaf0e",
+      "skeleton_hash": "02cc4cc80d3d14c5519341b23e33542c63557c2cf63914050206b7cde1b4cdea",
+      "nfc_text": "ٱهْدِنَا ٱلصِّرَطَ ٱلْمُسْتَقِيمَ",
+      "source_artifact": "atom:quran:quran:1:6",
+      "anchor": {
+        "atom_id": "quran:1:6",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Guide us to the straight path"
+    },
+    {
+      "hash": "4906420a277ea39f578efe12a19e61e24ee78378b930dff36596927cf1ad3f84",
+      "skeleton_hash": "faf550a222775bd81272e3508249f66e20619a9826a7a7f2e7ec215f06b419c8",
+      "nfc_text": "وَأَنذِرْ عَشِيرَتَكَ ٱلْأَقْرَبِينَ",
+      "source_artifact": "atom:quran:quran:26:214",
+      "anchor": {
+        "atom_id": "quran:26:214",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "wa-andhir 'ashirataka 'l-aqrabin (And warn your nearest kindred)"
+    },
+    {
+      "hash": "00451ae0a8ed181fdd21a81bd72073dc535321ebe06a6624ce9935ac70399b74",
+      "skeleton_hash": "63edcdbe32d37aa8a4705f4d211e6b94996e72d649625d79e6ca17bd28ceea64",
+      "nfc_text": "وَإِذْ يَرْفَعُ إِبْرَهِیمُ ٱلْقَوَاعِدَ مِنَ ٱلْبَيْتِ وَإِسْمَعِيلُ رَبَّنَا تَقَبَّلْ مِنَّآ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ",
+      "source_artifact": "atom:quran:quran:2:127",
+      "anchor": {
+        "atom_id": "quran:2:127",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "when Ibrahim raised the foundations of the House. And Isma'il. 'Our Lord, accept"
+    },
+    {
+      "hash": "a4fb96c296bff3bc730b25dfea4f9ba090f116c589b1386de381ca1f584274eb",
+      "skeleton_hash": "d5937a91e3f3ed1271a9f30bc8881674dab69bb05e666cae65f07e621a35295f",
+      "nfc_text": "تِلْكَ ٱلرُّسُلُ فَضَّلْنَا بَعْضَهُمْ عَلَىٰ بَعْضٍۢ ۘ مِّنْهُم مَّن كَلَّمَ ٱللَّهُ ۖ وَرَفَعَ بَعْضَهُمْ دَرَجَتٍۢ ۚ وَآتَيْنَا عِيسَى ٱبْنَ مَرْيَمَ ٱلْبَيِّنَتِ وَأَيَّدْنَهُ بِرُوحِ ٱلْقُدُسِ ۗ وَلَوْ شَآءَ ٱللَّهُ مَا ٱقْتَتَلَ ٱلَّذِينَ مِنۢ بَعْدِهِم مِّنۢ بَعْدِ مَا جَآءَتْهُمُ ٱلْبَيِّنَتُ وَلَكِنِ ٱخْتَلَفُوا۟ فَمِنْهُم مَّنْ آمَنَ وَمِنْهُم مَّن كَفَرَ ۚ وَلَوْ شَآءَ ٱللَّهُ مَا ٱقْتَتَلُوا۟ وَلَكِنَّ ٱللَّهَ يَفْعَلُ مَا يُرِيدُ",
+      "source_artifact": "atom:quran:quran:2:253",
+      "anchor": {
+        "atom_id": "quran:2:253",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Those are the messengers; We preferred some of them over others."
+    },
+    {
+      "hash": "7f6ac7d74f21b0fc2161e4120eeb48f64da0163a36581870b6037bb7cc80ccf5",
+      "skeleton_hash": "21ea7cf65eb48add75ff59b5bf256dc0972eec1241f18deb27431508490c7d13",
+      "nfc_text": "ٱللَّهُ لَآ إِلَهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ۚ لَا تَأْخُذُهُۥ سِنَةٌۭ وَلَا نَوْمٌۭ ۚ لَّهُۥ مَا فِى ٱلسَّمَوَتِ وَمَا فِى ٱلْأَرْضِ ۗ مَن ذَا ٱلَّذِى يَشْفَعُ عِندَهُۥٓ إِلَّا بِإِذْنِهِۦ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَىْءٍۢ مِّنْ عِلْمِهِۦٓ إِلَّا بِمَا شَآءَ ۚ وَسِعَ كُرْسِيُّهُ ٱلسَّمَوَتِ وَٱلْأَرْضَ ۖ وَلَا يَـُٔودُهُۥ حِفْظُهُمَا ۚ وَهُوَ ٱلْعَلِىُّ ٱلْعَظِيمُ",
+      "source_artifact": "atom:quran:quran:2:255",
+      "anchor": {
+        "atom_id": "quran:2:255",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "La ikraha fi al-din (There is no compulsion in religion)."
+    },
+    {
+      "hash": "a5d1eb382ec7deccd866e156f05e7365ca0d82eb6a5324d25b95668f5e17b64e",
+      "skeleton_hash": "ccb6d32e0e1a459745b23b9d5f3bacaf0bb1c16827e9a75bab47a2a8f46443f2",
+      "nfc_text": "وَٱتَّقُوا۟ يَوْمًۭا تُرْجَعُونَ فِيهِ إِلَى ٱللَّهِ ۖ ثُمَّ تُوَفَّىٰ كُلُّ نَفْسٍۢ مَّا كَسَبَتْ وَهُمْ لَا يُظْلَمُونَ",
+      "source_artifact": "atom:quran:quran:2:281",
+      "anchor": {
+        "atom_id": "quran:2:281",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And fear a Day when you will be returned to Allah. Then every soul will be paid "
+    },
+    {
+      "hash": "567247b37b5990260224784e31f3f4e07c59b17ee597a228a70ffe52226a573e",
+      "skeleton_hash": "8fedd0ca812c307297afc548d1ec520d9fe9692ad3b2f37edbadb0ddd7828ca4",
+      "nfc_text": "يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ إِذَا تَدَايَنتُم بِدَيْنٍ إِلَىٰٓ أَجَلٍۢ مُّسَمًّۭى فَٱكْتُبُوهُ ۚ وَلْيَكْتُب بَّيْنَكُمْ كَاتِبٌۢ بِٱلْعَدْلِ ۚ وَلَا يَأْبَ كَاتِبٌ أَن يَكْتُبَ كَمَا عَلَّمَهُ ٱللَّهُ ۚ فَلْيَكْتُبْ وَلْيُمْلِلِ ٱلَّذِى عَلَيْهِ ٱلْحَقُّ وَلْيَتَّقِ ٱللَّهَ رَبَّهُۥ وَلَا يَبْخَسْ مِنْهُ شَيْـًۭٔا ۚ فَإِن كَانَ ٱلَّذِى عَلَيْهِ ٱلْحَقُّ سَفِيهًا أَوْ ضَعِيفًا أَوْ لَا يَسْتَطِيعُ أَن يُمِلَّ هُوَ فَلْيُمْلِلْ وَلِيُّهُۥ بِٱلْعَدْلِ ۚ وَٱسْتَشْهِدُوا۟ شَهِيدَيْنِ مِن رِّجَالِكُمْ ۖ فَإِن لَّمْ يَكُونَا رَجُلَيْنِ فَرَجُلٌۭ وَٱمْرَأَتَانِ مِمَّن تَرْضَوْنَ مِنَ ٱلشُّهَدَآءِ أَن تَضِلَّ إِحْدَىٰهُمَا فَتُذَكِّرَ إِحْدَىٰهُمَا ٱلْأُخْرَىٰ ۚ وَلَا يَأْبَ ٱلشُّهَدَآءُ إِذَا مَا دُعُوا۟ ۚ وَلَا تَسْـَٔمُوٓا۟ أَن تَكْتُبُوهُ صَغِيرًا أَوْ كَبِيرًا إِلَىٰٓ أَجَلِهِۦ ۚ ذَلِكُمْ أَقْسَطُ عِندَ ٱللَّهِ وَأَقْوَمُ لِلشَّهَدَةِ وَأَدْنَىٰٓ أَلَّا تَرْتَابُوٓا۟ ۖ إِلَّآ أَن تَكُونَ تِجَرَةً حَاضِرَةًۭ تُدِيرُونَهَا بَيْنَكُمْ فَلَيْسَ عَلَيْكُمْ جُنَاحٌ أَلَّا تَكْتُبُوهَا ۗ وَأَشْهِدُوٓا۟ إِذَا تَبَايَعْتُمْ ۚ وَلَا يُضَآرَّ كَاتِبٌۭ وَلَا شَهِيدٌۭ ۚ وَإِن تَفْعَلُوا۟ فَإِنَّهُۥ فُسُوقٌۢ بِكُمْ ۗ وَٱتَّقُوا۟ ٱللَّهَ ۖ وَيُعَلِّمُكُمُ ٱللَّهُ ۗ وَٱللَّهُ بِكُلِّ شَىْءٍ عَلِيمٌۭ",
+      "source_artifact": "atom:quran:quran:2:282",
+      "anchor": {
+        "atom_id": "quran:2:282",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "O you who have believed, when you contract a debt for a specified term, write it"
+    },
+    {
+      "hash": "4af6b4bd11ed0ae38aeca2ad29b09a9183afd75a09032f0f7b2151d00c8ea7b6",
+      "skeleton_hash": "cc65aef29a814b01784e9963d122fbce9a8b8eeed03fadaa1ea969cc49c760b1",
+      "nfc_text": "وَإِذْ قُلْنَا لِلْمَلَٓئِكَةِ ٱسْجُدُوا۟ لِآدَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ أَبَىٰ وَٱسْتَكْبَرَ وَكَانَ مِنَ ٱلْكَفِرِينَ",
+      "source_artifact": "atom:quran:quran:2:34",
+      "anchor": {
+        "atom_id": "quran:2:34",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "So prostrate... so they prostrated, except for Iblis. He refused and was arrogan"
+    },
+    {
+      "hash": "862e82e4b6195407318aceb7f1d9fc511ce5849703cafcc4dd16417f0215bee5",
+      "skeleton_hash": "984b2bf2e6dd20cdeed46a982da82b477e528caa44071da3e89f30ea2b79207e",
+      "nfc_text": "فَتَلَقَّىٰٓ آدَمُ مِن رَّبِّهِۦ كَلِمَتٍۢ فَتَابَ عَلَيْهِ ۚ إِنَّهُۥ هُوَ ٱلتَّوَّابُ ٱلرَّحِيمُ",
+      "source_artifact": "atom:quran:quran:2:37",
+      "anchor": {
+        "atom_id": "quran:2:37",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Then Adam received from his Lord [certain] words"
+    },
+    {
+      "hash": "7620d33835a22637a6fb623e9a486c9b8d5f39215cd8b4f60dc1744343576574",
+      "skeleton_hash": "a7141f9a5127926f85cfe51e95704b38e000e2188c6602153c3d7c1a59c88e6d",
+      "nfc_text": "قُلْنَا ٱهْبِطُوا۟ مِنْهَا جَمِيعًۭا ۖ فَإِمَّا يَأْتِيَنَّكُم مِّنِّى هُدًۭى فَمَن تَبِعَ هُدَاىَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
+      "source_artifact": "atom:quran:quran:2:38",
+      "anchor": {
+        "atom_id": "quran:2:38",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Descend from it, all of you"
+    },
+    {
+      "hash": "1adc8f39fb31ee73c453e880f6807e544606e04c6225569859031cb6738d507a",
+      "skeleton_hash": "4a2cbc6c5d111d5bd30acf5aba868bb31ce3a3a7fe1990934a448a98ebd71572",
+      "nfc_text": "وَقَرْنَ فِى بُيُوتِكُنَّ وَلَا تَبَرَّجْنَ تَبَرُّجَ ٱلْجَهِلِيَّةِ ٱلْأُولَىٰۖ وَأَقِمْنَ ٱلصَّلَوٰةَ وَآتِينَ ٱلزَّكَوٰةَ وَأَطِعْنَ ٱللَّهَ وَرَسُولَهُۚۥٓ إِنَّمَا يُرِيدُ ٱللَّهُ لِيُذْهِبَ عَنكُمُ ٱلرِّجْسَ أَهْلَ ٱلْبَيْتِ وَيُطَهِّرَكُمْ تَطْهِيرًۭا",
+      "source_artifact": "atom:quran:quran:33:33",
+      "anchor": {
+        "atom_id": "quran:33:33",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Indeed, Allah desires only to remove from you all impurity, O People of the Hous"
+    },
+    {
+      "hash": "64925bea9bc6ecd45db6af1e76dd5a718caf044d7a41eed52ee2a3f393a3943d",
+      "skeleton_hash": "d94d2518bdc81596f265faed91988b428cb06351428eec88a7e1046e5b968e5a",
+      "nfc_text": "وَٱلشَّمْسُ تَجْرِى لِمُسْتَقَرٍّۢ لَّهَا ۚ ذَلِكَ تَقْدِيرُ ٱلْعَزِيزِ ٱلْعَلِيمِ",
+      "source_artifact": "atom:quran:quran:36:38",
+      "anchor": {
+        "atom_id": "quran:36:38",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "That is the decree of the Exalted in Might, the All-Knowing"
+    },
+    {
+      "hash": "214e640fed512d921b24e70b71c351b4637f7047c1c02bcd1aa12e42b9166e88",
+      "skeleton_hash": "5c0f88fdeaa6812a7b11b4e0922efebd2582ef46fe01c012c50a935c14008a4f",
+      "nfc_text": "شَهِدَ ٱللَّهُ أَنَّهُۥ لَآ إِلَهَ إِلَّا هُوَ وَٱلْمَلَٓئِكَةُ وَأُو۟لُوا۟ ٱلْعِلْمِ قَآئِمًۢا بِٱلْقِسْطِ ۚ لَآ إِلَهَ إِلَّا هُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ",
+      "source_artifact": "atom:quran:quran:3:18",
+      "anchor": {
+        "atom_id": "quran:3:18",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Allah witnesses that there is no deity except Him"
+    },
+    {
+      "hash": "c1a70841aa61490cdfa31e67c3ed25f3efc124da0f90ea93e0b9121746767542",
+      "skeleton_hash": "173d8130c7f2326d29e34ee26468a8f37e108b9d24251800663d6d71cb17fc0c",
+      "nfc_text": "ذَلِكَ بِأَنَّهُمْ قَالُوا۟ لَن تَمَسَّنَا ٱلنَّارُ إِلَّآ أَيَّامًۭا مَّعْدُودَتٍۢ ۖ وَغَرَّهُمْ فِى دِينِهِم مَّا كَانُوا۟ يَفْتَرُونَ",
+      "source_artifact": "atom:quran:quran:3:24",
+      "anchor": {
+        "atom_id": "quran:3:24",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "That is because they said, \"Never will the Fire touch us, except for a few numbe"
+    },
+    {
+      "hash": "81510f0794277e1808d2d4ca77f178c06a718b69263af94a177a3d32488d8118",
+      "skeleton_hash": "5faf47619ff0d5ca9fb4cad3e30b65274223e434272c06c33562b9788966626a",
+      "nfc_text": "فَكَيْفَ إِذَا جَمَعْنَهُمْ لِيَوْمٍۢ لَّا رَيْبَ فِيهِ وَوُفِّيَتْ كُلُّ نَفْسٍۢ مَّا كَسَبَتْ وَهُمْ لَا يُظْلَمُونَ",
+      "source_artifact": "atom:quran:quran:3:25",
+      "anchor": {
+        "atom_id": "quran:3:25",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "So how will it be when We gather them for a Day about which there is no doubt, a"
+    },
+    {
+      "hash": "741dc9c19bd9a13ae6d4fdd6bfc47f6550daf4ef8e8eb1d3665bc4de1cf72132",
+      "skeleton_hash": "dc1f77278b9a197db9276cb4952574e5a7f2403e12419b6795c3fb18efbc403d",
+      "nfc_text": "قُلِ ٱللَّهُمَّ مَلِكَ ٱلْمُلْكِ تُؤْتِى ٱلْمُلْكَ مَن تَشَآءُ وَتَنزِعُ ٱلْمُلْكَ مِمَّن تَشَآءُ وَتُعِزُّ مَن تَشَآءُ وَتُذِلُّ مَن تَشَآءُ ۖ بِيَدِكَ ٱلْخَيْرُ ۖ إِنَّكَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ",
+      "source_artifact": "atom:quran:quran:3:26",
+      "anchor": {
+        "atom_id": "quran:3:26",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Say, \"O Allah, Owner of Sovereignty, You give sovereignty to whom You will and Y"
+    },
+    {
+      "hash": "a996312027ef039090ac21ef24dd499c3ce08a86cef63532371b6a394e0e56fb",
+      "skeleton_hash": "62e18680d40a3b31a03186ae8415d1c62cf115c191dfa90c36350d504be449a1",
+      "nfc_text": "إِذْ قَالَ ٱللَّهُ يَعِيسَىٰٓ إِنِّى مُتَوَفِّيكَ وَرَافِعُكَ إِلَىَّ وَمُطَهِّرُكَ مِنَ ٱلَّذِينَ كَفَرُوا۟ وَجَاعِلُ ٱلَّذِينَ ٱتَّبَعُوكَ فَوْقَ ٱلَّذِينَ كَفَرُوٓا۟ إِلَىٰ يَوْمِ ٱلْقِيَمَةِ ۖ ثُمَّ إِلَىَّ مَرْجِعُكُمْ فَأَحْكُمُ بَيْنَكُمْ فِيمَا كُنتُمْ فِيهِ تَخْتَلِفُونَ",
+      "source_artifact": "atom:quran:quran:3:55",
+      "anchor": {
+        "atom_id": "quran:3:55",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "When Allah said, \"O Isa, indeed I will take you and raise you to Myself and puri"
+    },
+    {
+      "hash": "f9ce473db74886ffb37f52ae7d1011e197f59303ee8d94bc177fa625137b1e0e",
+      "skeleton_hash": "0d4d635493ab5a63aa7b78b97e99893a36daa1331132919fb4e66e349cb2d7ff",
+      "nfc_text": "هُوَ ٱلَّذِىٓ أَنزَلَ عَلَيْكَ ٱلْكِتَبَ مِنْهُ آيَتٌۭ مُّحْكَمَتٌ هُنَّ أُمُّ ٱلْكِتَبِ وَأُخَرُ مُتَشَبِهَتٌۭ ۖ فَأَمَّا ٱلَّذِينَ فِى قُلُوبِهِمْ زَيْغٌۭ فَيَتَّبِعُونَ مَا تَشَبَهَ مِنْهُ ٱبْتِغَآءَ ٱلْفِتْنَةِ وَٱبْتِغَآءَ تَأْوِيلِهِۦ ۗ وَمَا يَعْلَمُ تَأْوِيلَهُۥٓ إِلَّا ٱللَّهُ وَٱلرَّسِخُونَ فِى ٱلْعِلْمِ ۗ يَقُولُونَ آمَنَّا بِهِۦ كُلٌّۭ مِّنْ عِندِ رَبِّنَا ۗ وَمَا يَذَّكَّرُ إِلَّآ أُو۟لُوا۟ ٱلْأَلْبَبِ",
+      "source_artifact": "atom:quran:quran:3:7",
+      "anchor": {
+        "atom_id": "quran:3:7",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "and no one knows its interpretation except Allah and those well-grounded in know"
+    },
+    {
+      "hash": "f65d19c6ce019b42aea062ffa06a24fd1056d00f1ded66bd51bf8c56d249ea44",
+      "skeleton_hash": "8379fefe9a32d4de3e9962e2cddf08fd093b263365844ac2cbb132d81ed58e50",
+      "nfc_text": "مَا كَانَ لِبَشَرٍ أَن يُؤْتِيَهُ ٱللَّهُ ٱلْكِتَبَ وَٱلْحُكْمَ وَٱلنُّبُوَّةَ ثُمَّ يَقُولَ لِلنَّاسِ كُونُوا۟ عِبَادًۭا لِّى مِن دُونِ ٱللَّهِ وَلَكِن كُونُوا۟ رَبَّنِيِّۦنَ بِمَا كُنتُمْ تُعَلِّمُونَ ٱلْكِتَبَ وَبِمَا كُنتُمْ تَدْرُسُونَ",
+      "source_artifact": "atom:quran:quran:3:79",
+      "anchor": {
+        "atom_id": "quran:3:79",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "It is not for a human [prophet] that Allah should give him the Scripture and aut"
+    },
+    {
+      "hash": "43d8bda2511584aa118a6ea37f9d7b302dd5252efd915676932342284fd839d4",
+      "skeleton_hash": "2f4ea0d1070f17ddbf4d2b0b3e0932d81be3146bde351ee99bd6b71b19ba5d69",
+      "nfc_text": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ ٱلْوَهَّابُ",
+      "source_artifact": "atom:quran:quran:3:8",
+      "anchor": {
+        "atom_id": "quran:3:8",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Our Lord, let not our hearts deviate after You have guided us, and grant us from"
+    },
+    {
+      "hash": "fc84ad881e6c3c779602582c826e5196dfe3bcb4edab9b75d4f3a510233da9a6",
+      "skeleton_hash": "ad11cd61e426a220eddb184abfabf98c545a6a7cbf30897ae12993ffc0271eb4",
+      "nfc_text": "وَلَا يَأْمُرَكُمْ أَن تَتَّخِذُوا۟ ٱلْمَلَٓئِكَةَ وَٱلنَّبِيِّۦنَ أَرْبَابًا ۗ أَيَأْمُرُكُم بِٱلْكُفْرِ بَعْدَ إِذْ أَنتُم مُّسْلِمُونَ",
+      "source_artifact": "atom:quran:quran:3:80",
+      "anchor": {
+        "atom_id": "quran:3:80",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And he would not order you to take the angels and prophets as lords. Would he or"
+    },
+    {
+      "hash": "565d7fad0b1355a6e4e928f48ad5d4a7445b4a54b383befe1f2c20a33b70da75",
+      "skeleton_hash": "46bc5e6628a9572ac8ae1f89832374b1319fe3cfa5b1c784e10de79c900f2b28",
+      "nfc_text": "وَإِذْ أَخَذَ ٱللَّهُ مِيثَقَ ٱلنَّبِيِّۦنَ لَمَآ آتَيْتُكُم مِّن كِتَبٍۢ وَحِكْمَةٍۢ ثُمَّ جَآءَكُمْ رَسُولٌۭ مُّصَدِّقٌۭ لِّمَا مَعَكُمْ لَتُؤْمِنُنَّ بِهِۦ وَلَتَنصُرُنَّهُۥ ۚ قَالَ ءَأَقْرَرْتُمْ وَأَخَذْتُمْ عَلَىٰ ذَلِكُمْ إِصْرِى ۖ قَالُوٓا۟ أَقْرَرْنَا ۚ قَالَ فَٱشْهَدُوا۟ وَأَنَا۠ مَعَكُم مِّنَ ٱلشَّهِدِينَ",
+      "source_artifact": "atom:quran:quran:3:81",
+      "anchor": {
+        "atom_id": "quran:3:81",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And [recall] when Allah took the covenant of the prophets, [saying], \"Whatever I"
+    },
+    {
+      "hash": "5daaabf5fed4d7f2a54e7f5cd4b4a54da5948ffbcc623d44c5be2bd3d21c149b",
+      "skeleton_hash": "2dacec520a9dee0eacf6b03e7b47809e4f819be89f1e10405f71c4fe0f572c8d",
+      "nfc_text": "فَمَن تَوَلَّىٰ بَعْدَ ذَلِكَ فَأُو۟لَٓئِكَ هُمُ ٱلْفَسِقُونَ",
+      "source_artifact": "atom:quran:quran:3:82",
+      "anchor": {
+        "atom_id": "quran:3:82",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He said, \"Have you acknowledged and taken upon that My commitment?\" They said, \""
+    },
+    {
+      "hash": "9e7ad844a3d8891e4803d5d3a6c432af0d228e79b072ff4ded748a7065803d26",
+      "skeleton_hash": "e26a0f52d302da9dfd7e8d30bd8b0ba998f482444c388a21af335c267c1ce3bf",
+      "nfc_text": "أَفَغَيْرَ دِينِ ٱللَّهِ يَبْغُونَ وَلَهُۥٓ أَسْلَمَ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ طَوْعًۭا وَكَرْهًۭا وَإِلَيْهِ يُرْجَعُونَ",
+      "source_artifact": "atom:quran:quran:3:83",
+      "anchor": {
+        "atom_id": "quran:3:83",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And whoever turns away after that - then those are the defiantly disobedient."
+    },
+    {
+      "hash": "44a86438bb33d8b88f478b715d654171d2947e59b36118594037990342f224e9",
+      "skeleton_hash": "debc63a89595601eecb143dae5fc8c9342ce8d43d2dbcbfd9e1d80e58d1f6fc5",
+      "nfc_text": "رَبَّنَآ إِنَّكَ جَامِعُ ٱلنَّاسِ لِيَوْمٍۢ لَّا رَيْبَ فِيهِ ۚ إِنَّ ٱللَّهَ لَا يُخْلِفُ ٱلْمِيعَادَ",
+      "source_artifact": "atom:quran:quran:3:9",
+      "anchor": {
+        "atom_id": "quran:3:9",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Our Lord, surely You will gather the people for a Day about which there is no do"
+    },
+    {
+      "hash": "291730790d897ad7e30da4bc2fd000ddeb1ba3de35cc925d2550cae612f854c2",
+      "skeleton_hash": "8e8c34ff87f5a802b03d38b9e192b9ebea8dae8033512b36927f50e806bdf5ec",
+      "nfc_text": "لَن تَنَالُوا۟ ٱلْبِرَّ حَتَّىٰ تُنفِقُوا۟ مِمَّا تُحِبُّونَ ۚ وَمَا تُنفِقُوا۟ مِن شَىْءٍۢ فَإِنَّ ٱللَّهَ بِهِۦ عَلِيمٌۭ",
+      "source_artifact": "atom:quran:quran:3:92",
+      "anchor": {
+        "atom_id": "quran:3:92",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "You will not attain righteousness until you spend from that which you love. And "
+    },
+    {
+      "hash": "52238e9498b2baa5774eaf4ba6889d55b437ce43e858cf833c105bb037a0a978",
+      "skeleton_hash": "5a3fbcad08341e0e9ade5ed3318db83c7b9a237665bc87848112c026b1521172",
+      "nfc_text": "كُلُّ ٱلطَّعَامِ كَانَ حِلًّۭا لِّبَنِىٓ إِسْرَٓءِيلَ إِلَّا مَا حَرَّمَ إِسْرَٓءِيلُ عَلَىٰ نَفْسِهِۦ مِن قَبْلِ أَن تُنَزَّلَ ٱلتَّوْرَىٰةُ ۗ قُلْ فَأْتُوا۟ بِٱلتَّوْرَىٰةِ فَٱتْلُوهَآ إِن كُنتُمْ صَدِقِينَ",
+      "source_artifact": "atom:quran:quran:3:93",
+      "anchor": {
+        "atom_id": "quran:3:93",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "All food was lawful to the Children of Israel except what Israel had made unlawf"
+    },
+    {
+      "hash": "ed7ced0a76808862249a549b6ca4430d779c0aa4213e94477227aa0d724c5698",
+      "skeleton_hash": "6119370c4d42e064c8b251da85f486ed28accc5b62ab979e27fb25c79dd6a78b",
+      "nfc_text": "فَمَنِ ٱفْتَرَىٰ عَلَى ٱللَّهِ ٱلْكَذِبَ مِنۢ بَعْدِ ذَلِكَ فَأُو۟لَٓئِكَ هُمُ ٱلظَّلِمُونَ",
+      "source_artifact": "atom:quran:quran:3:94",
+      "anchor": {
+        "atom_id": "quran:3:94",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Then whoever invents falsehood about Allah after that - it is those who are the "
+    },
+    {
+      "hash": "2b0bf56bc380006530bef37fc0cffbd09b21e5cad423cef95b7678fa355fa931",
+      "skeleton_hash": "41dad195031d4f18b1c18e85d31ab1bcee57ab47d72f237326e43989735b3697",
+      "nfc_text": "وَقَوْلِهِمْ إِنَّا قَتَلْنَا ٱلْمَسِيحَ عِيسَى ٱبْنَ مَرْيَمَ رَسُولَ ٱللَّهِ وَمَا قَتَلُوهُ وَمَا صَلَبُوهُ وَلَكِن شُبِّهَ لَهُمْ ۚ وَإِنَّ ٱلَّذِينَ ٱخْتَلَفُوا۟ فِيهِ لَفِى شَكٍّۢ مِّنْهُ ۚ مَا لَهُم بِهِۦ مِنْ عِلْمٍ إِلَّا ٱتِّبَاعَ ٱلظَّنِّ ۚ وَمَا قَتَلُوهُ يَقِينًۢا",
+      "source_artifact": "atom:quran:quran:4:157",
+      "anchor": {
+        "atom_id": "quran:4:157",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "They did not kill him, nor did they crucify him, but it was made to appear so to"
+    },
+    {
+      "hash": "700068778788e225a194a6286e69997bf5306252d853c82e16690536f9fb39ac",
+      "skeleton_hash": "b22be608175cbb610ac5a9d22fccdc0911ac874fa372a3865bc07277000cd1ab",
+      "nfc_text": "يَسْـَٔلُهُۥ مَن فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ ۚ كُلَّ يَوْمٍ هُوَ فِى شَأْنٍۢ",
+      "source_artifact": "atom:quran:quran:55:29",
+      "anchor": {
+        "atom_id": "quran:55:29",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Every day He is in [some] affair."
+    },
+    {
+      "hash": "fe3b1f5bfcaf72a5599d147789b8cbd19a7abc232fa8d1994adb249cc352dc37",
+      "skeleton_hash": "eb8ba4eb877cdc8ec6874b4c5a33242f974ff3a3f6e6dbf149854b3dc05777e1",
+      "nfc_text": "وَٱلسَّبِقُونَ ٱلسَّبِقُونَ",
+      "source_artifact": "atom:quran:quran:56:10",
+      "anchor": {
+        "atom_id": "quran:56:10",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "The forerunners, the forerunners, those are the ones brought near."
+    },
+    {
+      "hash": "f3220fee47bcb49ec91518010335d44928009beb11adb4b641c00f22fd8c6166",
+      "skeleton_hash": "7a6da920343a93d5a08a0b2faaae009b1e2fd35c17ceea4bfadd94a6b2704c54",
+      "nfc_text": "لَّا يَمَسُّهُۥٓ إِلَّا ٱلْمُطَهَّرُونَ",
+      "source_artifact": "atom:quran:quran:56:79",
+      "anchor": {
+        "atom_id": "quran:56:79",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "None touch it except the purified."
+    },
+    {
+      "hash": "e955fef5c19241651985842ecb492cfae257f34d07792bd9e8ce12cf93d6cceb",
+      "skeleton_hash": "47f78a5d2e0ee01a814b3c87eea0532cdea9f53eb06b2571f07afd00756c4ba5",
+      "nfc_text": "حُرِّمَتْ عَلَيْكُمُ ٱلْمَيْتَةُ وَٱلدَّمُ وَلَحْمُ ٱلْخِنزِيرِ وَمَآ أُهِلَّ لِغَيْرِ ٱللَّهِ بِهِۦ وَٱلْمُنْخَنِقَةُ وَٱلْمَوْقُوذَةُ وَٱلْمُتَرَدِّيَةُ وَٱلنَّطِيحَةُ وَمَآ أَكَلَ ٱلسَّبُعُ إِلَّا مَا ذَكَّيْتُمْ وَمَا ذُبِحَ عَلَى ٱلنُّصُبِ وَأَن تَسْتَقْسِمُوا۟ بِٱلْأَزْلَمِ ۚ ذَلِكُمْ فِسْقٌ ۗ ٱلْيَوْمَ يَئِسَ ٱلَّذِينَ كَفَرُوا۟ مِن دِينِكُمْ فَلَا تَخْشَوْهُمْ وَٱخْشَوْنِ ۚ ٱلْيَوْمَ أَكْمَلْتُ لَكُمْ دِينَكُمْ وَأَتْمَمْتُ عَلَيْكُمْ نِعْمَتِى وَرَضِيتُ لَكُمُ ٱلْإِسْلَمَ دِينًۭا ۚ فَمَنِ ٱضْطُرَّ فِى مَخْمَصَةٍ غَيْرَ مُتَجَانِفٍۢ لِّإِثْمٍۢ ۙ فَإِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۭ",
+      "source_artifact": "atom:quran:quran:5:3",
+      "anchor": {
+        "atom_id": "quran:5:3",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "al-yawma akmaltu lakum dinakum wa-atmamtu 'alaykum ni'mati (This day I have perf"
+    },
+    {
+      "hash": "b8702861706dce9d650a2b14626b4118798d60b0a49e75949338de66098a8941",
+      "skeleton_hash": "3eff3d1d2e6dc6a8693ca88100b54ac0a1fe9ffdafa1cd45a3b092564f81e139",
+      "nfc_text": "هُوَ ٱلَّذِى بَعَثَ فِى ٱلْأُمِّيِّۦنَ رَسُولًۭا مِّنْهُمْ يَتْلُوا۟ عَلَيْهِمْ آيَتِهِۦ وَيُزَكِّيهِمْ وَيُعَلِّمُهُمُ ٱلْكِتَبَ وَٱلْحِكْمَةَ وَإِن كَانُوا۟ مِن قَبْلُ لَفِى ضَلَلٍۢ مُّبِينٍۢ",
+      "source_artifact": "atom:quran:quran:62:2",
+      "anchor": {
+        "atom_id": "quran:62:2",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He is the One who sent among the unlettered a Messenger from themselves, recitin"
+    },
+    {
+      "hash": "1daf254970ca20d3e5cf2e49ecc8e8e3aea891dd35d9a1c763d18110d24b5c5f",
+      "skeleton_hash": "a54f9b25d6433f3e56b6fb27a6359edda2e37ccbbbf6a8ea0bf1d26dfe28eff0",
+      "nfc_text": "يَٓأَيُّهَا ٱلَّذِينَ آمَنُوٓا۟ إِذَا نُودِىَ لِلصَّلَوٰةِ مِن يَوْمِ ٱلْجُمُعَةِ فَٱسْعَوْا۟ إِلَىٰ ذِكْرِ ٱللَّهِ وَذَرُوا۟ ٱلْبَيْعَ ۚ ذَلِكُمْ خَيْرٌۭ لَّكُمْ إِن كُنتُمْ تَعْلَمُونَ",
+      "source_artifact": "atom:quran:quran:62:9",
+      "anchor": {
+        "atom_id": "quran:62:9",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "When the call is proclaimed for the prayer on the day of Jumu'ah, then hasten to"
+    },
+    {
+      "hash": "488dbc41adc9a08289a3de40b2acf8ce5baa2979617ae76322d877cbbd2bc802",
+      "skeleton_hash": "1b2112e996c329cb1bcb2627eaf0f8a0e486746cb50225db07d9cf02ff2a3717",
+      "nfc_text": "نٓ ۚ وَٱلْقَلَمِ وَمَا يَسْطُرُونَ",
+      "source_artifact": "atom:quran:quran:68:1",
+      "anchor": {
+        "atom_id": "quran:68:1",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Nun. By the pen and what they inscribe"
+    },
+    {
+      "hash": "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3",
+      "skeleton_hash": "8f53a423ebe4f540ee017355e33bf5414c600623e2fb2e47af3ffcd36b058240",
+      "nfc_text": "ثُمَّ نُنَجِّى ٱلَّذِينَ ٱتَّقَوا۟ وَّنَذَرُ ٱلظَّلِمِينَ فِيهَا جِثِيًّۭا",
+      "source_artifact": "atom:quran:quran:19:72",
+      "anchor": {
+        "atom_id": "quran:19:72",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "summa-n-najji-l-ladhina-t-taqaw wa nadharu-z-zalimina fiha jithiyya (Then We wil"
+    },
+    {
+      "hash": "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91",
+      "skeleton_hash": "bed8c6810e1efee763f5f807843c78a7f837cf563939d67cc9a4f2ab8aad3826",
+      "nfc_text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَلَمِينَ",
+      "source_artifact": "atom:quran:quran:1:2",
+      "anchor": {
+        "atom_id": "quran:1:2",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "All praise is for Allah, Lord of the worlds."
+    },
+    {
+      "hash": "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5",
+      "skeleton_hash": "66eb64ad0455b985a096398a8de734895f3cfdb57ec2fa737c2a87fab4235d8b",
+      "nfc_text": "مَلِكِ يَوْمِ ٱلدِّينِ",
+      "source_artifact": "atom:quran:quran:1:4",
+      "anchor": {
+        "atom_id": "quran:1:4",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Master of the Day of Judgment."
+    },
+    {
+      "hash": "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df",
+      "skeleton_hash": "469c7d6349c38dd08eda36df4c8f13eab3bb1f20e3eeac1f8de1592b9abc37c3",
+      "nfc_text": "إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَكِفُونَ",
+      "source_artifact": "atom:quran:quran:21:52",
+      "anchor": {
+        "atom_id": "quran:21:52",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "What are these statues to which you are devoted?"
+    },
+    {
+      "hash": "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f",
+      "skeleton_hash": "193a126b40802586eba21968fc5a5458e734ac0a7c251c0de964f8e867b21e03",
+      "nfc_text": "فَتَقَطَّعُوٓا۟ أَمْرَهُم بَيْنَهُمْ زُبُرًۭا ۖ كُلُّ حِزْبٍۭ بِمَا لَدَيْهِمْ فَرِحُونَ",
+      "source_artifact": "atom:quran:quran:23:53",
+      "anchor": {
+        "atom_id": "quran:23:53",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`Kullu hizbin bima ladayhim farihun` (Each party rejoicing in that which is with"
+    },
+    {
+      "hash": "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93",
+      "skeleton_hash": "c625f767a1587128d2ba011174590ed3ca2b925c7b68ce97e189fa4ab63accef",
+      "nfc_text": "وَقَالُوا۟ لَن يَدْخُلَ ٱلْجَنَّةَ إِلَّا مَن كَانَ هُودًا أَوْ نَصَرَىٰ ۗ تِلْكَ أَمَانِيُّهُمْ ۗ قُلْ هَاتُوا۟ بُرْهَنَكُمْ إِن كُنتُمْ صَدِقِينَ",
+      "source_artifact": "atom:quran:quran:2:111",
+      "anchor": {
+        "atom_id": "quran:2:111",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`haatu burhanakum in kuntum sadiqin` (Bring forth your proof, if you are truthfu"
+    },
+    {
+      "hash": "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6",
+      "skeleton_hash": "ef76cb43936f77678b4396995d24bcd2ba422fd92897e1064e1326aeec70df41",
+      "nfc_text": "وَإِذِ ٱبْتَلَىٰٓ إِبْرَهِۦمَ رَبُّهُۥ بِكَلِمَتٍۢ فَأَتَمَّهُنَّ ۖ قَالَ إِنِّى جَاعِلُكَ لِلنَّاسِ إِمَامًۭا ۖ قَالَ وَمِن ذُرِّيَّتِى ۖ قَالَ لَا يَنَالُ عَهْدِى ٱلظَّلِمِينَ",
+      "source_artifact": "atom:quran:quran:2:124",
+      "anchor": {
+        "atom_id": "quran:2:124",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And We made him an Imam for mankind"
+    },
+    {
+      "hash": "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09",
+      "skeleton_hash": "7637e4fa95b8188cd5b7eaec5359c03305a2708f3466ca58aa57080e0828fede",
+      "nfc_text": "فَأَزَلَّهُمَا ٱلشَّيْطَنُ عَنْهَا فَأَخْرَجَهُمَا مِمَّا كَانَا فِيهِ ۖ وَقُلْنَا ٱهْبِطُوا۟ بَعْضُكُمْ لِبَعْضٍ عَدُوٌّۭ ۖ وَلَكُمْ فِى ٱلْأَرْضِ مُسْتَقَرٌّۭ وَمَتَعٌ إِلَىٰ حِينٍۢ",
+      "source_artifact": "atom:quran:quran:2:36",
+      "anchor": {
+        "atom_id": "quran:2:36",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "`aduwwun ba`dukum li-ba`din `aduww` (You are enemies, one to another)"
+    },
+    {
+      "hash": "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873",
+      "skeleton_hash": "fc1d63965c877441159532dffea80e1e07cbcff24fa75f93fecbdf3eb459e107",
+      "nfc_text": "وَقَالَ رَبُّكُمُ ٱدْعُونِىٓ أَسْتَجِبْ لَكُمْۚ إِنَّ ٱلَّذِينَ يَسْتَكْبِرُونَ عَنْ عِبَادَتِى سَيَدْخُلُونَ جَهَنَّمَ دَاخِرِينَ",
+      "source_artifact": "atom:quran:quran:40:60",
+      "anchor": {
+        "atom_id": "quran:40:60",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Call upon Me; I will respond to you. Indeed, those who are too arrogant to worsh"
+    },
+    {
+      "hash": "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50",
+      "skeleton_hash": "81c612023d0b35b520e461e31ef11de6c60617b8a1bcbd791470a0dfcf055177",
+      "nfc_text": "وَفِىٓ أَنفُسِكُمْ ۚ أَفَلَا تُبْصِرُونَ",
+      "source_artifact": "atom:quran:quran:51:21",
+      "anchor": {
+        "atom_id": "quran:51:21",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Wa fi anfusikum afala tubsirun (And in your own selves. Will you not then see?)"
+    },
+    {
+      "hash": "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7",
+      "skeleton_hash": "cc18efaeaa5f1466037aac50210521dac0ffa7400294797a6d42d44637d3e7be",
+      "nfc_text": "وَأَن لَّيْسَ لِلْإِنسَنِ إِلَّا مَا سَعَىٰ",
+      "source_artifact": "atom:quran:quran:53:39",
+      "anchor": {
+        "atom_id": "quran:53:39",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "laysa lil-insani illa ma sa'a"
+    },
+    {
+      "hash": "61be5a07a3823687eb2f89de274491e35933dd32b8fe94f0c91ccee12ed8aaf4",
+      "skeleton_hash": "f9c0d56fdcb48df04d519bd005d97512e79cf31487c15eb637ce9e5557aeb229",
+      "nfc_text": "وَإِذْ قَالَ إِبْرَهِيمُ لِأَبِيهِ آزَرَ أَتَتَّخِذُ أَصْنَامًا آلِهَةً ۖ إِنِّىٓ أَرَىٰكَ وَقَوْمَكَ فِى ضَلَلٍۢ مُّبِينٍۢ",
+      "source_artifact": "atom:quran:quran:6:74",
+      "anchor": {
+        "atom_id": "quran:6:74",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Azar raised him"
+    },
+    {
+      "hash": "018e412aa3a987a949cbf438259e8c6e5aa7a4ee6595de6ffd8150711db65105",
+      "skeleton_hash": "9793b2b6fc8c571c54a2f0d25cbe060c2aa21c6d9c70451443d1dd954b1387e6",
+      "nfc_text": "وَلِلَّهِ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ فَٱدْعُوهُ بِهَا ۖ وَذَرُوا۟ ٱلَّذِينَ يُلْحِدُونَ فِىٓ أَسْمَٓئِهِۦ ۚ سَيُجْزَوْنَ مَا كَانُوا۟ يَعْمَلُونَ",
+      "source_artifact": "atom:quran:quran:7:180",
+      "anchor": {
+        "atom_id": "quran:7:180",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And (all) the Most Beautiful Names belong to Allah<B></B>, so call on Him by the"
+    },
+    {
+      "hash": "862fcb553d1d3ed30fc0bd6bbdc843d3e2572070161a97e60c2969754ea6c4c5",
+      "skeleton_hash": "483c3f6d0baa1a24c34c23ba46738f8027fa180f1e777ff141cf5656b58857ce",
+      "nfc_text": "هُوَ ٱللَّهُ ٱلَّذِى لَآ إِلَهَ إِلَّا هُوَ ۖ عَلِمُ ٱلْغَيْبِ وَٱلشَّهَدَةِ ۖ هُوَ ٱلرَّحْمَنُ ٱلرَّحِيمُ",
+      "source_artifact": "atom:quran:quran:59:22",
+      "anchor": {
+        "atom_id": "quran:59:22",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He is Allah, than Whom there is <I>La ilaha illa Huwa </I>(none has the right to"
+    },
+    {
+      "hash": "dcda7307f90d6fec43fed828b3a51087b0497c37f628106945f91ca6c02807cb",
+      "skeleton_hash": "8faed4f48aaf9511a901b4f004a90e4f2b6103b829b580a84530ba2c8f8f0963",
+      "nfc_text": "إِنَّ ٱلَّذِينَ كَفَرُوا۟ سَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ",
+      "source_artifact": "atom:quran:quran:2:6",
+      "anchor": {
+        "atom_id": "quran:2:6",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Verily, those who disbelieve, it is the same to them whether you (O Muhammad Pea"
+    },
+    {
+      "hash": "0845370bf99a1cfa79f1034a14540a3559e5c2fba7dc84f898e3610a4fe02c2a",
+      "skeleton_hash": "2f1c1a3096c3652ea32630c58ea73cce2e104ab4c27ac6ed1771b45a85a34348",
+      "nfc_text": "وَإِذْ آتَيْنَا مُوسَى ٱلْكِتَبَ وَٱلْفُرْقَانَ لَعَلَّكُمْ تَهْتَدُونَ",
+      "source_artifact": "atom:quran:quran:2:53",
+      "anchor": {
+        "atom_id": "quran:2:53",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And (remember) when We gave Musa (Moses) the Scripture [the Taurat (Torah)] and "
+    },
+    {
+      "hash": "7c103f8f0880e65bd6fa2c62a56d8986e8b674e60ba8e57dbfb4c6f83c62bca2",
+      "skeleton_hash": "be2aa504fbbf55ee34bb011cfc89020cf652797afe21b394c410df740f8b27f3",
+      "nfc_text": "وَمَا كَانَ لِمُؤْمِنٍ أَن يَقْتُلَ مُؤْمِنًا إِلَّا خَطَـًۭٔا ۚ وَمَن قَتَلَ مُؤْمِنًا خَطَـًۭٔا فَتَحْرِيرُ رَقَبَةٍۢ مُّؤْمِنَةٍۢ وَدِيَةٌۭ مُّسَلَّمَةٌ إِلَىٰٓ أَهْلِهِۦٓ إِلَّآ أَن يَصَّدَّقُوا۟ ۚ فَإِن كَانَ مِن قَوْمٍ عَدُوٍّۢ لَّكُمْ وَهُوَ مُؤْمِنٌۭ فَتَحْرِيرُ رَقَبَةٍۢ مُّؤْمِنَةٍۢ ۖ وَإِن كَانَ مِن قَوْمٍۭ بَيْنَكُمْ وَبَيْنَهُم مِّيثَقٌۭ فَدِيَةٌۭ مُّسَلَّمَةٌ إِلَىٰٓ أَهْلِهِۦ وَتَحْرِيرُ رَقَبَةٍۢ مُّؤْمِنَةٍۢ ۖ فَمَن لَّمْ يَجِدْ فَصِيَامُ شَهْرَيْنِ مُتَتَابِعَيْ�\n�ِ تَوْبَةًۭ مِّنَ ٱللَّهِ ۗ وَكَانَ ٱللَّهُ عَلِيمًا حَكِيمًۭا",
+      "source_artifact": "atom:quran:quran:4:92",
+      "anchor": {
+        "atom_id": "quran:4:92",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "It is not for a believer to kill a believer except (that it be) by mistake, and "
+    },
+    {
+      "hash": "0f083be6ac662e475001ff9134eafe13018bbb279597bb6dcfabc9e21cdb4be8",
+      "skeleton_hash": "0cf481c58b6122668280a3fcb53dab763f693b0f8cc37e2e5847334a7fd26de2",
+      "nfc_text": "وَمَن يَقْتُلْ مُؤْمِنًۭا مُّتَعَمِّدًۭا فَجَزَآؤُهُۥ جَهَنَّمُ خَلِدًۭا فِيهَا وَغَضِبَ ٱللَّهُ عَلَيْهِ وَلَعَنَهُۥ وَأَعَدَّ لَهُۥ عَذَابًا عَظِيمًۭا",
+      "source_artifact": "atom:quran:quran:4:93",
+      "anchor": {
+        "atom_id": "quran:4:93",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And whoever kills a believer intentionally, his recompense is Hell to abide ther"
+    },
+    {
+      "hash": "6235d2978fd7ea1f1a4fcce9af27c317ca927e3569c31f65d4e89477595cf6b2",
+      "skeleton_hash": "bea0d86a796a7c53f93ac568252f0cc38e57917592e18ba3f6abf6a2330a49a0",
+      "nfc_text": "ئ قُلْ تَعَالَوْا۟ أَتْلُ مَا حَرَّمَ رَبُّكُمْ عَلَيْكُمْ ۖ أَلَّا تُشْرِكُوا۟ بِهِۦ شَيْـًۭٔا ۖ وَبِٱلْوَلِدَيْنِ إِحْسَنًۭا ۖ وَلَا تَقْتُلُوٓا۟ أَوْلَدَكُم مِّنْ إِمْلَقٍۢ ۖ نَّحْنُ نَرْزُقُكُمْ وَإِيَّاهُمْ ۖ وَلَا تَقْرَبُوا۟ ٱلْفَوَحِشَ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ ۖ وَلَا تَقْتُلُوا۟ ٱلنَّفْسَ ٱلَّتِى حَرَّمَ ٱللَّهُ إِلَّا بِٱلْحَقِّ ۚ ذَلِكُمْ وَصَّىٰكُم بِهِۦ لَعَلَّكُمْ تَعْقِلُونَ",
+      "source_artifact": "atom:quran:quran:6:151",
+      "anchor": {
+        "atom_id": "quran:6:151",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Say (O Muhammad <TT>PBUH</TT>): \"Come, I will recite what your Lord has prohibit"
+    },
+    {
+      "hash": "cb5bd2f11a7179da84870b04ccdaf00faac5ba990a6a0b35350abf7ff973ac80",
+      "skeleton_hash": "ba7ddfca166051ec9ea936f331fe9aa1e495d8432a1c5b960cae659f7819b71f",
+      "nfc_text": "وَلَا تَقْتُلُوٓا۟ أَوْلَدَكُمْ خَشْيَةَ إِمْلَقٍۢ ۖ نَّحْنُ نَرْزُقُهُمْ وَإِيَّاكُمْ ۚ إِنَّ قَتْلَهُمْ كَانَ خِطْـًۭٔا كَبِيرًۭا",
+      "source_artifact": "atom:quran:quran:17:31",
+      "anchor": {
+        "atom_id": "quran:17:31",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And kill not your children for fear of poverty. We provide for them and for you."
+    },
+    {
+      "hash": "25c5571d3d9130dcb9d277f14696f74b4a24ff3d4a3e48c65d382df1efbaf77f",
+      "skeleton_hash": "428f6e3585aee261db7e9c6a87c89f7182c77532f7a622a38f5dc27248dc1f72",
+      "nfc_text": "قُلْ كَفَىٰ بِٱللَّهِ شَهِيدًۢا بَيْنِى وَبَيْنَكُمْ ۚ إِنَّهُۥ كَانَ بِعِبَادِهِۦ خَبِيرًۢا بَصِيرًۭا",
+      "source_artifact": "atom:quran:quran:17:96",
+      "anchor": {
+        "atom_id": "quran:17:96",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Say: \"Sufficient is Allah for a witness between me and you. Verily! He is the Al"
+    },
+    {
+      "hash": "6b79b3253e8d9478f632b75b301e58fc47d892647e68268b3463287f12003bd2",
+      "skeleton_hash": "08970fbaebb702c33e5b6900a05b2eec2c39d0c65a9b7184bc142356a9f7d056",
+      "nfc_text": "قُلْ كَفَىٰ بِٱللَّهِ بَيْنِى وَبَيْنَكُمْ شَهِيدًۭا ۖ يَعْلَمُ مَا فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ ۗ وَٱلَّذِينَ آمَنُوا۟ بِٱلْبَطِلِ وَكَفَرُوا۟ بِٱللَّهِ أُو۟لَٓئِكَ هُمُ ٱلْخَسِرُونَ",
+      "source_artifact": "atom:quran:quran:29:52",
+      "anchor": {
+        "atom_id": "quran:29:52",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Say (to them O Muhammad <TT>PBUH</TT>): \"Sufficient is Allah for a witness betwe"
+    },
+    {
+      "hash": "d096a275b84c848b3b689e5893c93f1f3443ce511e5e7745bb0ff0ed2a262c6b",
+      "skeleton_hash": "c990bbca99898ee3e70a914c96d471d0952d79655bf7e1f30249df8b230c8e31",
+      "nfc_text": "مَّا جَعَلَ ٱللَّهُ لِرَجُلٍۢ مِّن قَلْبَيْنِ فِى جَوْفِهِۦ ۚ وَمَا جَعَلَ أَزْوَجَكُمُ ٱلَّٓـِٔى تُظَهِرُونَ مِنْهُنَّ أُمَّهَتِكُمْ ۚ وَمَا جَعَلَ أَدْعِيَآءَكُمْ أَبْنَآءَكُمْ ۚ ذَلِكُمْ قَوْلُكُم بِأَفْوَهِكُمْ ۖ وَٱللَّهُ يَقُولُ ٱلْحَقَّ وَهُوَ يَهْدِى ٱلسَّبِيلَ",
+      "source_artifact": "atom:quran:quran:33:4",
+      "anchor": {
+        "atom_id": "quran:33:4",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Allah has not put for any man two hearts inside his body. Neither has He made yo"
+    },
+    {
+      "hash": "b43b3bc6cd02856ad154a00d979e2edce1e3313d7c4e819731b765099276a020",
+      "skeleton_hash": "b155897e60ecbc7fae74c61fcb7de01dcc2d94fadbe0d40700baddeb55f53946",
+      "nfc_text": "هُوَ ٱللَّهُ ٱلَّذِى لَآ إِلَهَ إِلَّا هُوَ ٱلْمَلِكُ ٱلْقُدُّوسُ ٱلسَّلَمُ ٱلْمُؤْمِنُ ٱلْمُهَيْمِنُ ٱلْعَزِيزُ ٱلْجَبَّارُ ٱلْمُتَكَبِّرُ ۚ سُبْحَنَ ٱللَّهِ عَمَّا يُشْرِكُونَ",
+      "source_artifact": "atom:quran:quran:59:23",
+      "anchor": {
+        "atom_id": "quran:59:23",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He is Allah than Whom there is <I>La ilaha illa Huwa</I> (none has the right to "
+    },
+    {
+      "hash": "3d64dd3990aa4e7f77275315d6c65c29a17f550284367b2b166ea3a526fbb8a7",
+      "skeleton_hash": "ee2ed3c175daec0583183984d41f067725370862e2e62eb9ade2e6789f5466e5",
+      "nfc_text": "هُوَ ٱللَّهُ ٱلْخَلِقُ ٱلْبَارِئُ ٱلْمُصَوِّرُ ۖ لَهُ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ ۚ يُسَبِّحُ لَهُۥ مَا فِى ٱلسَّمَوَتِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ",
+      "source_artifact": "atom:quran:quran:59:24",
+      "anchor": {
+        "atom_id": "quran:59:24",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He is Allah, the Creator, the Inventor of all things, the Bestower of forms. To "
+    },
+    {
+      "hash": "16306088fc3cfd6cdad6124e470bfef77bfffeb336fbf14030580acbbe5b95d3",
+      "skeleton_hash": "ae07ce1ca5b6dc61434763af3bee3980177a9ea0ef352468eb0c5583de1f4911",
+      "nfc_text": "فَأَلْهَمَهَا فُجُورَهَا وَتَقْوَىٰهَا",
+      "source_artifact": "atom:quran:quran:91:8",
+      "anchor": {
+        "atom_id": "quran:91:8",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And inspired it [with discernment of] its wickedness and its righteousness, He h"
+    },
+    {
+      "hash": "c2c53a6a6b50cedf4584d81cd66a8bc659986e6d8891b9d6e0e8565196c654c3",
+      "skeleton_hash": "d0d7a74495d1d56c1db06d15f8a15c806ae0b0f2590f1f802212af7fd576aa51",
+      "nfc_text": "قَدْ أَفْلَحَ مَن زَكَّىٰهَا",
+      "source_artifact": "atom:quran:quran:91:9",
+      "anchor": {
+        "atom_id": "quran:91:9",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And inspired it [with discernment of] its wickedness and its righteousness, He h"
+    },
+    {
+      "hash": "f3feed827de186bbaa4d8a2cd51968c15b3a448f5ed93bf1038b7e4ff6decbff",
+      "skeleton_hash": "2fb53c318305a9368a1ccbc873d392e3f23e1ab29f9e29ccfc48f0c141f0dc67",
+      "nfc_text": "وَقَدْ خَابَ مَن دَسَّىٰهَا",
+      "source_artifact": "atom:quran:quran:91:10",
+      "anchor": {
+        "atom_id": "quran:91:10",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And inspired it [with discernment of] its wickedness and its righteousness, He h"
+    },
+    {
+      "hash": "3b5341f20243aaa3c70274493dc9939b55951da09bcc4838bad4fc9de1806d4e",
+      "skeleton_hash": "0e9eb3897cb38adab29b50c37595147f314f25673b73315fb6e95cf2df4b2e8c",
+      "nfc_text": "إِنَّ وَلِۦِّىَ ٱللَّهُ ٱلَّذِى نَزَّلَ ٱلْكِتَبَ ۖ وَهُوَ يَتَوَلَّى ٱلصَّلِحِينَ",
+      "source_artifact": "atom:quran:quran:7:196",
+      "anchor": {
+        "atom_id": "quran:7:196",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Verily, my <I>Walî </I>(Protector, Supporter, and Helper, etc.) is Allah Who ha"
+    },
+    {
+      "hash": "ed67538a7bb6ec96ea2709842530bccd90d15a1878f5d7268a36f8d4aa876eb9",
+      "skeleton_hash": "d428f32ddf1370e4d23b0ee67e12e508e008f0bda28f56091474c2c4254ea51a",
+      "nfc_text": "رَبِّ قَدْ آتَيْتَنِى مِنَ ٱلْمُلْكِ وَعَلَّمْتَنِى مِن تَأْوِيلِ ٱلْأَحَادِيثِ ۚ فَاطِرَ ٱلسَّمَوَتِ وَٱلْأَرْضِ أَنتَ وَلِىِّۦ فِى ٱلدُّنْيَا وَٱلْآخِرَةِ ۖ تَوَفَّنِى مُسْلِمًۭا وَأَلْحِقْنِى بِٱلصَّلِحِينَ",
+      "source_artifact": "atom:quran:quran:12:101",
+      "anchor": {
+        "atom_id": "quran:12:101",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"My Lord! You have indeed bestowed on me of the sovereignty, and taught me the i"
+    },
+    {
+      "hash": "59798769c95ab482f9dd5297dce0b4ccf894cd44db443f3c0de783f58fb29459",
+      "skeleton_hash": "f37ad5bb0ecbaee6227ee4603bb8fe6563b549caab16def7470c0eff734ddf0f",
+      "nfc_text": "وَعَلَّمَ آدَمَ ٱلْأَسْمَآءَ كُلَّهَا ثُمَّ عَرَضَهُمْ عَلَى ٱلْمَلَٓئِكَةِ فَقَالَ أَنۢبِـُٔونِى بِأَسْمَآءِ هَٓؤُلَآءِ إِن كُنتُمْ صَدِقِينَ",
+      "source_artifact": "atom:quran:quran:2:31",
+      "anchor": {
+        "atom_id": "quran:2:31",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And He taught Adam the names - all of them. Then He showed them to the angels an"
+    },
+    {
+      "hash": "5e24f6455446f6c8492357a6f4951029bf2c44955a133c010c732a1f72719a5d",
+      "skeleton_hash": "72677e8174c31e12c1fe7518e713dd3039d3c84bb9be30738db17c4140452303",
+      "nfc_text": "قَالُوا۟ سُبْحَنَكَ لَا عِلْمَ لَنَآ إِلَّا مَا عَلَّمْتَنَآ ۖ إِنَّكَ أَنتَ ٱلْعَلِيمُ ٱلْحَكِيمُ",
+      "source_artifact": "atom:quran:quran:2:32",
+      "anchor": {
+        "atom_id": "quran:2:32",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "They said, \"Exalted are You; we have no knowledge except what You have taught us"
+    },
+    {
+      "hash": "bef620ae96dbdc7fbaab7e983dbf663bcca9b054446a802a73a3e51935cec488",
+      "skeleton_hash": "d2a99b06b8bfc71ed14173d434dc58a53ddf46f537a3697c363407d29c01a48a",
+      "nfc_text": "قَالَ يَٓـَٔادَمُ أَنۢبِئْهُم بِأَسْمَآئِهِمْ ۖ فَلَمَّآ أَنۢبَأَهُم بِأَسْمَآئِهِمْ قَالَ أَلَمْ أَقُل لَّكُمْ إِنِّىٓ أَعْلَمُ غَيْبَ ٱلسَّمَوَتِ وَٱلْأَرْضِ وَأَعْلَمُ مَا تُبْدُونَ وَمَا كُنتُمْ تَكْتُمُونَ",
+      "source_artifact": "atom:quran:quran:2:33",
+      "anchor": {
+        "atom_id": "quran:2:33",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He said: \"O Adam! Inform them of their names,\" and when he had informed them of "
+    },
+    {
+      "hash": "ce1f81666815ced96208eb6444ea14dbc75dd17da8d4fd2285da154ab10b132d",
+      "skeleton_hash": "912ab6c2a253e6cd8918537735f07b67de07ee2e27a77321f877aa676d1f9e2f",
+      "nfc_text": "وَقُلْنَا يَٓـَٔادَمُ ٱسْكُنْ أَنتَ وَزَوْجُكَ ٱلْجَنَّةَ وَكُلَا مِنْهَا رَغَدًا حَيْثُ شِئْتُمَا وَلَا تَقْرَبَا هَذِهِ ٱلشَّجَرَةَ فَتَكُونَا مِنَ ٱلظَّلِمِينَ",
+      "source_artifact": "atom:quran:quran:2:35",
+      "anchor": {
+        "atom_id": "quran:2:35",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And We said, \"O Adam, dwell, you and your wife, in Paradise and eat therefrom in"
+    },
+    {
+      "hash": "6e92a9cc9929c97dfbaf5dd2b5a3d534323e6db9d8eed28e4c77194b67a77fa5",
+      "skeleton_hash": "3fc410f9944d67f3b76288f3eeeaecc1f875574058abb6e13f1287d6701681c9",
+      "nfc_text": "وَٱلَّذِينَ كَفَرُوا۟ وَكَذَّبُوا۟ بِـَٔايَتِنَآ أُو۟لَٓئِكَ أَصْحَبُ ٱلنَّارِ ۖ هُمْ فِيهَا خَلِدُونَ",
+      "source_artifact": "atom:quran:quran:2:39",
+      "anchor": {
+        "atom_id": "quran:2:39",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "But those who disbelieve and belie Our <I>Ayat </I>(proofs, evidences, verses, l"
+    },
+    {
+      "hash": "4364116d8bf20dd9282310f399c37ac16e3ace9ccb64b91145b329a8dee83297",
+      "skeleton_hash": "6da222c5316f0d8cd4487cbe5d38651d7e574fc124303d56c5ceaeafe429b77c",
+      "nfc_text": "وَمَآ أَرْسَلْنَا مِن رَّسُولٍ إِلَّا لِيُطَاعَ بِإِذْنِ ٱللَّهِ ۚ وَلَوْ أَنَّهُمْ إِذ ظَّلَمُوٓا۟ أَنفُسَهُمْ جَآءُوكَ فَٱسْتَغْفَرُوا۟ ٱللَّهَ وَٱسْتَغْفَرَ لَهُمُ ٱلرَّسُولُ لَوَجَدُوا۟ ٱللَّهَ تَوَّابًۭا رَّحِيمًۭا",
+      "source_artifact": "atom:quran:quran:4:64",
+      "anchor": {
+        "atom_id": "quran:4:64",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And We did not send any messenger except to be obeyed by permission of Allah. An"
+    },
+    {
+      "hash": "4bdba16b81c3425a36d9f02648b7d89eb01c0008a77159019e9985432c388068",
+      "skeleton_hash": "3efdfcc46ce2ff2cdda0d997130cd8431eb707f169f37f1412a0a5f006820fd7",
+      "nfc_text": "وَلَأُضِلَّنَّهُمْ وَلَأُمَنِّيَنَّهُمْ وَلَآمُرَنَّهُمْ فَلَيُبَتِّكُنَّ آذَانَ ٱلْأَنْعَمِ وَلَآمُرَنَّهُمْ فَلَيُغَيِّرُنَّ خَلْقَ ٱللَّهِ ۚ وَمَن يَتَّخِذِ ٱلشَّيْطَنَ وَلِيًّۭا مِّن دُونِ ٱللَّهِ فَقَدْ خَسِرَ خُسْرَانًۭا مُّبِينًۭا",
+      "source_artifact": "atom:quran:quran:4:119",
+      "anchor": {
+        "atom_id": "quran:4:119",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Verily, I will mislead them, and surely, I will arouse in them false desires; an"
+    },
+    {
+      "hash": "d1e077f812a482b307d4b8353ef8563e7cd19662de29e27a4bef15b05d0b57b0",
+      "skeleton_hash": "065d3610d0c8304cff7ddc6d145d103f334d83a7923ec09fa2209d627adbe78f",
+      "nfc_text": "يَعِدُهُمْ وَيُمَنِّيهِمْ ۖ وَمَا يَعِدُهُمُ ٱلشَّيْطَنُ إِلَّا غُرُورًا",
+      "source_artifact": "atom:quran:quran:4:120",
+      "anchor": {
+        "atom_id": "quran:4:120",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He [<I>Shaitan</I> (Satan)] makes promises to them, and arouses in them false de"
+    },
+    {
+      "hash": "15ecdcb13d67a19d04e84e6fe5b7df1f1062ad815e9c87a67b53bf580e7bf997",
+      "skeleton_hash": "ca08f53d75508a591cc0467604b2ee3f7afda8fa1ef33c04fd6271565f648baf",
+      "nfc_text": "يَٓأَيُّهَا ٱلَّذِينَ آمَنُوا۟ لَا تَتَّخِذُوا۟ ٱلْيَهُودَ وَٱلنَّصَرَىٰٓ أَوْلِيَآءَ ۘ بَعْضُهُمْ أَوْلِيَآءُ بَعْضٍۢ ۚ وَمَن يَتَوَلَّهُم مِّنكُمْ فَإِنَّهُۥ مِنْهُمْ ۗ إِنَّ ٱللَّهَ لَا يَهْدِى ٱلْقَوْمَ ٱلظَّلِمِينَ",
+      "source_artifact": "atom:quran:quran:5:51",
+      "anchor": {
+        "atom_id": "quran:5:51",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "O you who believe! Take not the Jews and the Christians as <I>Auliya' </I>(frien"
+    },
+    {
+      "hash": "ed4b2be7f640f0fc18b64941ead22c93afec89c2259ff3e8564d607268f323b0",
+      "skeleton_hash": "fa571fc25bbe9ff84e0aaa70e7b590595379250e5c4f9b1a4afe00df9569fcac",
+      "nfc_text": "وَكَذَلِكَ جَعَلْنَا لِكُلِّ نَبِىٍّ عَدُوًّۭا شَيَطِينَ ٱلْإِنسِ وَٱلْجِنِّ يُوحِى بَعْضُهُمْ إِلَىٰ بَعْضٍۢ زُخْرُفَ ٱلْقَوْلِ غُرُورًۭا ۚ وَلَوْ شَآءَ رَبُّكَ مَا فَعَلُوهُ ۖ فَذَرْهُمْ وَمَا يَفْتَرُونَ",
+      "source_artifact": "atom:quran:quran:6:112",
+      "anchor": {
+        "atom_id": "quran:6:112",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And so We have appointed for every Prophet enemies - <I>Shayatin</I> (devils) am"
+    },
+    {
+      "hash": "d4c0f8b427738f981322db1c110064f56004d87a02bf37bc9b4503dd53c5c6b7",
+      "skeleton_hash": "5ab38d8d6720ecad4d6649bd0fd8bf850fbb3f16cacb3d8094dd8ab15135d949",
+      "nfc_text": "قَالَ مَا مَنَعَكَ أَلَّا تَسْجُدَ إِذْ أَمَرْتُكَ ۖ قَالَ أَنَا۠ خَيْرٌۭ مِّنْهُ خَلَقْتَنِى مِن نَّارٍۢ وَخَلَقْتَهُۥ مِن طِينٍۢ",
+      "source_artifact": "atom:quran:quran:7:12",
+      "anchor": {
+        "atom_id": "quran:7:12",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"What prevented you (O <I>Iblîs</I>) that you did not prostrate, w"
+    },
+    {
+      "hash": "b92f7158a4f7227efd14ca32e819dc15c9ef7780c1f7b0a64027a57282d71ebf",
+      "skeleton_hash": "7e54a0b21724ca3df565c5f580f292f47ea6efb6abfb5497a3fca0b22d3fcfa1",
+      "nfc_text": "قَالَ فَٱهْبِطْ مِنْهَا فَمَا يَكُونُ لَكَ أَن تَتَكَبَّرَ فِيهَا فَٱخْرُجْ إِنَّكَ مِنَ ٱلصَّغِرِينَ",
+      "source_artifact": "atom:quran:quran:7:13",
+      "anchor": {
+        "atom_id": "quran:7:13",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"(O <I>Iblîs</I>) get down from this (Paradise), it is not for you"
+    },
+    {
+      "hash": "b0f6397bd2385fd04579e96ec16170c6e6c572d2c777b012936658e1419037f8",
+      "skeleton_hash": "0ec8f166cb090a23af21112ffa0c1f6ee1a143bf4b703b87cf7d8513c097e692",
+      "nfc_text": "قَالَ أَنظِرْنِىٓ إِلَىٰ يَوْمِ يُبْعَثُونَ",
+      "source_artifact": "atom:quran:quran:7:14",
+      "anchor": {
+        "atom_id": "quran:7:14",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(<I>Iblîs</I>) said: \"Allow me respite till the Day they are raised up (i.e. the"
+    },
+    {
+      "hash": "c265b6a68eaaa597504997b378d60e53af014e89cd3f9387e7c3325e1385d6f7",
+      "skeleton_hash": "c4b18f346a0ec013d112f756495c1d13132308e16e5380b12a765314dfa7e5a2",
+      "nfc_text": "قَالَ إِنَّكَ مِنَ ٱلْمُنظَرِينَ",
+      "source_artifact": "atom:quran:quran:7:15",
+      "anchor": {
+        "atom_id": "quran:7:15",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"You are of those allowed respite.\""
+    },
+    {
+      "hash": "ad97f915ba72709d96cd37177410255cd9def86cddc0cda7e92603ce7b8782e8",
+      "skeleton_hash": "0a52df5fb2e45fa7bc42bb9113e3884eb0f411e5be670347676176d394a4f722",
+      "nfc_text": "قَالَ فَبِمَآ أَغْوَيْتَنِى لَأَقْعُدَنَّ لَهُمْ صِرَطَكَ ٱلْمُسْتَقِيمَ",
+      "source_artifact": "atom:quran:quran:7:16",
+      "anchor": {
+        "atom_id": "quran:7:16",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(<I>Iblîs</I>) said: \"Because You have sent me astray, surely I will sit in wait"
+    },
+    {
+      "hash": "2589c9065474c47dced2b8ee50b2815a09d52c18a704078502d6918f257d1f23",
+      "skeleton_hash": "76b6ec3c6087b51a5652eaf1c24a747edc5ac945d5f3b6a17b2d23a1237b4c75",
+      "nfc_text": "ثُمَّ لَآتِيَنَّهُم مِّنۢ بَيْنِ أَيْدِيهِمْ وَمِنْ خَلْفِهِمْ وَعَنْ أَيْمَنِهِمْ وَعَن شَمَآئِلِهِمْ ۖ وَلَا تَجِدُ أَكْثَرَهُمْ شَكِرِينَ",
+      "source_artifact": "atom:quran:quran:7:17",
+      "anchor": {
+        "atom_id": "quran:7:17",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Then I will come to them from before them and behind them, from their right and "
+    },
+    {
+      "hash": "c41a9300036dab771275c28ae118e6b9675c12961522e0efefb29d740cd31048",
+      "skeleton_hash": "6533b506c834906f2820ab881d4bdb3fe34cb4993f1925da36959c31a885683f",
+      "nfc_text": "قَالَ ٱخْرُجْ مِنْهَا مَذْءُومًۭا مَّدْحُورًۭا ۖ لَّمَن تَبِعَكَ مِنْهُمْ لَأَمْلَأَنَّ جَهَنَّمَ مِنكُمْ أَجْمَعِينَ",
+      "source_artifact": "atom:quran:quran:7:18",
+      "anchor": {
+        "atom_id": "quran:7:18",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said (to <I>Iblîs</I>) \"Get out from this (Paradise) disgraced and expel"
+    },
+    {
+      "hash": "9cd3657968a8278fa1a0ceee6c763df5ef776a807a18cdf27970301a1cce7f0a",
+      "skeleton_hash": "a05aea8ea5f33f9b871692d96a540a47c53e7c17865cac576f6cd09f89799030",
+      "nfc_text": "فَوَسْوَسَ لَهُمَا ٱلشَّيْطَنُ لِيُبْدِىَ لَهُمَا مَا وُۥرِىَ عَنْهُمَا مِن سَوْءَتِهِمَا وَقَالَ مَا نَهَىٰكُمَا رَبُّكُمَا عَنْ هَذِهِ ٱلشَّجَرَةِ إِلَّآ أَن تَكُونَا مَلَكَيْنِ أَوْ تَكُونَا مِنَ ٱلْخَلِدِينَ",
+      "source_artifact": "atom:quran:quran:7:20",
+      "anchor": {
+        "atom_id": "quran:7:20",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Then <I>Shaitan</I> (Satan) whispered suggestions to them both in order to uncov"
+    },
+    {
+      "hash": "70038adf33913c17afb5447397f71b4c9b3a5edd89f9dba01228953a589f1d1a",
+      "skeleton_hash": "526b8d9a2a5e67aa5e32c615529c0a89891c755701b2d2ec600c51262d368443",
+      "nfc_text": "وَقَاسَمَهُمَآ إِنِّى لَكُمَا لَمِنَ ٱلنَّصِحِينَ",
+      "source_artifact": "atom:quran:quran:7:21",
+      "anchor": {
+        "atom_id": "quran:7:21",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And he [<I>Shaitan</I> (Satan)] swore by Allah to them both (saying): \"Verily, I"
+    },
+    {
+      "hash": "c38de0755f2b57bb3c140cd39aab8f6f9ce6a08ac460101202f61d63b3cca7f6",
+      "skeleton_hash": "3d58e3b6df5e6c0922089f4c126666c478b3b82924c47dd8f4e81d7f6fdb89ae",
+      "nfc_text": "فَدَلَّىٰهُمَا بِغُرُورٍۢ ۚ فَلَمَّا ذَاقَا ٱلشَّجَرَةَ بَدَتْ لَهُمَا سَوْءَتُهُمَا وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِن وَرَقِ ٱلْجَنَّةِ ۖ وَنَادَىٰهُمَا رَبُّهُمَآ أَلَمْ أَنْهَكُمَا عَن تِلْكُمَا ٱلشَّجَرَةِ وَأَقُل لَّكُمَآ إِنَّ ٱلشَّيْطَنَ لَكُمَا عَدُوٌّۭ مُّبِينٌۭ",
+      "source_artifact": "atom:quran:quran:7:22",
+      "anchor": {
+        "atom_id": "quran:7:22",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "So he misled them with deception.&nbsp;Then when they tasted of the tree, that w"
+    },
+    {
+      "hash": "24ca1f9c4b3fa2f58cc77fb857282da7371ee9c79743a0f1baa333e9c80b1607",
+      "skeleton_hash": "cf52884ed3cc66f4a818f3eb1575ad89f95132d2663c3cba82b37a8f1539b8df",
+      "nfc_text": "قَالَا رَبَّنَا ظَلَمْنَآ أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ ٱلْخَسِرِينَ",
+      "source_artifact": "atom:quran:quran:7:23",
+      "anchor": {
+        "atom_id": "quran:7:23",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "They said: \"Our Lord! We have wronged ourselves.&nbsp;If You forgive us not, and"
+    },
+    {
+      "hash": "7becf70495a316ce450802aace5e8f41d521ce047c9781c42c4397500931b95b",
+      "skeleton_hash": "e743e4488931956ba18ca9a97a6006c7825a1e85db6df039677bd1e6e1ccf778",
+      "nfc_text": "قَالَ ٱهْبِطُوا۟ بَعْضُكُمْ لِبَعْضٍ عَدُوٌّۭ ۖ وَلَكُمْ فِى ٱلْأَرْضِ مُسْتَقَرٌّۭ وَمَتَعٌ إِلَىٰ حِينٍۢ",
+      "source_artifact": "atom:quran:quran:7:24",
+      "anchor": {
+        "atom_id": "quran:7:24",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"Get down, one of you an enemy to the other [i.e.&nbsp;Adam, Hawwa"
+    },
+    {
+      "hash": "c847c4de790d45f751bfed4c7bdefdd79872f4631bb366ac2e8893d78e1b93f3",
+      "skeleton_hash": "8c78dfc89ebdc917592f3a9e1ecc92325ce2d837592bbca911526355ad9aa587",
+      "nfc_text": "قَالَ فِيهَا تَحْيَوْنَ وَفِيهَا تَمُوتُونَ وَمِنْهَا تُخْرَجُونَ",
+      "source_artifact": "atom:quran:quran:7:25",
+      "anchor": {
+        "atom_id": "quran:7:25",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He said: \"Therein you shall live, and therein you shall die, and from it you sha"
+    },
+    {
+      "hash": "a16da99f9208abf0462f1d26309b0597cabc840bddbf51d646cf68fa5864b728",
+      "skeleton_hash": "f2283416906c5cd2f29ebf84ca5aba4636d9b59c96069ba0788e1d372fcdf8dc",
+      "nfc_text": "ٱتَّخَذُوٓا۟ أَحْبَارَهُمْ وَرُهْبَنَهُمْ أَرْبَابًۭا مِّن دُونِ ٱللَّهِ وَٱلْمَسِيحَ ٱبْنَ مَرْيَمَ وَمَآ أُمِرُوٓا۟ إِلَّا لِيَعْبُدُوٓا۟ إِلَهًۭا وَحِدًۭا ۖ لَّآ إِلَهَ إِلَّا هُوَ ۚ سُبْحَنَهُۥ عَمَّا يُشْرِكُونَ",
+      "source_artifact": "atom:quran:quran:9:31",
+      "anchor": {
+        "atom_id": "quran:9:31",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "They (Jews and Christians) took their rabbis and their monks to be their lords b"
+    },
+    {
+      "hash": "78f51c06b243c11d3f9637faa1928e82a5c6b913de27c31a11e87ef37cde43de",
+      "skeleton_hash": "66bd7f922e3e924f386cf01aaf3b6d64e167a579a42d654424b75784a0bc7931",
+      "nfc_text": "قَالَ يَنُوحُ إِنَّهُۥ لَيْسَ مِنْ أَهْلِكَ ۖ إِنَّهُۥ عَمَلٌ غَيْرُ صَلِحٍۢ ۖ فَلَا تَسْـَٔلْنِ مَا لَيْسَ لَكَ بِهِۦ عِلْمٌ ۖ إِنِّىٓ أَعِظُكَ أَن تَكُونَ مِنَ ٱلْجَهِلِينَ",
+      "source_artifact": "atom:quran:quran:11:46",
+      "anchor": {
+        "atom_id": "quran:11:46",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He said: \"O Nuh (Noah)! Surely, he is not of your family; verily, his work is un"
+    },
+    {
+      "hash": "1da51d342ba3b0ceba2f0279d769338fc8e8a7c16b3eefb35a299ff326e07686",
+      "skeleton_hash": "759726ce2d99d82a4f3b9e12470ccd2092ba59ff0ab96499247a5283bdbf1a6f",
+      "nfc_text": "يَبَنِىَّ ٱذْهَبُوا۟ فَتَحَسَّسُوا۟ مِن يُوسُفَ وَأَخِيهِ وَلَا تَا۟يْـَٔسُوا۟ مِن رَّوْحِ ٱللَّهِ ۖ إِنَّهُۥ لَا يَا۟يْـَٔسُ مِن رَّوْحِ ٱللَّهِ إِلَّا ٱلْقَوْمُ ٱلْكَفِرُونَ",
+      "source_artifact": "atom:quran:quran:12:87",
+      "anchor": {
+        "atom_id": "quran:12:87",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"O my sons! Go you and enquire about Yusuf (Joseph) and his brother, and never g"
+    },
+    {
+      "hash": "18883af0a60d4f50669bd2165996d00c730b67a1654134dd9820f71f40ccc617",
+      "skeleton_hash": "162b6f45469139e4069f8a8c1acb4eb0b09e748e8f00b575ba065b94e2982713",
+      "nfc_text": "وَقَالَ ٱلشَّيْطَنُ لَمَّا قُضِىَ ٱلْأَمْرُ إِنَّ ٱللَّهَ وَعَدَكُمْ وَعْدَ ٱلْحَقِّ وَوَعَدتُّكُمْ فَأَخْلَفْتُكُمْ ۖ وَمَا كَانَ لِىَ عَلَيْكُم مِّن سُلْطَنٍ إِلَّآ أَن دَعَوْتُكُمْ فَٱسْتَجَبْتُمْ لِى ۖ فَلَا تَلُومُونِى وَلُومُوٓا۟ أَنفُسَكُم ۖ مَّآ أَنَا۠ بِمُصْرِخِكُمْ وَمَآ أَنتُم بِمُصْرِخِىَّ ۖ إِنِّى كَفَرْتُ بِمَآ أَشْرَكْتُمُونِ مِن قَبْلُ ۗ إِنَّ ٱلظَّلِمِينَ لَهُمْ عَذَابٌ أَلِيمٌۭ",
+      "source_artifact": "atom:quran:quran:14:22",
+      "anchor": {
+        "atom_id": "quran:14:22",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And <I>Shaitan</I> (Satan) will say when the matter has been decided: \"Verily, A"
+    },
+    {
+      "hash": "7fe5e2301f81dec92f921993c5e473d06b38d6dd26c1053139f98ba3d1f4df50",
+      "skeleton_hash": "996739208665a4dbf2c100357a4250f837fbb35c909a4a756e74427fd17c3220",
+      "nfc_text": "فَإِذَا سَوَّيْتُهُۥ وَنَفَخْتُ فِيهِ مِن رُّوحِى فَقَعُوا۟ لَهُۥ سَجِدِينَ",
+      "source_artifact": "atom:quran:quran:15:29",
+      "anchor": {
+        "atom_id": "quran:15:29",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"So, when I have fashioned him completely and breathed into him (Adam) the soul "
+    },
+    {
+      "hash": "e7cc4adaa638d33415bcaeefb7eeecf2806b26fa1796ad7ce327af7040910803",
+      "skeleton_hash": "2bf595ed377a27e47456d916219650857a7cee1726c5d8e10333bb5db75a5fa7",
+      "nfc_text": "قَالَ رَبِّ فَأَنظِرْنِىٓ إِلَىٰ يَوْمِ يُبْعَثُونَ",
+      "source_artifact": "atom:quran:quran:15:36",
+      "anchor": {
+        "atom_id": "quran:15:36",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "[<I>Iblîs </I>(Satan)] said: \"O my Lord! Give me then respite till the Day they "
+    },
+    {
+      "hash": "24a139a271c589e8ab13793a8011ed4b1ec741e2edd3cd7d9ef6fc99d0e6cce8",
+      "skeleton_hash": "28ecaa19638ad34fde4f84fb51e6e038bb5a33e458446aa461f6a32ae22e4d47",
+      "nfc_text": "قَالَ فَإِنَّكَ مِنَ ٱلْمُنظَرِينَ",
+      "source_artifact": "atom:quran:quran:15:37",
+      "anchor": {
+        "atom_id": "quran:15:37",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Allah said: \"Then, verily, you are of those reprieved,"
+    },
+    {
+      "hash": "ed860cfd3749d7c7ba6f1cff8c99eb8f4fd2d83cde0bb829de851da2bdc743d9",
+      "skeleton_hash": "e627241727467a270766e56d60d5717eda5f55b19624885311dd006caa167881",
+      "nfc_text": "إِلَىٰ يَوْمِ ٱلْوَقْتِ ٱلْمَعْلُومِ",
+      "source_artifact": "atom:quran:quran:15:38",
+      "anchor": {
+        "atom_id": "quran:15:38",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Till the Day of the time appointed.\""
+    },
+    {
+      "hash": "91b323f8c93b309355312fa960bb6fea8f94b79aa28159164915907c73ad70cb",
+      "skeleton_hash": "3f4c00334555338c8f70a6f2978a6dc9df3bd64787e8bcc9835baa7e80ff0b60",
+      "nfc_text": "قَالَ رَبِّ بِمَآ أَغْوَيْتَنِى لَأُزَيِّنَنَّ لَهُمْ فِى ٱلْأَرْضِ وَلَأُغْوِيَنَّهُمْ أَجْمَعِينَ",
+      "source_artifact": "atom:quran:quran:15:39",
+      "anchor": {
+        "atom_id": "quran:15:39",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "[<I>Iblîs </I>(Satan)] said: \"O my Lord! Because you misled me, I shall indeed a"
+    },
+    {
+      "hash": "71db845665aa2f5ca31bfab3032392bffd4cd4a4d6912069a954cea1b267ecd0",
+      "skeleton_hash": "c04ff0cf0ff189e39ff4218b2ea0d6c2b3db6c50b26e2aa9a152cd5261bcaa15",
+      "nfc_text": "إِلَّا عِبَادَكَ مِنْهُمُ ٱلْمُخْلَصِينَ",
+      "source_artifact": "atom:quran:quran:15:40",
+      "anchor": {
+        "atom_id": "quran:15:40",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Except Your chosen, (guided) slaves among them.\""
+    },
+    {
+      "hash": "2f5a27ba867f31daeb76a5c9b7779b4bf07a4cceddf051d227d390ba71b09a61",
+      "skeleton_hash": "94167d63f35db04f0ca0ea13800349cfa531df87d4f3c3f05613526fe7196871",
+      "nfc_text": "قَالَ هَذَا صِرَطٌ عَلَىَّ مُسْتَقِيمٌ",
+      "source_artifact": "atom:quran:quran:15:41",
+      "anchor": {
+        "atom_id": "quran:15:41",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"This is the Way which will lead straight to Me.\""
+    },
+    {
+      "hash": "9ca1454524da1cf0532d95f985683188a30810fcc4b0af5ae41a3b76c9cecb2e",
+      "skeleton_hash": "2b30e54d6732c51cb626fb494bc3992a6d261ed24eeb8984da76c439800250ec",
+      "nfc_text": "إِنَّ عِبَادِى لَيْسَ لَكَ عَلَيْهِمْ سُلْطَنٌ إِلَّا مَنِ ٱتَّبَعَكَ مِنَ ٱلْغَاوِينَ",
+      "source_artifact": "atom:quran:quran:15:42",
+      "anchor": {
+        "atom_id": "quran:15:42",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Certainly, you shall have no authority over My slaves, except those who follow "
+    },
+    {
+      "hash": "26c4712fb17389ddf9b2c9459831579941952f6bdc03ab3d438a09cf9017f3d2",
+      "skeleton_hash": "0dac3d4b1f97b827f323834f7197f19ac43079925ec539087a37efd3ebb0775c",
+      "nfc_text": "لَا يَمَسُّهُمْ فِيهَا نَصَبٌۭ وَمَا هُم مِّنْهَا بِمُخْرَجِينَ",
+      "source_artifact": "atom:quran:quran:15:48",
+      "anchor": {
+        "atom_id": "quran:15:48",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"No sense of fatigue shall touch them, nor shall they (ever) be asked to leave i"
+    },
+    {
+      "hash": "593c393f81c31a031b915165b204d6b108e6c4c3a343706ef920cf4dbfdb998d",
+      "skeleton_hash": "ea321afa1c960aac0e5555fd1c0d0ddbec4f803ff662bfad0631d43c42e15c56",
+      "nfc_text": "قَالَ وَمَن يَقْنَطُ مِن رَّحْمَةِ رَبِّهِۦٓ إِلَّا ٱلضَّآلُّونَ",
+      "source_artifact": "atom:quran:quran:15:56",
+      "anchor": {
+        "atom_id": "quran:15:56",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "[Ibrahim (Abraham)] said: \"And who despairs of the Mercy of his Lord except thos"
+    },
+    {
+      "hash": "14ba017171eae6a447fb6f74b7cace7d05490042e32c1d84400faf5d10014488",
+      "skeleton_hash": "5f59ab64feb67030e1fda0cb10eaa7122acac8a1397459ad2baf882362c5bbbf",
+      "nfc_text": "قَالَ أَرَءَيْتَكَ هَذَا ٱلَّذِى كَرَّمْتَ عَلَىَّ لَىِٕنْ أَخَّرْتَنِ إِلَىٰ يَوْمِ ٱلْقِيَمَةِ لَأَحْتَنِكَنَّ ذُرِّيَّتَهُۥٓ إِلَّا قَلِيلًۭا",
+      "source_artifact": "atom:quran:quran:17:62",
+      "anchor": {
+        "atom_id": "quran:17:62",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "[<I>Iblîs</I> (Satan)] said: \"See? This one whom You have honoured above me, if "
+    },
+    {
+      "hash": "53f8120846f556e96516624d7280a6766312c851399dc15c15dbb229b606b7e7",
+      "skeleton_hash": "32722fb3aede498d7c8e97964b0d53ceeec3df80aa95554f27d5445a52454269",
+      "nfc_text": "قَالَ ٱذْهَبْ فَمَن تَبِعَكَ مِنْهُمْ فَإِنَّ جَهَنَّمَ جَزَآؤُكُمْ جَزَآءًۭ مَّوْفُورًۭا",
+      "source_artifact": "atom:quran:quran:17:63",
+      "anchor": {
+        "atom_id": "quran:17:63",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"Go, and whosoever of them follows you, surely! Hell will be the r"
+    },
+    {
+      "hash": "9f11cb36ff3babecf0a627df0665cdc2d2a14b8d8d27de3b971cbcb8f84510b0",
+      "skeleton_hash": "e35249907aa3798cdc62bede0539818223abcaec1e1b53bd3f40a7984f8d233f",
+      "nfc_text": "وَٱسْتَفْزِزْ مَنِ ٱسْتَطَعْتَ مِنْهُم بِصَوْتِكَ وَأَجْلِبْ عَلَيْهِم بِخَيْلِكَ وَرَجِلِكَ وَشَارِكْهُمْ فِى ٱلْأَمْوَلِ وَٱلْأَوْلَدِ وَعِدْهُمْ ۚ وَمَا يَعِدُهُمُ ٱلشَّيْطَنُ إِلَّا غُرُورًا",
+      "source_artifact": "atom:quran:quran:17:64",
+      "anchor": {
+        "atom_id": "quran:17:64",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"And <I>Istafziz</I> [literally means: befool them gradually] those whom you can"
+    },
+    {
+      "hash": "0ac8174e26acefea6ab7f9a14239553c5979c9d0ac9ebdf91c6df4100f00a689",
+      "skeleton_hash": "561ef8d7ced66e9d1b7c5fc78c7b827bbf881dbee2ae8a2bcb5fae4cee15de83",
+      "nfc_text": "إِنَّ عِبَادِى لَيْسَ لَكَ عَلَيْهِمْ سُلْطَنٌۭ ۚ وَكَفَىٰ بِرَبِّكَ وَكِيلًۭا",
+      "source_artifact": "atom:quran:quran:17:65",
+      "anchor": {
+        "atom_id": "quran:17:65",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Verily! My slaves (i.e the true believers of Islamic Monotheism), you have no a"
+    },
+    {
+      "hash": "a2ad9c82d78145bc5e69e8fdf006946d3a129b88cdf78d65091955f6078710a1",
+      "skeleton_hash": "d842033857988a1d0a6ac396c1807c39971a6983de11757570b711aa68c26980",
+      "nfc_text": "فَوَسْوَسَ إِلَيْهِ ٱلشَّيْطَنُ قَالَ يَٓـَٔادَمُ هَلْ أَدُلُّكَ عَلَىٰ شَجَرَةِ ٱلْخُلْدِ وَمُلْكٍۢ لَّا يَبْلَىٰ",
+      "source_artifact": "atom:quran:quran:20:120",
+      "anchor": {
+        "atom_id": "quran:20:120",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Then <I>Shaitan</I> (Satan) whispered to him, saying : \"O Adam! Shall I lead you"
+    },
+    {
+      "hash": "968457c34c4a4a4e25bfc1a6f069757c05c25271453a0254874b75d663370263",
+      "skeleton_hash": "1149312f82e1a323c75565c8eb2922b0814a9881cf1f1cb94aaaf2596270f4de",
+      "nfc_text": "أَفَحَسِبْتُمْ أَنَّمَا خَلَقْنَكُمْ عَبَثًۭا وَأَنَّكُمْ إِلَيْنَا لَا تُرْجَعُونَ",
+      "source_artifact": "atom:quran:quran:23:115",
+      "anchor": {
+        "atom_id": "quran:23:115",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "\"Did you think that We had created you in play (without any purpose), and that y"
+    },
+    {
+      "hash": "9f48ecf9a21c0c06d976f6e2923b8991e4b16996d342dc8d12f44a0237e31683",
+      "skeleton_hash": "8cd29f5f7b997f166e14c1a74b8f626092e1f4eafe658d5cf46a649a7a996079",
+      "nfc_text": "أَلَمْ أَعْهَدْ إِلَيْكُمْ يَبَنِىٓ آدَمَ أَن لَّا تَعْبُدُوا۟ ٱلشَّيْطَنَ ۖ إِنَّهُۥ لَكُمْ عَدُوٌّۭ مُّبِينٌۭ",
+      "source_artifact": "atom:quran:quran:36:60",
+      "anchor": {
+        "atom_id": "quran:36:60",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "Did I not ordain for you, O Children of Adam, that you should not worship <I>Sha"
+    },
+    {
+      "hash": "6994416231d707617d6f483f63582eccdd124616a16839cbe155f768a3ea25d6",
+      "skeleton_hash": "1c1c4a93087f04b6a750d6709aa1039c417c7de82c078e01d7c08c877ff00442",
+      "nfc_text": "إِذْ قَالَ رَبُّكَ لِلْمَلَٓئِكَةِ إِنِّى خَلِقٌۢ بَشَرًۭا مِّن طِينٍۢ",
+      "source_artifact": "atom:quran:quran:38:71",
+      "anchor": {
+        "atom_id": "quran:38:71",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Remember) when your Lord said to the angels: \"Truly, I am going to create man f"
+    },
+    {
+      "hash": "0a6ee748a2086e2f46022c64436c00ea9709baeac9ddb84e46df0fe1ae0d2269",
+      "skeleton_hash": "fc0ce451dc436288aeb61d849dc96b4c02c0dc3f95489d3491576b4b27a3a9e9",
+      "nfc_text": "قَالَ يَٓإِبْلِيسُ مَا مَنَعَكَ أَن تَسْجُدَ لِمَا خَلَقْتُ بِيَدَىَّ ۖ أَسْتَكْبَرْتَ أَمْ كُنتَ مِنَ ٱلْعَالِينَ",
+      "source_artifact": "atom:quran:quran:38:75",
+      "anchor": {
+        "atom_id": "quran:38:75",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "(Allah) said: \"O <I>Iblîs </I>(Satan)! What prevents you from prostrating yourse"
+    },
+    {
+      "hash": "1c73cf97d2044831aec5be3bfad7de61d086bd12052a4c26afc03f3800e72488",
+      "skeleton_hash": "f340cb870459f1e72f424d1ae2e0ecc2d73f291a79478247967e56ee60c1cd27",
+      "nfc_text": "وَلَمَّا ضُرِبَ ٱبْنُ مَرْيَمَ مَثَلًا إِذَا قَوْمُكَ مِنْهُ يَصِدُّونَ",
+      "source_artifact": "atom:quran:quran:43:57",
+      "anchor": {
+        "atom_id": "quran:43:57",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And when the son of Maryam (Mary) is quoted as an example [i.e. 'Iesa (Jesus) is"
+    },
+    {
+      "hash": "4fddb0d4b5080ff8cb2ca6893bd774f31ded420019f6fff8009cc198ff41b267",
+      "skeleton_hash": "49a4c7fb74ccf9570629a417796f44e0e1673fb433308a3ffa821694917bef4e",
+      "nfc_text": "وَقَالُوٓا۟ ءَأَلِهَتُنَا خَيْرٌ أَمْ هُوَ ۚ مَا ضَرَبُوهُ لَكَ إِلَّا جَدَلًۢا ۚ بَلْ هُمْ قَوْمٌ خَصِمُونَ",
+      "source_artifact": "atom:quran:quran:43:58",
+      "anchor": {
+        "atom_id": "quran:43:58",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "And say: \"Are our <I>aliha</I> (gods) better or is he ['Iesa (Jesus)]?\" They quo"
+    },
+    {
+      "hash": "2ec43af9c3a06fbffd8116a8dd8f7c4bfb8d139ab14dcce3538359b4962eb4ba",
+      "skeleton_hash": "ae1d1c0a62b2057921cca3449d6fe30d2a591cccdaff8640c5c7b9219de2cf7d",
+      "nfc_text": "إِنْ هُوَ إِلَّا عَبْدٌ أَنْعَمْنَا عَلَيْهِ وَجَعَلْنَهُ مَثَلًۭا لِّبَنِىٓ إِسْرَٓءِيلَ",
+      "source_artifact": "atom:quran:quran:43:59",
+      "anchor": {
+        "atom_id": "quran:43:59",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "He ['Iesa (Jesus)] was not more than a slave. We granted Our Favour to him, and "
+    },
+    {
+      "hash": "3d378a929fc32d009594fef57673a2dae43c98d8f438aa49c28aff09a8c2fb0d",
+      "skeleton_hash": "03611c90130e45bd6a08d1130ea0c4bc1c1fbdcac5c4516cf5cc2ba2482a889e",
+      "nfc_text": "ٱسْتَحْوَذَ عَلَيْهِمُ ٱلشَّيْطَنُ فَأَنسَىٰهُمْ ذِكْرَ ٱللَّهِ ۚ أُو۟لَٓئِكَ حِزْبُ ٱلشَّيْطَنِ ۚ أَلَآ إِنَّ حِزْبَ ٱلشَّيْطَنِ هُمُ ٱلْخَسِرُونَ",
+      "source_artifact": "atom:quran:quran:58:19",
+      "anchor": {
+        "atom_id": "quran:58:19",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "&nbsp;<I>Shaitan</I> (Satan) has overtaken them. So he has made them forget the "
+    },
+    {
+      "hash": "b48f42b5c05ec05a525347b80c0aa4ea75063eebcc96e434cba688bc1841fd9d",
+      "skeleton_hash": "15fa1c21dbe0fd46771f608522dffe763d7be6176d0af6efd965513462219aef",
+      "nfc_text": "لَّا تَجِدُ قَوْمًۭا يُؤْمِنُونَ بِٱللَّهِ وَٱلْيَوْمِ ٱلْآخِرِ يُوَآدُّونَ مَنْ حَآدَّ ٱللَّهَ وَرَسُولَهُۥ وَلَوْ كَانُوٓا۟ آبَآءَهُمْ أَوْ أَبْنَآءَهُمْ أَوْ إِخْوَنَهُمْ أَوْ عَشِيرَتَهُمْ ۚ أُو۟لَٓئِكَ كَتَبَ فِى قُلُوبِهِمُ ٱلْإِيمَنَ وَأَيَّدَهُم بِرُوحٍۢ مِّنْهُ ۖ وَيُدْخِلُهُمْ جَنَّتٍۢ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَرُ خَلِدِينَ فِيهَا ۚ رَضِىَ ٱللَّهُ عَنْهُمْ وَرَضُوا۟ عَنْهُ ۚ أُو۟لَٓئِكَ حِزْبُ ٱللَّهِ ۚ أَلَآ إِنَّ حِزْبَ ٱللَّهِ هُمُ ٱلْمُفْلِحُونَ",
+      "source_artifact": "atom:quran:quran:58:22",
+      "anchor": {
+        "atom_id": "quran:58:22",
+        "atom_type": "quran"
+      },
+      "provenance": "canonical-quran",
+      "context_excerpt": "You (O Muhammad <TT>PBUH</TT>) will not find any people who believe in Allah and"
+    }
+  ],
+  "by_hash": {
+    "3bddef417802fb2677a771032731bf617e85a6c020b86cfab812a99f99d93f41": 1,
+    "188405869685b46d89d9b6961220579c4ab2288b91b87b2bdadec93cb515dcac": 1,
+    "d7c812c43674a06d54719bb0703ec13a4d2aadd9964be2df47a30a23d0800041": 1,
+    "b29067e39ef695d972cd07527b79e6f47c75f6bf375ced8bb0e3b53c6846cd68": 1,
+    "ba67ab07dd2f4903e03ecfb4e3859d374e2d8c2c65d68d5adb1ac0a0dca66a84": 1,
+    "7627960258073e27348d2d6951548fb593ae7954bfac6897240d1f6882efaf94": 1,
+    "11bdf4a33eef3fb73733029602b3e88b7162147fc2ee58937e6856478b66b5bc": 1,
+    "2747cec30cb789d81cf5246cfdb39813fa56e2475d805dc2c86c163aedc3160a": 1,
+    "7b5584adbf8ea8fac9959769bcae1574140e1bb479eba39280edc7f56a33074b": 1,
+    "29b41d33ed1c2b62cbd1b347c437e494ebef297cf59ad05e4850f0894ba48a1f": 1,
+    "39304a77bc2da96e52f63c15219e48e6779d5591d17c14c4b728d2332cae9e5c": 1,
+    "d36800b6067edcaf841a830a3a7f0d6ad7069124dda3eff721e8d12952822651": 1,
+    "faa0948237ce86711d0d7e3787bdf5500a0dfaed9527a1b41796e33a946cb2b5": 2,
+    "29bc64aafce79e5c66860c5f81267901b34da95d04ddeb66002d6963a4cd89e2": 1,
+    "8227f914c5b9894e7186844d5d73dca36d97b675289b534de231e7a9ce5b92aa": 1,
+    "3fae4fb47d8931a8f0f7b63fad30f83f511784ad5efaa245b886230e01839152": 1,
+    "6c89ca1a3f0ce15326087f9e05d46520488d49ab0c98bdbe3666360df2bfaf0e": 1,
+    "4906420a277ea39f578efe12a19e61e24ee78378b930dff36596927cf1ad3f84": 1,
+    "00451ae0a8ed181fdd21a81bd72073dc535321ebe06a6624ce9935ac70399b74": 1,
+    "a4fb96c296bff3bc730b25dfea4f9ba090f116c589b1386de381ca1f584274eb": 1,
+    "7f6ac7d74f21b0fc2161e4120eeb48f64da0163a36581870b6037bb7cc80ccf5": 1,
+    "a5d1eb382ec7deccd866e156f05e7365ca0d82eb6a5324d25b95668f5e17b64e": 1,
+    "567247b37b5990260224784e31f3f4e07c59b17ee597a228a70ffe52226a573e": 1,
+    "4af6b4bd11ed0ae38aeca2ad29b09a9183afd75a09032f0f7b2151d00c8ea7b6": 1,
+    "862e82e4b6195407318aceb7f1d9fc511ce5849703cafcc4dd16417f0215bee5": 1,
+    "7620d33835a22637a6fb623e9a486c9b8d5f39215cd8b4f60dc1744343576574": 1,
+    "1adc8f39fb31ee73c453e880f6807e544606e04c6225569859031cb6738d507a": 1,
+    "64925bea9bc6ecd45db6af1e76dd5a718caf044d7a41eed52ee2a3f393a3943d": 1,
+    "214e640fed512d921b24e70b71c351b4637f7047c1c02bcd1aa12e42b9166e88": 1,
+    "c1a70841aa61490cdfa31e67c3ed25f3efc124da0f90ea93e0b9121746767542": 1,
+    "81510f0794277e1808d2d4ca77f178c06a718b69263af94a177a3d32488d8118": 1,
+    "741dc9c19bd9a13ae6d4fdd6bfc47f6550daf4ef8e8eb1d3665bc4de1cf72132": 1,
+    "a996312027ef039090ac21ef24dd499c3ce08a86cef63532371b6a394e0e56fb": 1,
+    "f9ce473db74886ffb37f52ae7d1011e197f59303ee8d94bc177fa625137b1e0e": 1,
+    "f65d19c6ce019b42aea062ffa06a24fd1056d00f1ded66bd51bf8c56d249ea44": 1,
+    "43d8bda2511584aa118a6ea37f9d7b302dd5252efd915676932342284fd839d4": 1,
+    "fc84ad881e6c3c779602582c826e5196dfe3bcb4edab9b75d4f3a510233da9a6": 1,
+    "565d7fad0b1355a6e4e928f48ad5d4a7445b4a54b383befe1f2c20a33b70da75": 1,
+    "5daaabf5fed4d7f2a54e7f5cd4b4a54da5948ffbcc623d44c5be2bd3d21c149b": 1,
+    "9e7ad844a3d8891e4803d5d3a6c432af0d228e79b072ff4ded748a7065803d26": 1,
+    "44a86438bb33d8b88f478b715d654171d2947e59b36118594037990342f224e9": 1,
+    "291730790d897ad7e30da4bc2fd000ddeb1ba3de35cc925d2550cae612f854c2": 1,
+    "52238e9498b2baa5774eaf4ba6889d55b437ce43e858cf833c105bb037a0a978": 1,
+    "ed7ced0a76808862249a549b6ca4430d779c0aa4213e94477227aa0d724c5698": 1,
+    "2b0bf56bc380006530bef37fc0cffbd09b21e5cad423cef95b7678fa355fa931": 1,
+    "700068778788e225a194a6286e69997bf5306252d853c82e16690536f9fb39ac": 1,
+    "fe3b1f5bfcaf72a5599d147789b8cbd19a7abc232fa8d1994adb249cc352dc37": 1,
+    "f3220fee47bcb49ec91518010335d44928009beb11adb4b641c00f22fd8c6166": 1,
+    "e955fef5c19241651985842ecb492cfae257f34d07792bd9e8ce12cf93d6cceb": 1,
+    "b8702861706dce9d650a2b14626b4118798d60b0a49e75949338de66098a8941": 1,
+    "1daf254970ca20d3e5cf2e49ecc8e8e3aea891dd35d9a1c763d18110d24b5c5f": 1,
+    "488dbc41adc9a08289a3de40b2acf8ce5baa2979617ae76322d877cbbd2bc802": 1,
+    "b28fb54507587eeaf65f8ecd16e12e9b6846568afca8360351540035949931c3": 1,
+    "6b10d2dd31fdd36352d1b1101cbb6a0badb229764d4a96d59077469e76850e91": 1,
+    "5f606fcddc26ebddad203471f32e65003596215ffa1293d8e8880e1d1de294e5": 1,
+    "461b6993a3cfc78fb54cc6728befdea376e82596b3ed9692b62a82a4879cb0df": 1,
+    "50c08420112bdd290796f9d07930121ea7f2ce9072f604bcc6f55cceacb08b2f": 1,
+    "8e9b4aaa953b42874bb7cd7536dc17bcfe54688126c76e07093c5f8efb65ff93": 1,
+    "9effd5bc9063ee7111ac66d0a6199503e9c8d7bdd4d5d0d76954a01ecf0719e6": 1,
+    "e52dcdba1b4248c5693eca3bcf7677a7040332c86bae9b596bc7300c3c82cb09": 1,
+    "b2e55c84720dab66aa6be1ff2f30c2ff97cc9749ea4543060fa1b47e9dd3a873": 1,
+    "4992b6dcbfe166c60fc92e4d04e4d22941cffe5065bde65c83422084e4a30c50": 1,
+    "82add524ec842049c4c3d970ca6c932942ff859d6ff3422c56815bdc8762bce7": 1,
+    "61be5a07a3823687eb2f89de274491e35933dd32b8fe94f0c91ccee12ed8aaf4": 1,
+    "018e412aa3a987a949cbf438259e8c6e5aa7a4ee6595de6ffd8150711db65105": 1,
+    "862fcb553d1d3ed30fc0bd6bbdc843d3e2572070161a97e60c2969754ea6c4c5": 1,
+    "dcda7307f90d6fec43fed828b3a51087b0497c37f628106945f91ca6c02807cb": 1,
+    "0845370bf99a1cfa79f1034a14540a3559e5c2fba7dc84f898e3610a4fe02c2a": 1,
+    "7c103f8f0880e65bd6fa2c62a56d8986e8b674e60ba8e57dbfb4c6f83c62bca2": 1,
+    "0f083be6ac662e475001ff9134eafe13018bbb279597bb6dcfabc9e21cdb4be8": 1,
+    "6235d2978fd7ea1f1a4fcce9af27c317ca927e3569c31f65d4e89477595cf6b2": 1,
+    "cb5bd2f11a7179da84870b04ccdaf00faac5ba990a6a0b35350abf7ff973ac80": 1,
+    "25c5571d3d9130dcb9d277f14696f74b4a24ff3d4a3e48c65d382df1efbaf77f": 1,
+    "6b79b3253e8d9478f632b75b301e58fc47d892647e68268b3463287f12003bd2": 1,
+    "d096a275b84c848b3b689e5893c93f1f3443ce511e5e7745bb0ff0ed2a262c6b": 1,
+    "b43b3bc6cd02856ad154a00d979e2edce1e3313d7c4e819731b765099276a020": 1,
+    "3d64dd3990aa4e7f77275315d6c65c29a17f550284367b2b166ea3a526fbb8a7": 1,
+    "16306088fc3cfd6cdad6124e470bfef77bfffeb336fbf14030580acbbe5b95d3": 1,
+    "c2c53a6a6b50cedf4584d81cd66a8bc659986e6d8891b9d6e0e8565196c654c3": 1,
+    "f3feed827de186bbaa4d8a2cd51968c15b3a448f5ed93bf1038b7e4ff6decbff": 1,
+    "3b5341f20243aaa3c70274493dc9939b55951da09bcc4838bad4fc9de1806d4e": 1,
+    "ed67538a7bb6ec96ea2709842530bccd90d15a1878f5d7268a36f8d4aa876eb9": 1,
+    "59798769c95ab482f9dd5297dce0b4ccf894cd44db443f3c0de783f58fb29459": 1,
+    "5e24f6455446f6c8492357a6f4951029bf2c44955a133c010c732a1f72719a5d": 1,
+    "bef620ae96dbdc7fbaab7e983dbf663bcca9b054446a802a73a3e51935cec488": 1,
+    "ce1f81666815ced96208eb6444ea14dbc75dd17da8d4fd2285da154ab10b132d": 1,
+    "6e92a9cc9929c97dfbaf5dd2b5a3d534323e6db9d8eed28e4c77194b67a77fa5": 1,
+    "4364116d8bf20dd9282310f399c37ac16e3ace9ccb64b91145b329a8dee83297": 1,
+    "4bdba16b81c3425a36d9f02648b7d89eb01c0008a77159019e9985432c388068": 1,
+    "d1e077f812a482b307d4b8353ef8563e7cd19662de29e27a4bef15b05d0b57b0": 1,
+    "15ecdcb13d67a19d04e84e6fe5b7df1f1062ad815e9c87a67b53bf580e7bf997": 1,
+    "ed4b2be7f640f0fc18b64941ead22c93afec89c2259ff3e8564d607268f323b0": 1,
+    "d4c0f8b427738f981322db1c110064f56004d87a02bf37bc9b4503dd53c5c6b7": 1,
+    "b92f7158a4f7227efd14ca32e819dc15c9ef7780c1f7b0a64027a57282d71ebf": 1,
+    "b0f6397bd2385fd04579e96ec16170c6e6c572d2c777b012936658e1419037f8": 1,
+    "c265b6a68eaaa597504997b378d60e53af014e89cd3f9387e7c3325e1385d6f7": 1,
+    "ad97f915ba72709d96cd37177410255cd9def86cddc0cda7e92603ce7b8782e8": 1,
+    "2589c9065474c47dced2b8ee50b2815a09d52c18a704078502d6918f257d1f23": 1,
+    "c41a9300036dab771275c28ae118e6b9675c12961522e0efefb29d740cd31048": 1,
+    "9cd3657968a8278fa1a0ceee6c763df5ef776a807a18cdf27970301a1cce7f0a": 1,
+    "70038adf33913c17afb5447397f71b4c9b3a5edd89f9dba01228953a589f1d1a": 1,
+    "c38de0755f2b57bb3c140cd39aab8f6f9ce6a08ac460101202f61d63b3cca7f6": 1,
+    "24ca1f9c4b3fa2f58cc77fb857282da7371ee9c79743a0f1baa333e9c80b1607": 1,
+    "7becf70495a316ce450802aace5e8f41d521ce047c9781c42c4397500931b95b": 1,
+    "c847c4de790d45f751bfed4c7bdefdd79872f4631bb366ac2e8893d78e1b93f3": 1,
+    "a16da99f9208abf0462f1d26309b0597cabc840bddbf51d646cf68fa5864b728": 1,
+    "78f51c06b243c11d3f9637faa1928e82a5c6b913de27c31a11e87ef37cde43de": 1,
+    "1da51d342ba3b0ceba2f0279d769338fc8e8a7c16b3eefb35a299ff326e07686": 1,
+    "18883af0a60d4f50669bd2165996d00c730b67a1654134dd9820f71f40ccc617": 1,
+    "7fe5e2301f81dec92f921993c5e473d06b38d6dd26c1053139f98ba3d1f4df50": 1,
+    "e7cc4adaa638d33415bcaeefb7eeecf2806b26fa1796ad7ce327af7040910803": 1,
+    "24a139a271c589e8ab13793a8011ed4b1ec741e2edd3cd7d9ef6fc99d0e6cce8": 1,
+    "ed860cfd3749d7c7ba6f1cff8c99eb8f4fd2d83cde0bb829de851da2bdc743d9": 1,
+    "91b323f8c93b309355312fa960bb6fea8f94b79aa28159164915907c73ad70cb": 1,
+    "71db845665aa2f5ca31bfab3032392bffd4cd4a4d6912069a954cea1b267ecd0": 1,
+    "2f5a27ba867f31daeb76a5c9b7779b4bf07a4cceddf051d227d390ba71b09a61": 1,
+    "9ca1454524da1cf0532d95f985683188a30810fcc4b0af5ae41a3b76c9cecb2e": 1,
+    "26c4712fb17389ddf9b2c9459831579941952f6bdc03ab3d438a09cf9017f3d2": 1,
+    "593c393f81c31a031b915165b204d6b108e6c4c3a343706ef920cf4dbfdb998d": 1,
+    "14ba017171eae6a447fb6f74b7cace7d05490042e32c1d84400faf5d10014488": 1,
+    "53f8120846f556e96516624d7280a6766312c851399dc15c15dbb229b606b7e7": 1,
+    "9f11cb36ff3babecf0a627df0665cdc2d2a14b8d8d27de3b971cbcb8f84510b0": 1,
+    "0ac8174e26acefea6ab7f9a14239553c5979c9d0ac9ebdf91c6df4100f00a689": 1,
+    "a2ad9c82d78145bc5e69e8fdf006946d3a129b88cdf78d65091955f6078710a1": 1,
+    "968457c34c4a4a4e25bfc1a6f069757c05c25271453a0254874b75d663370263": 1,
+    "9f48ecf9a21c0c06d976f6e2923b8991e4b16996d342dc8d12f44a0237e31683": 1,
+    "6994416231d707617d6f483f63582eccdd124616a16839cbe155f768a3ea25d6": 1,
+    "0a6ee748a2086e2f46022c64436c00ea9709baeac9ddb84e46df0fe1ae0d2269": 1,
+    "1c73cf97d2044831aec5be3bfad7de61d086bd12052a4c26afc03f3800e72488": 1,
+    "4fddb0d4b5080ff8cb2ca6893bd774f31ded420019f6fff8009cc198ff41b267": 1,
+    "2ec43af9c3a06fbffd8116a8dd8f7c4bfb8d139ab14dcce3538359b4962eb4ba": 1,
+    "3d378a929fc32d009594fef57673a2dae43c98d8f438aa49c28aff09a8c2fb0d": 1,
+    "b48f42b5c05ec05a525347b80c0aa4ea75063eebcc96e434cba688bc1841fd9d": 1
+  }
+}

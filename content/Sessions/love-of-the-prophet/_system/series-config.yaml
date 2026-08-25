@@ -1,6 +1,7 @@
 # series-config.yaml — Love Of The Prophet
 # Delivered lecture sessions ingested from KSESSIONS_DEV.
 
+author: Asif Hussain
 content_profile: islamic_session
 
 # The speaker is the author and the transcript records him saying "I", so the

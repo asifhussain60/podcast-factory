@@ -105,7 +105,9 @@ export function WorkCard({
 
   const count = volumes.length;
   const front =
-    frontSlug === null ? null : (volumes.find((v) => v.slug === frontSlug) ?? null);
+    frontSlug === null
+      ? null
+      : (volumes.find((v) => v.slug === frontSlug) ?? null);
   const showPicker = pickerOpen || front === null;
 
   function pickFront(slug: string) {
@@ -114,7 +116,8 @@ export function WorkCard({
     setPickerOpen(false);
   }
 
-  const chipVolumes = count <= CHIP_CAP ? volumes : volumes.slice(0, CHIP_CAP - 1);
+  const chipVolumes =
+    count <= CHIP_CAP ? volumes : volumes.slice(0, CHIP_CAP - 1);
   const overflowCount = count > CHIP_CAP ? count - (CHIP_CAP - 1) : 0;
 
   // The same bucket driving whichever band is currently showing (the picked
@@ -139,7 +142,11 @@ export function WorkCard({
       {showPicker ? (
         <>
           <div className="pf-work-picker">
-            <BookBand title={title} bucket={volumes[0]!.bucket} card={volumes[0]!.card} />
+            <BookBand
+              title={title}
+              bucket={volumes[0]!.bucket}
+              card={volumes[0]!.card}
+            />
             <div className="pf-work-picker__body">
               <h3 className="pf-work-picker__title">{title}</h3>
               {/* Was "{count}-volume set" — purely restated the tag's own
@@ -160,8 +167,12 @@ export function WorkCard({
                         type="button"
                         className={
                           "pf-work-chip" +
-                          (volume.progress != null ? " pf-work-chip--done" : "") +
-                          (volume.slug === front?.slug ? " pf-work-chip--current" : "")
+                          (volume.progress != null
+                            ? " pf-work-chip--done"
+                            : "") +
+                          (volume.slug === front?.slug
+                            ? " pf-work-chip--current"
+                            : "")
                         }
                         aria-label={`Show volume ${i + 1} of ${title}`}
                         onClick={() => pickFront(volume.slug)}

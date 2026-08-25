@@ -9883,6 +9883,16 @@
     margin-top: 0.7em;
     color: var(--l-muted);
     font-style: italic;
+    /* Asif, 2026-08-18: the Arabic (`.ar` above) has always centred; the
+       English rendering beside it never did, left at the browser's default
+       block alignment. A quran/hadith/saying/verse card is meant to read as
+       ONE typographic unit — the Composer/PDF family (book-print.css,
+       book-composer.css) already centres both lines, so this was the one
+       place "what the author sees" and "what the reader gets" disagreed.
+       Set here, at the base rule every k-quran/k-hadith/k-quote/k-poem card
+       inherits from (none of them override text-align on .tr), so every
+       kind and every book gets it automatically — nothing per-book. */
+    text-align: center;
   }
 
   /* An editorial aside is the pipeline speaking, not the text, and must NOT pick

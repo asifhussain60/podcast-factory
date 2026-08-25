@@ -1,0 +1,790 @@
+{
+  "cited": 0,
+  "inserted": 0,
+  "already": 0,
+  "uncovered": [],
+  "inserted_detail": [],
+  "invalid_reference": [],
+  "spans_in_scan": 0,
+  "scan_arabic_words": 16717,
+  "uncited_review": [
+    {
+      "line": 35,
+      "passage": "The truthful merchant — التاجر الصدوق — is raised on the Day of Resurrection with الصديقين and the martyrs.",
+      "proposed_ref": "20:125",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 55,
+      "passage": "I have a wife and dependants, and I earn by this labour, and I spend upon my dependants, and I keep them from having to ask of people, and I discharge a debt th",
+      "proposed_ref": "2:222",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 81,
+      "passage": "O Messenger of God, they heard what you said yesterday, and they have held back.",
+      "proposed_ref": "3:168",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 83,
+      "passage": "O Commander of the Believers, I wish to enter into trade.",
+      "proposed_ref": "2:58",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 99,
+      "passage": "No morning setting-out of one of you in the way of God is greater than his setting-out to seek for his child and his dependants what will set them right.",
+      "proposed_ref": "18:17",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 129,
+      "passage": "I am a servant: I eat as the servant eats, and I sit as the servant sits.",
+      "proposed_ref": "12:41",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 150,
+      "passage": "A man should not eat with his left hand, nor drink with it, nor hand anything with it.",
+      "proposed_ref": "34:15",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 158,
+      "passage": "And they give food, in spite of their love for it, to the poor, the orphan, and the captive, saying: 'We feed you only for the sake of God; we desire from you n",
+      "proposed_ref": "76:8",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 168,
+      "passage": "O Muhammad, strike the necks of six of these and release this one.",
+      "proposed_ref": "8:12",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 180,
+      "passage": "It is a right upon whoever is invited that he answer it. But whoever comes uninvited has come to what does not befit him.",
+      "proposed_ref": "10:108",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 190,
+      "passage": "Rise and answer the invitation. If you are not fasting, then eat; and if you are fasting, then bless them.",
+      "proposed_ref": "2:187",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 208,
+      "passage": " Hisham recited until he reached the words of God Most High, أو صديقكم. The verse struck him, and he asked: ",
+      "proposed_ref": "79:25",
+      "english_similarity": 0.364,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 208,
+      "passage": "The one in whom the soul finds rest and in whom the heart is at ease.",
+      "proposed_ref": "16:106",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 224,
+      "passage": "Look at her. These characters are in the hand of God: whoever He wishes to grant a good character, He grants it.",
+      "proposed_ref": "17:18",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 267,
+      "passage": "And We sent down from the sky pure water.",
+      "proposed_ref": "25:48",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 277,
+      "passage": "So eat of that over which the name of God has been mentioned, if you are believers in His signs.",
+      "proposed_ref": "6:118",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 316,
+      "passage": "Lawful to you is the game of the sea and its food, a provision for you and for travellers; and the game of the sea is forbidden to you so long as you remain in ",
+      "proposed_ref": "5:96",
+      "english_similarity": 0.615,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 345,
+      "passage": "Let every man of means spend out of his means.",
+      "proposed_ref": "65:7",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 412,
+      "passage": "a garment from among these garments, take whichever you like",
+      "proposed_ref": "7:26",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 459,
+      "passage": "The polytheists are indeed impure, so let them not approach the Sacred Mosque after this year of theirs. If you fear poverty, God will enrich you from His bount",
+      "proposed_ref": "9:28",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 471,
+      "passage": "Test the orphans until they reach the age of marriage; and if you find in them sound judgment, hand over their property to them.",
+      "proposed_ref": "4:6",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 544,
+      "passage": "And do not forget generosity between yourselves.",
+      "proposed_ref": "2:237",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 564,
+      "passage": "Indeed, God commands you to render back the trusts to those to whom they are due.",
+      "proposed_ref": "4:58",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 570,
+      "passage": "And if one of you entrusts another, let the one entrusted render back his trust, and let him fear God his Lord.",
+      "proposed_ref": "2:283",
+      "english_similarity": 0.444,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 580,
+      "passage": "You did indeed deposit it with me, but you instructed me to hand it over to Bakr, and I handed it to him,",
+      "proposed_ref": "36:83",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 582,
+      "passage": "Hand it back to us only when we come to you together.",
+      "proposed_ref": "60:10",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 582,
+      "passage": "If you both instructed her to hand the money back only when you came to her together, then go and bring your companion and take your right.",
+      "proposed_ref": "2:229",
+      "english_similarity": 0.364,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 590,
+      "passage": "O you who believe, when you contract a debt for a stated term, write it down,",
+      "proposed_ref": "2:282",
+      "english_similarity": 0.857,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 590,
+      "passage": "And if you are upon a journey and find no scribe, then a pledge taken in hand.",
+      "proposed_ref": "2:283",
+      "english_similarity": 0.833,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 598,
+      "passage": "Go and borrow flour from such a Jew, to be repaid at a stated term.",
+      "proposed_ref": "6:2",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 598,
+      "passage": "I will give nothing until you pledge something with me.",
+      "proposed_ref": "12:66",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 604,
+      "passage": "God named pledges as taken in hand; so if the pledge is not taken in hand, it is no pledge at all.",
+      "proposed_ref": "2:283",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 648,
+      "passage": "And among His signs is that He created for you from yourselves spouses, that you may dwell in tranquility with them, and He placed between you affection and mer",
+      "proposed_ref": "30:21",
+      "english_similarity": 0.538,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 654,
+      "passage": "Whoever loves to meet God pure and purified, let him keep himself chaste through his wife; and whoever loves to be upon my Sunnah, then of my Sunnah is marriage",
+      "proposed_ref": "2:222",
+      "english_similarity": 0.357,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 662,
+      "passage": "If they are poor, God will enrich them from His bounty, and God is Vast and Knowing — ﴿وَاللهُ وَاسِعٌ عليم﴾.",
+      "proposed_ref": "24:32",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 674,
+      "passage": "Marry and increase, for I shall boast of you before the nations on the Day of Resurrection.",
+      "proposed_ref": "17:97",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 684,
+      "passage": "Taking them in chaste wedlock, not in licentiousness.",
+      "proposed_ref": "5:5",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 700,
+      "passage": "Do not do so, for I desire it, and by God, were I to ask God to feed it to me every day He would do so.",
+      "proposed_ref": "70:11",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 700,
+      "passage": "O Uthman, he is not of us who does that to himself. The castration of my community is fasting.",
+      "proposed_ref": "2:184",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 700,
+      "passage": "And I resolved to forbid myself Khawla my wife.",
+      "proposed_ref": "12:51",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 706,
+      "passage": "Indeed there is for you in the Messenger of God a fair example, for whoever hopes in God and the Last Day.",
+      "proposed_ref": "33:21",
+      "english_similarity": 0.714,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 712,
+      "passage": "And marry off the single among you and the righteous among your male and female servants. If they are poor, God will enrich them from His bounty, and God is Vas",
+      "proposed_ref": "24:32",
+      "english_similarity": 0.818,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 736,
+      "passage": "Marry such women as seem good to you, two, three or four.",
+      "proposed_ref": "4:3",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 748,
+      "passage": "And you will never be able to deal justly between women, however much you desire it; so do not incline with total inclination, leaving her as one suspended. And",
+      "proposed_ref": "4:129",
+      "english_similarity": 0.524,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 756,
+      "passage": "I said what I said, O Messenger of God, before the marriage, and there was nothing in it from me except that my state might be known beforehand.",
+      "proposed_ref": "9:54",
+      "english_similarity": 0.571,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 768,
+      "passage": "O Adam, dwell you and your wife in the Garden, and eat from it freely wherever you wish, and do not approach this tree, lest you become of the wrongdoers.",
+      "proposed_ref": "2:35",
+      "english_similarity": 0.923,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 778,
+      "passage": "Corrupt women are for corrupt men, and corrupt men for corrupt women; and good women are for good men, and good men for good women.",
+      "proposed_ref": "24:26",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 782,
+      "passage": "Marry those who are equal to you, and marry among them, and choose well for your seed.",
+      "proposed_ref": "31:16",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 786,
+      "passage": "Do not marry a woman for her wealth and her beauty, for her wealth and her beauty may be her ruin.",
+      "proposed_ref": "33:52",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 790,
+      "passage": "Marry the fair-eyed, for in them there is blessing.",
+      "proposed_ref": "44:54",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 798,
+      "passage": "Women are not all alike, for even the fingers are not of one measure.",
+      "proposed_ref": "43:11",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 818,
+      "passage": "O Prophet, say to your wives and your daughters and the women of the believers that they draw their outer garments close about them. That is more fitting, that ",
+      "proposed_ref": "33:59",
+      "english_similarity": 0.615,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 824,
+      "passage": "She may not marry except one whose religion is known.",
+      "proposed_ref": "24:3",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 824,
+      "passage": "That is not fitting for him. The people of concealment and chastity are his choice.",
+      "proposed_ref": "21:91",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 845,
+      "passage": "And there is no blame upon you in what you hint at of a proposal to women, or conceal within yourselves. God knows that you will be mindful of them.",
+      "proposed_ref": "2:235",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 853,
+      "passage": "You have known my kinship to the Messenger of God, and my kinship to Ali (ع), and my standing in Islam, and my house among the Arabs.",
+      "proposed_ref": "55:46",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 853,
+      "passage": "May God set you right, Abu Jafar. Do you propose to me in my waiting period?",
+      "proposed_ref": "65:1",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 855,
+      "passage": "When one of you wishes to marry, there is no objection to his stealing a glance at the woman he intends to marry, if he finds the means.",
+      "proposed_ref": "24:3",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 855,
+      "passage": "Would he love that men should look at his own household? Accept for people what you accept for yourselves.",
+      "proposed_ref": "11:81",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 859,
+      "passage": "O Messenger of God, shall I ask permission of my sister when I wish to enter upon her?",
+      "proposed_ref": "24:62",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 859,
+      "passage": "Yes. Would it please you to see her uncovered?",
+      "proposed_ref": "12:56",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 859,
+      "passage": "And my sister, O Messenger of God, uncovers her hair at times before me.",
+      "proposed_ref": "48:27",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 859,
+      "passage": "I fear for you that if something of her beauty appears to you, Satan may take hold of you.",
+      "proposed_ref": "20:21",
+      "english_similarity": 0.429,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 873,
+      "passage": "O Prophet, We have made lawful for you your wives.",
+      "proposed_ref": "66:1",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 888,
+      "passage": "If she is given in marriage by other than these four, the marriage is void.",
+      "proposed_ref": "2:229",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 898,
+      "passage": "Do not say what your tongues describe, that this is lawful and this is forbidden, inventing lies against God.",
+      "proposed_ref": "16:116",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 912,
+      "passage": "As for those women from whom you fear *nushuz*, admonish them, then forsake them in bed, and then strike them; but if they obey you, seek no further means again",
+      "proposed_ref": "4:34",
+      "english_similarity": 0.455,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 920,
+      "passage": "If a woman fears ill-treatment or desertion from her husband, there is no blame on either of them if they come to a settlement between themselves, and settlemen",
+      "proposed_ref": "4:128",
+      "english_similarity": 0.462,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 932,
+      "passage": "And give the women their bride-gifts as a free gift.",
+      "proposed_ref": "4:4",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 946,
+      "passage": "O Messenger of God, I wish to marry this woman.",
+      "proposed_ref": "24:32",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 990,
+      "passage": "And He created for you from yourselves mates that you may find tranquillity in them, and He placed between you affection and mercy.",
+      "proposed_ref": "30:21",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 996,
+      "passage": "And those who say: Our Lord, grant us from among our spouses and offspring comfort to our eyes, and make us leaders of the God-fearing.",
+      "proposed_ref": "25:74",
+      "english_similarity": 0.625,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1002,
+      "passage": "And they have rights similar to those due from them, in kindness.",
+      "proposed_ref": "2:228",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1026,
+      "passage": "What is the right of the husband over the wife?",
+      "proposed_ref": "2:237",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1030,
+      "passage": "She is not to give in charity from his wealth except by his leave, nor to refuse him herself, nor to fast voluntarily except by his leave, nor to leave his hous",
+      "proposed_ref": "9:79",
+      "english_similarity": 0.333,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1032,
+      "passage": "Then who among people has the greatest right over a man?",
+      "proposed_ref": "11:78",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1032,
+      "passage": "Then who among people has the greatest right over a woman?",
+      "proposed_ref": "27:23",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1040,
+      "passage": "If you wish to have your children breastfed, there is no blame on you, provided you pay what you have promised in a fair manner.",
+      "proposed_ref": "2:233",
+      "english_similarity": 0.556,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1042,
+      "passage": "I will nurse him, my brother, for I am satisfied.",
+      "proposed_ref": "26:106",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1048,
+      "passage": "And mothers shall nurse their children two complete years, for whoever wishes to complete the nursing.",
+      "proposed_ref": "2:233",
+      "english_similarity": 0.875,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1054,
+      "passage": "And your mothers who have nursed you, and your sisters through nursing.",
+      "proposed_ref": "2:233",
+      "english_similarity": 0.8,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1060,
+      "passage": "What is forbidden through nursing is what is forbidden through lineage.",
+      "proposed_ref": "5:26",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1106,
+      "passage": "And provide for them from it, and clothe them, and speak to them a kindly word.",
+      "proposed_ref": "4:5",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1112,
+      "passage": "Upon the man of means according to his means, and upon the straitened according to his.",
+      "proposed_ref": "2:236",
+      "english_similarity": 0.75,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1130,
+      "passage": "Let no mother be harmed on account of her child, nor a father on account of his child.",
+      "proposed_ref": "2:233",
+      "english_similarity": 0.667,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1138,
+      "passage": "O Prophet, when you divorce women, divorce them at the beginning of their waiting periods, and count the waiting period... And when they reach their term, eithe",
+      "proposed_ref": "2:231",
+      "english_similarity": 0.35,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1156,
+      "passage": "Patience in the face of hardship is better than separation.",
+      "proposed_ref": "67:22",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1174,
+      "passage": "my wife, the daughter of so-and-so, is divorced by me today",
+      "proposed_ref": "33:37",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1235,
+      "passage": "The example of those who spend their wealth in the way of God is like a grain that sprouts seven ears, in every ear a hundred grains. And God multiplies for who",
+      "proposed_ref": "2:261",
+      "english_similarity": 0.588,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1251,
+      "passage": "And when you are greeted with a greeting, greet with what is better than it, or return it.",
+      "proposed_ref": "4:86",
+      "english_similarity": 1.0,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1257,
+      "passage": "There is nothing more excellent than good, except its reward.",
+      "proposed_ref": "10:26",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1294,
+      "passage": "The one who gives charity and then takes it back is like the one who vomits and then returns to his vomit.",
+      "proposed_ref": "2:245",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1316,
+      "passage": "It is prescribed for you, when death approaches أحدكم إذا and he leaves behind wealth, that he make a bequest for parents and near relatives in the proper manne",
+      "proposed_ref": "2:180",
+      "english_similarity": 0.6,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1322,
+      "passage": "O you who believe, testimony among you when death approaches one of you, at the time of bequest, shall be by two just men from among you, or two others from out",
+      "proposed_ref": "5:106",
+      "english_similarity": 0.9,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1328,
+      "passage": "It is not fitting for a Muslim to pass a night except that a written bequest is at his head.",
+      "proposed_ref": "24:31",
+      "english_similarity": 0.375,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1330,
+      "passage": "The bequest is a duty upon every Muslim.",
+      "proposed_ref": "2:180",
+      "english_similarity": 0.5,
+      "corroborated_by_scan": false,
+      "agreed": false
+    },
+    {
+      "line": 1336,
+      "passage": "God, mighty and majestic, was content with the fifth from His servants.",
+      "proposed_ref": "50:35",
+      "english_similarity": 0.4,
+      "corroborated_by_scan": false,
+      "agreed": false
+    }
+  ],
+  "coverage": 1.0,
+  "cited_inserted": 0
+}

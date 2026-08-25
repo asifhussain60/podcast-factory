@@ -51,6 +51,7 @@ except ImportError:  # pragma: no cover - PyYAML is in requirements.txt
 # import above the line that makes it resolvable.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import repo_surgeon_checks as surface  # noqa: E402, I001
+import repo_surgeon_specs as specs  # noqa: E402, I001
 
 
 SEVERITY_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
@@ -753,6 +754,11 @@ def run(root: Path, scope: str) -> Probe:
         lambda: surface.check_routes(probe),
         lambda: surface.check_test_hygiene(probe),
         lambda: surface.check_clean_code(probe),
+        # The gate the contract was never told about, and the database contract
+        # between the pipeline and the app. Both belong to a surface, so both ride
+        # the `apps` scope with the rest.
+        lambda: specs.check_gate_discovery(probe),
+        lambda: specs.check_data_contract(probe),
     ]
     all_checks = [
         probe.check_contract,
@@ -765,6 +771,11 @@ def run(root: Path, scope: str) -> Probe:
         probe.check_self_references,
         *podcast_checks,
         *app_checks,
+        # Repo-wide rather than per-surface: a generator writes across app
+        # boundaries, and a standard binds an agent, a skill and a pipeline pass
+        # at once. Neither belongs to a single scope.
+        lambda: specs.check_generated_artifacts(probe),
+        lambda: specs.check_standards(probe),
         probe.check_plan,
         # Last, and reported only. Removal is scripts/repo_cleanup.py's job: a
         # gate that deletes as a side effect of running is one people route around.

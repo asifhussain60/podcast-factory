@@ -1,0 +1,92 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 13,
+  "skipped": 0,
+  "by_class": {
+    "teach": 9,
+    "familiar": 1,
+    "name": 0,
+    "silent": 2,
+    "work_title": 1
+  },
+  "proposals": [
+    {
+      "phonetic": "dirham",
+      "class": "familiar",
+      "english_equivalent": "dirham",
+      "reason": "Coin name already established in English."
+    },
+    {
+      "phonetic": "rajah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Minor single occurrence already rendered in the running prose."
+    },
+    {
+      "phonetic": "uqiyyas",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Incidental weight unit glossed on the spot by the equivalence given."
+    },
+    {
+      "phonetic": "al-hajr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Explicitly named legal status of interdiction."
+    },
+    {
+      "phonetic": "aqiqa",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named birth-sacrifice rite a reader would look up."
+    },
+    {
+      "phonetic": "khul",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical divorce-at-wife's-instance term the book defines and a reader may cite."
+    },
+    {
+      "phonetic": "mahr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core marriage-payment term used throughout and worth naming."
+    },
+    {
+      "phonetic": "muflis",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Defined technical label for the declared bankrupt."
+    },
+    {
+      "phonetic": "musahara",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named category of marriage impediment in the book's own taxonomy."
+    },
+    {
+      "phonetic": "nasab",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named kinship category paired with musahara in the taxonomy."
+    },
+    {
+      "phonetic": "nushuz",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Quranic legal term for marital recalcitrance that readers cite."
+    },
+    {
+      "phonetic": "taflis",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Explicitly named legal act of declaring bankruptcy."
+    },
+    {
+      "phonetic": "Daaim",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book of law, not a person."
+    }
+  ]
+}

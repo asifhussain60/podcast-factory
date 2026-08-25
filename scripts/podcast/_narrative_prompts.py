@@ -36,6 +36,15 @@ heart of it", "before we go on", "as we shall see" — and state the matter inst
 Second person and imperatives are UNTOUCHED inside a character's quoted speech,
 inside a Quran verse, hadith, or prayer, and inside any block quotation: there
 they are one person speaking to another, which every frame keeps.
+The source does not always mark a Quran verse or hadith as a quotation — some
+passages paraphrase scripture directly into the surrounding prose, addressed to
+"you", with no quotation marks and no "God says" attribution at all:
+  "What has been made forbidden to you are carrion, blood, the flesh of swine"
+  "By the grace of your Lord it is made lawful for you"
+Recognize this as scripture being paraphrased, not the narrator addressing the
+reader. Quote it and attribute it ("God Almighty said: ...") rather than either
+leaving it as loose second-person narration or silently rewriting the "you" away
+— both lose what the passage actually is.
 
 NO NAVIGATION APPARATUS (binding — this edition has its own chapters)
 Do not locate the prose inside the SOURCE's division scheme. This edition prints

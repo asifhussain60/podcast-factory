@@ -2,14 +2,16 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 
 import {
   canRead,
-  grant,
   hasLiveInvite,
+  visibleUnits,
+} from "../app/server/access.server";
+import {
+  grant,
   invite,
   revokeGrant,
   revokeInvite,
   setOpenToAll,
-  visibleUnits,
-} from "../app/server/access.server";
+} from "../app/server/people.server";
 import { createTestDb, type TestDb } from "./d1";
 
 const NOW = "2026-08-03T12:00:00Z";

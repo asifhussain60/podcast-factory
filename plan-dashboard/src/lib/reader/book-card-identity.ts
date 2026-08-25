@@ -127,7 +127,16 @@ export async function resolveBookCardIdentity(
   const fallback: ResolvedCardMeta = cardMetaFor(slug);
   const meta = await readYaml(join(dir, "meta.yml"));
   const sysMeta = await readYaml(join(dir, "_system", "meta.yml"));
-  const work = await readYaml(join(dir, "..", "work.yml"));
+  // Both places, because this function is called for two different things. A
+  // VOLUME sits inside its work, so its manifest is one level up. A series DECK
+  // is resolved against the work's OWN directory, where the manifest sits right
+  // there — and reading only `..` meant a deck found nothing and fell through to
+  // the hand-typed map, wearing an English name above six transliterated
+  // volumes. `..` stays first so a volume that somehow has both still answers
+  // to its work.
+  const work =
+    (await readYaml(join(dir, "..", "work.yml"))) ??
+    (await readYaml(join(dir, "work.yml")));
 
   const author =
     str(meta?.author) ??
@@ -148,14 +157,40 @@ export async function resolveBookCardIdentity(
     str(work?.title_arabic) ??
     [str(meta?.title), str(meta?.original_title)].find(isArabic);
 
-  // The SHORT title wins on a card. `publication.english_title` is the title-page
-  // form and carries the subtitle — "Degrees of Excellence: A Fatimid Treatise on
-  // Leadership in Islam" is 64 characters and wraps to four lines in a card that
-  // is meant to look like its neighbours. It is the last resort, not the first.
-  const englishTitle =
-    fallback.displayTitle ??
+  // A BOOK HAS ONE NAME, and `meta.title` is it.
+  //
+  // Asif's ruling, 2026-08-17: readers see the transliteration — "Kitab
+  // al-Riyad", "Ayyuha al-Walad" — and this shelf matches them rather than the
+  // other way round. Until that day the two surfaces disagreed outright: the
+  // Podcast Factory Library published `meta.title` while this card led with a
+  // hand-typed English translation, so the same book was "Kitab al-Riyad" there
+  // and "The Book of Gardens" here, across five books, with nothing anywhere
+  // reconciling the two.
+  //
+  // `meta.title` first is what makes them agree BY CONSTRUCTION rather than by
+  // both being maintained correctly — it is the exact field the Library
+  // publishes. `work.yml`'s title comes next so a SERIES DECK is named the same
+  // way its volumes are; without it a deck fell through to the dictionary and
+  // wore an English name above six transliterated volumes.
+  //
+  // Everything after that is a fallback for a book that names itself nowhere:
+  // `title_english` (recorded, no longer displayed — see below), then the
+  // hand-typed map, which two books outside the Studio shelf still depend on
+  // entirely because they have no meta.yml at all.
+  //
+  // `publication.english_title` stays LAST. It is the title-page form and
+  // carries the subtitle — "Degrees of Excellence: A Fatimid Treatise on
+  // Leadership in Islam" is 64 characters and wraps to four lines in a card
+  // meant to look like its neighbours.
+  //
+  // An Arabic-script `meta.title` is skipped rather than shown: the card sets
+  // the native title in its own panel, in its own face, and printing the same
+  // string twice in two typefaces is not naming the book, it is repeating it.
+  const cardTitle =
     (isArabic(str(meta?.title)) ? undefined : str(meta?.title)) ??
-    str(work?.title) ??
+    (isArabic(str(work?.title)) ? undefined : str(work?.title)) ??
+    str(meta?.title_english) ??
+    fallback.displayTitle ??
     nested(meta, "publication", "english_title") ??
     slugTitle;
 
@@ -173,7 +208,7 @@ export async function resolveBookCardIdentity(
             ? "ar"
             : "zh"))
       : undefined,
-    title: simplifyTransliteration(englishTitle),
+    title: simplifyTransliteration(cardTitle),
     author: author ? simplifyTransliteration(author) : undefined,
     icon: fallback.icon ?? "fa-book",
     blurb: fallback.blurb,

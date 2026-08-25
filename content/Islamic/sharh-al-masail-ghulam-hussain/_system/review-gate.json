@@ -1,0 +1,41 @@
+{
+  "phase": "06a",
+  "approved": true,
+  "warnings": [
+    {
+      "severity": "P1",
+      "message": "Attribution gap: Book title 'Sharh al-Masail' by Ghulam Hussain lacks standard bibliographic data (publication date, edition, original language confirmation, publisher). Cannot verify if this is a recognized scholarly commentary or folk interpretation.",
+      "chapter": null
+    },
+    {
+      "severity": "P1",
+      "message": "Source file structure indicates post-processing pipeline ('_extraction-notes.md', 'refined-english.md', 'raw-extract.md'). Unclear whether 'refined-english' represents translator notes, editorial modernization, or original text. Risk of authenticity conflation.",
+      "chapter": null
+    },
+    {
+      "severity": "P2",
+      "message": "Chapter title inconsistencies suggest editorial reorganization: Ch01 title lists 'Lawful Earning and the Table' but ch02-05 follow standard fiqh progression (sales/contracts → marriage → inheritance). Verify if chapter divisions match original work structure.",
+      "chapter": "ch01-earning-and-the-manners-of-the-table"
+    },
+    {
+      "severity": "P2",
+      "message": "Ch03 references 'Pledge, Shared Wall, and Marriage' - mixing property law (shared wall/musharakah) with personal status law unusual for traditional fiqh chapter organization. Confirm this reflects original text vs. editorial synthesis.",
+      "chapter": "ch03-the-pledge-and-the-call-to-marry"
+    },
+    {
+      "severity": "P2",
+      "message": "No school affiliation indicated (Hanafi, Maliki, Shafi'i, Hanbali, or Ja'fari). Given 'Sharh' (commentary) tradition, doctrinal framework essential for accuracy. 'Ghulam Hussain' suggests possible South Asian scholar - confirm madhab.",
+      "chapter": null
+    }
+  ],
+  "reviewed_at": "2026-08-17T15:48:59Z",
+  "approved_at": "2026-08-17T16:12:59Z",
+  "human_review_notes": {
+    "madhab": "Ismaili (confirmed by Asif, 2026-08-17)",
+    "chapter_division": "Unconfirmed as original; accepted AI-designed boundaries as-is (no reference edition available)",
+    "edition": "No publisher/print-date/acquisition-source information available",
+    "resolved_by": "Asif",
+    "resolved_at": "2026-08-17T15:55:00Z",
+    "see": "_system/source-notes.md"
+  }
+}

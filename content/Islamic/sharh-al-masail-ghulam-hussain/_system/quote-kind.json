@@ -1,0 +1,10 @@
+{
+  "schema": "book.quote-kind/v1",
+  "chapters": {
+    "at the table: eating, feeding, and being fed": {
+      "وَلَا عَلَى أَنفُسِكُمْ أَن تَأْكُلُوا مِن بُيُوتِكُمْ أَوْ بُيُوتِ آبَائِكُمْ أَوْ بُيُوتِ أُمَّهَاتِكُمْ أَوْ بُيُوتِ إِخْوَانِكُمْ أَوْ بُيُوتِ أَخَوَاتِكُمْ أَوْ بُيُوتِ أَعْمَامِكُمْ أَوْ بُيُوتِ عَمَّاتِكُمْ أَوْ بُيُوتِ أَخْوَالِكُمْ أَوْ بُيُوتِ خَالَاتِكُمْ أَوْ مَا مَلَكْتُم مَّفَاتِحَهُ أَوْ صَدِيقِكُمْ لَيْسَ عَلَيْكُمْ جُنَاحٌ أَن تَأْكُلُوا جَمِيعًا أَوْ أَشْتَاتًا \" ...nor on yourselves, that you eat from your own houses, or the houses of your fathers, or the houses of your mothers, or the houses of your brothers, or the houses of your sisters, or the houses of your paternal uncles, or the houses of your paternal aunts, or the houses of your maternal uncles, or the houses of your maternal aunts, or from those whose keys you possess, or from your friend. There is no blame upon you whether you eat together or separately.\"": {
+        "kind": "quote"
+      }
+    }
+  }
+}

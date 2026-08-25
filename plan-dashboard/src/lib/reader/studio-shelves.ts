@@ -27,6 +27,7 @@ import {
   loadStudioPipeline,
   type StatusBucket,
 } from "./studio-pipeline";
+import { readDeclaredWorkGroups, volumeIndex } from "./work-groups";
 
 /**
  * Studio landing — the book picker for the content pipeline.
@@ -164,6 +165,22 @@ export async function buildStudioShelves() {
     if (m) seriesDirs.set(m[1], join(b.dir, ".."));
   }
 
+  /** The OTHER shape a multi-volume work comes in: volumes that are flat,
+   *  independently published, top-level folders whose slugs say nothing about
+   *  belonging together, declared instead in
+   *  `content/<Bucket>/_listener-groups/*.yml`. Read here so this shelf and the
+   *  Podcast Factory Library — whose stacked cards read the same file — cannot
+   *  disagree about what one work is. A declared group has no parent directory,
+   *  so there is nothing to add to `seriesDirs`; its deck is described entirely
+   *  by the declaration and by the volumes themselves. */
+  const declared = volumeIndex(await readDeclaredWorkGroups());
+  /** Deck slug -> the title its declaration gives it. The one thing about a
+   *  declared deck that no volume knows and nothing can derive. */
+  const declaredTitles = new Map<string, string>();
+  for (const entry of declared.values()) {
+    declaredTitles.set(entry.workSlug, entry.title);
+  }
+
   const cards = await Promise.all(
     allContent.map(async (b) => {
       const steps = await loadStudioPipeline(b.slug);
@@ -174,8 +191,13 @@ export async function buildStudioShelves() {
         blocked ??
         active ??
         (steps.every((s) => s.state === "done") ? steps[3] : steps[0]);
+      // The slug shape first, then the declaration. That order matters: a
+      // nested volume already knows its own work from its slug, and a
+      // declaration that also named it would be a second answer to a question
+      // that already has one.
       const volM = VOL_RE.exec(b.slug);
-      const volOrder = volM ? Number(volM[2]) : null;
+      const declaredVol = volM ? undefined : declared.get(b.slug);
+      const volOrder = volM ? Number(volM[2]) : (declaredVol?.order ?? null);
       const generation = await readGenerationStatus(b.dir);
       // Identity comes from the BOOK'S OWN FILES first (2026-08-02), with the
       // hand-typed BOOK_CARD_META as a fallback. It used to come only from that
@@ -197,9 +219,18 @@ export async function buildStudioShelves() {
         identity,
         ...generation,
         // Multi-volume series fields (null for standalone books).
-        seriesSlug: volM ? volM[1] : null,
+        seriesSlug: volM ? volM[1] : (declaredVol?.workSlug ?? null),
         volumeOrder: volOrder,
-        volumeLabel: volOrder ? await readVolumeLabel(b.dir, volOrder) : "",
+        // A declared volume is a book in its own right and its meta.yml says so
+        // — there is no "Volume N: <name>" line to read, because it was never
+        // published as part of a set. Its own catalogued title is the truest
+        // label available, and the numbered fallback is the last resort for
+        // both shapes alike.
+        volumeLabel: declaredVol
+          ? (identity.title ?? `Volume ${volOrder}`)
+          : volOrder
+            ? await readVolumeLabel(b.dir, volOrder)
+            : "",
       };
     }),
   );
@@ -230,14 +261,26 @@ export async function buildStudioShelves() {
           // own work.yml/meta.yml exactly as a standalone book reads its own.
           // Looked up rather than carried on the card: `dir` is an absolute
           // filesystem path and the card view model is rendered into markup.
+          //
+          // A DECLARED deck has no such directory — its volumes are top-level
+          // folders and the work exists only as a statement in a manifest — so
+          // the resolver reads nothing and returns the slug-derived placeholder.
+          // The declaration's own title replaces that; everything else it cannot
+          // know is derived from the volumes below, where they agree.
+          const declaredTitle = declaredTitles.get(c.seriesSlug);
           const identity = await resolveBookCardIdentity(
             c.seriesSlug,
             seriesDirs.get(c.seriesSlug) ?? "",
-            slugToTitle(c.seriesSlug),
+            declaredTitle ?? slugToTitle(c.seriesSlug),
           );
           d = {
             seriesSlug: c.seriesSlug,
-            identity: { ...identity, icon: identity.icon, volume: undefined },
+            identity: {
+              ...identity,
+              title: declaredTitle ?? identity.title,
+              icon: identity.icon,
+              volume: undefined,
+            },
             // Filled below from the volumes, once they are all collected.
             statusLabel: "",
             steps: [],
@@ -261,10 +304,75 @@ export async function buildStudioShelves() {
       // when a volume's track changes. (asaas-al-taveel has no work.yml at
       // all; its six volumes each say `esoteric`, and that is where the deck's
       // ribbon comes from.)
+      //
+      // The same rule now covers the native-script title, the author and the
+      // icon, for the same reason and by the same test. A DECLARED deck has no
+      // directory to read any of them from, so without this its card would show
+      // an English title over an empty script panel while both its volumes
+      // display the identical Arabic — the set looking less catalogued than the
+      // books inside it. Agreement is the whole condition: where the volumes
+      // differ the deck says nothing, exactly as it does for a mixed track.
+      // TWO rules, and the difference between them is deliberate.
+      //
+      // `agreed` is strict: a volume that says NOTHING counts as a
+      // disagreement. That is the right test for the track, which is the
+      // pre-existing rule above and answers "what is this work about" — a
+      // question a silent volume genuinely leaves open.
+      //
+      // `agreedStated` ignores the silent volumes and asks only whether the
+      // ones that DO speak say the same thing. That is the right test for a
+      // work's author, its title in its own script, and its icon, which are
+      // properties of the WORK: Mukhtasar's second volume records its author
+      // and its first does not, and the two are unquestionably the same book by
+      // the same hand. Under the strict rule the set would show no author while
+      // a volume inside it showed one — the parent looking less catalogued than
+      // its own children.
+      const agreed = <T>(pick: (v: Card) => T | undefined): T | undefined => {
+        const values = new Set(d.volumes.map(pick));
+        return values.size === 1 ? [...values][0] : undefined;
+      };
+      const agreedStated = <T>(
+        pick: (v: Card) => T | undefined,
+      ): T | undefined => {
+        const values = new Set(
+          d.volumes.map(pick).filter((v) => v !== undefined),
+        );
+        return values.size === 1 ? [...values][0] : undefined;
+      };
       if (!d.identity.studyTrack) {
-        const tracks = new Set(d.volumes.map((v) => v.identity.studyTrack));
-        const only = tracks.size === 1 ? [...tracks][0] : undefined;
+        const only = agreed((v) => v.identity.studyTrack);
         if (only) d.identity = { ...d.identity, studyTrack: only };
+      }
+      if (!d.identity.nativeTitle) {
+        const native = agreedStated((v) => v.identity.nativeTitle);
+        if (native) {
+          d.identity = {
+            ...d.identity,
+            nativeTitle: native,
+            nativeLang: agreedStated((v) => v.identity.nativeLang),
+          };
+        }
+      }
+      if (!d.identity.author) {
+        const author = agreedStated((v) => v.identity.author);
+        if (author) d.identity = { ...d.identity, author };
+      }
+      // `resolveBookCardIdentity` never returns a bare icon — "fa-book" is its
+      // last resort — so the default is what "says nothing" looks like here,
+      // and a volume still sitting on it must not outvote one with a real icon.
+      if (d.identity.icon === "fa-book") {
+        const icon = agreedStated((v) =>
+          v.identity.icon === "fa-book" ? undefined : v.identity.icon,
+        );
+        if (icon) d.identity = { ...d.identity, icon };
+      }
+      // A deck assembled from real, catalogued volumes is not uncatalogued,
+      // whatever the empty directory behind it implied.
+      if (
+        d.identity.uncatalogued &&
+        d.volumes.some((v) => !v.identity.uncatalogued)
+      ) {
+        d.identity = { ...d.identity, uncatalogued: false };
       }
       // The series is only as far along as its least-advanced volume; saying
       // otherwise would make a deck look finished while five volumes sit at

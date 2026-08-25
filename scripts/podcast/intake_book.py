@@ -257,6 +257,7 @@ def _intake_volume_from_pdf(
     wm.write_manifest(work_dir, manifest)
     _info(f"    work.yml: {len(manifest['volumes'])} volume(s) registered")
 
+    branch = _create_branch_for_work(vol_slug, profile=profile, create=not no_branch)
     state = {
         "schema_version": 1,
         "book_slug": vol_slug,
@@ -271,6 +272,7 @@ def _intake_volume_from_pdf(
         "last_error": None,
         "category": category,
         "content_profile": profile,
+        "branch": branch,
         "status": "draft",
         "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -279,9 +281,6 @@ def _intake_volume_from_pdf(
     }
     (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n")
     _info(f"    state.json: phase=preflight, work_slug={work_slug}, volume={volume}")
-
-    if not no_branch:
-        _create_branch_for_work(vol_slug, profile=profile)
 
     _info("")
     _info("==> DONE. Next steps:")
@@ -386,6 +385,7 @@ def _intake_volume_from_audio(
     _info(f"    work.yml: {len(manifest['volumes'])} volume(s) registered")
 
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    branch = _create_branch_for_work(vol_slug, profile=profile, create=not no_branch)
     state = {
         "schema_version": 1,
         "book_slug": vol_slug,
@@ -400,6 +400,7 @@ def _intake_volume_from_audio(
         "last_error": None,
         "category": category,
         "content_profile": profile,
+        "branch": branch,
         "status": "draft",
         "started": now,
         "updated": now,
@@ -409,9 +410,6 @@ def _intake_volume_from_audio(
     (book_dir / "_system" / "orchestrator-state.json").write_text(json.dumps(state, indent=2) + "\n")
     _info(f"    state.json: source_kind=audio, phase=0a-transcribe, work_slug={work_slug}, volume={volume}")
 
-    if not no_branch:
-        _create_branch_for_work(vol_slug, profile=profile)
-
     _info("")
     _info("==> DONE. Next steps:")
     _info(f"    1. python3 scripts/podcast/transcribe_audio_book.py --slug {vol_slug}")
@@ -420,12 +418,14 @@ def _intake_volume_from_audio(
     return 0
 
 
-def _create_branch_for_work(vol_or_work_slug: str, *, profile: str) -> str | None:
-    """Create the SINGLE work branch off develop (idempotent). Uses branch_for_work."""
+def _create_branch_for_work(vol_or_work_slug: str, *, profile: str, create: bool = True) -> str | None:
+    """Create the SINGLE work branch off develop (idempotent). create=False just resolves it."""
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from _branching import branch_for_work
 
     branch = branch_for_work(vol_or_work_slug, profile=profile)
+    if not create:
+        return branch
     result = subprocess.run(
         ["git", "rev-parse", "--verify", branch],
         cwd=REPO_ROOT,

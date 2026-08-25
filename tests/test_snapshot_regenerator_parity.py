@@ -254,6 +254,69 @@ class TestSnapshotsDescribeRealContent(unittest.TestCase):
         self.assertIsInstance(metrics["burn_30d_usd"], (int, float))
 
 
+class TestAgentEntriesAreReDerived(unittest.TestCase):
+    """An agent's snapshot entry must be re-read from its spec on EVERY run.
+
+    Both generators used to short-circuit on an id they had already recorded:
+
+        if agent_id in existing_agents:      # .py
+            agents.append(existing_agents[agent_id]); continue
+        if (existingAgentById.has(id)) return existingAgentById.get(id);   // .mjs
+
+    So frontmatter was read once, on an agent's first appearance, and frozen. Both
+    legs shared the behaviour, which is why every parity test above stayed green:
+    the pair AGREED and was wrong together — the same shape as the bucket-list gap
+    below. The live site served a description of `repo-surgeon` retired three weeks
+    earlier, and 7 of 23 agents were stale when this was found (2026-08-17).
+
+    The fix re-derives name/role/plain/what_it_knows always, and merge-preserves
+    only the curated fields — the ones hand-authored in the JSON that no
+    frontmatter supplies. That list must be identical in both legs or a curated
+    value survives on one machine and is reset on the other, which is precisely
+    the forever-reverting diff this file exists to prevent.
+    """
+
+    def test_neither_generator_short_circuits_on_a_known_agent(self):
+        py = PY.read_text()
+        self.assertNotIn(
+            "if agent_id in existing_agents:",
+            py,
+            "the .py leg is back to freezing an agent entry on first sight",
+        )
+        mjs = MJS.read_text()
+        self.assertNotIn(
+            "if (existingAgentById.has(id)) return existingAgentById.get(id);",
+            mjs,
+            "the .mjs leg is back to freezing an agent entry on first sight",
+        )
+
+    def test_both_legs_declare_the_same_curated_fields(self):
+        def curated(path: Path) -> list[str]:
+            match = re.search(r"AGENT_CURATED_FIELDS\s*=\s*[\(\[]([^\)\]]*)[\)\]]", path.read_text())
+            self.assertIsNotNone(match, f"no AGENT_CURATED_FIELDS literal in {path.name}")
+            return re.findall(r"[\"']([a-z_]+)[\"']", match.group(1))
+
+        expected = curated(PY)
+        self.assertIn("failure_mode", expected, "authority list looks truncated")
+        self.assertEqual(
+            curated(MJS),
+            expected,
+            "regenerate-snapshots.mjs and .py disagree about which agent fields are "
+            "curated; a curated value would survive on one machine and reset on the "
+            "other. Change both legs in one commit.",
+        )
+
+    def test_agent_files_are_read_in_a_stable_order(self):
+        """readdir() order is not guaranteed; the .py leg sorts, so the .mjs must too."""
+        mjs = MJS.read_text()
+        self.assertRegex(
+            mjs,
+            r'f !== "_README\.md"\)\s*\.sort\(\)',
+            "the .mjs leg reads infra/claude-agents in readdir order while the .py "
+            "leg sorts — the agents array can differ by machine",
+        )
+
+
 class TestBucketListsTrackTheAuthority(unittest.TestCase):
     """Every restated copy of the bucket list must match `_content_types.BUCKETS`.
 

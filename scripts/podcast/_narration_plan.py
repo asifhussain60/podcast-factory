@@ -27,7 +27,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from _arabic_coverage import ARABIC_BODY
+from _arabic_coverage import ARABIC_BODY, ARABIC_INDIC_DIGITS
 from _runlog import log_event
 
 PHASE = "reader-narration"
@@ -46,6 +46,28 @@ _LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
 _IMAGE = re.compile(r"!\[[^\]]*]\([^)]+\)")
 _TAG = re.compile(r"<[^>]+>")
 _MARKDOWN_EDGE = re.compile(r"^[>*#\-\s]+")
+# A trailing citation apparatus right after a closing quotation — the
+# Quran/hadith reference the reading edition prints beside a translated verse
+# or narration. The library uses this inconsistently across books: brackets
+# or parens, `[Surah al-Baqarah: 222]` or `(Al Imran 130)` or `(Quran,
+# Chapter 11, Verse 6)`, and sometimes the citation itself is still in Arabic
+# script with Arabic-Indic digits — `[البقرة: ١٤٤]`. All of these share one
+# structural signature regardless of wording or script: they sit immediately
+# after the quotation they cite, and they always carry a verse/hadith NUMBER.
+# That number requirement is what keeps this from also eating a genuine
+# editorial aside in the same position — `"..." (wajh Allah)` names a term,
+# has no digit, and must stay. Matching on digits alone, without the
+# quote-adjacency requirement, would also delete unrelated dates sitting in
+# ordinary prose, like "the migration from Mecca to Medina (622 CE)".
+# Applied BEFORE the Arabic handling below: an Arabic-script citation left
+# to `_ARABIC` alone has its name and digits removed but its brackets
+# survive empty — `[البقرة: ١٤٤]` became the audible artifact `[: ]` in
+# already-rendered narration (mukhtasar-ul-asar-1, 2026-08-17).
+#
+# Arrived on `develop` (ee43e57, e8df8e9) while this module was being split out
+# of `reader_narration.py`; carried across verbatim, position included, because
+# the ordering above is the whole reason it works.
+_TRAILING_CITATION = re.compile(rf'(?<=["”])\s*[\[(][^\])]*[0-9{ARABIC_INDIC_DIGITS}][^\])]*[\])]')
 _SPEAKABLE = re.compile(r"[A-Za-z0-9]")
 
 
@@ -258,6 +280,8 @@ def speech_text(markdown: str, lexicon: "Lexicon | None" = None) -> str:
     text = _IMAGE.sub("", markdown)
     text = _LINK.sub(r"\1", text)
     text = _TAG.sub("", text)
+    # Before any Arabic handling — see `_TRAILING_CITATION`.
+    text = _TRAILING_CITATION.sub("", text)
     # A parenthetical gloss — "Tur (اَلطُّور)" — is removed whole: the English
     # beside it already says the word, so speaking both would stammer.
     text = _ARABIC_PARENS.sub("", text)

@@ -251,6 +251,8 @@ content/**/_system/stage-metrics.json
 content/**/_system/cost-validation.json
 # Rearticulate worker status — runtime polling state, rewritten every run.
 content/**/_system/rearticulate-status.json
+# Reader-narration worker status — same reason (api/studio/narration.ts polls it).
+content/**/_system/narration-status.json
 # Per-step run log, appended to by every phase and every apparatus step. It is the
 # record of what a RUN did, not of what a book IS, and tracking it would dirty the
 # tree on every pipeline invocation — the same reason the three above are ignored.
@@ -304,10 +306,13 @@ listener/.deployed-commit
 # Local-only fixtures for the dev database. Its own header says nothing here is
 # committed; ignoring it means `git add -A` cannot stage it by accident.
 listener/.seed-demo-notes.mjs
-# SQL emitted by publish_to_listener.py. It carries whole chapters of rendered
-# prose — the same text already tracked in content/**/book/book.md — so it is a
-# large regenerable duplicate, not a source.
-listener/.publish/
+# SQL emitted by publish_to_listener.py — TRACKED as of 2026-08-17, reversing the
+# original "regenerable duplicate" reasoning above. It IS a duplicate of
+# content/**/book/book.md, but it is the ONLY portable record of what has been
+# published: the local database it loads into (listener/.wrangler/) is
+# deliberately gitignored per-machine binary state, so without these files a
+# second machine has no way to know which books were ever published short of
+# re-running the whole pipeline per book. seed-local-catalog.mjs replays them.
 _workspace/tmp/
 # Local-only audio/voice experiment sandbox (ElevenLabs auditions, prototype
 # scripts). Never a branch deliverable — keep on disk, out of git.

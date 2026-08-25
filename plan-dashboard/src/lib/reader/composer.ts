@@ -88,6 +88,11 @@ export interface ComposerChapter {
    *  rather than trusting it. */
   paraKeys: string[];
   citations: ComposerCitation[]; // Arabic-bearing verses/hadith detected in this chapter
+  /** Whether book/narration/manifest.json already has a rendered MP3 for this
+   *  chapter (see api/studio/narration-audio.ts, which serves it). */
+  narrationAvailable: boolean;
+  /** Clip length in seconds, from the manifest — null when not yet generated. */
+  narrationDurationS: number | null;
 }
 
 /** Pull the Arabic-bearing quotation blocks out of rendered chapter HTML.
@@ -374,6 +379,39 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   // The chapter and verse each Qur'an card is headed by.
   const quranicRefs = readQuranicRefs(ref.dir) as Record<string, string>;
 
+  // Reader-narration manifest — chapter read-aloud audio, keyed by the SAME
+  // anchor_key every chapter above is keyed by (fixture-pinned mirror; see
+  // anchor-key.mjs's header). Normally produced only at publish time
+  // (phases/reader_narration_driver.py); the Compose tab's "Generate
+  // narration" button (api/studio/narration.ts) can also produce it early, so
+  // Asif can listen to a chapter while reviewing — before the book ships. Read
+  // once per page load; absent for the common case (not yet generated, or the
+  // book's profile doesn't carry narration at all) and that is not an error.
+  //
+  // The manifest alone is NOT proof a chapter's MP3 is on THIS machine: audio
+  // is deliberately gitignored (repo convention — only the manifest ships),
+  // so a fresh clone or worktree can carry a manifest whose files were never
+  // rendered locally. Checking the file itself is what tells "the record
+  // says this was narrated" apart from "the audio is actually here to play".
+  const narrationDurations = new Map<string, number>();
+  try {
+    const manifest = JSON.parse(
+      await readFile(join(ref.dir, "book", "narration", "manifest.json"), "utf-8"),
+    ) as { chapters?: Record<string, { duration_s?: number; audio?: string }> };
+    for (const [key, entry] of Object.entries(manifest.chapters ?? {})) {
+      if (
+        entry &&
+        typeof entry.duration_s === "number" &&
+        typeof entry.audio === "string" &&
+        existsSync(join(ref.dir, entry.audio))
+      ) {
+        narrationDurations.set(key, entry.duration_s);
+      }
+    }
+  } catch {
+    /* no narration generated yet — every chapter's narrationAvailable is false */
+  }
+
   // Split into chapters on "## " headings.
   const chapters: ComposerChapter[] = [];
   // Lowercased raw bodies keyed by chapter — used to resolve a visual whose
@@ -450,6 +488,8 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
       // Citations are extracted from the READ render so the Citations tab lists
       // exactly the verses the printed page will show.
       citations: extractCitations(html),
+      narrationAvailable: narrationDurations.has(key),
+      narrationDurationS: narrationDurations.get(key) ?? null,
     });
     bodyByKey.push({ key, lc: body.toLowerCase() });
   }

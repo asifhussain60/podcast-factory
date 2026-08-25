@@ -9,7 +9,7 @@ import {
 import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
-import type { PeopleFilter } from "~/server/access.server";
+import type { PeopleFilter } from "~/server/people.server";
 
 /**
  * The five numbers that describe Access, in one row.

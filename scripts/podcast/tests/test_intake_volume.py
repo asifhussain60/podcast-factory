@@ -67,6 +67,18 @@ class TestVolumeIntake:
         # resolver agrees
         assert _paths.find_content("asaas-vol-01")[2] == vol
 
+    def test_volume_state_stamps_shared_work_branch(self, temp_repo):
+        """A --work volume's state.json must carry the SHARED work branch (Islamic/asaas),
+        not its own composite-slug branch — orchestrate_book.py's preflight_resume reads
+        state['branch'] first and falls back to branch_name(book_slug) only when absent,
+        so an unstamped state computes the WRONG expected branch and every --resume
+        refuses to run ("current branch is 'develop'; expected 'Islamic/asaas-vol-01'")."""
+        _repo, root, pdf = temp_repo
+        ib._intake_volume_from_pdf(str(pdf), "asaas", 1, force=False, no_branch=True, profile="islamic_scholarly")
+        vol = root / "Islamic" / "asaas" / "vol-01"
+        st = json.loads((vol / "_system" / "orchestrator-state.json").read_text())
+        assert st["branch"] == "Islamic/asaas"
+
     def test_second_volume_inherits_work(self, temp_repo):
         _repo, root, pdf = temp_repo
         ib._intake_volume_from_pdf(str(pdf), "asaas", 1, force=False, no_branch=True)

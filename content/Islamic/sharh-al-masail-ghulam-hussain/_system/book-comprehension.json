@@ -1,0 +1,124 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 126,
+  "terms_tracked": 13,
+  "prerequisite_gaps": [
+    {
+      "term": "Daaim",
+      "first_use_page": 64,
+      "explained_page": null,
+      "pages_carried": 5,
+      "kind": "never-explained"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [],
+  "long_sentences": [
+    {
+      "page": 80,
+      "words": 247,
+      "text": "Choosing Well, Looking Rightly God Almighty said: SAYING ‫ُح ِّر َم ْت َع َلْي ُك ْم ُأَّم َه اُتُك ْم َو َبَناُتُك ْم َو َأَخ َو اُتُك ْم َوَع َّم اُتُك ْم‬ ‫َ"
+    },
+    {
+      "page": 123,
+      "words": 246,
+      "text": "What Outlives You: Charity, Endowment, and Inheritance‬‬ ‫‪God Almighty said:‬‬ ‫‪AN-NISA: 11‬‬ ‫ُيوِصيُكُم الَّل ُه ِفي َأ ْوَلاِدُكْم ِلَّذَكِر ِمْثُل َحِّظ ا"
+    },
+    {
+      "page": 12,
+      "words": 190,
+      "text": "The Dignity of Earning Your Bread And he used to say: SAYING ‫ِاِّنى َاَلْب َغ ُض الَّرُج َل َيُك وُن َك ُس واًل ِفى َاْم ِر ُد ْنَي اُه َاِل َّنُه ِاَذ ا َكاَن"
+    },
+    {
+      "page": 20,
+      "words": 188,
+      "text": "As for entering the houses of those whose closeness is established, God Most High has said: SAYING ‫َو اَل َع َلى َأنُف ِس ُك ْم َأن َتْأُك ُلوا ِم ن ُبُيو ِتُك"
+    },
+    {
+      "page": 17,
+      "words": 187,
+      "text": "God Most High says: SAYING ‫َو ُيْط ِع ُم وَن الَّطَع اَم َع َلى ُح ِّبِه ِم ْس ِك يًنا َو َيِتيًم ا َو َأِس يًر ا ِإَّنَم ا ُنْط ِع ُم ُك ْم‬ ‫ِلَوْج ِه الَّلِ"
+    },
+    {
+      "page": 94,
+      "words": 181,
+      "text": "The Contract: Forbidden Degrees, Guardians, and the Bride-Price made this clear in His words: SAYING ‫\"َو َخ َلَق َلُك ْم ِم ْن َاْنُف ِس ُك ْم َاْز َو اًج ا ِل"
+    },
+    {
+      "page": 13,
+      "words": 174,
+      "text": "The Dignity of Earning Your Bread he said: SAYING ‫َيْنَب ِغ ى ِلْل ُم ْس ِلِم َاْن َيْل َتِم َس الِّر ْزَق َح َّتى ُيِص يَب ُه َح ُّر الَّش ْم ِس‬ \"It befits t"
+    },
+    {
+      "page": 8,
+      "words": 173,
+      "text": "The Dignity of Earning Your Bread \"The truthful merchant is raised on the Day of Resurrection with the truthful and the martyrs.\" And he said: The Master said: "
+    },
+    {
+      "page": 10,
+      "words": 169,
+      "text": "The Dignity of Earning Your Bread shade on the day when no shade exists but His: SAYING ‫ُج ٌل َخ َج َض اِرًبا ِفى اَاْلْرِض َيْط ُل ِم َفْض ِل الَّلِه َم ا َيُ"
+    },
+    {
+      "page": 9,
+      "words": 168,
+      "text": "I earn by this labor, I spend upon my dependants, I keep them from having to beg, and I discharge a debt that lies upon me.\" He said: \"Perhaps it is for other t"
+    },
+    {
+      "page": 43,
+      "words": 167,
+      "text": "A further category of riba is recorded in the hadith: \" ‫الَّذ َه ُب ِبالَّذ َه ِب َو اْلِف َّض ُة‬ ‫ِم ِم‬ ‫ٍد‬ ‫ِف ِة‬ ‫ِم‬ ‫ِم‬ ‫ِع‬ ‫ِع‬ ‫ِباْل َّض َو اْلُب"
+    },
+    {
+      "page": 64,
+      "words": 152,
+      "text": "It is narrated from 'Ali (‫ )ع‬that he said: Uthman ibn Mazun came to the Messenger of God (‫ )َص َّلع‬and said, \"O Messenger of God, the promptings of my soul "
+    },
+    {
+      "page": 18,
+      "words": 150,
+      "text": "At the Table: Eating, Feeding, and Being Fed what is his state?\" He said: \"He is open-handed, generous with food.\" He said: \"Is this from you or from your Lord?"
+    },
+    {
+      "page": 103,
+      "words": 150,
+      "text": "Milk, Maintenance, and the Untying of a Marriage The hadith makes plain that neglecting those who depend on one is a grave matter: SAYING ‫ َو َأْن اَل َيْش َب "
+    },
+    {
+      "page": 49,
+      "words": 149,
+      "text": "From Jabir (‫رضي الله‬ ‫)عنه‬, it is related that he said: SAYING ‫ َفِإَذ ا َو َقَع ِت اْلُح ُد وُد‬، ‫«َقَض ى الَّنِبُّي ِبالُّش ْف َع ِة ِفي ُك ِّل َم ا َلْم"
+    },
+    {
+      "page": 110,
+      "words": 147,
+      "text": "Milk, Maintenance, and the Untying of a Marriage God Almighty said: SAYING ‫َو اَّلِذ يَن ُيَتَو َّفْو َن ِم ْن ُك ْم َو َيَذ ُر وَن َأْز َو اًج ا َيَتَر َّبْص "
+    },
+    {
+      "page": 40,
+      "words": 139,
+      "text": "Then this was revealed: SAYING ‫َيا َأُّيَه ا اَّلِذ يَن آَم ُنوا اَّتُق وا الَّلَه َو َذ ُر وا َم ا َبِق َي ِم َن الِّر َبا ِإن ُكنُتم‬ ‫ْأ‬ ‫ُّم ْؤ ِم ِنيَن َ"
+    },
+    {
+      "page": 74,
+      "words": 138,
+      "text": "Choosing Well, Looking Rightly religion.\" - \"Do not marry a woman for her wealth and her beauty, for her wealth and her beauty may be her ruin.\" - \"Among the ha"
+    },
+    {
+      "page": 29,
+      "words": 136,
+      "text": "Clean and Unclean: Meat, the Knife, and the Hunt Hunting, and What is Lawful and Forbidden in It God Almighty said: SAYING ‫ُأِح َّل َلُك ْم َص ْي ُد اْلَب ْح ِ"
+    },
+    {
+      "page": 96,
+      "words": 136,
+      "text": "A woman asked the Prophet (‫)َص َّلع‬, saying: \"What is the right of the husband over the wife?\" He said: SAYING ‫\"اَل َتَتَص َّد ْق ِم ْن َم اِلِه ِاَّل ِبِاْذ"
+    }
+  ],
+  "summary": {
+    "never_explained": 1,
+    "explained_late": 0,
+    "referent_collisions": 0
+  }
+}

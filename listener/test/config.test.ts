@@ -15,6 +15,11 @@ const AUTH = read("app/server/auth.server.ts");
 const WRANGLER = read("wrangler.jsonc");
 const RR_CONFIG = read("react-router.config.ts");
 const ACCESS = read("app/server/access.server.ts");
+// The people/invite/grant administration split out of ACCESS on 2026-08-17.
+// The privilege-bit invariant below spans BOTH halves deliberately: the point is
+// that exactly one writer exists in the application, not that it sits in a
+// particular file, or the guarantee would evaporate the next time code moves.
+const PEOPLE = read("app/server/people.server.ts");
 const SEED = read("migrations/0003_seed_catalog.sql");
 
 describe("Better Auth configuration", () => {
@@ -166,9 +171,13 @@ describe("privilege bits", () => {
     // open_to_all is the dedicated admin function.
     const writers = [
       ...ACCESS.matchAll(/UPDATE content_unit SET ([^\s]+)/g),
+      ...PEOPLE.matchAll(/UPDATE content_unit SET ([^\s]+)/g),
     ].map((m) => m[1]);
     expect(writers).toEqual(["open_to_all"]);
-    expect(ACCESS).toContain("export async function setOpenToAll");
+    // Defined exactly once, and in the admin half. Asserting both halves keeps
+    // the check honest wherever the function lives.
+    expect(PEOPLE).toContain("export async function setOpenToAll");
+    expect(ACCESS).not.toContain("export async function setOpenToAll");
   });
 
   it("keeps the published filter inside the resolver, not in callers", () => {

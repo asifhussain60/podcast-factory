@@ -1,0 +1,29 @@
+{
+  "mapping": [
+    {
+      "chapter": "ch01-earning-and-the-manners-of-the-table",
+      "episode": "EP01-earning-and-the-manners-of-the-table",
+      "n": 1
+    },
+    {
+      "chapter": "ch02-sale-debt-and-the-contracts-of-trade",
+      "episode": "EP02-sale-debt-and-the-contracts-of-trade",
+      "n": 2
+    },
+    {
+      "chapter": "ch03-the-pledge-and-the-call-to-marry",
+      "episode": "EP03-the-pledge-and-the-call-to-marry",
+      "n": 3
+    },
+    {
+      "chapter": "ch04-the-marriage-contract-and-its-bonds",
+      "episode": "EP04-the-marriage-contract-and-its-bonds",
+      "n": 4
+    },
+    {
+      "chapter": "ch05-maintenance-dissolution-and-inheritance",
+      "episode": "EP05-maintenance-dissolution-and-inheritance",
+      "n": 5
+    }
+  ]
+}

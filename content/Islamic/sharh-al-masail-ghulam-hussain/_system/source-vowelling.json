@@ -1,0 +1,1185 @@
+{
+  "schema": "podcast.source-vowelling/v1",
+  "streams": {
+    "_system/source/ocr/raw-extract.md": {
+      "source_sha256": "4af1b3c4907b7d6a43a0ee11f02aaf028f2401ce4b22eb8d5edb0f9f4071135a",
+      "sibling": "_system/source/ocr/raw-extract.vowelled.md",
+      "stats": {
+        "vowelled": 70,
+        "marks_added": 1994,
+        "already": 1,
+        "quranic": 0,
+        "from_mushaf": 0,
+        "refused": 290,
+        "recovered": 0,
+        "transferred": 49,
+        "in_chars": 92857,
+        "out_chars": 32085,
+        "mushaf_pairs": [],
+        "refusals": [
+          {
+            "run": "ذكر الطلاق واحكامه\nوجه المحكمة فى الطلاء\n١٢٠\nصفة الطلاق\n٩٨",
+            "reason": "letters changed, not just marks (first difference at character 13: source \"احكامه وجه ا\" vs proposal \"أحكامه\")"
+          },
+          {
+            "run": "ذكراختطاب النساء\nذكر العدة والرجعَة\n١٠١\nلعبد الطلاق\nذكر التب",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"اختطاب النسا\" vs proposal \" اختطاب النس\")"
+          },
+          {
+            "run": "صَ شْرَى المَسَائِلُ\n٣٣ غلط\nغلط صحيح\nكـ",
+            "reason": "letters changed, not just marks (first difference at character 14: source \" ٣٣ غلط غلط \" vs proposal \"\")"
+          },
+          {
+            "run": "فُرْ سَصَابِينٌ شِرَة المَائِلُ\nمعناين\nشهرف\nمعناين\nذكر البيع",
+            "reason": "letters changed, not just marks (first difference at character 21: source \" معناين شهرف\" vs proposal \"\")"
+          },
+          {
+            "run": "٢٢\nأحكام العارية\nذكر الأمانة والودلية\nذكر الرهن واحكامه\nذكرق",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" أحكام العار\" vs proposal \"\")"
+          },
+          {
+            "run": "٢٠\n،٧ ذكر من بيحب ناالمرأةزياتكم\nومن يرغب عن نكاحهَا\nوما يجز",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" ،٧ ذكر من ب\" vs proposal \"\")"
+          },
+          {
+            "run": "ذكى النكاح والأولياء الشهر ٣م\nذكرى الشراب الصُّدقة\nذكر المشر",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"ى النكاح وال\" vs proposal \"ي النكاح وال\")"
+          },
+          {
+            "run": "وادائنه\nداوا فيها\nفماكان فى\n١٣١٠\nدابة أخرى\n٤\nدار فرقت\n٣٩\n١١٠",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"ادائنه داوا \" vs proposal \"أدائنه داووا\")"
+          },
+          {
+            "run": "ب\nصحيح\nغلط\nـو\nسطـ\nغلط",
+            "reason": "letters changed, not just marks (first difference at character 2: source \" صحيح غلط و \" vs proposal \"\")"
+          },
+          {
+            "run": "١٣٨\nص\nمن مال المقري\nمن مالك المقرحي\n٨\n٣١\nالعن فى الاذا\nالسن ",
+            "reason": "letters changed, not just marks (first difference at character 4: source \" ص من مال ال\" vs proposal \"\")"
+          },
+          {
+            "run": "٣٠٠\nوأجر الحاج\nداجرج المحاج\n١١\n١٠٩ الأخروغير ذلك الأخر مع ان",
+            "reason": "letters changed, not just marks (first difference at character 38: source \"أخروغير ذلك \" vs proposal \"آخر وغير ذلك\")"
+          },
+          {
+            "run": "٣٥\nوس وفى الاخـ\n١٥ وى وو فى\nأبي الغرماء\nه بن الفهاء",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" وس وفى الاخ\" vs proposal \"\")"
+          },
+          {
+            "run": "ماكوب الدابة مع\nوأشاربها\nواشاب بها\nعنداه زوجة\nللركوب\nه الركو",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"اكوب الدابة \" vs proposal \"أكوب الدابة \")"
+          },
+          {
+            "run": "٠٨ ١٣ إدلاباً من\nيجرير ها\nغير ابويه\nغير الو به\n١٥\nفلاضين ونج",
+            "reason": "letters changed, not just marks (first difference at character 16: source \" يجرير ها غي\" vs proposal \"\")"
+          },
+          {
+            "run": "عدها اليااذ اعدتها الينا أذهب",
+            "reason": "letters changed, not just marks (first difference at character 30: source \"\" vs proposal \".\")"
+          },
+          {
+            "run": "المفرٌ\nذلك ومال\nالمفقرة\nذلكممايل\n١٣\n٩٣\n١٥١م احل صاحبيهما",
+            "reason": "letters changed, not just marks (first difference at character 6: source \" ذلك ومال ال\" vs proposal \"\")"
+          },
+          {
+            "run": "مزالجان والمحجاب\n٩\nجل\nوان لوكان يدهم وان لميدخل\n١٢\nوَلا بأس\n",
+            "reason": "letters changed, not just marks (first difference at character 17: source \" ٩ جل وان لو\" vs proposal \"\")"
+          },
+          {
+            "run": "٨ ١\nالشريعة بمالمثنّ الشرع الشريف\nلنالريف\n١٦\nم واشراتّلامين ",
+            "reason": "letters changed, not just marks (first difference at character 4: source \" الشريعة بما\" vs proposal \"\")"
+          },
+          {
+            "run": "ًاحتن صاحبيهما\nإراداحد\nاراد احزان\n١٥\n٤ ٩\nعن اقامته\nعن اقامة\n",
+            "reason": "letters changed, not just marks (first difference at character 19: source \"احد اراد احز\" vs proposal \" أحد أراد أح\")"
+          },
+          {
+            "run": "٣\n١٠٢\nوتربديهم وتربيتهم\nأقائمة أولا١ وبالالقائمة أولا بدباني",
+            "reason": "letters changed, not just marks (first difference at character 2: source \" ١٠٢ وتربديه\" vs proposal \"\")"
+          },
+          {
+            "run": "كُوَ مَّنَ الََّا وَاعُ الَاِ\nالحمدُ للهِقَ المَنّة فى الإدا",
+            "reason": "empty"
+          },
+          {
+            "run": "٢\nبِمَ الِلْهِ الرَّهِ الرَّحِيمْ\nالحمد لله وحدة والضّلوة عل",
+            "reason": "empty"
+          },
+          {
+            "run": "العرتك هذه أي شييٌّ تعالج على هافقال فى زوجة وعيال\nفانا آكتت",
+            "reason": "letters changed, not just marks (first difference at character 18: source \" تعالج على ه\" vs proposal \"ء تعالج على \")"
+          },
+          {
+            "run": "٣\nدكر الحضور الترغيبفى حَدالرّة\nاية فانتش وافى الارض وابتغوا",
+            "reason": "letters changed, not just marks (first difference at character 2: source \" دكر الحضور \" vs proposal \"\")"
+          },
+          {
+            "run": "عم\nفليخرج من بليّه ويضرب فى الارض يبتغى من فضل اللهلـ\nولا يغ",
+            "reason": "empty"
+          },
+          {
+            "run": "٥\n١\nثم التجارة وكان صلع يقول الى لا بغض الرجل يكون\nكسوف امرد",
+            "reason": "letters changed, not just marks (first difference at character 2: source \" ١ ثم التجار\" vs proposal \"\")"
+          },
+          {
+            "run": "سميكم النجار والتاجرزهاجم\nالفاجر فى النار فغلقوا بوابهر وامس",
+            "reason": "letters changed, not just marks (first difference at character 21: source \"زهاجم الفاجر\" vs proposal \" زهاجم الفاج\")"
+          },
+          {
+            "run": "الحادبل يصبرالى ان يسيغ كله وكان لا يشرب الماء\nفى اثناء الطع",
+            "reason": "letters changed, not just marks (first difference at character 13: source \"الى ان يسيغ \" vs proposal \" إلى أن يسيغ\")"
+          },
+          {
+            "run": "ذكراداب بلآكل\nأيه كارامن الطَّيَباتِ وإعلواص المحا ايضَّاكلو",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"اداب بلآكل أ\" vs proposal \" آداب الآكل \")"
+          },
+          {
+            "run": "وعياله ما يصلح همروى\nآن رجلا سأل الامام جعفر بن محمد عمرات\nي",
+            "reason": "empty"
+          },
+          {
+            "run": "وكان صلع ينقّى الاصابع بعد فراغ الطعام شويضل\nيده هذا شان رسو",
+            "reason": "letters changed, not just marks (first difference at character 13: source \"ى الاصابع بع\" vs proposal \"ي الأصابع بع\")"
+          },
+          {
+            "run": "أكل كماياكل لعبد د اجلس الجبس المعبد وبكرة الأول صَلها\nاومست",
+            "reason": "empty"
+          },
+          {
+            "run": "تمريضم طعامه فيسمى وليمون اللَّه فى اول طعامهم وحمّق\nفى أخرة",
+            "reason": "empty"
+          },
+          {
+            "run": "كبر ولاغرور ان كان جالساعه الارض فله ان يضع طعامه\nعلى توب إن",
+            "reason": "empty"
+          },
+          {
+            "run": "الحديث إن فى الجنة غر فايرى ظاهرهامن باطزها\nوباطنها من ظاهر ",
+            "reason": "empty"
+          },
+          {
+            "run": "٩\nأنه قال الطعام المؤمن يعدل عتق رقبة أُحب الاعمال\nإلى الله ",
+            "reason": "empty"
+          },
+          {
+            "run": "كله من طعامه وانه\nليعجبنى الرجل باكل من طعامى فيجيد الأكل يس",
+            "reason": "letters changed, not just marks (first difference at character 15: source \"انه ليعجبنى \" vs proposal \"إنه ليعجبني \")"
+          },
+          {
+            "run": "لك وعن الحسين بن على عم انه رأى\nرجلاوعي الى الطعام فقال للذى",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠\nفكل وإن كنت صائما قبارك قال مولانا جعفر بن محمّد\nصلع انه ",
+            "reason": "empty"
+          },
+          {
+            "run": "١١\nفى اداب لضيف\nليس من السنة الدخول فى دار لو بد رع اليه فى ",
+            "reason": "empty"
+          },
+          {
+            "run": "١٢\n١\nفى جوابها بلغت الصدقة محلمها وذلك لعلمه\nلسرورها بذلك وك",
+            "reason": "empty"
+          },
+          {
+            "run": "كان بقال فى السوق فكان\nيأخذ من هذه الجونة مرّة ومن غليهامرة\n",
+            "reason": "empty"
+          },
+          {
+            "run": "كلفن للضيف متّرسول الله صهام يچيل",
+            "reason": "letters changed, not just marks (first difference at character 33: source \"\" vs proposal \".\")"
+          },
+          {
+            "run": "١٣\nبل يجيب العزومة الاوّلة وينبغى ان يجيب\nدعوة المسکین والغے",
+            "reason": "empty"
+          },
+          {
+            "run": "أن محضر الطعام لد يهم ولا ينتظر للمباقين وإن مضوالزهري\nلانتظ",
+            "reason": "letters changed, not just marks (first difference at character 50: source \"لزهري لانتظا\" vs proposal \" الزهري لانت\")"
+          },
+          {
+            "run": "ن يمنحه خلقا حسنافعل\nوينبغى لصاحب العزومة ان لا يقصد بعن ومت",
+            "reason": "empty"
+          },
+          {
+            "run": "١٩\nكل ماليس له تاب ولا مخلب كالغزال والارانب التىكون\nلهاظلفة",
+            "reason": "empty"
+          },
+          {
+            "run": "١٥\nذكرها محل الكله ولا يحرم ان يوكل\nمِزِالظّعَام\nاية حرمت عل",
+            "reason": "empty"
+          },
+          {
+            "run": "ملء جبنات كتيرم وعليله حد بستانا بعـ",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"نات كتيرم وع\" vs proposal \"انات كتيرم و\")"
+          },
+          {
+            "run": "بأس بإكله إذاد فع منه فان مات\nفيه حيوان متا له دمكالغارة وغي",
+            "reason": "empty"
+          },
+          {
+            "run": "،١\nعطشه إلى الخمر شر ب مرة حتّى يروى وليس له\nان يعود الى ذلك",
+            "reason": "empty"
+          },
+          {
+            "run": "أية والزلنا من السماء ماء طهوراماء السماء\nوالانهاروالعيون وا",
+            "reason": "empty"
+          },
+          {
+            "run": "١٨\nذكر انه كيف للج الذّيجة\nومن توكل ذبحته\nالية فكلوا مها ذكر",
+            "reason": "empty"
+          },
+          {
+            "run": "١٩\nياس بالكلها ان كان جهلهاوسهواوان ترك بذلك\nمتعمداونخالفالا",
+            "reason": "empty"
+          },
+          {
+            "run": "وكان متهما بتك التسمية لم يجز اكل\nذبحنه ومن ارتد عن دين الاس",
+            "reason": "letters changed, not just marks (first difference at character 31: source \"اكل ذبحنه وم\" vs proposal \"أكل ذبحنه وم\")"
+          },
+          {
+            "run": "٢٠\nيحقق منالذابج وما صيد من دواب المجمن السمك\nوالجراد جانخلا",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠\nعلمانه مات من اثر الجارح وإن كان أُدرك حتًّا\nفيذكى وتوكل ",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"انه مات من ا\" vs proposal \" أنه مات من \")"
+          },
+          {
+            "run": "كله سواء كان صاد ة مسلراو\nيهودى اونصرانى او مجوسى وماصادى ال",
+            "reason": "letters changed, not just marks (first difference at character 17: source \" ة مسلراو يه\" vs proposal \"ة مسلرا أو ي\")"
+          },
+          {
+            "run": "احل لكرصيد البجروطعامه متاعالكمال\nوللسيارة وحرم عليكم صيد ال",
+            "reason": "empty"
+          },
+          {
+            "run": "المسلماواليهود او النصرانى ويرسله\nنفجازاكل ما امسك من الصيد ",
+            "reason": "letters changed, not just marks (first difference at character 8: source \"واليهود او ا\" vs proposal \" واليهود أو \")"
+          },
+          {
+            "run": "تخذ شعر افليجس اليه ومن اتخذ زوجا\nفلي كرمه ومن اتخذ نعلا فلي",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٣\nيحتاجون إلى عد له وقسطه ان سفيان الثورى دخل\nعلى الامام جع",
+            "reason": "empty"
+          },
+          {
+            "run": "الارض فلا بأس بللبسه والضَلوة فيه وكل سبي\nيحل لحمة فلا بأس ب",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"ارض فلا بأس \" vs proposal \"أرض فلا بأس \")"
+          },
+          {
+            "run": "يطاء عليه رقبة المرأة ويدها ورجلها مقام الحلى\nفلا ينبغى لهاا",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٨\nشرائط الشرط الأول ان لايكون الشئ حراما أكله\nفان كان ينتفع",
+            "reason": "empty"
+          },
+          {
+            "run": "فها لا يقدا\nدعلى تسليمه ظاهراًكالحماتتُرى الهواء اوالسمك فى\n",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٤\nاوعشرة أذرع من هذه الارض او وبا من هذه الثّيّا\nاخذاى ماشا",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" اوعشرة أذرع\" vs proposal \"\")"
+          },
+          {
+            "run": "٢٦\nوغير هُمَا فقبضة الأشياء المنقولة إن ينتقل حق\nالمبايع واخ",
+            "reason": "empty"
+          },
+          {
+            "run": "الركن الثالث اللفظ والحمل الذى يستدل به على\nعقد البيع ونقل ا",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٩\nالصورة البێنةعلالمشترى انه قد دفعمایێچی و\nالاجلفالبائعبان",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" الصورة البێ\" vs proposal \"\")"
+          },
+          {
+            "run": "حرنه اى من كانت سته ثواب الأخروى نزد\nفیثوابهذلك ومنكان يرىدح",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"نه اى من كان\" vs proposal \"ثه أي من كان\")"
+          },
+          {
+            "run": "٢٨\nليس من الخيانة والسرقة والظلم نهى رسولاله\nصلى الله عليه و",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٠\nایمنکانت نيته نفع الدنيا فنعطيه منهاوما له\nفى الآخرة من ن",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"ایمنکانت نيت\" vs proposal \"أيمنكانت نيت\")"
+          },
+          {
+            "run": "ورجع بعدذلك يطلب منه النغم الدنيا وى يكون\nذلك النفع ربًا فيح",
+            "reason": "empty"
+          },
+          {
+            "run": "أى فلايزيد عند الله وما التيته من تزكوة تريد ون\nوجه الله يعن",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"ى فلايزيد عن\" vs proposal \"ي فلايزيد عن\")"
+          },
+          {
+            "run": "الربامعناه الزيادة\nمطالقا انه اليست كل زيادة منهيا وحراما مث",
+            "reason": "empty"
+          },
+          {
+            "run": "وكلواحد منهما موقوف على نتيّةٌ من يقرض دوا\nلان الأعمال بالني",
+            "reason": "empty"
+          },
+          {
+            "run": "٣١\nالحسن لة فله ان ينقص او يعفوا ويزيد فى الميعاداونقص\nاولعف",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٣\nوهو الحبوبعندالله ورسوله وفی خلافه خلافالله\nورسوله فاذا ت",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٢\nيمهلون له فى الايقاًا ويعفوا عن رأس ماله كما انه\nاعطى مرة",
+            "reason": "empty"
+          },
+          {
+            "run": "ُلّيسين\nالضَّاركانت التجارة قبل فتح مكة واسعارها فى قبضة الك",
+            "reason": "empty"
+          },
+          {
+            "run": "ُودَ\nولا يصافيه المودة فليست هى الاعلى جريان عادة المسلمين\nف",
+            "reason": "a vowel mark ('ُ') is not attached to an Arabic letter (near \"ُودَ وَلَا ي\") -- the reflow placed a mark at a script boundary"
+          },
+          {
+            "run": "٣٢\nونزلت سنة التاسعة انما المشركون نجس فلايق بو المسجد\nالحرا",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٥\nيديهم مجدّ قد تركوا المعاملات مع غير المسلمين غيظامتهمة\nع",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٠\nاواسترَاه فقداربى الآخذ والمعطى فيه سواء ووجه\nهذه المبادل",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٤\nوالتاجر الذى عليه ديون تستغرق امواله اوتزيد\nعليه علم المو",
+            "reason": "empty"
+          },
+          {
+            "run": "٤ ١ كهرى عَل البلايم والإيصال ولمرديمـ\nدابة بعين هاولا سفينة",
+            "reason": "letters changed, not just marks (first difference at character 89: source \"ه وله الاجمة\" vs proposal \"ة وله الأجمة\")"
+          },
+          {
+            "run": "الاقراضافري بعد ذلك ولم يزج فالذين دايو\nبعدالتفليس أولى من غ",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٨\nعلى مطالبة الغر ماء بل بنظرة الى اليسرة\nمسئلة رجل لحقه دي",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٠\n١\nوسفينة بعينها ليركب السّفينة اوعلى الدابة الح موضع\nمعلو",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" ١ وسفينة بع\" vs proposal \"\")"
+          },
+          {
+            "run": "٣٩\nذلك فالخيار لصاحب الداران شاء اجارا واخرج واخر منه\nوالمكت",
+            "reason": "empty"
+          },
+          {
+            "run": "مسئلة واذاكان التجل يكذى الدابة والسّفينة\nعد ان يوصل إلى مكا",
+            "reason": "empty"
+          },
+          {
+            "run": "٣١\nبالخيار ان شاء ضمنه ما نقصت فى مد تهاتجاوزها المكارى\nوان ",
+            "reason": "letters changed, not just marks (first difference at character 12: source \"ان شاء ضمنه \" vs proposal \"إن شاء ضمنه \")"
+          },
+          {
+            "run": "مسئلة من الترى دابة إلى موضع معلوم فتجاوزة\nمُحللت الدَابَةِ ",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٢\nمن جانب الآخرفيكون الزبه بينهما عد حسب التقم روالتعيان\nول",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" من جانب الآ\" vs proposal \"\")"
+          },
+          {
+            "run": "بأن يحفظه نفسه وامواله ويوصله الحقم\nمعلوم بالسلامة اوضمن بصح",
+            "reason": "empty"
+          },
+          {
+            "run": "التر تسمى م ضارية",
+            "reason": "letters changed, not just marks (first difference at character 12: source \" ضارية\" vs proposal \"ضارية.\")"
+          },
+          {
+            "run": "قال عدعم ليس الجارشفعة\nوقال ايضًا شفعة الشريك واجبة اذاكان ب",
+            "reason": "letters changed, not just marks (first difference at character 29: source \"ايضا شفعة ال\" vs proposal \"أيضا شفعة ال\")"
+          },
+          {
+            "run": "من الوضيعة شئ لان\nالوضيعة عائدة إلى صاحل لهمال لكن إذاخالف ا",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٣\nطريق مشتركاوحائط مشترك او فے شئ مشترك من\nالبناء اوباب مشت",
+            "reason": "empty"
+          },
+          {
+            "run": "٢٥\nلميصدق ويضمن وان كان ارتغنضا ياخذ ها المعير\nمن المرتهن\nو\n",
+            "reason": "letters changed, not just marks (first difference at character 6: source \"يصدق ويضمن و\" vs proposal \" يصدق ويضمن \")"
+          },
+          {
+            "run": "و\nالعلامة من الشفيععه القبالة حتى لا يقوم لعبد البيع\nبجى الم",
+            "reason": "empty"
+          },
+          {
+            "run": "العارية لمن اعاها\nوالمستعيران بستعمالها فيما أذن له المعير\nم",
+            "reason": "empty"
+          },
+          {
+            "run": "أَالعَارِيَعُ\nاية ولايتسوا الفضل بيكم اذا اراد الانسان ان\nيص",
+            "reason": "empty"
+          },
+          {
+            "run": "وهلكت من غير جناية منه عليهَا\nولا استهلاك فلاصنان اودجل ها ع",
+            "reason": "letters changed, not just marks (first difference at character 45: source \"صنان اودجل ه\" vs proposal \" صنان أو دجل\")"
+          },
+          {
+            "run": "مسئلة إن كان زيً ادفع الى عمر ووديعة شوالمنة",
+            "reason": "letters changed, not just marks (first difference at character 16: source \" ادفع الى عم\" vs proposal \"دا أدفع إلى \")"
+          },
+          {
+            "run": "إية إن الله يا مركمان تؤدد الأمانات إلى أهلها\nايضَافانا من ب",
+            "reason": "empty"
+          },
+          {
+            "run": "فقال عمر وقد استودعتنى لكن امرتنى إن إدفعها إلى\nبكرفدفعتهاال",
+            "reason": "empty"
+          },
+          {
+            "run": "جميعًا اعد تها اليا اذهب وات بصاحبك وخذ احقكما\nمسئلة فلاينبغ",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"اعد تها اليا\" vs proposal \"أعدها إلي اذ\")"
+          },
+          {
+            "run": "حدث واشراتى لامين ف الشّماعامين ف الارض\nولواسلفنى لاديته واذ",
+            "reason": "empty"
+          },
+          {
+            "run": "رشهائى الايخفان الرهن واحكامه صارت مخلوطه فى اذهان\nالفقهاء ف",
+            "reason": "letters changed, not just marks (first difference at character 6: source \"ى الايخفان ا\" vs proposal \"ي الأيخفان ا\")"
+          },
+          {
+            "run": "آن سقط الجداريين\nالبيتين",
+            "reason": "letters changed, not just marks (first difference at character 15: source \"ين البيتين\" vs proposal \"ن البيتين\")"
+          },
+          {
+            "run": "ولم يفهمواان مسائل\nالرهن التى هى مذكورة فىكتب الفقه ماهى الا",
+            "reason": "empty"
+          },
+          {
+            "run": "والرهن العر فى هوان تكتب الوثيقة لاجل\nالقرض الذى يقرض المرته",
+            "reason": "empty"
+          },
+          {
+            "run": "٣٩\nفى الشريعة اذا ارهن أحد بعد الكتابة وتخريب الوثيقة\nمكانال",
+            "reason": "empty"
+          },
+          {
+            "run": "٥٠\nرواج الكتابة عم الرهن العرخ حتى قدارتفع الرهن القمر\nالذى ",
+            "reason": "empty"
+          },
+          {
+            "run": "عنى\nعند المر تهن لعوض المبلغ مكان اوشئ الخرالذى يرمن\nالرهن ع",
+            "reason": "empty"
+          },
+          {
+            "run": "٥١\nفلايقبل قوله الاببينة وان اختلفلغ قدر الدراهم\nفالقول قول ",
+            "reason": "empty"
+          },
+          {
+            "run": "ف ملك احد صاحبيهما وامتنع المالك\nعن إقامة فلس المجاران يجدي ",
+            "reason": "empty"
+          },
+          {
+            "run": "الطروقة بعنى النساء كلما ازداد العبد ايماناازد",
+            "reason": "letters changed, not just marks (first difference at character 10: source \"عنى النساء ك\" vs proposal \"معنى النساء \")"
+          },
+          {
+            "run": "٥٢\nأوبل فع نصف صرفته ليس لاحد ان يفتح كرة فالجدار\nمشار كا كا",
+            "reason": "letters changed, not just marks (first difference at character 6: source \"بل فع نصف صر\" vs proposal \" بل فع نصف ص\")"
+          },
+          {
+            "run": "هاها وقد روى عن مولانا جعفر الصادق صلع\nانه قال قسمة الارض وا",
+            "reason": "empty"
+          },
+          {
+            "run": "اية ومن اياتم إن خلق لكم من انفسكم از واجًا\nلتسكنوا إليها وج",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"اية ومن ايات\" vs proposal \"أية ومن آيات\")"
+          },
+          {
+            "run": "٥٣\nالتحتانى قال على صاحب السفل ويكون السط كالارض\nالصاحب العل",
+            "reason": "empty"
+          },
+          {
+            "run": "حبالزوجته وقال صلح من ترك النكاح مخافة العيلة فعل\nإساء الطن ",
+            "reason": "empty"
+          },
+          {
+            "run": "فلابدمن ان يكون عنده من يحافظبيته واثاثة لذ لك\nلا يصلى لهذاغ",
+            "reason": "empty"
+          },
+          {
+            "run": "نها تهم فى وقت الصبى ما يعواشرة\nأملا فعلينا ان تختار من الجم",
+            "reason": "empty"
+          },
+          {
+            "run": "ان الدّارمع المرأة والمرأة مع الذار فلايكون قصد المسلم\nالمتد",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"ان الدارمع ا\" vs proposal \"إن الدارمع ا\")"
+          },
+          {
+            "run": "بجلا ف المجردفانه ولوكان بريا بالغرض عن الوساوس وخطرً\nالشوع ",
+            "reason": "empty"
+          },
+          {
+            "run": "حرامافها المراد بالترغيب عن الشارع ث لهذ الباب كما\nهومذكورف ",
+            "reason": "empty"
+          },
+          {
+            "run": "مع الزوجة التى فى مذكور قد الدّ عائض القر وضع رسول اله\nصالع ",
+            "reason": "letters changed, not just marks (first difference at character 14: source \"ى فى مذكور ق\" vs proposal \"ي في مذكور ق\")"
+          },
+          {
+            "run": "سنة الى السماء تعظيم الله تعالى فقال عماما تولك\nفى ترك النسا",
+            "reason": "empty"
+          },
+          {
+            "run": "٥٩\nان لميجد وامهر مثل فقليلا من ذلك وعلى هذا قدرو\nروايات عن ",
+            "reason": "empty"
+          },
+          {
+            "run": "٦٠\nمذاهبهم وكمون العداوة فيهم نسلابعد نسل يحسبون\nبه قتل الإن",
+            "reason": "empty"
+          },
+          {
+            "run": "الا\nللحرب يل كم من اسباب غير هلتحدث فى غير العرب\nايضاكمانذكر",
+            "reason": "empty"
+          },
+          {
+            "run": "ارتعين ليس فيهم من يزومهن لانه كانت مع كل واحد\nمن الرجال الن",
+            "reason": "empty"
+          },
+          {
+            "run": "صحابها مبتلين\nبالنجور لغيرانر واجهم ومع قصورنظر المعارضينى\nه",
+            "reason": "empty"
+          },
+          {
+            "run": "سورة النساء فلانظراحد من المنصفين في مفهوم\nهُذ ة الاية ومقصو",
+            "reason": "empty"
+          },
+          {
+            "run": "٦٣\nمن أبلغ الدرجات فى الفصاحة حيث انغاتمنع النعد وث\nكلمات ال",
+            "reason": "empty"
+          },
+          {
+            "run": "روحه ف الد عائم حيث قال إنما الفضل فى الاكثار من النسا\nلمن ا",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"حه ف الد عائ\" vs proposal \"اه ف الدعائم\")"
+          },
+          {
+            "run": "والافعليه\nان يقتلى برسول الله صلع وليسكنهن متفرقات\nالنصيحة ر",
+            "reason": "empty"
+          },
+          {
+            "run": "٩٥\nهذ أرسول الله صلى أنه كانت معه زوجين عائشة\nوتسوداء خطب عل",
+            "reason": "empty"
+          },
+          {
+            "run": "ما تحتاج إليه بحمن تد بيها فمن زيادة ودهما بينهماان\nكان عاقل",
+            "reason": "letters changed, not just marks (first difference at character 50: source \"ان كان عاقلي\" vs proposal \"أن كان عاقلي\")"
+          },
+          {
+            "run": "الشجرة والشجرة فى الامور المتعلقة كل واحد منهما\nيعنى لا يقرب",
+            "reason": "empty"
+          },
+          {
+            "run": "يلين إلا بوين ان يل خلا نفسهمَا خ أمورابنا هم وازاً\nفالا بوا",
+            "reason": "empty"
+          },
+          {
+            "run": "َقْبُعَوَج\nدكر بيد تحبُ الْ حَانَ وْمِّنْ عِنْ\nتَاجَهَا\nايَة",
+            "reason": "empty"
+          },
+          {
+            "run": "صوب وإولى\nولهذاكان صلم تحب المرأة الولود والودود ويقول\nخمس م",
+            "reason": "letters changed, not just marks (first difference at character 10: source \" ولهذاكان صل\" vs proposal \"\")"
+          },
+          {
+            "run": "٦٨\nالباكرية تكون اعذب خوها واسرع تعلما واثلت مودة\nوالت رجًاق",
+            "reason": "empty"
+          },
+          {
+            "run": "ولاليسى التزويج العقد بين الى والمرأة عقداشرعيا\nفقطبل المقصو",
+            "reason": "empty"
+          },
+          {
+            "run": "مكن عليها النظر\nفليختلس اليهالغير نطر السوء لانها الذمايقع ا",
+            "reason": "empty"
+          },
+          {
+            "run": "٤٠\nلذلك حيث تكون انتظام السّلطنة غير ضابطة و\nاهله غير مطمئنة",
+            "reason": "empty"
+          },
+          {
+            "run": "باتهم\nلايكون علي هم خوف الفساد اخلاقهم فليس على باقم\nأن ينكج",
+            "reason": "empty"
+          },
+          {
+            "run": "امنين على انفسنا وا ولادنا ومعذلك فوائد الجماعة لنًا\nحاصلة ز",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"امنين على ان\" vs proposal \"آمنين على أن\")"
+          },
+          {
+            "run": "بالأمور العميلولة ويوفين ما يجب عليهن من حقوق الأزواج والأً\n",
+            "reason": "letters changed, not just marks (first difference at character 140: source \"ى قلوبهم سيم\" vs proposal \"ي قلوبهم سيم\")"
+          },
+          {
+            "run": "شائعا عل العموم لكانتكل واحدة منهن تصالح انظامَة\nالبيت وتكون",
+            "reason": "empty"
+          },
+          {
+            "run": "زيد من رجل يتزوج من العوام واذاحصلت\nلامتا لهم ألا ولاد فلا ب",
+            "reason": "empty"
+          },
+          {
+            "run": "٤٣\nوقدكان لزومهن البيت واللزوم بالح من علائم المؤمناوخصا\nمنا",
+            "reason": "empty"
+          },
+          {
+            "run": "والمسلمات حصل للذين كانوا لا يبالون باخلاق إهل الايم\nسيل لجو",
+            "reason": "letters changed, not just marks (first difference at character 38: source \"اخلاق إهل ال\" vs proposal \"أخلاق أهل ال\")"
+          },
+          {
+            "run": "دخلتة من فان لو تكونوا دخلتم بهبن فلا جناح وحلال\nأبنائكم الذ",
+            "reason": "letters changed, not just marks (first difference at character 5: source \"ة من فان لو \" vs proposal \"ه من فإن لو \")"
+          },
+          {
+            "run": "مؤمنة عارفة ولليس بالموضع احد\nعلاد بنهاهل تزوج منهمقالاتزوج ",
+            "reason": "empty"
+          },
+          {
+            "run": "٠٠\nاية حرمت عليكما مهانَكُمْ وَبَبْا تَكَمْ وَاخوانَّكِمْ\nوع",
+            "reason": "empty"
+          },
+          {
+            "run": "ِ الْحَكِ وَ لَ الِكِيـ\nمسئلة ومن تكاخت زوجته وهوجاهل\nعن حرم",
+            "reason": "empty"
+          },
+          {
+            "run": "٢\nالرحل اخت زوجته إذاطلق زوجته وكان طلافارجعيًا\nأما اذاكان ب",
+            "reason": "empty"
+          },
+          {
+            "run": "واكننتمث الفسكر علم الله\nأنكم ستذكر وهن\nحديث تفى صَلع ان يخط",
+            "reason": "letters changed, not just marks (first difference at character 36: source \" وهن حديث تف\" vs proposal \"وهن حديث تفى\")"
+          },
+          {
+            "run": "عنهازوجها فاذاكانت المرأةتحت الزوج اد فى عدة القدر\nالرجعى فل",
+            "reason": "empty"
+          },
+          {
+            "run": "وسكرتها للاستدلال على\nرضائها قال مولا ناجحف الصادق عمفى معنى",
+            "reason": "empty"
+          },
+          {
+            "run": "بمنن لتى ومكانى وقد دخل رسول الله صالع عده أم سلمة\nبَت أبى أ",
+            "reason": "empty"
+          },
+          {
+            "run": "اوقبيلة واحدة من اهل الايمان كما هو الان فى بعضمتفاها\nمن الع",
+            "reason": "empty"
+          },
+          {
+            "run": "أرادت البالغة زواجة لنفسها فلها أن يعين احد",
+            "reason": "letters changed, not just marks (first difference at character 36: source \"يعين احد\" vs proposal \"تعين أحد.\")"
+          },
+          {
+            "run": "حديث أنه نهى ضَلع ان تنكم المد الاحتى\nتستامرا ولانكاح الابول",
+            "reason": "empty"
+          },
+          {
+            "run": "والما ما كانت بالصَّهارة تسمى صهارية والافتراء\nالمنتسبون بهذ",
+            "reason": "empty"
+          },
+          {
+            "run": "الصَّهارة\nهى التى يمكن الرجل والم أنّان يحصلاً لا نفسه هما ا",
+            "reason": "empty"
+          },
+          {
+            "run": "جديدة باختيار هِمَا كانهم فى ارض الحيَاة ظهرَت\nدوحة مستبدة و",
+            "reason": "letters changed, not just marks (first difference at character 20: source \"انهم فى ارض \" vs proposal \"أنهم في أرض \")"
+          },
+          {
+            "run": "من هؤلاء الأربعة أو ولد ها او اخيما الحقيقى أو\nأخيها من جمة ",
+            "reason": "empty"
+          },
+          {
+            "run": "فى كتاب موضوع لذلك\nبإنه يعتدل مع زوجته فى باب حسن المعاشرق و",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"ى كتاب موضوع\" vs proposal \"ي كتاب موضوع\")"
+          },
+          {
+            "run": "٨٢\nاعنى عامل الدّعوة وكيلهاينكحها بنفسه هذا مسلك\nالدين المرو",
+            "reason": "empty"
+          },
+          {
+            "run": "دار الشُ الَ وَالِاسْتَاكَ\nوَالتَّ قِالمُ العَيْبَ\nايَة ولا ",
+            "reason": "empty"
+          },
+          {
+            "run": "اشيا وهى الجماع والطلاق والنفقة بالمعروف والتزيج\nبالاخرى فان",
+            "reason": "empty"
+          },
+          {
+            "run": "٨٣\nاوخالف لكن يكون كل ذلك بالمعروف واذ انعلى و\nظلمة أحد منها",
+            "reason": "empty"
+          },
+          {
+            "run": "فان لم يعتدلفأحد من الامور المذكورة وسشَت توجيه\nله إعنى طلان",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"ان لم يعتدلف\" vs proposal \"إن لم يعتدلف\")"
+          },
+          {
+            "run": "فطلاقهابيد المغصوب يصالح بينهما اويطلقها\nفاعتدل الامرين لك م",
+            "reason": "letters changed, not just marks (first difference at character 8: source \"بيد المغصوب \" vs proposal \" بيد المغصوب\")"
+          },
+          {
+            "run": "توازن\nاليوم بارىعين روبيات اخويخية وعده ذلك الحنى فاطمة\nصَلع",
+            "reason": "letters changed, not just marks (first difference at character 14: source \"ارىعين روبيا\" vs proposal \"أربعين روبيا\")"
+          },
+          {
+            "run": "أواعر إضافلاجناح عليهما ان يصلحا بينهما صلحا\nوالصالح خير ونف",
+            "reason": "empty"
+          },
+          {
+            "run": "٨٥\nاغتصب امرأةً مهرها اواجيدا اجرتها إوس جلاتباع\nحراقال عد ص",
+            "reason": "empty"
+          },
+          {
+            "run": "أنه قال الخام بغير مجهريچنى بالنكاح الدخول لان المهر\nلس من ش",
+            "reason": "letters changed, not just marks (first difference at character 25: source \"چنى بالنكاح \" vs proposal \"جنى بالنكاح \")"
+          },
+          {
+            "run": "،٨\nفَائِ مَرُوَارچ\nآية وعاشر وهن بالمعروف هن لباس لكم القمر\n",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" فائ مروارچ \" vs proposal \"\")"
+          },
+          {
+            "run": "اذاكانت امراءة ارضعت لمولود لغير الرخصة\nمن المتكفل به",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"اذاكانت امرا\" vs proposal \"إذاكانت امرأ\")"
+          },
+          {
+            "run": "ازيد من الرواج المن وج ولا يضى الزوج\nبه فالقاضى ينظر حنيد عز",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"ازيد من الرو\" vs proposal \"أزيد من الرو\")"
+          },
+          {
+            "run": "٨٨\nكمثل بستان تعت العيون بالنظرالى رياضها وخضر تهايمنة\nكل من",
+            "reason": "empty"
+          },
+          {
+            "run": "لسسبب زيادة اللبن",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"سبب زيادة ال\" vs proposal \"بب زيادة الل\")"
+          },
+          {
+            "run": "حديث كان الحرماوصى به رسُول اله صلع\nتراثا كان يتكلميه الناس ",
+            "reason": "empty"
+          },
+          {
+            "run": "عن مقدرة وقد سالت امرأة عنه صلع وتقالت ما\nحق الزوج عد الزوجة",
+            "reason": "letters changed, not just marks (first difference at character 15: source \"الت امرأة عن\" vs proposal \"ألت امرأة عن\")"
+          },
+          {
+            "run": "٨٩\nدَاكُ الرِّضَاعْ\nاية وان اردتم ان تسترضعوا اولادكم فلاجنا",
+            "reason": "letters changed, not just marks (first difference at character 15: source \"اية وان اردت\" vs proposal \"آية وإن أردت\")"
+          },
+          {
+            "run": "حديث جرم من الرّضاعة ما يحرم من النسب\nلايخف إن من كلمة تسستة",
+            "reason": "letters changed, not just marks (first difference at character 37: source \" لايخف إن من\" vs proposal \"\")"
+          },
+          {
+            "run": "اذاارضحت بالرخصة منه ١الا جل الدائ\nيوصله من حلقه اواذنه اوان",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"اذاارضحت بال\" vs proposal \"إذاأرضحت بال\")"
+          },
+          {
+            "run": "فلاباش عند الضرورة إماما كانت من المرضارع بعد مدة\nحولين فليس",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"باش عند الضر\" vs proposal \" بأش عند الض\")"
+          },
+          {
+            "run": "٩٠\nوتاذيتها به وفقد انآلة جراللبن هناك اوفقد ان\nالذى بيصه بف",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" وتاذيتها به\" vs proposal \"\")"
+          },
+          {
+            "run": "الانبوب إذاكانت ف الحلق اذية او حقنة ويستنط من\nالاية الثانية",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"انبوب إذاكان\" vs proposal \"أنبوب إذا كا\")"
+          },
+          {
+            "run": "٩٣\nتكن متهمَةٌ",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" تكن متهمة\" vs proposal \"\")"
+          },
+          {
+            "run": "وعن على عمانه قالبنالغر",
+            "reason": "empty"
+          },
+          {
+            "run": "٩١\nيحرّم ومعنى لبن النحل إن يشترك فى لبن العحلى الواحد\nصبیان",
+            "reason": "letters changed, not just marks (first difference at character 25: source \"إن يشترك فى \" vs proposal \"أن يشترك في \")"
+          },
+          {
+            "run": "نا١مهما واحدة من الرضاعة وكن لك حرمت عليه\nبات الرجل الذى وضع",
+            "reason": "letters changed, not just marks (first difference at character 56: source \"ى وضع بلينه \" vs proposal \"ي وضع بلبنه \")"
+          },
+          {
+            "run": "متسئلة إذا ارضعت امرأة الرجل يلبنه جارية\nحرمت عليه وعلى ابيه",
+            "reason": "empty"
+          },
+          {
+            "run": "٩٢\nمع العلم مجاله الى ان جى",
+            "reason": "letters changed, not just marks (first difference at character 19: source \"الى ان جى\" vs proposal \"إلى أن جا\")"
+          },
+          {
+            "run": "٩٢\nمن الرضاعة ولا يجمع بين الاختين دابين المرأة و\nعمتها ولاب",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" من الرضاعة \" vs proposal \"\")"
+          },
+          {
+            "run": "أما زوجة الغايب فليس لهاشئ",
+            "reason": "letters changed, not just marks (first difference at character 14: source \"يب فليس لهاش\" vs proposal \"ئب فليس لهاش\")"
+          },
+          {
+            "run": "سيئ فبعد ما ستكت عند العامل",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"ئ فبعد ما ست\" vs proposal \"ء فبعد ما ست\")"
+          },
+          {
+            "run": "وتفرق بينهما وسشهادة الى أخ فالرضارع مقبولة ان لمر",
+            "reason": "letters changed, not just marks (first difference at character 22: source \"الى أخ فالرض\" vs proposal \"إلى أخ فالرض\")"
+          },
+          {
+            "run": "نمايجر م نكاحمهن عد المصر\nمستثلة ان لم توجد مسلمة الأرذلة فل",
+            "reason": "empty"
+          },
+          {
+            "run": "فعليه ان يسال عن ماله انكان فمنه النفقة لهَا\nوالإفل يجاد عد ",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"ان يسال عن م\" vs proposal \"أن يسأل عن م\")"
+          },
+          {
+            "run": "تَكَر الْلَفْفُورُ\nقال عل صلع اذا علم مكان المفقود لم تكحامً",
+            "reason": "empty"
+          },
+          {
+            "run": "ويفى حلرمونه\nذِكرُ النَّقَهَا الَرَوَنُ والِ\nوَالَْر\nآية وام",
+            "reason": "empty"
+          },
+          {
+            "run": "٩٥\nوان لم يجد شيئًا فرق بينهما إن رضت وإن كرهت الا\nالقيام عن",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" وان لم يجد \" vs proposal \"\")"
+          },
+          {
+            "run": "ولى\nبرضاع مولودهاولوكانت مطلقة كما قال تعالى ولا\nتضار والدة ",
+            "reason": "empty"
+          },
+          {
+            "run": "وكانت مقيمة عند إغألا تواتيه القربة\nلقسم من أقسام النشوز من ",
+            "reason": "empty"
+          },
+          {
+            "run": "وإقيموا الشهادة لله كتتب عدعم إلى رفاعة قاضية الأمورم\nفخط إل",
+            "reason": "empty"
+          },
+          {
+            "run": "ُ القلا\nلايخف إن النكاح ليس الاالتعاهد بين الزوجين\nبان عه ال",
+            "reason": "empty"
+          },
+          {
+            "run": "حصل النشورا وعل مالمقالات من جانب الزوجة فى الثور\nالواجبة عل",
+            "reason": "letters changed, not just marks (first difference at character 16: source \" مالمقالات م\" vs proposal \"م المقالات م\")"
+          },
+          {
+            "run": "٩٨\nالظَّلاف\nكراهة الفرقة بعد الإلفة فى الإسلام كمثل\nالتعر ى ",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" الظلاف كراه\" vs proposal \"\")"
+          },
+          {
+            "run": "ويطلقها فيكون طلاقه رجعيا فانظر الى تمو النطع\nمن الشارع المق",
+            "reason": "letters changed, not just marks (first difference at character 33: source \"الى تمو النط\" vs proposal \"إلى تمو النط\")"
+          },
+          {
+            "run": "وقبل ذلك ومات بعل\nتمام العدة من ذلك الموض فترته انكانت جالسة",
+            "reason": "letters changed, not just marks (first difference at character 46: source \"ته انكانت جا\" vs proposal \"ثه إن كانت ج\")"
+          },
+          {
+            "run": "بعد الطهر واسمها البالغين عد طلاقه وطريقه إن\nيكتب بإفى طلقت ",
+            "reason": "letters changed, not just marks (first difference at character 65: source \"ى فلانة بنت \" vs proposal \"ي فلانة بنت \")"
+          },
+          {
+            "run": "٩٩\nتام العدة بالثانى وتخلصت منه ايضا بقبلهاوظلاقه\nفرجعت إلى ",
+            "reason": "letters changed, not just marks (first difference at character 3: source \" تام العدة ب\" vs proposal \"\")"
+          },
+          {
+            "run": "حقوق غيرة\nوصاحب الدعوة حكم لهما يوافق بينهما اويخلع\nفهو الطل",
+            "reason": "letters changed, not just marks (first difference at character 9: source \"ة وصاحب الدع\" vs proposal \"ه وصاحب الدع\")"
+          },
+          {
+            "run": "فهلاو\nايَة ولايحل لكم ان تاخن داهما أتيت وهن شيئًا\nالاان يخا",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠٠\nان يريدا أصلاحا يوفق الله بينهما قال على صلع الخلع\nطلان ",
+            "reason": "empty"
+          },
+          {
+            "run": "هُذ أوانا ارضه لك بهذافماكانت تعطيه من عند هايكن\nشيئًا مطوما",
+            "reason": "empty"
+          },
+          {
+            "run": "رضى بمبلغ ان يرض من دون المه الذى أعطاها والاعلى\nمارضيا به ف",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠١\nمرجعة فيه ملكاميرات إنمالهما ان بيكحا بينهما إن إرادا\nسف",
+            "reason": "empty"
+          },
+          {
+            "run": "َجَة الصَّار\nاية والّذين يتوفون متكم وين رون از واجا يرلن\nبا",
+            "reason": "letters changed, not just marks (first difference at character 10: source \"اية والذين ي\" vs proposal \"آية والذين ي\")"
+          },
+          {
+            "run": "ثلاثة قرؤُ واللانئ بُسن من المحيض من\nنسائكم إن ارتب م فعل من",
+            "reason": "letters changed, not just marks (first difference at character 16: source \"نئ بسن من ال\" vs proposal \"ئي بسن من ال\")"
+          },
+          {
+            "run": "فعدة الطلاق ثلاثة\nحيض وثلثة اشهر وعدة المتوفى عنها زوجها اري",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠٢\nالخيار سل ، سى مدة العدة راجعها ان اراد رضيت بن لك\nامر ا",
+            "reason": "empty"
+          },
+          {
+            "run": "نيته الذين ينفقون أموالهم في سبيل الله شرلا يتبعون\nما",
+            "reason": "letters changed, not just marks (first difference at character 42: source \"لا يتبعون ما\" vs proposal \"ا لا يتبعون \")"
+          },
+          {
+            "run": "عليها من الرجال فى إدام المعدة غير المحوم او الخاد مرج بنتها",
+            "reason": "letters changed, not just marks (first difference at character 18: source \"ى إدام المعد\" vs proposal \"ي إدام المعد\")"
+          },
+          {
+            "run": "والنشا مثلها ولها اذ النَّ\nالجاوالسفر الضرورى او الحضور مع ا",
+            "reason": "empty"
+          },
+          {
+            "run": "يفقوا مناولا أذى لهم أجرهم عندربهم ولاخوف\nعليهم ولاهم يحزنون",
+            "reason": "letters changed, not just marks (first difference at character 31: source \"ربهم ولاخوف \" vs proposal \" ربهم ولا خو\")"
+          },
+          {
+            "run": "أخيه كان أحب عند الله من ان يعتكف شهرين فى الحدث\nخال علي صال",
+            "reason": "empty"
+          },
+          {
+            "run": "٣ ١٠\nيصعة فى موضع ينتفع به الناس ولعوضه بشئ ماقال\nتعالى واذ ",
+            "reason": "letters changed, not just marks (first difference at character 9: source \"ة فى موضع ين\" vs proposal \"ه في موضع ين\")"
+          },
+          {
+            "run": "وسيئا من الاشياء وكمان\nلساعة",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"سيئا من الاش\" vs proposal \"شيئا من الأش\")"
+          },
+          {
+            "run": "إجرا ما حيوته أو ولدصالح يدعوله اوسنة خير\nسنتها فهى تعمل كعد",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"ا ما حيوته أ\" vs proposal \"ى ما حيوته أ\")"
+          },
+          {
+            "run": "هل الامان يحتسبُ خير فاعلين الحكير\nـتى الدنياهُ أهل الخيرات ",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠٥\nـدهـ\nاية يا أيها الذين امَنو الانبطلواصد فانكم المنّ\nوال",
+            "reason": "letters changed, not just marks (first difference at character 4: source \" ده اية يا أ\" vs proposal \"\")"
+          },
+          {
+            "run": "١٠٨\nحيوان اوأرض اوبيت",
+            "reason": "letters changed, not just marks (first difference at character 4: source \" حيوان اوأرض\" vs proposal \"\")"
+          },
+          {
+            "run": "ولمدة قصيرة أوطويلة والصدقة ماكانت\nلمدة معلومة قصيرة أوطويلة",
+            "reason": "empty"
+          },
+          {
+            "run": "١٠٦\nخوف النقصانِ فےالنللموقونبهوعنعلمهالعانه\nقال الصدقة والح",
+            "reason": "empty"
+          },
+          {
+            "run": "وحلى اولباس",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"ولباس\" vs proposal \"للباس\")"
+          },
+          {
+            "run": "،١٠\nاضيافه والعمرى أن يسكنه طول عمره او العقبه ايضا\nوالرقية ",
+            "reason": "empty"
+          },
+          {
+            "run": "وقبلت له ان كان طفلا جازت\nقبضت اولم تفيض فان لم تقتيل فليست ",
+            "reason": "letters changed, not just marks (first difference at character 10: source \"ان كان طفلا \" vs proposal \"إن كان طفلا \")"
+          },
+          {
+            "run": "يجوز الوقف فى كل مايريداء الموقف ايقافه من مالصين",
+            "reason": "letters changed, not just marks (first difference at character 13: source \"ى كل مايريدا\" vs proposal \"ي كل ما يريد\")"
+          },
+          {
+            "run": "و ميلغ ا ونفعه\nعے ان ينتفعے بهالموقف له واحداكان اوزامل الكا",
+            "reason": "letters changed, not just marks (first difference at character 2: source \" ميلغ ا ونفع\" vs proposal \"مبلغ أ ونفعه\")"
+          },
+          {
+            "run": "ومن غير هم كان الوقف بالسوية فيما بينهم\nأ وبالتفاضل رجالاكا ",
+            "reason": "empty"
+          },
+          {
+            "run": "ويقسم بعد وفاته فى اهل الميمات والموقف ان يتولى ين\nالوقف بنف",
+            "reason": "empty"
+          },
+          {
+            "run": "ثلاث يجبع لّفى سبيل الله وثلث فى بنى هاشم وتللثا\nفےالابیطالب",
+            "reason": "letters changed, not just marks (first difference at character 13: source \"ى سبيل الله \" vs proposal \"ي سبيل الله \")"
+          },
+          {
+            "run": "١٠٩\nمعين ووقت معين واشترط الترتيب فلوحظ الذتديب\nفان فتى النف",
+            "reason": "empty"
+          },
+          {
+            "run": "١١٠\nولقَوم عد ذلك حسن بن على يأكل منه بالمعروف وينفقه\nحيث ير",
+            "reason": "empty"
+          },
+          {
+            "run": "مرت حسنا وله مثل الذى كتبت\nتجن وعليه مثل الذى معل حسن وإن ال",
+            "reason": "empty"
+          },
+          {
+            "run": "ايضًابا إيما الذين النوعكيكمد كتشهادة بينكم\nإذاحضر أحد كم ال",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"ايضابا إيما \" vs proposal \"أيضابا إيما \")"
+          },
+          {
+            "run": "مدكور نخ الدّعَائر\n٣\n٨بةً كتب عليكماذ احضر احد كم الموت ان ت",
+            "reason": "letters changed, not just marks (first difference at character 2: source \"دكور نخ الدع\" vs proposal \"ذكور نخ الدع\")"
+          },
+          {
+            "run": "بوجعفر صالع الوصية\nحق علكل مسلم الوصية تطلق عد الارادات التى",
+            "reason": "empty"
+          },
+          {
+            "run": "١١٢\nبشرطان يكونوإعاقلين بإن يعطى فى حيوانه لمن يشاء محمدـ\nبم",
+            "reason": "empty"
+          },
+          {
+            "run": "ويكون المحترف له\nمعتبرًا ويجيزه الورثة وقال عد صلع ان الله ع",
+            "reason": "empty"
+          },
+          {
+            "run": "ُالكَ لِيكُأَدَاو اولاداو النفى",
+            "reason": "empty"
+          },
+          {
+            "run": "َين لستجُوا رَاجَة\nكالمال\nياخذ وابينهم بالسوية\nولد واحد\nاوزا",
+            "reason": "empty"
+          },
+          {
+            "run": "لِطَبَقَةِ الثّا\nبيان إذا لمتكن للمنت الآد الا إبنة ارجديه آ",
+            "reason": "a vowel mark ('ـ') is not attached to an Arabic letter (near \"أَبٌ ٢ أَمْرٌ ٣ ٣ ٦ ٨ ٩ ـلَهُ وَذَلِ\") -- the reflow placed a mark at a script boundary"
+          },
+          {
+            "run": "يأخذ وابليهم بالسوية\nلكل واحل السدس\nبقية المال للذكرضعف الان",
+            "reason": "empty"
+          },
+          {
+            "run": "٨\n٩\n١٠\nمع وجود الا ولاد الميت لايرته سوالا بوين اوالمجد ين",
+            "reason": "empty"
+          },
+          {
+            "run": "كانوا فللام السدس والبلسة للاب\nسل س\nالباتر كله\nاشتئ لها\nكله\n",
+            "reason": "letters changed, not just marks (first difference at character 10: source \"ام السدس وال\" vs proposal \"أم السدس وال\")"
+          },
+          {
+            "run": "يكن اولاد الاولاد فولد الولد يقتومن تمقام الولد وبنت الولد و",
+            "reason": "empty"
+          },
+          {
+            "run": "ِ العَبد العِيهِ وَجَبالا الأخوزواراهـ\nكل المال اولعيتسم بال",
+            "reason": "empty"
+          },
+          {
+            "run": "٠\nإخرا داحت الامرواحدة أوز ليا\nكل لمالاداعي تنهي السباق للفك",
+            "reason": "empty"
+          },
+          {
+            "run": "يقسمَكل المال الجِهِم السرَّة\n١\nكل المال بالسوية\nضعف الاننى\n",
+            "reason": "letters changed, not just marks (first difference at character 5: source \"كل المال الج\" vs proposal \" كل المال ال\")"
+          },
+          {
+            "run": "ا ولادكم للذكرمثل\nخط الانشين فان كن نساءً فوق اشتين فلهن ثلث",
+            "reason": "letters changed, not just marks (first difference at character 3: source \"ولادكم للذكر\" vs proposal \"أول\")"
+          },
+          {
+            "run": "كان الكهر ولد فلهن الخن مَما تركتُوٌ من لعل وصيّة وصون\nودين ",
+            "reason": "letters changed, not just marks (first difference at character 80: source \"ادامرأ\" vs proposal \"أدا مرأ.\")"
+          },
+          {
+            "run": "١١٢\nفى الثالث من بعد وصية يوصى بها اودين غير مضار وصيّه\nمزاق",
+            "reason": "letters changed, not just marks (first difference at character 4: source \" فى الثالث م\" vs proposal \"\")"
+          },
+          {
+            "run": "وكليهما\n٥\nلير لهم شنئ\nالباسرة كله\nحب من الآب\nسرس\nوالمحدة من ",
+            "reason": "letters changed, not just marks (first difference at character 8: source \" ٥ لير لهم ش\" vs proposal \"\")"
+          },
+          {
+            "run": "بِيَاءَالَكُ الَّاوَ هُوَةَ أَسَِّ العائدلا الأُوْ دَالأُّوا",
+            "reason": "letters changed, not just marks (first difference at character 5: source \"الك الاو هوة\" vs proposal \" الكل الذا ه\")"
+          },
+          {
+            "run": "القرض ان كان عليه للحد وبعد ذلك بنّث\nمابقى من ماله فيخرج من ",
+            "reason": "empty"
+          },
+          {
+            "run": "بلكين\nحذّةً من ألاب\nثلث او لقتسعة الثلث بالسوية\n٨\nوالجدا وال",
+            "reason": "empty"
+          },
+          {
+            "run": "والجد او الجدة منلا ماركليها\nثلث اولقتسمى الثلث بالسوية\n٧",
+            "reason": "empty"
+          },
+          {
+            "run": "معراولادالعم للابد للام مشروم\nصحف مأك ولا زالعنه الآن\nشككين ",
+            "reason": "empty"
+          },
+          {
+            "run": "مدَّا\nحرام أبدًا",
+            "reason": "letters changed, not just marks (first difference at character 9: source \" أبدا\" vs proposal \"ا أبدا\")"
+          },
+          {
+            "run": "حراعمر إئلّا\nحرام اللَّ الـ\nحرامايلي ١\nحرام إذَا حدام إبَّا\n",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"عمر إئلا حرا\" vs proposal \" عمر إئلا حر\")"
+          },
+          {
+            "run": "منت الاحت أزق\nاخت للاب\nمنت القابلة",
+            "reason": "letters changed, not just marks (first difference at character 7: source \"احت أزق اخت \" vs proposal \"أحت أزقا أخت\")"
+          },
+          {
+            "run": "مُنْت الأخْت\nبت الاخـ\nاخت للابـ\nبنات الزوجية احتالاب احت الا",
+            "reason": "letters changed, not just marks (first difference at character 16: source \"اخ اخت للاب \" vs proposal \"أخ أخت للأب \")"
+          },
+          {
+            "run": "حرا عر إبن١\nحَرامِ إِملَّا\nـنْت الإجنة\nمنالاه الأمر\nاخت الثـ",
+            "reason": "a vowel mark ('ـ') is not attached to an Arabic letter (near \"ْنَ١ حَرَامِ إِمْلَلَّا ـنْتَ الْأَج\") -- the reflow placed a mark at a script boundary"
+          },
+          {
+            "run": "مغيت أج ج الاب",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"ت أج ج الاب\" vs proposal \"ث أج ج الباب\")"
+          },
+          {
+            "run": "اخت الاب أخت الاوللاتب\nالقابله\nمن الرضاع\nمن الرضاع\nمن الرصاع",
+            "reason": "letters changed, not just marks (first difference at character 1: source \"اخت الاب أخت\" vs proposal \"أخت الأب أخت\")"
+          },
+          {
+            "run": "وهذة القراءات إذاكانت للزوجة والمجمع يجر نجاحوامر",
+            "reason": "letters changed, not just marks (first difference at character 4: source \"ة القراءات إ\" vs proposal \"ه القراءات إ\")"
+          },
+          {
+            "run": "حَرَاهَ ايَنًَّا\nارمز لزومظها\nحوا عمر ابنًا\nحرامإش١\nلعام الأ",
+            "reason": "letters changed, not just marks (first difference at character 6: source \"اينا ارمز لز\" vs proposal \"أينا\")"
+          }
+        ]
+      }
+    }
+  },
+  "generated_at": "2026-08-17T15:32:49.411051+00:00"
+}

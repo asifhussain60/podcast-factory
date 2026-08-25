@@ -5,7 +5,8 @@ import { AppShell } from "~/components/AppShell";
 import { MetricStrip } from "~/components/admin/MetricStrip";
 import { cloudflare } from "~/context";
 import { requireAdmin } from "~/middleware/admin";
-import { listCatalogForAdmin, peopleTallies } from "~/server/access.server";
+import { listCatalogForAdmin } from "~/server/access.server";
+import { peopleTallies } from "~/server/people.server";
 
 /**
  * Layer 3 — admin, nested inside the invited gate.

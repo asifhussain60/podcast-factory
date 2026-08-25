@@ -165,6 +165,10 @@ by hand what the script already reports.
 | **Tests** | `TS-FOCUS` | No committed `.only`, which disables a whole file while the suite still reports success |
 | **Clean code** | `CQ-NO-LINT`, `CQ-NO-SIZE-GATE`, `CQ-DEBUG` | Each app has a lint config and a size ceiling, and no debug output ships in a page |
 | **Hygiene** | `HY-DEBRIS` | Regenerable artifacts are measured, not described |
+| **Gate discovery** | `GT-UNDECLARED` | A gate-shaped npm script the contract's gates list never names — the question `GT-UNGATED` cannot ask, because a list can only be audited against itself |
+| **Data contract** | `DB-TABLE-MISSING`, `DB-MIGRATION-GAP` | Every table a declared SQL writer writes is created by a migration; no two migrations share a number |
+| **Generated artifacts** | `GEN-UNPINNED` | Every declared generator that offers `--check` is actually run with it by something tracked |
+| **Standards** | `SD-REQ-DANGLING`, `SD-ORPHAN` | Every `REQ-*` cited in an agent spec or skill resolves to a standard; every standard is referenced by something |
 | Plan | `L1`, `L2`, `L2-DUP`, `L10` | The plan parses, its wave references resolve, its ids are unambiguous, the ship checklist maps onto it |
 
 `SK-DEADREF` is the check that would have caught this whole rot two months ago: it
@@ -178,6 +182,40 @@ hold all of it at once. Each is pinned by
 synthetic tree carrying one defect, plus a clean-tree case, plus an empty-repo case
 so no check can crash on a partial clone. That replaces the break-it-by-hand ritual
 with something that holds after the person who wrote it has moved on.
+
+The four groups after them arrived later the same day, in a third module,
+[scripts/repo_surgeon_specs.py](../../scripts/repo_surgeon_specs.py), pinned by
+[tests/test_repo_surgeon_specs.py](../../tests/test_repo_surgeon_specs.py). Each
+covers an invariant that a spec written in the preceding fortnight had created and
+left unwatched:
+
+- **`GT-UNDECLARED`** is the gate-coverage check turned on itself. `GT-UNGATED`
+  audits the gates the contract NAMES, so a gate built after the contract was last
+  edited is invisible to it by construction. `verify:read-aloud` — a browser gate
+  over every chapter of every published book — lived exactly there.
+- **`DB-*`** joins the two halves of the Library's schema. Six migrations landed in
+  a fortnight, each with a Python writer on the other side of the wire, and a write
+  to a table no migration creates fails at DEPLOY against the live database rather
+  than in any test. Writers are DECLARED in the contract, not sniffed: this repo
+  also carries SQLite corpora of its own, and a statement gives no clue which
+  database it is aimed at.
+- **`GEN-UNPINNED`** treats a generated artifact as what it is — a `mirrors:` pair
+  whose second leg is produced mechanically, drifting the same way at the same
+  cost. Whether one is pinned is DERIVED, by asking whether anything tracked runs
+  the generator's own `--check`; a `pinned: true` field would be a claim nobody
+  can fail.
+- **`SD-*`** guards the "cite by ID, never restate" rule every challenger spec
+  works under. It fails in one silent direction: a citation whose ID no standard
+  defines sends the reader to nothing, and they supply their own idea of the rule —
+  the restatement the rule exists to prevent, reached by a longer road.
+
+Two of those four were WRONG in their first draft and passed the live repo anyway,
+which is the argument for the test file rather than the ritual. `GEN-UNPINNED`
+searched every tracked file for the generator's name near `--check`, and every
+generator documents that flag in its own usage comment — so an unpinned generator
+vouched for itself. `SD-ORPHAN` judged orphanhood against markdown alone, and
+several standards here bind by being READ from Python rather than cited in prose —
+so it called live standards dead. Both failures are pinned by name.
 
 ### What the new groups deliberately do NOT re-check
 

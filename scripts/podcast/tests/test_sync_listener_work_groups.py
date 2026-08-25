@@ -130,3 +130,65 @@ def test_missing_volume_is_skipped_not_inserted():
     statements, notes = plan_for_group(a_group(), units_from(conn))
     assert any("vol-b" in n and "skipped" in n for n in notes)
     assert not any("vol-b" in s for s in statements)
+
+
+# ---------------------------------------------------------------------------
+# The manifest parse, pinned against its TypeScript mirror.
+# ---------------------------------------------------------------------------
+#
+# `_group_from_manifest` stopped being this script's private helper on
+# 2026-08-17, when the Astro Site's Studio shelf began reading the same
+# `_listener-groups/*.yml` declarations so that a flat multi-volume set stacks
+# there too. Two implementations now answer "are these books one work?" — one
+# for each surface a reader looks at — and when they disagree the symptom is
+# silent: a set stacked on one site and scattered on the other, with nothing
+# anywhere saying why. That is precisely the bug this pair was born from.
+#
+# The fixture is shared with plan-dashboard/src/lib/reader/work-groups.test.ts.
+# A case added on either side runs on both.
+
+
+def test_manifest_parse_matches_the_shared_fixture() -> None:
+    import json
+
+    from sync_listener_work_groups import _group_from_manifest
+
+    fixture_path = (
+        Path(__file__).resolve().parents[3] / "plan-dashboard" / "scripts" / "lib" / "work-groups.fixtures.json"
+    )
+    cases = json.loads(fixture_path.read_text(encoding="utf-8"))["cases"]
+    # A guard on the guard: a truncated fixture would make every assertion
+    # below vacuous while the suite still reported success.
+    assert len(cases) > 5
+
+    for case in cases:
+        group = _group_from_manifest(
+            case["in"],
+            default_slug=case["defaultSlug"],
+            source=Path("fixture.yml"),
+        )
+        expected = case["out"]
+        if expected is None:
+            assert group is None, f"{case['name']}: expected no group"
+            continue
+        assert group is not None, f"{case['name']}: expected a group"
+        assert group.work_slug == expected["workSlug"], case["name"]
+        assert group.title == expected["title"], case["name"]
+        assert group.bucket == expected["bucket"], case["name"]
+        assert [{"slug": v["slug"], "order": v["order"]} for v in group.volumes] == expected["volumes"], case["name"]
+
+
+def test_the_live_declaration_on_disk_still_parses() -> None:
+    """The fixture proves the two parsers agree; this proves they agree about a
+    file that actually exists. A schema both sides read identically and neither
+    accepts would pass every test above and stack nothing."""
+    from sync_listener_work_groups import find_groups
+
+    groups = {g.work_slug: g for g in find_groups()}
+    assert groups, "no multi-volume groupings found on disk at all"
+    mukhtasar = groups.get("mukhtasar-ul-asar")
+    assert mukhtasar is not None, "the declared Mukhtasar grouping no longer parses"
+    assert [v["slug"] for v in mukhtasar.volumes] == [
+        "mukhtasar-ul-asar-1",
+        "mukhtasar-ul-asar-2",
+    ]

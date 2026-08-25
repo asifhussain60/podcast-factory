@@ -214,6 +214,38 @@ def test_the_interrupting_shape_is_still_caught(candidate: str) -> None:
     assert findings and "cut into a quotation" in findings[0], candidate
 
 
+# ─── Complete quotations glued by a shared tag (2026-08-17) ─────────────────
+# A hadith-dense source produces several short, ALREADY-SEPARATE sayings. Once
+# each is correctly closed and re-attributed, two adjacent ones read as the
+# same "quote," X said, "quote" shape as a genuine interruption — the regex
+# alone can't tell "one sentence torn in half" from "two finished sentences
+# glued by a shared tag". `sharh-al-masail-ghulam-hussain` bk-08 hit exactly
+# this: a chapter of six-plus short hadith kept failing worse each retry with
+# no actual misattribution in the output.
+def test_two_complete_quotations_glued_by_a_shared_tag_is_not_flagged() -> None:
+    base = 'The Prophet said: "Give in charity." Ali said: "Choose your spouse wisely."'
+    candidate = '"Give in charity," the Prophet said. "Choose your spouse wisely," Ali said.'
+    assert speech_tag_findings(base, candidate) == []
+
+
+def test_glued_quotations_directly_adjacent_are_not_flagged() -> None:
+    """Same shape with nothing but the shared tag between the two quotes —
+    the exact regex trigger — is still safe because the first sentence is
+    already complete (ends in a full stop) before the tag opens."""
+    base = 'He said: "Give in charity." He then said: "Choose your spouse wisely."'
+    candidate = '"Give in charity." He said, "Choose your spouse wisely."'
+    assert speech_tag_findings(base, candidate) == []
+
+
+def test_a_genuine_mid_sentence_interruption_is_still_caught_when_source_has_complete_quotes() -> None:
+    """A complete quotation elsewhere in the source must not mask a real
+    interruption of a DIFFERENT, unfinished one."""
+    base = 'He said: "Give in charity." "This is the nation of the Magi, clinging to its rebellion."'
+    candidate = 'He said: "Give in charity." "This is the nation of the Magi," he said, "clinging to its rebellion."'
+    findings = speech_tag_findings(base, candidate)
+    assert findings and "cut into a quotation" in findings[0]
+
+
 # ─── Arabic retention ───────────────────────────────────────────────────────
 def test_transliterating_arabic_away_is_flagged() -> None:
     base = "From them is derived كُنْ, which is two letters, and فَيَكُونُ, which is five."

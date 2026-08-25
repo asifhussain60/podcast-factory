@@ -40,6 +40,9 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
 
+from _gate_overrides import gate_override as _gate_override
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n", 1)[0])
     ap.add_argument("slug", help="book slug under content/<Bucket>/")
@@ -235,7 +238,15 @@ def main() -> int:
                 {"gate": "G13", "name": "arabic-script-in-chapters", "passed": bool(_status.get("ok")), "note": _note}
             )
             if not _status.get("ok"):
-                return _emit(args, gate_results, "BLOCKED", f"G13 arabic-script-in-chapters failed — {_note}")
+                _override = _gate_override(workspace, "G13")
+                if _override:
+                    gate_results[-1]["passed"] = True
+                    gate_results[-1]["note"] = (
+                        f"{_note} — human override accepted "
+                        f"(decided_by={_override['decided_by']!r}, reason={_override['reason']!r})"
+                    )
+                else:
+                    return _emit(args, gate_results, "BLOCKED", f"G13 arabic-script-in-chapters failed — {_note}")
         else:
             gate_results.append(
                 {

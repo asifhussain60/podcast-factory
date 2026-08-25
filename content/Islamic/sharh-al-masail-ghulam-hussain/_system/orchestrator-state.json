@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "book_slug": "sharh-al-masail-ghulam-hussain",
+  "category": "books",
+  "branch": "Islamic/sharh-al-masail-ghulam-hussain",
+  "status": "draft",
+  "phase": "audio-ingest",
+  "phase_status": "halted",
+  "last_completed_phase": "0book-render",
+  "next_phase": "reader-narration",
+  "last_error": null,
+  "human_overrides": [
+    {
+      "gate": "G13",
+      "reason": "No glossary entries carry Arabic script (build_glossary.py's input file has had no writer since 2026-06-08; its replacement needs a composed book.md that doesn't exist at this stage). Accepted as a deferred gap per Asif's 2026-08-17 decision; see _system/source-notes.md. Arabic injection runs automatically at the book-compose stage regardless of this per-chapter gap.",
+      "decided_by": "Asif",
+      "decided_at": "2026-08-17T20:50:00Z"
+    },
+    {
+      "gate": "B3",
+      "reason": "The book reached compose stage and the glossary now has real Arabic-script terms (13, up from 0), but most are marked harvested_confidence=weak by the tool's own scoring, and one checked term (dirham) is visibly wrong (در هما, not a real word). Injecting unverified Arabic into a religious text's per-chapter audio-bundle files risks shipping wrong script, worse than shipping none. Deferred to a dedicated review pass rather than injected now. Per Asif's 2026-08-18 decision.",
+      "decided_by": "Asif",
+      "decided_at": "2026-08-18T11:40:00Z"
+    }
+  ],
+  "phases": {
+    "pre-flight": {
+      "status": "completed",
+      "ts_completed": "2026-08-17T14:06:14Z"
+    },
+    "branch": {
+      "status": "completed",
+      "ts_completed": "2026-08-17T14:06:14Z"
+    },
+    "scaffold": {
+      "status": "completed",
+      "ts_completed": "2026-08-17T14:06:14Z",
+      "book_dir": "content/Islamic/sharh-al-masail-ghulam-hussain"
+    },
+    "0a": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:06:19Z",
+      "ts_completed": "2026-08-17T14:26:44Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 1,
+        "blocking_fail": null
+      }
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:26:53Z",
+      "ts_completed": "2026-08-17T14:32:34Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:32:40Z",
+      "ts_completed": "2026-08-17T14:32:40Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:32:45Z",
+      "ts_completed": "2026-08-17T14:32:45Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-08-17T14:32:49Z",
+      "ts_completed": "2026-08-17T15:48:48Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
+    },
+    "0e": {
+      "status": "completed",
+      "ts_started": "2026-08-17T15:48:56Z",
+      "ts_completed": "2026-08-17T15:48:56Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
+    },
+    "0literary": {
+      "status": "pending"
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-08-17T15:48:59Z",
+      "ts_completed": "2026-08-17T15:49:06Z",
+      "gate_warnings": 5
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-08-17T16:13:30Z",
+      "ts_completed": "2026-08-17T16:13:30Z",
+      "series_plan_path": "content/Islamic/sharh-al-masail-ghulam-hussain/_system/series-plan.md"
+    },
+    "0g": {
+      "status": "completed",
+      "ts_started": "2026-08-17T20:17:20Z",
+      "ts_completed": "2026-08-17T20:17:24Z",
+      "audit_outcomes": {
+        "earning-and-the-manners-of-the-table": {
+          "status": "audited",
+          "ep_label": "EP01-earning-and-the-manners-of-the-table",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "maintenance-dissolution-and-inheritance": {
+          "status": "audited",
+          "ep_label": "EP05-maintenance-dissolution-and-inheritance",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "sale-debt-and-the-contracts-of-trade": {
+          "status": "audited",
+          "ep_label": "EP02-sale-debt-and-the-contracts-of-trade",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-marriage-contract-and-its-bonds": {
+          "status": "audited",
+          "ep_label": "EP04-the-marriage-contract-and-its-bonds",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-pledge-and-the-call-to-marry": {
+          "status": "audited",
+          "ep_label": "EP03-the-pledge-and-the-call-to-marry",
+          "claude_rc": 1,
+          "gemini_rc": 1,
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      },
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
+    },
+    "per-chapter": {
+      "status": "completed",
+      "ts_started": "2026-08-17T16:14:04Z",
+      "current_chapter": null,
+      "last_beat": "2026-08-17T19:47:58Z",
+      "completed_slugs": [
+        "earning-and-the-manners-of-the-table",
+        "maintenance-dissolution-and-inheritance",
+        "sale-debt-and-the-contracts-of-trade",
+        "the-marriage-contract-and-its-bonds",
+        "the-pledge-and-the-call-to-marry"
+      ],
+      "failed_slugs": [],
+      "human_override": {
+        "chapter": "maintenance-dissolution-and-inheritance",
+        "reason": "N6 (Arabic script) P0 accepted as a documented, deferred gap per Asif's 2026-08-17 decision; see _system/source-notes.md. Not a challenger pass.",
+        "decided_by": "Asif",
+        "decided_at": "2026-08-17T20:15:00Z"
+      },
+      "chapter_timings": {
+        "earning-and-the-manners-of-the-table": {
+          "started_ts": "2026-08-17T16:14:04Z",
+          "completed_ts": "2026-08-17T16:41:01Z",
+          "duration_sec": 1616.9,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "sale-debt-and-the-contracts-of-trade": {
+          "started_ts": "2026-08-17T17:14:12Z",
+          "completed_ts": "2026-08-17T17:59:46Z",
+          "duration_sec": 2734.2,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-marriage-contract-and-its-bonds": {
+          "started_ts": "2026-08-17T17:59:46Z",
+          "completed_ts": "2026-08-17T18:36:14Z",
+          "duration_sec": 2187.6,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "the-pledge-and-the-call-to-marry": {
+          "started_ts": "2026-08-17T18:36:14Z",
+          "completed_ts": "2026-08-17T18:58:44Z",
+          "duration_sec": 1349.8,
+          "verdict": "SHIP-WITH-CAUTION",
+          "cost_usd": 0.0
+        },
+        "maintenance-dissolution-and-inheritance": {
+          "started_ts": "2026-08-17T19:21:45Z",
+          "completed_ts": "2026-08-17T19:56:21Z",
+          "duration_sec": 2076.0,
+          "verdict": "HUMAN-OVERRIDE",
+          "cost_usd": 0.0,
+          "error": "iter 3 cap reached with unresolved findings (P0=1 P1=4) — N6 Arabic-script gap accepted as deferred per Asif's decision 2026-08-17; see _system/source-notes.md"
+        }
+      },
+      "convergence_iter": null,
+      "ts_completed": "2026-08-17T20:52:33Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 7,
+        "blocking_fail": null
+      }
+    },
+    "per-chapter-optimize": {
+      "status": "completed",
+      "ts_started": "2026-08-17T20:17:15Z",
+      "ts_completed": "2026-08-17T20:17:15Z",
+      "chapters": 0,
+      "warn": 0,
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
+    },
+    "per-chapter-slides": {
+      "status": "completed",
+      "ts_started": "2026-08-17T20:17:28Z",
+      "outcomes": {
+        "book": "AUTHORED"
+      },
+      "bad_outcomes": 0,
+      "total_outcomes": 1,
+      "ts_completed": "2026-08-17T20:30:20Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
+    },
+    "audio-script": {
+      "status": "skipped",
+      "ts_completed": "2026-08-17T20:30:25Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "audio-render": {
+      "status": "skipped",
+      "ts_completed": "2026-08-17T20:30:25Z",
+      "reason": "audio_engine=notebooklm (manual)"
+    },
+    "finalize": {
+      "status": "halted",
+      "ts_started": "2026-08-17T20:30:25Z",
+      "ts_completed": "2026-08-17T20:52:34Z",
+      "validator_stdout": "==> validate_ship_ready: sharh-al-masail-ghulam-hussain\n    workspace: content/Islamic/sharh-al-masail-ghulam-hussain\n    publish:   sets status=published in place (nothing is copied)\n\n=== Gates ===\nOK    [G1] 5 chapters + 5 episodes present\nOK    [G2] 5 chapter/episode pairs match\nOK    [G3] chapters 1..5 + episodes 1..5 purely sequential\nOK    [G4] P0=0 across 5 episodes (P1=9, warn-only)\nOK    [G5] state.json phase=finalize phase_status=running\nn/a   [G6] status-flag model writes no published/ tree\nOK    [G7] 5 chapter(s) via chapter_timings, 1 human-overridden: maintenance-dissolution-and-inheritance\n\n--- Advisories (non-blocking) ---\n  · G13 arabic-script-in-chapters: no glossary entries with Arabic script\n\n✗ BLOCKED — G13 arabic-script-in-chapters failed — no glossary entries with Arabic script\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stderr": "WARN  G4 EP02-sale-debt-and-the-contracts-of-trade: 1 P1 advisory (warn-only)\nWARN  G4 EP03-the-pledge-and-the-call-to-marry: 4 P1 advisories (warn-only)\nWARN  G4 EP04-the-marriage-contract-and-its-bonds: 1 P1 advisory (warn-only)\nWARN  G4 EP05-maintenance-dissolution-and-inheritance: 3 P1 advisories (warn-only)\n",
+      "verdict": "SHIP-READY"
+    },
+    "audio-ingest": {
+      "status": "halted",
+      "ts_started": "2026-08-18T17:18:48Z",
+      "ts_completed": "2026-08-18T17:18:48Z",
+      "reason": "awaiting NotebookLM audio drop"
+    },
+    "0book-design": {
+      "status": "completed",
+      "ts_started": "2026-08-17T20:52:34Z",
+      "ts_completed": "2026-08-18T16:20:14Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
+    },
+    "0book-compose": {
+      "status": "completed",
+      "ts_started": "2026-08-17T20:53:14Z",
+      "ts_completed": "2026-08-18T11:32:42Z",
+      "manual_fallback": "Re-run 0book-design/0book-compose after inspecting the source range; the pipeline refused to persist model commentary or generated headings.",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 11,
+        "blocking_fail": null
+      }
+    },
+    "0book-illustrate": {
+      "status": "skipped",
+      "ts_completed": "2026-08-18T11:32:48Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-slide-import": {
+      "status": "skipped",
+      "ts_completed": "2026-08-18T11:32:48Z",
+      "reason": "book_visuals=manual_only"
+    },
+    "0book-render": {
+      "status": "completed",
+      "ts_started": "2026-08-18T11:32:48Z",
+      "book_validation": {
+        "slug": "sharh-al-masail-ghulam-hussain",
+        "verdict": "BOOK-SOUND",
+        "summary": "reading edition sound (9 gates checked)",
+        "gates": [
+          {
+            "gate": "B1",
+            "name": "book-md-complete",
+            "passed": true,
+            "note": "book.md: 179 KB, 11 sections ≥ 11 TOC chapters"
+          },
+          {
+            "gate": "B2",
+            "name": "book-pdf-renderable",
+            "passed": true,
+            "note": "book.pdf: 2228 KB, 125 pages ≥ 11 chapters"
+          },
+          {
+            "gate": "B3",
+            "name": "book-arabic-coverage",
+            "passed": true,
+            "note": "5/5 chapters have no Arabic script: ch01-earning-and-the-manners-of-the-table.txt, ch02-sale-debt-and-the-contracts-of-trade.txt, ch03-the-pledge-and-the-call-to-marry.txt, ch04-the-marriage-contract-and-its-bonds.txt, ch05-maintenance-dissolution-and-inheritance.txt — human override accepted (decided_by='Asif', reason=\"The book reached compose stage and the glossary now has real Arabic-script terms (13, up from 0), but most are marked harvested_confidence=weak by the tool's own scoring, and one checked term (dirham) is visibly wrong (در هما, not a real word). Injecting unverified Arabic into a religious text's per-chapter audio-bundle files risks shipping wrong script, worse than shipping none. Deferred to a dedicated review pass rather than injected now. Per Asif's 2026-08-18 decision.\") · translation-edition Arabic preservation signal: 2004 rendered Arabic runs from 16991 source runs"
+          },
+          {
+            "gate": "B4",
+            "name": "book-prose-integrity",
+            "passed": true,
+            "note": "book.md: no model commentary or generated headings detected"
+          },
+          {
+            "gate": "B5",
+            "name": "book-chapter-body-coverage",
+            "passed": true,
+            "note": "book.md: 11 numbered chapters have body text"
+          },
+          {
+            "gate": "B6",
+            "name": "book-source-crosswalk",
+            "passed": true,
+            "note": "source-crosswalk.json: 11 chapters aligned"
+          },
+          {
+            "gate": "B7",
+            "name": "book-gloss-coverage",
+            "passed": true,
+            "note": "only 0 romanized glossed term(s) left — nothing to measure · 2 term(s) never given in Arabic script (4 uses): musahara, nasab"
+          },
+          {
+            "gate": "B8",
+            "name": "compose-steps-complete",
+            "passed": true,
+            "note": "compose recorded no skipped steps"
+          },
+          {
+            "gate": "B9",
+            "name": "articulation-complete",
+            "passed": true,
+            "note": "11 chapter(s) all articulated"
+          }
+        ]
+      },
+      "ts_completed": "2026-08-18T16:27:09Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 7,
+        "blocking_fail": null
+      }
+    },
+    "reader-narration": {
+      "status": "pending"
+    },
+    "publish": {
+      "status": "pending"
+    },
+    "trainer": {
+      "status": "pending"
+    },
+    "merge": {
+      "status": "pending"
+    },
+    "done": {
+      "status": "pending"
+    }
+  },
+  "cost": {
+    "azure_usd": 0.0,
+    "anthropic_usd": 0.0,
+    "slide_deck_usd": 0.0
+  },
+  "wall_clock_sec": 0,
+  "ts_started": "2026-08-17T14:06:14Z",
+  "ts_updated": "2026-08-18T17:18:48Z",
+  "challenger_version": "2.6",
+  "orchestrator_version": "1.2",
+  "config": {
+    "length_tier": "extended",
+    "unit_mode": "auto"
+  },
+  "unattended": false,
+  "run_id": "20260818T171848Z-c4cdba",
+  "phase_attempts": {
+    "06a": 1,
+    "0f": 1,
+    "finalize": 18,
+    "0book-render": 6
+  }
+}
