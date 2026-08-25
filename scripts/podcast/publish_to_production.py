@@ -3,9 +3,10 @@
 
 This is what the Publish button on the Book Composer runs. It carries a finished
 book the whole way — accepts its Companion cards, transcribes any new episode,
-pushes its text and recordings to a database and bucket, turns the book's
-visibility on, and then reads that database back to confirm every one of those
-things actually happened.
+re-records the read-aloud narration for any chapter whose text changed, pushes
+its text and recordings to a database and bucket, turns the book's visibility on,
+and then reads that database back to confirm every one of those things actually
+happened.
 
 By default it does that twice (Asif, 2026-08-10): once against localhost and once
 against the deployed site, so the copy he reviews on `localhost:5273` and the
@@ -47,6 +48,7 @@ USAGE
     python3 scripts/podcast/publish_to_production.py <slug>
         [--no-accept]        leave unreviewed Companion cards unreviewed
         [--skip-transcripts] do not transcribe new episodes
+        [--skip-narration]   do not re-record chapters whose text changed
         [--skip-media]       text, cards and print edition only — no recordings
         [--target where]      localhost, production, or both (default)
         [--skip-local]       old spelling for --target production
@@ -72,6 +74,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _narration_plan import narrate  # noqa: E402
 from _paths import REPO_ROOT, find_content  # noqa: E402
 from _production_publish import (  # noqa: E402
     accept_all_notes,
@@ -276,6 +279,11 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     parser.add_argument("slug")
     parser.add_argument("--no-accept", action="store_true", help="leave unreviewed Companion cards unreviewed")
     parser.add_argument("--skip-transcripts", action="store_true", help="do not transcribe new episodes")
+    parser.add_argument(
+        "--skip-narration",
+        action="store_true",
+        help="do not re-record chapters whose text changed (they keep their existing audio)",
+    )
     parser.add_argument("--skip-media", action="store_true", help="text, cards and print edition only")
     parser.add_argument(
         "--local-audio",
@@ -316,6 +324,30 @@ def report_state(slug: str, book_dir: Path, *, as_json: bool) -> int:
     state["slug"] = slug
     state["unreviewed"] = count_unreviewed(book_dir)
     state["cards"] = count_cards(book_dir)
+
+    # Narration is reported, and deliberately does NOT feed `pending`. It is
+    # derived from `book.md`, which the fingerprint already covers: prose that
+    # changed lights the button on its own, and this step then re-records it. A
+    # second input to the same decision could only ever disagree with the first.
+    # Wrapped because this runs on every page load — a book with an unreadable
+    # manifest must still get an answer about its text and cards.
+    try:
+        from reader_narration import narration_plan
+
+        plan = narration_plan(book_dir)
+        state["narration"] = (
+            {"enabled": False, "reason": plan.reason}
+            if not plan.enabled
+            else {
+                "enabled": True,
+                "stale": len(plan.render),
+                "current": len(plan.current),
+                "chapters": [{"title": c.title, "reason": c.reason} for c in plan.render],
+            }
+        )
+    except Exception as error:
+        state["narration"] = {"enabled": False, "reason": f"could not be read: {error}"}
+
     if as_json:
         print(json.dumps(state), flush=True)
     else:
@@ -411,6 +443,12 @@ def main(argv: list[str] | None = None) -> int:
         report.step("Transcripts")
         if run([sys.executable, "scripts/podcast/ensure_transcripts.py", slug, *dry], report) != 0:
             report.warn("transcription failed — continuing; those episodes ship without one")
+
+    # --- 3b. The read-aloud narration ---------------------------------------
+    #
+    # Before the content push and outside the target loop; see `narrate` for why
+    # both of those are load-bearing rather than tidy.
+    narrate(book_dir, args, report)
 
     # --- 4. Destination(s), in order ----------------------------------------
     #

@@ -56,7 +56,6 @@ _RESPELL_THE_RANGE = frozenset(
         "intelligence/augmenter.py",  # ESC, FULL
         "knowledge/pronunciation_ledger.py",
         "phases/noise_router.py",  # ESC, FULL
-        "reader_narration.py",  # ESC, FULL
         "restore_arabic.py",
         "split_synthesis_al_anwaar.py",
         "supplication/llm.py",
