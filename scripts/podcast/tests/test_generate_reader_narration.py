@@ -6,6 +6,7 @@ status-file wrapper around that function and the tests are scoped to that
 wrapping, not to the TTS engine itself (already covered by
 test_reader_narration.py).
 """
+
 from __future__ import annotations
 
 import json
