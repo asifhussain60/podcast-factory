@@ -112,37 +112,184 @@ class NarrationPlan:
         return [c for c in self.chapters if c.action == "silent"]
 
 
-def speech_text(markdown: str) -> str:
+@dataclass(frozen=True)
+class Lexicon:
+    """How to SAY the book's Arabic terms, from its own `_system/glossary.yml`.
+
+    A bare Arabic run inside an English sentence is usually the term the
+    sentence is about — "the central message of تَوْحِيد" — and deleting it left
+    the narration saying "the central message of, and for", dropping exactly
+    the word being defined. The glossary already carries the answer
+    (`audio_phonetic`: "taw-heed"), so it is asked rather than guessed.
+
+    `folded` is a second lookup on the consonantal skeleton, via the repo's own
+    `normalize_arabic`, so a term vowelled differently in the prose than in the
+    glossary still resolves. A skeleton claimed by two different spoken forms is
+    REFUSED rather than guessed — a wrong term spoken confidently in a religious
+    text is worse than one silently omitted.
+    """
+
+    exact: dict[str, str] = field(default_factory=dict)
+    folded: dict[str, str] = field(default_factory=dict)
+    fingerprint: str = ""
+
+    def say(self, run: str) -> str | None:
+        run = (run or "").strip()
+        if not run:
+            return None
+        hit = self.exact.get(run)
+        if hit:
+            return hit
+        try:
+            from _arabic_coverage import normalize_arabic
+
+            return self.folded.get(normalize_arabic(run))
+        except Exception:
+            return None
+
+
+EMPTY_LEXICON = Lexicon()
+
+#: A catalogue id wearing a pronunciation's clothes — "source-citation-045",
+#: "term-12". Belt-and-braces beside the `audio_phonetic` and `silent` rules
+#: above: three independent reasons to refuse, because the failure this guards
+#: is a machine-generated token spoken aloud in the middle of scripture.
+_PLACEHOLDER = re.compile(r"[a-z]+(?:[-_][a-z]+)*[-_]\d+", re.I)
+
+
+def narration_lexicon(book_dir: Path) -> Lexicon:
+    """Build the speaking lexicon for one book. Never raises.
+
+    Degrades to an empty lexicon — i.e. exactly the old delete-the-Arabic
+    behaviour — when the glossary is absent or unreadable, so a book without one
+    narrates as it always did rather than failing.
+    """
+    path = Path(book_dir) / "_system" / "glossary.yml"
+    if not path.is_file():
+        return EMPTY_LEXICON
+    try:
+        import yaml
+        from _arabic_coverage import normalize_arabic
+
+        doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+        entries = doc.get("entries") if isinstance(doc, dict) else None
+        if not isinstance(entries, list):
+            return EMPTY_LEXICON
+
+        exact: dict[str, str] = {}
+        claims: dict[str, set[str]] = {}
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            script = str(entry.get("arabic_script") or "").strip()
+            if not script:
+                continue
+
+            # `annotation_class` IS the discriminator, and it has to be, because
+            # the catalogue reuses `phonetic` for two unrelated things. Entries
+            # filed `silent` are whole Quranic verses and hadith — 317 of this
+            # book's 428 — and their `phonetic` holds a catalogue id,
+            # "source-citation-045". Reading that aloud produced "Virtue, source
+            # citation zero four five, can thus be understood": a machine token
+            # spoken in the middle of scripture, far worse than the silence it
+            # replaced. `silent` is the glossary's own word for "not a spoken
+            # term", so it is obeyed before any field is read.
+            if str(entry.get("annotation_class") or "").strip().lower() == "silent":
+                continue
+
+            # `audio_phonetic` is written for a speech engine ("taw-heed") and
+            # wins where it exists — but it is filled for only 2 of 428 entries,
+            # so `phonetic` carries the rest ("bayt al-mal", "hilm").
+            say = (
+                str(entry.get("audio_phonetic") or "").strip()
+                or str(entry.get("phonetic") or "").strip()
+                or str(entry.get("transliteration") or "").strip()
+            )
+            if not say or _PLACEHOLDER.fullmatch(say) or not _SPEAKABLE.search(say):
+                continue
+            exact.setdefault(script, say)
+            key = normalize_arabic(script)
+            if key:
+                claims.setdefault(key, set()).add(say)
+
+        folded = {k: next(iter(v)) for k, v in claims.items() if len(v) == 1}
+        digest = hashlib.sha256(json.dumps(sorted(exact.items()), ensure_ascii=False).encode("utf-8")).hexdigest()[:12]
+        return Lexicon(exact=exact, folded=folded, fingerprint=digest)
+    except Exception:
+        return EMPTY_LEXICON
+
+
+#: Punctuation left stranded when a run is removed rather than spoken. Applied
+#: whether or not a lexicon resolved anything, because a dropped Quranic
+#: fragment strands the same comma a dropped term does.
+_STRANDED = (
+    (re.compile(r"\(\s*\)"), ""),  # parentheses emptied by the removal
+    (re.compile(r"\[\s*\]"), ""),
+    (re.compile(r"\s+([,;:.!?])"), r"\1"),  # "of , and"  -> "of, and"
+    (re.compile(r"([,;:])\s*(?=[,;:])"), ""),  # "Virtue, , can" -> "Virtue, can"
+    (re.compile(r",\s*\."), "."),
+    # The edition often prints a term twice — "تَوْحِيد, توحید" — vowelled then
+    # bare. Saying it once is right, but dropping the second strands its comma
+    # against whatever follows: "of taw-heed, — an integrating oneness". A comma
+    # immediately before a dash never occurs in this prose on purpose.
+    (re.compile(r",\s*(?=[—–])"), " "),
+    (re.compile(r"^[\s,;:]+"), ""),  # a block that began with a removed run
+)
+
+
+def speech_text(markdown: str, lexicon: "Lexicon | None" = None) -> str:
+    """The words a speech engine should say for one block of the edition.
+
+    `lexicon` is optional and defaults to the old behaviour (delete the Arabic),
+    so every existing caller and test is unaffected by its arrival.
+    """
+    lex = lexicon or EMPTY_LEXICON
     text = _IMAGE.sub("", markdown)
     text = _LINK.sub(r"\1", text)
     text = _TAG.sub("", text)
+    # A parenthetical gloss — "Tur (اَلطُّور)" — is removed whole: the English
+    # beside it already says the word, so speaking both would stammer.
     text = _ARABIC_PARENS.sub("", text)
-    text = _ARABIC.sub("", text)
+    # A BARE run is different: nothing else in the sentence says it.
+    text = _ARABIC.sub(lambda m: f" {lex.say(m.group(0)) or ''} ", text)
     text = re.sub(r"`([^`]+)`", r"\1", text)
     text = re.sub(r"[*_]{1,3}([^*_]+)[*_]{1,3}", r"\1", text)
     text = "\n".join(_MARKDOWN_EDGE.sub("", line).strip() for line in text.splitlines())
+    text = re.sub(r"\s+", " ", text)
+    for pattern, repl in _STRANDED:
+        text = pattern.sub(repl, text)
     text = re.sub(r"\s+", " ", text).strip()
     if not _SPEAKABLE.search(text):
         return ""
     return text
 
 
-def chapter_blocks(markdown: str) -> list[tuple[int, str]]:
+def chapter_blocks(markdown: str, lexicon: "Lexicon | None" = None) -> list[tuple[int, str]]:
     blocks: list[tuple[int, str]] = []
     raw_blocks = re.split(r"\n\s*\n", _HTML_COMMENT.sub("", markdown).strip())
     for block_index, raw in enumerate(raw_blocks):
-        text = speech_text(raw)
+        text = speech_text(raw, lexicon)
         if text:
             blocks.append((block_index, text))
     return blocks
 
 
-def _source_hash(chapter_markdown: str, preset: dict[str, str]) -> str:
+def _source_hash(chapter_markdown: str, preset: dict[str, str], lexicon_fingerprint: str = "") -> str:
+    """Is this chapter's recording still the right recording?
+
+    The lexicon is part of the identity because it changes what is SAID: edit a
+    term's `audio_phonetic` and the audio must follow, which it could not while
+    this hashed the markdown alone. Rebuilding a chapter for that is cheap —
+    the paragraph cache means only the paragraphs whose spoken text actually
+    moved are bought again.
+    """
     payload = {
         "markdown": chapter_markdown,
         "preset": preset,
         "schema": MANIFEST_SCHEMA,
     }
+    if lexicon_fingerprint:
+        payload["lexicon"] = lexicon_fingerprint
     return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
@@ -183,6 +330,7 @@ def plan_chapter(
     manifest_chapters: dict[str, Any],
     preset: dict[str, str],
     out_dir: Path,
+    lexicon: "Lexicon | None" = None,
 ) -> ChapterPlan:
     """Decide what this chapter needs. THE single decision site.
 
@@ -196,7 +344,8 @@ def plan_chapter(
     file on disk all agree, and speakability gates every render path because
     the synthesiser cannot concatenate zero clips.
     """
-    digest = _source_hash(chapter.markdown, preset)
+    lex = lexicon or EMPTY_LEXICON
+    digest = _source_hash(chapter.markdown, preset, lex.fingerprint)
     entry = manifest_chapters.get(chapter.anchor)
     entry = entry if isinstance(entry, dict) else {}
     audio = out_dir / f"{chapter.anchor}.mp3"
@@ -205,7 +354,7 @@ def plan_chapter(
     if entry.get("source_hash") == digest and entry.get("voice_id") == preset["voice"] and audio.exists():
         return ChapterPlan(action="current", reason="unchanged since it was recorded", **common)
 
-    blocks = chapter_blocks(chapter.markdown)
+    blocks = chapter_blocks(chapter.markdown, lex)
     if not blocks:
         return ChapterPlan(action="silent", reason="no speakable text", **common)
 

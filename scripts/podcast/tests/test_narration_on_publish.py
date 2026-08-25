@@ -104,10 +104,11 @@ def test_editing_one_chapter_re_records_only_that_chapter(tmp_path: Path) -> Non
     (book / "book" / "book.md").write_text(edited, encoding="utf-8")
 
     report = Recorder()
-    with mock.patch.object(rn, "synthesize_text", side_effect=lambda t, p: b"AUDIO"), mock.patch.object(
-        rn, "audio_duration_seconds", return_value=1.0
-    ), mock.patch.object(rn, "concat_audio", side_effect=lambda parts, out: out.write_bytes(b"MP3")), mock.patch.object(
-        rn, "append_azure_speech_cost"
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=lambda t, p: b"AUDIO"),
+        mock.patch.object(rn, "audio_duration_seconds", return_value=1.0),
+        mock.patch.object(rn, "concat_audio", side_effect=lambda parts, out: out.write_bytes(b"MP3")),
+        mock.patch.object(rn, "append_azure_speech_cost"),
     ):
         result = _narration_plan.narrate(book, args(), report)
 
@@ -228,11 +229,12 @@ def spy_render(book: Path, **kw):
         spoken.append(text)
         return b"AUDIO"
 
-    with mock.patch.object(rn, "synthesize_text", side_effect=synth), mock.patch.object(
-        rn, "audio_duration_seconds", return_value=1.0
-    ), mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")), mock.patch.object(
-        rn, "append_azure_speech_cost"
-    ) as cost:
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=synth),
+        mock.patch.object(rn, "audio_duration_seconds", return_value=1.0),
+        mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")),
+        mock.patch.object(rn, "append_azure_speech_cost") as cost,
+    ):
         result = rn.render_reader_narration(book, **kw)
     return result, spoken, cost
 
@@ -265,11 +267,14 @@ def test_the_rebuilt_chapter_still_covers_every_paragraph_in_order(tmp_path: Pat
     (book / "book" / "book.md").write_text(edited, encoding="utf-8")
 
     joined: list[list[Path]] = []
-    with mock.patch.object(rn, "synthesize_text", side_effect=lambda t, p: b"AUDIO"), mock.patch.object(
-        rn, "audio_duration_seconds", return_value=1.0
-    ), mock.patch.object(
-        rn, "concat_audio", side_effect=lambda parts, out: (joined.append(list(parts)), out.write_bytes(b"MP3"))[1]
-    ), mock.patch.object(rn, "append_azure_speech_cost"):
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=lambda t, p: b"AUDIO"),
+        mock.patch.object(rn, "audio_duration_seconds", return_value=1.0),
+        mock.patch.object(
+            rn, "concat_audio", side_effect=lambda parts, out: (joined.append(list(parts)), out.write_bytes(b"MP3"))[1]
+        ),
+        mock.patch.object(rn, "append_azure_speech_cost"),
+    ):
         rn.render_reader_narration(book)
 
     manifest = json.loads((book / "book" / "narration" / "manifest.json").read_text())
@@ -411,11 +416,12 @@ def test_a_corrupt_cached_clip_is_re_bought_rather_than_failing_the_chapter(tmp_
         return 1.0
 
     spoken: list[str] = []
-    with mock.patch.object(
-        rn, "synthesize_text", side_effect=lambda t, p: (spoken.append(t), b"AUDIO")[1]
-    ), mock.patch.object(rn, "audio_duration_seconds", side_effect=probe), mock.patch.object(
-        rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")
-    ), mock.patch.object(rn, "append_azure_speech_cost"):
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=lambda t, p: (spoken.append(t), b"AUDIO")[1]),
+        mock.patch.object(rn, "audio_duration_seconds", side_effect=probe),
+        mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")),
+        mock.patch.object(rn, "append_azure_speech_cost"),
+    ):
         result = rn.render_reader_narration(book)
 
     assert result.rendered == ["opening"] and result.failed == []
@@ -437,10 +443,11 @@ def test_a_speech_failure_is_isolated_and_the_other_chapters_survive(tmp_path: P
             raise RuntimeError("Azure said no")
         return b"AUDIO"
 
-    with mock.patch.object(rn, "synthesize_text", side_effect=flaky), mock.patch.object(
-        rn, "audio_duration_seconds", return_value=1.0
-    ), mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")), mock.patch.object(
-        rn, "append_azure_speech_cost"
+    with (
+        mock.patch.object(rn, "synthesize_text", side_effect=flaky),
+        mock.patch.object(rn, "audio_duration_seconds", return_value=1.0),
+        mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")),
+        mock.patch.object(rn, "append_azure_speech_cost"),
     ):
         result = rn.render_reader_narration(book)
 
@@ -466,10 +473,11 @@ def test_the_failed_chapter_is_retried_on_the_next_run(tmp_path: Path) -> None:
         return b"AUDIO"
 
     for _ in range(2):
-        with mock.patch.object(rn, "synthesize_text", side_effect=flaky), mock.patch.object(
-            rn, "audio_duration_seconds", return_value=1.0
-        ), mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")), mock.patch.object(
-            rn, "append_azure_speech_cost"
+        with (
+            mock.patch.object(rn, "synthesize_text", side_effect=flaky),
+            mock.patch.object(rn, "audio_duration_seconds", return_value=1.0),
+            mock.patch.object(rn, "concat_audio", side_effect=lambda p, out: out.write_bytes(b"MP3")),
+            mock.patch.object(rn, "append_azure_speech_cost"),
         ):
             result = rn.render_reader_narration(book)
 
@@ -496,9 +504,10 @@ def test_the_orchestrator_treats_the_same_failure_as_fatal(tmp_path: Path) -> No
     _progress.write_state(book, _progress.initial_state("sample-book", "books"))
     summary = rn.RenderSummary(outcome="completed", rendered=["opening"], skipped=[], failed=["second"])
 
-    with mock.patch.object(reader_narration_driver, "render_reader_narration", return_value=summary), mock.patch.object(
-        reader_narration_driver, "phase_git_commit"
-    ) as commit:
+    with (
+        mock.patch.object(reader_narration_driver, "render_reader_narration", return_value=summary),
+        mock.patch.object(reader_narration_driver, "phase_git_commit") as commit,
+    ):
         outcome, rc = reader_narration_driver.drive_reader_narration(book)
 
     assert (outcome, rc) == ("failed", 2)
@@ -599,3 +608,191 @@ def test_a_book_with_no_reading_edition_is_skipped(tmp_path: Path) -> None:
 
     result, _ = render(book)
     assert result.outcome == "skipped" and result.reason == "no reading edition"
+
+
+# ── speaking the Arabic instead of deleting it ────────────────────────────────
+
+
+def glossary(book: Path, entries: list[dict]) -> Path:
+    import yaml
+
+    (book / "_system" / "glossary.yml").write_text(
+        yaml.safe_dump({"schema_version": 1, "entries": entries}, allow_unicode=True), encoding="utf-8"
+    )
+    return book
+
+
+TERM_BODY = "# B\n\n## 1. Opening\n\nThe central message of تَوْحِيد, and its meaning.\n"
+
+
+def test_a_bare_arabic_term_is_spoken_not_deleted(tmp_path: Path) -> None:
+    """THE defect: deleting a bare run left the narration saying "the central
+    message of, and its meaning" — dropping the very word being defined."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [{"arabic_script": "تَوْحِيد", "phonetic": "tawhid", "audio_phonetic": "taw-heed", "annotation_class": "teach"}],
+    )
+    lex = rn.narration_lexicon(book)
+    spoken = rn.chapter_blocks(
+        rn.split_chapters((book / "book" / "book.md").read_text(encoding="utf-8"))[0].markdown, lex
+    )
+
+    assert "taw-heed" in spoken[0][1]
+    assert "message of taw-heed, and its meaning" in spoken[0][1]
+
+
+def test_audio_phonetic_wins_over_the_reader_facing_spelling(tmp_path: Path) -> None:
+    """`audio_phonetic` exists because "tawhid" is mispronounced by a speech
+    engine and "taw-heed" is not."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [{"arabic_script": "تَوْحِيد", "phonetic": "tawhid", "audio_phonetic": "taw-heed", "annotation_class": "teach"}],
+    )
+    assert rn.narration_lexicon(book).say("تَوْحِيد") == "taw-heed"
+
+
+def test_a_silent_entry_is_never_spoken(tmp_path: Path) -> None:
+    """RAINY, and caught on real data. 317 of spiritual-ethos's 428 entries are
+    whole Quranic verses filed `silent`, whose `phonetic` holds a catalogue id.
+    Speaking one produced "Virtue, source citation zero four five, can thus be
+    understood" — a machine token read aloud in the middle of scripture."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [
+            {
+                "arabic_script": "تَوْحِيد",
+                "phonetic": "source-citation-045",
+                "transliteration": "source-citation-045",
+                "audio_phonetic": "",
+                "annotation_class": "silent",
+            }
+        ],
+    )
+    lex = rn.narration_lexicon(book)
+
+    assert lex.exact == {}
+    assert lex.say("تَوْحِيد") is None
+    text = rn.speech_text("The central message of تَوْحِيد, and its meaning.", lex)
+    assert "source" not in text and "citation" not in text
+    assert text == "The central message of, and its meaning."
+
+
+def test_a_placeholder_is_refused_even_when_not_marked_silent(tmp_path: Path) -> None:
+    """Belt-and-braces: the shape alone is enough to refuse."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [{"arabic_script": "تَوْحِيد", "phonetic": "term-12", "annotation_class": "teach"}],
+    )
+    assert rn.narration_lexicon(book).exact == {}
+
+
+def test_an_ambiguous_skeleton_is_refused_rather_than_guessed(tmp_path: Path) -> None:
+    """Two different words sharing a consonantal skeleton must not be resolved
+    by folding — a wrong term spoken confidently is worse than an omission."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [
+            {"arabic_script": "علم", "phonetic": "ilm", "annotation_class": "teach"},
+            {"arabic_script": "عَلَم", "phonetic": "alam", "annotation_class": "teach"},
+        ],
+    )
+    lex = rn.narration_lexicon(book)
+    # both exact spellings still resolve; the shared skeleton does not
+    assert lex.exact["علم"] == "ilm"
+    from _arabic_coverage import normalize_arabic
+
+    assert normalize_arabic("علم") not in lex.folded
+
+
+def test_punctuation_left_by_a_dropped_run_is_repaired(tmp_path: Path) -> None:
+    """A run with no spoken form is still dropped — but without stranding its
+    punctuation, which Azure reads as a stumble."""
+    t = rn.speech_text("The science of تَأْوِيل, and who taught it.", None)
+    assert t == "The science of, and who taught it."
+    assert " ," not in t
+    assert rn.speech_text("Virtue, احسان, can thus be understood.", None) == "Virtue, can thus be understood."
+    assert rn.speech_text("the message of تَوْحِيد, توحی — an oneness", None) == "the message of — an oneness"
+
+
+def test_a_parenthetical_gloss_is_still_removed_whole(tmp_path: Path) -> None:
+    """The English beside it already says the word; speaking both would stammer."""
+    book = glossary(
+        make_book(tmp_path),
+        [{"arabic_script": "الإمامة", "phonetic": "imama", "annotation_class": "teach"}],
+    )
+    lex = rn.narration_lexicon(book)
+    assert rn.speech_text("A claim (الإمامة) with proof.", lex) == "A claim with proof."
+
+
+def test_no_glossary_narrates_exactly_as_before(tmp_path: Path) -> None:
+    """A book without a glossary must be unaffected by the lexicon's arrival."""
+    book = make_book(tmp_path, body=TERM_BODY)
+    assert rn.narration_lexicon(book) is rn.EMPTY_LEXICON
+    assert rn.narration_lexicon(book).say("تَوْحِيد") is None
+
+
+def test_an_unreadable_glossary_degrades_instead_of_failing(tmp_path: Path) -> None:
+    book = make_book(tmp_path, body=TERM_BODY)
+    (book / "_system" / "glossary.yml").write_text("{not: valid: yaml:", encoding="utf-8")
+    assert rn.narration_lexicon(book).exact == {}
+
+
+def test_changing_the_glossary_re_records_the_affected_paragraph_only(tmp_path: Path) -> None:
+    """A term's pronunciation is part of what a chapter SAYS, so editing it must
+    reach the audio — and must cost only the paragraphs that actually contain it."""
+    body = TERM_BODY + "\nA second paragraph with no Arabic at all.\n"
+    book = glossary(
+        make_book(tmp_path, body=body),
+        [{"arabic_script": "تَوْحِيد", "audio_phonetic": "taw-heed", "annotation_class": "teach"}],
+    )
+    _r, spoken, _c = spy_render(book)
+    assert len(spoken) == 2
+
+    glossary(book, [{"arabic_script": "تَوْحِيد", "audio_phonetic": "tow-HEED", "annotation_class": "teach"}])
+    plan = rn.narration_plan(book)
+    assert [c.anchor for c in plan.render] == ["opening"], "the chapter must not be considered current"
+
+    _r, spoken, _c = spy_render(book)
+    assert spoken == ["The central message of tow-HEED, and its meaning."]
+
+
+def test_the_prune_uses_the_same_lexicon_as_the_render(tmp_path: Path) -> None:
+    """Otherwise it computes hashes for different words than the clips hold and
+    deletes live audio, which is paid for again on the next publish. Both this
+    and the planner lost their lexicon argument to a formatter line-collapse
+    during development; the symptom was silent in each case."""
+    body = "# B\n\n## 1. Opening\n\nThe message of تَوْحِيد, and more.\n\nA plain paragraph.\n"
+    book = glossary(
+        make_book(tmp_path, body=body),
+        [{"arabic_script": "تَوْحِيد", "audio_phonetic": "taw-heed", "annotation_class": "teach"}],
+    )
+    _r, spoken, _c = spy_render(book)
+    assert len(spoken) == 2
+    cache = rn.block_cache_dir(book / "book" / "narration")
+    assert len(list(cache.glob("*.mp3"))) == 2
+
+    # Nothing changed, so the prune must keep BOTH clips and the next publish
+    # must cost nothing. With the wrong lexicon the Arabic-bearing clip is
+    # computed under a different name, pruned, and re-bought here.
+    _r, spoken, _c = spy_render(book)
+    assert spoken == [], "an unchanged book must not re-buy anything"
+    assert len(list(cache.glob("*.mp3"))) == 2, "a live paragraph clip was pruned"
+
+
+def test_the_plan_and_the_render_agree_about_the_lexicon(tmp_path: Path) -> None:
+    """`narration_plan` is what the publish panel quotes; if the renderer reads a
+    different lexicon it skips a chapter the panel promised to re-record."""
+    body = "# B\n\n## 1. Opening\n\nThe message of تَوْحِيد, and more.\n"
+    book = glossary(
+        make_book(tmp_path, body=body),
+        [{"arabic_script": "تَوْحِيد", "audio_phonetic": "taw-heed", "annotation_class": "teach"}],
+    )
+    spy_render(book)
+    glossary(book, [{"arabic_script": "تَوْحِيد", "audio_phonetic": "tow-HEED", "annotation_class": "teach"}])
+
+    promised = [c.anchor for c in rn.narration_plan(book).render]
+    result, spoken, _c = spy_render(book)
+
+    assert promised == ["opening"]
+    assert result.rendered == promised, "the renderer skipped what the plan promised"
+    assert spoken == ["The message of tow-HEED, and more."]

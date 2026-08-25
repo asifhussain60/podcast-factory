@@ -34,10 +34,12 @@ from _listener_book import split_chapters
 # no network, which is what lets a page load ask for a plan for free. What stays
 # here is the part that actually talks to Azure and writes audio.
 from _narration_plan import (  # noqa: F401
+    EMPTY_LEXICON,
     MANIFEST_SCHEMA,
     PHASE,
     ChapterPlan,
     Cue,
+    Lexicon,
     NarrationPlan,
     RenderSummary,
     _source_hash,
@@ -46,6 +48,7 @@ from _narration_plan import (  # noqa: F401
     block_hash,
     cached_clip,
     chapter_blocks,
+    narration_lexicon,
     plan_chapter,
     speech_text,
 )
@@ -278,17 +281,18 @@ def narration_plan(book_dir: Path) -> NarrationPlan:
     chapters = manifest.get("chapters")
     chapters = chapters if isinstance(chapters, dict) else {}
     out_dir = book_dir / "book" / "narration"
+    lexicon = narration_lexicon(book_dir)
     return NarrationPlan(
         enabled=True,
         reason=None,
         chapters=[
-            plan_chapter(c, manifest_chapters=chapters, preset=preset, out_dir=out_dir)
+            plan_chapter(c, manifest_chapters=chapters, preset=preset, out_dir=out_dir, lexicon=lexicon)
             for c in split_chapters(book_md.read_text(encoding="utf-8"))
         ],
     )
 
 
-def prune_block_cache(book_dir: Path, chapters: list, preset: dict[str, str]) -> int:
+def prune_block_cache(book_dir: Path, chapters: list, preset: dict[str, str], lexicon=None) -> int:
     """Drop paragraph clips no chapter refers to any more. Returns how many went.
 
     Keyed on EVERY chapter of the current edition, not just the ones this run
@@ -304,7 +308,11 @@ def prune_block_cache(book_dir: Path, chapters: list, preset: dict[str, str]) ->
     if not directory.is_dir():
         return 0
     try:
-        live = {block_hash(text, preset) for chapter in chapters for _idx, text in chapter_blocks(chapter.markdown)}
+        # The SAME lexicon the render used, or these hashes describe different
+        # words than the clips on disk and the prune deletes live audio.
+        live = {
+            block_hash(text, preset) for chapter in chapters for _idx, text in chapter_blocks(chapter.markdown, lexicon)
+        }
         gone = 0
         for path in directory.glob("*.mp3"):
             if path.stem not in live:
@@ -342,6 +350,10 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
 
     voice_key, preset = selected_voice(book_dir)
     chapters = split_chapters(book_md.read_text(encoding="utf-8"))
+    # ONE lexicon for the whole run, used by the planner, the synthesiser and
+    # the pruner alike -- three places that must agree on what a paragraph SAYS
+    # or the cache keys they compute would disagree.
+    lexicon = narration_lexicon(book_dir)
     manifest = _read_manifest(book_dir)
     manifest.update(
         {
@@ -360,7 +372,10 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
     chars = 0
     out_dir = book_dir / "book" / "narration"
 
-    plans = [plan_chapter(c, manifest_chapters=manifest["chapters"], preset=preset, out_dir=out_dir) for c in chapters]
+    plans = [
+        plan_chapter(c, manifest_chapters=manifest["chapters"], preset=preset, out_dir=out_dir, lexicon=lexicon)
+        for c in chapters
+    ]
     todo = [p for p in plans if p.action == "render"]
     _trace(
         "narration.plan",
@@ -379,6 +394,7 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
         ),
         voice=voice_key,
         voice_id=preset["voice"],
+        lexicon_terms=len(lexicon.exact),
         to_render=[p.anchor for p in todo],
         reasons={p.anchor: p.reason for p in todo},
         paragraphs_stale=sum(p.stale_blocks for p in todo),
@@ -404,7 +420,7 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
 
         digest = plan.digest
         audio = out_dir / f"{chapter.anchor}.mp3"
-        blocks = chapter_blocks(chapter.markdown)
+        blocks = chapter_blocks(chapter.markdown, lexicon)
         started = time.monotonic()
         _trace(
             "narration.chapter.start",
@@ -520,7 +536,7 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
         )
 
     _write_manifest(book_dir, manifest)
-    pruned = prune_block_cache(book_dir, chapters, preset)
+    pruned = prune_block_cache(book_dir, chapters, preset, lexicon)
     _trace(
         "narration.done",
         book_dir=book_dir,
