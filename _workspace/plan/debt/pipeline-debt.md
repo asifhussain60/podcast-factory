@@ -1448,3 +1448,27 @@ honest and a re-run picks up exactly the outstanding 1,271.
   for exactly one Qur'anic verse rendered into English instead of carried through
   as Arabic script. The gate records which verse in which topic, so a repair can be
   surgical rather than a re-translation.
+
+---
+
+## `scripts/` has no size ceiling, and the audit layer lives there (2026-08-25)
+
+Found while adding the repo-surgeon probe's missing tests. `check_clean_code` reports
+`CQ-NO-SIZE-GATE` against any app source tree that no size gate covers — and the
+module that reports it is itself in a tree with no ceiling:
+
+- **DR-005 covers `scripts/podcast/` only.** `infra/git-hooks/check-dr005.py` filters
+  on that prefix, so nothing under `scripts/` proper is measured.
+- **The contract's three `size_gates` globs are `scripts/podcast/**`,
+  `plan-dashboard/**` and `listener/**`.** `scripts/` is in none of them.
+- **`scripts/repo_surgeon_probe.py` is now ~1,050 lines**, up from 848: the check
+  registry added to it is what makes the coverage and catalog ratchets possible, and
+  it will keep growing as checks are added.
+
+Not fixed here deliberately: choosing a ceiling for `scripts/` is the repo owner's
+call, exactly as the contract already says of the front-end ceilings, and a gate
+adopted to make a number look tidy is the failure mode the skill's own hard limits
+name. The decision is *whether* `scripts/` gets a gate and at what limit — and if it
+does, whether the probe should split the way `repo_surgeon_checks.py` and
+`repo_surgeon_specs.py` already did, for the same reason: nobody can hold it all at
+once.

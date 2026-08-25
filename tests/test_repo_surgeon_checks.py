@@ -18,40 +18,18 @@ edited to stay green is one people learn to edit rather than read.
 from __future__ import annotations
 
 import json
-import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+# The harness lives in tests/conftest.py so all three repo-surgeon modules build
+# their synthetic trees the same way. See that file for why synthetic at all.
 import repo_surgeon_checks as surface  # noqa: E402
-from repo_surgeon_probe import Probe  # noqa: E402
-
-
-def make_probe(tmp_path: Path, profile: dict) -> Probe:
-    """A git repo, because several checks read the index rather than the disk."""
-    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
-    return Probe(root=tmp_path, profile=profile)
-
-
-def track(root: Path) -> None:
-    subprocess.run(["git", "add", "-A"], cwd=root, check=True)
-
-
-def write(root: Path, rel: str, text: str) -> Path:
-    p = root / rel
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(text, encoding="utf-8")
-    return p
-
-
-def ids(probe: Probe) -> list[str]:
-    return [f.id for f in probe.findings]
-
+from _harness import ids, make_probe, track, write  # noqa: E402
 
 # ---------- a minimal app fixture the surface checks can read ----------
 

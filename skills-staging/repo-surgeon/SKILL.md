@@ -141,10 +141,20 @@ runs on one tree produce one report.
 requiring judgment.** Never assert a probe result you did not run, and never re-derive
 by hand what the script already reports.
 
-> **A gate you add must be able to fail.** After extending the probe, break the thing
-> it guards, confirm it fails, and restore. The three checks added on 2026-07-27 were
-> each verified this way. A check that cannot fail converts an unknown into false
-> confidence, which is worse than no check.
+> **A gate you add must be able to fail, and the suite proves it — you do not.**
+> Every check in all three modules is registered in `CHECKS` in
+> [scripts/repo_surgeon_probe.py](../../scripts/repo_surgeon_probe.py) together with
+> the finding ids it can emit, and the suite REFUSES to pass if any declared id was
+> never provoked by a test. So the old instruction — break the thing it guards,
+> confirm it fails, restore — is now what the tests do on every run, rather than
+> something the author did once and nobody can repeat. A check that cannot fail
+> converts an unknown into false confidence, which is worse than no check.
+>
+> Adding a check therefore means three things in one commit: the code, its row in
+> `CHECKS`, and a clean case plus one defect case per declared id. The ratchet in
+> `tests/conftest.py` fails the suite if the last is missing, and the catalog gate
+> in `tests/test_repo_surgeon_probe.py` fails it if the table below and `CHECKS`
+> disagree in either direction.
 
 ### Checked by the script
 
@@ -182,6 +192,20 @@ hold all of it at once. Each is pinned by
 synthetic tree carrying one defect, plus a clean-tree case, plus an empty-repo case
 so no check can crash on a partial clone. That replaces the break-it-by-hand ritual
 with something that holds after the person who wrote it has moved on.
+
+**Every check now carries that guarantee, not just those seven.** The twelve checks
+in `repo_surgeon_probe.py` itself — the contract, the mirror pins, root membership,
+the retired-surface ban, the agent and skill registries, the pipeline invariants and
+the whole plan parse — had none until 2026-08-25, while the file carried in its own
+docstring the argument for why that is unacceptable. They are pinned now by
+[tests/test_repo_surgeon_probe.py](../../tests/test_repo_surgeon_probe.py), which
+also covers the waiver ledger, the sort order, and the exit-code contract. Writing
+them surfaced ten live defects that every clean run had been hiding: a missing
+`skills-staging/` and a malformed `package.json` each crashed the probe outright, a
+quoted `expires:` made a waiver permanent and silent, `check_root` reported a clean
+tree when git failed, one verify command matched no recognised form and was never
+validated, and every "could not run" condition exited 1 — which the hook and CI read
+as "defects found".
 
 The four groups after them arrived later the same day, in a third module,
 [scripts/repo_surgeon_specs.py](../../scripts/repo_surgeon_specs.py), pinned by
@@ -228,6 +252,14 @@ worse than none:
 | `plan-dashboard/.../site-health-routes.test.mjs` | whether the smoke sweep covers every Astro page |
 | `frontend-ratchets.json` + `check-dr005.py` | whether a file is over its ceiling |
 | `npm run security` | whether an access-control bypass is reachable over HTTP |
+| `sync-agent-wrappers.sh --check` | whether `.claude/agents/` and `.codex/agents/` match their canonical specs |
+
+That last row is why `A2` compares `infra/claude-agents/` against `.github/agents/`
+and stops there. The agent spec's phrase "four homes" describes the SYNC, which
+`scripts/podcast/sync-agent-wrappers.sh` owns end to end and CI runs on every push;
+the probe audits the two the sync cannot silently skip, and asks nothing about the
+other two. Widening it would put a second answer beside a live gate, which this
+section exists to prevent.
 
 What is added is the layer ABOVE them: whether each gate is **wired anywhere**.
 That is the failure nobody notices, because a gate that runs only when somebody

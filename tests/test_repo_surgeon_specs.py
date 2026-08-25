@@ -21,41 +21,18 @@ Both are pinned below, by name, so neither can come back.
 from __future__ import annotations
 
 import json
-import subprocess
 import sys
 from pathlib import Path
 
 import pytest
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+# The harness lives in tests/_harness.py so all three repo-surgeon modules build
+# their synthetic trees the same way. See that file for why synthetic at all.
 import repo_surgeon_specs as specs  # noqa: E402
-from repo_surgeon_probe import Probe  # noqa: E402
-
-
-def make_probe(tmp_path: Path, profile: dict) -> Probe:
-    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.email", "t@t"], cwd=tmp_path, check=True)
-    subprocess.run(["git", "config", "user.name", "t"], cwd=tmp_path, check=True)
-    return Probe(root=tmp_path, profile=profile)
-
-
-def track(root: Path) -> None:
-    subprocess.run(["git", "add", "-A"], cwd=root, check=True)
-    # `git grep` reads the working tree only for tracked paths, and an index with
-    # no commit behind it is enough — but the files must be ADDED, which is the
-    # scope every gate in this repo runs at.
-
-
-def write(root: Path, rel: str, text: str) -> Path:
-    p = root / rel
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(text, encoding="utf-8")
-    return p
-
-
-def ids(probe: Probe) -> list[str]:
-    return [f.id for f in probe.findings]
+from _harness import ids, make_probe, track, write  # noqa: E402
 
 
 def app_profile(**overrides) -> dict:
@@ -239,6 +216,28 @@ def test_a_hole_in_the_numbering_is_reported_but_does_not_block(tmp_path):
     specs.check_data_contract(probe)
     assert ids(probe) == ["DB-MIGRATION-GAP"]
     assert probe.findings[0].severity == "P2"
+
+
+def test_an_unnumbered_migration_is_reported(tmp_path):
+    """The third of this check's three severities, and the one that had no case.
+
+    Migrations are applied in name order, so an unnumbered one has no defined
+    position — it may run before or after the migration whose table it alters,
+    depending only on how the filenames happen to sort.
+    """
+    probe = make_probe(tmp_path, app_profile())
+    scaffold_db(
+        tmp_path,
+        migrations={
+            "0001_a.sql": "CREATE TABLE chapter (id TEXT);",
+            "add_episode.sql": "CREATE TABLE episode (id TEXT);",
+        },
+        writer="",
+    )
+    specs.check_data_contract(probe)
+    assert ids(probe) == ["DB-MIGRATION-GAP"]
+    assert probe.findings[0].severity == "P1"
+    assert "add_episode.sql" in probe.findings[0].summary
 
 
 def test_a_writer_the_contract_names_but_that_is_gone_is_a_contract_finding(tmp_path):

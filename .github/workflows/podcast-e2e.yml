@@ -29,6 +29,10 @@ on:
       - "scripts/**"
       - "tests/**"
       - "content/**"
+      # The repo-surgeon probe reads this contract, and tests/test_repo_surgeon_*.py
+      # are what prove the probe reads it correctly. lint.yml runs the probe on a
+      # contract edit; without this the TESTS did not run on one.
+      - ".repo-audit/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"
@@ -39,6 +43,10 @@ on:
       - "scripts/**"
       - "tests/**"
       - "content/**"
+      # The repo-surgeon probe reads this contract, and tests/test_repo_surgeon_*.py
+      # are what prove the probe reads it correctly. lint.yml runs the probe on a
+      # contract edit; without this the TESTS did not run on one.
+      - ".repo-audit/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"

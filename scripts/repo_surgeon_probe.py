@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as dt
+import importlib.util
 import json
 import re
 import subprocess
@@ -56,6 +57,11 @@ import repo_surgeon_specs as specs  # noqa: E402, I001
 
 SEVERITY_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
 
+# Every subprocess this probe runs is a git command over a repository whose history
+# is several gigabytes. None of them had a timeout, so a hung `git grep` hung the
+# pre-commit hook with no output and no way to tell it apart from a slow one.
+GIT_TIMEOUT = 120
+
 
 @dataclass(frozen=True)
 class Finding:
@@ -70,6 +76,20 @@ class Finding:
 
     def sort_key(self) -> tuple:
         return (SEVERITY_RANK.get(self.severity, 9), self.id, self.file, self.line)
+
+
+def _waiver_expiry(value) -> "dt.date | None":
+    """A waiver's expiry as a date, or None when it cannot be read as one."""
+    if isinstance(value, dt.datetime):
+        return value.date()
+    if isinstance(value, dt.date):
+        return value
+    if isinstance(value, str):
+        try:
+            return dt.date.fromisoformat(value.strip())
+        except ValueError:
+            return None
+    return None
 
 
 @dataclass
@@ -172,6 +192,26 @@ class Probe:
             cmd = str(cmd).split("#", 1)[0].strip()
             if not cmd:
                 continue
+            # `python3 -m pkg` names a MODULE, not a file, so the script pattern below
+            # never matched it and the entry was silently unvalidated — a verify list
+            # is the contract's promise that a change can be proven safe, and an entry
+            # nobody checks downgrades that promise to a slogan for exactly one line.
+            module = re.match(r"python3?\s+-m\s+([A-Za-z_][\w.]*)", cmd)
+            if module:
+                name = module.group(1)
+                try:
+                    found = importlib.util.find_spec(name) is not None
+                except (ImportError, ValueError):
+                    found = False
+                if not found:
+                    self.add(
+                        "P1",
+                        "CT-VERIFY",
+                        f"verify command runs `python3 -m {name}`, which is not importable",
+                        ".repo-audit/profile.yaml",
+                        fingerprint=f"CT-VERIFY:module:{name}",
+                    )
+                continue
             script = re.search(r"(?:python3|bash|sh)\s+(\S+\.(?:py|sh))", cmd)
             if script and not self.exists(script.group(1)):
                 self.add(
@@ -195,7 +235,20 @@ class Probe:
                         fingerprint=f"CT-VERIFY:{pkg_dir}",
                     )
                     continue
-                scripts = (json.loads(pkg) or {}).get("scripts", {})
+                try:
+                    scripts = (json.loads(pkg) or {}).get("scripts", {})
+                except json.JSONDecodeError as exc:
+                    # A finding about that file, never a traceback. This runs in the
+                    # pre-commit hook, where a stack trace blocks the commit with
+                    # something nobody can act on.
+                    self.add(
+                        "P1",
+                        "CT-VERIFY",
+                        f"{pkg_dir}/package.json does not parse, so the gates it declares cannot be checked: {exc}",
+                        f"{pkg_dir}/package.json",
+                        fingerprint=f"CT-VERIFY:{pkg_dir}:unparseable",
+                    )
+                    continue
                 for target in re.findall(r"npm run ([\w:.-]+)", rest):
                     if target not in scripts:
                         self.add(
@@ -215,6 +268,16 @@ class Probe:
                         "Makefile",
                         fingerprint=f"CT-VERIFY:make:{target}",
                     )
+                continue
+            if not (script or npm):
+                self.add(
+                    "P1",
+                    "CT-VERIFY",
+                    f"verify command `{cmd}` is in no form this check can resolve, so nothing "
+                    "confirms it still runs — add the form here or rewrite the command",
+                    ".repo-audit/profile.yaml",
+                    fingerprint=f"CT-VERIFY:unresolvable:{cmd}",
+                )
 
     def check_mirror_pins(self) -> None:
         """Two files the contract says must change together, with nothing checking it,
@@ -260,13 +323,34 @@ class Probe:
         r = self.profile.get("root") or {}
         allow_files = {str(x).split("#", 1)[0].strip() for x in (r.get("allow_files") or [])}
         allow_dirs = {str(x).split("#", 1)[0].strip() for x in (r.get("allow_dirs") or [])}
-        tracked = subprocess.run(
-            ["git", "ls-files", "-z", "--", ":(top)"],
-            cwd=self.root,
-            capture_output=True,
-            text=True,
-            check=False,
-        ).stdout
+        try:
+            listing = subprocess.run(
+                ["git", "ls-files", "-z", "--", ":(top)"],
+                cwd=self.root,
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=GIT_TIMEOUT,
+            )
+            failure = (listing.stderr or "").strip() if listing.returncode != 0 else ""
+        except (OSError, subprocess.SubprocessError) as exc:
+            # A missing working directory, no git on PATH, or a hung index: all three
+            # are "could not look", and none of them is "nothing to report".
+            listing, failure = None, str(exc)
+        if failure or listing is None:
+            # Empty output used to make every root entry look allow-listed. A gate
+            # that reports "clean" because it could not look is worse than one that
+            # is absent: the reader cannot tell the two apart.
+            detail = (failure.splitlines() or ["no detail"])[0][:160]
+            self.add(
+                "P1",
+                "R1",
+                f"root membership could not be checked — git ls-files failed: {detail}",
+                ".repo-audit/profile.yaml",
+                fingerprint="R1:git-unavailable",
+            )
+            return
+        tracked = listing.stdout
         top = set()
         for rel in filter(None, tracked.split("\0")):
             top.add(rel.split("/", 1)[0] if "/" in rel else rel)
@@ -332,7 +416,15 @@ class Probe:
         if not registry:
             self.add("P1", "A1", "the skill registry is missing", "docs/reference/skill-registry.md")
             return
-        for d in sorted((self.root / "skills-staging").iterdir()):
+        staging = self.root / "skills-staging"
+        if not staging.is_dir():
+            # A fresh clone that has not run the skill installer has no
+            # skills-staging/, so this crashed on the very tree it was most likely
+            # to meet. The registry's absence was already a finding; the
+            # directory's absence was a traceback.
+            self.add("P1", "A1", "skills-staging/ does not exist, so no skill can be registered", "skills-staging")
+            return
+        for d in sorted(staging.iterdir()):
             if not d.is_dir():
                 continue
             # Match the DEFINITION PATH, not the bare name. A loose substring match on
@@ -425,6 +517,17 @@ class Probe:
                 continue
             want = m.group(1)
             text = self.read(spec)
+            if not text:
+                # An absent spec made `findall` return nothing, so the loop never ran
+                # and the check reported success for a file that was not there.
+                self.add(
+                    "P1",
+                    "AU-A2",
+                    f"{spec} is missing, so nothing pins {const} on the spec side",
+                    spec,
+                    fingerprint=f"AU-A2:{const}:spec-missing",
+                )
+                continue
             found = re.findall(rf"{key}:\s*([0-9][0-9.]*)", text)
             for got in found:
                 if got != want:
@@ -693,6 +796,15 @@ class Probe:
     # ---------- waivers ----------
 
     def apply_waivers(self, today: dt.date) -> None:
+        """Suppress findings a human has ruled on, until the ruling expires.
+
+        A waiver whose expiry cannot be read is treated as EXPIRED, never as
+        permanent. `isinstance(expires, dt.date)` was False for a quoted YAML date
+        and for a missing field alike, and both fell through to "do not expire" —
+        so `expires: "2027-01-18"` suppressed its finding forever and silently. The
+        whole point of the ledger is that a ruling is temporary; an entry that
+        cannot expire is the one thing it must not be able to hold.
+        """
         kept = []
         for f in self.findings:
             hit = None
@@ -704,8 +816,8 @@ class Probe:
             if not hit:
                 kept.append(f)
                 continue
-            expires = hit.get("expires")
-            if isinstance(expires, dt.date) and expires < today:
+            expires = _waiver_expiry(hit.get("expires"))
+            if expires is None or expires < today:
                 kept.append(
                     Finding(
                         f.severity,
@@ -721,69 +833,153 @@ class Probe:
         self.findings = kept
 
 
+# ---------- the check registry ----------
+#
+# ONE list, three readers: `run()` executes it, tests/test_repo_surgeon_probe.py
+# parametrizes over it, and the catalog gate asserts SKILL.md's "Checked by the
+# script" table says exactly what it says.
+#
+# It exists because those three were separately maintained and agreed only by
+# luck. `run()` used to build three hardcoded lambda lists while the sibling
+# modules exported an `ALL_CHECKS` that nothing but their own tests read, so a
+# check could be run and untested, or tested and unrun, or listed in the catalog
+# and neither — the exact prose-rot this file's docstring was written about,
+# reached by a different road.
+#
+# `fn` takes the probe as its only argument for BOTH kinds of check: a `Probe`
+# method accessed on the class is a plain function whose first parameter is the
+# instance, so `Probe.check_contract(probe)` and `surface.check_routes(probe)`
+# have the same shape and need no wrapper.
+#
+# `emits` is the contract the coverage ratchet enforces: every id here must be
+# produced by at least one test in the suite. Adding an id without a test that
+# provokes it fails the suite. Removing a check's last emitter fails it too.
+#
+# `scopes` names the --scope values that select the check; every check runs
+# under `all`. DECLARATION ORDER IS THE RUN ORDER, preserved exactly from the
+# lists this replaced (findings are sorted before output, so order cannot change
+# the report — it is kept identical so that claim needs no argument).
+
+
+@dataclass(frozen=True)
+class CheckSpec:
+    name: str
+    fn: object
+    emits: tuple
+    scopes: tuple = ()
+
+    def __call__(self, probe: "Probe") -> None:
+        self.fn(probe)
+
+
+CHECKS: tuple = (
+    # -- the contract's own accuracy, and this repo's structural invariants --
+    CheckSpec("check_contract", Probe.check_contract, ("CT-PATH", "CT-RATCHET")),
+    CheckSpec("check_verify_commands", Probe.check_verify_commands, ("CT-VERIFY",)),
+    CheckSpec("check_mirror_pins", Probe.check_mirror_pins, ("MI-UNPINNED", "MI-PIN-GONE", "MI-PATH")),
+    CheckSpec("check_root", Probe.check_root, ("R1",)),
+    CheckSpec("check_retired_surfaces", Probe.check_retired_surfaces, ("RS-RESURRECT",)),
+    CheckSpec("check_agent_mirrors", Probe.check_agent_mirrors, ("A2",)),
+    CheckSpec("check_skill_registry", Probe.check_skill_registry, ("A1",)),
+    CheckSpec("check_self_references", Probe.check_self_references, ("SK-MISSING", "SK-DEADREF")),
+    # -- the pipeline's own surface --
+    CheckSpec("check_abs_paths", Probe.check_abs_paths, ("AU-S2",), ("podcast",)),
+    CheckSpec("check_version_constants", Probe.check_version_constants, ("AU-A2",), ("podcast",)),
+    CheckSpec(
+        "check_book_pipeline",
+        Probe.check_book_pipeline,
+        ("AU-V1", "AU-V2", "AU-V4", "AU-V5", "AU-V6"),
+        ("podcast",),
+    ),
+    CheckSpec(
+        "check_capabilities",
+        surface.check_capabilities,
+        ("CAP-PHASE", "CAP-AGENT-REF", "CAP-CMD-REF"),
+        ("podcast",),
+    ),
+    # -- the two web surfaces --
+    # CT-PATH is declared HERE and on no other surface check: it comes from the
+    # shared `_apps` helper, so demanding a defect case from each of its four
+    # callers would buy four copies of one proof.
+    CheckSpec(
+        "check_gate_coverage",
+        surface.check_gate_coverage,
+        ("GT-APP-UNVERIFIED", "GT-MISSING", "GT-UNGATED", "CT-PATH"),
+        ("apps",),
+    ),
+    CheckSpec(
+        "check_routes",
+        surface.check_routes,
+        ("RT-POLICY-GONE", "RT-DANGLING", "RT-ORPHAN", "RT-BOUNDARY", "RT-PATH-GATE"),
+        ("apps",),
+    ),
+    CheckSpec("check_test_hygiene", surface.check_test_hygiene, ("TS-FOCUS",), ("apps",)),
+    CheckSpec(
+        "check_clean_code",
+        surface.check_clean_code,
+        ("CQ-NO-LINT", "CQ-NO-SIZE-GATE", "CQ-DEBUG"),
+        ("apps",),
+    ),
+    CheckSpec("check_gate_discovery", specs.check_gate_discovery, ("GT-UNDECLARED",), ("apps",)),
+    CheckSpec(
+        "check_data_contract",
+        specs.check_data_contract,
+        ("DB-MIGRATION-GAP", "DB-TABLE-MISSING", "CT-PATH"),
+        ("apps",),
+    ),
+    # -- repo-wide: a generator writes across app boundaries, and a standard
+    #    binds an agent, a skill and a pipeline pass at once --
+    CheckSpec("check_generated_artifacts", specs.check_generated_artifacts, ("GEN-UNPINNED", "CT-PATH")),
+    CheckSpec("check_standards", specs.check_standards, ("SD-REQ-DANGLING", "SD-ORPHAN")),
+    CheckSpec("check_plan", Probe.check_plan, ("L1", "L2", "L2-DUP", "L10")),
+    # -- last, and reported only. Removal is scripts/repo_cleanup.py's job: a gate
+    #    that deletes as a side effect of running is one people route around. --
+    CheckSpec("check_debris", surface.check_debris, ("HY-DEBRIS",)),
+)
+
+
+def checks_for(scope: str) -> tuple:
+    """The checks `--scope <scope>` selects, in declaration order."""
+    if scope == "all":
+        return CHECKS
+    return tuple(c for c in CHECKS if scope in c.scopes)
+
+
+def _cannot_run(message: str) -> None:
+    """Exit 2 — "the probe could not run" — never 1, which means "defects found".
+
+    Both the pre-commit hook and CI branch on the exit code alone. Letting a
+    traceback exit 1 tells them a defect was found, which sends whoever reads the
+    log looking for a finding that does not exist.
+    """
+    print(f"repo_surgeon_probe: {message}", file=sys.stderr)
+    sys.exit(2)
+
+
+def _load_yaml(path: Path, label: str) -> dict:
+    try:
+        return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as exc:
+        _cannot_run(f"{label} does not parse: {exc}")
+    except OSError as exc:
+        _cannot_run(f"{label} could not be read: {exc}")
+    return {}
+
+
 def run(root: Path, scope: str) -> Probe:
     profile_path = root / ".repo-audit/profile.yaml"
     if not profile_path.exists():
-        print(
-            "repo_surgeon_probe: no .repo-audit/profile.yaml — bootstrap the contract first "
-            "(see the repo-audit skill, Phase 0.5)",
-            file=sys.stderr,
-        )
-        sys.exit(2)
-    profile = yaml.safe_load(profile_path.read_text(encoding="utf-8")) or {}
+        _cannot_run("no .repo-audit/profile.yaml — bootstrap the contract first (see the repo-audit skill, Phase 0.5)")
+    profile = _load_yaml(profile_path, ".repo-audit/profile.yaml")
     waiver_path = root / ".repo-audit/waivers.yaml"
     waivers = []
     if waiver_path.exists():
-        waivers = (yaml.safe_load(waiver_path.read_text(encoding="utf-8")) or {}).get("waivers") or []
+        waivers = _load_yaml(waiver_path, ".repo-audit/waivers.yaml").get("waivers") or []
 
     probe = Probe(root=root, profile=profile, waivers=waivers)
 
-    podcast_checks = [
-        probe.check_abs_paths,
-        probe.check_version_constants,
-        probe.check_book_pipeline,
-        # The pipeline's capability surface: a phase nothing handles, an agent
-        # nothing defines, a command a doc tells you to run that is gone.
-        lambda: surface.check_capabilities(probe),
-    ]
-    # The two web surfaces. Split into their own module and their own scope so a
-    # front-end change can be probed without paying for the plan parse, and so
-    # neither file grows past the point where a reader can hold it.
-    app_checks = [
-        lambda: surface.check_gate_coverage(probe),
-        lambda: surface.check_routes(probe),
-        lambda: surface.check_test_hygiene(probe),
-        lambda: surface.check_clean_code(probe),
-        # The gate the contract was never told about, and the database contract
-        # between the pipeline and the app. Both belong to a surface, so both ride
-        # the `apps` scope with the rest.
-        lambda: specs.check_gate_discovery(probe),
-        lambda: specs.check_data_contract(probe),
-    ]
-    all_checks = [
-        probe.check_contract,
-        probe.check_verify_commands,
-        probe.check_mirror_pins,
-        probe.check_root,
-        probe.check_retired_surfaces,
-        probe.check_agent_mirrors,
-        probe.check_skill_registry,
-        probe.check_self_references,
-        *podcast_checks,
-        *app_checks,
-        # Repo-wide rather than per-surface: a generator writes across app
-        # boundaries, and a standard binds an agent, a skill and a pipeline pass
-        # at once. Neither belongs to a single scope.
-        lambda: specs.check_generated_artifacts(probe),
-        lambda: specs.check_standards(probe),
-        probe.check_plan,
-        # Last, and reported only. Removal is scripts/repo_cleanup.py's job: a
-        # gate that deletes as a side effect of running is one people route around.
-        lambda: surface.check_debris(probe),
-    ]
-    selected = {"podcast": podcast_checks, "apps": app_checks}.get(scope, all_checks)
-    for check in selected:
-        check()
+    for check in checks_for(scope):
+        check(probe)
 
     probe.apply_waivers(dt.date.today())
     probe.findings.sort(key=lambda f: f.sort_key())
@@ -796,14 +992,16 @@ def main() -> int:
     ap.add_argument("--scope", choices=["all", "podcast", "apps"], default="all", help="probe subset")
     args = ap.parse_args()
 
-    root = Path(
-        subprocess.run(
-            ["git", "rev-parse", "--show-toplevel"],
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
+    top = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=GIT_TIMEOUT,
     )
+    if top.returncode != 0 or not top.stdout.strip():
+        _cannot_run("not inside a git repository, so there is no repo to audit")
+    root = Path(top.stdout.strip())
     probe = run(root, args.scope)
     blocking = [f for f in probe.findings if f.severity in ("P0", "P1")]
 
