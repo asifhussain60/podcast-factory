@@ -1,0 +1,67 @@
+{
+  "slug": "kunooz-al-hikmah",
+  "verdict": "BOOK-BROKEN",
+  "summary": "B3 book-arabic-coverage: 8/13 chapters have no Arabic script: ch02b-named-duat-and-concealment.txt, ch05b-later-lectures-and-the-end-of-book.txt, ch06a-authors-posture-and-the-line.txt, ch07b-the-cycle-and-the-practical-frame.txt, ch08a-lectures-six-seven-eight-continued.txt, +3 more",
+  "gates": [
+    {
+      "gate": "B1",
+      "name": "book-md-complete",
+      "passed": true,
+      "note": "book.md: 391 KB, 29 sections \u2265 28 TOC chapters"
+    },
+    {
+      "gate": "B2",
+      "name": "book-pdf-renderable",
+      "passed": true,
+      "note": "book.pdf: 2619 KB, 245 pages \u2265 28 chapters"
+    },
+    {
+      "gate": "B3",
+      "name": "book-arabic-coverage",
+      "passed": false,
+      "note": "8/13 chapters have no Arabic script: ch02b-named-duat-and-concealment.txt, ch05b-later-lectures-and-the-end-of-book.txt, ch06a-authors-posture-and-the-line.txt, ch07b-the-cycle-and-the-practical-frame.txt, ch08a-lectures-six-seven-eight-continued.txt, +3 more"
+    },
+    {
+      "gate": "B4",
+      "name": "book-prose-integrity",
+      "passed": true,
+      "note": "book.md: no model commentary or generated headings detected"
+    },
+    {
+      "gate": "B5",
+      "name": "book-chapter-body-coverage",
+      "passed": true,
+      "note": "book.md: 28 numbered chapters have body text"
+    },
+    {
+      "gate": "B6",
+      "name": "book-source-crosswalk",
+      "passed": true,
+      "note": "source-crosswalk.json: 28 chapters aligned"
+    },
+    {
+      "gate": "B7",
+      "name": "book-gloss-coverage",
+      "passed": false,
+      "note": "4/96 glossed terms carry Arabic (4%); glossary has 1451 entries \u2014 starved glossary; e.g. 'Ali Illiyyin, 'ala al-usul, 'ala amrin jalilin khatir, 'ala amrin sharif, 'ala dhikrihis salaam, 'ala siratin mustaqim"
+    },
+    {
+      "gate": "B8",
+      "name": "compose-steps-complete",
+      "passed": false,
+      "note": "1 page-altering step(s) skipped during compose: glossary-harvest \u2014 first error: TimeoutExpired: Command '['/Library/Developer/CommandLineTools/usr/bin/python3', '/Users/asifhussain/PROJECTS/podcast-factory/scripts/podcast/fill_glossary_arabic.py', '--book-dir', '/Users/asifhussain/PROJECTS/podcast-factory/content/Islamic/kunooz-al-hikmah']' timed out after 900 seconds"
+    },
+    {
+      "gate": "B9",
+      "name": "articulation-complete",
+      "passed": true,
+      "note": "28 chapter(s) all articulated"
+    },
+    {
+      "gate": "B10",
+      "name": "translation-purity",
+      "passed": false,
+      "note": "line 111: Arabic embedded in an English translation \u2014 \u0639, \u0642, \u0644; line 355: Arabic embedded in an English translation \u2014 \u0639, \u0631, \u0641; line 360: Arabic embedded in an English translation \u2014 \u0639, \u0647, \u062f; line 1016: Arabic embedded in an English translation \u2014 \u0630, \u0643, \u0631; +1 more"
+    }
+  ]
+}

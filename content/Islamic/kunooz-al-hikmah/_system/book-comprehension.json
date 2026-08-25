@@ -1,0 +1,4967 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 245,
+  "terms_tracked": 800,
+  "prerequisite_gaps": [
+    {
+      "term": "Mahdi",
+      "first_use_page": 7,
+      "explained_page": 231,
+      "pages_carried": 224,
+      "kind": "explained-late"
+    },
+    {
+      "term": "kutub",
+      "first_use_page": 44,
+      "explained_page": 237,
+      "pages_carried": 193,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Hadrat",
+      "first_use_page": 37,
+      "explained_page": 222,
+      "pages_carried": 185,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Mina",
+      "first_use_page": 7,
+      "explained_page": 189,
+      "pages_carried": 182,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Medina",
+      "first_use_page": 54,
+      "explained_page": 228,
+      "pages_carried": 174,
+      "kind": "explained-late"
+    },
+    {
+      "term": "creatures",
+      "first_use_page": 46,
+      "explained_page": 205,
+      "pages_carried": 159,
+      "kind": "explained-late"
+    },
+    {
+      "term": "kawakib",
+      "first_use_page": 10,
+      "explained_page": 169,
+      "pages_carried": 159,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sadaqallah",
+      "first_use_page": 72,
+      "explained_page": 230,
+      "pages_carried": 158,
+      "kind": "explained-late"
+    },
+    {
+      "term": "unique",
+      "first_use_page": 69,
+      "explained_page": 222,
+      "pages_carried": 153,
+      "kind": "explained-late"
+    },
+    {
+      "term": "greatness",
+      "first_use_page": 47,
+      "explained_page": 195,
+      "pages_carried": 148,
+      "kind": "explained-late"
+    },
+    {
+      "term": "polytheists",
+      "first_use_page": 54,
+      "explained_page": 197,
+      "pages_carried": 143,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hissiyah",
+      "first_use_page": 37,
+      "explained_page": 178,
+      "pages_carried": 141,
+      "kind": "explained-late"
+    },
+    {
+      "term": "natiqah",
+      "first_use_page": 37,
+      "explained_page": 178,
+      "pages_carried": 141,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sirat",
+      "first_use_page": 94,
+      "explained_page": 234,
+      "pages_carried": 140,
+      "kind": "explained-late"
+    },
+    {
+      "term": "realities",
+      "first_use_page": 20,
+      "explained_page": 159,
+      "pages_carried": 139,
+      "kind": "explained-late"
+    },
+    {
+      "term": "duas",
+      "first_use_page": 31,
+      "explained_page": 166,
+      "pages_carried": 135,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nufus",
+      "first_use_page": 28,
+      "explained_page": 163,
+      "pages_carried": 135,
+      "kind": "explained-late"
+    },
+    {
+      "term": "subtleties",
+      "first_use_page": 27,
+      "explained_page": 161,
+      "pages_carried": 134,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ablution",
+      "first_use_page": 72,
+      "explained_page": 200,
+      "pages_carried": 128,
+      "kind": "explained-late"
+    },
+    {
+      "term": "succession",
+      "first_use_page": 10,
+      "explained_page": 132,
+      "pages_carried": 122,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ra's",
+      "first_use_page": 42,
+      "explained_page": 159,
+      "pages_carried": 117,
+      "kind": "explained-late"
+    },
+    {
+      "term": "period",
+      "first_use_page": 29,
+      "explained_page": 141,
+      "pages_carried": 112,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Zayd",
+      "first_use_page": 6,
+      "explained_page": 116,
+      "pages_carried": 110,
+      "kind": "explained-late"
+    },
+    {
+      "term": "lam",
+      "first_use_page": 44,
+      "explained_page": 153,
+      "pages_carried": 109,
+      "kind": "explained-late"
+    },
+    {
+      "term": "wali",
+      "first_use_page": 62,
+      "explained_page": 170,
+      "pages_carried": 108,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Arafat",
+      "first_use_page": 7,
+      "explained_page": 114,
+      "pages_carried": 107,
+      "kind": "explained-late"
+    },
+    {
+      "term": "shajarah",
+      "first_use_page": 9,
+      "explained_page": 113,
+      "pages_carried": 104,
+      "kind": "explained-late"
+    },
+    {
+      "term": "bataih",
+      "first_use_page": 6,
+      "explained_page": 108,
+      "pages_carried": 102,
+      "kind": "explained-late"
+    },
+    {
+      "term": "intercession",
+      "first_use_page": 7,
+      "explained_page": 107,
+      "pages_carried": 100,
+      "kind": "explained-late"
+    },
+    {
+      "term": "muqaddas",
+      "first_use_page": 52,
+      "explained_page": 150,
+      "pages_carried": 98,
+      "kind": "explained-late"
+    },
+    {
+      "term": "marifah",
+      "first_use_page": 37,
+      "explained_page": 134,
+      "pages_carried": 97,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ghaybah",
+      "first_use_page": 23,
+      "explained_page": 119,
+      "pages_carried": 96,
+      "kind": "explained-late"
+    },
+    {
+      "term": "kashf",
+      "first_use_page": 134,
+      "explained_page": 230,
+      "pages_carried": 96,
+      "kind": "explained-late"
+    },
+    {
+      "term": "munfarid",
+      "first_use_page": 12,
+      "explained_page": 107,
+      "pages_carried": 95,
+      "kind": "explained-late"
+    },
+    {
+      "term": "body",
+      "first_use_page": 6,
+      "explained_page": 99,
+      "pages_carried": 93,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Nuh",
+      "first_use_page": 131,
+      "explained_page": 223,
+      "pages_carried": 92,
+      "kind": "explained-late"
+    },
+    {
+      "term": "truthful",
+      "first_use_page": 69,
+      "explained_page": 158,
+      "pages_carried": 89,
+      "kind": "explained-late"
+    },
+    {
+      "term": "battle",
+      "first_use_page": 20,
+      "explained_page": 108,
+      "pages_carried": 88,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Muzdalifah",
+      "first_use_page": 114,
+      "explained_page": 201,
+      "pages_carried": 87,
+      "kind": "explained-late"
+    },
+    {
+      "term": "family",
+      "first_use_page": 9,
+      "explained_page": 95,
+      "pages_carried": 86,
+      "kind": "explained-late"
+    },
+    {
+      "term": "opposites",
+      "first_use_page": 109,
+      "explained_page": 194,
+      "pages_carried": 85,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nass",
+      "first_use_page": 9,
+      "explained_page": 91,
+      "pages_carried": 82,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hadith",
+      "first_use_page": 112,
+      "explained_page": 191,
+      "pages_carried": 79,
+      "kind": "explained-late"
+    },
+    {
+      "term": "slaughter",
+      "first_use_page": 83,
+      "explained_page": 162,
+      "pages_carried": 79,
+      "kind": "explained-late"
+    },
+    {
+      "term": "unveiling",
+      "first_use_page": 152,
+      "explained_page": 230,
+      "pages_carried": 78,
+      "kind": "explained-late"
+    },
+    {
+      "term": "animal",
+      "first_use_page": 112,
+      "explained_page": 189,
+      "pages_carried": 77,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Friday",
+      "first_use_page": 17,
+      "explained_page": 88,
+      "pages_carried": 71,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Madinah",
+      "first_use_page": 126,
+      "explained_page": 196,
+      "pages_carried": 70,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Adam",
+      "first_use_page": 9,
+      "explained_page": 78,
+      "pages_carried": 69,
+      "kind": "explained-late"
+    },
+    {
+      "term": "bir",
+      "first_use_page": 42,
+      "explained_page": 108,
+      "pages_carried": 66,
+      "kind": "explained-late"
+    },
+    {
+      "term": "return",
+      "first_use_page": 6,
+      "explained_page": 72,
+      "pages_carried": 66,
+      "kind": "explained-late"
+    },
+    {
+      "term": "muhtajib",
+      "first_use_page": 21,
+      "explained_page": 85,
+      "pages_carried": 64,
+      "kind": "explained-late"
+    },
+    {
+      "term": "athar",
+      "first_use_page": 114,
+      "explained_page": 176,
+      "pages_carried": 62,
+      "kind": "explained-late"
+    },
+    {
+      "term": "haykal",
+      "first_use_page": 104,
+      "explained_page": 166,
+      "pages_carried": 62,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nayyirah",
+      "first_use_page": 104,
+      "explained_page": 166,
+      "pages_carried": 62,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-mashriq",
+      "first_use_page": 99,
+      "explained_page": 159,
+      "pages_carried": 60,
+      "kind": "explained-late"
+    },
+    {
+      "term": "mashriq",
+      "first_use_page": 99,
+      "explained_page": 159,
+      "pages_carried": 60,
+      "kind": "explained-late"
+    },
+    {
+      "term": "gatherings",
+      "first_use_page": 151,
+      "explained_page": 209,
+      "pages_carried": 58,
+      "kind": "explained-late"
+    },
+    {
+      "term": "island",
+      "first_use_page": 7,
+      "explained_page": 65,
+      "pages_carried": 58,
+      "kind": "explained-late"
+    },
+    {
+      "term": "jazirah",
+      "first_use_page": 7,
+      "explained_page": 65,
+      "pages_carried": 58,
+      "kind": "explained-late"
+    },
+    {
+      "term": "qalb",
+      "first_use_page": 6,
+      "explained_page": 64,
+      "pages_carried": 58,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sayyid",
+      "first_use_page": 61,
+      "explained_page": 117,
+      "pages_carried": 56,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Husayn",
+      "first_use_page": 33,
+      "explained_page": 88,
+      "pages_carried": 55,
+      "kind": "explained-late"
+    },
+    {
+      "term": "maghrib",
+      "first_use_page": 75,
+      "explained_page": 130,
+      "pages_carried": 55,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Fatiha",
+      "first_use_page": 29,
+      "explained_page": 81,
+      "pages_carried": 52,
+      "kind": "explained-late"
+    },
+    {
+      "term": "zuhur",
+      "first_use_page": 105,
+      "explained_page": 157,
+      "pages_carried": 52,
+      "kind": "explained-late"
+    },
+    {
+      "term": "azdad",
+      "first_use_page": 109,
+      "explained_page": 159,
+      "pages_carried": 50,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Salman",
+      "first_use_page": 54,
+      "explained_page": 102,
+      "pages_carried": 48,
+      "kind": "explained-late"
+    },
+    {
+      "term": "covenant",
+      "first_use_page": 38,
+      "explained_page": 86,
+      "pages_carried": 48,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sadiq",
+      "first_use_page": 72,
+      "explained_page": 120,
+      "pages_carried": 48,
+      "kind": "explained-late"
+    },
+    {
+      "term": "visitation",
+      "first_use_page": 7,
+      "explained_page": 52,
+      "pages_carried": 45,
+      "kind": "explained-late"
+    },
+    {
+      "term": "anbiya'",
+      "first_use_page": 116,
+      "explained_page": 159,
+      "pages_carried": 43,
+      "kind": "explained-late"
+    },
+    {
+      "term": "heart",
+      "first_use_page": 6,
+      "explained_page": 49,
+      "pages_carried": 43,
+      "kind": "explained-late"
+    },
+    {
+      "term": "suwar",
+      "first_use_page": 26,
+      "explained_page": 69,
+      "pages_carried": 43,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Sindh",
+      "first_use_page": 81,
+      "explained_page": 122,
+      "pages_carried": 41,
+      "kind": "explained-late"
+    },
+    {
+      "term": "fudulat",
+      "first_use_page": 56,
+      "explained_page": 97,
+      "pages_carried": 41,
+      "kind": "explained-late"
+    },
+    {
+      "term": "gate",
+      "first_use_page": 72,
+      "explained_page": 113,
+      "pages_carried": 41,
+      "kind": "explained-late"
+    },
+    {
+      "term": "salawat",
+      "first_use_page": 32,
+      "explained_page": 73,
+      "pages_carried": 41,
+      "kind": "explained-late"
+    },
+    {
+      "term": "surat",
+      "first_use_page": 10,
+      "explained_page": 51,
+      "pages_carried": 41,
+      "kind": "explained-late"
+    },
+    {
+      "term": "form",
+      "first_use_page": 10,
+      "explained_page": 50,
+      "pages_carried": 40,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ruh",
+      "first_use_page": 20,
+      "explained_page": 56,
+      "pages_carried": 36,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Abdullah",
+      "first_use_page": 17,
+      "explained_page": 52,
+      "pages_carried": 35,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hadarat",
+      "first_use_page": 15,
+      "explained_page": 50,
+      "pages_carried": 35,
+      "kind": "explained-late"
+    },
+    {
+      "term": "salam",
+      "first_use_page": 7,
+      "explained_page": 41,
+      "pages_carried": 34,
+      "kind": "explained-late"
+    },
+    {
+      "term": "bab",
+      "first_use_page": 72,
+      "explained_page": 104,
+      "pages_carried": 32,
+      "kind": "explained-late"
+    },
+    {
+      "term": "iman",
+      "first_use_page": 16,
+      "explained_page": 47,
+      "pages_carried": 31,
+      "kind": "explained-late"
+    },
+    {
+      "term": "jazair",
+      "first_use_page": 15,
+      "explained_page": 46,
+      "pages_carried": 31,
+      "kind": "explained-late"
+    },
+    {
+      "term": "piety",
+      "first_use_page": 42,
+      "explained_page": 73,
+      "pages_carried": 31,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Khadijah",
+      "first_use_page": 53,
+      "explained_page": 83,
+      "pages_carried": 30,
+      "kind": "explained-late"
+    },
+    {
+      "term": "allegiance",
+      "first_use_page": 99,
+      "explained_page": 129,
+      "pages_carried": 30,
+      "kind": "explained-late"
+    },
+    {
+      "term": "masjid",
+      "first_use_page": 85,
+      "explained_page": 113,
+      "pages_carried": 28,
+      "kind": "explained-late"
+    },
+    {
+      "term": "umrah",
+      "first_use_page": 85,
+      "explained_page": 113,
+      "pages_carried": 28,
+      "kind": "explained-late"
+    },
+    {
+      "term": "maqam",
+      "first_use_page": 15,
+      "explained_page": 39,
+      "pages_carried": 24,
+      "kind": "explained-late"
+    },
+    {
+      "term": "mission",
+      "first_use_page": 67,
+      "explained_page": 89,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "soul",
+      "first_use_page": 20,
+      "explained_page": 42,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ziyarat",
+      "first_use_page": 7,
+      "explained_page": 29,
+      "pages_carried": 22,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-mayamin",
+      "first_use_page": 93,
+      "explained_page": 112,
+      "pages_carried": 19,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ismail",
+      "first_use_page": 10,
+      "explained_page": 28,
+      "pages_carried": 18,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Sulayman",
+      "first_use_page": 7,
+      "explained_page": 25,
+      "pages_carried": 18,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Muhammad",
+      "first_use_page": 9,
+      "explained_page": 26,
+      "pages_carried": 17,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nobility",
+      "first_use_page": 180,
+      "explained_page": 197,
+      "pages_carried": 17,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Fatimi",
+      "first_use_page": 116,
+      "explained_page": 132,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Jafar",
+      "first_use_page": 10,
+      "explained_page": 26,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "gathering",
+      "first_use_page": 54,
+      "explained_page": 70,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sitr",
+      "first_use_page": 42,
+      "explained_page": 58,
+      "pages_carried": 16,
+      "kind": "explained-late"
+    },
+    {
+      "term": "cycle",
+      "first_use_page": 6,
+      "explained_page": 21,
+      "pages_carried": 15,
+      "kind": "explained-late"
+    },
+    {
+      "term": "secrets",
+      "first_use_page": 10,
+      "explained_page": 25,
+      "pages_carried": 15,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Hasan",
+      "first_use_page": 7,
+      "explained_page": 20,
+      "pages_carried": 13,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hijrah",
+      "first_use_page": 216,
+      "explained_page": 228,
+      "pages_carried": 12,
+      "kind": "explained-late"
+    },
+    {
+      "term": "believer",
+      "first_use_page": 6,
+      "explained_page": 16,
+      "pages_carried": 10,
+      "kind": "explained-late"
+    },
+    {
+      "term": "fil",
+      "first_use_page": 15,
+      "explained_page": 25,
+      "pages_carried": 10,
+      "kind": "explained-late"
+    },
+    {
+      "term": "muminin",
+      "first_use_page": 15,
+      "explained_page": 25,
+      "pages_carried": 10,
+      "kind": "explained-late"
+    },
+    {
+      "term": "spirit",
+      "first_use_page": 56,
+      "explained_page": 64,
+      "pages_carried": 8,
+      "kind": "explained-late"
+    },
+    {
+      "term": "sudur",
+      "first_use_page": 48,
+      "explained_page": 56,
+      "pages_carried": 8,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Yusuf",
+      "first_use_page": 54,
+      "explained_page": 61,
+      "pages_carried": 7,
+      "kind": "explained-late"
+    },
+    {
+      "term": "ibda",
+      "first_use_page": 41,
+      "explained_page": 48,
+      "pages_carried": 7,
+      "kind": "explained-late"
+    },
+    {
+      "term": "istifadah",
+      "first_use_page": 61,
+      "explained_page": null,
+      "pages_carried": 7,
+      "kind": "never-explained"
+    },
+    {
+      "term": "appointment",
+      "first_use_page": 79,
+      "explained_page": null,
+      "pages_carried": 6,
+      "kind": "never-explained"
+    },
+    {
+      "term": "designation",
+      "first_use_page": 9,
+      "explained_page": null,
+      "pages_carried": 6,
+      "kind": "never-explained"
+    },
+    {
+      "term": "ifadah",
+      "first_use_page": 114,
+      "explained_page": null,
+      "pages_carried": 6,
+      "kind": "never-explained"
+    },
+    {
+      "term": "riyat",
+      "first_use_page": 65,
+      "explained_page": 71,
+      "pages_carried": 6,
+      "kind": "explained-late"
+    },
+    {
+      "term": "era",
+      "first_use_page": 21,
+      "explained_page": 26,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    },
+    {
+      "term": "mansub",
+      "first_use_page": 88,
+      "explained_page": null,
+      "pages_carried": 5,
+      "kind": "never-explained"
+    },
+    {
+      "term": "presences",
+      "first_use_page": 45,
+      "explained_page": 50,
+      "pages_carried": 5,
+      "kind": "explained-late"
+    },
+    {
+      "term": "wasi",
+      "first_use_page": 41,
+      "explained_page": null,
+      "pages_carried": 5,
+      "kind": "never-explained"
+    },
+    {
+      "term": "Bismillah",
+      "first_use_page": 6,
+      "explained_page": 10,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Rahman",
+      "first_use_page": 6,
+      "explained_page": 10,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ya-Sin",
+      "first_use_page": 69,
+      "explained_page": null,
+      "pages_carried": 4,
+      "kind": "never-explained"
+    },
+    {
+      "term": "al-Rahman",
+      "first_use_page": 6,
+      "explained_page": 10,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "awsiya",
+      "first_use_page": 20,
+      "explained_page": null,
+      "pages_carried": 4,
+      "kind": "never-explained"
+    },
+    {
+      "term": "hijab",
+      "first_use_page": 20,
+      "explained_page": 24,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "nafs",
+      "first_use_page": 20,
+      "explained_page": 24,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "namiyah",
+      "first_use_page": 37,
+      "explained_page": null,
+      "pages_carried": 4,
+      "kind": "never-explained"
+    },
+    {
+      "term": "natiq",
+      "first_use_page": 20,
+      "explained_page": 24,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "veil",
+      "first_use_page": 20,
+      "explained_page": 24,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Hijri",
+      "first_use_page": 113,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "Hind",
+      "first_use_page": 88,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "Miraj",
+      "first_use_page": 19,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "Rahim",
+      "first_use_page": 7,
+      "explained_page": 10,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Yazid",
+      "first_use_page": 126,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "al-Rahim",
+      "first_use_page": 7,
+      "explained_page": 10,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "appointments",
+      "first_use_page": 39,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "awn",
+      "first_use_page": 42,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "ayimmah",
+      "first_use_page": 61,
+      "explained_page": 64,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "bil-fil",
+      "first_use_page": 63,
+      "explained_page": 66,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "bil-quwwah",
+      "first_use_page": 63,
+      "explained_page": 66,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "helper",
+      "first_use_page": 61,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "hypocrites",
+      "first_use_page": 54,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "intellects",
+      "first_use_page": 45,
+      "explained_page": 48,
+      "pages_carried": 3,
+      "kind": "explained-late"
+    },
+    {
+      "term": "kalimah",
+      "first_use_page": 197,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "khilafat",
+      "first_use_page": 140,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "mawad",
+      "first_use_page": 35,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "qasidah",
+      "first_use_page": 10,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "saba",
+      "first_use_page": 131,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "shariah",
+      "first_use_page": 58,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "vision",
+      "first_use_page": 39,
+      "explained_page": null,
+      "pages_carried": 3,
+      "kind": "never-explained"
+    },
+    {
+      "term": "caliph",
+      "first_use_page": 103,
+      "explained_page": 105,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "cycles",
+      "first_use_page": 6,
+      "explained_page": 8,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "dawat",
+      "first_use_page": 96,
+      "explained_page": 98,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hudad",
+      "first_use_page": 87,
+      "explained_page": 89,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "hudud",
+      "first_use_page": 11,
+      "explained_page": 13,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    },
+    {
+      "term": "mawr",
+      "first_use_page": 57,
+      "explained_page": 59,
+      "pages_carried": 2,
+      "kind": "explained-late"
+    }
+  ],
+  "naming_drift": [
+    {
+      "variants": [
+        "ya-sin",
+        "yasin"
+      ]
+    },
+    {
+      "variants": [
+        "bi-l-quwwah",
+        "bil-quwwah"
+      ]
+    }
+  ],
+  "referent_collisions": [],
+  "dense_pages": [
+    {
+      "page": 3,
+      "term_count": 12,
+      "terms": [
+        "Dai",
+        "Imams",
+        "Najran",
+        "blessings",
+        "cycles",
+        "duat",
+        "gates",
+        "heart",
+        "return",
+        "successors"
+      ]
+    },
+    {
+      "page": 4,
+      "term_count": 12,
+      "terms": [
+        "Arafat",
+        "Dai",
+        "Mahdi",
+        "Mina",
+        "Musa",
+        "Qaim",
+        "cycle",
+        "cycles",
+        "intercession",
+        "island"
+      ]
+    },
+    {
+      "page": 5,
+      "term_count": 18,
+      "terms": [
+        "Anwar",
+        "Bismillah",
+        "Dai",
+        "Imams",
+        "Muhammad",
+        "Najran",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman"
+      ]
+    },
+    {
+      "page": 6,
+      "term_count": 21,
+      "terms": [
+        "Bismillah",
+        "Mawlana",
+        "Musa",
+        "Rahman",
+        "Zayd",
+        "al-Rahman",
+        "bataih",
+        "believer",
+        "blessings",
+        "body"
+      ]
+    },
+    {
+      "page": 7,
+      "term_count": 20,
+      "terms": [
+        "Arafat",
+        "Bismillah",
+        "Dai",
+        "Hasan",
+        "Imam",
+        "Mahdi",
+        "Mina",
+        "Qaim",
+        "Rahim",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 8,
+      "term_count": 21,
+      "terms": [
+        "Ali",
+        "Arafat",
+        "Dai",
+        "Ibrahim",
+        "Imams",
+        "Mahdi",
+        "Mina",
+        "Musa",
+        "Najran",
+        "Qaim"
+      ]
+    },
+    {
+      "page": 9,
+      "term_count": 21,
+      "terms": [
+        "Adam",
+        "Aimmah",
+        "Ali",
+        "Dai",
+        "Hussain",
+        "Ibrahim",
+        "Imams",
+        "Muhammad",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 10,
+      "term_count": 29,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Dai",
+        "Hasan",
+        "Ismail",
+        "Jafar",
+        "Rahim",
+        "Rahman",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 11,
+      "term_count": 24,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Bismillah",
+        "Hussain",
+        "Imams",
+        "Muhammad",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim"
+      ]
+    },
+    {
+      "page": 12,
+      "term_count": 28,
+      "terms": [
+        "Adam",
+        "Ali",
+        "Dai",
+        "Hasan",
+        "Ibrahim",
+        "Ismail",
+        "Jafar",
+        "Muhammad",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 14,
+      "term_count": 13,
+      "terms": [
+        "Muhammad",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman",
+        "blessings",
+        "family",
+        "gardens",
+        "nasut",
+        "natural"
+      ]
+    },
+    {
+      "page": 15,
+      "term_count": 15,
+      "terms": [
+        "dawah",
+        "dhilli",
+        "fil",
+        "gardens",
+        "hadarat",
+        "hudud",
+        "jazair",
+        "luminous",
+        "maqam",
+        "muminin"
+      ]
+    },
+    {
+      "page": 16,
+      "term_count": 11,
+      "terms": [
+        "aql",
+        "batini",
+        "believer",
+        "dairah-e-iman",
+        "essence",
+        "fil",
+        "gnosis",
+        "iman",
+        "kulli",
+        "shay"
+      ]
+    },
+    {
+      "page": 17,
+      "term_count": 15,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Friday",
+        "Hussain",
+        "Imam",
+        "Ismail",
+        "Muhammad",
+        "Sayyidna",
+        "Sulayman",
+        "afdal"
+      ]
+    },
+    {
+      "page": 19,
+      "term_count": 19,
+      "terms": [
+        "Ali",
+        "Aliyyun",
+        "Ghadir",
+        "Jabarut",
+        "Khumm",
+        "Miraj",
+        "Muhammad",
+        "blessings",
+        "dawah",
+        "forms"
+      ]
+    },
+    {
+      "page": 20,
+      "term_count": 21,
+      "terms": [
+        "Aisha",
+        "Ali",
+        "Hasan",
+        "Hussain",
+        "Ibrahim",
+        "Ismail",
+        "Sayyidna",
+        "anfusana",
+        "awsiya",
+        "battle"
+      ]
+    },
+    {
+      "page": 21,
+      "term_count": 26,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Ashir",
+        "Dai",
+        "Fatimah",
+        "Imams",
+        "Sahib",
+        "Umar",
+        "absolute",
+        "afdal"
+      ]
+    },
+    {
+      "page": 22,
+      "term_count": 21,
+      "terms": [
+        "Fatimah",
+        "Hasan",
+        "Hussain",
+        "Imam",
+        "Imamate",
+        "Qaim",
+        "Umar",
+        "al-Hasan",
+        "father",
+        "head"
+      ]
+    },
+    {
+      "page": 23,
+      "term_count": 18,
+      "terms": [
+        "Aimmah",
+        "Hasan",
+        "Hussain",
+        "Imam",
+        "Imamate",
+        "Sayyidna",
+        "al-Hussain",
+        "connected",
+        "dawah",
+        "duat"
+      ]
+    },
+    {
+      "page": 24,
+      "term_count": 8,
+      "terms": [
+        "Ghadir",
+        "Hajj",
+        "hijab",
+        "nafs",
+        "natiq",
+        "successors",
+        "veil",
+        "veiled"
+      ]
+    },
+    {
+      "page": 25,
+      "term_count": 31,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Anwar",
+        "Ayn",
+        "Imam",
+        "Imams",
+        "Musa",
+        "Najran",
+        "Sayyidna",
+        "Sulayman"
+      ]
+    },
+    {
+      "page": 26,
+      "term_count": 20,
+      "terms": [
+        "Hasan",
+        "Imams",
+        "Jafar",
+        "Mim",
+        "Muhammad",
+        "Najran",
+        "Qaim",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman"
+      ]
+    },
+    {
+      "page": 27,
+      "term_count": 31,
+      "terms": [
+        "Ali",
+        "Anwar",
+        "Ayn",
+        "Imams",
+        "Jafar",
+        "Mim",
+        "Muhammad",
+        "Najran",
+        "Qaim",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 28,
+      "term_count": 29,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Habasha",
+        "Hasan",
+        "Hussain",
+        "Ibrahim",
+        "Imams",
+        "Ismail",
+        "Muhammad",
+        "Najran"
+      ]
+    },
+    {
+      "page": 29,
+      "term_count": 22,
+      "terms": [
+        "Bismillah",
+        "Dai",
+        "Fatiha",
+        "Hasan",
+        "Hussain",
+        "Imams",
+        "Isa",
+        "Ismail",
+        "Najran",
+        "Rahim"
+      ]
+    },
+    {
+      "page": 30,
+      "term_count": 12,
+      "terms": [
+        "Adam",
+        "Imams",
+        "Najran",
+        "asrar",
+        "blessings",
+        "cycle",
+        "duat",
+        "gates",
+        "haqaiq",
+        "realities"
+      ]
+    },
+    {
+      "page": 31,
+      "term_count": 10,
+      "terms": [
+        "Dai",
+        "Kitabullah",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "dawah",
+        "duas",
+        "taawwudh"
+      ]
+    },
+    {
+      "page": 32,
+      "term_count": 14,
+      "terms": [
+        "Bismillah",
+        "Dai",
+        "Imam",
+        "adhan",
+        "dhat",
+        "hamd",
+        "ihtizaz",
+        "mushir",
+        "salawat",
+        "special"
+      ]
+    },
+    {
+      "page": 33,
+      "term_count": 24,
+      "terms": [
+        "Anwar",
+        "Bismillah",
+        "Dai",
+        "Husayn",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "asrar"
+      ]
+    },
+    {
+      "page": 34,
+      "term_count": 13,
+      "terms": [
+        "Aziz-ur-Rahim",
+        "Dai",
+        "Hajj",
+        "Rahim",
+        "Rahman",
+        "Rauf-ur-Rahim",
+        "books",
+        "duas",
+        "gardens",
+        "muddai"
+      ]
+    },
+    {
+      "page": 35,
+      "term_count": 15,
+      "terms": [
+        "Dai",
+        "Rahman",
+        "afw",
+        "blessings",
+        "dais",
+        "dawah",
+        "hudud",
+        "mawad",
+        "rahmah",
+        "shafaqah"
+      ]
+    },
+    {
+      "page": 36,
+      "term_count": 11,
+      "terms": [
+        "Alami",
+        "Alamuddin",
+        "Ali",
+        "Dai",
+        "Sayyidna",
+        "al-alami",
+        "al-haqir",
+        "awlad",
+        "dawah",
+        "treatise"
+      ]
+    },
+    {
+      "page": 37,
+      "term_count": 23,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hadrat",
+        "Imams",
+        "Sayyidna",
+        "aql",
+        "dais",
+        "duat",
+        "form",
+        "gnosis"
+      ]
+    },
+    {
+      "page": 38,
+      "term_count": 15,
+      "terms": [
+        "Dai",
+        "Wal-basir",
+        "alif",
+        "basir",
+        "believer",
+        "covenant",
+        "jani",
+        "marifah",
+        "means",
+        "naqid"
+      ]
+    },
+    {
+      "page": 39,
+      "term_count": 15,
+      "terms": [
+        "Alamuddin",
+        "Dai",
+        "Ibrahim",
+        "Sayyidna",
+        "alam",
+        "appointments",
+        "aswa",
+        "hudud",
+        "intention",
+        "mabud"
+      ]
+    },
+    {
+      "page": 40,
+      "term_count": 16,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Husayn",
+        "Ismail",
+        "Sayyidna",
+        "bari",
+        "dawah",
+        "father",
+        "hudud",
+        "hujab"
+      ]
+    },
+    {
+      "page": 41,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Imam",
+        "Imamate",
+        "alam",
+        "aswa",
+        "dawah",
+        "hudud",
+        "ibda",
+        "kulli",
+        "mahdudin"
+      ]
+    },
+    {
+      "page": 42,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Dhannu",
+        "Rahim",
+        "Tahjibuni",
+        "afw",
+        "al-Rahim",
+        "awn",
+        "bir",
+        "darayn"
+      ]
+    },
+    {
+      "page": 44,
+      "term_count": 12,
+      "terms": [
+        "Ali",
+        "Muhammad",
+        "Sayyidna",
+        "alam",
+        "blessings",
+        "books",
+        "family",
+        "ibda",
+        "ismah",
+        "kutub"
+      ]
+    },
+    {
+      "page": 45,
+      "term_count": 26,
+      "terms": [
+        "Abdullah",
+        "Dai",
+        "Imam",
+        "Sahib",
+        "Subhanallah",
+        "alam",
+        "books",
+        "dhat",
+        "dhilli",
+        "essence"
+      ]
+    },
+    {
+      "page": 46,
+      "term_count": 21,
+      "terms": [
+        "Imam",
+        "alam",
+        "creatures",
+        "form",
+        "gardens",
+        "hijab",
+        "hujaj",
+        "ibda",
+        "intellects",
+        "islands"
+      ]
+    },
+    {
+      "page": 47,
+      "term_count": 25,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Ayn",
+        "Bismillah",
+        "Dai",
+        "Fatima",
+        "Imams",
+        "Mawlana",
+        "Qaim",
+        "Rahim"
+      ]
+    },
+    {
+      "page": 48,
+      "term_count": 17,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Fatima",
+        "Fatimid",
+        "Imams",
+        "Mawlana",
+        "Sahib",
+        "al-Ali",
+        "alam",
+        "aql"
+      ]
+    },
+    {
+      "page": 49,
+      "term_count": 15,
+      "terms": [
+        "Mubdi",
+        "alam",
+        "aql",
+        "awham",
+        "damair",
+        "duat",
+        "estimations",
+        "form",
+        "gnosis",
+        "heart"
+      ]
+    },
+    {
+      "page": 50,
+      "term_count": 26,
+      "terms": [
+        "Ali",
+        "Mubdi",
+        "al-Ali",
+        "alam",
+        "dawah",
+        "form",
+        "forms",
+        "gardens",
+        "gnosis",
+        "hadarat"
+      ]
+    },
+    {
+      "page": 51,
+      "term_count": 27,
+      "terms": [
+        "Dai",
+        "Ibrahim",
+        "Imam",
+        "Muhammad",
+        "Sayyidna",
+        "books",
+        "duat",
+        "form",
+        "forms",
+        "gardens"
+      ]
+    },
+    {
+      "page": 52,
+      "term_count": 22,
+      "terms": [
+        "Abdullah",
+        "Adam",
+        "Hadrat",
+        "Husayn",
+        "Imam",
+        "Rasulullah",
+        "Sahib",
+        "father",
+        "ghusl",
+        "hijab"
+      ]
+    },
+    {
+      "page": 53,
+      "term_count": 8,
+      "terms": [
+        "Ali",
+        "Isa",
+        "Khadijah",
+        "Maryam",
+        "Rasulullah",
+        "Sayyidna",
+        "bathah",
+        "mamnun"
+      ]
+    },
+    {
+      "page": 54,
+      "term_count": 15,
+      "terms": [
+        "Mecca",
+        "Medina",
+        "Salman",
+        "Yusuf",
+        "battle",
+        "gathering",
+        "gnosis",
+        "heart",
+        "hijabs",
+        "hypocrites"
+      ]
+    },
+    {
+      "page": 55,
+      "term_count": 13,
+      "terms": [
+        "Imam",
+        "Rasulullah",
+        "Sayyidna",
+        "asbab",
+        "essence",
+        "forms",
+        "hujjat",
+        "manifestation",
+        "maqam",
+        "mihrab"
+      ]
+    },
+    {
+      "page": 56,
+      "term_count": 20,
+      "terms": [
+        "aflak",
+        "appearance",
+        "asbab",
+        "body",
+        "fudlah",
+        "fudulat",
+        "hudud",
+        "jami",
+        "jism",
+        "jussa"
+      ]
+    },
+    {
+      "page": 57,
+      "term_count": 15,
+      "terms": [
+        "Ashir",
+        "body",
+        "fudlah",
+        "jussa",
+        "kulli",
+        "mawr",
+        "means",
+        "musirrin",
+        "mutahayyirin",
+        "nadimin"
+      ]
+    },
+    {
+      "page": 58,
+      "term_count": 18,
+      "terms": [
+        "Anwar",
+        "Imam",
+        "Muhammad",
+        "Salman",
+        "Sayyidna",
+        "atiran",
+        "damad",
+        "darkat",
+        "dua",
+        "forms"
+      ]
+    },
+    {
+      "page": 59,
+      "term_count": 18,
+      "terms": [
+        "Ashir",
+        "Hasan",
+        "Husayn",
+        "Imams",
+        "Sahib",
+        "Sayyidna",
+        "Yasin",
+        "cycles",
+        "dais",
+        "dawr"
+      ]
+    },
+    {
+      "page": 60,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Ashir",
+        "Bismillah",
+        "Fatiha",
+        "Muhammad",
+        "Sayyidna",
+        "blessings",
+        "connected",
+        "family",
+        "form"
+      ]
+    },
+    {
+      "page": 61,
+      "term_count": 19,
+      "terms": [
+        "Imam",
+        "Imams",
+        "Yusuf",
+        "alam",
+        "ayimmah",
+        "cycle",
+        "era",
+        "falak-e-muheet",
+        "falak-e-mustaqeem",
+        "ghayr-mari"
+      ]
+    },
+    {
+      "page": 62,
+      "term_count": 15,
+      "terms": [
+        "Dai",
+        "Mawlana",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahman",
+        "alam",
+        "ayimmah",
+        "blessings",
+        "falak-e-muheet",
+        "falak-e-mustaqeem"
+      ]
+    },
+    {
+      "page": 63,
+      "term_count": 14,
+      "terms": [
+        "Anwar",
+        "ayimmah",
+        "barzakh",
+        "bil-fil",
+        "bil-quwwah",
+        "falak-e-mustaqeem",
+        "fil",
+        "heart",
+        "kawr",
+        "qalb"
+      ]
+    },
+    {
+      "page": 64,
+      "term_count": 17,
+      "terms": [
+        "Imam",
+        "Sayyidna",
+        "ayimmah",
+        "blessings",
+        "dais",
+        "duat",
+        "fil",
+        "forms",
+        "luminous",
+        "maqam"
+      ]
+    },
+    {
+      "page": 65,
+      "term_count": 25,
+      "terms": [
+        "Imam",
+        "Sayyidna",
+        "aflak",
+        "asatir",
+        "atqiyah",
+        "believer",
+        "form",
+        "fuzala",
+        "heart",
+        "hudood"
+      ]
+    },
+    {
+      "page": 66,
+      "term_count": 7,
+      "terms": [
+        "abstract",
+        "bil-fil",
+        "bil-quwwah",
+        "fil",
+        "mumin",
+        "security",
+        "soul"
+      ]
+    },
+    {
+      "page": 67,
+      "term_count": 12,
+      "terms": [
+        "Anwar",
+        "Imam",
+        "Yusuf",
+        "alam",
+        "dawah",
+        "essence",
+        "heart",
+        "hudood",
+        "mawadi",
+        "mission"
+      ]
+    },
+    {
+      "page": 68,
+      "term_count": 13,
+      "terms": [
+        "Dai",
+        "Ibrahim",
+        "Imam",
+        "Sayyidna",
+        "connected",
+        "era",
+        "heart",
+        "hudood",
+        "kawr",
+        "qalb"
+      ]
+    },
+    {
+      "page": 69,
+      "term_count": 18,
+      "terms": [
+        "Ali",
+        "Imam",
+        "Sayyidna",
+        "Ya-Sin",
+        "ahad",
+        "ashar",
+        "asrar",
+        "fil",
+        "forms",
+        "maqam"
+      ]
+    },
+    {
+      "page": 70,
+      "term_count": 18,
+      "terms": [
+        "Imam",
+        "Imams",
+        "Yasin",
+        "ahsa",
+        "ahsayna",
+        "believer",
+        "form",
+        "forms",
+        "gathering",
+        "jama"
+      ]
+    },
+    {
+      "page": 71,
+      "term_count": 17,
+      "terms": [
+        "Imam",
+        "divinity",
+        "forms",
+        "humanity",
+        "lahut",
+        "maqam",
+        "mumin",
+        "nasut",
+        "nasut-e-tabii",
+        "nasut-e-zilli"
+      ]
+    },
+    {
+      "page": 72,
+      "term_count": 21,
+      "terms": [
+        "Bismillah",
+        "Farzand-e-Imam",
+        "Fatiha",
+        "Imam",
+        "Jafar",
+        "Mawlana",
+        "Umar",
+        "ablution",
+        "bab",
+        "body"
+      ]
+    },
+    {
+      "page": 73,
+      "term_count": 13,
+      "terms": [
+        "Burudat",
+        "blessings",
+        "connected",
+        "fil",
+        "means",
+        "mumin",
+        "piety",
+        "riyat",
+        "sabarat",
+        "salawat"
+      ]
+    },
+    {
+      "page": 74,
+      "term_count": 10,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Dai",
+        "body",
+        "heart",
+        "hujjat",
+        "iftar",
+        "mumin",
+        "riyat",
+        "sahri"
+      ]
+    },
+    {
+      "page": 75,
+      "term_count": 6,
+      "terms": [
+        "Mawlana",
+        "blessings",
+        "maghrib",
+        "shariah",
+        "soul",
+        "wudu"
+      ]
+    },
+    {
+      "page": 77,
+      "term_count": 23,
+      "terms": [
+        "Hasan",
+        "Husayn",
+        "Imam",
+        "Imamate",
+        "Mawlana",
+        "alif",
+        "form",
+        "forms",
+        "jawahir",
+        "lahut"
+      ]
+    },
+    {
+      "page": 78,
+      "term_count": 18,
+      "terms": [
+        "Adam",
+        "Adam-e-Aal-e-Aba",
+        "Ali",
+        "Hasan",
+        "Husayn",
+        "Ibrahim",
+        "Imam",
+        "Imams",
+        "Ishaq",
+        "Ismail"
+      ]
+    },
+    {
+      "page": 79,
+      "term_count": 23,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Aliyyun",
+        "Imam",
+        "Imamate",
+        "Imams",
+        "Qaim",
+        "Rasulullah",
+        "Sayyidna",
+        "appointment"
+      ]
+    },
+    {
+      "page": 80,
+      "term_count": 21,
+      "terms": [
+        "Ashir",
+        "Imam",
+        "alam",
+        "ashar",
+        "barzakh",
+        "barzakh-e-ashir",
+        "duat",
+        "falak-e-ashir",
+        "falak-e-muheet",
+        "fil"
+      ]
+    },
+    {
+      "page": 81,
+      "term_count": 30,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Dai",
+        "Fatiha",
+        "Hasan",
+        "Husayn",
+        "Imam",
+        "Imamate",
+        "Imams",
+        "Mawlana"
+      ]
+    },
+    {
+      "page": 82,
+      "term_count": 6,
+      "terms": [
+        "Rahman",
+        "al-Rahman",
+        "family",
+        "heart",
+        "lam",
+        "surah"
+      ]
+    },
+    {
+      "page": 83,
+      "term_count": 11,
+      "terms": [
+        "Ali",
+        "Imams",
+        "Khadijah",
+        "Mawlana",
+        "Rasulullah",
+        "amir",
+        "blessings",
+        "heart",
+        "infallible",
+        "muminin"
+      ]
+    },
+    {
+      "page": 84,
+      "term_count": 7,
+      "terms": [
+        "Ali",
+        "Rahim",
+        "al-Rahim",
+        "forms",
+        "heart",
+        "surah",
+        "suwar"
+      ]
+    },
+    {
+      "page": 85,
+      "term_count": 19,
+      "terms": [
+        "Hajj",
+        "asbab",
+        "circumambulation",
+        "heart",
+        "hijab",
+        "jami",
+        "kalimat",
+        "masjid",
+        "means",
+        "muhtajib"
+      ]
+    },
+    {
+      "page": 86,
+      "term_count": 8,
+      "terms": [
+        "amir",
+        "covenant",
+        "cycle",
+        "heart",
+        "karrah",
+        "muminin",
+        "reward",
+        "ziyadah"
+      ]
+    },
+    {
+      "page": 87,
+      "term_count": 16,
+      "terms": [
+        "Dai",
+        "Mawlana",
+        "appointment",
+        "bari",
+        "believer",
+        "dawah",
+        "fursat",
+        "hasanat",
+        "heart",
+        "hudad"
+      ]
+    },
+    {
+      "page": 88,
+      "term_count": 22,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Dai",
+        "Friday",
+        "Hasan",
+        "Hind",
+        "Husayn",
+        "Ibrahim",
+        "Ismail",
+        "Najran"
+      ]
+    },
+    {
+      "page": 89,
+      "term_count": 28,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Dai",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "Najran",
+        "Sayyidna",
+        "Yemen",
+        "abrar"
+      ]
+    },
+    {
+      "page": 90,
+      "term_count": 21,
+      "terms": [
+        "Ali",
+        "Imam",
+        "Imams",
+        "Jafar",
+        "Mawlana",
+        "Rasulullah",
+        "Sayyidna",
+        "Sulayman",
+        "duat",
+        "form"
+      ]
+    },
+    {
+      "page": 91,
+      "term_count": 29,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Husayn",
+        "Jafar",
+        "Muhammad",
+        "Qaim",
+        "Rasulullah",
+        "Sayyidna",
+        "Sulayman",
+        "absolute"
+      ]
+    },
+    {
+      "page": 92,
+      "term_count": 24,
+      "terms": [
+        "Ayn",
+        "Imam",
+        "Jafar",
+        "Kaf-Ha-Ya-Ayn-Sad",
+        "Muhammad",
+        "Nun",
+        "Rasulullah",
+        "Ya-Sin",
+        "alif",
+        "amulets"
+      ]
+    },
+    {
+      "page": 93,
+      "term_count": 30,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Bismillah",
+        "Husayn",
+        "Imam",
+        "Jafar",
+        "Mawlana",
+        "Rahim",
+        "Rahman",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 94,
+      "term_count": 12,
+      "terms": [
+        "Bismillah",
+        "Imam",
+        "Mawlana",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "dawah",
+        "hudud"
+      ]
+    },
+    {
+      "page": 95,
+      "term_count": 10,
+      "terms": [
+        "Ali",
+        "Muhammad",
+        "Sayyidna",
+        "asrar",
+        "blessings",
+        "cycles",
+        "family",
+        "lam",
+        "return",
+        "secrets"
+      ]
+    },
+    {
+      "page": 96,
+      "term_count": 17,
+      "terms": [
+        "Imam",
+        "Mawlana",
+        "Sayyidna",
+        "amir",
+        "cycles",
+        "dawat",
+        "dawr",
+        "family",
+        "fudulat",
+        "heart"
+      ]
+    },
+    {
+      "page": 97,
+      "term_count": 24,
+      "terms": [
+        "Aimmah",
+        "Ayn",
+        "Ibrahim",
+        "Ismail",
+        "Muhammad",
+        "Sayyidna",
+        "alif",
+        "amir",
+        "cycle",
+        "cycles"
+      ]
+    },
+    {
+      "page": 98,
+      "term_count": 23,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Imam",
+        "amir",
+        "blessings",
+        "body",
+        "carnelian",
+        "cycles",
+        "dawat",
+        "duat"
+      ]
+    },
+    {
+      "page": 99,
+      "term_count": 25,
+      "terms": [
+        "Imam",
+        "Imams",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "al-mashriq",
+        "alam",
+        "allegiance"
+      ]
+    },
+    {
+      "page": 100,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Imam",
+        "Jafar",
+        "Mawlana",
+        "Rasulullah",
+        "amir",
+        "blessings",
+        "circumambulation",
+        "cycles",
+        "dua"
+      ]
+    },
+    {
+      "page": 101,
+      "term_count": 21,
+      "terms": [
+        "Aristotle",
+        "Dai",
+        "Husayn",
+        "Ismail",
+        "Mawlana",
+        "Muhammad",
+        "Najran",
+        "Sayyidna",
+        "Sulayman",
+        "Yemen"
+      ]
+    },
+    {
+      "page": 102,
+      "term_count": 28,
+      "terms": [
+        "Ali",
+        "Ayn",
+        "Imam",
+        "Jafar",
+        "Khadijah",
+        "Muhammad",
+        "Salman",
+        "Sayyidna",
+        "alam",
+        "amir"
+      ]
+    },
+    {
+      "page": 103,
+      "term_count": 16,
+      "terms": [
+        "Ashir",
+        "Ayn",
+        "Sayyidna",
+        "al-ashir",
+        "amir",
+        "azimah",
+        "caliph",
+        "connected",
+        "cycles",
+        "fil"
+      ]
+    },
+    {
+      "page": 104,
+      "term_count": 26,
+      "terms": [
+        "Abdullah",
+        "Aimmah",
+        "Ali",
+        "Ashir",
+        "Hasan",
+        "Imam",
+        "Imams",
+        "Mawlana",
+        "Qaim",
+        "al-ashir"
+      ]
+    },
+    {
+      "page": 105,
+      "term_count": 17,
+      "terms": [
+        "Ashir",
+        "Qaim",
+        "al-mashriq",
+        "body",
+        "caliph",
+        "cycles",
+        "dawr",
+        "gathering",
+        "kawr",
+        "khalifah"
+      ]
+    },
+    {
+      "page": 106,
+      "term_count": 18,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hajj",
+        "Hasan",
+        "Husayn",
+        "Jafar",
+        "Sayyidna",
+        "Sulayman",
+        "Yemen",
+        "cycles"
+      ]
+    },
+    {
+      "page": 107,
+      "term_count": 10,
+      "terms": [
+        "Dai",
+        "Husayn",
+        "Ismail",
+        "Sayyidna",
+        "cycles",
+        "duat",
+        "intercession",
+        "munfarid",
+        "return",
+        "solitary"
+      ]
+    },
+    {
+      "page": 108,
+      "term_count": 9,
+      "terms": [
+        "Ali",
+        "Rasulullah",
+        "alam",
+        "bataih",
+        "battle",
+        "bir",
+        "dhat",
+        "gates",
+        "lowlands"
+      ]
+    },
+    {
+      "page": 109,
+      "term_count": 24,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Dai",
+        "Hajj",
+        "Imam",
+        "Mina",
+        "Qaim",
+        "Sayyidna",
+        "alam",
+        "amir"
+      ]
+    },
+    {
+      "page": 110,
+      "term_count": 28,
+      "terms": [
+        "Qaim",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "alam",
+        "amir",
+        "awn",
+        "bataih"
+      ]
+    },
+    {
+      "page": 111,
+      "term_count": 18,
+      "terms": [
+        "Imams",
+        "Sayyidna",
+        "al-mayamin",
+        "alam",
+        "bataih",
+        "bi-majari",
+        "gates",
+        "heart",
+        "lowlands",
+        "luminous"
+      ]
+    },
+    {
+      "page": 112,
+      "term_count": 27,
+      "terms": [
+        "Aimmah",
+        "Sahih",
+        "Sayyidna",
+        "abstract",
+        "al-mayamin",
+        "alam",
+        "amir",
+        "animal",
+        "bir",
+        "dawat"
+      ]
+    },
+    {
+      "page": 113,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Arafat",
+        "Hajj",
+        "Hijri",
+        "asrar",
+        "bab",
+        "bir",
+        "connected",
+        "fudulat",
+        "gate"
+      ]
+    },
+    {
+      "page": 114,
+      "term_count": 26,
+      "terms": [
+        "Ali",
+        "Anwar",
+        "Arafat",
+        "Bismillah",
+        "Fatiha",
+        "Fatimah",
+        "Mawlana",
+        "Mina",
+        "Muzdalifah",
+        "Rahim"
+      ]
+    },
+    {
+      "page": 115,
+      "term_count": 12,
+      "terms": [
+        "Ali",
+        "Aliyyun",
+        "Mawlana",
+        "Musa",
+        "Zayd",
+        "blessings",
+        "kulli",
+        "means",
+        "nur",
+        "shan"
+      ]
+    },
+    {
+      "page": 116,
+      "term_count": 26,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Anwar",
+        "Fatimi",
+        "Imam",
+        "Ismail",
+        "Mawlana",
+        "Musa",
+        "Rasulullah",
+        "Sahib"
+      ]
+    },
+    {
+      "page": 117,
+      "term_count": 25,
+      "terms": [
+        "Ali",
+        "Anwar",
+        "Ashir",
+        "Dai",
+        "Mawlana",
+        "Musa",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "Zayd"
+      ]
+    },
+    {
+      "page": 118,
+      "term_count": 26,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Ashir",
+        "Ayn",
+        "Hasan",
+        "Imam",
+        "Mawlana",
+        "Mim",
+        "Muhammad",
+        "Musa"
+      ]
+    },
+    {
+      "page": 119,
+      "term_count": 20,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Ayn",
+        "Ghadir",
+        "Mawlana",
+        "Mim",
+        "Mubahalah",
+        "Musa",
+        "azimah",
+        "ghaybah"
+      ]
+    },
+    {
+      "page": 120,
+      "term_count": 26,
+      "terms": [
+        "Ali",
+        "Fatimah",
+        "Hasan",
+        "Husayn",
+        "Imam",
+        "Ismail",
+        "Jafar",
+        "Mawlana",
+        "Musa",
+        "anfus"
+      ]
+    },
+    {
+      "page": 121,
+      "term_count": 15,
+      "terms": [
+        "Imam",
+        "Jafar",
+        "Mawlana",
+        "Musa",
+        "Rasulullah",
+        "dawah",
+        "gathering",
+        "hijab",
+        "hudud",
+        "sadiq"
+      ]
+    },
+    {
+      "page": 122,
+      "term_count": 11,
+      "terms": [
+        "Ahmedabad",
+        "Dai",
+        "Dhannu",
+        "Mawlana",
+        "Musa",
+        "Sayyidna",
+        "Sindh",
+        "dhan-wala",
+        "ghani",
+        "means"
+      ]
+    },
+    {
+      "page": 124,
+      "term_count": 22,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Husayn",
+        "Imam",
+        "Imams",
+        "Ismail",
+        "Muhammad",
+        "Musa",
+        "Zayd",
+        "asrar"
+      ]
+    },
+    {
+      "page": 125,
+      "term_count": 10,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Imam",
+        "Jafar",
+        "Salman",
+        "Sayyidna",
+        "mawaddah",
+        "sadiq",
+        "tayid",
+        "visitation"
+      ]
+    },
+    {
+      "page": 126,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Ghadir",
+        "Madinah",
+        "Rasulullah",
+        "Umar",
+        "Uthman",
+        "Yazid",
+        "appointment",
+        "caliph",
+        "dais"
+      ]
+    },
+    {
+      "page": 127,
+      "term_count": 6,
+      "terms": [
+        "Ali",
+        "Madinah",
+        "Rasulullah",
+        "Umar",
+        "heart",
+        "return"
+      ]
+    },
+    {
+      "page": 128,
+      "term_count": 14,
+      "terms": [
+        "Dai",
+        "Muhammad",
+        "Rahman",
+        "Rasulullah",
+        "Saidah",
+        "al-Rahman",
+        "body",
+        "caliph",
+        "father",
+        "form"
+      ]
+    },
+    {
+      "page": 129,
+      "term_count": 20,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Ghadir",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "Rasulullah",
+        "Saidah",
+        "Sayyidna",
+        "Umar"
+      ]
+    },
+    {
+      "page": 130,
+      "term_count": 15,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Dai",
+        "Hasan",
+        "Husayn",
+        "Imam",
+        "Ismail",
+        "Muhammad",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 131,
+      "term_count": 18,
+      "terms": [
+        "Adam",
+        "Anwar",
+        "Fatimi",
+        "Isa",
+        "Nuh",
+        "Sahib",
+        "aql",
+        "dawr",
+        "era",
+        "intellects"
+      ]
+    },
+    {
+      "page": 132,
+      "term_count": 20,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Dai",
+        "Fatimah",
+        "Fatimi",
+        "Hasan",
+        "Husayn",
+        "Ibrahim",
+        "Imam",
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 133,
+      "term_count": 21,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Ayn",
+        "Fatimah",
+        "Ibrahim",
+        "Imams",
+        "Muhammad",
+        "Rasulullah",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 134,
+      "term_count": 32,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Bismillah",
+        "Fatimah",
+        "Hasan",
+        "Imams",
+        "Mahdi",
+        "Mim",
+        "Muhammad",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 135,
+      "term_count": 30,
+      "terms": [
+        "Abdullah",
+        "Ali",
+        "Bismillah",
+        "Dai",
+        "Fatimah",
+        "Hajj",
+        "Hasan",
+        "Husayn",
+        "Ibrahim",
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 136,
+      "term_count": 9,
+      "terms": [
+        "Bismillah",
+        "Imam",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahman",
+        "blessings",
+        "dawah",
+        "sirat"
+      ]
+    },
+    {
+      "page": 137,
+      "term_count": 9,
+      "terms": [
+        "Dai",
+        "Hajj",
+        "cycle",
+        "dawah",
+        "hudud",
+        "karrah",
+        "return",
+        "soul",
+        "veil"
+      ]
+    },
+    {
+      "page": 138,
+      "term_count": 17,
+      "terms": [
+        "Dai",
+        "Mukasir",
+        "bab",
+        "blessings",
+        "covenant",
+        "cycle",
+        "cycles",
+        "forms",
+        "hujjah",
+        "iman"
+      ]
+    },
+    {
+      "page": 139,
+      "term_count": 9,
+      "terms": [
+        "Dai",
+        "Imam",
+        "amir",
+        "cycle",
+        "era",
+        "karrah",
+        "muminin",
+        "return",
+        "soul"
+      ]
+    },
+    {
+      "page": 140,
+      "term_count": 14,
+      "terms": [
+        "Dai",
+        "Imam",
+        "Imams",
+        "cycle",
+        "deputy",
+        "era",
+        "hudud",
+        "iman",
+        "khalifah",
+        "khilafat"
+      ]
+    },
+    {
+      "page": 141,
+      "term_count": 14,
+      "terms": [
+        "Dai",
+        "Imam",
+        "allegiance",
+        "covenant",
+        "cycle",
+        "duat",
+        "era",
+        "iman",
+        "liberation",
+        "mumin"
+      ]
+    },
+    {
+      "page": 142,
+      "term_count": 16,
+      "terms": [
+        "cycle",
+        "dawah",
+        "dawahs",
+        "dawat",
+        "form",
+        "hissiyah",
+        "hudud",
+        "mumin",
+        "nafs",
+        "namiyah"
+      ]
+    },
+    {
+      "page": 143,
+      "term_count": 13,
+      "terms": [
+        "Dai",
+        "Imam",
+        "Imams",
+        "ablution",
+        "believer",
+        "cycle",
+        "family",
+        "iman",
+        "mumin",
+        "non-believer"
+      ]
+    },
+    {
+      "page": 144,
+      "term_count": 6,
+      "terms": [
+        "Ali",
+        "Imam",
+        "Imams",
+        "cycle",
+        "infallible",
+        "retribution"
+      ]
+    },
+    {
+      "page": 145,
+      "term_count": 14,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Imam",
+        "Muhammad",
+        "Sayyidna",
+        "Yasin",
+        "amir",
+        "dawat",
+        "era",
+        "mission"
+      ]
+    },
+    {
+      "page": 146,
+      "term_count": 19,
+      "terms": [
+        "Abyssinia",
+        "Dai",
+        "Habasha",
+        "Ibrahim",
+        "Imam",
+        "Ismail",
+        "Muhammad",
+        "Najran",
+        "Sayyidna",
+        "brethren"
+      ]
+    },
+    {
+      "page": 147,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Ibrahim",
+        "Imams",
+        "Jafar",
+        "Muhammad",
+        "Qiyamah",
+        "Sayyidna",
+        "Sulayman",
+        "dawat"
+      ]
+    },
+    {
+      "page": 148,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Imam",
+        "Muhammad",
+        "Sayyidna",
+        "Yemen",
+        "dhanab",
+        "duat",
+        "intention",
+        "means"
+      ]
+    },
+    {
+      "page": 149,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Husayn",
+        "Ibrahim",
+        "Imam",
+        "Muhammad",
+        "Najran",
+        "Rasulullah",
+        "Sayyidna",
+        "Yemen"
+      ]
+    },
+    {
+      "page": 150,
+      "term_count": 21,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Friday",
+        "Hasan",
+        "Husayn",
+        "Ibrahim",
+        "Mawlana",
+        "Musa",
+        "Najran",
+        "Sahib"
+      ]
+    },
+    {
+      "page": 151,
+      "term_count": 15,
+      "terms": [
+        "Anwar",
+        "Dai",
+        "Hajj",
+        "Imams",
+        "Sahib",
+        "Sayyidna",
+        "designation",
+        "gatherings",
+        "istighfar",
+        "jami"
+      ]
+    },
+    {
+      "page": 152,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Ibrahim",
+        "Imam",
+        "Imams",
+        "Muhammad",
+        "Sayyidna",
+        "Sulayman",
+        "blessings",
+        "family"
+      ]
+    },
+    {
+      "page": 153,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Imam",
+        "Imams",
+        "Isa",
+        "Ismail",
+        "Mawlana",
+        "Muhammad",
+        "Qiyamah",
+        "Sahib"
+      ]
+    },
+    {
+      "page": 154,
+      "term_count": 27,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Dai",
+        "Husayn",
+        "Imam",
+        "Imams",
+        "Ismail",
+        "Mawlana",
+        "Muhammad",
+        "Qaim"
+      ]
+    },
+    {
+      "page": 155,
+      "term_count": 6,
+      "terms": [
+        "Bismillah",
+        "Dai",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman"
+      ]
+    },
+    {
+      "page": 156,
+      "term_count": 13,
+      "terms": [
+        "Imam",
+        "Jafar",
+        "awsiya",
+        "dua",
+        "duas",
+        "father",
+        "form",
+        "nadir",
+        "nahusat",
+        "sadiq"
+      ]
+    },
+    {
+      "page": 157,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Aliyyan",
+        "Aliyyun",
+        "Maryam",
+        "adiyah",
+        "cycles",
+        "dawr",
+        "dua",
+        "form",
+        "forms"
+      ]
+    },
+    {
+      "page": 158,
+      "term_count": 11,
+      "terms": [
+        "Ali",
+        "Aliyyan",
+        "books",
+        "hudud",
+        "intention",
+        "reward",
+        "sabi",
+        "sadiq",
+        "truthful",
+        "zabar"
+      ]
+    },
+    {
+      "page": 159,
+      "term_count": 24,
+      "terms": [
+        "Aimmah",
+        "al-junub",
+        "al-mashriq",
+        "al-shimal",
+        "anbiya'",
+        "azdad",
+        "dhanab",
+        "duat",
+        "head",
+        "hijabs"
+      ]
+    },
+    {
+      "page": 160,
+      "term_count": 13,
+      "terms": [
+        "Abdullah",
+        "Aimmah",
+        "Sayyidna",
+        "ajsad",
+        "anbiya'",
+        "dabur",
+        "islands",
+        "ismah",
+        "nufus",
+        "period"
+      ]
+    },
+    {
+      "page": 161,
+      "term_count": 19,
+      "terms": [
+        "Ali",
+        "Anwar",
+        "Ismail",
+        "Muhammad",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman",
+        "alam",
+        "blessings"
+      ]
+    },
+    {
+      "page": 162,
+      "term_count": 12,
+      "terms": [
+        "Aimmah",
+        "Imams",
+        "animal",
+        "azdad",
+        "body",
+        "covenant",
+        "dhabihah",
+        "form",
+        "hudud",
+        "nafs"
+      ]
+    },
+    {
+      "page": 163,
+      "term_count": 10,
+      "terms": [
+        "Qaim",
+        "Tabaqat",
+        "hellfire",
+        "intiqal",
+        "nafs",
+        "nufus",
+        "punishment",
+        "saqar",
+        "souls",
+        "wal-aghlal"
+      ]
+    },
+    {
+      "page": 164,
+      "term_count": 6,
+      "terms": [
+        "body",
+        "greatness",
+        "punishment",
+        "soul",
+        "souls",
+        "surah"
+      ]
+    },
+    {
+      "page": 165,
+      "term_count": 12,
+      "terms": [
+        "Imam",
+        "blessings",
+        "books",
+        "connected",
+        "hudat",
+        "kulli",
+        "madad",
+        "mudadd",
+        "muddat",
+        "period"
+      ]
+    },
+    {
+      "page": 166,
+      "term_count": 21,
+      "terms": [
+        "Dai",
+        "Imam",
+        "actually",
+        "bab",
+        "bil-fil",
+        "bil-quwwah",
+        "duas",
+        "fil",
+        "form",
+        "forms"
+      ]
+    },
+    {
+      "page": 167,
+      "term_count": 18,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Ayn",
+        "Imam",
+        "Imams",
+        "bab",
+        "believer",
+        "era",
+        "essence",
+        "gathering"
+      ]
+    },
+    {
+      "page": 168,
+      "term_count": 15,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Rahman",
+        "Sayyidna",
+        "ahjar",
+        "al-Rahman",
+        "believer",
+        "fil",
+        "ghayah",
+        "jawahir"
+      ]
+    },
+    {
+      "page": 169,
+      "term_count": 16,
+      "terms": [
+        "Ali",
+        "Fatiha",
+        "Miraj",
+        "Rasulullah",
+        "amir",
+        "gathering",
+        "intention",
+        "jawahir",
+        "kawakib",
+        "mumin"
+      ]
+    },
+    {
+      "page": 170,
+      "term_count": 22,
+      "terms": [
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "aflak",
+        "al-Rahim",
+        "al-Rahman",
+        "alam",
+        "aql",
+        "blessings",
+        "fil"
+      ]
+    },
+    {
+      "page": 171,
+      "term_count": 8,
+      "terms": [
+        "Adam",
+        "Ya-Sin",
+        "aflak",
+        "kawakib",
+        "kawr",
+        "khilafat",
+        "surah",
+        "truthful"
+      ]
+    },
+    {
+      "page": 172,
+      "term_count": 14,
+      "terms": [
+        "Abdullah",
+        "Hasan",
+        "Husayn",
+        "Najran",
+        "Sayyidna",
+        "Ukhdud",
+        "buruj",
+        "dua",
+        "era",
+        "intercession"
+      ]
+    },
+    {
+      "page": 173,
+      "term_count": 9,
+      "terms": [
+        "Mawlana",
+        "Sayyidna",
+        "alam",
+        "blessings",
+        "era",
+        "intercession",
+        "means",
+        "period",
+        "ziyarat"
+      ]
+    },
+    {
+      "page": 174,
+      "term_count": 27,
+      "terms": [
+        "aflak",
+        "bab",
+        "believer",
+        "bil-fil",
+        "bil-quwwah",
+        "connected",
+        "dawah",
+        "fil",
+        "form",
+        "forms"
+      ]
+    },
+    {
+      "page": 175,
+      "term_count": 15,
+      "terms": [
+        "Yasin",
+        "athar",
+        "blessings",
+        "dua",
+        "father",
+        "form",
+        "fudala",
+        "intercession",
+        "nazr",
+        "niyaz"
+      ]
+    },
+    {
+      "page": 176,
+      "term_count": 12,
+      "terms": [
+        "athar",
+        "duat",
+        "forms",
+        "fudala",
+        "futteh",
+        "gathering",
+        "hujjat",
+        "intercession",
+        "means",
+        "nas"
+      ]
+    },
+    {
+      "page": 177,
+      "term_count": 10,
+      "terms": [
+        "Imam",
+        "dawah",
+        "fudala",
+        "gnosis",
+        "hudud",
+        "intercession",
+        "ishraq",
+        "mabud",
+        "marifat",
+        "surat"
+      ]
+    },
+    {
+      "page": 178,
+      "term_count": 24,
+      "terms": [
+        "Fatiha",
+        "Imam",
+        "believer",
+        "blessings",
+        "body",
+        "duat",
+        "fudala",
+        "hadarat",
+        "head",
+        "hissiyah"
+      ]
+    },
+    {
+      "page": 179,
+      "term_count": 27,
+      "terms": [
+        "Dai",
+        "Imam",
+        "anbiya'",
+        "bab",
+        "body",
+        "connected",
+        "dawah",
+        "dawat",
+        "dua",
+        "duat"
+      ]
+    },
+    {
+      "page": 180,
+      "term_count": 8,
+      "terms": [
+        "aflak",
+        "ikhtiyar",
+        "intention",
+        "intercession",
+        "juzur",
+        "natiqah",
+        "nobility",
+        "piety"
+      ]
+    },
+    {
+      "page": 181,
+      "term_count": 7,
+      "terms": [
+        "adhan",
+        "amir",
+        "dua",
+        "duas",
+        "intercession",
+        "iqamah",
+        "muminin"
+      ]
+    },
+    {
+      "page": 182,
+      "term_count": 10,
+      "terms": [
+        "Abdullah",
+        "Sayyidna",
+        "asabuha",
+        "fil",
+        "fudala",
+        "hudud",
+        "intercession",
+        "jamiuha",
+        "lahmuha",
+        "period"
+      ]
+    },
+    {
+      "page": 183,
+      "term_count": 9,
+      "terms": [
+        "athar",
+        "body",
+        "fudala",
+        "intercession",
+        "ishraq",
+        "manazil",
+        "nobility",
+        "suwar",
+        "zubad"
+      ]
+    },
+    {
+      "page": 184,
+      "term_count": 21,
+      "terms": [
+        "Hasan",
+        "Sayyidna",
+        "Sulayman",
+        "aflak",
+        "connected",
+        "fudala",
+        "fudalat",
+        "gathering",
+        "hudud",
+        "intention"
+      ]
+    },
+    {
+      "page": 185,
+      "term_count": 13,
+      "terms": [
+        "Ali",
+        "Muhammad",
+        "Yusuf",
+        "athar",
+        "believer",
+        "intercession",
+        "ishraq",
+        "itikaf",
+        "muqaddas",
+        "seclusion"
+      ]
+    },
+    {
+      "page": 186,
+      "term_count": 13,
+      "terms": [
+        "Husayn",
+        "Imam",
+        "bil-fil",
+        "bil-quwwah",
+        "father",
+        "fil",
+        "fudala",
+        "intercession",
+        "ishraq",
+        "khak-e-shifa"
+      ]
+    },
+    {
+      "page": 187,
+      "term_count": 14,
+      "terms": [
+        "Ali",
+        "Bismillah",
+        "Isa",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "fil",
+        "helper"
+      ]
+    },
+    {
+      "page": 188,
+      "term_count": 6,
+      "terms": [
+        "Bismillah",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman",
+        "intercession"
+      ]
+    },
+    {
+      "page": 189,
+      "term_count": 23,
+      "terms": [
+        "Arafat",
+        "Ashir",
+        "Hajj",
+        "Mina",
+        "Muna",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman",
+        "al-ashir"
+      ]
+    },
+    {
+      "page": 190,
+      "term_count": 15,
+      "terms": [
+        "Arafat",
+        "Mina",
+        "animal",
+        "body",
+        "duas",
+        "form",
+        "halal",
+        "jaiz",
+        "mawquf",
+        "nafs"
+      ]
+    },
+    {
+      "page": 191,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Mina",
+        "Rasulullah",
+        "Subhanallah",
+        "animal",
+        "believer",
+        "blessings",
+        "hadith",
+        "halal",
+        "iman"
+      ]
+    },
+    {
+      "page": 192,
+      "term_count": 15,
+      "terms": [
+        "Hajj",
+        "Mina",
+        "Subhanallah",
+        "blessings",
+        "body",
+        "form",
+        "jism",
+        "luminous",
+        "nafs",
+        "natiqah"
+      ]
+    },
+    {
+      "page": 193,
+      "term_count": 25,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Ibrahim",
+        "Imam",
+        "Khadija",
+        "Mina",
+        "Miraj",
+        "Muhammad",
+        "Nuh",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 194,
+      "term_count": 20,
+      "terms": [
+        "Bismillah",
+        "Mina",
+        "Rahim",
+        "Rahman",
+        "al-Rahim",
+        "al-Rahman",
+        "animal",
+        "azdad",
+        "dawah",
+        "dhabihah"
+      ]
+    },
+    {
+      "page": 195,
+      "term_count": 12,
+      "terms": [
+        "Bismillah",
+        "Mina",
+        "Muhammad",
+        "Sayyidna",
+        "aqiqah",
+        "body",
+        "darakat",
+        "dhabihah",
+        "fil",
+        "form"
+      ]
+    },
+    {
+      "page": 196,
+      "term_count": 22,
+      "terms": [
+        "Dai",
+        "Imam",
+        "Ismail",
+        "Madinah",
+        "Mina",
+        "Sayyidna",
+        "animal",
+        "believer",
+        "body",
+        "buruj"
+      ]
+    },
+    {
+      "page": 197,
+      "term_count": 19,
+      "terms": [
+        "Madinah",
+        "Mina",
+        "animal",
+        "bawl-o-baraz",
+        "body",
+        "dammar",
+        "dawah",
+        "form",
+        "fudala",
+        "halal"
+      ]
+    },
+    {
+      "page": 198,
+      "term_count": 16,
+      "terms": [
+        "Hadramaut",
+        "Imam",
+        "Mina",
+        "Qayam",
+        "Qiyamah",
+        "Yazid",
+        "azdad",
+        "form",
+        "kashf",
+        "nafs"
+      ]
+    },
+    {
+      "page": 199,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Arafat",
+        "Bagh-e-Fadak",
+        "Bismillah",
+        "Mina",
+        "Muhammad",
+        "Qaim",
+        "Rahim",
+        "Rahman",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 200,
+      "term_count": 12,
+      "terms": [
+        "Husayn",
+        "Mina",
+        "Muhammad",
+        "Sayyidna",
+        "ablution",
+        "animal",
+        "body",
+        "dawah",
+        "father",
+        "form"
+      ]
+    },
+    {
+      "page": 201,
+      "term_count": 28,
+      "terms": [
+        "Ali",
+        "Arafat",
+        "Fatimah",
+        "Hajj",
+        "Mina",
+        "Muzdalifah",
+        "Rasulullah",
+        "Tamattu'",
+        "azmah",
+        "dawr"
+      ]
+    },
+    {
+      "page": 202,
+      "term_count": 28,
+      "terms": [
+        "Ali",
+        "Anwar",
+        "Arafat",
+        "Hajj",
+        "Khumm",
+        "Medina",
+        "Rasulullah",
+        "ahkam",
+        "animal",
+        "commands"
+      ]
+    },
+    {
+      "page": 203,
+      "term_count": 22,
+      "terms": [
+        "Arafat",
+        "Khumm",
+        "Medina",
+        "Mina",
+        "Muzdalifah",
+        "Rasulullah",
+        "Umar",
+        "asrar",
+        "balaya",
+        "caliph"
+      ]
+    },
+    {
+      "page": 204,
+      "term_count": 15,
+      "terms": [
+        "Arafat",
+        "Imam",
+        "alam",
+        "asrar",
+        "duat",
+        "father",
+        "khamair",
+        "means",
+        "polytheists",
+        "realities"
+      ]
+    },
+    {
+      "page": 206,
+      "term_count": 19,
+      "terms": [
+        "Aliyyun",
+        "Hasan",
+        "Hijri",
+        "Ibrahim",
+        "Muhammad",
+        "Rasulullah",
+        "Sayyidna",
+        "Sulayman",
+        "appointment",
+        "darajat"
+      ]
+    },
+    {
+      "page": 207,
+      "term_count": 20,
+      "terms": [
+        "Dai",
+        "Hasan",
+        "Imam",
+        "Ismail",
+        "Jafar",
+        "Muhammad",
+        "Sayyidna",
+        "Sulayman",
+        "Yemen",
+        "dais"
+      ]
+    },
+    {
+      "page": 208,
+      "term_count": 25,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hind",
+        "Husayn",
+        "Muhammad",
+        "Najran",
+        "Sayyidna",
+        "Sindh",
+        "Yemen",
+        "appointee"
+      ]
+    },
+    {
+      "page": 209,
+      "term_count": 25,
+      "terms": [
+        "Ali",
+        "Bohra",
+        "Hadrat",
+        "Hajj",
+        "Sahib",
+        "asbaq",
+        "body",
+        "covenant",
+        "gatherings",
+        "hadd"
+      ]
+    },
+    {
+      "page": 210,
+      "term_count": 11,
+      "terms": [
+        "Ali",
+        "Hasan",
+        "Jafar",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman",
+        "appearance",
+        "gathering",
+        "ikhwan",
+        "island"
+      ]
+    },
+    {
+      "page": 211,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Hasan",
+        "Husayn",
+        "Imam",
+        "Ismail",
+        "Najran",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman",
+        "Taif"
+      ]
+    },
+    {
+      "page": 212,
+      "term_count": 25,
+      "terms": [
+        "Dai",
+        "Hasan",
+        "Imam",
+        "Imams",
+        "Ismail",
+        "Jafar",
+        "Muhammad",
+        "Sayyidna",
+        "Sulayman",
+        "Yemen"
+      ]
+    },
+    {
+      "page": 213,
+      "term_count": 22,
+      "terms": [
+        "Ali",
+        "Husayn",
+        "Imam",
+        "Muhammad",
+        "Najran",
+        "Sayyidna",
+        "Yemen",
+        "blessings",
+        "dawah",
+        "family"
+      ]
+    },
+    {
+      "page": 214,
+      "term_count": 19,
+      "terms": [
+        "Bismillah",
+        "Hajj",
+        "Husayn",
+        "Mawlana",
+        "Rahim",
+        "Rahman",
+        "Yazid",
+        "al-Rahim",
+        "al-Rahman",
+        "alam"
+      ]
+    },
+    {
+      "page": 215,
+      "term_count": 8,
+      "terms": [
+        "alif",
+        "definite",
+        "devotion",
+        "island",
+        "kalimah",
+        "lam",
+        "letters",
+        "shahadah"
+      ]
+    },
+    {
+      "page": 216,
+      "term_count": 17,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hasan",
+        "Husayn",
+        "Ismail",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman",
+        "allegiance",
+        "dawah"
+      ]
+    },
+    {
+      "page": 217,
+      "term_count": 16,
+      "terms": [
+        "Hasan",
+        "Husayn",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman",
+        "Yemen",
+        "books",
+        "darajat",
+        "dawah",
+        "duat"
+      ]
+    },
+    {
+      "page": 218,
+      "term_count": 12,
+      "terms": [
+        "Dai",
+        "Imam",
+        "adhan",
+        "asrar",
+        "books",
+        "duat",
+        "hasanat",
+        "hujjat",
+        "hujjiyah",
+        "rutbah"
+      ]
+    },
+    {
+      "page": 219,
+      "term_count": 24,
+      "terms": [
+        "Aimmah",
+        "Ali",
+        "Hasan",
+        "Jafar",
+        "Mawlana",
+        "Qaim",
+        "Qiyamah",
+        "Sayyidna",
+        "Sulayman",
+        "dais"
+      ]
+    },
+    {
+      "page": 220,
+      "term_count": 30,
+      "terms": [
+        "Anwar",
+        "Dai",
+        "Hashiyah",
+        "Husayn",
+        "Ibrahim",
+        "Imam",
+        "Imams",
+        "Jafar",
+        "Muhammad",
+        "Qiyamah"
+      ]
+    },
+    {
+      "page": 221,
+      "term_count": 20,
+      "terms": [
+        "Abdullah",
+        "Al-Mawla",
+        "Ali",
+        "Hadrat",
+        "Hasan",
+        "Husayn",
+        "Jafar",
+        "Mawlana",
+        "Sahib",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 222,
+      "term_count": 16,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hadrat",
+        "Hijri",
+        "Husayn",
+        "Jafar",
+        "Mawlana",
+        "Sahib",
+        "Sayyidna",
+        "Sulayman"
+      ]
+    },
+    {
+      "page": 223,
+      "term_count": 23,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hajj",
+        "Hasan",
+        "Husayn",
+        "Ibrahim",
+        "Jafar",
+        "Khadijah",
+        "Mawlana",
+        "Muhammad"
+      ]
+    },
+    {
+      "page": 224,
+      "term_count": 15,
+      "terms": [
+        "Dai",
+        "Hajj",
+        "Ibrahim",
+        "Ismail",
+        "Mubdi",
+        "Muhammad",
+        "Sahib",
+        "Sayyidna",
+        "appointment",
+        "covenant"
+      ]
+    },
+    {
+      "page": 225,
+      "term_count": 16,
+      "terms": [
+        "Aimmah",
+        "Alhamdulillah",
+        "Ibrahim",
+        "Imam",
+        "Imams",
+        "Ishaq",
+        "Ismail",
+        "Muhammad",
+        "anbiya'",
+        "blessings"
+      ]
+    },
+    {
+      "page": 226,
+      "term_count": 15,
+      "terms": [
+        "Aimmah",
+        "Anwar",
+        "Imam",
+        "Imams",
+        "Mubdi",
+        "al-mayamin",
+        "aql",
+        "duat",
+        "hadd",
+        "majami"
+      ]
+    },
+    {
+      "page": 227,
+      "term_count": 11,
+      "terms": [
+        "Mubdi",
+        "aql",
+        "bab",
+        "duat",
+        "hijab",
+        "marifah",
+        "mihrabani",
+        "substance",
+        "tafaddul",
+        "tasbih"
+      ]
+    },
+    {
+      "page": 229,
+      "term_count": 17,
+      "terms": [
+        "Imam",
+        "Imamat",
+        "Imams",
+        "Janab-e-Mehdi",
+        "Mahdi",
+        "Mawlana",
+        "Mehdi",
+        "Mim",
+        "Mim-e-Akhirah",
+        "Mim-e-Ula"
+      ]
+    },
+    {
+      "page": 230,
+      "term_count": 21,
+      "terms": [
+        "Ali",
+        "Husayn",
+        "Ismail",
+        "Janab-e-Ali",
+        "Janab-e-Mehdi",
+        "Mahdi",
+        "Mehdi",
+        "Qaim",
+        "Sayyidna",
+        "amir"
+      ]
+    },
+    {
+      "page": 231,
+      "term_count": 23,
+      "terms": [
+        "Ashir",
+        "Isa",
+        "Mahdi",
+        "Mawlana",
+        "Mehdi",
+        "Muhammad",
+        "Qaim",
+        "Sayyidna",
+        "afdal",
+        "al-ashir"
+      ]
+    },
+    {
+      "page": 232,
+      "term_count": 21,
+      "terms": [
+        "Ali",
+        "Imamat",
+        "Mahdi",
+        "Qaim",
+        "Sayyidna",
+        "azimah",
+        "cycle",
+        "dawr",
+        "imamah",
+        "kashf"
+      ]
+    },
+    {
+      "page": 233,
+      "term_count": 19,
+      "terms": [
+        "Ashir",
+        "Dai",
+        "Mahdi",
+        "Mawlana",
+        "Mehdi",
+        "Mina",
+        "Qaim",
+        "Ya-Sin",
+        "Yasin",
+        "al-ashir"
+      ]
+    },
+    {
+      "page": 234,
+      "term_count": 15,
+      "terms": [
+        "Aimmah",
+        "Farzand-e-Imam",
+        "Imam",
+        "Imams",
+        "Mahdi",
+        "Qaim",
+        "Rasulullah",
+        "bab",
+        "form",
+        "hudud"
+      ]
+    },
+    {
+      "page": 235,
+      "term_count": 29,
+      "terms": [
+        "Ali",
+        "Imams",
+        "Jafar",
+        "Mahdi",
+        "Mawlana",
+        "Mubdi",
+        "Qaim",
+        "Sayyidna",
+        "Sulayman",
+        "body"
+      ]
+    },
+    {
+      "page": 236,
+      "term_count": 13,
+      "terms": [
+        "Ashir",
+        "Dai",
+        "Mahdi",
+        "Qaim",
+        "alam",
+        "form",
+        "juzi",
+        "kawr",
+        "khilafah",
+        "natural"
+      ]
+    },
+    {
+      "page": 237,
+      "term_count": 8,
+      "terms": [
+        "Ali",
+        "Ibrahim",
+        "al-nabat",
+        "books",
+        "cycles",
+        "kutub",
+        "lil-kutub",
+        "madan"
+      ]
+    },
+    {
+      "page": 238,
+      "term_count": 9,
+      "terms": [
+        "Sayyidna",
+        "cycle",
+        "cycles",
+        "era",
+        "kawr",
+        "return",
+        "spheres",
+        "sudur",
+        "unveiling"
+      ]
+    },
+    {
+      "page": 239,
+      "term_count": 13,
+      "terms": [
+        "Dai",
+        "creatures",
+        "cycle",
+        "cycles",
+        "dawr",
+        "era",
+        "kashf",
+        "kawr",
+        "mawr",
+        "period"
+      ]
+    },
+    {
+      "page": 240,
+      "term_count": 14,
+      "terms": [
+        "Ashir",
+        "aql",
+        "bab",
+        "cycles",
+        "era",
+        "forms",
+        "gate",
+        "gathering",
+        "humanity",
+        "intellects"
+      ]
+    },
+    {
+      "page": 241,
+      "term_count": 21,
+      "terms": [
+        "Aimmah",
+        "Ibrahim",
+        "Muhammad",
+        "Rahim",
+        "Rahman",
+        "Sayyidna",
+        "al-Rahim",
+        "al-Rahman",
+        "al-malawan",
+        "blessings"
+      ]
+    },
+    {
+      "page": 242,
+      "term_count": 26,
+      "terms": [
+        "Ali",
+        "Hasan",
+        "Imam",
+        "Imams",
+        "Sayyidna",
+        "al-Ali",
+        "al-malawan",
+        "bab",
+        "body",
+        "cycles"
+      ]
+    },
+    {
+      "page": 243,
+      "term_count": 24,
+      "terms": [
+        "Ali",
+        "Dai",
+        "Hasan",
+        "Hind",
+        "Husayn",
+        "Ismail",
+        "Najran",
+        "Qaim",
+        "Qutbuddin",
+        "Sayyidna"
+      ]
+    },
+    {
+      "page": 244,
+      "term_count": 16,
+      "terms": [
+        "Ali",
+        "Fatiha",
+        "Qutbuddin",
+        "Sayyidna",
+        "amir",
+        "blessings",
+        "body",
+        "books",
+        "cycles",
+        "heart"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 3,
+      "words": 147,
+      "text": "CONTENTS Contents Introduction to the Book 1 The Author and His Only Book 2 Praise, the Three Human Natures, and the Unknowable God 3 The Prophet, His Brother, "
+    },
+    {
+      "page": 4,
+      "words": 129,
+      "text": "15 Beneath the Kabah: Lowlands, Waters, and the Well of the Jinn 16 Harun to Musa: The Successor Who Dies Before the Prophet 17 The Fifth Intellect and the Verd"
+    },
+    {
+      "page": 44,
+      "words": 120,
+      "text": "The questioner said: \"Inni basartu wa taammaltu fima tafaddaltum bihi min kutub awliya Allah ( ‫ )َأْو ِلَي ٓاَء ٱلَّلِه‬wa ba'd al-mufidin, lam ajid ma dallani"
+    },
+    {
+      "page": 85,
+      "words": 115,
+      "text": "The Middle Way and the Heart Beneath the House \"And We made the House a place of resort for the people and a place of security.\" Two qualities are thus assigned"
+    },
+    {
+      "page": 100,
+      "words": 113,
+      "text": "\"fa-dhalika huwa al-haqq alladhi la shakka yatarihi wal-sirr al-khafi alladhi la maryata fihi.\" \"That is the truth which no doubt can befall, and the hidden sec"
+    },
+    {
+      "page": 38,
+      "words": 110,
+      "text": "Wa mithaquhu al-mughalladh al-mushaddad — \"And its pact, which is severe and strong.\" Ala man waqaa hadha fi yadayhi — \"Upon whosoever this falls into his hands"
+    },
+    {
+      "page": 30,
+      "words": 109,
+      "text": "An editorial aside: Readers meeting the language of gathered asrar and the haqaiq of Shual alAnwar for the first time may find help in a related teaching preser"
+    },
+    {
+      "page": 151,
+      "words": 106,
+      "text": "The saying of the Messenger, `alayh alsalam`, likewise suffices: `man arada khayr al-dunya wa al-akhirah` — whoever desires the good of this world and the Herea"
+    },
+    {
+      "page": 103,
+      "words": 105,
+      "text": "The Black Stone and the Cycles of Return \"As for the Black Stone and the Most Fortunate Corner, it may be, and Allah knows best, that the statement of Sayyidna "
+    },
+    {
+      "page": 72,
+      "words": 96,
+      "text": "Subtle Essences: What Rises From the Dead and What Feeds the Living For the one who has passed away, the riyat that emerge over those three days carry a spiritu"
+    },
+    {
+      "page": 139,
+      "words": 96,
+      "text": "Once, someone asked Amir al-Muminin (‫)ع‬: \"O Mawla, in the state of prayer — the two prostrations, the two sajdahs, that we perform — what is the reason for th"
+    },
+    {
+      "page": 108,
+      "words": 93,
+      "text": "It continues with wa min ayna abwabuhum — \"And from where are their gates?\" — asking where their doors are; then wa ma tasir wa yasiru ilayha — \"And what travel"
+    },
+    {
+      "page": 82,
+      "words": 90,
+      "text": "A parallel verse stands in Surah al-Furqan, in the passage concerning the `'Ibad al-Rahman` (the servants of the Most Merciful): Walladhina idha anfaqu lam yusr"
+    },
+    {
+      "page": 99,
+      "words": 90,
+      "text": "May Allah, glory be to Him, lengthen your lives.\" The answer: \"al-jawab 'ala dhalika al-sual, naqulu bi-awn Allah al-Kabir alMutaal wa minnat Wali al-Asr wal-Za"
+    },
+    {
+      "page": 120,
+      "words": 89,
+      "text": "In the gathering where Ismail (‫ )ع‬had passed away and his body lay there, Imam Jafar al-Sadiq (‫ )ع‬said, \"Who will become my ransom (fidyah)?\" All the hudud "
+    },
+    {
+      "page": 223,
+      "words": 89,
+      "text": "Seven Ranks Within Every Rank belongs to a time before that: when Khadijah bint Nuh was pregnant and Sayyidna Jafar bin Sulayman was still in the womb, Sayyidna"
+    },
+    {
+      "page": 161,
+      "words": 87,
+      "text": "The Answer Al-jawab 'ala dhalika al-sual, naqulu bi-awnillahi al-kabir al-mutaal wa minnati waliyyi al-asri wal-zaman (The answer to that question: we say with "
+    },
+    {
+      "page": 87,
+      "words": 86,
+      "text": "An elder once had occasion to grant fursat (an appointment) to someone, and one of the hudad al-dawah (ranks of the mission) remarked: \"Mawlana, we did not thin"
+    },
+    {
+      "page": 111,
+      "words": 85,
+      "text": "wa minhu yanbau ila tahti tilka albataih — \"And from it gushes forth to beneath those lowlands\" — from those waters things ascend toward the bataih, bi-majari —"
+    },
+    {
+      "page": 112,
+      "words": 85,
+      "text": "wa amma qawluka Bir Dhat al-Alam — \"As for your statement, 'the Well of Dhat al-Alam'\" — that is, the question concerning Bir Dhat al-Alam — wa qatluhu Amir al-"
+    }
+  ],
+  "summary": {
+    "never_explained": 24,
+    "explained_late": 138,
+    "referent_collisions": 0
+  }
+}
