@@ -8,7 +8,6 @@ without changing the chapter HTML.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 import shlex
@@ -18,7 +17,7 @@ import time
 import urllib.error
 import urllib.request
 import xml.sax.saxutils as saxutils
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -29,8 +28,31 @@ from _cost_ledger import append_azure_speech_cost
 from _engine import ENGINE_AZURE, TASK_TTS, engine_guard
 from _listener_book import split_chapters
 
-PHASE = "reader-narration"
-MANIFEST_SCHEMA = 1
+# Extracted to _narration_plan.py (DR-005, 2026-08-25) and re-exported here so
+# every existing caller and test keeps importing these from `reader_narration`.
+# Split along a real seam: everything there is a DECISION or a TRACE and touches
+# no network, which is what lets a page load ask for a plan for free. What stays
+# here is the part that actually talks to Azure and writes audio.
+from _narration_plan import (  # noqa: F401
+    EMPTY_LEXICON,
+    MANIFEST_SCHEMA,
+    PHASE,
+    ChapterPlan,
+    Cue,
+    Lexicon,
+    NarrationPlan,
+    RenderSummary,
+    _source_hash,
+    _trace,
+    block_cache_dir,
+    block_hash,
+    cached_clip,
+    chapter_blocks,
+    narration_lexicon,
+    plan_chapter,
+    speech_text,
+)
+
 OUTPUT_FORMAT = "audio-24khz-96kbitrate-mono-mp3"
 MAX_SEGMENT_ATTEMPTS = 3
 VOICE_PRESETS: dict[str, dict[str, str]] = {
@@ -47,51 +69,6 @@ VOICE_PRESETS: dict[str, dict[str, str]] = {
         "pitch": "-1%",
     },
 }
-
-_ARABIC = re.compile(r"[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]+")
-_ARABIC_PARENS = re.compile(r"\([^)]*[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff][^)]*\)")
-_HTML_COMMENT = re.compile(r"<!--.*?-->", re.S)
-_LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
-_IMAGE = re.compile(r"!\[[^\]]*]\([^)]+\)")
-_TAG = re.compile(r"<[^>]+>")
-_MARKDOWN_EDGE = re.compile(r"^[>*#\-\s]+")
-# A trailing citation apparatus right after a closing quotation — the
-# Quran/hadith reference the reading edition prints beside a translated verse
-# or narration. The library uses this inconsistently across books: brackets
-# or parens, `[Surah al-Baqarah: 222]` or `(Al Imran 130)` or `(Quran,
-# Chapter 11, Verse 6)`, and sometimes the citation itself is still in Arabic
-# script with Arabic-Indic digits — `[البقرة: ١٤٤]`. All of these share one
-# structural signature regardless of wording or script: they sit immediately
-# after the quotation they cite, and they always carry a verse/hadith NUMBER.
-# That number requirement is what keeps this from also eating a genuine
-# editorial aside in the same position — `"..." (wajh Allah)` names a term,
-# has no digit, and must stay. Matching on digits alone, without the
-# quote-adjacency requirement, would also delete unrelated dates sitting in
-# ordinary prose, like "the migration from Mecca to Medina (622 CE)".
-# Applied BEFORE the Arabic strippers below: an Arabic-script citation left
-# to `_ARABIC` alone has its name and digits removed but its brackets
-# survive empty — `[البقرة: ١٤٤]` became the audible artifact `[: ]` in
-# already-rendered narration (mukhtasar-ul-asar-1, 2026-08-17).
-_TRAILING_CITATION = re.compile(r'(?<=["”])\s*[\[(][^\])]*[0-9٠-٩][^\])]*[\])]')
-_SPEAKABLE = re.compile(r"[A-Za-z0-9]")
-
-
-@dataclass(frozen=True)
-class Cue:
-    idx: int
-    blockIndex: int
-    startS: float
-    endS: float
-    text: str
-
-
-@dataclass(frozen=True)
-class RenderSummary:
-    outcome: str
-    rendered: list[str]
-    skipped: list[str]
-    reason: str | None = None
-    chars: int = 0
 
 
 def _read_config(book_dir: Path) -> dict[str, Any]:
@@ -144,41 +121,6 @@ def selected_voice(book_dir: Path) -> tuple[str, dict[str, str]]:
         requested = str(cfg.get("reader_narration_voice") or "").strip().lower()
     key = requested if requested in VOICE_PRESETS else "aria"
     return key, VOICE_PRESETS[key]
-
-
-def chapter_blocks(markdown: str) -> list[tuple[int, str]]:
-    blocks: list[tuple[int, str]] = []
-    raw_blocks = re.split(r"\n\s*\n", _HTML_COMMENT.sub("", markdown).strip())
-    for block_index, raw in enumerate(raw_blocks):
-        text = speech_text(raw)
-        if text:
-            blocks.append((block_index, text))
-    return blocks
-
-
-def speech_text(markdown: str) -> str:
-    text = _IMAGE.sub("", markdown)
-    text = _LINK.sub(r"\1", text)
-    text = _TAG.sub("", text)
-    text = _TRAILING_CITATION.sub("", text)
-    text = _ARABIC_PARENS.sub("", text)
-    text = _ARABIC.sub("", text)
-    text = re.sub(r"`([^`]+)`", r"\1", text)
-    text = re.sub(r"[*_]{1,3}([^*_]+)[*_]{1,3}", r"\1", text)
-    text = "\n".join(_MARKDOWN_EDGE.sub("", line).strip() for line in text.splitlines())
-    text = re.sub(r"\s+", " ", text).strip()
-    if not _SPEAKABLE.search(text):
-        return ""
-    return text
-
-
-def _source_hash(chapter_markdown: str, preset: dict[str, str]) -> str:
-    payload = {
-        "markdown": chapter_markdown,
-        "preset": preset,
-        "schema": MANIFEST_SCHEMA,
-    }
-    return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
 def _manifest_path(book_dir: Path) -> Path:
@@ -319,18 +261,99 @@ def concat_audio(parts: list[Path], out_path: Path) -> None:
         list_path.unlink(missing_ok=True)
 
 
-def render_reader_narration(book_dir: Path) -> RenderSummary:
+def narration_plan(book_dir: Path) -> NarrationPlan:
+    """What a render would do, costing nothing: no network, no synthesis.
+
+    Reads the reading edition and the manifest and compares them. Safe to call
+    on every page load, which is what the Book Composer does.
+    """
     book_dir = Path(book_dir)
     enabled, reason = narration_enabled(book_dir)
     if not enabled:
+        return NarrationPlan(enabled=False, reason=reason)
+
+    book_md = book_dir / "book" / "book.md"
+    if not book_md.exists():
+        return NarrationPlan(enabled=False, reason="no reading edition")
+
+    _voice_key, preset = selected_voice(book_dir)
+    manifest = _read_manifest(book_dir)
+    chapters = manifest.get("chapters")
+    chapters = chapters if isinstance(chapters, dict) else {}
+    out_dir = book_dir / "book" / "narration"
+    lexicon = narration_lexicon(book_dir)
+    return NarrationPlan(
+        enabled=True,
+        reason=None,
+        chapters=[
+            plan_chapter(c, manifest_chapters=chapters, preset=preset, out_dir=out_dir, lexicon=lexicon)
+            for c in split_chapters(book_md.read_text(encoding="utf-8"))
+        ],
+    )
+
+
+def prune_block_cache(book_dir: Path, chapters: list, preset: dict[str, str], lexicon=None) -> int:
+    """Drop paragraph clips no chapter refers to any more. Returns how many went.
+
+    Keyed on EVERY chapter of the current edition, not just the ones this run
+    recorded: an untouched chapter's paragraphs must stay cached, or editing it
+    later would re-buy the whole thing — which is the cost this cache exists to
+    avoid. Only clips belonging to text that no longer appears anywhere in the
+    book are removed.
+
+    Best-effort by design. A cache that cannot be tidied is a disk-space
+    question; a render that fails because tidying failed is a broken publish.
+    """
+    directory = block_cache_dir(book_dir / "book" / "narration")
+    if not directory.is_dir():
+        return 0
+    try:
+        # The SAME lexicon the render used, or these hashes describe different
+        # words than the clips on disk and the prune deletes live audio.
+        live = {
+            block_hash(text, preset) for chapter in chapters for _idx, text in chapter_blocks(chapter.markdown, lexicon)
+        }
+        gone = 0
+        for path in directory.glob("*.mp3"):
+            if path.stem not in live:
+                path.unlink(missing_ok=True)
+                gone += 1
+        return gone
+    except OSError:
+        return 0
+
+
+def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary:
+    """Record every chapter whose text or voice has changed.
+
+    `log` is an optional one-argument callable receiving human-readable progress
+    lines. Every line it gets is also appended to the run timeline, so a publish
+    that ran unattended can be traced afterwards from
+    `_workspace/runs/<slug>/<run_id>.jsonl` with no console to scroll back to.
+    """
+    book_dir = Path(book_dir)
+    enabled, reason = narration_enabled(book_dir)
+    if not enabled:
+        _trace("narration.skipped", book_dir=book_dir, log=log, msg=f"narration skipped: {reason}", reason=reason)
         return RenderSummary(outcome="skipped", rendered=[], skipped=[], reason=reason)
 
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
+        _trace(
+            "narration.skipped",
+            book_dir=book_dir,
+            log=log,
+            msg="narration skipped: no reading edition",
+            reason="no reading edition",
+        )
         return RenderSummary(outcome="skipped", rendered=[], skipped=[], reason="no reading edition")
 
     voice_key, preset = selected_voice(book_dir)
     chapters = split_chapters(book_md.read_text(encoding="utf-8"))
+    # ONE lexicon for the whole run, used by the planner, the synthesiser and
+    # the pruner alike -- three places that must agree on what a paragraph SAYS
+    # or the cache keys they compute would disagree.
+    lexicon = narration_lexicon(book_dir)
     manifest = _read_manifest(book_dir)
     manifest.update(
         {
@@ -345,36 +368,106 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
 
     rendered: list[str] = []
     skipped: list[str] = []
+    failed: list[str] = []
     chars = 0
     out_dir = book_dir / "book" / "narration"
 
-    for chapter in chapters:
-        digest = _source_hash(chapter.markdown, preset)
-        audio = out_dir / f"{chapter.anchor}.mp3"
-        existing = manifest["chapters"].get(chapter.anchor, {})
-        if (
-            isinstance(existing, dict)
-            and existing.get("source_hash") == digest
-            and existing.get("voice_id") == preset["voice"]
-            and audio.exists()
-        ):
-            skipped.append(chapter.anchor)
+    plans = [
+        plan_chapter(c, manifest_chapters=manifest["chapters"], preset=preset, out_dir=out_dir, lexicon=lexicon)
+        for c in chapters
+    ]
+    todo = [p for p in plans if p.action == "render"]
+    _trace(
+        "narration.plan",
+        book_dir=book_dir,
+        log=log,
+        msg=(
+            f"narration: {len(todo)} chapter(s) to record, "
+            f"{sum(1 for p in plans if p.action == 'current')} already current, "
+            f"{sum(1 for p in plans if p.action == 'silent')} with nothing speakable"
+            + (
+                f" — {sum(p.stale_blocks for p in todo)} of {sum(p.blocks for p in todo)} "
+                "paragraph(s) actually need synthesis"
+                if todo
+                else ""
+            )
+        ),
+        voice=voice_key,
+        voice_id=preset["voice"],
+        lexicon_terms=len(lexicon.exact),
+        to_render=[p.anchor for p in todo],
+        reasons={p.anchor: p.reason for p in todo},
+        paragraphs_stale=sum(p.stale_blocks for p in todo),
+        paragraphs_total=sum(p.blocks for p in todo),
+    )
+
+    by_anchor = {c.anchor: c for c in chapters}
+    for plan in plans:
+        chapter = by_anchor[plan.anchor]
+        if plan.action != "render":
+            skipped.append(plan.anchor)
+            _trace(
+                "narration.chapter.skipped",
+                book_dir=book_dir,
+                log=log,
+                level="debug",
+                chapter=plan.anchor,
+                msg=f"  {plan.title}: {plan.reason}",
+                action=plan.action,
+                reason=plan.reason,
+            )
             continue
 
-        blocks = chapter_blocks(chapter.markdown)
-        if not blocks:
-            skipped.append(chapter.anchor)
-            continue
+        digest = plan.digest
+        audio = out_dir / f"{chapter.anchor}.mp3"
+        blocks = chapter_blocks(chapter.markdown, lexicon)
+        started = time.monotonic()
+        _trace(
+            "narration.chapter.start",
+            book_dir=book_dir,
+            log=log,
+            chapter=plan.anchor,
+            msg=f"  recording {plan.title} ({len(blocks)} paragraph(s)) — {plan.reason}",
+            blocks=len(blocks),
+            reason=plan.reason,
+        )
 
         out_dir.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory(prefix="reader-narration-") as tmp:
-            tmp_dir = Path(tmp)
+        # One chapter's failure is ISOLATED to that chapter. A book part-way
+        # through a re-record must not lose the chapters already done — they are
+        # on disk with their manifest entries written, and the next run picks up
+        # exactly the ones that did not finish. The caller decides whether a
+        # failure is fatal; the renderer's job is to leave a resumable state.
+        try:
+            block_cache_dir(out_dir).mkdir(parents=True, exist_ok=True)
             clips: list[Path] = []
             cues: list[Cue] = []
             cursor = 0.0
+            bought = 0
+            spoken = 0
             for idx, (block_index, text) in enumerate(blocks):
-                clip = tmp_dir / f"{idx:04d}.mp3"
-                duration = synthesize_clip(text, preset, clip)
+                # PARAGRAPH-LEVEL REUSE. The clip's name is the hash of its text
+                # in this voice, so a paragraph nobody touched is already on disk
+                # under the name this asks for and costs nothing but an ffprobe.
+                # Only genuinely new wording reaches Azure — editing one
+                # paragraph of a forty-paragraph chapter buys one paragraph.
+                clip = cached_clip(out_dir, text, preset)
+                duration = None
+                if clip.exists():
+                    # A cached clip that will not probe is a truncated or
+                    # half-written file, not a reason to fail the chapter: throw
+                    # it away and buy the paragraph again. Trusting it instead
+                    # would publish a chapter with a paragraph of silence in it.
+                    try:
+                        duration = audio_duration_seconds(clip)
+                    except Exception:
+                        clip.unlink(missing_ok=True)
+                        duration = None
+                if duration is None:
+                    duration = synthesize_clip(text, preset, clip)
+                    bought += 1
+                    spoken += len(text)
+                    chars += len(text)
                 clips.append(clip)
                 cues.append(
                     Cue(
@@ -386,10 +479,27 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
                     )
                 )
                 cursor += duration
-                chars += len(text)
             concat_audio(clips, audio)
+            duration = round(audio_duration_seconds(audio), 3)
+        except Exception as exc:
+            failed.append(plan.anchor)
+            # The half-written file goes: a truncated MP3 on disk would satisfy
+            # the `audio.exists()` half of the freshness check on the next run
+            # and be published as if it were the whole chapter.
+            audio.unlink(missing_ok=True)
+            manifest["chapters"].pop(plan.anchor, None)
+            _write_manifest(book_dir, manifest)
+            _trace(
+                "narration.chapter.failed",
+                book_dir=book_dir,
+                log=log,
+                level="error",
+                chapter=plan.anchor,
+                msg=f"  FAILED {plan.title}: {exc}",
+                error=str(exc),
+            )
+            continue
 
-        duration = round(audio_duration_seconds(audio), 3)
         manifest["chapters"][chapter.anchor] = {
             "title": chapter.title,
             "idx": chapter.idx,
@@ -403,8 +513,44 @@ def render_reader_narration(book_dir: Path) -> RenderSummary:
             "cues": [asdict(c) for c in cues],
         }
         _write_manifest(book_dir, manifest)
-        append_azure_speech_cost(book_dir, phase=PHASE, step=chapter.anchor, char_count=sum(len(c.text) for c in cues))
+        # Bill ONLY what was synthesised. Charging for the whole chapter here
+        # would report a paragraph edit at the price of a full re-record and
+        # make the ledger disagree with the invoice.
+        append_azure_speech_cost(book_dir, phase=PHASE, step=chapter.anchor, char_count=spoken)
         rendered.append(chapter.anchor)
+        reused = len(blocks) - bought
+        _trace(
+            "narration.chapter.done",
+            book_dir=book_dir,
+            log=log,
+            chapter=plan.anchor,
+            msg=(
+                f"  recorded {plan.title} — {duration}s of audio; "
+                f"{bought} paragraph(s) synthesised ({spoken} characters), {reused} reused from cache"
+            ),
+            duration_s=duration,
+            chars=spoken,
+            blocks_synthesised=bought,
+            blocks_reused=reused,
+            elapsed_ms=int((time.monotonic() - started) * 1000),
+        )
 
     _write_manifest(book_dir, manifest)
-    return RenderSummary(outcome="completed", rendered=rendered, skipped=skipped, chars=chars)
+    pruned = prune_block_cache(book_dir, chapters, preset, lexicon)
+    _trace(
+        "narration.done",
+        book_dir=book_dir,
+        log=log,
+        level="error" if failed else "info",
+        msg=(
+            f"narration finished: {len(rendered)} recorded, {len(skipped)} unchanged"
+            + (f", {len(failed)} FAILED" if failed else "")
+            + (f"; {pruned} stale paragraph clip(s) pruned" if pruned else "")
+        ),
+        blocks_pruned=pruned,
+        rendered=rendered,
+        skipped=skipped,
+        failed=failed,
+        chars=chars,
+    )
+    return RenderSummary(outcome="completed", rendered=rendered, skipped=skipped, chars=chars, failed=failed)

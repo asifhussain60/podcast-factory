@@ -29,6 +29,7 @@ def drive_reader_narration(book_dir: Path) -> tuple[str, int]:
         "rendered": result.rendered,
         "skipped": result.skipped,
         "chars": result.chars,
+        "failed": result.failed,
     }
     if result.outcome == "skipped":
         update_phase(
@@ -39,6 +40,24 @@ def drive_reader_narration(book_dir: Path) -> tuple[str, int]:
         )
         _info(f"reader narration skipped: {result.reason}")
         return "skipped", 0
+
+    # A chapter that could not be synthesised now fails ITS OWN chapter rather
+    # than raising out of the whole render, so the chapters already recorded are
+    # kept and the run is resumable. For the orchestrator that must still be a
+    # FAILED phase: this is the unattended pipeline, and a book that publishes
+    # with a chapter silently unnarrated is exactly what the halt is for. The
+    # Composer's publish makes the opposite call deliberately — see
+    # publish_to_production.narrate.
+    if result.failed:
+        update_phase(
+            book_dir,
+            phase="reader-narration",
+            status="failed",
+            error=f"{len(result.failed)} chapter(s) could not be synthesised: {', '.join(result.failed)}",
+            extras=extras,
+        )
+        _err(f"reader narration failed for {len(result.failed)} chapter(s): {', '.join(result.failed)}")
+        return "failed", 2
 
     update_phase(book_dir, phase="reader-narration", status="completed", extras=extras)
     if result.rendered:

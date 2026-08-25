@@ -931,3 +931,69 @@ chapter, and an agent that keeps improving it. All five approved items landed.
 - Gates: pytest 2,059 passed (1 pre-existing failure,
   `test_compose_lanes_distinct[Islamic/ayyuhal-walad]`, fails on a clean tree),
   ruff clean, agent wrappers in sync.
+
+## 2026-08-25 — Publishing a chapter now re-records it, one paragraph at a time (Claude Code)
+
+**The defect.** Editing a chapter in the Book Composer published the new text and
+left the chapter's MP3 speaking the words it replaced. `render_reader_narration`
+was reachable from exactly one place — `phases/publish_driver.py`, inside the
+orchestrator's one-time pipeline run — so every edit made after a book first
+shipped left its audio behind, with nothing anywhere reporting the divergence.
+`spiritual-ethos` shows it in production data: `--state` reports "live and up to
+date" while carrying 16 stale narration chapters, one of them 44 of 44
+paragraphs changed.
+
+**The fix.** A `Read-aloud narration` step in `publish_to_production.py`, run
+before the content push and outside the per-target loop. Both placements are
+load-bearing: `publish_to_listener` reads the manifest off disk, and the
+re-recorded MP3's new sha256 is what resets `media_asset.uploaded_at` to NULL,
+which is the only reason `upload_listener_media` (which selects
+`uploaded_at IS NULL`) picks it up. Regenerate after the push and the new audio
+never reaches R2.
+
+**Paragraph-level, not chapter-level** (Asif, mid-task). The renderer already
+synthesised each paragraph as its own clip and concatenated them — the clips were
+thrown away with the temp directory, so changing a word at the end of a chapter
+re-bought every paragraph above it. Clips are now cached at
+`book/narration/_blocks/<hash>.mp3`, named by the hash of their text in that
+voice, so existence IS the cache lookup and there is nothing to invalidate.
+Keyed by content and never by position, so inserting a paragraph does not re-buy
+the ones after it and a repeated refrain is bought once. Measured end to end:
+first publish of a 12-paragraph book = 12 calls; unedited re-publish = 0; editing
+one paragraph of an 8-paragraph chapter = **1**; inserting one mid-chapter = 1.
+The cost ledger now bills only what was synthesised — charging the whole chapter
+would have made it disagree with the invoice.
+
+**Failure directions, deliberately opposite.** A chapter that will not synthesise
+is isolated: the chapters already recorded keep their audio and manifest entries,
+the half-written MP3 is deleted (a truncated file would satisfy the
+`audio.exists()` half of the freshness check and publish as if whole), and the
+manifest entry is dropped so the next run retries exactly that chapter. The
+orchestrator still treats that as a FAILED phase — unattended, it must halt
+rather than ship a half-narrated book — while the Composer's publish treats it as
+non-fatal, because a person has already approved this text going live and a
+speech outage should not hold the words back.
+
+**Not changed, on purpose.** `pending_changes` still ignores narration: it is
+derived from `book.md`, which the fingerprint already covers, so prose that
+changed lights the button on its own and a second input could only disagree with
+the first. `--state` reports narration informationally (additive key; the TS
+reads only `pending`/`reason`/`unreviewed`/`cards`).
+
+**DR-005 + a cured ratchet.** Both touched modules went over 600 lines, so the
+decision/trace half was extracted verbatim to `_narration_plan.py` and every name
+re-exported from `reader_narration` — no caller or test changed. That extraction
+was the "touched for another reason" `test_arabic_coverage` asks for:
+`reader_narration.py` was on its list as `ESC, FULL`, and `[{ARABIC_BODY}]+` is
+character-for-character the range it inlined, so it is cured and removed from the
+ratchet rather than carried across.
+
+- Gates: **3,643 passed, 8 skipped** (full podcast suite), 28 of them new in
+  `tests/test_narration_on_publish.py` covering sunshine, paragraph reuse, and
+  rainy paths; ruff clean; all three modules under the 600-line cap. One
+  pre-existing collection error, `test_episode_engine_and_style.py`, fails on a
+  clean tree in this container for a missing `numpy` and is unrelated.
+- Not verified here: no Azure call was made and no book was published. The Azure
+  HTTP call and ffmpeg were faked; everything else (planning, caching, manifest,
+  ledger, run log, pruning) ran as production code. **Needs Asif's local run
+  before any deploy.**

@@ -33,6 +33,18 @@ import re
 ARABIC_BODY = r"؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿"
 _ARABIC_CLASS = f"[{ARABIC_BODY}]"
 ARABIC_RE = re.compile(_ARABIC_CLASS)
+
+# Arabic-Indic digits (U+0660-U+0669) — the numerals a printed Arabic edition
+# sets its verse and hadith numbers in. A SUBSET of ARABIC_BODY, named
+# separately because the callers that want it want digits specifically and
+# would be wrong to match the whole script: `_narration_plan._TRAILING_CITATION`
+# recognises a citation by the fact that it carries a NUMBER, and matching any
+# Arabic character there would swallow ordinary parenthetical glosses.
+#
+# It lives here for the same reason ARABIC_BODY does: this is the one module
+# allowed to spell an Arabic range out, so a caller importing it does not
+# re-declare the range and drift from it.
+ARABIC_INDIC_DIGITS = r"٠-٩"
 _ARABIC_SCRIPT_RE = ARABIC_RE
 # A verse/hadith/saying fenced by the printed edition's quotation delimiters. OCR
 # mangles individual marks, so openers and closers are matched loosely and the span
