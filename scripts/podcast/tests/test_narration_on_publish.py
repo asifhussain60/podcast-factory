@@ -796,3 +796,23 @@ def test_the_plan_and_the_render_agree_about_the_lexicon(tmp_path: Path) -> None
     assert promised == ["opening"]
     assert result.rendered == promised, "the renderer skipped what the plan promised"
     assert spoken == ["The message of tow-HEED, and more."]
+
+
+def test_markdown_in_a_glossary_entry_never_reaches_the_speech_engine(tmp_path: Path) -> None:
+    """The catalogue is hand-written and some entries carry the markdown they
+    were typed in — kitab-al-riyad has "**kun**". A hyphen must survive, because
+    it is what "taw-heed" is spelled with."""
+    book = glossary(
+        make_book(tmp_path, body=TERM_BODY),
+        [
+            {"arabic_script": "كُن", "phonetic": "**kun**", "annotation_class": "teach"},
+            {"arabic_script": "تَوْحِيد", "phonetic": "taw-heed", "annotation_class": "teach"},
+            {"arabic_script": "سعادة", "phonetic": "al-sa'ada", "annotation_class": "teach"},
+        ],
+    )
+    lex = rn.narration_lexicon(book)
+
+    assert lex.say("كُن") == "kun"
+    assert lex.say("تَوْحِيد") == "taw-heed", "the hyphen is part of the pronunciation"
+    assert lex.say("سعادة") == "al-sa'ada", "the apostrophe is part of the pronunciation"
+    assert not any(ch in v for v in lex.exact.values() for ch in "*`~|")

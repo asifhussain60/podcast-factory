@@ -156,6 +156,11 @@ EMPTY_LEXICON = Lexicon()
 #: is a machine-generated token spoken aloud in the middle of scripture.
 _PLACEHOLDER = re.compile(r"[a-z]+(?:[-_][a-z]+)*[-_]\d+", re.I)
 
+#: Markup that reached a hand-written glossary entry and must not reach a
+#: speech engine. Deliberately NOT the hyphen, which is what "taw-heed" is
+#: spelled with, nor the apostrophe in "al-sa'ada".
+_NOT_SPOKEN = re.compile(r"[*`~|]")
+
 
 def narration_lexicon(book_dir: Path) -> Lexicon:
     """Build the speaking lexicon for one book. Never raises.
@@ -205,6 +210,12 @@ def narration_lexicon(book_dir: Path) -> Lexicon:
                 or str(entry.get("phonetic") or "").strip()
                 or str(entry.get("transliteration") or "").strip()
             )
+            # The catalogue is written by hand and some entries carry the
+            # markdown they were typed in — kitab-al-riyad has "**kun**". A
+            # speech engine has no business receiving emphasis markers, and a
+            # hyphen must survive because it is what "taw-heed" is made of.
+            say = _NOT_SPOKEN.sub("", say)
+            say = re.sub(r"\s+", " ", say).strip()
             if not say or _PLACEHOLDER.fullmatch(say) or not _SPEAKABLE.search(say):
                 continue
             exact.setdefault(script, say)
