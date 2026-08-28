@@ -120,6 +120,20 @@ size_gates:
       Verified 2026-07-26: the gate is CORRECT and has no hole. Four files that look
       over-limit are grandfathered and two have already shrunk against their ceiling,
       which is the ratchet working. Do not "fix" this and do not add entries.
+  - glob: "scripts/**/*.py"
+    limit: 600
+    ratchet: "infra/git-hooks/dr005-grandfather.txt"
+    note: >-
+      Added 2026-08-28. DR-005's gate covered scripts/podcast/ only, leaving 21
+      tracked files under no ceiling — among them the three repo-surgeon modules,
+      so the probe that reports a tree "outside every size gate" sat in the only
+      ungated Python tree in the repo. Scope widened rather than a second gate
+      added, and the limit is DR-005's own 600 rather than a new number: across
+      the 21 newly-covered files the median is 238 lines and p95 is 414, so 600
+      binds nothing that was not already an outlier. Two files were over it and
+      are grandfathered under their own heading in the ratchet file; both
+      failure modes (a new file over the limit, a grandfathered file growing)
+      were verified able to fail on the day the scope changed.
   - glob: "plan-dashboard/{src,scripts,packages}/**/*.{ts,tsx,astro,mjs}"
     limit: 1000 # ENFORCED. Chosen by Asif 2026-08-11 over the 800 the audit proposed.
     ratchet: plan-dashboard/frontend-ratchets.json

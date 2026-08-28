@@ -1451,7 +1451,7 @@ honest and a re-run picks up exactly the outstanding 1,271.
 
 ---
 
-## `scripts/` has no size ceiling, and the audit layer lives there (2026-08-25)
+## ~~`scripts/` has no size ceiling, and the audit layer lives there~~ — RESOLVED 2026-08-28 (2026-08-25)
 
 Found while adding the repo-surgeon probe's missing tests. `check_clean_code` reports
 `CQ-NO-SIZE-GATE` against any app source tree that no size gate covers — and the
@@ -1465,10 +1465,19 @@ module that reports it is itself in a tree with no ceiling:
   registry added to it is what makes the coverage and catalog ratchets possible, and
   it will keep growing as checks are added.
 
-Not fixed here deliberately: choosing a ceiling for `scripts/` is the repo owner's
-call, exactly as the contract already says of the front-end ceilings, and a gate
-adopted to make a number look tidy is the failure mode the skill's own hard limits
-name. The decision is *whether* `scripts/` gets a gate and at what limit — and if it
-does, whether the probe should split the way `repo_surgeon_checks.py` and
-`repo_surgeon_specs.py` already did, for the same reason: nobody can hold it all at
-once.
+**Resolved 2026-08-28.** Asif's call: `scripts/` gets a gate, at DR-005's existing
+600, by WIDENING that gate's scope rather than adding a second one — one question
+about Python file size should not have two answers. Across the 21 newly-covered
+files the median is 238 lines and p95 is 414, so 600 binds nothing that was not
+already an outlier; only `repo_surgeon_probe.py` (1,046) and
+`repo_surgeon_checks.py` (601) were over, and both are grandfathered under their
+own heading in `dr005-grandfather.txt` — the same introduction cost the original
+R0 list paid, not an exemption for a new violation. Both failure modes were
+verified able to fail the day the scope changed: a new file over the limit, and a
+grandfathered file growing by two lines.
+
+Still open, and deliberately not decided here: **whether the probe should split**
+the way `repo_surgeon_checks.py` and `repo_surgeon_specs.py` already did, for the
+same reason — nobody can hold 1,046 lines at once. The ratchet now makes that
+pressure visible instead of silent: the file may shrink and may never grow, so the
+next check added to it forces the split rather than deferring it again.

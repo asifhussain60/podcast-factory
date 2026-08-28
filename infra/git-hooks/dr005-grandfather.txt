@@ -22,3 +22,10 @@ scripts/podcast/intelligence/augmenter.py 883
 scripts/podcast/phases/chapter_driver.py 766
 scripts/podcast/render_dialogue_audio.py 680
 scripts/podcast/source_library_mirror.py 716
+
+# --- Added 2026-08-28 when the gate's scope widened from scripts/podcast/ to
+# all of scripts/. These were never under a ceiling before, so this is the same
+# introduction cost the R0 list above paid — not an entry added to excuse a new
+# violation, which remains forbidden. Same ratchet: each may shrink, never grow.
+scripts/repo_surgeon_checks.py 601
+scripts/repo_surgeon_probe.py 1046

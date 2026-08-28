@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""check-dr005.py — enforce DR-005: every scripts/podcast/ production file ≤ 600 lines.
+"""check-dr005.py — enforce DR-005: every scripts/ production file ≤ 600 lines.
 
 Architecture decision DR-005 (architecture.md) mandates ≤600-line modules under
 scripts/podcast/. Until 2026-07-18 the "Enforced by pre-commit + CI" claim was
@@ -8,7 +8,16 @@ already over the limit at gate-introduction time GRANDFATHERED in
 dr005-grandfather.txt (R3 of the clean-code hardening plan burns that list
 down; remove entries as files are split — never add to it).
 
-Scope: tracked *.py under scripts/podcast/, excluding tests/ trees.
+Scope: tracked *.py under scripts/, excluding tests/ trees.
+
+WIDENED 2026-08-28 from scripts/podcast/ to all of scripts/. The narrower scope
+left 21 files under no ceiling at all, including the three repo-surgeon modules
+— so the probe that reports "this tree is outside every size gate" against the
+web apps was itself in the only Python tree with no gate. The limit is DR-005's
+existing 600 rather than a second number: one question about Python file size
+should not have two answers. Newly-in-scope files already over it are recorded
+in the grandfather list under their own heading, which is the same introduction
+cost the original R0 list paid, not an exemption granted to a new violation.
 
 Usage:
   check-dr005.py                 # check every tracked in-scope file (CI)
@@ -31,7 +40,7 @@ GRANDFATHER_FILE = Path(__file__).resolve().parent / "dr005-grandfather.txt"
 
 
 def in_scope(path: str) -> bool:
-    return path.startswith("scripts/podcast/") and path.endswith(".py") and "/tests/" not in path
+    return path.startswith("scripts/") and path.endswith(".py") and "/tests/" not in path
 
 
 def load_grandfather() -> dict[str, int]:
@@ -48,7 +57,7 @@ def load_grandfather() -> dict[str, int]:
 
 def tracked_in_scope() -> list[str]:
     res = subprocess.run(
-        ["git", "ls-files", "scripts/podcast/*.py", "scripts/podcast/**/*.py"],
+        ["git", "ls-files", "scripts/*.py", "scripts/**/*.py"],
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
