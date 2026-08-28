@@ -165,3 +165,58 @@ def test_a_book_with_no_numbered_heads_is_not_this_probes_business() -> None:
     from _book_render_checks import scan_running_heads
 
     assert scan_running_heads(["CHAPTER ONE\nThe Persian", "The Master and the Disciple\nbody"]) == []
+
+
+def test_a_chapter_past_twenty_is_recognised_as_a_chapter_open() -> None:
+    # `_NUMBER_WORDS` stopped at TWENTY, so a book with more than twenty
+    # chapters had every later chapter invisible to the owner scan: the cursor
+    # froze at 20 and every page from chapter 21 onward was reported as a
+    # mismatch. Kunooz al-Hikmah has 28 chapters and drew 78 such findings on a
+    # correctly rendered 246-page book, which is what a P1 that cannot be true
+    # costs — it blocked the render gate on the one book big enough to reach it.
+    from _book_render_checks import _chapter_open_number
+
+    assert _chapter_open_number("CHAPTER TWENTY-ONE") == 21
+    assert _chapter_open_number("CHAPTER TWENTY-EIGHT") == 28
+    assert _chapter_open_number("CHAPTER THIRTY") == 30
+    assert _chapter_open_number("CHAPTER FORTY-TWO") == 42
+
+
+def test_a_letter_spaced_hyphenated_eyebrow_is_read() -> None:
+    # The exact string `pdftotext` extracts from Kunooz page 169. The compact
+    # form keeps the hyphen, which `^CHAPTER([A-Z]+)$` rejected outright.
+    from _book_render_checks import _chapter_open_number
+
+    assert _chapter_open_number("C H A P T E R T W E N T Y- O N E") == 21
+    assert _chapter_open_number("C H A P T E R T W E N T Y-T H R E E") == 23
+
+
+def test_a_correct_book_of_more_than_twenty_chapters_is_silent() -> None:
+    from _book_render_checks import scan_running_heads
+
+    pages = [
+        "CHAPTER TWENTY\nThe Cold Edges",
+        "20. The Cold Edges\nbody",
+        "C H A P T E R T W E N T Y- O N E\nRubies, Elephants, and Believers",
+        "21. Rubies, Elephants, and Believers\nbody",
+        "CHAPTER TWENTY-EIGHT\nThe Last Question",
+        "28. The Last Question\nbody",
+    ]
+
+    assert scan_running_heads(pages) == []
+
+
+def test_a_real_mismatch_past_twenty_is_still_caught() -> None:
+    # The fix must not buy silence by making the scan blind past twenty.
+    from _book_render_checks import scan_running_heads
+
+    pages = [
+        "CHAPTER TWENTY-ONE\nRubies",
+        "20. The Cold Edges\nbody",
+    ]
+
+    findings = scan_running_heads(pages)
+
+    assert [f["page"] for f in findings] == [2]
+    assert "names chapter 20" in findings[0]["detail"]
+    assert "belongs to chapter 21" in findings[0]["detail"]

@@ -262,14 +262,25 @@ def scan_crosswalk_present(pages_text: list[str], book_dir: Path) -> list[dict[s
 # title — a defect invisible to every other gate, in a book that had just gated
 # RENDER-CLEAN.
 _HEAD_NUMBER_RE = re.compile(r"^\s*(\d+)\.\s")
-_CHAPTER_OPEN_LINE_RE = re.compile(r"^CHAPTER([A-Z]+)$")
-_NUMBER_WORDS = {
+_CHAPTER_OPEN_LINE_RE = re.compile(r"^CHAPTER([A-Z-]+)$")
+_UNITS = {
     w: i
     for i, w in enumerate(
         "ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN "
-        "FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY".split(),
+        "FOURTEEN FIFTEEN SIXTEEN SEVENTEEN EIGHTEEN NINETEEN".split(),
         start=1,
     )
+}
+_TENS = {w: (i + 2) * 10 for i, w in enumerate("TWENTY THIRTY FORTY FIFTY SIXTY SEVENTY EIGHTY NINETY".split())}
+# Built by composition rather than spelled out to TWENTY, which is where the
+# list used to stop. A book of more than twenty chapters then had every later
+# chapter invisible to the owner scan, so the cursor froze at 20 and every page
+# after it drew a P1 that could not be true. Enumerating to some new ceiling
+# would only move the cliff; a compound reader has none up to ninety-nine.
+_NUMBER_WORDS = {
+    **_UNITS,
+    **_TENS,
+    **{f"{t}-{u}": tv + uv for t, tv in _TENS.items() for u, uv in _UNITS.items() if uv < 10},
 }
 
 
