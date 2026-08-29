@@ -6111,11 +6111,23 @@
   .pf-book--compact .pf-book__ribbon {
     top: 0;
     inset-inline-end: 0;
-    width: 2.75rem;
-    height: 2.75rem;
+    /* Bigger than the 2.75rem it started at (Asif, 2026-08-29: "can these be
+       made more prominent??"). With no word to carry, size is the only thing
+       left that says the corner is a marker rather than a rounding artefact —
+       at 2.75rem against a 5.5rem band it read as a nick in the corner. */
+    width: 3.75rem;
+    height: 3.75rem;
     padding: 0;
     transform: none;
     clip-path: polygon(100% 0, 100% 100%, 0 0);
+    /* An inset edge along the flag's own diagonal, drawn from the band it sits
+       on rather than from a colour of its own, so the triangle reads as laid
+       ON the card instead of bleeding into it. `drop-shadow` and not
+       `box-shadow`: the element is a clipped triangle, and a box shadow would
+       trace the square it was cut from. */
+    filter: drop-shadow(
+      -1px 1px 0 color-mix(in oklab, var(--l-band) 55%, transparent)
+    );
     box-shadow: none;
     color: transparent;
   }
@@ -6139,6 +6151,22 @@
 
   .pf-book--compact .pf-book__body {
     padding: var(--pf-space-3);
+  }
+
+  /* The card's white, tinted by collection (Asif, 2026-08-29: "Blue vs
+     Lavender"). `--l-accent-soft` is already the books' pale blue and, through
+     §3b's swap on the `data-collection` the card carries, the sessions'
+     lavender — so this is one declaration rather than two, and it follows all
+     three themes.
+
+     Mixed from `--l-accent` rather than from `--l-accent-soft`: the soft token
+     is ALREADY a pale tint, so 20% of it into a near-white surface came back
+     measurably but invisibly different — the two cards differed in the third
+     decimal place of their chroma. Taking 8% of the saturated accent instead
+     gives a tint you can actually see while staying well short of colouring the
+     card. */
+  .pf-book {
+    background: color-mix(in oklab, var(--l-accent) 8%, var(--l-surface));
   }
 
   .pf-book--compact .pf-book__title {
