@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { COLLECTIONS, inCollection, type Collection } from "../app/lib/collection";
+import {
+  COLLECTIONS,
+  inCollection,
+  type Collection,
+} from "../app/lib/collection";
 import {
   ALL_STUDY_TRACKS,
   inTrack,

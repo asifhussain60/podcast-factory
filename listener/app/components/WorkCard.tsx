@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 
 import { BookBand, BookCard } from "~/components/BookCard";
 import { collectionOf } from "~/lib/collection";
@@ -19,22 +19,53 @@ import type { Progress } from "~/server/marks.server";
  */
 const frontVolumeKey = (workSlug: string) => `pf-work-front:${workSlug}`;
 
-function loadFrontVolume(workSlug: string): string | null {
-  try {
-    return localStorage.getItem(frontVolumeKey(workSlug));
-  } catch {
-    return null;
+/**
+ * Which volume was picked last time, and the store that hands it to the card.
+ *
+ * NOT read during render, which is what it was until now — and that mattered
+ * more here than anywhere: this is the shelf's DEFAULT view, so any reader who
+ * had ever picked a volume in a multi-volume work got a first client render the
+ * server's HTML could not match. React rebuilt the document, and `data-theme` —
+ * which THEME_INIT_SCRIPT stamps on `<html>` before first paint, and which no
+ * React tree owns — went with it, silently reverting that reader's colour theme
+ * and dropping session cards out of violet.
+ *
+ * So it is read through `useSyncExternalStore`, exactly as `~/lib/shelf` and
+ * `~/lib/theme` are: the server and the hydrating client both render the picker,
+ * and the remembered volume arrives in the commit straight after hydration. The
+ * snapshot is cached per work because `getSnapshot` is compared by identity and
+ * is called on every render — reading storage each time would return a fresh
+ * value and re-render forever.
+ */
+const picked = new Map<string, string | null>();
+const listeners = new Set<() => void>();
+
+function frontVolumeSnapshot(workSlug: string): string | null {
+  if (!picked.has(workSlug)) {
+    try {
+      picked.set(workSlug, localStorage.getItem(frontVolumeKey(workSlug)));
+    } catch {
+      picked.set(workSlug, null);
+    }
   }
+  return picked.get(workSlug) ?? null;
+}
+
+function subscribeFrontVolume(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
 }
 
 function saveFrontVolume(workSlug: string, slug: string) {
+  picked.set(workSlug, slug);
   try {
     localStorage.setItem(frontVolumeKey(workSlug), slug);
   } catch {
     // A reader whose storage is full or blocked still gets the pick for
     // this visit — it just doesn't survive to the next one. Same
-    // best-effort shape as `home.tsx`'s `persisted()`.
+    // best-effort shape as the setters in `~/lib/shelf`.
   }
+  for (const listener of listeners) listener();
 }
 
 /** Chips are capped so the closed card stays a fixed, compact size — the
@@ -95,8 +126,13 @@ export function WorkCard({
   title: string;
   volumes: WorkVolume[];
 }) {
-  const [frontSlug, setFrontSlug] = useState<string | null>(() =>
-    loadFrontVolume(workSlug),
+  // The picker on the server and on the first client render alike; the
+  // remembered volume immediately after hydration. See `frontVolumeSnapshot`
+  // above for why it may not be read any earlier than that.
+  const frontSlug = useSyncExternalStore(
+    subscribeFrontVolume,
+    () => frontVolumeSnapshot(workSlug),
+    () => null,
   );
   // Session-only "I want to see the picker again" — distinct from
   // `frontSlug` so opening it to look around, then leaving without tapping a
@@ -111,7 +147,6 @@ export function WorkCard({
   const showPicker = pickerOpen || front === null;
 
   function pickFront(slug: string) {
-    setFrontSlug(slug);
     saveFrontVolume(workSlug, slug);
     setPickerOpen(false);
   }
