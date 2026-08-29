@@ -135,23 +135,44 @@ async function readJson<T>(path: string): Promise<T | null> {
 }
 
 /**
+ * The Sessions lane's own "just scaffolded" cutoff — the equivalent of the
+ * book pipeline's "≤ 0b" line. `sessions-ingest` and `sessions-transcribe` are
+ * both deterministic/Azure-only with no book-specific authoring judgment yet;
+ * `sessions-articulate` is where paid model time starts making real decisions
+ * about this specific book, the same point the book pipeline treats as "work
+ * has actually started." Decision: Asif, 2026-08-29.
+ */
+const SESSIONS_UP_NEXT_CUTOFF = "sessions-transcribe";
+
+/**
  * Classify a book into a Studio-picker filter bucket.
  *
  * Rule order matters:
  *   1. published status wins outright;
  *   2. no completed phase → up-next;
- *   3. a completed phase the canonical order doesn't know (e.g. 0book-render)
- *      still proves real work → in-the-works;
- *   4. only the automated ingest/refine ran (≤ 0b) → up-next — this is the
- *      batch-scaffolded-volume case;
- *   5. anything further along → in-the-works.
+ *   3. Sessions-lane books (`pipeline_mode: "sessions_lane"`) are classified
+ *      against SESSIONS_PHASE_ORDER, never the book pipeline's order — the
+ *      two vocabularies don't share any phase names, so mixing them produces
+ *      a coincidence of array position, not a real answer;
+ *   4. a completed phase the applicable order doesn't know (e.g.
+ *      0book-render) still proves real work → in-the-works;
+ *   5. only the automated scaffolding ran (≤ 0b for books, ≤ sessions-transcribe
+ *      for Sessions) → up-next — this is the batch-scaffolded-volume case;
+ *   6. anything further along → in-the-works.
  */
 export function classifyStatusBucket(
   status: string | undefined,
   lastCompletedPhase: string | null | undefined,
+  pipelineMode?: string | null,
 ): StatusBucket {
   if (status === "published") return "published";
   if (!lastCompletedPhase) return "up-next";
+  if (pipelineMode === "sessions_lane") {
+    const idx = sessionsPhaseIndex(lastCompletedPhase);
+    if (idx === -1) return "in-the-works";
+    if (idx <= sessionsPhaseIndex(SESSIONS_UP_NEXT_CUTOFF)) return "up-next";
+    return "in-the-works";
+  }
   const idx = phaseIndex(lastCompletedPhase);
   if (idx === -1) return "in-the-works";
   if (idx <= phaseIndex("0b")) return "up-next";
@@ -169,7 +190,11 @@ export async function loadStatusBucket(
         join(ref.dir, "_system", "orchestrator-state.json"),
       )
     : null;
-  return classifyStatusBucket(status, state?.last_completed_phase);
+  return classifyStatusBucket(
+    status,
+    state?.last_completed_phase,
+    state?.pipeline_mode,
+  );
 }
 
 /**
