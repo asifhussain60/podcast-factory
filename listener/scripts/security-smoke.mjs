@@ -153,7 +153,9 @@ console.log("\nsigned in, not invited");
 check("sent to no-access", (await get("/", stranger)).status, 302);
 
 console.log("\ninvited, granted nothing");
-check("library loads", (await get("/", outsider)).status, 200);
+// The SHELF, not `/` — `/` is the chooser, which sends a reader holding one
+// collection (or none) on to the shelf rather than answering 200 itself.
+check("library loads", (await get("/library", outsider)).status, 200);
 check(
   "a real book is 404",
   (await get("/book/ayyuhal-walad", outsider)).status,
@@ -416,10 +418,14 @@ const linkShown = async (path, cookie) => {
   return res.status === 200 && hasNavLinkToAdmin(await res.text());
 };
 
-check("the administrator is offered it", await linkShown("/", admin), true);
+check(
+  "the administrator is offered it",
+  await linkShown("/library", admin),
+  true,
+);
 check(
   "somebody invited but granted nothing is not",
-  await linkShown("/", outsider),
+  await linkShown("/library", outsider),
   false,
 );
 check(
@@ -432,12 +438,12 @@ check(
 // else.
 check(
   "nor the administrator while simulating somebody",
-  await linkShown("/", `${admin}; ${forged(OUTSIDER)}`),
+  await linkShown("/library", `${admin}; ${forged(OUTSIDER)}`),
   false,
 );
 check(
   "a forged cookie does not conjure it in a reader's browser",
-  await linkShown("/", `${outsider}; ${forged(ADMIN)}`),
+  await linkShown("/library", `${outsider}; ${forged(ADMIN)}`),
   false,
 );
 

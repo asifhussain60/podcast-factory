@@ -288,6 +288,34 @@
   src: url("/fonts/lexend-latin-wght-normal.woff2") format("woff2-variations");
 }
 
+/* Shantell Sans — the two DESCRIPTIONS on the welcome chooser's tiles, and
+   nowhere else (Asif chose it from five, 2026-08-29). A drawn hand built on the
+   proportions of a text face, which is the whole reason it is here rather than
+   one of the signature scripts beside it: those are lovely for a word and ask
+   real effort of a reader over a paragraph, and this carries a paragraph at
+   ordinary body size. The two NAMES keep the site's own sans — the handwriting
+   is for the sentences. */
+@font-face {
+  font-family: "Shantell Sans Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300 800;
+  src: url("/fonts/shantell-sans-latin-wght-normal.woff2")
+    format("woff2-variations");
+}
+
+/* Sora — the welcome chooser's two tiles, and nowhere else. Geometric, open
+   aperture, tall x-height. That screen is neither prose nor chrome: Literata
+   reads as a page and Inter reads as the interface, and the one moment where a
+   reader chooses between the two collections should feel like neither. */
+@font-face {
+  font-family: "Sora Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("/fonts/sora-latin-wght-normal.woff2") format("woff2-variations");
+}
+
 /* OpenDyslexic — weighted bottoms, so a letter is harder to rotate or flip.
    Costs nothing and is a real accessibility win for the people who need it. */
 @font-face {
@@ -319,6 +347,14 @@
   --l-font-card-title:
     "Roboto Condensed Variable", "Inter Variable", system-ui, sans-serif;
   --l-font-ui: "Inter Variable", system-ui, -apple-system, sans-serif;
+  /* The welcome chooser's tiles ONLY — see the @font-face note in §1. Its own
+     token rather than a reuse of `--l-font-ui`, because the point of that screen
+     is that it is not the interface. */
+  --l-font-tile: "Sora Variable", "Inter Variable", system-ui, sans-serif;
+  /* The two tile DESCRIPTIONS only — see the @font-face note in §1. Falls back
+     to the tile's own sans rather than to a generic `cursive`, which on most
+     machines resolves to Comic Sans or to nothing at all. */
+  --l-font-tile-hand: "Shantell Sans Variable", var(--l-font-tile);
   /* Traditional Arabic was here until 2026-08-15: it renders several
      Urdu/Persian codepoints used in this reading column as broken, disconnected
      clusters (found on `spiritual-ethos`'s inline citations — visibly split
@@ -4403,7 +4439,11 @@
     padding: var(--pf-space-3) var(--pf-space-5);
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-pill);
-    background: var(--l-surface);
+    /* Glass, not paint: a wash of the collection's own soft tone over the tile
+       surface — light blue for the books, lavender for the sessions, both from
+       `--l-accent-soft`, which §3b already swaps. The frosting itself is done by
+       the pane in `::before`. */
+    background: color-mix(in oklab, var(--l-accent-soft) 55%, var(--l-surface));
     color: var(--l-ink);
     font-family: var(--l-font-ui);
     font-size: var(--pf-text-base);
@@ -6336,7 +6376,6 @@
        own rounded corners. */
     border-inline-start: 3px solid var(--l-accent);
     border-radius: var(--pf-radius);
-    box-shadow: var(--pf-elev-1);
     text-decoration: none;
     transition:
       box-shadow var(--pf-motion),
@@ -11725,6 +11764,436 @@
   @media (prefers-reduced-motion: reduce) {
     .pf-found {
       animation: none;
+    }
+  }
+}
+
+/* ==========================================================================
+   The welcome chooser  (/welcome)
+   --------------------------------------------------------------------------
+   Two tiles, the first thing a reader sees after signing in, saying what the
+   two halves of this library actually are.
+
+   LIGHT SURFACES, not coloured slabs. The first version painted each tile in
+   `--l-band` — the navy and violet the cards wear — and at tile size those read
+   as two dark blocks dropped on the page. Depth comes from the site's own
+   elevation scale instead: `--l-surface` with a `--l-rule` hairline at
+   `--pf-elev-1`, lifting to `--pf-elev-4`. The collection is carried by a WASH
+   of `--l-accent` rather than by the whole field, which `[data-collection]` in
+   §3b already turns violet for the sessions tile — so the difference between the
+   two is still the palette the rest of the site uses for that distinction.
+
+   THE TWO TILES ARE THE SAME SIZE, always. Equal columns (`1fr`), a shared
+   `min-height`, and `align-items: stretch` — so the shorter blurb does not
+   produce the shorter tile, and the count pinned to the bottom by `auto` margin
+   sits on the same line in both.
+
+   Motion is the site's own `--pf-motion` / `--pf-lift`, the same lift the
+   library cards use under the pointer, plus a staggered entrance. Both are off
+   under `prefers-reduced-motion`.
+   ========================================================================== */
+@layer components {
+  /* The page is `flush`, so this band owns its own gutters — same arrangement
+     as `/about`, and the reason `AppShell` grew that prop. */
+  .pf-welcome {
+    padding-block: clamp(var(--pf-space-6), 6vw, var(--pf-space-9));
+
+    /* ONE reading size for everything on this page that is read rather than
+       glanced at — the two descriptions and the link under them (Asif,
+       2026-08-29). 18px: a step above the site's 17px body, so it is comfortable
+       for poor eyesight, and far below the fluid sizes this page carried, which
+       grew with the viewport and shouted on a wide monitor. Fixed rather than a
+       `clamp()`, deliberately — "standardised" means the same size wherever you
+       open it. The PANELS stay large; only the type came down. */
+    --pf-welcome-text: 1.125rem;
+  }
+
+  .pf-welcome__wrap {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding-inline: clamp(var(--pf-space-4), 4vw, var(--pf-space-8));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-welcome__eyebrow {
+    margin: 0;
+    font-family: var(--l-font-tile);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-muted);
+  }
+
+  .pf-welcome__title {
+    margin: 0;
+    font-family: var(--l-font-display);
+    /* Topped out at 2.5rem rather than 3.5rem. It is still the biggest thing
+       on the page and no longer the only thing on it. */
+    font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: var(--pf-tracking-tight);
+    text-wrap: balance;
+    color: var(--l-ink);
+  }
+
+  .pf-welcome__lede {
+    max-width: 46rem;
+    margin: 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-welcome-text);
+    line-height: 1.6;
+    text-wrap: pretty;
+    color: var(--l-muted);
+  }
+
+  /* ---- The two tiles -------------------------------------------------------
+     `auto-fit`/`minmax` rather than a media query: they sit side by side wherever
+     two 22rem columns fit and stack wherever they do not, so there is no viewport
+     at which this layout is untested. Equal fractions and stretched items are
+     what make the pair identical in both dimensions. */
+  .pf-welcome__tiles {
+    width: 100%;
+    margin: var(--pf-space-5) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    align-items: stretch;
+    gap: clamp(var(--pf-space-4), 2vw, var(--pf-space-6));
+  }
+
+  /* The `li` is a grid item; the link inside must fill it or the two tiles are
+     the same cell size and different visible sizes. */
+  .pf-welcome__tiles > li {
+    display: flex;
+  }
+
+  /* The whole tile is the link. A card with a button inside gives a keyboard one
+     target and a mouse two, and the two then disagree about how big the thing
+     is. */
+  .pf-tile {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: start;
+    gap: var(--pf-space-4);
+    min-height: 22rem;
+    padding: clamp(var(--pf-space-5), 3vw, var(--pf-space-7));
+    /* A DEFINED edge, not the hairline `--l-rule` the panels use. A tile is a
+       light surface on a light page carrying a pale painting, so at `--l-rule`
+       its own boundary was the faintest line on the screen and the tile read as
+       a wash bleeding into the background rather than as a thing to press.
+       Mixed from `--l-ink` rather than hardcoded dark: on the dark theme the ink
+       IS the light colour, so the same declaration draws a visible edge against
+       near-black instead of a black line nobody can see. */
+    /* The collection's OWN colour, not a neutral. `--l-display` is the navy the
+       book cards and the shelf's own title already wear, and §3b repaints it
+       plum for a session — so the two tiles are edged in the two colours the
+       site already uses to tell these collections apart, in all three themes,
+       every value already contrast-measured. */
+    border: 3px solid var(--l-display);
+    border-radius: var(--pf-radius-xl);
+    box-shadow: var(--pf-elev-1);
+    text-decoration: none;
+    background: var(--l-surface);
+    color: var(--l-ink);
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion),
+      border-color var(--pf-motion);
+  }
+
+  /* ---- The artwork ---------------------------------------------------------
+     A painterly wash behind each tile — indigo and gold for the books, violet
+     and rose for the sessions. Both are the same 1600x1000 image, painted as a
+     matched pair with their weight in the UPPER RIGHT and open ground at the
+     lower left, which is where the heading, the blurb and the count sit. That
+     is what lets the art be inviting without ever being read through.
+
+     The file is named HERE rather than in the markup, keyed off the same
+     `data-collection` attribute §3b already paints from, so a tile carries one
+     attribute and gets its colour, its accent and its art together.
+
+     `cover` on a fixed aspect ratio: the tile is wider than tall on a desktop
+     and taller than wide on a phone, and cropping is the only thing that keeps
+     the composition intact at both. */
+  .pf-tile {
+    --pf-tile-art: url("/brand/tile-books.webp");
+  }
+
+  .pf-tile[data-collection="sessions"] {
+    --pf-tile-art: url("/brand/tile-sessions.webp");
+  }
+
+  .pf-tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -2;
+    background-image: var(--pf-tile-art);
+    background-size: cover;
+    background-position: top right;
+    /* Held well back: this is the paper the words are printed on, not a picture
+       with text laid over it. It lifts a little under the pointer, which is the
+       whole reason the art is here — the tile answers before it is clicked. */
+    opacity: 0.85;
+    transition: opacity var(--pf-motion);
+  }
+
+  .pf-tile:hover::after,
+  .pf-tile:focus-visible::after {
+    opacity: 0.88;
+  }
+
+  /* The scrim, between the painting and the words.
+     The art is a painting, not a texture, so it has dark passages — and wherever
+     one falls behind a line of body copy the copy stops being AA. Lowering the
+     art's opacity far enough to guarantee contrast everywhere left it invisible,
+     which is the wrong trade: the fix is to give the TEXT its ground back rather
+     than to take the picture away. The tile's own surface, opaque along the
+     leading edge where every line starts and clearing entirely towards the far
+     side, where the painting is left to be looked at. */
+  /* THE GLASS. It frosts the painting rather than hiding it: `backdrop-filter`
+     blurs everything painted beneath this pane — which is the artwork in
+     `::after` — and the tint above it is what the light picks up. The gradient
+     is heavier along the leading edge where every line of text starts and
+     clears toward the far side, so the words sit on glass and the picture is
+     still there to be looked at.
+
+     A blur without a tint would leave a grey smear; a tint without the blur
+     would be the flat scrim this replaced. Both together are what read as
+     glass. */
+  .pf-tile::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    backdrop-filter: blur(18px) saturate(1.25);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+    background: linear-gradient(
+      to right,
+      color-mix(in oklab, var(--l-surface) 88%, transparent) 0%,
+      color-mix(in oklab, var(--l-accent-soft) 72%, transparent) 62%,
+      color-mix(in oklab, var(--l-accent-soft) 34%, transparent) 100%
+    );
+  }
+
+  /* The lit top edge every real pane of glass has. Inset, drawn from the tile's
+     own surface colour rather than from white, so it lifts on the light themes
+     and does not glare on the dark one. */
+  .pf-tile {
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--l-surface) 75%, transparent),
+      var(--pf-elev-3);
+  }
+
+  .pf-tile:focus-visible {
+    outline-offset: 4px;
+    border-radius: var(--pf-radius-xl);
+  }
+
+  .pf-tile:hover,
+  .pf-tile:focus-visible {
+    transform: translateY(var(--pf-lift));
+    /* The site's deepest elevation, doubled with a second far shadow so the
+       tile clearly leaves the page under the pointer. Built from the same
+       `--l-shadow-far` every other shadow uses, so it follows all three themes
+       rather than introducing a colour of its own. */
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, var(--l-surface) 75%, transparent),
+      var(--pf-elev-4),
+      0 28px 60px var(--l-shadow-far);
+    border-color: var(--l-accent);
+  }
+
+  /* ---- Inside a tile ------------------------------------------------------- */
+
+  /* Icon and name on ONE line, so the tile opens with its subject rather than
+     with a badge above it. `baseline` would hang the glyph box off the cap
+     height of a 2.5rem word; centred is what makes the two read as one lockup. */
+  .pf-tile__head {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-tile__glyph {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: var(--pf-radius-lg);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    /* The icon sizes in `em` (see `Icon`), so this one number sets it. */
+    font-size: 1.6rem;
+    transition: transform var(--pf-motion);
+  }
+
+  .pf-tile:hover .pf-tile__glyph,
+  .pf-tile:focus-visible .pf-tile__glyph {
+    transform: scale(1.06);
+  }
+
+  .pf-tile__name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-family: var(--l-font-tile);
+    font-size: clamp(1.5rem, 1.2rem + 0.9vw, 1.875rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: var(--pf-tracking-tight);
+    color: var(--l-ink);
+  }
+
+  /* The sentences this whole page exists to say. Capped at 42ch so they stay a
+     readable measure however wide the tile grows. */
+  .pf-tile__blurb {
+    /* `min()`, not a bare 42ch. On a phone 42ch is WIDER than the tile's inner
+       width, and the tile clips its overflow to keep the artwork inside its
+       corners — so every line was cut off at the right edge rather than
+       wrapping. `anywhere` covers the other half of it: a long unbroken string
+       has no wrap opportunity at all and would still run past the edge. */
+    max-width: min(42ch, 100%);
+    overflow-wrap: anywhere;
+    font-family: var(--l-font-tile-hand);
+    /* Near body size, unlike the signature hands it was picked over: Shantell's
+       x-height and widths are a text face's, so it needs no inflation to stay
+       legible — a nudge up from 17px is enough to let the drawn strokes read as
+       drawn. 500 rather than 400, because a hand-drawn stroke is optically
+       lighter than a printed one at the same nominal weight. */
+    font-size: var(--pf-welcome-text);
+    font-weight: 500;
+    line-height: 1.55;
+    text-wrap: pretty;
+    /* Full ink, not the `--l-muted` every other description on the site uses.
+       This is the sentence the whole page exists to say and it is read over a
+       painting, so the secondary colour was the wrong thing to borrow. */
+    color: var(--l-ink);
+  }
+
+  /* `auto` top margin, so the count sits on the tile's floor in both tiles
+     however unequal the blurbs above it are. */
+  .pf-tile__meta {
+    margin-block-start: auto;
+    font-family: var(--l-font-tile);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--l-accent);
+  }
+
+  .pf-welcome__skip {
+    margin: var(--pf-space-6) 0 0;
+  }
+
+  /* Prominent WITHOUT becoming a control (Asif's markup, 2026-08-29). At
+     `.pf-link`'s accent-blue 15px it read as a footnote under two very large
+     tiles and was missed. What makes it carry now is size, ink and a real
+     underline — the things that make a link look like a link — rather than a
+     fill, a border or a padded box, any of which would turn it into a third
+     thing to choose beside the two tiles. */
+  .pf-welcome__more {
+    /* `inline`, not `inline-flex`. As a flex box the arrow was a sibling of the
+       whole wrapped label rather than of its last word, so on a narrow screen
+       the text broke over two lines and the arrow floated off to the right of
+       both, vertically centred against nothing. Inline keeps it in the flow, so
+       it always follows the final word wherever that lands. */
+    display: inline;
+    font-family: var(--l-font-tile);
+    font-size: var(--pf-welcome-text);
+    font-weight: 600;
+    color: var(--l-ink);
+    text-decoration: underline;
+    /* Thick enough to be seen at this size and offset clear of the descenders,
+       in the accent so the line is the coloured part rather than the words. */
+    text-decoration-color: var(--l-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    transition: color var(--pf-motion);
+  }
+
+  .pf-welcome__more:hover,
+  .pf-welcome__more:focus-visible {
+    color: var(--l-accent);
+  }
+
+  /* The arrow nudges rather than the whole line moving — the link is text and
+     should stay on its baseline. */
+  /* A shade larger than the words it follows and in the accent, so it reads as
+     an icon rather than as a typed arrow. `middle` keeps it on the line's
+     centre; the icon sizes in `em`, so this one number sets it. */
+  .pf-welcome__more-arrow {
+    margin-inline-start: var(--pf-space-2);
+    vertical-align: middle;
+    font-size: 1.15em;
+    color: var(--l-accent);
+    transition: transform var(--pf-motion);
+  }
+
+  .pf-welcome__more:hover .pf-welcome__more-arrow,
+  .pf-welcome__more:focus-visible .pf-welcome__more-arrow {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-welcome__more,
+    .pf-welcome__more-arrow {
+      transition: none;
+    }
+
+    .pf-welcome__more:hover .pf-welcome__more-arrow,
+    .pf-welcome__more:focus-visible .pf-welcome__more-arrow {
+      transform: none;
+    }
+  }
+
+  /* ---- Entrance ------------------------------------------------------------
+     A short rise, staggered by one tile, so the pair arrives rather than
+     appearing. `both` because the delay would otherwise leave the second tile
+     drawn at full opacity for 90ms before it starts. */
+  .pf-tile {
+    animation: pf-tile-in 320ms ease-out both;
+  }
+
+  .pf-welcome__tiles > li:nth-child(2) .pf-tile {
+    animation-delay: 90ms;
+  }
+
+  @keyframes pf-tile-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-tile,
+    .pf-tile__glyph {
+      animation: none;
+      transition: none;
+    }
+
+    .pf-tile:hover,
+    .pf-tile:focus-visible,
+    .pf-tile:hover .pf-tile__glyph,
+    .pf-tile:focus-visible .pf-tile__glyph {
+      transform: none;
     }
   }
 }

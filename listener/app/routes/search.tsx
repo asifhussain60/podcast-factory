@@ -370,7 +370,7 @@ function Prompt() {
         </li>
       </ul>
       <p className="pf-prompt__foot">
-        <Link to="/" className="pf-button pf-button--soft">
+        <Link to="/library" className="pf-button pf-button--soft">
           <Icon icon={faArrowLeft} />
           Back to the library
         </Link>

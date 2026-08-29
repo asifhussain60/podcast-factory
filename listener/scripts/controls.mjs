@@ -97,7 +97,7 @@ const episode = fixtures.episode;
 
 /** The surfaces, and how to reach the state worth pressing things in. */
 const VIEWS = [
-  { label: "library", path: "/" },
+  { label: "library", path: "/library" },
   { label: "book", path: `/book/${slug}` },
   { label: "book-notes", path: `/book/${slug}?tab=notes` },
   { label: "reader", path: `/book/${slug}/read/${chapter}` },

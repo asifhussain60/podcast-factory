@@ -44,7 +44,17 @@ export default [
 
   // Everything else. Pathless, so it adds a gate without adding a URL segment.
   layout("routes/_authed.tsx", [
-    index("routes/home.tsx"),
+    // HOME is the chooser: two tiles, one per collection, each saying what it
+    // is. INSIDE the gate like everything else, and for the same reason
+    // `/about` is — it counts what this reader may see, so it is already an
+    // answer about a private library.
+    index("routes/welcome.tsx"),
+
+    // The shelf. It was the index until 2026-08-29; Asif moved it so that the
+    // masthead logo, the Home button and a bare visit to the site all arrive at
+    // the chooser instead. Its own path rather than a redirect from `/`, so a
+    // link to the grid is still a link to the grid.
+    route("library", "routes/home.tsx"),
 
     // What the site does, for the people invited to it. INSIDE the gate like
     // everything else: it is offered from the masthead of every signed-in page,

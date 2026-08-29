@@ -4,8 +4,8 @@ import {
   faTableCells,
   faTableCellsLarge,
 } from "@fortawesome/free-solid-svg-icons";
-import { useMemo, useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router";
 
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
@@ -273,6 +273,41 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const setMode = persisted<ViewMode>(VIEW_MODE_KEY, setViewMode);
   const pickCollection = persisted<Collection>(COLLECTION_KEY, setCollection);
   const pickTrack = persisted<TrackChoice>(TRACK_KEY, setTrack);
+
+  /**
+   * `/?collection=sessions` — the welcome chooser telling this page which
+   * collection it was opened for.
+   *
+   * It goes through `pickCollection` like a press of the control itself, so an
+   * arrival remembers exactly as a click does: a reader who chose Sessions at
+   * the door and then closes the tab finds Sessions on the next visit. That is
+   * deliberate, and it means the tile wins over whatever was remembered before.
+   *
+   * The parameter is then STRIPPED, replacing rather than pushing. Left in
+   * place it would re-apply on every reload and on Back — so a reader who
+   * arrived on Sessions, switched to Everything, then reloaded would be
+   * silently put back on Sessions by a URL they never typed, which reads as the
+   * control having failed. Replacing keeps Back pointing at the chooser.
+   */
+  const [params, setParams] = useSearchParams();
+  const requested = params.get("collection");
+  useEffect(() => {
+    if (requested === null) return;
+    if ((COLLECTIONS as readonly string[]).includes(requested)) {
+      pickCollection(requested as Collection);
+    }
+    setParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        next.delete("collection");
+        return next;
+      },
+      { replace: true, preventScrollReset: true },
+    );
+    // `pickCollection` and `setParams` are re-made every render; including them
+    // would re-run this on every render instead of on the arrival it is for.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [requested]);
 
   // The control is drawn only when there is something to choose BETWEEN. A
   // reader with books and no sessions is offered nothing to press, which is

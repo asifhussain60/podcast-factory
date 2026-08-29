@@ -247,6 +247,41 @@ const MANIFEST = [
     to: "lexend-LICENSE.txt",
     note: "SIL OFL 1.1",
   },
+  // Shantell Sans — the two descriptions on the welcome chooser's tiles, and
+  // nowhere else. Asif picked it from five handwriting faces set in the real
+  // tile (2026-08-29), and it is the one of them drawn with the proportions of
+  // a text face rather than of a signature — which is what lets a whole
+  // paragraph of handwriting stay readable at body size.
+  //
+  // The `wght` cut, not `full`. The family carries three more axes — bounce,
+  // informality and spacing — and shipping them costs bytes for axes nothing
+  // varies. Swap the file the day a rule asks for one.
+  {
+    from: "node_modules/@fontsource-variable/shantell-sans/files/shantell-sans-latin-wght-normal.woff2",
+    to: "shantell-sans-latin-wght-normal.woff2",
+    note: "Shantell Sans Variable (welcome tile descriptions)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/shantell-sans/LICENSE",
+    to: "shantell-sans-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
+  // Sora — the welcome chooser's tiles, and nowhere else. A geometric sans with
+  // an open aperture and a tall x-height, chosen because the two tiles are the
+  // one screen that is neither prose nor chrome: Literata reads as a page and
+  // Inter reads as the interface, and the choice between the two collections is
+  // meant to feel like neither. COPIED like every other face — a Google Fonts
+  // <link> on a private library tells another origin who is reading and when.
+  {
+    from: "node_modules/@fontsource-variable/sora/files/sora-latin-wght-normal.woff2",
+    to: "sora-latin-wght-normal.woff2",
+    note: "Sora Variable (welcome tiles)",
+  },
+  {
+    from: "node_modules/@fontsource-variable/sora/LICENSE",
+    to: "sora-LICENSE.txt",
+    note: "SIL OFL 1.1",
+  },
   // OpenDyslexic — weighted bottoms, so letters are harder to rotate or flip.
 
   {

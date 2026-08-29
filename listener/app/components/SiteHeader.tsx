@@ -40,7 +40,8 @@ export function SiteHeader({
   here,
   isAdmin = false,
 }: {
-  here: "library" | "admin" | "book" | "about" | "search" | "downloads";
+  here:
+    "library" | "welcome" | "admin" | "book" | "about" | "search" | "downloads";
   isAdmin?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,10 +59,14 @@ export function SiteHeader({
 
   return (
     <header className="pf-container pf-header">
-      {here === "library" ? (
+      {/* The logo IS the way home, and home is the chooser at `/`. Unlinked
+          only on the chooser itself — a link to where you already are is a
+          control that appears to do nothing. It used to be unlinked on the
+          shelf, back when the shelf was `/`. */}
+      {here === "welcome" ? (
         <Logo size={56} />
       ) : (
-        <Link to="/" aria-label="Back to your library" className="pf-logo-link">
+        <Link to="/" aria-label="Home" className="pf-logo-link">
           <Logo size={56} />
         </Link>
       )}
@@ -96,7 +101,7 @@ export function SiteHeader({
       ) : null}
 
       <div id="site-nav" className="pf-header__nav" data-open={menuOpen}>
-        {here !== "library" ? (
+        {here !== "welcome" ? (
           <Link
             to="/"
             className="pf-navlink pf-navlink--home"

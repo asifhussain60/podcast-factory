@@ -164,7 +164,7 @@ export function ReaderToolbar({
         <div className="pf-toolbar__group">
           <Tooltip header="Home" description="Back to your library">
             <Link
-              to="/"
+              to="/library"
               aria-label="Back to your library"
               className="pf-toolbar__home"
             >

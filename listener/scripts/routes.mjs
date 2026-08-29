@@ -26,9 +26,26 @@
 export const STATIC_ROUTES = [
   { path: "/sign-in", who: "anon", expect: 200, label: "sign-in" },
   { path: "/no-access", who: "anon", expect: 200, label: "no-access" },
-  { path: "/", who: "admin", expect: 200, label: "library" },
-  { path: "/", who: "reader", expect: 200, label: "library-one-book" },
-  { path: "/", who: "nobody", expect: 200, label: "library-empty" },
+  // `/` is the chooser; `/library` is the shelf. Both are swept, because the
+  // two answer differently for the same person: a reader holding one collection
+  // is bounced off the chooser and still gets the full shelf.
+  { path: "/library", who: "admin", expect: 200, label: "library" },
+  { path: "/library", who: "reader", expect: 200, label: "library-one-book" },
+  { path: "/library", who: "nobody", expect: 200, label: "library-empty" },
+
+  // The chooser, which IS the home page. Swept as the administrator, who holds
+  // both collections and therefore sees the page itself.
+  //
+  // A reader holding only ONE collection is bounced to the shelf instead, and
+  // that case is deliberately NOT swept here: `expect: 302` in this harness
+  // means "denied, sent to sign-in", and this redirect is an ordinary in-app one
+  // to `/`. Chromium also drops a manually-set `Cookie` header when it follows a
+  // redirect, so the second hop of any two-hop chain arrives signed out and
+  // lands on /sign-in whatever the app did — no other route here has a second
+  // hop, which is why that has never mattered before. The rule is pinned where
+  // it can be stated exactly, in test/welcome.test.ts.
+  // Signed out, `/` is asserted further down with the rest of the gate.
+  { path: "/", who: "admin", expect: 200, label: "welcome" },
 
   // What the site does. Behind the gate like every other page, and visited as
   // all three signed-in identities because it must not depend on holding a book:
