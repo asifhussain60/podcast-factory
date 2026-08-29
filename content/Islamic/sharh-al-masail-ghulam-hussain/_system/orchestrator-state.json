@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/sharh-al-masail-ghulam-hussain",
   "status": "draft",
-  "phase": "audio-ingest",
+  "phase": "reader-narration",
   "phase_status": "completed",
-  "last_completed_phase": "audio-ingest",
-  "next_phase": "0book-design",
+  "last_completed_phase": "reader-narration",
+  "next_phase": "publish",
   "last_error": null,
   "human_overrides": [
     {
@@ -422,7 +422,32 @@
       }
     },
     "reader-narration": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-08-29T16:30:11Z",
+      "ts_completed": "2026-08-29T16:33:54Z",
+      "rendered": [
+        "the dignity of earning your bread",
+        "at the table: eating, feeding, and being fed",
+        "clean and unclean: meat, the knife, and the hunt",
+        "the anatomy of a sale",
+        "lending without riba",
+        "trusts, pledges, and shared walls",
+        "why marry at all",
+        "choosing well, looking rightly",
+        "the contract: forbidden degrees, guardians, and the bride-price",
+        "milk, maintenance, and the untying of a marriage",
+        "what outlives you: charity, endowment, and inheritance"
+      ],
+      "skipped": [],
+      "chars": 148436,
+      "failed": [],
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     },
     "publish": {
       "status": "pending"
@@ -444,7 +469,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-29T16:30:07Z",
+  "ts_updated": "2026-08-29T16:33:54Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
