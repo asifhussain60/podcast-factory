@@ -95,8 +95,7 @@ class TestStudyTrackCoverage(unittest.TestCase):
         self.assertEqual(
             invalid,
             [],
-            f"composed books with a study_track publish_to_listener.py would "
-            f"silently discard as invalid: {invalid}",
+            f"composed books with a study_track publish_to_listener.py would silently discard as invalid: {invalid}",
         )
 
 
