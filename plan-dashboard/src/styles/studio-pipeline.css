@@ -538,11 +538,12 @@
 
    Each content bucket owns ONE accent variable, --shelf-accent,
    set on its shelf section. EVERY category-aware element — shelf
-   icon, title underline, card top strip, hover ring, script-panel
-   tint, script icon, volume badge — derives from it via color-mix
-   so the tints stay light and theme-consistent. Adding a bucket or
-   re-hueing one is a one-line change; new card elements should use
-   var(--shelf-accent) and never name a colour directly.
+   panel ground, shelf icon, title underline, card top strip, card
+   surface tint, hover ring, script-panel tint, script icon, volume
+   badge — derives from it via color-mix so the tints stay light and
+   theme-consistent. Adding a bucket or re-hueing one is a one-line
+   change; new card elements should use var(--shelf-accent) and never
+   name a colour directly.
    ════════════════════════════════════════════════════════════ */
 .studio-shelf {
   --shelf-accent: var(--c-accent);
@@ -575,6 +576,20 @@
      lecture Asif delivered himself reads as the same kind of thing on both
      sites. Added, not restyled: every other bucket above keeps its own
      colour unchanged. */
+
+/* ── Shelf panel — soft tinted ground behind the whole bucket section ──────
+   Groups a bucket's header + card grid onto one lightly tinted panel instead
+   of floating both directly on the page background (--c-bg), so a section
+   reads as its own region before you read a single card inside it. Reads the
+   same --shelf-accent every other category-aware element above already uses,
+   so a new bucket or a re-hued one needs no second edit here. */
+.studio-shelf {
+  padding: 1.35rem 1.35rem 1.6rem;
+  border-radius: 16px;
+  background: color-mix(in oklab, var(--shelf-accent) 4%, var(--c-bg));
+  border: 1px solid
+    color-mix(in oklab, var(--shelf-accent) 14%, var(--c-rule-soft));
+}
 
 .studio-shelf .studio-shelf-icon-wrap {
   background: color-mix(in oklab, var(--shelf-accent) 11%, var(--c-bg-card));
@@ -631,6 +646,16 @@
   border-color: var(--shelf-accent);
   box-shadow: 0 4px 14px
     color-mix(in oklab, var(--shelf-accent) 16%, transparent);
+}
+
+/* Whole-card tint — a light category wash across the FULL card, not just the
+   script panel above it. Before this the card body (title/author/pipeline
+   bar) stayed plain --card-surface white even though the panel above it and
+   the shelf behind it were both tinted, so a card only announced its bucket
+   in a thin strip near the top. Lighter than the script panel's own 6% mix
+   (below) so the two read as one gradient rather than two competing tints. */
+.studio-shelf .studio-shelf-card {
+  background: color-mix(in oklab, var(--shelf-accent) 3%, var(--card-surface));
 }
 
 /* ── Card interior layout ───────────────────────────────────────────────────
@@ -891,6 +916,50 @@
   color: var(--track-reality-ink);
 }
 
+/* ── Articulation band — full-width strip between the script panel and the
+   body, coloured by how far the prose itself has gone (ArticulationStage in
+   studio-pipeline.ts). Same padding/height at every stage so a card's height
+   never depends on its stage, only the swatch, icon and label do. Semantic
+   colour, deliberately not `--shelf-accent`: the Islamic shelf's own accent
+   IS --c-gold, so a gold "in progress" swatch would read as "no status" on
+   every Islamic card — this needs a colour no bucket already owns. */
+.card-articulation-band {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.card-articulation-band i {
+  font-size: 0.68rem;
+}
+
+.card-articulation-band[data-stage="none"] {
+  background: var(--card-surface-sunken);
+  color: var(--card-ink-faint, var(--card-ink-muted));
+  font-weight: 600;
+}
+
+.card-articulation-band[data-stage="progress"] {
+  background: var(--c-amber);
+  color: #3a2405;
+}
+
+.card-articulation-band[data-stage="articulated"] {
+  background: var(--c-green);
+  color: #fff;
+}
+
+.card-articulation-band[data-stage="published"] {
+  background: var(--c-green-deep);
+  color: #fff;
+}
+
 /* One-line book description above the pipeline status */
 .card-blurb {
   margin: 0.5rem 0 0;
@@ -1095,6 +1164,10 @@
 }
 
 @media (max-width: 480px) {
+  .studio-shelf {
+    padding: 0.9rem 0.9rem 1.1rem;
+    border-radius: 12px;
+  }
   .studio-shelf-grid {
     grid-template-columns: 1fr;
   } /* single column avoids cramped cards */
@@ -1959,10 +2032,10 @@
 /* ---- Compact tile ---------------------------------------------------------
    The same card scaled for scanning many at once: a shorter script panel, the
    ribbon reduced to a corner flag, and the description and artifact pills
-   dropped. The ribbon's LABEL stays in the DOM (transparent, not hidden) so it
-   is still announced — at this size the word had no room to sit straight and
-   read as clipped lettering, but the colour alone carries the same signal the
-   filter chip does. Same reduction the Library's compact tile makes. */
+   dropped. The flag is sized up and keeps a sliver of its label legible along
+   the top edge (right-aligned, clipped rather than wrapped) — a colour-only
+   swatch this small read as noise rather than signal, so the corner now
+   carries both the colour code and a readable fragment of the track name. */
 .studio-picker[data-view="compact"] .studio-shelf-grid {
   grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
   gap: 0.6rem;
@@ -1995,15 +2068,20 @@
 .studio-picker[data-view="compact"] .card-track-ribbon {
   top: 0;
   inset-inline-end: 0;
-  width: 2.4rem;
-  height: 2.4rem;
-  padding: 0;
+  width: 2.9rem;
+  height: 2.9rem;
+  padding: 0.2rem 0.35rem 0 0;
   transform: none;
   /* A square corner flag rather than a rotated banner: a banner earns its
      shape by carrying a word across a corner, and with no word left to carry,
      clip-path cuts the flag straight out of the same corner instead. */
   clip-path: polygon(100% 0, 100% 100%, 0 0);
-  color: transparent;
+  font-size: 0.44rem;
+  line-height: 1.1;
+  text-align: right;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* ---- List row -------------------------------------------------------------
@@ -2062,6 +2140,13 @@
 }
 
 .studio-picker[data-view="list"] .card-blurb {
+  display: none;
+}
+
+/* The band is a third full-bleed strip; the row's flex layout has a slot for
+   exactly two children (the script plate and the body grid), so it drops
+   here for the same reason the blurb does above. */
+.studio-picker[data-view="list"] .card-articulation-band {
   display: none;
 }
 

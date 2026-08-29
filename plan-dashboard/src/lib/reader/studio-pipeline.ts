@@ -33,6 +33,25 @@ export interface StudioStep {
   detail: string;
 }
 
+/**
+ * How far a book's own prose has actually gone — a narrower question than the
+ * four StudioSteps above ("Edit & Enrich" covers review, authoring AND
+ * enrichment together). Four stages, each a strict superset of the last:
+ *   'none'        — authoring hasn't started
+ *   'progress'    — chapters are actively being written
+ *   'articulated' — authoring is complete (per-chapter / sessions-articulate done)
+ *   'published'   — live in the library
+ * `at` is the ISO timestamp the stage was reached, when the underlying phase
+ * recorded one — null for 'none'/'progress', and for 'articulated'/'published'
+ * on older books whose phase entry predates that field.
+ */
+export type ArticulationStage = "none" | "progress" | "articulated" | "published";
+
+export interface ArticulationStatus {
+  stage: ArticulationStage;
+  at: string | null;
+}
+
 export const STUDIO_STEPS: { id: StepId; label: string; blurb: string }[] = [
   {
     id: "intake",
@@ -136,12 +155,65 @@ function sessionsPhaseIndex(phase: string | null | undefined): number {
   return SESSIONS_PHASE_ORDER.indexOf(phase);
 }
 
+/** Sessions lane: articulation is the `sessions-articulate` phase's own entry. */
+function sessionsArticulationStatus(state: RawState | null): ArticulationStatus {
+  if (state?.status === "published") {
+    return { stage: "published", at: state.published_at ?? null };
+  }
+  const entry = state?.phases?.["sessions-articulate"];
+  if (entry?.status === "completed") {
+    return { stage: "articulated", at: entry.completed_at ?? null };
+  }
+  const reached = Math.max(
+    sessionsPhaseIndex(state?.last_completed_phase),
+    sessionsPhaseIndex(state?.phase),
+  );
+  if (reached >= SESSIONS_PHASE_ORDER.indexOf("sessions-transcribe")) {
+    return { stage: "progress", at: null };
+  }
+  return { stage: "none", at: null };
+}
+
+/** Book lane: articulation is the `per-chapter` phase — the same signal
+ *  the "Edit & Enrich" step already uses to decide "Authoring complete". */
+function bookArticulationStatus(
+  state: RawState | null,
+  reached: number,
+  idxOf: (p: string) => number,
+): ArticulationStatus {
+  if (state?.status === "published") {
+    return { stage: "published", at: state.published_at ?? null };
+  }
+  const entry = state?.phases?.["per-chapter"];
+  if (reached >= idxOf("finalize") || entry?.status === "completed") {
+    return { stage: "articulated", at: entry?.ts_completed ?? null };
+  }
+  if (reached >= idxOf("0b")) {
+    return { stage: "progress", at: null };
+  }
+  return { stage: "none", at: null };
+}
+
+interface RawPhaseEntry {
+  status?: string;
+  /** Books' `per-chapter` and `publish` phases write this. */
+  ts_completed?: string;
+  /** Sessions' `sessions-articulate` writes this instead — see
+   *  scripts/podcast/sessions/articulate.py::_write_step_status. Same idea,
+   *  different lane, different name; read both rather than picking one. */
+  completed_at?: string;
+}
+
 interface RawState {
   phase?: string;
   phase_status?: string;
   last_completed_phase?: string;
   pipeline_mode?: string;
   status?: string;
+  /** Set once, at publish time, in BOTH lanes — the one field this function
+   *  never has to branch on by pipeline_mode. */
+  published_at?: string | null;
+  phases?: Record<string, RawPhaseEntry>;
 }
 
 async function readJson<T>(path: string): Promise<T | null> {
@@ -153,23 +225,44 @@ async function readJson<T>(path: string): Promise<T | null> {
 }
 
 /**
+ * The Sessions lane's own "just scaffolded" cutoff — the equivalent of the
+ * book pipeline's "≤ 0b" line. `sessions-ingest` and `sessions-transcribe` are
+ * both deterministic/Azure-only with no book-specific authoring judgment yet;
+ * `sessions-articulate` is where paid model time starts making real decisions
+ * about this specific book, the same point the book pipeline treats as "work
+ * has actually started." Decision: Asif, 2026-08-29.
+ */
+const SESSIONS_UP_NEXT_CUTOFF = "sessions-transcribe";
+
+/**
  * Classify a book into a Studio-picker filter bucket.
  *
  * Rule order matters:
  *   1. published status wins outright;
  *   2. no completed phase → up-next;
- *   3. a completed phase the canonical order doesn't know (e.g. 0book-render)
- *      still proves real work → in-the-works;
- *   4. only the automated ingest/refine ran (≤ 0b) → up-next — this is the
- *      batch-scaffolded-volume case;
- *   5. anything further along → in-the-works.
+ *   3. Sessions-lane books (`pipeline_mode: "sessions_lane"`) are classified
+ *      against SESSIONS_PHASE_ORDER, never the book pipeline's order — the
+ *      two vocabularies don't share any phase names, so mixing them produces
+ *      a coincidence of array position, not a real answer;
+ *   4. a completed phase the applicable order doesn't know (e.g.
+ *      0book-render) still proves real work → in-the-works;
+ *   5. only the automated scaffolding ran (≤ 0b for books, ≤ sessions-transcribe
+ *      for Sessions) → up-next — this is the batch-scaffolded-volume case;
+ *   6. anything further along → in-the-works.
  */
 export function classifyStatusBucket(
   status: string | undefined,
   lastCompletedPhase: string | null | undefined,
+  pipelineMode?: string | null,
 ): StatusBucket {
   if (status === "published") return "published";
   if (!lastCompletedPhase) return "up-next";
+  if (pipelineMode === "sessions_lane") {
+    const idx = sessionsPhaseIndex(lastCompletedPhase);
+    if (idx === -1) return "in-the-works";
+    if (idx <= sessionsPhaseIndex(SESSIONS_UP_NEXT_CUTOFF)) return "up-next";
+    return "in-the-works";
+  }
   const idx = phaseIndex(lastCompletedPhase);
   if (idx === -1) return "in-the-works";
   if (idx <= phaseIndex("0b")) return "up-next";
@@ -187,7 +280,11 @@ export async function loadStatusBucket(
         join(ref.dir, "_system", "orchestrator-state.json"),
       )
     : null;
-  return classifyStatusBucket(status, state?.last_completed_phase);
+  return classifyStatusBucket(
+    status,
+    state?.last_completed_phase,
+    state?.pipeline_mode,
+  );
 }
 
 /**
@@ -279,11 +376,16 @@ function buildSessionsSteps(state: RawState | null): StudioStep[] {
   return [intake, review, edit, publish];
 }
 
+export interface StudioPipeline {
+  steps: StudioStep[];
+  articulation: ArticulationStatus;
+}
+
 /**
  * Build the four-step status model for a book. Resilient: a book with no state
  * file is treated as "intake active, everything else pending".
  */
-export async function loadStudioPipeline(slug: string): Promise<StudioStep[]> {
+export async function loadStudioPipeline(slug: string): Promise<StudioPipeline> {
   const ref = await findContent(slug);
   const dir = ref?.dir ?? "";
 
@@ -292,7 +394,10 @@ export async function loadStudioPipeline(slug: string): Promise<StudioStep[]> {
     : null;
 
   if (state?.pipeline_mode === "sessions_lane") {
-    return buildSessionsSteps(state);
+    return {
+      steps: buildSessionsSteps(state),
+      articulation: sessionsArticulationStatus(state),
+    };
   }
 
   const gate = dir
@@ -402,5 +507,8 @@ export async function loadStudioPipeline(slug: string): Promise<StudioStep[]> {
     detail: pubDetail,
   };
 
-  return [intake, review, edit, publish];
+  return {
+    steps: [intake, review, edit, publish],
+    articulation: bookArticulationStatus(state, reached, idxOf),
+  };
 }

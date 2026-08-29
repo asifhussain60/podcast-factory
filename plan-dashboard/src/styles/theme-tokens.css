@@ -255,6 +255,7 @@
   --c-accent-soft: #d2b48c; /* tan — secondary */
   --c-gold: #b8860b; /* dark goldenrod — highlight */
   --c-green: #4a7c4a; /* status: ok / shipped */
+  --c-green-deep: #2c5530; /* status: published — one step past "ok", same hue family */
   --c-amber: #c08020; /* status: caution / in-flight */
   --c-red: #a83232; /* status: blocked / failed */
   --c-heading-1: #800000;
