@@ -10,8 +10,8 @@
   "next_phase": "merge",
   "last_error": {
     "phase": "merge",
-    "message": "`git checkout develop` failed: error: Your local changes to the following files would be overwritten by checkout:\n\tcontent/Islamic/sharh-al-masail-ghulam-hussain/_system/cost-ledger.jsonl\n\tcontent/Islamic/sharh-al-masail-ghulam-hussain/_system/orchestrator-state.json\nPlease commit your changes or stash them before you switch branches.\nAborting\n",
-    "ts": "2026-08-29T16:54:14Z"
+    "message": "`git checkout develop` failed: error: Your local changes to the following files would be overwritten by checkout:\n\tcontent/Islamic/sharh-al-masail-ghulam-hussain/_system/orchestrator-state.json\nPlease commit your changes or stash them before you switch branches.\nAborting\n",
+    "ts": "2026-08-29T16:54:44Z"
   },
   "human_overrides": [
     {
@@ -482,7 +482,7 @@
     "merge": {
       "status": "failed",
       "ts_started": "2026-08-29T16:54:14Z",
-      "ts_completed": "2026-08-29T16:54:14Z"
+      "ts_completed": "2026-08-29T16:54:44Z"
     },
     "done": {
       "status": "pending"
@@ -495,7 +495,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-29T16:54:14Z",
+  "ts_updated": "2026-08-29T16:54:44Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -503,7 +503,7 @@
     "unit_mode": "auto"
   },
   "unattended": false,
-  "run_id": "20260829T165110Z-654c84",
+  "run_id": "20260829T165444Z-ac2cb5",
   "phase_attempts": {
     "06a": 1,
     "0f": 1,
