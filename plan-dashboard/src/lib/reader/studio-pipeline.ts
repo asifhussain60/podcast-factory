@@ -56,7 +56,17 @@ export const STUDIO_STEPS: { id: StepId; label: string; blurb: string }[] = [
   },
 ];
 
-/** Canonical phase order — index used to compare progress. */
+/**
+ * Canonical phase order — index used to compare progress. Mirrors the PHASES
+ * tuple in `scripts/podcast/_progress.py`, the real single source of truth
+ * (every phase id passed to that script's `update_phase()` must appear there
+ * or it raises). This array must be kept in sync with it by hand — there is
+ * no fixture pinning this pair yet — because a phase name absent here makes
+ * `phaseIndex()` return -1 for a book that has actually reached it, which
+ * `Math.max(phaseIndex(last_completed_phase), phaseIndex(phase))` then reads
+ * as "barely started" (see reader-narration, fixed 2026-08-29: two published
+ * books' Studio cards showed "Intake" for months because of this).
+ */
 const PHASE_ORDER = [
   "pre-flight",
   "branch",
@@ -64,20 +74,26 @@ const PHASE_ORDER = [
   "0a",
   "0b",
   "0c",
+  "0ci",
   "0d",
   "0e",
+  "0literary",
   "06a",
   "0f",
   "0g",
   "per-chapter",
   "per-chapter-optimize",
   "per-chapter-slides",
+  "audio-script",
+  "audio-render",
   "finalize",
+  "audio-ingest",
   "0book-design",
   "0book-compose",
   "0book-illustrate",
   "0book-slide-import",
   "0book-render",
+  "reader-narration",
   "publish",
   "trainer",
   "merge",
@@ -95,7 +111,8 @@ function phaseIndex(phase: string | null | undefined): number {
  * a lecture transcript being ingested, transcribed, articulated, prefaced and
  * apparatus-annotated, never any of the orchestrator's 0a-0g/per-chapter/
  * finalize phases above. A Sessions-lane book's `phase`/`last_completed_phase`
- * is ALWAYS one of these five strings, never one from PHASE_ORDER, so it was
+ * is ALWAYS one of these six strings (per `_phase_vocabulary.py`), never one
+ * from PHASE_ORDER, so it was
  * appending these onto the SAME shared index, not using a parallel one, that
  * would be the bug: `sessions-ingest` sorted anywhere in PHASE_ORDER would
  * either always or never satisfy `reached >= idxOf("0a")`-style comparisons
@@ -109,6 +126,7 @@ const SESSIONS_PHASE_ORDER = [
   "sessions-ingest",
   "sessions-transcribe",
   "sessions-articulate",
+  "sessions-read-along",
   "sessions-preface",
   "sessions-apparatus",
 ];
@@ -225,11 +243,13 @@ function buildSessionsSteps(state: RawState | null): StudioStep[] {
     editDetail =
       state?.phase === "sessions-articulate"
         ? "Articulating chapters"
-        : state?.phase === "sessions-preface"
-          ? "Writing front matter"
-          : state?.phase === "sessions-apparatus"
-            ? "Applying citations & vowelling"
-            : "In progress";
+        : state?.phase === "sessions-read-along"
+          ? "Timing the read-along"
+          : state?.phase === "sessions-preface"
+            ? "Writing front matter"
+            : state?.phase === "sessions-apparatus"
+              ? "Applying citations & vowelling"
+              : "In progress";
   }
   const edit: StudioStep = {
     id: "edit",
@@ -357,9 +377,14 @@ export async function loadStudioPipeline(slug: string): Promise<StudioStep[]> {
   };
 
   // ── Publish: finalize halt + publish ──────────────────────
+  // `status` (not `phase`) is the source of truth here: publish_to_library.py
+  // flips `state.status` to "published" in place and never advances `phase`
+  // to the literal "publish" step — draft/published is a status field, not a
+  // pipeline phase, for the current status-flip publish model. A book whose
+  // last recorded phase is e.g. "reader-narration" can already be published.
   let pubState: StepState = "pending";
   let pubDetail = "Waiting on authoring";
-  if (reached >= idxOf("publish")) {
+  if (state?.status === "published" || reached >= idxOf("publish")) {
     pubState = "done";
     pubDetail = "Published";
   } else if (state?.phase === "finalize") {
