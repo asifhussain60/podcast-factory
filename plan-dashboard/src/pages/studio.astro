@@ -376,6 +376,7 @@ const {
                           countLabel={`${it.deck.volumes.length} volumes`}
                           statusLabel={it.deck.statusLabel}
                           steps={it.deck.steps}
+                          articulation={it.deck.articulation}
                           chevron
                         />
                       </summary>
@@ -434,6 +435,7 @@ const {
                         }
                         statusLabel={`${it.card.entry.label} · ${it.card.entry.detail}`}
                         steps={it.card.steps}
+                        articulation={it.card.articulation}
                       />
                     </a>
                   ),

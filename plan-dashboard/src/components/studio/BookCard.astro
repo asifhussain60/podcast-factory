@@ -23,6 +23,10 @@ import type {
   BookCardIdentity,
   StudyTrack,
 } from "../../lib/reader/book-card-identity";
+import type {
+  ArticulationStage,
+  ArticulationStatus,
+} from "../../lib/reader/studio-pipeline";
 
 /** Sentence case, matching the Library's own labels for the same five. */
 const TRACK_LABELS: Record<StudyTrack, string> = {
@@ -32,6 +36,40 @@ const TRACK_LABELS: Record<StudyTrack, string> = {
   esoteric: "Esoteric",
   reality: "Reality",
 };
+
+/** One icon + label pair per ArticulationStage — the band's only two moving
+ *  parts besides its colour, which comes from CSS via `data-stage`. */
+const ARTICULATION_ICON: Record<ArticulationStage, string> = {
+  none: "fa-regular fa-clock",
+  progress: "fa-solid fa-pen-nib",
+  articulated: "fa-solid fa-calendar-check",
+  published: "fa-solid fa-star",
+};
+
+function formatArticulationDate(iso: string | null): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function articulationLabel(status: ArticulationStatus): string {
+  const date = formatArticulationDate(status.at);
+  switch (status.stage) {
+    case "none":
+      return "Not yet articulated";
+    case "progress":
+      return "Articulating chapters";
+    case "articulated":
+      return date ? `Articulated ${date}` : "Articulated";
+    case "published":
+      return date ? `Published ${date}` : "Published";
+  }
+}
 
 interface PipelineStep {
   state: string;
@@ -49,6 +87,8 @@ export interface Props {
   /** The pipeline line. A deck passes its aggregate. */
   statusLabel: string;
   steps?: PipelineStep[];
+  /** How far the prose itself has gone — a deck passes its laggard volume's. */
+  articulation?: ArticulationStatus;
   /** Renders the deck's disclosure chevron inside the count slot. */
   chevron?: boolean;
 }
@@ -62,6 +102,7 @@ const {
   countLabel = "",
   statusLabel,
   steps = [],
+  articulation = { stage: "none", at: null },
   chevron = false,
 } = Astro.props;
 
@@ -121,6 +162,16 @@ const PILLS = [
       </span>
     )
   }
+</div>
+
+{
+  /* Full-width, coloured by how far authoring has gone — see
+     ArticulationStage. Same shape at every stage so a card's height never
+     depends on its stage, only the swatch and its icon/text do. */
+}
+<div class="card-articulation-band" data-stage={articulation.stage}>
+  <i class={ARTICULATION_ICON[articulation.stage]} aria-hidden="true"></i>
+  <span>{articulationLabel(articulation)}</span>
 </div>
 
 {/* ── Body: identity, indicators, pipeline ── */}

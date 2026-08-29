@@ -916,6 +916,50 @@
   color: var(--track-reality-ink);
 }
 
+/* ── Articulation band — full-width strip between the script panel and the
+   body, coloured by how far the prose itself has gone (ArticulationStage in
+   studio-pipeline.ts). Same padding/height at every stage so a card's height
+   never depends on its stage, only the swatch, icon and label do. Semantic
+   colour, deliberately not `--shelf-accent`: the Islamic shelf's own accent
+   IS --c-gold, so a gold "in progress" swatch would read as "no status" on
+   every Islamic card — this needs a colour no bucket already owns. */
+.card-articulation-band {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.32rem 0.6rem;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.card-articulation-band i {
+  font-size: 0.68rem;
+}
+
+.card-articulation-band[data-stage="none"] {
+  background: var(--card-surface-sunken);
+  color: var(--card-ink-faint, var(--card-ink-muted));
+  font-weight: 600;
+}
+
+.card-articulation-band[data-stage="progress"] {
+  background: var(--c-amber);
+  color: #3a2405;
+}
+
+.card-articulation-band[data-stage="articulated"] {
+  background: var(--c-green);
+  color: #fff;
+}
+
+.card-articulation-band[data-stage="published"] {
+  background: var(--c-green-deep);
+  color: #fff;
+}
+
 /* One-line book description above the pipeline status */
 .card-blurb {
   margin: 0.5rem 0 0;
@@ -2096,6 +2140,13 @@
 }
 
 .studio-picker[data-view="list"] .card-blurb {
+  display: none;
+}
+
+/* The band is a third full-bleed strip; the row's flex layout has a slot for
+   exactly two children (the script plate and the body grid), so it drops
+   here for the same reason the blurb does above. */
+.studio-picker[data-view="list"] .card-articulation-band {
   display: none;
 }
 

@@ -52,7 +52,7 @@ if (!VALID_STEPS.includes(stepParam))
   return Astro.redirect(`/studio/${slug}/edit`);
 
 const bookTitle = slugToTitle(slug);
-const steps = await loadStudioPipeline(slug);
+const { steps } = await loadStudioPipeline(slug);
 
 // Book selector options — all books in the workshop.
 const allBooks = await listContent({ category: "books" });
