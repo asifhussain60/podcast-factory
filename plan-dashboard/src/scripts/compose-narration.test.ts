@@ -58,16 +58,12 @@ function harness(): Harness {
 /** A scripted fetch: each call consumes the next queued response. */
 function scriptedFetch(
   responses: Array<
-    | { ok: true; json?: unknown }
-    | { ok: false; status: number }
+    { ok: true; json?: unknown } | { ok: false; status: number }
   >,
 ): { fetchImpl: typeof fetch; calls: string[] } {
   const calls: string[] = [];
   let i = 0;
-  const fetchImpl = (async (
-    input: RequestInfo | URL,
-    init?: RequestInit,
-  ) => {
+  const fetchImpl = (async (input: RequestInfo | URL, init?: RequestInit) => {
     calls.push(`${init?.method ?? "GET"} ${String(input)}`);
     const next = responses[Math.min(i, responses.length - 1)];
     i += 1;
@@ -169,7 +165,9 @@ test("generate: click -> POST -> poll running -> poll done -> probes THIS chapte
 
   assert.equal(calls[0], "POST /api/studio/narration");
   assert.ok(calls.some((c) => c.startsWith("GET /api/studio/narration?")));
-  assert.ok(calls.some((c) => c.startsWith("HEAD /api/studio/narration-audio?")));
+  assert.ok(
+    calls.some((c) => c.startsWith("HEAD /api/studio/narration-audio?")),
+  );
   assert.equal(h.audio.hidden, false);
   assert.equal(h.generateBtn.hidden, true);
 });
@@ -215,7 +213,10 @@ test("a per-chapter probe miss reports 'no narration for this chapter', not a ge
     { ok: true, json: { ok: true, data: { pid: 1 } } }, // POST
     {
       ok: true,
-      json: { ok: true, data: { state: "done", rendered: [], skipped: ["intro"] } },
+      json: {
+        ok: true,
+        data: { state: "done", rendered: [], skipped: ["intro"] },
+      },
     }, // poll
     { ok: false, status: 404 }, // HEAD probe — no file for THIS chapter
   ]);

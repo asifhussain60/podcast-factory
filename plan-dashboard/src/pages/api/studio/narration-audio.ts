@@ -52,11 +52,16 @@ function resolveAudioPath(bookDir: string, chapterKey: string): string | null {
   // Containment guard: the manifest is JSON on disk, not something a request
   // can edit, but treat it as untrusted input anyway — the same discipline
   // visual-asset.ts applies to a filename that came off a query string.
-  if (!target.startsWith(narrationDir + "/") || !existsSync(target)) return null;
+  if (!target.startsWith(narrationDir + "/") || !existsSync(target))
+    return null;
   return target;
 }
 
-function respond(bookDir: string, chapterKey: string, includeBody: boolean): Response {
+function respond(
+  bookDir: string,
+  chapterKey: string,
+  includeBody: boolean,
+): Response {
   const target = resolveAudioPath(bookDir, chapterKey);
   if (!target) return apiNotFound("narration not available for this chapter");
   const size = statSync(target).size;

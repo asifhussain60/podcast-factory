@@ -396,7 +396,10 @@ export async function loadComposer(slug: string): Promise<ComposerView | null> {
   const narrationDurations = new Map<string, number>();
   try {
     const manifest = JSON.parse(
-      await readFile(join(ref.dir, "book", "narration", "manifest.json"), "utf-8"),
+      await readFile(
+        join(ref.dir, "book", "narration", "manifest.json"),
+        "utf-8",
+      ),
     ) as { chapters?: Record<string, { duration_s?: number; audio?: string }> };
     for (const [key, entry] of Object.entries(manifest.chapters ?? {})) {
       if (

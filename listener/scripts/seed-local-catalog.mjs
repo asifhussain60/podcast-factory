@@ -26,7 +26,9 @@ import path from "node:path";
 
 const unknown = process.argv.slice(2);
 if (unknown.length > 0) {
-  console.error(`unknown option: ${unknown.join(" ")} (this script takes no flags)`);
+  console.error(
+    `unknown option: ${unknown.join(" ")} (this script takes no flags)`,
+  );
   process.exit(2);
 }
 
@@ -39,7 +41,9 @@ try {
     .filter((name) => name.endsWith(".sql"))
     .sort();
 } catch {
-  console.log(`No ${path.relative(process.cwd(), publishDir)}/ — nothing to seed.`);
+  console.log(
+    `No ${path.relative(process.cwd(), publishDir)}/ — nothing to seed.`,
+  );
   process.exit(0);
 }
 
@@ -55,16 +59,27 @@ for (const file of files) {
   try {
     execFileSync(
       "npx",
-      ["wrangler", "d1", "execute", "podcast-listener", "--local", "--file", path.join(publishDir, file)],
+      [
+        "wrangler",
+        "d1",
+        "execute",
+        "podcast-listener",
+        "--local",
+        "--file",
+        path.join(publishDir, file),
+      ],
       { stdio: ["pipe", "pipe", "inherit"], encoding: "utf8" },
     );
     console.log(`  loaded ${slug}`);
     loaded += 1;
   } catch (error) {
-    console.error(`  ! failed ${slug}: ${error.message}`);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(`  ! failed ${slug}: ${message}`);
     failed += 1;
   }
 }
 
-console.log(`\n${loaded} of ${files.length} books loaded into the local database.`);
+console.log(
+  `\n${loaded} of ${files.length} books loaded into the local database.`,
+);
 if (failed > 0) process.exit(1);
