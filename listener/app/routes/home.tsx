@@ -4,7 +4,7 @@ import {
   faTableCells,
   faTableCellsLarge,
 } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import type { Route } from "./+types/home";
@@ -23,12 +23,23 @@ import {
 } from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
 import {
+  collectionSnapshot,
+  defaultCollection,
+  defaultTrack,
+  defaultViewMode,
+  setCollection,
+  setTrack,
+  setViewMode,
+  subscribeShelf,
+  trackSnapshot,
+  viewModeSnapshot,
+} from "~/lib/shelf";
+import {
   ALL_STUDY_TRACKS,
   inTrack,
   isStudyTrack,
   studyTrackLabel,
   type StudyTrack,
-  type TrackChoice,
 } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
@@ -176,109 +187,55 @@ const COLLECTION_LABELS: Record<Collection, string> = {
 };
 
 /**
- * Remembered client-side, same reasoning and same `try/catch`-inside-a-lazy-
- * initializer shape as `loadViewMode` below: a reader who always narrows to
- * Sessions, or always browses Esoteric, otherwise re-does that same click
- * on every single visit forever.
- */
-const COLLECTION_KEY = "pf-library-collection";
-
-function loadCollection(): Collection {
-  try {
-    const stored = localStorage.getItem(COLLECTION_KEY);
-    return (COLLECTIONS as readonly string[]).includes(stored ?? "")
-      ? (stored as Collection)
-      : "all";
-  } catch {
-    return "all";
-  }
-}
-
-/**
  * The study-track filter.
  *
- * `inTrack` and `TrackChoice` live in `~/lib/study-track` now, next to
- * `StudyTrack` itself. Unlike the collection toggle, the panel below is drawn
- * even when every book on the page carries no track yet — the taxonomy is the
- * point of showing it, not how much of the current library happens to be
- * classified under it.
+ * `inTrack` and `TrackChoice` live in `~/lib/study-track`, next to `StudyTrack`
+ * itself. Unlike the collection toggle, the panel below is drawn even when every
+ * book on the page carries no track yet — the taxonomy is the point of showing
+ * it, not how much of the current library happens to be classified under it.
+ *
+ * What a reader last chose — here, in the collection toggle, and in the view
+ * switch — is remembered by `~/lib/shelf`, which is also where the reason those
+ * three may not be read during render is written down.
  */
-const TRACK_KEY = "pf-library-track";
-
-function loadTrack(): TrackChoice {
-  try {
-    const stored = localStorage.getItem(TRACK_KEY);
-    return stored === "all" || isStudyTrack(stored)
-      ? (stored as TrackChoice)
-      : "all";
-  } catch {
-    return "all";
-  }
-}
-
-/**
- * Cards, compact tiles, or list — remembered client-side only, since this is
- * a display preference, not data, so it has no business in the loader or the
- * URL. Read the same way `Player.tsx`'s `loadRate()` reads the playback rate:
- * a plain function inside a `try/catch`, used as a lazy `useState`
- * initializer. `localStorage` does not exist during the server render, so
- * the catch is what makes that safe rather than a special case.
- */
-const VIEW_MODE_KEY = "pf-library-view";
-const VIEW_MODES = ["cards", "compact", "list"] as const;
-type ViewMode = (typeof VIEW_MODES)[number];
-
-function loadViewMode(): ViewMode {
-  try {
-    const stored = localStorage.getItem(VIEW_MODE_KEY);
-    return (VIEW_MODES as readonly string[]).includes(stored ?? "")
-      ? (stored as ViewMode)
-      : "cards";
-  } catch {
-    return "cards";
-  }
-}
-
 export default function Home({ loaderData }: Route.ComponentProps) {
   const { units, viewer, workTitles } = loaderData;
   // Search stays plain `useState` and is the one deliberate exception: a
   // stale query silently re-applied on a later, unrelated visit would look
   // like the library had shrunk, not like a remembered convenience.
   const [query, setQuery] = useState("");
-  const [collection, setCollection] = useState<Collection>(loadCollection);
-  const [track, setTrack] = useState<TrackChoice>(loadTrack);
-  const [viewMode, setViewMode] = useState<ViewMode>(loadViewMode);
 
   /**
-   * One shape, three call sites below (`setMode`, `pickCollection`,
-   * `pickTrack`): update the state React renders from, then best-effort
-   * mirror it to `localStorage` so the next visit starts where this one
-   * left off. A reader whose storage is full or blocked still gets the
-   * control for this visit — it just doesn't survive to the next one.
+   * The three remembered settings, read through `useSyncExternalStore`.
+   *
+   * The third argument is what the server renders and what the client hydrates
+   * against — the defaults, always. React re-reads the real value in the commit
+   * straight after hydration, so a reader who chose List sees Cards for one
+   * frame and keeps their colour theme, instead of the reverse. `~/lib/shelf`
+   * carries the full reason; the short version is that a mismatch here makes
+   * React rebuild the document and take `data-theme` with it.
    */
-  function persisted<T extends string>(
-    key: string,
-    setState: (value: T) => void,
-  ) {
-    return (value: T) => {
-      setState(value);
-      try {
-        localStorage.setItem(key, value);
-      } catch {
-        // See the doc comment above.
-      }
-    };
-  }
-
-  const setMode = persisted<ViewMode>(VIEW_MODE_KEY, setViewMode);
-  const pickCollection = persisted<Collection>(COLLECTION_KEY, setCollection);
-  const pickTrack = persisted<TrackChoice>(TRACK_KEY, setTrack);
+  const viewMode = useSyncExternalStore(
+    subscribeShelf,
+    viewModeSnapshot,
+    defaultViewMode,
+  );
+  const collection = useSyncExternalStore(
+    subscribeShelf,
+    collectionSnapshot,
+    defaultCollection,
+  );
+  const track = useSyncExternalStore(
+    subscribeShelf,
+    trackSnapshot,
+    defaultTrack,
+  );
 
   /**
    * `/library?collection=sessions` — the welcome chooser telling this page which
    * collection it was opened for.
    *
-   * It goes through `pickCollection` like a press of the control itself, so an
+   * It goes through `setCollection` like a press of the control itself, so an
    * arrival remembers exactly as a click does: a reader who chose Sessions at
    * the door and then closes the tab finds Sessions on the next visit. That is
    * deliberate, and it means the tile wins over whatever was remembered before.
@@ -291,10 +248,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
    */
   const [params, setParams] = useSearchParams();
   const requested = params.get("collection");
+
   useEffect(() => {
     if (requested === null) return;
     if ((COLLECTIONS as readonly string[]).includes(requested)) {
-      pickCollection(requested as Collection);
+      setCollection(requested as Collection);
     }
     setParams(
       (current) => {
@@ -304,8 +262,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       },
       { replace: true, preventScrollReset: true },
     );
-    // `pickCollection` and `setParams` are re-made every render; including them
-    // would re-run this on every render instead of on the arrival it is for.
+    // `setParams` is re-made every render; including it would re-run this on
+    // every render instead of on the arrival it is for.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [requested]);
 
@@ -354,6 +312,146 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     [units, needle, collection, track],
   );
 
+  /**
+   * The two groups the shelf draws when it is showing everything, or `null`
+   * when it should stay one grid.
+   *
+   * `null` in the two cases where a heading would be wrong rather than merely
+   * unnecessary: narrowed to one collection, where the grid IS that collection
+   * and a title over it only repeats the button just pressed; and where the
+   * search or track filter has left one kind with nothing, where the second
+   * heading would title an empty grid.
+   *
+   * Split from `shown`, so it inherits every filter already applied rather than
+   * re-deriving them — and by the same `collectionOf` the cards paint from, so
+   * a card can never land under the other group's heading.
+   */
+  const split = useMemo(() => {
+    if (collection !== "all") return null;
+    const sessions = shown.filter(
+      (unit) => collectionOf(unit.bucket) === "sessions",
+    );
+    const books = shown.filter(
+      (unit) => collectionOf(unit.bucket) !== "sessions",
+    );
+    if (books.length === 0 || sessions.length === 0) return null;
+    return [
+      {
+        key: "books" as const,
+        label: COLLECTION_LABELS.books,
+        noun: "title",
+        nounPlural: "titles",
+        units: books,
+      },
+      {
+        key: "sessions" as const,
+        label: COLLECTION_LABELS.sessions,
+        noun: "series",
+        nounPlural: "series",
+        units: sessions,
+      },
+    ];
+  }, [shown, collection]);
+
+  /**
+   * One group's worth of cards, in whichever view the reader has chosen.
+   *
+   * Lifted out of the JSX unchanged so the shelf can draw the same three views
+   * twice — once for the books and once for the sessions — without a second
+   * copy of any of them going out of step with the first.
+   */
+  function renderUnits(list: typeof shown) {
+    if (viewMode === "list") {
+      /* Same elevated container the chapter/episode rows already sit in
+         (`.pf-panel` + `.pf-panel__body`) rather than a bare striped list
+         floating on the page background — one surface, reused. */
+      return (
+        <div className="pf-panel pf-library-list">
+          <div className="pf-panel__body">
+            <ol className="pf-rows pf-rows--striped">
+              {groupIntoWorks(list).map((entry) =>
+                entry.kind === "work" ? (
+                  <WorkListRow
+                    key={entry.workSlug}
+                    workSlug={entry.workSlug}
+                    title={
+                      workTitles[entry.workSlug] ?? entry.volumes[0]!.title
+                    }
+                    volumes={entry.volumes}
+                  />
+                ) : (
+                  <BookListRow
+                    key={entry.unit.slug}
+                    slug={entry.unit.slug}
+                    title={entry.unit.title}
+                    card={entry.unit.card}
+                    progress={entry.unit.progress}
+                  />
+                ),
+              )}
+            </ol>
+          </div>
+        </div>
+      );
+    }
+
+    if (viewMode === "compact") {
+      return (
+        <ul className="pf-grid pf-grid--spaced pf-grid--compact">
+          {list.map((unit) => (
+            <li key={unit.slug}>
+              <BookCard
+                slug={unit.slug}
+                title={unit.title}
+                bucket={unit.bucket}
+                card={unit.card}
+                progress={unit.progress}
+                listen={unit.listen}
+                marks={unit.marks}
+                compact
+              />
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    // The only view that groups multi-volume works into a stacked set
+    // card — compact tiles and the list row above stay one row per
+    // volume, exactly as they always have. `groupIntoWorks` only forms a
+    // set from 2+ units sharing a `work_slug`; a lone volume (including
+    // one made lone by a search/collection/track filter narrowing the list
+    // down to it) falls through to the plain `BookCard` branch below,
+    // unchanged.
+    return (
+      <ul className="pf-grid pf-grid--spaced">
+        {groupIntoWorks(list).map((entry) =>
+          entry.kind === "work" ? (
+            <li key={entry.workSlug}>
+              <WorkCard
+                workSlug={entry.workSlug}
+                title={workTitles[entry.workSlug] ?? entry.volumes[0]!.title}
+                volumes={entry.volumes}
+              />
+            </li>
+          ) : (
+            <li key={entry.unit.slug}>
+              <BookCard
+                slug={entry.unit.slug}
+                title={entry.unit.title}
+                bucket={entry.unit.bucket}
+                card={entry.unit.card}
+                progress={entry.unit.progress}
+                listen={entry.unit.listen}
+                marks={entry.unit.marks}
+              />
+            </li>
+          ),
+        )}
+      </ul>
+    );
+  }
+
   return (
     <AppShell here="library" isAdmin={viewer.isAdmin}>
       <section className="pf-masthead">
@@ -395,7 +493,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     type="button"
                     className="pf-swatch"
                     aria-pressed={collection === choice}
-                    onClick={() => pickCollection(choice)}
+                    onClick={() => setCollection(choice)}
                   >
                     {COLLECTION_LABELS[choice]}
                   </button>
@@ -426,7 +524,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             >
               <button
                 type="button"
-                onClick={() => setMode("cards")}
+                onClick={() => setViewMode("cards")}
                 aria-pressed={viewMode === "cards"}
                 aria-label="Card view"
                 title="Card view"
@@ -436,7 +534,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setMode("compact")}
+                onClick={() => setViewMode("compact")}
                 aria-pressed={viewMode === "compact"}
                 aria-label="Compact tile view"
                 title="Compact tile view"
@@ -446,7 +544,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setMode("list")}
+                onClick={() => setViewMode("list")}
                 aria-pressed={viewMode === "list"}
                 aria-label="List view"
                 title="List view"
@@ -482,7 +580,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 type="button"
                 className="pf-track-chip"
                 aria-pressed={track === "all"}
-                onClick={() => pickTrack("all")}
+                onClick={() => setTrack("all")}
               >
                 <span className="pf-track-chip__label">All tracks</span>
                 <span className="pf-track-chip__count">{units.length}</span>
@@ -500,7 +598,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     // teaches the reader the taxonomy has five members, even
                     // before anything is filed under it.
                     disabled={n === 0}
-                    onClick={() => pickTrack(choice)}
+                    onClick={() => setTrack(choice)}
                   >
                     <span className="pf-track-chip__label">
                       {studyTrackLabel(choice)}
@@ -543,86 +641,55 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </>
           )}
         </EmptyState>
-      ) : viewMode === "list" ? (
-        /* Same elevated container the chapter/episode rows already sit in
-           (`.pf-panel` + `.pf-panel__body`) rather than a bare striped list
-           floating on the page background — one surface, reused. */
-        <div className="pf-panel pf-library-list">
-          <div className="pf-panel__body">
-            <ol className="pf-rows pf-rows--striped">
-              {groupIntoWorks(shown).map((entry) =>
-                entry.kind === "work" ? (
-                  <WorkListRow
-                    key={entry.workSlug}
-                    workSlug={entry.workSlug}
-                    title={
-                      workTitles[entry.workSlug] ?? entry.volumes[0]!.title
-                    }
-                    volumes={entry.volumes}
-                  />
-                ) : (
-                  <BookListRow
-                    key={entry.unit.slug}
-                    slug={entry.unit.slug}
-                    title={entry.unit.title}
-                    card={entry.unit.card}
-                    progress={entry.unit.progress}
-                  />
-                ),
-              )}
-            </ol>
-          </div>
-        </div>
-      ) : viewMode === "compact" ? (
-        <ul className="pf-grid pf-grid--spaced pf-grid--compact">
-          {shown.map((unit) => (
-            <li key={unit.slug}>
-              <BookCard
-                slug={unit.slug}
-                title={unit.title}
-                bucket={unit.bucket}
-                card={unit.card}
-                progress={unit.progress}
-                listen={unit.listen}
-                marks={unit.marks}
-                compact
-              />
-            </li>
-          ))}
-        </ul>
+      ) : split === null ? (
+        /* No heading — narrowed to one collection, or a filter left one kind
+           with nothing, so there is nothing to tell apart. The panel is drawn
+           anyway: the cards should sit on the same ground however the shelf is
+           filtered, or switching the filter would change the page's furniture
+           as well as its contents. */
+        <section className="pf-shelf-group">{renderUnits(shown)}</section>
       ) : (
-        // The only view that groups multi-volume works into a stacked set
-        // card — compact tiles and the list row above stay one row per
-        // volume, exactly as they always have. `groupIntoWorks` only forms a
-        // set from 2+ units sharing a `work_slug`; a lone volume (including
-        // one made lone by a search/collection/track filter narrowing `shown`
-        // down to it) falls through to the plain `BookCard` branch below,
-        // unchanged.
-        <ul className="pf-grid pf-grid--spaced">
-          {groupIntoWorks(shown).map((entry) =>
-            entry.kind === "work" ? (
-              <li key={entry.workSlug}>
-                <WorkCard
-                  workSlug={entry.workSlug}
-                  title={workTitles[entry.workSlug] ?? entry.volumes[0]!.title}
-                  volumes={entry.volumes}
-                />
-              </li>
-            ) : (
-              <li key={entry.unit.slug}>
-                <BookCard
-                  slug={entry.unit.slug}
-                  title={entry.unit.title}
-                  bucket={entry.unit.bucket}
-                  card={entry.unit.card}
-                  progress={entry.unit.progress}
-                  listen={entry.unit.listen}
-                  marks={entry.unit.marks}
-                />
-              </li>
-            ),
-          )}
-        </ul>
+        /* Books and sessions in their own titled groups rather than
+           interleaved through one grid (Asif, 2026-08-29). They are read
+           differently — one is a book you can also hear, the other is a talk
+           with no printed edition — and mixed into a single alphabetical run
+           the only thing telling them apart was a card's colour.
+ 
+           Drawn ONLY when "Everything" is showing and both kinds actually
+           survive the current search and track filters. Narrowed to one
+           collection the grid is already that collection, and a heading over
+           the whole page repeating the button just pressed is noise; with one
+           kind filtered away entirely, the second heading would title nothing.
+ 
+           `pf-section__head` is the book page's own heading row, reused rather
+           than reinvented, and `data-collection` on the sessions group is the
+           same attribute §3b paints from — so that heading and its count come
+           out violet beside the cards they belong to, from the rule that
+           already exists. */
+        <>
+          {split.map((group) => (
+            <section
+              key={group.key}
+              className="pf-shelf-group"
+              data-collection={
+                group.key === "sessions" ? "sessions" : undefined
+              }
+              aria-labelledby={`shelf-${group.key}`}
+            >
+              <div className="pf-section__head pf-shelf-group__head">
+                <div className="pf-section__naming">
+                  <h2 className="pf-section__title" id={`shelf-${group.key}`}>
+                    {group.label}
+                  </h2>
+                  <span className="pf-section__count">
+                    {count(group.units.length, group.noun, group.nounPlural)}
+                  </span>
+                </div>
+              </div>
+              {renderUnits(group.units)}
+            </section>
+          ))}
+        </>
       )}
     </AppShell>
   );

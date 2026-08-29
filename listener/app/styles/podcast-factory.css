@@ -9016,7 +9016,13 @@
   .pf-tracks-panel {
     margin-top: var(--pf-space-4);
     padding: var(--pf-space-4) var(--pf-space-5);
-    background: whitesmoke;
+    /* `--l-sunken`, not the `whitesmoke` this had. A hardcoded colour is a
+       colour that belongs to one theme, and this one belongs to none of them:
+       on the dark palette it drew a white slab across an otherwise near-black
+       page. `--l-sunken` is the recessed surface every theme declares, which is
+       exactly what a panel holding controls below the page level should sit
+       on. */
+    background: var(--l-sunken);
     border: 2px solid color-mix(in srgb, var(--l-rule) 85%, black);
     border-radius: var(--pf-radius-lg);
     text-align: center;
@@ -11776,6 +11782,78 @@
     .pf-found {
       animation: none;
     }
+  }
+}
+
+/* ==========================================================================
+   The shelf, grouped  (/library)
+   --------------------------------------------------------------------------
+   Books and sessions in their own titled groups when the shelf is showing
+   everything. The heading row itself is `.pf-section__head` — the book page's,
+   reused — so this block owns only the space AROUND a group, which is the one
+   thing that page's version has no opinion about.
+   ========================================================================== */
+@layer components {
+  /* A PANEL, not a bare stretch of page. The cards used to sit straight on the
+     page background with nothing behind them, which read as floating rather
+     than as a shelf holding them (Asif, 2026-08-29). The ground is the
+     collection's own soft tone laid over the page — a few per cent, so it
+     separates the group from the page without competing with the cards on it —
+     and §3b swaps that tone to lavender for the sessions, so each group sits on
+     a wash of the colour its own cards wear. Elevation and radius come from the
+     same scale `.pf-panel` uses; this is a quieter member of that family, not a
+     new one. */
+  .pf-shelf-group {
+    padding: clamp(var(--pf-space-4), 2vw, var(--pf-space-6));
+    /* A TINT of the page, not a wash of the accent. At 38% the mix stopped
+       being the page colour at all: on sepia, where the accent is cool and the
+       paper is warm, the two cancelled and the panel came out a grey slab in
+       the middle of a cream page. 15% keeps the ground recognisably the page's
+       own in all three themes while still leaning blue for the books and
+       lavender for the sessions. */
+    background: color-mix(in oklab, var(--l-accent-soft) 15%, var(--l-bg));
+    border: 1px solid color-mix(in oklab, var(--l-accent) 14%, var(--l-rule));
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-shelf-group__head {
+    margin-bottom: var(--pf-space-4);
+  }
+
+  /* The list view brings its own `.pf-panel`, and a panel inside a panel is two
+     borders and two shadows around one list. Inside a group the inner one gives
+     up its chrome and keeps only its rows. */
+  .pf-shelf-group .pf-library-list {
+    margin-top: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+
+  /* A margin rather than a `gap` on the parent, because the parent is a fragment
+     — there is no flow container to set one on without wrapping the pair in a
+     box that exists only to hold a number. The first group needs its own top
+     margin too: the track panel above it carries no bottom margin, so without
+     this the heading sits hard against that panel's border. */
+  .pf-shelf-group {
+    margin-top: var(--pf-space-6);
+  }
+
+  /* More air BETWEEN two groups than above the first, so the gap reads as a
+     division rather than as even spacing down the page. */
+  .pf-shelf-group + .pf-shelf-group {
+    margin-top: var(--pf-space-8);
+  }
+
+  /* The group's own colour, and the reason `data-collection` is on the section
+     at all: §3b swaps `--l-display` from the books' navy to the sessions' plum,
+     so the two headings are told apart by the SAME pair the cards under them
+     are. Scoped to this group rather than changed on `.pf-section__title`,
+     which the book page also uses and where the navy is not wanted. */
+  .pf-shelf-group .pf-section__title,
+  .pf-shelf-group .pf-section__count {
+    color: var(--l-display);
   }
 }
 
