@@ -9,7 +9,7 @@ Exports:
   _series_flag                    — read a bool flag from series-plan.md
   _chapter_cost_so_far            — sum cost-ledger rows for a chapter slug
   phase_0f_write_series_plan      — assemble and write series-plan.md; halt
-  phase_0g_register               — append episode rows to cross-book registry
+  phase_0g_register               — append episode rows to the book's own registry.md
 """
 
 from __future__ import annotations
@@ -419,37 +419,74 @@ def phase_0f_write_series_plan(book_dir: Path, title: str) -> Path:
 
 
 def phase_0g_register(book_dir: Path) -> None:
-    """Append episode rows to PODCAST_ROOT/.skill/registry.md (idempotent).
+    """Append episode rows to the book's own `_system/registry.md` (idempotent).
 
     Deterministic deferred step — Phase 0d wrote per-chapter contracts;
-    0g surfaces the series in the cross-book registry.
+    0g surfaces the series in the per-book registry (framework.md INVARIANT 6).
     """
-    registry = REPO_ROOT / "content" / "podcast" / ".skill" / "registry.md"
+    from datetime import datetime, timezone
+
+    import yaml as _yaml
+
+    registry = book_dir / "_system" / "registry.md"
     if not registry.exists():
-        return
-    book_slug = book_dir.name
+        # Pre-restructure scaffolds, or a registry.md lost after the fact, would
+        # otherwise silently never get a chapter row — self-heal the header from
+        # the book's own meta.yml rather than skip.
+        from scaffold_book import REGISTRY_TEMPLATE
+
+        meta_path = book_dir / "meta.yml"
+        meta = _yaml.safe_load(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+        title = (meta or {}).get("title", book_dir.name)
+        author = (meta or {}).get("author", "")
+        author_line = f"Author: **{author}**." if author else "Author: _unspecified_."
+        registry.parent.mkdir(parents=True, exist_ok=True)
+        registry.write_text(REGISTRY_TEMPLATE.format(title=title, author_line=author_line), encoding="utf-8")
+
     contracts_dir = book_dir / "chapter-contracts"
     if not contracts_dir.is_dir():
         return
 
-    import yaml as _yaml
-
+    chapters_dir = book_dir / "chapters"
     existing = registry.read_text(encoding="utf-8")
-    new_lines: list[str] = []
-    for yml in sorted(contracts_dir.glob("*.yml")):
+    contracts = []
+    for yml in contracts_dir.glob("*.yml"):
         with yml.open("r", encoding="utf-8") as f:
             data = _yaml.safe_load(f) or {}
+        # A re-segmentation can leave a contract behind for a slug that no
+        # longer has a chapter file (spiritual-ethos carries four of these) —
+        # mirroring one into the registry would both misrepresent a chapter
+        # that was never shipped and collide its episode_number with the
+        # contract that replaced it. Only mirror contracts with a real chapter.
+        ep_num = data.get("episode_number")
+        slug = data.get("slug", yml.stem)
+        if isinstance(ep_num, int) and not list(chapters_dir.glob(f"ch{ep_num:02d}*-{slug}.txt")):
+            continue
+        contracts.append((data, yml))
+
+    # Contract filenames are chapter slugs, not episode numbers (kunooz-al-hikmah's
+    # ep1 is family-of-light.yml, ep6 is authors-posture-and-the-line.yml) — sorting
+    # by filename produced a registry with out-of-order EP# rows that then failed
+    # validate_registry.py's R2 monotonicity check. Sort by episode_number instead,
+    # falling back to filename only when it's missing/non-integer.
+    def _sort_key(item):
+        ep_num = item[0].get("episode_number")
+        return (ep_num if isinstance(ep_num, int) else 10**9, item[1].name)
+
+    contracts.sort(key=_sort_key)
+    new_lines: list[str] = []
+    for data, yml in contracts:
         ep = data.get("episode_number", "?")
         slug = data.get("slug", yml.stem)
         title = data.get("title", slug)
         source_type = data.get("source_type", "book-chapter")
-        if f"`{slug}`" in existing:
+        # Bare slug, no markdown formatting — matches validate_registry.py's R3
+        # kebab-case check and the one hand-authored registry (kitab-al-riyad).
+        if f"| {slug} |" in existing:
             continue
-        new_lines.append(
-            f"| EP{ep:02d} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
-            if isinstance(ep, int)
-            else f"| EP{ep} | {title} | `{slug}` | {source_type} | drafted | {book_slug} | — |"
-        )
+        ep_cell = f"{ep:02d}" if isinstance(ep, int) else str(ep)
+        date_started = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        new_lines.append(f"| {ep_cell} | {title} | {slug} | {source_type} | draft | {date_started} | (pending) |")
     if new_lines:
         with registry.open("a", encoding="utf-8") as f:
             f.write("\n".join(new_lines) + "\n")
