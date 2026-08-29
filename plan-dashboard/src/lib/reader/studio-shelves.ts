@@ -25,6 +25,7 @@ import {
 import {
   loadStatusBucket,
   loadStudioPipeline,
+  type ArticulationStatus,
   type StatusBucket,
 } from "./studio-pipeline";
 import { readDeclaredWorkGroups, volumeIndex } from "./work-groups";
@@ -183,7 +184,7 @@ export async function buildStudioShelves() {
 
   const cards = await Promise.all(
     allContent.map(async (b) => {
-      const steps = await loadStudioPipeline(b.slug);
+      const { steps, articulation } = await loadStudioPipeline(b.slug);
       const statusBucket = await loadStatusBucket(b.slug, b.status);
       const blocked = steps.find((s) => s.state === "blocked");
       const active = steps.find((s) => s.state === "active");
@@ -215,6 +216,7 @@ export async function buildStudioShelves() {
         bucket: b.bucket,
         steps,
         entry,
+        articulation,
         statusBucket,
         identity,
         ...generation,
@@ -246,6 +248,9 @@ export async function buildStudioShelves() {
      *  all) is what made a deck look like a different design. */
     statusLabel: string;
     steps: { state: string }[];
+    /** The series' own articulation stage — same laggard rule as `steps`
+     *  below: a deck is only as far along as its least-advanced volume. */
+    articulation: ArticulationStatus;
     volumes: Card[];
   };
   type ShelfItem = { kind: "card"; card: Card } | { kind: "deck"; deck: Deck };
@@ -284,6 +289,7 @@ export async function buildStudioShelves() {
             // Filled below from the volumes, once they are all collected.
             statusLabel: "",
             steps: [],
+            articulation: { stage: "none", at: null },
             volumes: [],
           };
           decks.set(c.seriesSlug, d);
@@ -391,6 +397,7 @@ export async function buildStudioShelves() {
           ? `All ${d.volumes.length} volumes complete`
           : `${done} of ${d.volumes.length} complete · ${laggard.entry.label}`;
       d.steps = laggard.steps;
+      d.articulation = laggard.articulation;
     }
     return items;
   }
