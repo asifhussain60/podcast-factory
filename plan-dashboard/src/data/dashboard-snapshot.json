@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 110.25
+    "burn_30d_usd": 109.81
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1932,14 +1932,6 @@
       "title": "Mukhtasar-ul-Asaar 2",
       "phase": "reader-narration",
       "phase_status": "completed",
-      "cost_to_date_usd": 0,
-      "kind": "islamic_scholarly"
-    },
-    {
-      "slug": "sharh-al-masail-ghulam-hussain",
-      "title": "Sharh al-Masa'il",
-      "phase": "merge",
-      "phase_status": "failed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
