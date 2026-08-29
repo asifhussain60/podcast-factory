@@ -436,7 +436,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-08-17T14:06:14Z",
-  "ts_updated": "2026-08-18T17:18:48Z",
+  "ts_updated": "2026-08-29T16:24:54Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -449,6 +449,7 @@
     "06a": 1,
     "0f": 1,
     "finalize": 18,
-    "0book-render": 6
+    "0book-render": 6,
+    "audio-ingest": 1
   }
 }

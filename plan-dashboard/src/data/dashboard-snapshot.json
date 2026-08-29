@@ -1896,14 +1896,6 @@
       "kind": "islamic_scholarly"
     },
     {
-      "slug": "healthequity",
-      "title": "healthequity",
-      "phase": "per-chapter",
-      "phase_status": "manual-complete",
-      "cost_to_date_usd": 0,
-      "kind": "consumer_explainer"
-    },
-    {
       "slug": "kitab-al-riyad",
       "title": "Kitab al-Riyad",
       "phase": "reader-narration",
