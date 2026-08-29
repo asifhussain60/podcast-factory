@@ -835,6 +835,17 @@
    pipeline produced. Violet by his choice, and the choice is load-bearing: the
    two collections are read the same way and differ only in where the audio came
    from, so the accent is the only thing telling them apart at a glance. */
+/* The bare selectors are the DEFAULT case and they are load-bearing, not
+   belt-and-braces. `app/lib/theme.ts` stamps `data-theme` only once somebody has
+   chosen a theme; a reader who has never touched the picker gets the base
+   `:root` palette from §3 and no attribute at all. Written only as
+   `[data-theme="light"] …`, this whole block therefore matched nothing for
+   exactly those readers, and every session — card, book page and player alike —
+   came out in the books' navy. §3 already handles the un-stamped case by
+   declaring the light palette on bare `:root`; this is the same rule one level
+   down. Specificity keeps it in order: 0,1,0 here loses to the 0,2,0 of the dark
+   and sepia blocks below, so an explicit theme still wins. */
+[data-collection="sessions"],
 [data-theme="light"] [data-collection="sessions"],
 [data-theme="light"][data-collection="sessions"] {
   --l-accent: #6a26c2; /* 7.16:1 on bg */
@@ -12115,6 +12126,12 @@
        both, vertically centred against nothing. Inline keeps it in the flow, so
        it always follows the final word wherever that lands. */
     display: inline;
+    /* Vertical padding, so the hit area clears the 24px minimum `npm run smoke`
+       enforces — at this size the line box alone is 22px. On an INLINE box this
+       grows the target without growing the line, so nothing around it moves and
+       the link still wraps mid-phrase on a narrow screen, which an
+       `inline-block` would prevent by refusing to break at all. */
+    padding-block: 0.35rem;
     font-family: var(--l-font-tile);
     font-size: var(--pf-welcome-text);
     font-weight: 600;

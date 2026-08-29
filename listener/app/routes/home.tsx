@@ -275,7 +275,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const pickTrack = persisted<TrackChoice>(TRACK_KEY, setTrack);
 
   /**
-   * `/?collection=sessions` — the welcome chooser telling this page which
+   * `/library?collection=sessions` — the welcome chooser telling this page which
    * collection it was opened for.
    *
    * It goes through `pickCollection` like a press of the control itself, so an
