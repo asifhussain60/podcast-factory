@@ -401,334 +401,6 @@
       "last_touched": null
     },
     {
-      "id": "G1",
-      "wave": "G",
-      "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "H1",
-      "wave": "H",
-      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "H2",
-      "wave": "H",
-      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "H1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "H3",
-      "wave": "H",
-      "title": "Cross-wave autonomous execution chain driver",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "H2"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I0a",
-      "wave": "I",
-      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I0b",
-      "wave": "I",
-      "title": "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I0a"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I1",
-      "wave": "I",
-      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I2",
-      "wave": "I",
-      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I3",
-      "wave": "I",
-      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I4",
-      "wave": "I",
-      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I2",
-        "I3"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I5",
-      "wave": "I",
-      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I4"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "I6",
-      "wave": "I",
-      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "I4"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J0",
-      "wave": "J",
-      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J1",
-      "wave": "J",
-      "title": "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "J0"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J2",
-      "wave": "J",
-      "title": "Rewire the Astro editor's existing popover API routes to call the local server first",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "J0",
-        "J1"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J3",
-      "wave": "J",
-      "title": "Wire enrichment phase to use live verse lookups as a complete-coverage fallback",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "J0",
-        "B3"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J4",
-      "wave": "J",
-      "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "J0",
-        "I0b"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "J5",
-      "wave": "J",
-      "title": "Add Wisdom topic cross-reference popover to the live editor",
-      "status": "complete",
-      "tier": "T1",
-      "depends_on": [
-        "J0",
-        "J1",
-        "J2"
-      ],
-      "plain": "",
-      "tools": [],
-      "last_touched": null
-    },
-    {
-      "id": "K0",
-      "title": "Define and publish the PEQ quality-scoring contract",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K1",
-      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K2",
-      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K0",
-        "K1"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K3",
-      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K4",
-      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K5",
-      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K6",
-      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "K2",
-        "K3",
-        "K5"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
-      "id": "K6-pre",
-      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
-      "status": "pending",
-      "tier": "T1",
-      "depends_on": [
-        "WC8.0"
-      ],
-      "plain": "",
-      "tools": [],
-      "wave": "K"
-    },
-    {
       "id": "M1",
       "wave": "M",
       "title": "Floating AI toolbar + inspector tab restructure + scroll fix",
@@ -858,6 +530,334 @@
       "plain": "",
       "tools": [],
       "last_touched": null
+    },
+    {
+      "id": "G1",
+      "wave": "G2",
+      "title": "Cinematic narrative scroll homepage with GSAP ScrollTrigger",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H1",
+      "wave": "H2",
+      "title": "Astro site SOLID/DRY refactor — extract shared types, constants, and utilities",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H2",
+      "wave": "H2",
+      "title": "Pipeline code quality — split oversized scripts and eliminate duplication",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "H3",
+      "wave": "H2",
+      "title": "Cross-wave autonomous execution chain driver",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "H2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I0a",
+      "wave": "I2",
+      "title": "Retroactive noise annotation — AI pre-marks existing chapters; human reviews in reader UI",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I0b",
+      "wave": "I2",
+      "title": "Style rewrite pass -- AI rewrites surviving content in Asif's teaching voice",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I0a"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I1",
+      "wave": "I2",
+      "title": "Audio intake — input_type branch in Phase 04 (pdf / audio-transcript / mixed)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I2",
+      "wave": "I2",
+      "title": "Noise routing — two-pass: zero-cost rule pre-pass then Sonnet for ambiguous survivors only",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I3",
+      "wave": "I2",
+      "title": "Tradition-aware knowledge base — tradition field on all atom types; B2.1 schema patch",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I4",
+      "wave": "I2",
+      "title": "Source Review Gate — Phase 06a (Haiku) before per-chapter authoring",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I2",
+        "I3"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I5",
+      "wave": "I2",
+      "title": "Book Review unified astro view — Source Review Gate (06a) + Publish Review Gate (finalize)",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "I6",
+      "wave": "I2",
+      "title": "Phase 11g per-chapter optimiser — Claude Sonnet after authoring, before 0g dual-auditor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "I4"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J0",
+      "wave": "J2",
+      "title": "Build the dual-interface source library server — MCP stdio for the pipeline, HTTP for the Astro editor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J1",
+      "wave": "J2",
+      "title": "Build the search-optimised SQLite mirror with FTS5 tables and a unified term index",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J2",
+      "wave": "J2",
+      "title": "Rewire the Astro editor's existing popover API routes to call the local server first",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "J1"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J3",
+      "wave": "J2",
+      "title": "Wire enrichment phase to use live verse lookups as a complete-coverage fallback",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "B3"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J4",
+      "wave": "J2",
+      "title": "Wire style rewrite phase to pull live session samples matched to each chapter's themes",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "I0b"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "J5",
+      "wave": "J2",
+      "title": "Add Wisdom topic cross-reference popover to the live editor",
+      "status": "complete",
+      "tier": "T1",
+      "depends_on": [
+        "J0",
+        "J1",
+        "J2"
+      ],
+      "plain": "",
+      "tools": [],
+      "last_touched": null
+    },
+    {
+      "id": "K0",
+      "title": "Define and publish the PEQ quality-scoring contract",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K1",
+      "title": "Snapshot regression baselines for kitab-al-riyad and the-master-and-the-disciple",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K2",
+      "title": "Replace challenger free-form verdict with PEQ-driven scoring in both pipelines",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K0",
+        "K1"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K3",
+      "title": "Wire PEQ scores into agent prompts and skill instructions for consistent quality framing",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K4",
+      "title": "Surface PEQ scores on the plan dashboard with per-chapter and per-book breakdowns",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K5",
+      "title": "Apply PEQ-gated quality checks to the wisdom pipeline retranslation and reingestion cycle",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K6",
+      "title": "Add Interest & Challenge-Defeat scoring as a 5th PEQ axis + Challenger Category V",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "K2",
+        "K3",
+        "K5"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
+    },
+    {
+      "id": "K6-pre",
+      "title": "Terminus technicus preservation rule — prevent Arabic doctrinal terms from being stripped during denoise/normalize",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [
+        "WC8.0"
+      ],
+      "plain": "",
+      "tools": [],
+      "wave": "K2"
     },
     {
       "id": "O1",
@@ -1737,31 +1737,6 @@
       "plain": ""
     },
     {
-      "id": "G",
-      "name": "Narrative Homepage",
-      "plain": ""
-    },
-    {
-      "id": "H",
-      "name": "Code-Quality Refactor",
-      "plain": ""
-    },
-    {
-      "id": "I",
-      "name": "Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g",
-      "plain": "Extends the pipeline in five coordinated areas, preceded by two"
-    },
-    {
-      "id": "J",
-      "name": "Source Library — Dual-Interface Server and Live Editor Integration",
-      "plain": "Wave J transforms the three SQL Server source databases into a live"
-    },
-    {
-      "id": "K",
-      "name": "Quality Scoring + Pipeline Hardening",
-      "plain": ""
-    },
-    {
       "id": "M",
       "name": "Inspector Declutter + Floating AI Toolbar + Corpus Workbench",
       "plain": ""
@@ -1774,6 +1749,31 @@
     {
       "id": "CP",
       "name": "Content-Profile Branching",
+      "plain": ""
+    },
+    {
+      "id": "G2",
+      "name": "Narrative Homepage",
+      "plain": ""
+    },
+    {
+      "id": "H2",
+      "name": "Code-Quality Refactor",
+      "plain": ""
+    },
+    {
+      "id": "I2",
+      "name": "Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g",
+      "plain": "Extends the pipeline in five coordinated areas, preceded by two"
+    },
+    {
+      "id": "J2",
+      "name": "Source Library — Dual-Interface Server and Live Editor Integration",
+      "plain": "Wave J transforms the three SQL Server source databases into a live"
+    },
+    {
+      "id": "K2",
+      "name": "Quality Scoring + Pipeline Hardening",
       "plain": ""
     },
     {
@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 109.81
+    "burn_30d_usd": 109.77
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [

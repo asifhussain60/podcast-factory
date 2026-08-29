@@ -1804,11 +1804,20 @@ confidence_summary:
     - "oq10 dashboard data source (v2 deferral acceptable)"
 
 # ===========================================================================
-# Wave G — Narrative Homepage (and beyond)
+# Wave G2 — Narrative Homepage (and beyond)
+#
+# NOTE (repo-surgeon L2-DUP, 2026-08-29): this family's ids were originally
+# G/H/I/J/K, colliding with the unrelated waves A-N/CP above (same letters,
+# different work — e.g. this file's G is the narrative homepage, the other
+# G is orchestrator hardening). The collision was silently dropping this
+# family's wave-level metadata from the live dashboard (regenerate-snapshots
+# picks one entry per id). Suffixed -2 to disambiguate, following the
+# AE/AE2 precedent already used below in waves_o_ph. Step ids (G1, H1-3,
+# I0a..I6, J0-5, K0..K6) never collided and are unchanged.
 # ===========================================================================
 
 waves_ghj:
-  - id: G
+  - id: G2
     name: Narrative Homepage
     depends_on: []
     parallel_with: [F]
@@ -1834,7 +1843,7 @@ waves_ghj:
         branch: feat/narrative-homepage
         cost_estimate_usd: 0
 
-  - id: H
+  - id: H2
     name: Code-Quality Refactor
     depends_on: []
     parallel_with: []
@@ -1914,7 +1923,7 @@ waves_ghj:
         execution_status: built_test_pending
         status_note: "Reconciled 2026-07-17: the driver scripts/podcast/run_waves_chain.py is built (461 lines, <=600 per DR-005) with authorize/status/run subcommands. Outstanding acceptance: tests/test_waves_chain.py does not yet exist. Was stale at in_progress."
 
-  - id: I
+  - id: I2
     name: Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
     execution_status: completed
     parallel_with: []
@@ -2215,11 +2224,11 @@ waves_ghj:
 # WAVE J — Source Library (Dual-Interface Server + Live Editor Integration)
 # ===========================================================================
 
-  - id: J
+  - id: J2
     name: Source Library — Dual-Interface Server and Live Editor Integration
     execution_status: completed_2026_06_02
     parallel_with: []
-    depends_on: [I]
+    depends_on: [I2]
     summary: |
       Wave J transforms the three SQL Server source databases into a live
       intelligence layer serving two consumers simultaneously: the authoring
@@ -2564,11 +2573,11 @@ waves_ghj:
           wisdom/search.ts: GET /api/wisdom/search route. TopicPopover mounted in
           library chapter page. lint:views clean; 0 new TS errors.
 
-  - id: K
+  - id: K2
     name: "Quality Scoring + Pipeline Hardening"
     status: not_started
     authorization: awaiting_approval
-    depends_on: [B, I, J]
+    depends_on: [B, I2, J2]
     description: |
       Wave K introduces a principled, multi-dimensional quality score (PEQ —
       Podcast Episode Quality) that replaces free-form PASS/WARN/FAIL verdicts

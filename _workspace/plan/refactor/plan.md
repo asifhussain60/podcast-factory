@@ -424,7 +424,7 @@ flowchart LR
 
 ---
 
-# Wave G · Narrative Homepage
+# Wave G2 · Narrative Homepage
 
 ### G1. Build a cinematic narrative scroll homepage synchronized with the existing Architecture pipeline view.
 
@@ -436,7 +436,7 @@ flowchart LR
 
 ---
 
-# Wave H · Code-Quality Refactor
+# Wave H2 · Code-Quality Refactor
 
 ### H1. Extract all duplicated types, constants, and utility logic from the Astro plan-dashboard site into a shared library.
 
@@ -468,11 +468,11 @@ flowchart LR
 
 ---
 
-# Wave I · Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
+# Wave I2 · Intelligence Pipeline — Audio Intake, Noise Routing, Tradition-Aware KB, Source Review Gate, Phase 11g
 
 > **Status: COMPLETED 2026-05-28.** Locked decisions at [`_workspace/plan/intelligence/locked-decisions.md`](../intelligence/locked-decisions.md). All 8 steps (I0a–I6) delivered and 51 tests passing.
 
-Wave I extends the pipeline in five coordinated areas, preceded by two retroactive repair steps on existing shipped books:
+Wave I2 extends the pipeline in five coordinated areas, preceded by two retroactive repair steps on existing shipped books:
 
 0. **Retroactive annotation + style rewrite (I0a + I0b)** — the two draft books (*The Master and the Disciple* and *Kitab al-Riyad*) carry pipeline noise that was never cleaned. I0a: Haiku pre-marks each paragraph; Asif reviews and approves in the reader UI. I0b: Sonnet rewrites the cleaned text in Asif's teaching voice, extracted from his delivered KSessions lectures. Both steps use existing reader UI components; git is the recovery mechanism throughout.
 1. **Audio-first intake** — books that arrive as lecture recordings (Urdu audio) get a dedicated `input_type=audio-transcript` branch through Phase 04 using Turboscribe Urdu → Azure Translator instead of PDF OCR. All downstream phases key off `input_type` so no rewrites are needed downstream.
@@ -565,9 +565,9 @@ A companion **Book Review unified view** in the astro site (I5) surfaces both ga
 
 ---
 
-# Wave J · Source Library — IN PROGRESS (J0 completed 2026-05-28)
+# Wave J2 · Source Library — IN PROGRESS (J0 completed 2026-05-28)
 
-Wave J transforms the three SQL Server source databases into a live intelligence layer serving two consumers simultaneously: the authoring pipeline (via MCP stdio tools that Claude Code and Copilot call during authoring) and the Astro live editor (via HTTP endpoints that the existing `QuranPopover` and `TermPopover` components already call — but currently aimed at quran.com and Gemini Flash respectively). The six steps build the dual-interface server (J0), build the search-optimised offline mirror with FTS5 and a unified term index (J1), wire the Astro editor's existing popover endpoints to the local server (J2), connect the pipeline enrichment phase (J3), connect the style rewrite phase (J4), and add a new topic cross-reference popover for Wisdom content (J5).
+Wave J2 transforms the three SQL Server source databases into a live intelligence layer serving two consumers simultaneously: the authoring pipeline (via MCP stdio tools that Claude Code and Copilot call during authoring) and the Astro live editor (via HTTP endpoints that the existing `QuranPopover` and `TermPopover` components already call — but currently aimed at quran.com and Gemini Flash respectively). The six steps build the dual-interface server (J0), build the search-optimised offline mirror with FTS5 and a unified term index (J1), wire the Astro editor's existing popover endpoints to the local server (J2), connect the pipeline enrichment phase (J3), connect the style rewrite phase (J4), and add a new topic cross-reference popover for Wisdom content (J5).
 
 **Architecture principle:** one Python server, two interfaces. The HTTP face serves the browser. The stdio MCP face serves Claude. The same query functions and the same SQLite mirror power both — no duplication.
 
@@ -633,9 +633,9 @@ Wave J transforms the three SQL Server source databases into a live intelligence
 
 ---
 
-# Wave K · Quality Scoring + Pipeline Hardening
+# Wave K2 · Quality Scoring + Pipeline Hardening
 
-Wave K introduces a principled, multi-dimensional quality score — the **PEQ (Podcast Episode Quality) score** — that replaces free-form PASS/WARN/FAIL verdicts across both pipelines. The same four-axis weighted rubric is applied consistently inside the challenger, the convergence loop, the wisdom chapter validator, agent prompts, skill specs, and the plan dashboard. Two canonical books (`kitab-al-riyad` and `the-master-and-the-disciple`) are used as living regression fixtures: baselines are snapshotted before the first K-step runs and compared after every subsequent step, ensuring no K-step drops quality backwards.
+Wave K2 introduces a principled, multi-dimensional quality score — the **PEQ (Podcast Episode Quality) score** — that replaces free-form PASS/WARN/FAIL verdicts across both pipelines. The same four-axis weighted rubric is applied consistently inside the challenger, the convergence loop, the wisdom chapter validator, agent prompts, skill specs, and the plan dashboard. Two canonical books (`kitab-al-riyad` and `the-master-and-the-disciple`) are used as living regression fixtures: baselines are snapshotted before the first K-step runs and compared after every subsequent step, ensuring no K-step drops quality backwards.
 
 **PEQ score formula:** `PEQ = 0.35 × Fidelity + 0.25 × Voice + 0.20 × Structure + 0.20 × Enrichment`, scaled 0–100. Thresholds: `>= 85` = PASS, `70–84` = WARN, `< 70` = FAIL.
 
@@ -1085,7 +1085,7 @@ Landed on `develop` (merge `4165160`, `--no-ff`) entirely behind the `book_pipel
 
 ## Clean-Code & Architecture Hardening — R0+R1 executed (2026-07-18)
 
-Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_refactor:` in `plan.yaml`). Subsumes Wave H's open code-quality items. R2–R5 await separate approval.
+Approved plan: `refactor/clean-code-hardening-plan.md` (machine ledger: `waves_refactor:` in `plan.yaml`). Subsumes Wave H2's open code-quality items. R2–R5 await separate approval.
 
 ### 1. Both codebases now have real quality gates that cannot silently regress
 
