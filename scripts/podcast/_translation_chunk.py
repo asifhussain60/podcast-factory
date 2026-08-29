@@ -35,11 +35,12 @@ from pathlib import Path
 
 from _arabic_coverage import arabic_coverage_shortfall, arabic_run_spans
 from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
+from _rules import COMPOSE_RETRY_TIMEOUT_S, COMPOSE_TIMEOUT_S
 from _translation_prompts import _compose_prompt
 from _translation_text import _translation_long_enough, normalize_translation_prose, translation_output_findings
 
-_COMPOSE_TIMEOUT = 900
-_RETRY_TIMEOUT = 1350
+_COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
+_RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
 
 
 def _compose_one(

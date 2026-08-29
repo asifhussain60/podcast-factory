@@ -1169,3 +1169,17 @@ TECHNICAL_RULE_SET: frozenset = frozenset(
         R_TECH_HABIT_MAP,
     }
 )
+
+# ─── Wall-clock budgets for claude -p prose calls ─────────────────────────────
+#
+# AU-S1 (repo-surgeon, 2026-08-29): _translation_chunk.py and _book_compose.py
+# each defined these two constants verbatim — two lanes independently arrived
+# at (or copy-pasted) the same pair. Centralized here so a future change to
+# either budget only needs one edit.
+#
+# 420s proved too tight in practice (2026-06-11: a 631-word chapter ran ~16
+# min on Opus and the whole phase aborted at chapter 1); compose calls
+# re-voice full chapters, so give them the same order of budget as phase-0d
+# authoring calls.
+COMPOSE_TIMEOUT_S: int = 900
+COMPOSE_RETRY_TIMEOUT_S: int = 1350

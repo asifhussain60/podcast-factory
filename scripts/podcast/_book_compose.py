@@ -21,13 +21,11 @@ from pathlib import Path
 
 from _authoring._core import AuthoringError, _run_claude_p, pure_text_call_options
 from _literary import _VOICE_INSTRUCTIONS, chapter_craft_block
+from _rules import COMPOSE_RETRY_TIMEOUT_S, COMPOSE_TIMEOUT_S
 
-# Per-chapter wall budgets. 420s proved too tight in practice (2026-06-11:
-# a 631-word chapter ran ~16 min on Opus and the whole phase aborted at
-# chapter 1); compose calls re-voice full chapters, so give them the same
-# order of budget as phase-0d authoring calls.
-_COMPOSE_TIMEOUT = 900
-_RETRY_TIMEOUT = 1350
+# Per-chapter wall budgets — see _rules.py for rationale.
+_COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
+_RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
 
 _PAGE_MARK = re.compile(r"<!--\s*page\s*(\d+)\s*-->", re.IGNORECASE)
 
