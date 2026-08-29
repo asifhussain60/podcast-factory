@@ -19,7 +19,7 @@
       "gate": "B3",
       "name": "book-arabic-coverage",
       "passed": true,
-      "note": "Arabic script present in all 13 chapters from 1060 glossary terms \u00b7 translation-edition Arabic preservation signal: 934 rendered Arabic runs from 7 source runs"
+      "note": "Arabic script present in all 13 chapters from 1060 glossary terms \u00b7 translation-edition Arabic preservation signal: 902 rendered Arabic runs from 7 source runs"
     },
     {
       "gate": "B4",
