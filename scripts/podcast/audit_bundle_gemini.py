@@ -79,7 +79,9 @@ def _pack_bundle_inline(bundle_dir: Path) -> Path:
     return tmp
 
 
-def _run_gemini(system_prompt: str, packed_text: str, model: str, timeout: int = 600) -> str:
+def _run_gemini(
+    system_prompt: str, packed_text: str, model: str, book_dir: Path | None = None, timeout: int = 600
+) -> str:
     """Call Gemini with the Gem prompt as system_instruction + packed bundle as user content."""
     from _engine import ENGINE_GEMINI, TASK_AUDIT, engine_guard
 
@@ -109,7 +111,36 @@ def _run_gemini(system_prompt: str, packed_text: str, model: str, timeout: int =
 
     if not response.text:
         raise AuditError("Gemini returned an empty response.")
+    _record_cost(book_dir, model=model, in_chars=len(system_prompt) + len(user_content), out_chars=len(response.text))
     return response.text
+
+
+def _book_dir_from_bundle(bundle_dir: Path | None) -> Path | None:
+    """Derive BOOK_DIR from a chapter bundle at BOOK_DIR/_system/episode-drafts/EP##-<slug>/."""
+    if bundle_dir is None:
+        return None
+    candidate = bundle_dir.parent.parent.parent
+    return candidate if (candidate / "_system").is_dir() else None
+
+
+def _record_cost(book_dir: Path | None, *, model: str, in_chars: int, out_chars: int) -> None:
+    # A ledger problem must never cost a finished audit — same contract as
+    # every other Gemini caller in the repo (e.g. _gemini_text.py).
+    if book_dir is None:
+        return
+    try:
+        from _cost_ledger import append_gemini_cost
+
+        append_gemini_cost(
+            book_dir=book_dir,
+            phase="0g",
+            step="audit-bundle-gemini",
+            model=model,
+            in_chars=in_chars,
+            out_chars=out_chars,
+        )
+    except Exception as exc:  # pragma: no cover - ledger failure must not lose the audit
+        print(f"WARN: Gemini cost-ledger append failed: {exc}", file=sys.stderr)
 
 
 def _extract_fixes_json(audit_md: str) -> list[dict]:
@@ -158,7 +189,7 @@ def audit_bundle_gemini(
             print(f"packed bundle to {packed_file}", file=sys.stderr)
         packed_text = packed_file.read_text(encoding="utf-8")
         print(f"calling Gemini ({model})...", file=sys.stderr)
-        audit_md = _run_gemini(gem_prompt, packed_text, model)
+        audit_md = _run_gemini(gem_prompt, packed_text, model, book_dir=_book_dir_from_bundle(bundle_dir))
         fixes = _extract_fixes_json(audit_md)
     except AuditError as exc:
         print(f"audit failed: {exc}", file=sys.stderr)
