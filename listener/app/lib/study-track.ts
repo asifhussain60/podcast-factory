@@ -32,3 +32,21 @@ export function isStudyTrack(value: string | null): value is StudyTrack {
 export function studyTrackLabel(track: string | null): string | null {
   return isStudyTrack(track) ? LABELS[track] : null;
 }
+
+/**
+ * The "Browse by track" filter's choice, kept apart from `StudyTrack` itself
+ * so a sixth track never has to teach this file about a sentinel value it
+ * does not own.
+ *
+ * A unit whose `studyTrack` is null or undefined — unclassified, whatever the
+ * reason — never matches a specific track choice. It still shows up under
+ * "all", which is what makes an unclassified item's disappearance under every
+ * other chip a silent taxonomy gap rather than a loud error: nothing here
+ * should paper over that by inventing a match. Classify the content instead.
+ */
+export type TrackChoice = "all" | StudyTrack;
+
+export const inTrack = (
+  studyTrack: string | null | undefined,
+  choice: TrackChoice,
+): boolean => choice === "all" || studyTrack === choice;

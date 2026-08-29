@@ -24,3 +24,18 @@
 export function collectionOf(bucket: string): "sessions" | undefined {
   return bucket === "Sessions" ? "sessions" : undefined;
 }
+
+/**
+ * The library find row's "Everything / Books / Sessions" toggle.
+ *
+ * "Books" is defined as NOT sessions rather than as a list of buckets, so a
+ * bucket added later lands with the books instead of vanishing from a library
+ * that offers no way to reach it. The failure mode of getting this backwards is
+ * silent — the card simply is not there under any filter.
+ */
+export const COLLECTIONS = ["all", "books", "sessions"] as const;
+export type Collection = (typeof COLLECTIONS)[number];
+
+export const inCollection = (bucket: string, choice: Collection): boolean =>
+  choice === "all" ||
+  (collectionOf(bucket) === "sessions") === (choice === "sessions");

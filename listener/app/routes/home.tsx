@@ -15,13 +15,20 @@ import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
 import { groupIntoWorks, WorkCard } from "~/components/WorkCard";
-import { collectionOf } from "~/lib/collection";
+import {
+  collectionOf,
+  COLLECTIONS,
+  inCollection,
+  type Collection,
+} from "~/lib/collection";
 import { count, plural } from "~/lib/plural";
 import {
   ALL_STUDY_TRACKS,
+  inTrack,
   isStudyTrack,
   studyTrackLabel,
   type StudyTrack,
+  type TrackChoice,
 } from "~/lib/study-track";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
@@ -155,23 +162,18 @@ function fold(value: string): string {
 /**
  * The two collections, and the control that picks between them.
  *
- * "Books" is defined as NOT sessions rather than as a list of buckets, so a
- * bucket added later lands with the books instead of vanishing from a library
- * that offers no way to reach it. The failure mode of getting this backwards is
- * silent — the card simply is not there under any filter.
+ * `inCollection`, `COLLECTIONS` and `Collection` live in `~/lib/collection`
+ * now, alongside `collectionOf` — the same file, because both are the same
+ * question ("which collection"), and pulling `inCollection` out to its own
+ * module while leaving `collectionOf` behind would split one concept across
+ * two files for no reason. Kept importable so the filter matrix is unit-
+ * tested directly rather than only through a rendered `Home`.
  */
-const COLLECTIONS = ["all", "books", "sessions"] as const;
-type Collection = (typeof COLLECTIONS)[number];
-
 const COLLECTION_LABELS: Record<Collection, string> = {
   all: "Everything",
   books: "Books",
   sessions: "Sessions",
 };
-
-const inCollection = (bucket: string, choice: Collection): boolean =>
-  choice === "all" ||
-  (collectionOf(bucket) === "sessions") === (choice === "sessions");
 
 /**
  * Remembered client-side, same reasoning and same `try/catch`-inside-a-lazy-
@@ -195,19 +197,12 @@ function loadCollection(): Collection {
 /**
  * The study-track filter.
  *
- * "all" plus the five real tracks, kept apart from `StudyTrack` itself so a
- * sixth track never has to teach this file about a sentinel value it does not
- * own. Unlike the collection toggle, this is drawn even when every book on
- * the page carries no track yet — the taxonomy is the point of showing it,
- * not how much of the current library happens to be classified under it.
+ * `inTrack` and `TrackChoice` live in `~/lib/study-track` now, next to
+ * `StudyTrack` itself. Unlike the collection toggle, the panel below is drawn
+ * even when every book on the page carries no track yet — the taxonomy is the
+ * point of showing it, not how much of the current library happens to be
+ * classified under it.
  */
-type TrackChoice = "all" | StudyTrack;
-
-const inTrack = (
-  studyTrack: string | null | undefined,
-  choice: TrackChoice,
-): boolean => choice === "all" || studyTrack === choice;
-
 const TRACK_KEY = "pf-library-track";
 
 function loadTrack(): TrackChoice {
