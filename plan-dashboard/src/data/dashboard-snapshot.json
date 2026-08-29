@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 107.28
+    "burn_30d_usd": 110.25
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1938,8 +1938,8 @@
     {
       "slug": "sharh-al-masail-ghulam-hussain",
       "title": "Sharh al-Masa'il",
-      "phase": "audio-ingest",
-      "phase_status": "halted",
+      "phase": "merge",
+      "phase_status": "failed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -1995,6 +1995,12 @@
       "title": "Mukhtasar-ul-Asaar 2",
       "shipped": "2026-08-15T19:47:41Z",
       "episodes": 0
+    },
+    {
+      "slug": "sharh-al-masail-ghulam-hussain",
+      "title": "Sharh al-Masa'il",
+      "shipped": "2026-08-29T16:41:49Z",
+      "episodes": 5
     },
     {
       "slug": "the-master-and-the-disciple",
