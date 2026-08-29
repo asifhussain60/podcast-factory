@@ -15,7 +15,7 @@ PyYAML==6.0.3               # YAML parsing throughout (series-config, meta, stat
 pydantic==2.12.5            # Data validation (review_server.py)
 httpx==0.28.1               # HTTP client (anthropic SDK dep)
 requests==2.33.0            # HTTP client (google-genai dep)
-numpy==2.5.0                # Audio fingerprint DSP + style-gate tests
+numpy==2.4.6                # Audio fingerprint DSP + style-gate tests (2.5.0 requires Python >=3.12; bootstrap.md pins python@3.11)
 
 # ── Optional: video layer (generate_video_layer.py + render_slides.py) ──────
 # pillow                    # Slide rendering — install with: pip install pillow
