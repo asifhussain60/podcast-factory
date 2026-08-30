@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "book_slug": "purification-of-the-heart",
+  "category": "lectures",
+  "branch": "Sessions/purification-of-the-heart",
+  "status": "draft",
+  "source_kind": "audio-transcript",
+  "source_language": "en",
+  "phase": "awaiting-intake",
+  "phase_status": "pending",
+  "last_completed_phase": null,
+  "last_error": null,
+  "started": "2026-08-30T00:00:00Z",
+  "updated": "2026-08-30T00:00:00Z",
+  "phases": {
+    "scaffold": {
+      "status": "completed",
+      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile — content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run — this state is a placeholder, not a pipeline-produced record.",
+      "completed_via": "manual-scaffold-standby"
+    }
+  },
+  "intake_via": "manual-scaffold-standby (2026-08-30), relocated to Sessions bucket same day"
+}
