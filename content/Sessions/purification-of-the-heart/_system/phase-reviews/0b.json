@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0b",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 4,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PB1",
+      "name": "refined-text-present",
+      "kind": "own",
+      "passed": true,
+      "note": "refined-english.md present (593,649 bytes)"
+    },
+    {
+      "gate": "PB2",
+      "name": "refined-covers-source",
+      "kind": "own",
+      "passed": true,
+      "note": "refined text is 79% of the source (103,306 of 130,200 words)"
+    },
+    {
+      "gate": "PB3",
+      "name": "windows-not-repaid",
+      "kind": "own",
+      "passed": true,
+      "note": "computed all 42 window(s) — consistent with a first run"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (714,591 bytes)"
+    }
+  ]
+}
