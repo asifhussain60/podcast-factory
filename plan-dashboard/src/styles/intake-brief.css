@@ -217,6 +217,17 @@
   gap: var(--sp-5);
 }
 
+/* The uploader (step 2) and the voice picker (step 4) are shared .intake-card
+ * components, and each ends with an .intake-* block carrying its own bottom
+ * margin — a stack spacer meant for a form that keeps going. Inside a card it
+ * is orphaned space: the voice picker sat 41px above its own bottom edge
+ * against 25px at the top. A card's padding is the only inset that should
+ * show there. Scoped to this view so /studio/new, which shares the class, is
+ * untouched. */
+.bf-step-fields .intake-card > :last-child {
+  margin-bottom: 0;
+}
+
 /* Prose that happens to sit inside a form is still prose (REQ-010). The page's
    recorded exception covers labels, hints and rail captions — the compact
    chrome BESIDE a control — not sentences the reader has to read, so anything
@@ -225,6 +236,19 @@
   font-size: var(--fs-base);
   line-height: var(--lh-base);
   max-width: 60ch;
+}
+
+/* Every stack on this page is gap-driven, so the site-wide `p` bottom margin is
+ * orphaned space wherever a paragraph is the last thing in a box — and these
+ * two were the only paragraph classes here that had not reset it (the eyebrow,
+ * the blurb, .bf-derived, .bf-blocked and .bf-saved-head all already do). It
+ * showed as 12px of extra air under the content picker's caption (17px above
+ * the label against 29px below the sentence), the same under the save result,
+ * and a phantom 12px below every hinted field — so a hinted row cleared the
+ * row beneath it by 28px where the grid's own gap is 16px. */
+.bf-hint,
+.bf-note {
+  margin-bottom: 0;
 }
 
 /* ── Fields ───────────────────────────────────────────────────────────────── */
@@ -748,9 +772,19 @@
 
 /* The shared .intake-conformance rule carries an 8px top margin, which left the
  * footnote all but touching the wizard card. Scoped to this page so /studio/new,
- * which shares the class, is untouched. */
+ * which shares the class, is untouched.
+ *
+ * That shared rule also centres itself in its own 90%/1200px column, which is
+ * not the column this page lays out in: the footnote's left edge landed at 86px
+ * on a 1280 laptop, 120px at 1440 and 240px at 1680, against a page whose every
+ * other block starts at 24px (84px at 1680). It was aligned to nothing, and the
+ * wider the screen the further out it drifted. Width goes back to auto and the
+ * side margins to zero, which leaves it starting on the page column and still
+ * capped at the inherited 1200px — the same capped-measure, left-aligned shape
+ * .bf-page-head p already uses for the lede above it. */
 .bf-conformance {
-  margin-top: var(--sp-7);
+  margin: var(--sp-7) 0;
+  width: auto;
 }
 
 .bf-page-head h1 {
