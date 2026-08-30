@@ -885,3 +885,88 @@
 .bf-rail-item.is-locked .bf-rail-link:hover {
   border-color: transparent;
 }
+
+/* ── The content picker: the landing's one primary control ────────────────── */
+
+.bf-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+  padding: var(--sp-4);
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.bf-picker-label {
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-picker-select {
+  width: min(46ch, 100%);
+}
+
+/* ── A setting that exists but must not be changed here ──────────────────── */
+
+.bf-locked {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--c-bg-sunken);
+  border: 1px dashed var(--c-rule);
+  border-radius: var(--r-sm);
+}
+
+.bf-locked-value {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+}
+
+.bf-locked-why {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-muted);
+  max-width: 60ch;
+}
+
+/* ── What a save actually did ─────────────────────────────────────────────── */
+
+.bf-saved {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: color-mix(in oklab, var(--c-green) 10%, transparent);
+  border: 1px solid color-mix(in oklab, var(--c-green) 40%, transparent);
+}
+
+.bf-saved-head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-saved-list {
+  margin: 0;
+  padding-inline-start: 1.75rem;
+  list-style-position: outside;
+  list-style-type: disc;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+}
+
+.bf-saved-skipped {
+  color: var(--c-amber);
+}

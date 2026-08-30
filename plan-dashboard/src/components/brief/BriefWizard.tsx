@@ -11,19 +11,21 @@
  * sessionStorage so a refresh mid-wizard does not lose the answers, and an
  * abandoned draft leaves nothing behind.
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
 import UploadStaging from "../intake/UploadStaging";
 import VoicePicker from "../intake/VoicePicker";
 import BriefStep from "./BriefStep";
 import BriefReview from "./BriefReview";
 import BriefProgress from "./BriefProgress";
+import ContentPicker from "./ContentPicker";
 import BriefDialog from "./BriefDialog";
 import PromptPanel from "./PromptPanel";
 import type { Option } from "./BriefField";
 import { humanizeToken } from "../../lib/brief/humanize";
 import {
   FIELDS,
+  FIELDS_BY_KEY,
   STEPS,
   invalidOn,
   missingOn,
@@ -43,6 +45,30 @@ interface VocabPayload {
   profileCategory: Record<string, string>;
   profileAudioEngine: Record<string, string>;
   profileVoiceCast: Record<string, Record<string, string>>;
+}
+
+interface ContentItem {
+  slug: string;
+  title: string;
+  bucket: string;
+  status: string;
+}
+
+interface LoadedContent {
+  slug: string;
+  bucket: string;
+  dir: string;
+  values: Record<string, string>;
+  present: { meta: boolean; series: boolean };
+  status: string;
+  locked: string[];
+}
+
+interface SaveResult {
+  slug: string;
+  dir: string;
+  written: { field: string; file: string; path: string; value: string }[];
+  skipped: { field: string; reason: string }[];
 }
 
 interface GenerateResult {
@@ -85,21 +111,34 @@ export default function BriefWizard() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<GenerateResult | null>(null);
+  // Existing-content mode. `baseline` is what was on disk when it loaded, so a
+  // save can send only what actually changed rather than rewriting every key.
+  const [items, setItems] = useState<ContentItem[]>([]);
+  const [editing, setEditing] = useState<LoadedContent | null>(null);
+  const [baseline, setBaseline] = useState<Record<string, string>>({});
+  const [loadingBook, setLoadingBook] = useState(false);
+  const [saved, setSaved] = useState<SaveResult | null>(null);
+  // The seeded defaults, kept so switching between a new commission and an
+  // existing piece can rebuild values from a known base rather than from
+  // whatever the previous selection left behind.
+  const seedRef = useRef<Record<string, string>>({});
 
   // Load both option sources, then seed defaults over any restored draft.
   useEffect(() => {
     let alive = true;
     (async () => {
       try {
-        const [v, o] = await Promise.all([
+        const [v, o, c] = await Promise.all([
           apiFetch<VocabPayload>("/api/brief/vocabularies"),
           apiFetch<{ options: Record<string, string[]> }>(
             "/api/intake/form-options",
           ),
+          apiFetch<{ items: ContentItem[] }>("/api/brief/content"),
         ]);
         if (!alive) return;
         setVocab(v);
         setOptions(o.options);
+        setItems(c.items);
         const seeded: Record<string, string> = { ...v.defaults };
         for (const f of FIELDS) {
           if (f.kind === "switch")
@@ -117,6 +156,7 @@ export default function BriefWizard() {
         // let the stale pair win: the form showed "Islamic" while the shelf,
         // the profile and the legacy tag all still said Technical / Articles.
         // The family and medium on screen are the authority, always.
+        seedRef.current = { ...seeded };
         const draft = readDraft();
         const merged: Record<string, string> = { ...seeded, ...(draft ?? {}) };
         const profile =
@@ -199,6 +239,47 @@ export default function BriefWizard() {
     setValues((prev) => ({ ...prev, ...patch }));
   }, []);
 
+  // Load an existing piece, or drop back to commissioning a new one. The draft
+  // in sessionStorage belongs to the NEW commission and is deliberately left
+  // alone while editing, so switching back does not lose half-typed answers.
+  const selectContent = useCallback(async (slug: string) => {
+    setError("");
+    setSaved(null);
+    setStep(1);
+    if (!slug) {
+      setEditing(null);
+      setBaseline({});
+      setValues({ ...seedRef.current, ...(readDraft() ?? {}) });
+      return;
+    }
+    setLoadingBook(true);
+    try {
+      const data = await apiFetch<LoadedContent>(
+        `/api/brief/content/${encodeURIComponent(slug)}`,
+      );
+      setEditing(data);
+      // Defaults underneath, so a setting the book never recorded still shows
+      // the value the pipeline would use rather than an empty box.
+      const shown = { ...seedRef.current, ...data.values };
+      setValues(shown);
+      // The baseline is WHAT WAS SHOWN, not what was on disk. Comparing against
+      // disk alone counted every defaulted-but-absent setting as an edit -- one
+      // real change reported as twelve -- and pressing save would have written a
+      // dozen default keys into a book that never carried them. Only a field
+      // you actually touch after loading is written now.
+      setBaseline(shown);
+      setFurthest(5);
+    } catch (e) {
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Could not load ${slug}: ${String(e)}`,
+      );
+    } finally {
+      setLoadingBook(false);
+    }
+  }, []);
+
   const optionsFor = useCallback(
     (f: FieldDef): Option[] => {
       if (f.vocab) return vocab?.vocabularies[f.vocab] ?? [];
@@ -212,8 +293,24 @@ export default function BriefWizard() {
     [vocab, options],
   );
 
-  const bucket =
-    vocab?.profileBucket[values.content_profile ?? ""] ?? "Islamic";
+  const bucket = editing
+    ? editing.bucket
+    : (vocab?.profileBucket[values.content_profile ?? ""] ?? "Islamic");
+
+  const lockedFields = useMemo(() => new Set(editing?.locked ?? []), [editing]);
+
+  // Only what actually differs from what was on disk, and never a locked field.
+  const changed = useMemo(() => {
+    if (!editing) return {} as Record<string, string>;
+    const out: Record<string, string> = {};
+    for (const f of FIELDS) {
+      if (f.formOnly || lockedFields.has(f.key)) continue;
+      const now = (values[f.key] ?? "").trim();
+      const was = (baseline[f.key] ?? "").trim();
+      if (now !== was) out[f.key] = now;
+    }
+    return out;
+  }, [editing, values, baseline, lockedFields]);
 
   // Open the native folder chooser and take the folder's NAME as the slug.
   // showDirectoryPicker gives us that name without reading what is inside, so
@@ -291,6 +388,30 @@ export default function BriefWizard() {
     : Number.POSITIVE_INFINITY;
   const canVisit = (id: StepId) => id <= firstBlockedStep || id === step;
 
+  async function saveChanges() {
+    if (!editing) return;
+    setBusy(true);
+    setError("");
+    try {
+      const data = await apiFetch<SaveResult>(
+        `/api/brief/content/${encodeURIComponent(editing.slug)}`,
+        { method: "POST", body: { changes: changed } },
+      );
+      setSaved(data);
+      // What was written is the new baseline, so the change list empties and a
+      // second press cannot rewrite the same values.
+      setBaseline((prev) => ({ ...prev, ...changed }));
+    } catch (e) {
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Could not save: ${String(e)}`,
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function generate() {
     setBusy(true);
     setError("");
@@ -354,6 +475,12 @@ export default function BriefWizard() {
 
   return (
     <>
+      <ContentPicker
+        items={items}
+        value={editing?.slug ?? ""}
+        busy={loadingBook || busy}
+        onChange={selectContent}
+      />
       <BriefProgress
         current={step}
         furthest={furthest}
@@ -433,6 +560,7 @@ export default function BriefWizard() {
                   setExplain({ field, options: opts })
                 }
                 onPickFolder={pickFolder}
+                lockedFields={lockedFields}
               />
             </>
           ) : (
@@ -443,6 +571,7 @@ export default function BriefWizard() {
               onChange={setValue}
               onExplain={(field, opts) => setExplain({ field, options: opts })}
               onPickFolder={pickFolder}
+              lockedFields={lockedFields}
             >
               {step === 1 && values.content_profile && (
                 <p className="bf-derived">
@@ -515,13 +644,65 @@ export default function BriefWizard() {
               <button
                 type="button"
                 className="bf-btn bf-btn-primary"
-                disabled={!canGenerate}
-                onClick={generate}
+                disabled={
+                  editing
+                    ? busy || Object.keys(changed).length === 0
+                    : !canGenerate
+                }
+                onClick={editing ? saveChanges : generate}
               >
-                {busy ? "Writing…" : "Generate the brief"}
+                {busy
+                  ? "Saving…"
+                  : editing
+                    ? `Save ${Object.keys(changed).length || "no"} change${
+                        Object.keys(changed).length === 1 ? "" : "s"
+                      }`
+                    : "Generate the brief"}
               </button>
             )}
           </footer>
+
+          {saved && (
+            <div className="bf-saved" role="status">
+              <p className="bf-saved-head">
+                {saved.written.length
+                  ? `Saved ${saved.written.length} change${saved.written.length === 1 ? "" : "s"} to disk.`
+                  : "Nothing was written."}
+              </p>
+              {saved.written.length > 0 && (
+                <ul className="bf-saved-list">
+                  {saved.written.map((w) => (
+                    <li key={w.field}>
+                      <strong>
+                        {FIELDS_BY_KEY[w.field]?.label ?? w.field}
+                      </strong>
+                      {" → "}
+                      <code>
+                        {w.file === "meta" ? "meta.yml" : "series-config.yaml"}
+                      </code>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {saved.skipped.length > 0 && (
+                <ul className="bf-saved-list bf-saved-skipped">
+                  {saved.skipped.map((k) => (
+                    <li key={k.field}>
+                      <strong>
+                        {FIELDS_BY_KEY[k.field]?.label ?? k.field}
+                      </strong>
+                      {" — not written: "}
+                      {k.reason}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <p className="intake-hint bf-note">
+                The live Library still shows the previous values until this book
+                is published again.
+              </p>
+            </div>
+          )}
 
           {stepBlocked && (
             <p className="intake-hint bf-blocked" role="status">

@@ -9,7 +9,7 @@
  * through :user-invalid in the stylesheet so an error appears after you have
  * engaged with a field rather than while you are still typing into it.
  */
-import type { FieldDef } from "../../lib/brief/fields";
+import { LOCK_REASONS, type FieldDef } from "../../lib/brief/fields";
 
 export interface Option {
   value: string;
@@ -26,6 +26,8 @@ interface Props {
   onExplain?: (field: FieldDef, options: Option[]) => void;
   /** Opens the folder picker for a field marked `folderPicker`. */
   onPickFolder?: (field: FieldDef) => void;
+  /** Read-only, because changing it on an existing book moves the book. */
+  locked?: boolean;
 }
 
 export default function BriefField({
@@ -35,6 +37,7 @@ export default function BriefField({
   onChange,
   onExplain,
   onPickFolder,
+  locked,
 }: Props) {
   const id = `bf-${field.key}`;
   const labelId = `${id}-label`;
@@ -46,7 +49,21 @@ export default function BriefField({
 
   let control: React.ReactNode;
 
-  if (field.kind === "switch") {
+  if (locked) {
+    const shown =
+      options.find((o) => o.value === value)?.label ||
+      (field.kind === "switch" ? (value === "true" ? "Yes" : "No") : value) ||
+      "—";
+    control = (
+      <p className="bf-locked" id={id}>
+        <span className="bf-locked-value">{shown}</span>
+        <span className="bf-locked-why">
+          {LOCK_REASONS[field.key] ??
+            "Fixed once the content exists — changing it would move the book."}
+        </span>
+      </p>
+    );
+  } else if (field.kind === "switch") {
     const on = value === "true";
     // aria-labelledby, not the <label for>: a button's accessible name comes
     // from its contents, which here are only "Yes"/"No". Naming it from the
@@ -154,7 +171,7 @@ export default function BriefField({
             </span>
           )}
         </label>
-        {explainable && (
+        {!locked && explainable && (
           <button
             type="button"
             className="bf-explain"
@@ -163,7 +180,7 @@ export default function BriefField({
             What do these mean?
           </button>
         )}
-        {field.folderPicker && onPickFolder && (
+        {!locked && field.folderPicker && onPickFolder && (
           <button
             type="button"
             className="bf-explain"

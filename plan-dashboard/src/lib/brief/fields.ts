@@ -474,3 +474,19 @@ export function slugify(title: string): string {
     .slice(0, 60)
     .replace(/-+$/g, "");
 }
+
+/**
+ * Why a field cannot be edited on an EXISTING piece of content. Shown beside
+ * the locked value: a control that refuses without saying why reads as a bug.
+ * The set itself is the server's (LOCKED_FOR_EXISTING in store.ts) — this is
+ * only the prose for it, and the save refuses these regardless of the UI.
+ */
+export const LOCK_REASONS: Record<string, string> = {
+  slug: "This is the book's identity. Renaming moves the folder and the git branch — use Rename on the book's Studio page.",
+  content_family:
+    "Changing this would move the book to a different shelf, which means a new folder path and a new branch.",
+  content_profile:
+    "Worked out from the kind of content and where it came from, both of which are locked here.",
+  source_medium:
+    "Together with the kind of content this decides the shelf, so it is locked for the same reason.",
+};

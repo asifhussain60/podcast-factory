@@ -21,6 +21,8 @@ interface Props {
   onChange: (key: string, value: string) => void;
   onExplain: (field: FieldDef, options: Option[]) => void;
   onPickFolder: (field: FieldDef) => void;
+  /** Fields that are read-only because a piece of existing content is loaded. */
+  lockedFields?: ReadonlySet<string>;
   /** Rendered between the surface fields and the accordion (uploader, voices). */
   children?: React.ReactNode;
 }
@@ -32,6 +34,7 @@ export default function BriefStep({
   onChange,
   onExplain,
   onPickFolder,
+  lockedFields,
   children,
 }: Props) {
   const all = fieldsForStep(step).filter((f) => isVisible(f, values));
@@ -47,6 +50,7 @@ export default function BriefStep({
       onChange={onChange}
       onExplain={onExplain}
       onPickFolder={onPickFolder}
+      locked={lockedFields?.has(f.key)}
     />
   );
 
