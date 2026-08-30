@@ -260,7 +260,10 @@
 
 .bf-field {
   margin-bottom: 0;
+  /* min-width:0 lets a grid item shrink below its content; without it a long
+   * option or a long placeholder would push the cell wider than its track. */
   min-width: 0;
+  max-width: 100%;
 }
 
 /* The explainer button is a SIBLING of the label, never a child of it: an
@@ -304,37 +307,17 @@
   max-width: 52ch;
 }
 
-/* Content-sized controls: a four-character answer never gets a 700px box.
- *
- * min() rather than width + max-width, because the control is what SIZES its
- * flex item: a bare `width: 44ch` grows .bf-field to 44ch first, and the input's
- * own max-width:100% then resolves against that already-too-wide parent — so on
- * a 390px phone the box ran off the screen with nothing to scroll it. Capping
- * against the viewport at the control, and letting the item shrink, is the fix. */
-/* 12ch, not 9ch: 9ch clipped the source-language combobox mid-glyph at 1440px
- * (99px box against 104px of text) while the card still had ~290px spare. */
-.bf-w-short {
-  width: min(12ch, 100%);
-}
-.bf-w-slug {
-  width: min(32ch, 100%);
-}
-.bf-w-name {
-  width: min(26ch, 100%);
-}
-.bf-w-title {
-  width: min(44ch, 100%);
-}
-.bf-w-full {
+/* One width for every control. Content-proportional widths (a 9ch box beside a
+ * 44ch one) read as ragged even once the grid aligned the cells, so a field now
+ * fills its cell and the boxes line up down both columns (Asif, 2026-08-30). */
+.bf-field .intake-input,
+.bf-field .intake-select,
+.bf-field .intake-textarea {
   width: 100%;
 }
 
-.bf-field {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.bf-field:has(.bf-w-full) {
+/* Long prose and long option lists take the whole row rather than half of it. */
+.bf-field--wide {
   grid-column: 1 / -1;
 }
 
@@ -404,11 +387,20 @@
 
 /* ── Advanced accordion ───────────────────────────────────────────────────── */
 
+/* The panel is a full-bleed band rather than an inset box: its horizontal
+ * padding used to shift every field inside it 17px right of the ones above, so
+ * the column of labels visibly jogged when the accordion opened. Vertical
+ * padding stays; the summary carries its own inset so the heading is not flush
+ * against the border. */
 .bf-advanced {
   border: 1px solid var(--c-rule-soft);
   border-radius: var(--r-md);
   background: var(--c-bg-sunken);
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-3) 0;
+}
+
+.bf-advanced > .bf-advanced-summary {
+  padding-inline: var(--sp-4);
 }
 
 .bf-advanced-summary {

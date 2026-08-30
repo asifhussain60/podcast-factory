@@ -24,8 +24,8 @@ interface Props {
   onChange: (key: string, value: string) => void;
   /** Opens the explainer dialog for a field whose options carry descriptions. */
   onExplain?: (field: FieldDef, options: Option[]) => void;
-  /** Shows the folder this piece will land in, for a field marked `reveal`. */
-  onReveal?: (field: FieldDef) => void;
+  /** Opens the folder picker for a field marked `folderPicker`. */
+  onPickFolder?: (field: FieldDef) => void;
 }
 
 export default function BriefField({
@@ -34,12 +34,11 @@ export default function BriefField({
   options,
   onChange,
   onExplain,
-  onReveal,
+  onPickFolder,
 }: Props) {
   const id = `bf-${field.key}`;
   const labelId = `${id}-label`;
   const hintId = field.hint || field.patternHint ? `${id}-hint` : undefined;
-  const widthClass = `bf-w-${field.width ?? "name"}`;
   const explainable =
     !!onExplain && options.some((o) => (o.description ?? "").trim().length > 0);
 
@@ -74,7 +73,7 @@ export default function BriefField({
     control = (
       <select
         id={id}
-        className={`intake-select ${widthClass}`}
+        className="intake-select"
         value={value}
         required={field.required}
         aria-describedby={describedBy}
@@ -94,7 +93,7 @@ export default function BriefField({
         <input
           id={id}
           list={`${id}-list`}
-          className={`intake-input ${widthClass}`}
+          className="intake-input"
           value={value}
           required={field.required}
           maxLength={field.maxLength}
@@ -112,7 +111,7 @@ export default function BriefField({
     control = (
       <textarea
         id={id}
-        className={`intake-textarea ${widthClass}`}
+        className="intake-textarea"
         value={value}
         rows={7}
         maxLength={field.maxLength}
@@ -126,7 +125,7 @@ export default function BriefField({
         id={id}
         type={field.kind === "number" ? "number" : "text"}
         min={field.kind === "number" ? 1 : undefined}
-        className={`intake-input ${widthClass}`}
+        className="intake-input"
         value={value}
         required={field.required}
         maxLength={field.maxLength}
@@ -140,7 +139,9 @@ export default function BriefField({
   }
 
   return (
-    <div className="intake-field bf-field">
+    <div
+      className={`intake-field bf-field${field.fullRow ? " bf-field--wide" : ""}`}
+    >
       <div className="bf-label-row">
         <label className="intake-label bf-label" id={labelId} htmlFor={id}>
           {field.label}
@@ -162,13 +163,13 @@ export default function BriefField({
             What do these mean?
           </button>
         )}
-        {field.reveal && onReveal && (
+        {field.folderPicker && onPickFolder && (
           <button
             type="button"
             className="bf-explain"
-            onClick={() => onReveal(field)}
+            onClick={() => onPickFolder(field)}
           >
-            Show in Finder
+            Choose folder…
           </button>
         )}
       </div>

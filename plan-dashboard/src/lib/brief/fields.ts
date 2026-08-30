@@ -17,8 +17,12 @@ export type StepId = 1 | 2 | 3 | 4 | 5;
 export type FieldKind =
   "text" | "number" | "select" | "combo" | "switch" | "textarea";
 
-/** How wide the control renders — sized to its content, never to the column. */
-export type FieldWidth = "slug" | "short" | "name" | "title" | "full";
+/**
+ * Fields all render at one width -- they fill their grid cell -- so that labels,
+ * boxes and hints line up down both columns. Content-proportional widths were
+ * tried first and read as ragged: a 9ch box beside a 44ch one on the same row.
+ * The only remaining distinction is whether a field takes the whole row.
+ */
 
 export interface FieldDef {
   key: string;
@@ -32,7 +36,8 @@ export interface FieldDef {
   required?: boolean;
   /** Lives inside the step's "Advanced" accordion rather than on the surface. */
   advanced?: boolean;
-  width?: FieldWidth;
+  /** Spans both columns instead of one -- for long prose and long option lists. */
+  fullRow?: boolean;
   hint?: string;
   /** Native constraint-validation pattern. */
   pattern?: string;
@@ -44,8 +49,8 @@ export interface FieldDef {
   showIf?: { key: string; equals: string[] };
   /** Default for a switch. */
   defaultOn?: boolean;
-  /** Offers a "Show in Finder" button beside the label. */
-  reveal?: boolean;
+  /** Offers a "Choose folder…" button that fills this field from a picked folder. */
+  folderPicker?: boolean;
   /** A question the form asks to decide what else to ask. It shapes the brief
    *  but is not a key the pipeline reads, so it is kept out of the settings the
    *  hand-off prompt lists as pipeline configuration. */
@@ -76,7 +81,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     required: true,
-    width: "title",
     maxLength: 160,
     hint: "The title as it will appear on the book.",
   },
@@ -85,7 +89,6 @@ export const FIELDS: FieldDef[] = [
     label: "Arabic title",
     step: 1,
     kind: "text",
-    width: "title",
     rtl: true,
     maxLength: 160,
     hint: "In Arabic script, vowelled if you have it that way.",
@@ -95,7 +98,6 @@ export const FIELDS: FieldDef[] = [
     label: "English title",
     step: 1,
     kind: "text",
-    width: "title",
     maxLength: 160,
     hint: "The meaning in English, when the main title is not already English.",
   },
@@ -105,7 +107,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     required: true,
-    width: "name",
     maxLength: 120,
   },
   {
@@ -114,8 +115,7 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     required: true,
-    reveal: true,
-    width: "slug",
+    folderPicker: true,
     pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
     patternHint:
       "Lower-case words joined by single hyphens, e.g. kitab-al-hikmah.",
@@ -129,7 +129,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     options: "content_profile",
     advanced: true,
-    width: "name",
     hint: "Worked out from the two answers above. Change it only if you know you need to.",
   },
   {
@@ -143,7 +142,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "category",
     advanced: true,
-    width: "name",
     hint: "Derived from the kind of content. Change it only if you know you need to.",
   },
   {
@@ -158,7 +156,6 @@ export const FIELDS: FieldDef[] = [
     vocab: "content_family",
     required: true,
     formOnly: true,
-    width: "name",
     hint: "This decides the shelf it lives on and most of the defaults below.",
   },
   {
@@ -167,7 +164,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     advanced: true,
-    width: "title",
     maxLength: 160,
   },
   {
@@ -176,7 +172,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     advanced: true,
-    width: "name",
     maxLength: 60,
   },
   {
@@ -185,7 +180,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     advanced: true,
-    width: "name",
     maxLength: 80,
   },
   {
@@ -194,7 +188,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     advanced: true,
-    width: "short",
     maxLength: 60,
   },
   {
@@ -203,7 +196,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     advanced: true,
-    width: "name",
     maxLength: 80,
   },
 
@@ -218,7 +210,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "source_medium",
     required: true,
-    width: "name",
     hint: "A printed work and a recorded talk are handled differently.",
   },
   {
@@ -228,7 +219,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     options: "source_language",
     required: true,
-    width: "short",
   },
   {
     key: "is_volume",
@@ -243,7 +233,6 @@ export const FIELDS: FieldDef[] = [
     label: "The whole work's folder name",
     step: 2,
     kind: "text",
-    width: "slug",
     pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
     patternHint: "Same shape as a folder name.",
     showIf: { key: "is_volume", equals: ["true"] },
@@ -253,7 +242,6 @@ export const FIELDS: FieldDef[] = [
     label: "Which volume",
     step: 2,
     kind: "number",
-    width: "short",
     showIf: { key: "is_volume", equals: ["true"] },
   },
   {
@@ -263,7 +251,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "source_fidelity",
     advanced: true,
-    width: "name",
     showIf: { key: "source_medium", equals: ["audio_lecture"] },
   },
 
@@ -275,7 +262,7 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "narrative_frame",
     required: true,
-    width: "full",
+    fullRow: true,
     hint: "Read how the SOURCE opens. This is a property of the text, never a preference.",
   },
   {
@@ -284,7 +271,6 @@ export const FIELDS: FieldDef[] = [
     step: 3,
     kind: "text",
     required: true,
-    width: "name",
     showIf: { key: "narrative_frame", equals: ["participant_narrator"] },
     hint: "One named person, for the whole book.",
   },
@@ -294,7 +280,6 @@ export const FIELDS: FieldDef[] = [
     step: 3,
     kind: "select",
     vocab: "deliverable_mode",
-    width: "name",
   },
   {
     key: "book_voice",
@@ -302,7 +287,6 @@ export const FIELDS: FieldDef[] = [
     step: 3,
     kind: "select",
     vocab: "book_voice",
-    width: "name",
   },
   {
     key: "enable_book_branch",
@@ -319,7 +303,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "book_augmentation",
     advanced: true,
-    width: "name",
   },
   {
     key: "book_visuals",
@@ -328,7 +311,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "book_visuals",
     advanced: true,
-    width: "name",
   },
   {
     key: "autonomy",
@@ -337,7 +319,7 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "autonomy",
     advanced: true,
-    width: "full",
+    fullRow: true,
   },
 
   // ── 4 · The podcast ───────────────────────────────────────────────────────
@@ -347,7 +329,6 @@ export const FIELDS: FieldDef[] = [
     step: 4,
     kind: "select",
     options: "audience_profile",
-    width: "name",
   },
   {
     key: "host_dynamic",
@@ -355,7 +336,6 @@ export const FIELDS: FieldDef[] = [
     step: 4,
     kind: "select",
     options: "host_dynamic",
-    width: "name",
   },
   {
     key: "length_tier",
@@ -363,7 +343,6 @@ export const FIELDS: FieldDef[] = [
     step: 4,
     kind: "select",
     options: "length_tier",
-    width: "name",
   },
   {
     key: "video_style",
@@ -371,7 +350,6 @@ export const FIELDS: FieldDef[] = [
     step: 4,
     kind: "select",
     options: "video_style",
-    width: "name",
   },
   {
     // Moved from step 4 to step 1 (Asif, 2026-08-30): it is the shelf the
@@ -382,7 +360,6 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "select",
     vocab: "study_track",
-    width: "name",
     hint: "The shelf readers browse it under on the Library.",
   },
   {
@@ -399,7 +376,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     options: "episode_planning_mode",
     advanced: true,
-    width: "name",
   },
   {
     key: "slide_deck_mode",
@@ -408,7 +384,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "slide_deck_mode",
     advanced: true,
-    width: "name",
     showIf: { key: "enable_slide_decks", equals: ["true"] },
   },
   {
@@ -418,7 +393,6 @@ export const FIELDS: FieldDef[] = [
     kind: "combo",
     vocab: "archetype",
     advanced: true,
-    width: "name",
     hint: "The authoring doctrine that governs how episodes are written.",
   },
   {
@@ -428,7 +402,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "content_level",
     advanced: true,
-    width: "name",
   },
   {
     key: "density",
@@ -437,7 +410,6 @@ export const FIELDS: FieldDef[] = [
     kind: "select",
     vocab: "density",
     advanced: true,
-    width: "short",
   },
 
   // ── 5 · Review ────────────────────────────────────────────────────────────
@@ -446,7 +418,7 @@ export const FIELDS: FieldDef[] = [
     label: "In your words",
     step: 5,
     kind: "textarea",
-    width: "full",
+    fullRow: true,
     maxLength: 4000,
     hint: "What you want this edition to be, anything unusual about the source, anything I should ask you about.",
   },

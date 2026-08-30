@@ -215,23 +215,54 @@ export default function BriefWizard() {
   const bucket =
     vocab?.profileBucket[values.content_profile ?? ""] ?? "Islamic";
 
-  const revealShelf = useCallback(async () => {
+  // Open the native folder chooser and take the folder's NAME as the slug.
+  // showDirectoryPicker gives us that name without reading what is inside, so
+  // pointing it at a big folder costs nothing; the webkitdirectory input is the
+  // fallback, and there the first entry's relative path starts with the folder.
+  // Nothing here touches the server -- the browser's own picker IS Finder.
+  const pickFolder = useCallback(async () => {
     setError("");
-    try {
-      await apiFetch<{ opened: string }>("/api/brief/reveal", {
-        method: "POST",
-        // The bucket NAME, never a path: the route resolves it against its own
-        // allowlist, so nothing the browser sends can point somewhere else.
-        body: { bucket },
-      });
-    } catch (e) {
-      setError(
-        e instanceof ApiFetchError && e.status !== 0
-          ? e.message
-          : `Could not open Finder: ${String(e)}`,
-      );
+    const apply = (name: string) => {
+      const s = slugify(name);
+      if (!s) {
+        setError(
+          `"${name}" has no letters or digits to make a folder name from.`,
+        );
+        return;
+      }
+      setSlugTouched(true);
+      setValues((prev) => ({ ...prev, slug: s }));
+    };
+
+    const picker = (
+      window as unknown as {
+        showDirectoryPicker?: () => Promise<{ name: string }>;
+      }
+    ).showDirectoryPicker;
+
+    if (picker) {
+      try {
+        const handle = await picker();
+        apply(handle.name);
+      } catch (e) {
+        // Cancelling the dialog is not a failure and must not shout about it.
+        if ((e as { name?: string })?.name !== "AbortError") {
+          setError(`Could not read that folder: ${String(e)}`);
+        }
+      }
+      return;
     }
-  }, [bucket]);
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.setAttribute("webkitdirectory", "");
+    input.addEventListener("change", () => {
+      const first = input.files?.[0];
+      const folder = first?.webkitRelativePath?.split("/")[0];
+      if (folder) apply(folder);
+    });
+    input.click();
+  }, []);
 
   const blockers = useMemo(() => {
     const out: { step: StepId; reasons: string[] }[] = [];
@@ -401,7 +432,7 @@ export default function BriefWizard() {
                 onExplain={(field, opts) =>
                   setExplain({ field, options: opts })
                 }
-                onReveal={revealShelf}
+                onPickFolder={pickFolder}
               />
             </>
           ) : (
@@ -411,7 +442,7 @@ export default function BriefWizard() {
               optionsFor={optionsFor}
               onChange={setValue}
               onExplain={(field, opts) => setExplain({ field, options: opts })}
-              onReveal={revealShelf}
+              onPickFolder={pickFolder}
             >
               {step === 1 && values.content_profile && (
                 <p className="bf-derived">
