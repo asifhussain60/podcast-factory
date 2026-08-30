@@ -53,6 +53,21 @@ export interface NavLink {
 }
 
 export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
+  // Intake leads the row (Asif, 2026-08-30). The order is the shape of the
+  // work: commission a piece of content, then produce it in Studio, with the
+  // reference and read-only domains after. It is also the only tab reached to
+  // START something, so it should not sit last behind four tabs about work
+  // already under way.
+  //
+  // Naming: the per-book pipeline stepper also has a step called Intake. The
+  // tab keeps the word (Asif's choice); the page's own h1 is "Commission new
+  // content", so the two read differently wherever they appear together.
+  {
+    href: "/intake",
+    label: "Intake",
+    section: "intake",
+    pages: ["intake"],
+  },
   // Pronunciation + Pre-Upload Review are working tools in the book workflow,
   // so they highlight Studio (the pipeline domain), not the read-only System docs.
   // Studio is the single books hub: it lists every book (grouped by bucket) and
@@ -108,20 +123,6 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     label: "Plans",
     section: "claudeplans",
     pages: ["claude-plans"],
-  },
-  // The commissioning form (2026-08-30). Its own tab rather than a card inside
-  // Studio because it is where a piece of content is DECIDED, before any book
-  // exists for the Studio domain to be about — and because it is the one page
-  // Asif reaches for when starting something rather than continuing it.
-  //
-  // Naming: the per-book pipeline stepper also has a step called Intake. The
-  // tab keeps the word (Asif's choice); the page's own h1 is "Commission new
-  // content", so the two read differently wherever they appear together.
-  {
-    href: "/intake",
-    label: "Intake",
-    section: "intake",
-    pages: ["intake"],
   },
 ];
 
