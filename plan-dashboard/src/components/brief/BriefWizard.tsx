@@ -39,6 +39,8 @@ interface VocabPayload {
   defaults: Record<string, string>;
   profileNarrativeFrame: Record<string, string>;
   profileBucket: Record<string, string>;
+  familyProfiles: Record<string, Record<string, string>>;
+  profileCategory: Record<string, string>;
   profileAudioEngine: Record<string, string>;
   profileVoiceCast: Record<string, Record<string, string>>;
 }
@@ -108,6 +110,19 @@ export default function BriefWizard() {
               seeded[f.key] = v.vocabularies[f.vocab]?.[0]?.value ?? "";
           }
         }
+        // Resolve the profile once up front, so the derived shelf, branch,
+        // narrative frame and legacy tag are right on the very first render
+        // rather than only after the first change.
+        const seedProfile =
+          v.familyProfiles[seeded.content_family ?? ""]?.[
+            seeded.source_medium ?? ""
+          ];
+        if (seedProfile) {
+          seeded.content_profile = seedProfile;
+          seeded.narrative_frame =
+            v.profileNarrativeFrame[seedProfile] ?? seeded.narrative_frame;
+          seeded.category = v.profileCategory[seedProfile] ?? seeded.category;
+        }
         const draft = readDraft();
         setValues({ ...seeded, ...(draft ?? {}) });
         if (draft?.slug) setSlugTouched(true);
@@ -150,8 +165,24 @@ export default function BriefWizard() {
         // The folder name follows the title until you edit it yourself.
         if (key === "title" && !slugTouched) next.slug = slugify(value);
         // The narrative frame follows the profile's own default, same rule.
-        if (key === "content_profile" && vocab?.profileNarrativeFrame[value]) {
-          next.narrative_frame = vocab.profileNarrativeFrame[value];
+        // The pipeline profile is never chosen directly. It falls out of the
+        // kind of content plus where it came from, which is what lets "Islamic
+        // scholarly" and "Islamic session" stop being a choice anyone has to
+        // understand: both are Islamic, and the medium tells them apart.
+        if (key === "content_family" || key === "source_medium") {
+          const profile =
+            vocab?.familyProfiles[next.content_family ?? ""]?.[
+              next.source_medium ?? ""
+            ];
+          if (profile) {
+            next.content_profile = profile;
+            // Everything the profile decides follows it in the same step, so
+            // the derived shelf, frame and legacy tag can never lag a change.
+            const frame = vocab?.profileNarrativeFrame[profile];
+            if (frame) next.narrative_frame = frame;
+            const category = vocab?.profileCategory[profile];
+            if (category) next.category = category;
+          }
         }
         return next;
       });

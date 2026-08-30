@@ -44,6 +44,92 @@ from _narrative_frames import (
 from _rules import ALLOWED_CATEGORIES, CONTENT_LEVEL_LADDER, EPISODE_FORMAT_ALLOWED
 from _translation_contract import TRANSLATION_EDITION_MODE
 
+# ── Families: one plain question instead of seven pipeline profile names ──────
+#
+# The Intake form asks WHAT KIND of content this is, then WHERE IT CAME FROM,
+# and resolves the pipeline's `content_profile` from the pair. That is how the
+# two Islamic profiles stop being a choice a person has to understand: a
+# scholarly book and a recorded session are both "Islamic", and the medium
+# already distinguishes them (Asif, 2026-08-30).
+#
+# Grouping is a PRESENTATION concern, so it lives here rather than in the
+# content-type registry -- but it may not silently fall out of step with it, so
+# `_assert_families_cover_registry` fails loudly the day a profile is added
+# without a home. The registry stays the authority on what exists.
+FAMILIES: tuple[tuple[str, str, str], ...] = (
+    (
+        "islamic",
+        "Islamic",
+        "Scholarly works, treatises and recorded religious sessions.",
+    ),
+    ("technical", "Technical or how-to", "Documentation, training, engineering material."),
+    ("fiction", "Fiction", "Novels and narrative storytelling."),
+    ("explainer", "Explainer or guide", "Onboarding, product and consumer explainers."),
+    ("general", "General non-fiction", "Everything else written to inform."),
+    ("supplication", "Supplication", "Prayers and devotional recitation."),
+)
+
+#: family -> {source_medium -> content_profile}. A family whose two media resolve
+#: to the SAME profile simply does not vary by medium; only Islamic does today.
+FAMILY_PROFILES: dict[str, dict[str, str]] = {
+    "islamic": {
+        _flags.SOURCE_PRINTED_TEXT: "islamic_scholarly",
+        _flags.SOURCE_AUDIO_LECTURE: "islamic_session",
+    },
+    "technical": {
+        _flags.SOURCE_PRINTED_TEXT: "technical",
+        _flags.SOURCE_AUDIO_LECTURE: "technical",
+    },
+    "fiction": {
+        _flags.SOURCE_PRINTED_TEXT: "fiction",
+        _flags.SOURCE_AUDIO_LECTURE: "fiction",
+    },
+    "explainer": {
+        _flags.SOURCE_PRINTED_TEXT: "consumer_explainer",
+        _flags.SOURCE_AUDIO_LECTURE: "consumer_explainer",
+    },
+    "general": {
+        _flags.SOURCE_PRINTED_TEXT: "general_nonfiction",
+        _flags.SOURCE_AUDIO_LECTURE: "general_nonfiction",
+    },
+    "supplication": {
+        _flags.SOURCE_PRINTED_TEXT: "islamic_supplication",
+        _flags.SOURCE_AUDIO_LECTURE: "islamic_supplication",
+    },
+}
+
+#: The legacy `category` tag each profile defaults to. It is no longer asked on
+#: the form's surface -- `_branching` states outright that category "does NOT
+#: reliably determine the bucket" and `content_profile` supersedes it -- but it
+#: is still read by _paths, _contract_validation and the explainer slide route,
+#: so it is derived here and left overridable rather than dropped.
+PROFILE_CATEGORY: dict[str, str] = {
+    "islamic_scholarly": "books",
+    "islamic_session": "lectures",
+    "islamic_supplication": "books",
+    "fiction": "books",
+    "technical": "explainers",
+    "consumer_explainer": "explainers",
+    "general_nonfiction": "books",
+}
+
+
+def _assert_families_cover_registry() -> None:
+    """Every profile the pipeline knows must be reachable from some family."""
+    reachable = {p for media in FAMILY_PROFILES.values() for p in media.values()}
+    missing = set(CONTENT_TYPE_REGISTRY) - reachable
+    if missing:
+        raise ValueError(
+            "content profiles unreachable from any Intake family: "
+            f"{sorted(missing)} -- add them to FAMILY_PROFILES in brief_vocabularies.py"
+        )
+    unknown = reachable - set(CONTENT_TYPE_REGISTRY)
+    if unknown:
+        raise ValueError(f"FAMILY_PROFILES names profiles that do not exist: {sorted(unknown)}")
+    uncategorised = reachable - set(PROFILE_CATEGORY)
+    if uncategorised:
+        raise ValueError(f"profiles with no default category: {sorted(uncategorised)}")
+
 
 def _opt(value: str, label: str, description: str = "") -> dict[str, str]:
     return {"value": value, "label": label, "description": description}
@@ -110,10 +196,22 @@ def get_vocabularies() -> dict[str, list[dict[str, str]]]:
             archetypes.append(_opt(slug, _titleize(slug)))
 
     return {
+        "content_family": [_opt(v, label, desc) for v, label, desc in FAMILIES],
         "narrative_frame": _from_registry(NARRATIVE_FRAMES),
         "autonomy": _from_registry(AUTONOMY_LEVELS),
+        # Worded as the thing itself rather than as the pipeline token: this is
+        # half of what decides the content profile, so it has to read plainly.
         "source_medium": [
-            _opt(v, _titleize(v), _GLOSS.get(v, "")) for v in (_flags.SOURCE_PRINTED_TEXT, _flags.SOURCE_AUDIO_LECTURE)
+            _opt(
+                _flags.SOURCE_PRINTED_TEXT,
+                "A printed book or manuscript",
+                _GLOSS[_flags.SOURCE_PRINTED_TEXT],
+            ),
+            _opt(
+                _flags.SOURCE_AUDIO_LECTURE,
+                "A recorded talk or session",
+                _GLOSS[_flags.SOURCE_AUDIO_LECTURE],
+            ),
         ],
         "book_voice": [
             _opt(v, _titleize(v), _GLOSS.get(v, ""))
@@ -193,6 +291,7 @@ def main(argv: list[str] | None = None) -> int:
     # options, so an unknown argument must still be rejected rather than ignored.
     p.parse_args(argv)
     try:
+        _assert_families_cover_registry()
         out = {
             "vocabularies": get_vocabularies(),
             "defaults": defaults(),
@@ -200,6 +299,8 @@ def main(argv: list[str] | None = None) -> int:
             # The bucket a profile routes to, so the form can show it read-only
             # without keeping a third copy of the map (`_paths.resolve_bucket`
             # and `content-paths.ts` are the other two, and they must agree).
+            "family_profiles": {f: dict(m) for f, m in FAMILY_PROFILES.items()},
+            "profile_category": dict(PROFILE_CATEGORY),
             "profile_bucket": {profile: ct.bucket for profile, ct in CONTENT_TYPE_REGISTRY.items()},
             # The engine each profile actually uses. Served because the shared
             # voice picker still defaults to ElevenLabs, which was retired in

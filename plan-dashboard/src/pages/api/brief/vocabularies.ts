@@ -24,6 +24,8 @@ export const GET: APIRoute = async () => {
       defaults?: Record<string, string>;
       profile_narrative_frame?: Record<string, string>;
       profile_bucket?: Record<string, string>;
+      family_profiles?: Record<string, Record<string, string>>;
+      profile_category?: Record<string, string>;
       profile_audio_engine?: Record<string, string>;
       profile_voice_cast?: Record<string, Record<string, string>>;
     };
@@ -33,6 +35,8 @@ export const GET: APIRoute = async () => {
       defaults: out.defaults ?? {},
       profileNarrativeFrame: out.profile_narrative_frame ?? {},
       profileBucket: out.profile_bucket ?? {},
+      familyProfiles: out.family_profiles ?? {},
+      profileCategory: out.profile_category ?? {},
       profileAudioEngine: out.profile_audio_engine ?? {},
       profileVoiceCast: out.profile_voice_cast ?? {},
     });

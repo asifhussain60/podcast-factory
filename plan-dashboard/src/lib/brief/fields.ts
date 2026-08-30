@@ -120,21 +120,41 @@ export const FIELDS: FieldDef[] = [
     hint: "Suggested from the title. This names the folder and the branch.",
   },
   {
-    key: "category",
-    label: "Kind of thing",
-    step: 1,
-    kind: "select",
-    vocab: "category",
-    required: true,
-    width: "name",
-  },
-  {
     key: "content_profile",
-    label: "Content profile",
+    label: "Pipeline profile",
     step: 1,
     kind: "select",
     options: "content_profile",
+    advanced: true,
+    width: "name",
+    hint: "Worked out from the two answers above. Change it only if you know you need to.",
+  },
+  {
+    // The legacy tag. `_branching` states outright that it "does NOT reliably
+    // determine the bucket" and content_profile supersedes it, but _paths,
+    // _contract_validation and the explainer slide route still read it -- so it
+    // is derived from the profile and kept overridable rather than dropped.
+    key: "category",
+    label: "Legacy category tag",
+    step: 1,
+    kind: "select",
+    vocab: "category",
+    advanced: true,
+    width: "name",
+    hint: "Derived from the kind of content. Change it only if you know you need to.",
+  },
+  {
+    // The pipeline's content_profile is RESOLVED from this plus source_medium
+    // (see FAMILY_PROFILES in brief_vocabularies.py). Asking the profile
+    // directly meant choosing between "Islamic scholarly" and "Islamic session"
+    // with nothing on screen explaining the difference.
+    key: "content_family",
+    label: "What kind of content is this",
+    step: 1,
+    kind: "select",
+    vocab: "content_family",
     required: true,
+    formOnly: true,
     width: "name",
     hint: "This decides the shelf it lives on and most of the defaults below.",
   },
@@ -186,13 +206,17 @@ export const FIELDS: FieldDef[] = [
 
   // ── 2 · The source ────────────────────────────────────────────────────────
   {
+    // On step 1 rather than step 2 since 2026-08-30: together with
+    // content_family this resolves the pipeline profile, so it has to be
+    // answered before the derived shelf and branch can be shown.
     key: "source_medium",
-    label: "What it came from",
-    step: 2,
+    label: "Where it came from",
+    step: 1,
     kind: "select",
     vocab: "source_medium",
     required: true,
     width: "name",
+    hint: "A printed work and a recorded talk are handled differently.",
   },
   {
     key: "source_language",
@@ -347,13 +371,16 @@ export const FIELDS: FieldDef[] = [
     width: "name",
   },
   {
+    // Moved from step 4 to step 1 (Asif, 2026-08-30): it is the shelf the
+    // Library's "Browse by track" chips are built from, so it belongs with the
+    // work's identity rather than buried among the podcast production settings.
     key: "study_track",
     label: "Study track",
-    step: 4,
-    kind: "combo",
+    step: 1,
+    kind: "select",
     vocab: "study_track",
     width: "name",
-    hint: "Which shelf a reader finds it on.",
+    hint: "The shelf readers browse it under on the Library.",
   },
   {
     key: "enable_slide_decks",
