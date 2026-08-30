@@ -10,3 +10,11 @@ audience_profile: traditional
 conversation_style: deep_dive
 length_tier: extended
 episode_planning_mode: problem_solution
+
+# This is a recorded sermon, not a text being adapted into a podcast. Phase 0d's
+# own topic/session boundaries stay (that is real chapter-design work); the
+# per-source-chapter AUTHORING call that normally follows it is skipped —
+# chapters/*.txt is proofread and Arabic-restored, never rewritten. Set
+# 2026-08-30 after the first chapter came back as paraphrased third-person
+# narration of a sermon that opens "Hello, welcome to my lecture."
+episode_voice: verbatim

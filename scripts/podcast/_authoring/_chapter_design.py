@@ -16,6 +16,7 @@ from _content_profile import (
 from _content_profile import (
     is_islamic_scholarly as _is_islamic_scholarly,
 )
+from _pipeline_flags import EPISODE_VOICE_VERBATIM, episode_voice
 from _validator_constants import (
     EPISODE_DENSITY_CEILING_DENSE,
     EPISODE_DENSITY_CEILING_NARRATIVE,
@@ -448,8 +449,7 @@ def author_phase_0d(
     length_tier: str = "extended",
     unit_mode: str = "auto",
     timeout: int = DEFAULT_TIMEOUT,
-    # `sc_timeout` removed 2026-08-11 — superseded by the word-count-aware
-    # `_compute_sc_timeout(slice_wc)` below, and passed by no caller since.
+    # `sc_timeout` removed 2026-08-11 — superseded by `_compute_sc_timeout(slice_wc)` below.
     toc_timeout: int = PHASE_0D_TOC_TIMEOUT,
     log=print,
     category: str | None = None,
@@ -460,24 +460,20 @@ def author_phase_0d(
     entire book's chapter set in a single shellout:
 
       Step 1 (TOC + plan, one small call):
-          Read refined-english.md, identify source-chapter boundaries
-          (by heading or thematic break), and emit a JSON plan to
-          `_chunks/0d/source-toc.json`. Each entry pins start_line +
-          end_line (1-indexed, inclusive) into refined-english.md, the
-          chosen `unit_mode` for that source chapter, the episode count,
-          and the kebab-case slug for each episode.
+          Read refined-english.md, identify source-chapter boundaries (by
+          heading or thematic break), and emit a JSON plan to
+          `_chunks/0d/source-toc.json`. Each entry pins start_line + end_line
+          (1-indexed, inclusive) into refined-english.md, the chosen
+          `unit_mode`, the episode count, and each episode's kebab-case slug.
 
       Step 2 (per-source-chapter loop, one call each):
-          For each source chapter in the plan, slice the refined text,
-          pass it to a focused `claude -p` call that writes ONLY this
-          source chapter's episode files + contracts (with episode
-          numbers already pre-assigned from the plan, so the global
-          numbering is monotonic). Per-source-chapter rationale +
-          source-map rows are written to
-          `_chunks/0d/sc-NNN.{rationale,source-map}.md`. A
-          `_chunks/0d/sc-NNN.done` marker file makes the loop
-          resume-safe — if the orchestrator crashes mid-way, re-running
-          only retries the not-yet-done source chapters.
+          For each source chapter in the plan, slice the refined text, pass
+          it to a focused `claude -p` call that writes ONLY this source
+          chapter's episode files + contracts (episode numbers already
+          pre-assigned from the plan, so numbering is monotonic).
+          Per-source-chapter rationale + source-map rows go to
+          `_chunks/0d/sc-NNN.{rationale,source-map}.md`; a `sc-NNN.done`
+          marker makes the loop resume-safe after a crash mid-way.
 
       Step 3 (stitch, deterministic):
           Concat all sc-NNN.rationale.md → chapters-rationale.md.
@@ -503,6 +499,7 @@ def author_phase_0d(
     if category is None:
         category = _read_category(book_dir)
 
+    verbatim_mode = episode_voice(book_dir) == EPISODE_VOICE_VERBATIM  # _pipeline_flags
     # Per-book concepts-per-episode cap. Rebinding the module global here (default
     # = unchanged 3) makes every downstream reference — TOC prompt, the R-MAX-CONCEPTS
     # floor, and per-chapter validation — honor a book's curated/breathable setting
@@ -871,14 +868,11 @@ def author_phase_0d(
     # ── STEP 2: per-source-chapter loop ──────────────────────────────────────
     log(f"  phase 0d · step 2/3 · per-source-chapter loop ({len(source_chapters)} chapters)")
 
-    # Cross-chapter doctrine de-dup (R-NO-DOCTRINE-REPEAT, 2026-06-16). 0d
-    # authors each source chapter in an isolated slice, so a re-lecturing source
-    # produced chapters that re-taught earlier doctrines in full. Thread a
-    # running ledger of concept-doctrines already taught by EARLIER chapters and
-    # inject it into each chapter's prompt so re-covered doctrine is collapsed to
-    # a callback. Deterministic extraction (H2 concept titles via
-    # chapter_density_audit — no extra LLM call); seeded from any already-authored
-    # chapters so it is resume-safe.
+    # Cross-chapter doctrine de-dup (R-NO-DOCTRINE-REPEAT, 2026-06-16): each source
+    # chapter is authored in isolation, so a re-lecturing source re-taught earlier
+    # doctrines in full. Thread a ledger of concept-doctrines already taught (H2
+    # titles via chapter_density_audit, no LLM call) into each prompt so a repeat
+    # collapses to a callback; seeded from already-authored chapters, resume-safe.
     from chapter_density_audit import audit_chapter as _audit_ch
 
     def _chapter_concepts(_cf: Path) -> list[str]:
@@ -889,8 +883,8 @@ def author_phase_0d(
         except Exception:
             return []
 
-    # Seed with EARLIER volumes' concepts so the per-source-chapter R-NO-DOCTRINE-REPEAT
-    # directive also suppresses cross-VOLUME repeats (empty for single books).
+    # Seeded with EARLIER volumes' concepts too, so R-NO-DOCTRINE-REPEAT also
+    # suppresses cross-volume repeats (empty for single books).
     taught_concepts: list[str] = list(_prior_vol_concepts)
     for _existing in sorted(chapters_dir.glob("ch*.txt")):
         taught_concepts.extend(_chapter_concepts(_existing))
@@ -906,9 +900,9 @@ def author_phase_0d(
         # runs to EOF either way. Without this a 648-vs-647 overshoot fails the
         # whole source chapter. A genuine inversion is still caught below.
         end_line = min(int(sc["end_line"]), len(refined_lines))
-        sc_unit_mode = str(sc.get("unit_mode", "chapter"))
-        episode_count = int(sc.get("episode_count", 1))
-        episodes = sc.get("episodes") or []
+        sc_unit_mode = "chapter" if verbatim_mode else str(sc.get("unit_mode", "chapter"))
+        episode_count = 1 if verbatim_mode else int(sc.get("episode_count", 1))
+        episodes = (sc.get("episodes") or [])[:1] if verbatim_mode else (sc.get("episodes") or [])
         if len(episodes) != episode_count:
             sc_failures.append(
                 (sc_idx, f"plan inconsistent: episodes={len(episodes)} != episode_count={episode_count}")
@@ -959,6 +953,14 @@ def author_phase_0d(
                 + (f"  section_index={section_index}" if section_index is not None else "")
             )
 
+        if verbatim_mode:  # no sc_prompt, no authoring call — _verbatim_episode.py
+            from _verbatim_episode import handle_verbatim_source_chapter
+
+            handle_verbatim_source_chapter(
+                book_dir, sc_idx, sc_title, slice_text, expected_chapter_files[0], expected_contract_files[0],
+                int(episodes[0]["ep_num"]), plan_sessions, done_marker, taught_concepts, log
+            )  # fmt: skip
+            continue
         sc_prompt = (
             f"You are driving Phase 0d STEP 2 (per-source-chapter authoring) of the /podcast "
             f"skill on book-slug `{book_slug}`, **source chapter {sc_idx} of "

@@ -13,9 +13,12 @@ from _pipeline_flags import (
     BOOK_AUGMENTATION_SOURCE_ONLY,
     BOOK_VOICE_AUTHOR_COMPANION,
     BOOK_VOICE_FAITHFUL,
+    EPISODE_VOICE_AUTHORED,
+    EPISODE_VOICE_VERBATIM,
     book_augmentation,
     book_knobs,
     book_voice,
+    episode_voice,
 )
 
 
@@ -253,3 +256,37 @@ def test_the_live_work_declaration_reaches_every_volume() -> None:
     if not volumes:
         return
     assert all(source_medium(v) == SOURCE_AUDIO_LECTURE for v in volumes), [(v.name, source_medium(v)) for v in volumes]
+
+
+# ─── episode_voice — phase 0d's authored/verbatim knob ─────────────────────
+# Independent of book_voice: it governs `chapters/*.txt` (the podcast episode
+# text phase 0d writes), never `book/book.md` (book_voice's own deliverable).
+
+
+def test_episode_voice_defaults_to_authored_with_no_config(tmp_path: Path) -> None:
+    bd = _book(tmp_path, "content_profile: islamic_scholarly\n")
+    assert episode_voice(bd) == EPISODE_VOICE_AUTHORED
+
+
+def test_episode_voice_has_no_default_map_entry_unlike_the_other_three_knobs(tmp_path: Path) -> None:
+    """Every content_profile still resolves to `authored` — there is no
+    profile-driven default for this knob, only every existing book's actual
+    behaviour today. A silent default change here would alter chapters already
+    shipped."""
+    bd = _book(tmp_path, "deliverable_mode: translation_edition\n")
+    assert episode_voice(bd) == EPISODE_VOICE_AUTHORED
+
+
+def test_episode_voice_verbatim_is_explicit_and_independent_of_book_voice(tmp_path: Path) -> None:
+    bd = _book(
+        tmp_path,
+        "content_profile: islamic_scholarly\nbook_voice: faithful\nepisode_voice: verbatim\n",
+    )
+    assert episode_voice(bd) == EPISODE_VOICE_VERBATIM
+    assert book_voice(bd) == BOOK_VOICE_FAITHFUL  # unchanged by episode_voice
+
+
+def test_episode_voice_typo_is_refused_not_defaulted(tmp_path: Path) -> None:
+    bd = _book(tmp_path, "episode_voice: verbatm\n")
+    with pytest.raises(ValueError, match="episode_voice"):
+        episode_voice(bd)

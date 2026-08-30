@@ -81,6 +81,30 @@ _VALID_VOICE = frozenset({BOOK_VOICE_FAITHFUL, BOOK_VOICE_AUTHOR_COMPANION})
 
 _TRANSLATION_EDITION_MODE = "translation_edition"
 
+EPISODE_VOICE_KEY = "episode_voice"
+#: How phase 0d writes `chapters/*.txt` — the podcast/NotebookLM episode text,
+#: NOT the book branch's `book/book.md` (that is `book_voice`, above, an
+#: entirely separate knob for an entirely separate deliverable).
+#:
+#: `authored` (default): 0d's per-source-chapter step is handed the sliced
+#: transcript and a full episode-authoring brief — concept sections, an
+#: opening hook, a word-count target — and writes literary prose from it. Right
+#: for a scholarly text being turned into a podcast episode; wrong for a
+#: recording someone should be able to trust as what was actually said.
+#:
+#: `verbatim`: 0d skips that authoring call entirely. The sliced transcript is
+#: proofread (`_verbatim_correct.correct` — spelling, punctuation, paragraph
+#: breaks, obviously-dropped words; reverts any window that drops below 90% of
+#: the speaker's own vocabulary) and has its phonetically-written Arabic put
+#: back into script (`_verbatim_correct.restore_script`). Added 2026-08-30
+#: after `purification-of-the-heart`'s first chapter came back as paraphrased
+#: third-person narration of a sermon that opens "Hello, welcome to my
+#: lecture" — the authored brief does what it is asked, which is exactly the
+#: wrong thing for a recording meant to be trusted as verbatim.
+EPISODE_VOICE_AUTHORED = "authored"
+EPISODE_VOICE_VERBATIM = "verbatim"
+_VALID_EPISODE_VOICE = frozenset({EPISODE_VOICE_AUTHORED, EPISODE_VOICE_VERBATIM})
+
 
 def _read_series_config(book_dir: Path) -> dict[str, Any]:
     """Load ``_system/series-config.yaml`` defensively (never raises)."""
@@ -166,6 +190,26 @@ def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     if explicit:
         return explicit
     return _default_knobs(book_dir, cfg)[1]
+
+
+def episode_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """``authored`` | ``verbatim`` — how phase 0d writes episode chapters.
+
+    Independent of `book_voice`: a book can (and `purification-of-the-heart`
+    does) keep `book_voice: faithful` for its reading-edition branch while
+    setting `episode_voice: verbatim` for its podcast chapters — different
+    deliverables, different questions. No default map entry: unlike
+    augmentation/voice/visuals, there is no content-profile-driven default for
+    this knob — every book is `authored` unless it says otherwise, because
+    that is every book's behaviour today and a silent default change would
+    alter chapters already shipped.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    explicit = str(cfg.get(EPISODE_VOICE_KEY) or "").strip().lower()
+    if explicit and explicit not in _VALID_EPISODE_VOICE:
+        _reject_unknown(EPISODE_VOICE_KEY, explicit, _VALID_EPISODE_VOICE)
+    return explicit or EPISODE_VOICE_AUTHORED
 
 
 def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
