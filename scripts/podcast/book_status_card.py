@@ -481,7 +481,7 @@ def _step_row(icon: str, name: str) -> str:
     return f"│ {icon} {name[:room]:<{room}} │"
 
 
-def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
+def render_card(card: dict[str, Any], *, verbose: bool = False, compact: bool = False) -> str:
     """A framed status card for ONE book's own pipeline run.
 
     Fixed width and box-drawn, because the value of a status card is that
@@ -495,7 +495,19 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
     the Snag List view), and it never truncates the remaining-step list behind
     a "+N more" — every step this book still has to clear is printed, one per
     line, so the picture is complete rather than a sample of it.
+
+    `compact` added 2026-08-30 for the heartbeat loop: five minutes apart, the
+    26-line remaining-step list is the same 26 lines every tick until a phase
+    actually advances — the one thing that changed (current step, spend, ETA)
+    was buried in a wall of unchanging text. compact keeps every ROW above the
+    step list (title, bar, Now, any gate/error/skip rows, Spend, Checked, ETA)
+    and drops only "Left" and the per-step rows beneath it. `verbose` still
+    means what it did — append the COMPLETED steps too — and is refused
+    together with `compact`, since asking for less detail and more in the same
+    call is not a request this function can satisfy.
     """
+    if compact and verbose:
+        raise ValueError("render_card: compact and verbose are mutually exclusive")
     pct = card["percent_complete"]
     bar_width = _CARD_WIDTH - 10  # frame(2) + padding(2) + ' 100%'(6)
     filled = int(round(bar_width * pct / 100))
@@ -533,10 +545,11 @@ def render_card(card: dict[str, Any], *, verbose: bool = False) -> str:
         behind = ", ".join(f"{step_name(b['phase'])} ({b['status']})" for b in card["bypassed_unresolved"])
         lines.append(_row("Behind", behind))
 
-    lines.append(mid)
-    lines.append(_row("Left", f"{len(remaining_rows)} step(s)" if remaining_rows else "nothing — complete"))
-    for row in remaining_rows:
-        lines.append(_step_row(row["icon"], step_name(row["phase"])))
+    if not compact:
+        lines.append(mid)
+        lines.append(_row("Left", f"{len(remaining_rows)} step(s)" if remaining_rows else "nothing — complete"))
+        for row in remaining_rows:
+            lines.append(_step_row(row["icon"], step_name(row["phase"])))
 
     lines.append(mid)
     lines.append(
@@ -558,8 +571,12 @@ def main() -> int:
     argv = [a for a in sys.argv[1:] if not a.startswith("--")]
     as_json = "--json" in sys.argv
     verbose = "--verbose" in sys.argv
+    compact = "--compact" in sys.argv
     if not argv:
-        print("usage: book_status_card.py <book-slug|BOOK_DIR> [--json] [--verbose]", file=sys.stderr)
+        print("usage: book_status_card.py <book-slug|BOOK_DIR> [--json] [--verbose] [--compact]", file=sys.stderr)
+        return 2
+    if verbose and compact:
+        print("book_status_card.py: --verbose and --compact are mutually exclusive", file=sys.stderr)
         return 2
     target = Path(argv[0])
     if target.exists():
@@ -571,7 +588,11 @@ def main() -> int:
         print(f"no book found for {argv[0]!r}", file=sys.stderr)
         return 1
     card = build_card(Path(book_dir))
-    print(json.dumps(card, ensure_ascii=False, indent=2) if as_json else render_card(card, verbose=verbose))
+    print(
+        json.dumps(card, ensure_ascii=False, indent=2)
+        if as_json
+        else render_card(card, verbose=verbose, compact=compact)
+    )
     return 0
 
 
