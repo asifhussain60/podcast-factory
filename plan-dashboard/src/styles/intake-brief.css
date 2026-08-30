@@ -573,27 +573,47 @@
   margin: 0;
 }
 
+/* COLUMNS, not grid (2026-08-30, from Asif's markup: three boxes drawn round the
+   empty regions beside the short cards).
+
+   The four sections are wildly uneven — 8 answers, 2, 6, 10 — and a two-column
+   GRID lays them out in rows, so each row is as tall as its taller card. Whatever
+   is done about the shorter one is wrong: stretch it and it renders as a
+   mostly-empty panel, or let it keep its own height (align-items:start, which is
+   what the markup caught) and the grid leaves a hole beside it. Both were shipped
+   in that order, and the hole is what got drawn on.
+
+   Multi-column flows the cards instead of placing them in rows: a card starts
+   where the previous one ended, and the browser balances the columns. There is no
+   row to leave a gap in. `break-inside: avoid` on the card is what stops one
+   splitting across the fold. */
 .bf-rv-grid {
-  display: grid;
-  /* Two cards side by side where there is room, one where there is not. */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  gap: var(--sp-4);
-  /* Each card is its own height. Without this the grid stretches every card in
-     a row to match the tallest, and a short one (The source has two answers
-     against The work's six) renders as a mostly-empty panel that reads as a
-     rendering fault rather than a short section. */
-  align-items: start;
+  columns: 2;
+  column-gap: var(--sp-4);
+}
+
+/* One column below the width where two cards stop fitting — matching the 22rem
+   minimum the grid used, so the breakpoint does not move. */
+@media (max-width: 52rem) {
+  .bf-rv-grid {
+    columns: 1;
+  }
 }
 
 .bf-rv-card {
   border: 1px solid var(--c-rule-soft);
   border-radius: var(--r-md);
-  padding: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
   background: var(--c-bg-card);
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  gap: var(--sp-3);
+  /* A card is one unit: never split it down a column boundary. */
+  break-inside: avoid;
+  /* Columns have no row gap, so the card carries its own bottom spacing —
+     `margin` rather than `gap`, which does not apply in a column context. */
+  margin-bottom: var(--sp-4);
 }
 
 .bf-rv-card-head {
@@ -601,7 +621,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: var(--sp-3);
-  padding-bottom: var(--sp-3);
+  padding-bottom: var(--sp-2);
   border-bottom: 1px solid var(--c-rule-soft);
 }
 
@@ -655,7 +675,7 @@
    Deliberately faint: 40% of the sunken token, which is a warm beige a shade
    off the card rather than a grey box drawn around every row. */
 .bf-rv-row {
-  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
   border-inline-start: 2px solid var(--c-accent-soft);
   background: color-mix(in oklab, var(--c-bg-sunken) 40%, transparent);
