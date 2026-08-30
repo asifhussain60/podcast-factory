@@ -6,18 +6,36 @@
   "status": "draft",
   "source_kind": "audio-transcript",
   "source_language": "en",
-  "phase": "awaiting-intake",
+  "phase": "0b",
   "phase_status": "pending",
-  "last_completed_phase": null,
+  "last_completed_phase": "0a",
   "last_error": null,
   "started": "2026-08-30T00:00:00Z",
-  "updated": "2026-08-30T00:00:00Z",
+  "updated": "2026-08-30T22:14:58Z",
   "phases": {
     "scaffold": {
       "status": "completed",
-      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile — content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run — this state is a placeholder, not a pipeline-produced record.",
+      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile \u2014 content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run \u2014 this state is a placeholder, not a pipeline-produced record.",
       "completed_via": "manual-scaffold-standby"
+    },
+    "0a": {
+      "status": "completed",
+      "completed_at": "2026-08-30T22:14:58Z",
+      "completed_via": "TurboScribe export (hand-produced), tail re-transcribed with Azure",
+      "note": "Source is a supplied transcript, so Phase 0a (OCR) does not apply. Part 1's TurboScribe export stopped at exactly 10.000h against 10.273h of audio -- a hard export ceiling that left 16.4 min untranscribed. That tail was cut from the MP3, transcribed with Azure fast transcription (163 phrases, 2,146 words) and spliced into both the .txt and the .vtt at offset 35998.830s. Coverage is now 99.9% and 100.0%; both VTTs parse monotonic through _transcript.from_vtt (10,022 and 9,784 cues)."
     }
   },
-  "intake_via": "manual-scaffold-standby (2026-08-30), relocated to Sessions bucket same day"
+  "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
+  "input_type": "audio-transcript",
+  "source_fidelity": "verbatim",
+  "source_path": "content/Sessions/purification-of-the-heart/_system/source/text/raw-extract.md",
+  "audio_source_paths": [
+    "content/Sessions/purification-of-the-heart/source/01-purification-of-the-heart.mp3",
+    "content/Sessions/purification-of-the-heart/source/02-purification-of-the-heart.mp3"
+  ],
+  "timed_transcripts": [
+    "content/Sessions/purification-of-the-heart/transcripts/01-purification-of-the-heart.vtt",
+    "content/Sessions/purification-of-the-heart/transcripts/02-purification-of-the-heart.vtt"
+  ],
+  "next_phase": "0b"
 }
