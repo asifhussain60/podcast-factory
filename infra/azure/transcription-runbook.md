@@ -16,6 +16,58 @@ NotebookLM audio files. Covers what works, what fails, and why.
 
 ---
 
+## Before you spend anything: is Azure even the right transcriber here?
+
+For **lecture audio it usually is not**, and this is not a cost argument.
+
+Measured 2026-08-30 on a 10m52s lecture from the Purification of the Heart
+series, Azure against a hand-produced transcript of the same file: 96.1% of
+words agree, and the 3.9% that differ is almost entirely this library's
+vocabulary. Azure dropped `Bismillah ar-Rahman ar-Rahim` and seven occurrences
+of `subhanahu wa ta'ala` outright; wrote `takwa` for taqwa, `toba` for tawbah,
+`comat` for karamat, `surgeons` for sojourns; and twice produced not a
+mishearing but a change of meaning — `Allah subhanahu wa ta'ala anhum` came back
+as "beloved God on him", and "Know, may Allah give you and us success" as "No,
+may I give you and us success".
+
+Separately: the fast-transcription endpoint returns nothing past roughly 25
+minutes and **none of the callers on this route chunk**. 21 of that series' 41
+recordings are longer than that, so Azure cannot finish the job at all.
+
+So for a lecture series, produce the transcripts externally and adopt them:
+
+```bash
+# 1. Export each recording as VTT (not TXT — a plain-text export carries one
+#    timestamp for the whole file and is refused).
+# 2. Drop them in the book's inbox, named so each one says which episode it is:
+#       content/<Bucket>/<slug>/transcripts/_inbox/ep01.vtt
+#    `[Part 7]`, `Session 7`, `episode-7` and `07 - Title` are also understood.
+# 3. Adopt them, and refuse to spend a cent if any of them is bad:
+python3 scripts/podcast/ensure_transcripts.py <slug> --adopt-only
+
+# Dry run first — says what it would adopt, what it would buy, and the estimate:
+python3 scripts/podcast/ensure_transcripts.py <slug> --dry-run
+```
+
+Every adopted file is checked before it is written: it must parse as WebVTT or
+SubRip, carry at least a few cues, run forwards, and **cover 80–105% of the
+recording's real duration**. That last check is the one that matters — a
+transcript paired with the wrong recording reads perfectly well and is wrong,
+and nothing else catches it. A file that fails is refused by name with its
+reason; without `--adopt-only` the episode then falls through to Azure, because
+this runs inside the deploy and a bad export must not stop a finished book
+publishing.
+
+`transcripts/_provenance.json` records which route produced each transcript. The
+cost ledger cannot: an adopted transcript is free and leaves no row at all, so
+absence there cannot distinguish "adopted" from "never made".
+
+**Books are unaffected.** A book whose SOURCE is audio goes through
+`transcribe_audio_book.py`, which uses Gemini and never touched Azure — chosen
+precisely because Azure mishandles code-switched Urdu and Arabic.
+
+---
+
 ## Quick-start (copy-paste)
 
 ```bash

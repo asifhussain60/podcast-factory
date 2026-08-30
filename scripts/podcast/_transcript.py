@@ -327,3 +327,48 @@ def vtt_path(book_dir: Path, number: int) -> Path:
     EP-keyed flat transcripts.
     """
     return book_dir / TRANSCRIPT_DIR / f"ep{number:02d}.vtt"
+
+
+PROVENANCE_NAME = "_provenance.json"
+PROVENANCE_SCHEMA = "podcast.transcript-provenance/v1"
+
+
+def provenance_path(book_dir: Path) -> Path:
+    return book_dir / TRANSCRIPT_DIR / PROVENANCE_NAME
+
+
+def read_provenance(book_dir: Path) -> dict[str, dict]:
+    """`{"01": {...}}` — what is known about how each transcript was made.
+
+    A missing or corrupt file reads as `{}`. This is a RECORD, not a gate: no
+    decision anywhere depends on it, so a machine that has lost it still
+    publishes correctly and simply cannot answer the question.
+    """
+    path = provenance_path(book_dir)
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    episodes = data.get("episodes")
+    return episodes if isinstance(episodes, dict) else {}
+
+
+def write_provenance(book_dir: Path, episodes: dict[str, dict]) -> Path:
+    """Record where each shipped transcript came from.
+
+    It exists because "was this transcript bought, or did somebody hand it to
+    us" stops being answerable the moment both routes write the same file. The
+    cost ledger only records what was PAID for, so an adopted transcript leaves
+    no trace there by construction — absence in the ledger cannot distinguish
+    "adopted from an external export" from "never made at all".
+
+    Sorted and re-serialised whole on every write, so the file is stable in git
+    and a diff shows the episode that changed rather than a reordering.
+    """
+    path = provenance_path(book_dir)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {"schema": PROVENANCE_SCHEMA, "episodes": dict(sorted(episodes.items()))}
+    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    return path
