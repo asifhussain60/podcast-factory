@@ -22,6 +22,12 @@ WHAT IT WILL NOT DO, deliberately:
   * It writes NOTHING without `--apply`. Re-encoding is lossy and irreversible, so
     a dry run that prints the whole plan is the default and the only safe habit.
 
+Before overwriting anything it PROMOTES the original into `Audio/` if no master is
+there yet. Only 26 of the library's 65 shippable files had one when this was
+written — in the other books the session-folder file is the only copy in existence.
+Local disk is not the scarce resource here (224 GB free against ~579 MB of such
+originals); the 10 GB R2 tier is, and R2 never receives the masters.
+
 Each conversion goes to a temp file and replaces the original only after ffmpeg
 exits clean and the result is actually smaller — a failed or counterproductive
 encode leaves the original untouched.
@@ -35,6 +41,7 @@ CLI:
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -91,6 +98,35 @@ def shippable_audio(book_dir: Path) -> list[Path]:
         for p in root.rglob("*")
         if p.is_file() and p.suffix.lower() in AUDIO_EXT and MASTERS_DIR not in p.relative_to(root).parts
     )
+
+
+def ensure_master(path: Path) -> Path | None:
+    """Guarantee a pristine copy in `Audio/` before anything overwrites `path`.
+
+    Only 26 of the library's 65 shippable files had a master when this was written;
+    the other 39 sit in books where the session-folder file IS the only copy, so a
+    re-encode there is unrecoverable. Rather than refuse those books or quietly
+    degrade them, the original is promoted into `Audio/` first — the folder that
+    already means "untouched master" to `_listener_media.collect_audio`, and which
+    it deliberately never uploads. Costs local disk (not scarce) to protect against
+    an irreversible loss, while R2 (which is scarce) still receives only the small
+    file. Returns the master path, or None if one already existed.
+    """
+    # Anchor to the `Episodes` root, never to path.parent — a book under the
+    # 8-episode session threshold is deliberately FLAT (files sit directly in
+    # `Episodes/`), so walking up a fixed number of levels puts the master in
+    # `m4a/Audio/` for those and `Episodes/Audio/` for the rest: two locations for
+    # one idea, and `collect_audio` only skips the second.
+    episodes_root = next((p for p in path.parents if p.name == EPISODES_DIR), None)
+    if episodes_root is None:
+        return None
+    masters = episodes_root / MASTERS_DIR
+    existing = masters / path.name
+    if existing.exists():
+        return None
+    masters.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(path, existing)
+    return existing
 
 
 def reencode(path: Path, floor_kbps: int) -> tuple[bool, str]:
@@ -210,6 +246,9 @@ def main() -> int:
     print("\nRe-encoding...")
     changed = 0
     for path, _size, _projected in planned:
+        master = ensure_master(path)
+        if master is not None:
+            print(f"  [master] kept the original at {master.relative_to(REPO_ROOT)}")
         ok, msg = reencode(path, args.floor_kbps)
         status = "ok" if ok else "SKIPPED"
         print(f"  [{status}] {path.relative_to(REPO_ROOT)}: {msg}")
