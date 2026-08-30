@@ -1114,8 +1114,83 @@
   color: var(--c-ink-muted);
 }
 
-.bf-picker-select {
+.bf-combo {
+  position: relative;
   width: min(46ch, 100%);
+}
+
+.bf-picker-input {
+  width: 100%;
+}
+
+/* Anchored under the input via absolute position — the picker card is the
+   nearest positioned ancestor's normal-flow neighbour, so the list overlays
+   whatever is below it rather than pushing the page down as it opens and
+   closes, which would shove every other control on the landing screen. */
+.bf-combo-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--sp-1));
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: var(--sp-1) 0;
+  max-height: 22rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-hover);
+}
+
+.bf-combo-group {
+  padding: 0;
+}
+
+.bf-combo-group-label {
+  display: block;
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-combo-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-base);
+  color: var(--c-ink);
+  cursor: pointer;
+}
+
+.bf-combo-option:hover,
+.bf-combo-option.is-active {
+  background: color-mix(in oklab, var(--c-accent) 10%, transparent);
+}
+
+.bf-combo-option--new {
+  font-weight: 600;
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.bf-combo-published {
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  color: var(--c-ink-muted);
+}
+
+.bf-combo-empty {
+  padding: var(--sp-3);
+  color: var(--c-ink-muted);
+  font-style: italic;
 }
 
 /* ── A setting that exists but must not be changed here ──────────────────── */
