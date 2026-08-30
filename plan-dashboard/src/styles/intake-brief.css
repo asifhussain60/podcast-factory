@@ -469,31 +469,144 @@
 
 /* ── Review ───────────────────────────────────────────────────────────────── */
 
+/* ── Review (step 5) ───────────────────────────────────────────────────────
+   Rebuilt 2026-08-30. Was one grey column of same-weight label/value rows.
+   Card + chip geometry adapted from Sphere's section cards and skill tags
+   (Wrapbootstrap, reference only — nothing imported); every colour, space and
+   size below is this site's own token. */
+
 .bf-review {
   display: flex;
   flex-direction: column;
   gap: var(--sp-5);
 }
 
-.bf-review-group {
-  border: 1px solid var(--c-rule-soft);
-  border-radius: var(--r-md);
-  padding: var(--sp-4);
-  background: color-mix(in oklab, var(--c-bg-elev) 60%, transparent);
+/* The masthead — what is being made, said once, at the top. */
+.bf-rv-masthead {
+  padding: var(--sp-6);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  background: var(--c-bg-elev);
+  /* A single accent edge rather than a filled panel: the page already carries
+     one card background, and a second filled block competes with it. */
+  border-inline-start: 4px solid var(--c-accent);
 }
 
-.bf-review-group-title {
+.bf-rv-eyebrow {
+  margin: 0 0 var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-rv-title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  margin: 0 0 var(--sp-3);
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
   color: var(--c-ink);
 }
 
-.bf-review-edit {
-  margin-left: auto;
+.bf-rv-byline {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-lg);
+  color: var(--c-ink-dim);
+}
+
+.bf-rv-facts {
+  margin: var(--sp-5) 0 0;
+  display: grid;
+  /* auto-fit so three facts sit in a row on a wide card and stack on a phone,
+     with no viewport where the layout is untested. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--sp-4);
+}
+
+.bf-rv-fact dt {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  margin-bottom: var(--sp-1);
+}
+
+.bf-rv-fact dd {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+  overflow-wrap: anywhere;
+}
+
+.bf-rv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.bf-rv-chip {
+  display: inline-block;
+  padding: 0.15rem var(--sp-3);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  background: var(--c-bg-card);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-dim);
+  overflow-wrap: anywhere;
+}
+
+.bf-rv-empty {
+  color: var(--c-ink-muted);
+  font-style: italic;
+}
+
+.bf-rv-note {
+  margin: 0;
+}
+
+.bf-rv-grid {
+  display: grid;
+  /* Two cards side by side where there is room, one where there is not. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+  gap: var(--sp-4);
+}
+
+.bf-rv-card {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-5);
+  background: var(--c-bg-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.bf-rv-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.bf-rv-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-rv-change {
+  flex: none;
   background: none;
   border: 0;
   padding: 0;
@@ -505,36 +618,49 @@
   text-underline-offset: 2px;
 }
 
-.bf-review-edit:focus-visible {
+.bf-rv-change:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
 
-.bf-review-list {
+/* Screen-reader-only tail on "Change", so a list of identical buttons is
+   distinguishable out of context without repeating the step name on screen. */
+.bf-rv-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.bf-rv-rows {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 
-.bf-review-row {
-  display: grid;
-  grid-template-columns: minmax(0, 18ch) minmax(0, 1fr);
-  gap: var(--sp-4);
-  align-items: baseline;
-}
-
-.bf-review-row dt {
+/* Label ABOVE the value and quieter than it — the answer is what is being
+   checked, and the old side-by-side pair rendered both at one size. */
+.bf-rv-row dt {
   font-family: var(--font-ui);
-  font-size: var(--fs-base);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--c-ink-muted);
+  margin-bottom: 0.15rem;
 }
 
-.bf-review-row dd {
+.bf-rv-row dd {
   margin: 0;
   font-size: var(--fs-base);
   line-height: var(--lh-base);
   color: var(--c-ink);
+  overflow-wrap: anywhere;
 }
 
 /* ── Buttons + navigation ─────────────────────────────────────────────────── */

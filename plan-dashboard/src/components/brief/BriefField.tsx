@@ -96,7 +96,17 @@ export default function BriefField({
         aria-describedby={describedBy}
         onChange={(e) => onChange(field.key, e.target.value)}
       >
-        {!field.required && <option value="">—</option>}
+        {/* The blank placeholder is only added when the vocabulary does not
+            already carry an empty-valued option of its own. `deliverable_mode`
+            does: "Standard edition" IS the empty value, because the standard
+            route is the absence of a deliverable_mode key on disk. Rendering
+            both put two options with value="" in one <select>, and a select can
+            only ever display the first — so picking "Standard edition" set the
+            value it already had and the box snapped back to "—", which read as
+            the option being unselectable. */}
+        {!field.required && !options.some((o) => o.value === "") && (
+          <option value="">—</option>
+        )}
         {options.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
