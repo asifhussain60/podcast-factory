@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "book_slug": "purification-of-the-heart",
+  "category": "lectures",
+  "branch": "Islamic/purification-of-the-heart",
+  "status": "draft",
+  "source_kind": "audio",
+  "source_language": "en",
+  "phase": "awaiting-intake",
+  "phase_status": "pending",
+  "last_completed_phase": null,
+  "last_error": null,
+  "started": "2026-08-30T00:00:00Z",
+  "updated": "2026-08-30T00:00:00Z",
+  "phases": {
+    "scaffold": {
+      "status": "completed",
+      "note": "Folder skeleton + branch created ahead of source delivery. No audio or transcript files present yet. Real intake (phase 0a) has not run — this state is a placeholder, not a pipeline-produced record.",
+      "completed_via": "manual-scaffold-standby"
+    }
+  },
+  "intake_via": "manual-scaffold-standby (2026-08-30)"
+}
