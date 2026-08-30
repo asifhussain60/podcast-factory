@@ -110,21 +110,26 @@ export default function BriefWizard() {
               seeded[f.key] = v.vocabularies[f.vocab]?.[0]?.value ?? "";
           }
         }
-        // Resolve the profile once up front, so the derived shelf, branch,
-        // narrative frame and legacy tag are right on the very first render
-        // rather than only after the first change.
-        const seedProfile =
-          v.familyProfiles[seeded.content_family ?? ""]?.[
-            seeded.source_medium ?? ""
-          ];
-        if (seedProfile) {
-          seeded.content_profile = seedProfile;
-          seeded.narrative_frame =
-            v.profileNarrativeFrame[seedProfile] ?? seeded.narrative_frame;
-          seeded.category = v.profileCategory[seedProfile] ?? seeded.category;
-        }
+        // Resolve the profile from the MERGED values, after the draft is laid
+        // over the defaults -- never from the defaults alone. A draft saved
+        // before the family question existed carries a content_profile and a
+        // category but no content_family, so resolving first and merging second
+        // let the stale pair win: the form showed "Islamic" while the shelf,
+        // the profile and the legacy tag all still said Technical / Articles.
+        // The family and medium on screen are the authority, always.
         const draft = readDraft();
-        setValues({ ...seeded, ...(draft ?? {}) });
+        const merged: Record<string, string> = { ...seeded, ...(draft ?? {}) };
+        const profile =
+          v.familyProfiles[merged.content_family ?? ""]?.[
+            merged.source_medium ?? ""
+          ];
+        if (profile) {
+          merged.content_profile = profile;
+          merged.narrative_frame =
+            v.profileNarrativeFrame[profile] ?? merged.narrative_frame;
+          merged.category = v.profileCategory[profile] ?? merged.category;
+        }
+        setValues(merged);
         if (draft?.slug) setSlugTouched(true);
       } catch (e) {
         if (alive)
@@ -209,6 +214,24 @@ export default function BriefWizard() {
 
   const bucket =
     vocab?.profileBucket[values.content_profile ?? ""] ?? "Islamic";
+
+  const revealShelf = useCallback(async () => {
+    setError("");
+    try {
+      await apiFetch<{ opened: string }>("/api/brief/reveal", {
+        method: "POST",
+        // The bucket NAME, never a path: the route resolves it against its own
+        // allowlist, so nothing the browser sends can point somewhere else.
+        body: { bucket },
+      });
+    } catch (e) {
+      setError(
+        e instanceof ApiFetchError && e.status !== 0
+          ? e.message
+          : `Could not open Finder: ${String(e)}`,
+      );
+    }
+  }, [bucket]);
 
   const blockers = useMemo(() => {
     const out: { step: StepId; reasons: string[] }[] = [];
@@ -378,6 +401,7 @@ export default function BriefWizard() {
                 onExplain={(field, opts) =>
                   setExplain({ field, options: opts })
                 }
+                onReveal={revealShelf}
               />
             </>
           ) : (
@@ -387,6 +411,7 @@ export default function BriefWizard() {
               optionsFor={optionsFor}
               onChange={setValue}
               onExplain={(field, opts) => setExplain({ field, options: opts })}
+              onReveal={revealShelf}
             >
               {step === 1 && values.content_profile && (
                 <p className="bf-derived">

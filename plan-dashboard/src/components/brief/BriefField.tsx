@@ -24,6 +24,8 @@ interface Props {
   onChange: (key: string, value: string) => void;
   /** Opens the explainer dialog for a field whose options carry descriptions. */
   onExplain?: (field: FieldDef, options: Option[]) => void;
+  /** Shows the folder this piece will land in, for a field marked `reveal`. */
+  onReveal?: (field: FieldDef) => void;
 }
 
 export default function BriefField({
@@ -32,6 +34,7 @@ export default function BriefField({
   options,
   onChange,
   onExplain,
+  onReveal,
 }: Props) {
   const id = `bf-${field.key}`;
   const labelId = `${id}-label`;
@@ -157,6 +160,15 @@ export default function BriefField({
             onClick={() => onExplain?.(field, options)}
           >
             What do these mean?
+          </button>
+        )}
+        {field.reveal && onReveal && (
+          <button
+            type="button"
+            className="bf-explain"
+            onClick={() => onReveal(field)}
+          >
+            Show in Finder
           </button>
         )}
       </div>

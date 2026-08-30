@@ -20,6 +20,7 @@ interface Props {
   optionsFor: (f: FieldDef) => Option[];
   onChange: (key: string, value: string) => void;
   onExplain: (field: FieldDef, options: Option[]) => void;
+  onReveal: (field: FieldDef) => void;
   /** Rendered between the surface fields and the accordion (uploader, voices). */
   children?: React.ReactNode;
 }
@@ -30,6 +31,7 @@ export default function BriefStep({
   optionsFor,
   onChange,
   onExplain,
+  onReveal,
   children,
 }: Props) {
   const all = fieldsForStep(step).filter((f) => isVisible(f, values));
@@ -44,6 +46,7 @@ export default function BriefStep({
       options={optionsFor(f)}
       onChange={onChange}
       onExplain={onExplain}
+      onReveal={onReveal}
     />
   );
 

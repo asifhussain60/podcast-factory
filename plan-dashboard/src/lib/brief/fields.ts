@@ -44,6 +44,8 @@ export interface FieldDef {
   showIf?: { key: string; equals: string[] };
   /** Default for a switch. */
   defaultOn?: boolean;
+  /** Offers a "Show in Finder" button beside the label. */
+  reveal?: boolean;
   /** A question the form asks to decide what else to ask. It shapes the brief
    *  but is not a key the pipeline reads, so it is kept out of the settings the
    *  hand-off prompt lists as pipeline configuration. */
@@ -112,6 +114,7 @@ export const FIELDS: FieldDef[] = [
     step: 1,
     kind: "text",
     required: true,
+    reveal: true,
     width: "slug",
     pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$",
     patternHint:
