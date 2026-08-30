@@ -28,6 +28,7 @@ import BriefProgress from "./BriefProgress";
 import ContentPicker from "./ContentPicker";
 import BriefDialog from "./BriefDialog";
 import PromptPanel from "./PromptPanel";
+import SavedPrompt from "./SavedPrompt";
 import type { Option } from "./BriefField";
 import { humanizeToken } from "../../lib/brief/humanize";
 import {
@@ -77,6 +78,8 @@ interface SaveResult {
   written: { field: string; file: string; path: string; value: string }[];
   skipped: { field: string; reason: string }[];
   created?: string[];
+  /** Hand-off prompt describing the book as it now stands. */
+  prompt?: string;
 }
 
 interface GenerateResult {
@@ -792,6 +795,9 @@ export default function BriefWizard() {
                 The live Library still shows the previous values until this book
                 is published again.
               </p>
+              {saved.prompt && (
+                <SavedPrompt prompt={saved.prompt} slug={saved.slug} />
+              )}
             </div>
           )}
 

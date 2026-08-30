@@ -160,6 +160,79 @@ export function renderDocument(input: BriefInput): string {
 }
 
 /** The self-contained hand-off prompt. Paste into Claude Code or Cowork. */
+/**
+ * The hand-off prompt for a book that ALREADY EXISTS, after its settings were
+ * saved. Separate from `renderPrompt` rather than a flag on it, because almost
+ * every line differs: there is no brief.md to read, no branch to create, no
+ * staged source to point at, and the ask is not "commission this" but "the
+ * settings changed, here is what they now are."
+ *
+ * `changed` names only the fields this save actually wrote. The full settings
+ * list still follows, because the reader needs the state, not the diff — but
+ * saying which ones moved is what makes the prompt worth pasting rather than
+ * re-describing the book from memory.
+ */
+export function renderSavedPrompt(input: {
+  slug: string;
+  dir: string;
+  bucket: string;
+  repoRoot: string;
+  values: Record<string, string>;
+  changed: string[];
+}): string {
+  const { values, slug } = input;
+  const lines: string[] = [];
+  lines.push(
+    `I have just updated the settings for an existing piece in the podcast ` +
+      `factory. The repo is at ${input.repoRoot} — read its CLAUDE.md first, ` +
+      `then run \`bash scripts/start-session.sh\`.`,
+  );
+  lines.push("");
+  lines.push(`- Title: ${values.title ?? slug}`);
+  if (values.author) lines.push(`- Author: ${values.author}`);
+  lines.push(`- Folder name: ${slug}`);
+  lines.push(`- Shelf: ${input.bucket}`);
+  lines.push(`- It lives at: ${input.dir}`);
+  lines.push(`- Branch: ${input.bucket}/${slug}`);
+  lines.push("");
+  if (input.changed.length) {
+    lines.push(`What I just changed: ${input.changed.join(", ")}.`);
+    lines.push("");
+  }
+  lines.push("Settings as they now stand on disk:");
+  lines.push("");
+  for (const [k, v] of settingsPairs({
+    values,
+    bucket: input.bucket,
+    briefDir: "",
+    repoRoot: input.repoRoot,
+    sources: [],
+    generatedAt: "",
+  } as BriefInput)) {
+    lines.push(`- ${k}: ${v}`);
+  }
+  lines.push("");
+  if ((values.notes ?? "").trim()) {
+    lines.push("What I said I wanted:");
+    lines.push("");
+    lines.push(values.notes.trim());
+    lines.push("");
+  }
+  lines.push(
+    "Read these back to me and say whether any of them look wrong for this " +
+      "source before acting on them. The narrative frame especially is a " +
+      "property of the source — check it against how the text actually opens " +
+      "rather than trusting the form, which cannot know.",
+  );
+  lines.push("");
+  lines.push(
+    "Then carry on with this piece from wherever it currently stands, stopping " +
+      "at the gates CLAUDE.md says are mine to clear.",
+  );
+  lines.push("");
+  return lines.join("\n");
+}
+
 export function renderPrompt(input: BriefInput): string {
   const { values } = input;
   const slug = values.slug ?? "";

@@ -26,6 +26,10 @@ const ALLOWED_EXT = new Set([
   ".txt",
   ".md",
   ".docx",
+  // Timed-transcript formats, for the `timestamped_transcript` role.
+  ".json",
+  ".srt",
+  ".vtt",
 ]);
 // Kept in sync with intake_staging.MAX_FILE_BYTES (scripts/podcast/intake_staging.py) —
 // raised from 500 MB (2026-08-30) for real sermon-length lecture recordings.

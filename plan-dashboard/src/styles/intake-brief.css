@@ -1016,3 +1016,42 @@
   line-height: var(--lh-base);
   color: var(--c-ink-dim);
 }
+
+/* The hand-off prompt after a save. Separated from the written/skipped lists by
+   a rule: it is the next ACTION, not more reporting on the one just finished. */
+.bf-saved-prompt {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--c-rule-soft);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.bf-saved-prompt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.bf-saved-prompt-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-saved-prompt-text {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  resize: vertical;
+}

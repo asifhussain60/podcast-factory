@@ -35,14 +35,20 @@ interface Props {
   }) => void;
 }
 
+// Mirrors intake_staging.ROLES, in the same order. Labels say what the file IS
+// to a reader, not the pipeline's key.
 const ROLE_OPTIONS = [
   { value: "primary_source", label: "Primary source" },
   { value: "source_recording", label: "Source recording" },
   { value: "pronunciation_reference", label: "Pronunciation reference" },
+  {
+    value: "timestamped_transcript",
+    label: "Timestamped transcript (timings for the recording)",
+  },
   { value: "supplementary_text", label: "Supplementary text" },
 ];
 
-const ACCEPT = ".pdf,.mp3,.m4a,.wav,.txt,.md,.docx";
+const ACCEPT = ".pdf,.mp3,.m4a,.wav,.txt,.md,.docx,.json,.srt,.vtt";
 
 export default function UploadStaging({ onChange }: Props) {
   const [token, setToken] = useState<string | null>(null);
