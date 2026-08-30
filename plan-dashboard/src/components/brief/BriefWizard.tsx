@@ -8,8 +8,15 @@
  * written in this file — a value the pipeline rejects can never be offered.
  *
  * Nothing is written to disk until Generate. The draft is mirrored to
- * sessionStorage so a refresh mid-wizard does not lose the answers, and an
- * abandoned draft leaves nothing behind.
+ * localStorage on every keystroke so neither a refresh nor closing the tab
+ * loses the answers, and Generate clears it so an abandoned draft leaves
+ * nothing behind.
+ *
+ * localStorage, NOT sessionStorage (2026-08-30): sessionStorage is scoped to the
+ * tab and is dropped the moment it closes, so the one case worth protecting
+ * against — navigating away mid-commission and coming back — was the one case it
+ * did not cover. This form asks ~40 questions; losing them to a stray click is
+ * not a refresh problem, it is the whole risk.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { apiFetch, ApiFetchError } from "../../lib/api-fetch";
@@ -82,7 +89,7 @@ interface GenerateResult {
 
 function readDraft(): Record<string, string> | null {
   try {
-    const raw = sessionStorage.getItem(DRAFT_KEY);
+    const raw = localStorage.getItem(DRAFT_KEY);
     return raw ? (JSON.parse(raw) as Record<string, string>) : null;
   } catch {
     return null;
@@ -203,7 +210,11 @@ export default function BriefWizard() {
     };
   }, []);
 
-  // Mirror the draft so a refresh mid-wizard does not lose the answers.
+  // Mirror the draft so neither a refresh nor leaving the page loses answers.
+  // Runs on every `values` change, i.e. every keystroke and every selection —
+  // there is no debounce and there should not be: the write is a few hundred
+  // bytes, and a debounce is a window in which the answers are not yet saved,
+  // which is exactly what this exists to prevent.
   //
   // NOT while an existing piece is loaded. The draft belongs to the NEW
   // commission, and writing an existing book's settings into it meant the next
@@ -213,7 +224,7 @@ export default function BriefWizard() {
   useEffect(() => {
     if (loading || editing) return;
     try {
-      sessionStorage.setItem(DRAFT_KEY, JSON.stringify(values));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(values));
     } catch {
       /* private mode / quota — the wizard still works, it just won't restore */
     }
@@ -223,6 +234,41 @@ export default function BriefWizard() {
     setStep(id);
     setFurthest((f) => (id > f ? id : f));
   }, []);
+
+  // Bring the new step into view and put focus on its heading.
+  //
+  // Keyed on `step` rather than done inside goTo, because goTo is not the only
+  // way the step changes -- selecting an existing piece and clearing the form
+  // both call setStep(1) directly, and a scroll that only fired from the Next
+  // button would leave those two landing mid-page.
+  //
+  // Focus moves with the scroll: a wizard step is a new screenful of questions,
+  // and leaving focus on the Next button (now offscreen) means a keyboard tab
+  // resumes from the bottom of the previous step and a screen reader announces
+  // nothing at all. `tabIndex={-1}` on the heading makes it focusable without
+  // adding it to the tab order. `preventScroll` lets the smooth scroll below own
+  // the movement, instead of focus jumping instantly and the animation chasing it.
+  // Scrolls the CARD, not the heading: the card opens with the "Step N of 5"
+  // eyebrow, and landing below that loses the one line that says where you are.
+  const cardRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const firstStepRender = useRef(true);
+  useEffect(() => {
+    // Not on mount: the page has just loaded at the top and nothing has moved,
+    // so scrolling and stealing focus would be an unprompted jump.
+    if (firstStepRender.current) {
+      firstStepRender.current = false;
+      return;
+    }
+    headingRef.current?.focus({ preventScroll: true });
+    const reduced = window.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    cardRef.current?.scrollIntoView({
+      behavior: reduced ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [step]);
 
   const setValue = useCallback(
     (key: string, value: string) => {
@@ -262,7 +308,7 @@ export default function BriefWizard() {
   }, []);
 
   // Load an existing piece, or drop back to commissioning a new one. The draft
-  // in sessionStorage belongs to the NEW commission and is deliberately left
+  // in localStorage belongs to the NEW commission and is deliberately left
   // alone while editing, so switching back does not lose half-typed answers.
   const selectContent = useCallback(async (slug: string) => {
     setError("");
@@ -444,7 +490,7 @@ export default function BriefWizard() {
       });
       setResult(data);
       try {
-        sessionStorage.removeItem(DRAFT_KEY);
+        localStorage.removeItem(DRAFT_KEY);
       } catch {
         /* nothing to clean up */
       }
@@ -553,12 +599,21 @@ export default function BriefWizard() {
           })}
         </ol>
 
-        <section className="bf-card" aria-labelledby="bf-step-heading">
+        <section
+          className="bf-card"
+          aria-labelledby="bf-step-heading"
+          ref={cardRef}
+        >
           <header className="bf-step-head">
             <p className="bf-step-eyebrow">
               Step {step} of {STEPS.length}
             </p>
-            <h2 className="bf-step-title" id="bf-step-heading">
+            <h2
+              className="bf-step-title"
+              id="bf-step-heading"
+              ref={headingRef}
+              tabIndex={-1}
+            >
               {current.title}
             </h2>
             <p className="bf-step-blurb">{current.blurb}</p>

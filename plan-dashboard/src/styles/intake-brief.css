@@ -156,6 +156,11 @@
   flex-direction: column;
   gap: var(--sp-5);
   animation: bf-rise 180ms ease both;
+  /* Advancing a step scrolls this card to the top of the viewport. Without a
+     margin the card lands FLUSH with it and the 52px sticky topnav covers the
+     "Step N of 5" eyebrow and the heading under it — the two lines that say
+     where you now are. Same offset .bf-rail sits at, for the same reason. */
+  scroll-margin-top: calc(52px + var(--sp-2));
 }
 
 @keyframes bf-rise {
