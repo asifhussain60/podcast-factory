@@ -387,20 +387,18 @@
 
 /* ── Advanced accordion ───────────────────────────────────────────────────── */
 
-/* The panel is a full-bleed band rather than an inset box: its horizontal
- * padding used to shift every field inside it 17px right of the ones above, so
- * the column of labels visibly jogged when the accordion opened. Vertical
- * padding stays; the summary carries its own inset so the heading is not flush
- * against the border. */
+/* The panel bleeds OUTWARD by exactly what its padding insets. Two things have
+ * to hold at once: the fields inside must line up with the fields above (they
+ * jogged 17px right when the panel was a plain inset box), and they must not
+ * sit flush against the band's own edge (they did when the padding was simply
+ * removed). Bleeding and padding by the same amount satisfies both -- the inner
+ * grid gets the identical track width as the grid above it. */
 .bf-advanced {
   border: 1px solid var(--c-rule-soft);
   border-radius: var(--r-md);
   background: var(--c-bg-sunken);
-  padding: var(--sp-3) 0;
-}
-
-.bf-advanced > .bf-advanced-summary {
-  padding-inline: var(--sp-4);
+  margin-inline: calc(-1 * var(--sp-4));
+  padding: var(--sp-3) var(--sp-4);
 }
 
 .bf-advanced-summary {

@@ -15,11 +15,13 @@ import { patchYamlLines } from "./store";
 
 /** Just enough of the fixtures' shape to assert on; `any` would hide a typo. */
 interface MetaDoc {
-  study_track?: string;
-  series?: { enable_book_branch?: boolean; enable_slide_decks?: boolean };
-  pipeline?: { current_phase?: string };
-  completed_episodes?: string[];
-  provenance?: { note?: string };
+  // Present in the fixture, so the assertions can read them without a guard.
+  study_track: string;
+  series: { enable_book_branch: boolean; enable_slide_decks?: boolean };
+  pipeline: { current_phase: string };
+  completed_episodes: string[];
+  provenance: { note: string };
+  // Added by a test rather than present to begin with.
   doctrinal_context?: { school?: string };
 }
 interface SeriesDoc {
@@ -99,7 +101,7 @@ test("adds a nested key inside an existing parent block", () => {
 test("creates the parent block when it is absent", () => {
   const out = patchYamlLines(META, "doctrinal_context.school", "Ismaili");
   const d = meta(out);
-  assert.equal(d.doctrinal_context.school, "Ismaili");
+  assert.equal(d.doctrinal_context?.school, "Ismaili");
 });
 
 test("keeps the comments around a key it rewrites", () => {

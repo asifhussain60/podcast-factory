@@ -70,7 +70,12 @@ def default_options() -> dict[str, list[str]]:
         # orchestrate_book.py --length-tier choices.
         "length_tier": ["default_deep_dive", "longer", "extended"],
         # LOCKED video table (CLAUDE.md): islamic→teaching_hybrid, fiction→scenic, technical.
-        "video_style": ["teaching_hybrid", "scenic", "technical"],
+        # `none` is how a book says it has no video layer at all -- intake_launch
+        # derives `enable_video` as `video_style != "none"` -- and it is the second
+        # most common value on disk (6 of 14 books). Omitting it meant the form
+        # could not express "no video", and could not load those six books back
+        # without the value being rejected as one the pipeline does not accept.
+        "video_style": ["teaching_hybrid", "scenic", "technical", "none"],
         "episode_planning_mode": sorted(EPISODE_PLANNING_MODE_ENUM),
         "source_language": ["ar", "en", "ur", "fa", "tr", "id"],
         "volume_count": [str(i) for i in range(1, 13)],

@@ -157,8 +157,24 @@ export default function BriefWizard() {
         // the profile and the legacy tag all still said Technical / Articles.
         // The family and medium on screen are the authority, always.
         seedRef.current = { ...seeded };
-        const draft = readDraft();
-        const merged: Record<string, string> = { ...seeded, ...(draft ?? {}) };
+        // A restored draft is not trusted blindly: if a value is not one its
+        // field currently offers, it is dropped back to the default. Otherwise a
+        // draft written before a vocabulary changed can seat a value the form
+        // has no way to correct, and the form is stuck at the last step.
+        const draft = readDraft() ?? {};
+        for (const f of FIELDS) {
+          const val = draft[f.key];
+          if (val === undefined || f.kind === "text" || f.kind === "textarea")
+            continue;
+          const offered = f.vocab
+            ? v.vocabularies[f.vocab]?.map((o) => o.value)
+            : f.options
+              ? o.options[f.options]
+              : undefined;
+          if (offered && val !== "" && !offered.includes(val))
+            delete draft[f.key];
+        }
+        const merged: Record<string, string> = { ...seeded, ...draft };
         const profile =
           v.familyProfiles[merged.content_family ?? ""]?.[
             merged.source_medium ?? ""
@@ -188,14 +204,20 @@ export default function BriefWizard() {
   }, []);
 
   // Mirror the draft so a refresh mid-wizard does not lose the answers.
+  //
+  // NOT while an existing piece is loaded. The draft belongs to the NEW
+  // commission, and writing an existing book's settings into it meant the next
+  // visit seeded the blank form with that book's values -- including ones the
+  // form cannot offer, like `video_style: none` -- leaving Generate refusing a
+  // value the operator never chose and could not change.
   useEffect(() => {
-    if (loading) return;
+    if (loading || editing) return;
     try {
       sessionStorage.setItem(DRAFT_KEY, JSON.stringify(values));
     } catch {
       /* private mode / quota — the wizard still works, it just won't restore */
     }
-  }, [values, loading]);
+  }, [values, loading, editing]);
 
   const goTo = useCallback((id: StepId) => {
     setStep(id);
