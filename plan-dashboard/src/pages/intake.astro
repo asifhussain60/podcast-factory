@@ -1,0 +1,51 @@
+---
+/**
+ * /intake — the commissioning form.
+ *
+ * Step 0 before step 0: this is where a new piece of content is DECIDED, not
+ * where it is run. The wizard asks for every decision the pipeline reads —
+ * including the ones that used to be hand-written into meta.yml and
+ * series-config.yaml afterwards — and on Generate writes a requirements
+ * document plus a self-contained hand-off prompt for Claude Code or Cowork.
+ *
+ * It starts nothing. The multi-hour orchestrator run still begins at
+ * /studio/new, which this page hands off to once the brief has been reviewed.
+ */
+import Base from "../layouts/Base.astro";
+import BriefWizard from "../components/brief/BriefWizard.tsx";
+import "../styles/intake.css";
+import "../styles/intake-brief.css";
+---
+
+<Base
+  title="Intake — commission new content"
+  active="intake"
+  description="Capture every decision the pipeline needs for a new book, lecture or session, and generate a hand-off prompt."
+>
+  <header class="bf-page-head">
+    <h1>Commission new content</h1>
+    <p>
+      Answer five short screens about a new book, lecture or session. Nothing is
+      created and nothing runs — at the end you get a written commission and a
+      prompt you can paste into Claude Code or Cowork to have it processed.
+    </p>
+  </header>
+
+  <BriefWizard client:only="react" />
+
+  <footer class="intake-conformance bf-conformance">
+    Cortex HTML View Quality — Level 1 conformant (DoD-clean: external CSS only,
+    theme unchanged, WCAG-AA controls). <strong
+      >Scoped exception (REQ-010):</strong
+    >{" "}
+    this page uses compact form chrome — labels, hints and rail captions — that intentionally
+    runs below the 1.2rem prose reading floor; it is a data-entry surface, not long-form
+    reading. Recorded per §13, matching the same exception already carried by <code
+      >/studio/new</code
+    >. <strong>Also scoped out:</strong>{" "}
+    REQ-004 numbered section markers and the REQ-044 jump nav, which a five-step form
+    has no use for — the wizard rail is its navigation; and the explainer dialog's
+    body scrolls at 65vh, a deliberate deviation from REQ-002 because a modal must
+    not grow past the window.
+  </footer>
+</Base>

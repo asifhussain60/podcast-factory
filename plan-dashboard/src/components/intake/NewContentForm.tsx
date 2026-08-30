@@ -33,12 +33,20 @@ interface CreateResult {
 interface Props {
   onCreated?: (result: CreateResult) => void;
   onCleared?: () => void;
+  /** Starting values from a reviewed commission brief (/studio/new?brief=slug).
+   *  Optional and absent on every other visit, so the unprefixed page behaves
+   *  exactly as it did before the Intake wizard existed. */
+  initial?: Partial<Pick<CreateResult, "slug" | "category" | "title">>;
 }
 
-export default function NewContentForm({ onCreated, onCleared }: Props) {
-  const [slug, setSlug] = useState("");
-  const [category, setCategory] = useState("books");
-  const [title, setTitle] = useState("");
+export default function NewContentForm({
+  onCreated,
+  onCleared,
+  initial,
+}: Props) {
+  const [slug, setSlug] = useState(initial?.slug ?? "");
+  const [category, setCategory] = useState(initial?.category ?? "books");
+  const [title, setTitle] = useState(initial?.title ?? "");
   const [sourceHint, setSourceHint] = useState("");
   const [slugError, setSlugError] = useState("");
   const [serverError, setServerError] = useState("");

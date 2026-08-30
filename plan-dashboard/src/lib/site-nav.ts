@@ -26,7 +26,8 @@ export type ActivePage =
   | "pronunciation"
   | "pipeline-paths"
   | "how-it-works"
-  | "pre-upload";
+  | "pre-upload"
+  | "intake";
 
 /**
  * Four domains (locked 2026-06-01 IA redesign):
@@ -37,7 +38,13 @@ export type ActivePage =
  * Home is reached via the brand link, not a top section.
  */
 export type NavSection =
-  "studio" | "library" | "corpus" | "system" | "snaglist" | "claudeplans";
+  | "studio"
+  | "library"
+  | "corpus"
+  | "system"
+  | "snaglist"
+  | "claudeplans"
+  | "intake";
 
 export interface NavLink {
   href: string;
@@ -101,6 +108,20 @@ export const TOP_NAV: Array<NavLink & { section: NavSection }> = [
     label: "Plans",
     section: "claudeplans",
     pages: ["claude-plans"],
+  },
+  // The commissioning form (2026-08-30). Its own tab rather than a card inside
+  // Studio because it is where a piece of content is DECIDED, before any book
+  // exists for the Studio domain to be about — and because it is the one page
+  // Asif reaches for when starting something rather than continuing it.
+  //
+  // Naming: the per-book pipeline stepper also has a step called Intake. The
+  // tab keeps the word (Asif's choice); the page's own h1 is "Commission new
+  // content", so the two read differently wherever they appear together.
+  {
+    href: "/intake",
+    label: "Intake",
+    section: "intake",
+    pages: ["intake"],
   },
 ];
 
@@ -169,6 +190,8 @@ export const SUBNAV: Record<NavSection, NavLink[]> = {
   snaglist: [],
   // Same shape: one page, its own tab, no subnav.
   claudeplans: [],
+  // Likewise — one page, and the wizard's own rail is its navigation.
+  intake: [],
 };
 
 export function getNavSection(active: ActivePage): NavSection {

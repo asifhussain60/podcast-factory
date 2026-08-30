@@ -207,7 +207,11 @@ def _launch_argv(
     if is_work:
         return {"script": "orchestrate_work.py", "args": [work_slug]}
     src = f"{_paths.relative_to_repo(book_dir)}/_source/{primary['path']}" if primary else ""
-    return {"script": "orchestrate_book.py", "args": ["--start", src, "--slug", slug]}
+    # The source is orchestrate_book.py's POSITIONAL pdf_path argument. This built
+    # `--start <src>` until 2026-08-30 — a flag that parser has never declared, so
+    # every single-book launch from the cockpit died at argparse with exit 2.
+    args = [src, "--slug", slug] if src else ["--slug", slug]
+    return {"script": "orchestrate_book.py", "args": args}
 
 
 def main(argv: list[str] | None = None) -> int:

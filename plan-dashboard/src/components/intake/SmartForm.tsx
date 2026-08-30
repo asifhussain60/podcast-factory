@@ -25,6 +25,10 @@ interface Props {
   proposed?: Proposal;
   /** Notified whenever the resolved settings change. */
   onChange?: (values: Record<string, string>) => void;
+  /** Starting values from a reviewed commission brief. A key is used only when
+   *  its value is one this field actually offers, so a brief can never seed a
+   *  setting the pipeline would reject. Absent on every other visit. */
+  initial?: Record<string, string>;
 }
 
 // The fields SmartForm renders as editable dropdowns, in form order, with the
@@ -75,7 +79,7 @@ const PROFILE_TO_BUCKET: Record<string, string> = {
   islamic_supplication: "Supplications",
 };
 
-export default function SmartForm({ proposed, onChange }: Props) {
+export default function SmartForm({ proposed, onChange, initial }: Props) {
   const [options, setOptions] = useState<Options | null>(null);
   const [values, setValues] = useState<Record<string, string>>({});
   const [adding, setAdding] = useState<string | null>(null);
@@ -94,15 +98,20 @@ export default function SmartForm({ proposed, onChange }: Props) {
         if (!alive) return;
         const opts: Options = data.options;
         setOptions(opts);
-        const initial: Record<string, string> = {};
+        const seeded: Record<string, string> = {};
         for (const { key } of FIELD_LABELS) {
+          // A brief's answer wins over the classifier's proposal, which wins
+          // over the first option — but only ever a value the field offers.
+          const fromBrief = initial?.[key];
           const proposedVal = proposed?.[key]?.value;
-          initial[key] =
-            proposedVal && opts[key]?.includes(proposedVal)
-              ? proposedVal
-              : (opts[key]?.[0] ?? "");
+          seeded[key] =
+            fromBrief && opts[key]?.includes(fromBrief)
+              ? fromBrief
+              : proposedVal && opts[key]?.includes(proposedVal)
+                ? proposedVal
+                : (opts[key]?.[0] ?? "");
         }
-        setValues(initial);
+        setValues(seeded);
       } catch (e) {
         if (alive)
           setError(

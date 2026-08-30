@@ -214,6 +214,7 @@ export function buildRoutes(slug) {
     "/wisdom",
     "/snag-list",
     "/claude-plans",
+    "/intake",
   ].map((path) => ({ path, tier: 1 }));
 
   // Routes that legitimately redirect, and where to. Declared rather than

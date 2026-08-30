@@ -241,6 +241,7 @@ hr {
 .about-hero-h1,
 .intel-hero-h1,
 .cm-hero h1,
+.bf-page-head h1,
 header.stack > h1 {
   color: var(--c-ink);
   background: linear-gradient(115deg, var(--c-ink) 55%, var(--c-accent) 100%);

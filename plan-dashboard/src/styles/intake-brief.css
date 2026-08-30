@@ -1,0 +1,781 @@
+/*
+ * intake-brief.css — the Intake commissioning wizard (/intake).
+ *
+ * External CSS only (Cortex standard). Every colour, size and family is an
+ * existing --c-* / --fs-* / --font-* token; this file adds NO new hex value and
+ * changes no theme value. Layout is carried HERE, not by Tailwind: no Tailwind
+ * utility appears in any of this view's components, and none may be added even
+ * for layout — its colour and type scales sit outside the locked palette, and a
+ * text size in the markup falls below the 1.2rem reading floor in a place the
+ * view linter (which reads src/styles only) cannot see.
+ *
+ * One accent per step panel, chosen for meaning rather than variety, applied as
+ * a low-alpha tint and a thin rule — never as a saturated fill behind text.
+ */
+
+.bf-wizard {
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: var(--sp-6);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .bf-wizard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── The rail ─────────────────────────────────────────────────────────────── */
+
+.bf-rail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  /* Clears the 52px sticky topnav plus REQ-005's 8px breathing room, and sits
+     below its z-index so the band always wins the overlap. Matches the offset
+     .studio-subnav and .lib-tabs already use. */
+  position: sticky;
+  top: calc(52px + var(--sp-2));
+  z-index: 10;
+}
+
+@media (max-width: 900px) {
+  .bf-rail {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}
+
+.bf-rail-link {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  text-align: left;
+  cursor: pointer;
+  color: var(--c-ink-dim);
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.bf-rail-link:hover {
+  border-color: var(--c-rule-soft);
+}
+
+.bf-rail-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-rail-item.is-current .bf-rail-link {
+  background: color-mix(in oklab, var(--c-accent) 8%, transparent);
+  border-color: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  color: var(--c-ink);
+}
+
+.bf-rail-item.is-done .bf-rail-link {
+  color: var(--c-ink);
+}
+
+.bf-rail-num {
+  flex: 0 0 auto;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid var(--c-rule);
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-card);
+}
+
+.bf-rail-item.is-current .bf-rail-num {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+}
+
+.bf-rail-item.is-done .bf-rail-num {
+  border-color: color-mix(in oklab, var(--c-green) 55%, transparent);
+  color: var(--c-green-deep);
+}
+
+.bf-rail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.bf-rail-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+}
+
+.bf-rail-blurb {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+}
+
+.bf-rail-flag {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--c-amber) 22%, transparent);
+  color: var(--c-ink);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+}
+
+/* ── The step panel ───────────────────────────────────────────────────────── */
+
+.bf-card {
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  animation: bf-rise 180ms ease both;
+}
+
+@keyframes bf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bf-card {
+    animation: none;
+  }
+  .bf-rail-link,
+  .bf-switch-thumb,
+  .bf-btn {
+    transition: none;
+  }
+}
+
+.bf-step-head {
+  border-bottom: 1px solid var(--c-rule-soft);
+  padding-bottom: var(--sp-4);
+}
+
+.bf-step-eyebrow {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+  margin: 0 0 var(--sp-2);
+}
+
+.bf-step-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--c-ink);
+}
+
+.bf-step-blurb {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+  margin: var(--sp-2) 0 0;
+  max-width: 60ch;
+}
+
+/* The step body: field grid, then whatever the step embeds (uploader, voices),
+   then the Advanced accordion — each its own block, so they need the same
+   rhythm every other stack on this page has. */
+.bf-step-fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+/* Prose that happens to sit inside a form is still prose (REQ-010). The page's
+   recorded exception covers labels, hints and rail captions — the compact
+   chrome BESIDE a control — not sentences the reader has to read, so anything
+   carrying one is lifted back to the reading floor. */
+.bf-note {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  max-width: 60ch;
+}
+
+/* ── Fields ───────────────────────────────────────────────────────────────── */
+
+/* A real grid, not wrapping flex.
+ *
+ * As flex-wrap, every .bf-field sized to its own content — and because a field
+ * carries its hint paragraph as well as its control, the HINT's length is what
+ * set the width. Two fields declaring the same width class came out 264px and
+ * 465px, no two rows shared a column origin (step 1 had seven distinct column
+ * starts across three rows), and ~290px of a 1072px card went unused. Named
+ * tracks give every row the same origins; the min() control widths below still
+ * size the box inside its cell, so a four-character answer keeps a small box.
+ *
+ * The floor is 20rem, and the root font here is 19.2px — so 384px, and two
+ * tracks plus the gap need 792px. A 1280px laptop gives the grid 846px, so it
+ * pairs; 24rem (460.8px) needed 945px and left that laptop with one column in a
+ * card wide enough for two. 1680px stays at two rather than three (three would
+ * need 1200px against 1126px available). Below 900px the query underneath
+ * collapses to a single track, since a 384px floor cannot fit a phone. */
+.bf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: var(--sp-4) var(--sp-5);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .bf-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bf-field {
+  margin-bottom: 0;
+  min-width: 0;
+}
+
+/* The explainer button is a SIBLING of the label, never a child of it: an
+   interactive element inside a <label> folds its own text into the accessible
+   name of the control the label points at (REQ-049). */
+.bf-label-row {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+}
+
+.bf-label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+
+.bf-req {
+  color: var(--c-accent);
+}
+
+.bf-explain {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.bf-explain:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-hint {
+  max-width: 52ch;
+}
+
+/* Content-sized controls: a four-character answer never gets a 700px box.
+ *
+ * min() rather than width + max-width, because the control is what SIZES its
+ * flex item: a bare `width: 44ch` grows .bf-field to 44ch first, and the input's
+ * own max-width:100% then resolves against that already-too-wide parent — so on
+ * a 390px phone the box ran off the screen with nothing to scroll it. Capping
+ * against the viewport at the control, and letting the item shrink, is the fix. */
+/* 12ch, not 9ch: 9ch clipped the source-language combobox mid-glyph at 1440px
+ * (99px box against 104px of text) while the card still had ~290px spare. */
+.bf-w-short {
+  width: min(12ch, 100%);
+}
+.bf-w-slug {
+  width: min(32ch, 100%);
+}
+.bf-w-name {
+  width: min(26ch, 100%);
+}
+.bf-w-title {
+  width: min(44ch, 100%);
+}
+.bf-w-full {
+  width: 100%;
+}
+
+.bf-field {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.bf-field:has(.bf-w-full) {
+  grid-column: 1 / -1;
+}
+
+/* Errors appear once you have engaged with a field, never mid-keystroke. */
+.bf-field .intake-input:user-invalid,
+.bf-field .intake-select:user-invalid {
+  border-color: var(--c-red);
+}
+
+.bf-field .intake-input:user-invalid + .bf-hint {
+  color: var(--c-red);
+}
+
+/* ── Switch ───────────────────────────────────────────────────────────────── */
+
+/* width:fit-content, because the declared inline-flex is overridden to flex
+ * further down the cascade and the button then filled its whole grid cell —
+ * 491px of mostly empty box, which is what the focus ring drew around. */
+.bf-switch {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--sp-3);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  color: var(--c-ink);
+}
+
+.bf-switch-track {
+  width: 2.9rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.bf-switch[aria-checked="true"] .bf-switch-track {
+  background: color-mix(in oklab, var(--c-green) 28%, transparent);
+  border-color: color-mix(in oklab, var(--c-green) 55%, transparent);
+  justify-content: flex-end;
+}
+
+.bf-switch-thumb {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  transition: transform 140ms ease;
+}
+
+/* The ring goes on the button, not on the track inside it: styling only the
+ * track left the button's own default ring to draw as well, so the focused
+ * switch showed the browser's blue — the page's one off-palette colour. */
+.bf-switch:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+  border-radius: var(--r-md);
+}
+
+/* ── Advanced accordion ───────────────────────────────────────────────────── */
+
+.bf-advanced {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  background: var(--c-bg-sunken);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.bf-advanced-summary {
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--c-ink);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.bf-advanced-summary:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-advanced-count {
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  color: var(--c-ink-muted);
+}
+
+.bf-advanced-grid {
+  padding-top: var(--sp-4);
+}
+
+.bf-derived {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+  background: color-mix(in oklab, var(--c-accent) 7%, transparent);
+  border-left: 3px solid color-mix(in oklab, var(--c-accent) 45%, transparent);
+  border-radius: 0 var(--r-md) var(--r-md) 0;
+  padding: var(--sp-3) var(--sp-4);
+  margin: 0;
+}
+
+/* ── Review ───────────────────────────────────────────────────────────────── */
+
+.bf-review {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.bf-review-group {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  background: color-mix(in oklab, var(--c-bg-elev) 60%, transparent);
+}
+
+.bf-review-group-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  margin: 0 0 var(--sp-3);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  color: var(--c-ink);
+}
+
+.bf-review-edit {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.bf-review-edit:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-review-list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.bf-review-row {
+  display: grid;
+  grid-template-columns: minmax(0, 18ch) minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: baseline;
+}
+
+.bf-review-row dt {
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  color: var(--c-ink-muted);
+}
+
+.bf-review-row dd {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+}
+
+/* ── Buttons + navigation ─────────────────────────────────────────────────── */
+
+.bf-nav {
+  display: flex;
+  gap: var(--sp-3);
+  justify-content: space-between;
+  border-top: 1px solid var(--c-rule-soft);
+  padding-top: var(--sp-4);
+}
+
+.bf-btn {
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  padding: var(--sp-3) var(--sp-5);
+  border-radius: var(--r-md);
+  border: 1px solid var(--c-rule);
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.bf-btn:hover:not(:disabled) {
+  border-color: var(--c-accent);
+  transform: translateY(-1px);
+}
+
+.bf-btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bf-btn-primary {
+  background: color-mix(in oklab, var(--c-accent) 12%, transparent);
+  border-color: color-mix(in oklab, var(--c-accent) 45%, transparent);
+  color: var(--c-ink);
+}
+
+.bf-blocked {
+  color: var(--c-ink-dim);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  margin: 0;
+}
+
+.bf-blockers {
+  margin: 0;
+  padding-inline-start: 1.75rem;
+  list-style-position: outside;
+  list-style-type: disc;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+}
+
+.bf-blocker-link {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.bf-blocker-link:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+/* ── Dialog ───────────────────────────────────────────────────────────────── */
+
+/* margin:auto is what centres a modal <dialog> against its inset:0 box. The
+ * UA sets it, but Tailwind's preflight resets margin on `*` (::backdrop
+ * included), so the dialog opened pinned to the top-left corner with its title
+ * flush against y=0. Restoring it here is the whole fix — the size and the
+ * body's own max-height are already right. */
+.bf-dialog {
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  background: var(--c-bg-card);
+  color: var(--c-ink);
+  padding: 0;
+  margin: auto;
+  width: min(46rem, 92vw);
+  box-shadow: var(--shadow-hover);
+}
+
+.bf-dialog::backdrop {
+  background: color-mix(in oklab, var(--c-ink) 42%, transparent);
+}
+
+.bf-dialog-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-5) var(--sp-3);
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.bf-dialog-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  margin: 0;
+}
+
+.bf-dialog-x {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: var(--c-accent);
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* showModal() autofocuses this button, so its ring is the first thing the
+ * dialog shows — without a rule it was the browser's default blue, the one
+ * off-palette colour on the page. */
+.bf-dialog-x:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+
+.bf-dialog-body {
+  padding: var(--sp-5);
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.bf-explain-list {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.bf-explain-row dt {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-explain-row dd {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+  max-width: 60ch;
+}
+
+/* ── The generated prompt ─────────────────────────────────────────────────── */
+
+.bf-prompt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.bf-prompt-lede {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+  margin: 0;
+  max-width: 60ch;
+}
+
+.bf-prompt-text {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  resize: vertical;
+}
+
+.bf-prompt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.bf-prompt-meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.bf-prompt-meta dt {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-prompt-meta dd {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+}
+
+.bf-prompt-file {
+  display: block;
+}
+
+.bf-replaced {
+  color: var(--c-amber);
+}
+
+.bf-card-done {
+  animation: bf-rise 200ms ease both;
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────── */
+
+.bf-page-head {
+  margin-bottom: var(--sp-6);
+}
+
+/* The shared .intake-conformance rule carries an 8px top margin, which left the
+ * footnote all but touching the wizard card. Scoped to this page so /studio/new,
+ * which shares the class, is untouched. */
+.bf-conformance {
+  margin-top: var(--sp-7);
+}
+
+.bf-page-head h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--sp-3);
+  color: var(--c-ink);
+}
+
+.bf-page-head p {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+  margin: 0;
+  max-width: 60ch;
+}

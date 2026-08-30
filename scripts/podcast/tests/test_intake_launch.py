@@ -77,9 +77,22 @@ class TestSingleBook:
         # state scaffolded at preflight
         st = json.loads((bd / "_system" / "orchestrator-state.json").read_text())
         assert st["phase"] == "preflight" and st["status"] == "draft"
-        # launch argv = orchestrator --start, NOT executed
+        # launch argv = orchestrator, built but NOT executed. The source is the
+        # POSITIONAL pdf_path argument: this asserted `--start` until 2026-08-30,
+        # a flag orchestrate_book.py has never declared, so the test was pinning
+        # a launch line that died at argparse with exit 2 every time it ran.
         assert res["launch"]["script"] == "orchestrate_book.py"
-        assert "--start" in res["launch"]["args"]
+        args = res["launch"]["args"]
+        assert "--start" not in args
+        assert args[0].endswith("_source/book.pdf")
+        assert args[1:] == ["--slug", "my-book"]
+        # And the real parser accepts it — the check whose absence let the
+        # original defect ship under a passing test.
+        import orchestrate_book
+
+        parsed = orchestrate_book.build_parser().parse_args(args)
+        assert parsed.slug == "my-book"
+        assert str(parsed.pdf_path).endswith("_source/book.pdf")
         # staging cleaned
         assert not staging.staging_dir(token).exists()
 

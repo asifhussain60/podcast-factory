@@ -78,6 +78,13 @@ class Chapter:
         return len(self.markdown.split())
 
 
+#: The study tracks a book may declare. The reader colours its shelf from this and
+#: anything outside it is dropped rather than guessed. Named (rather than left as
+#: the inline literal it was until 2026-08-30) so the intake form can offer exactly
+#: these values instead of restating the list and drifting from it.
+STUDY_TRACKS: frozenset[str] = frozenset({"theology", "history", "shariah", "esoteric", "reality"})
+
+
 @dataclass
 class Book:
     slug: str
@@ -260,7 +267,7 @@ def load_book(slug: str) -> Book:
     )
 
     study_track = meta.get("study_track")
-    if study_track not in {"theology", "history", "shariah", "esoteric", "reality", None}:
+    if study_track not in STUDY_TRACKS and study_track is not None:
         study_track = None
 
     book = Book(

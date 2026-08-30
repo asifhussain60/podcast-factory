@@ -394,3 +394,7 @@ content/**/_system/translation-run.log
 # refuses to start on a dirty tree, and the first card the heartbeat wrote made
 # the tree dirty. Observed the first time the heartbeat ran.
 content/**/_system/status-card.txt
+
+# Intake commission briefs: the written commission is tracked history; the copied
+# source files beside it are not (same reason content/**/_source/ is ignored).
+content/_system/briefs/*/source/
