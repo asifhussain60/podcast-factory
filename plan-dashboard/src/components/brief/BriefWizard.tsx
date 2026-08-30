@@ -76,6 +76,7 @@ interface SaveResult {
   dir: string;
   written: { field: string; file: string; path: string; value: string }[];
   skipped: { field: string; reason: string }[];
+  created?: string[];
 }
 
 interface GenerateResult {
@@ -746,6 +747,19 @@ export default function BriefWizard() {
                   ? `Saved ${saved.written.length} change${saved.written.length === 1 ? "" : "s"} to disk.`
                   : "Nothing was written."}
               </p>
+              {saved.created?.length ? (
+                <p className="bf-saved-note">
+                  Created{" "}
+                  {saved.created.map((f, i) => (
+                    <span key={f}>
+                      {i > 0 && ", "}
+                      <code>{f}</code>
+                    </span>
+                  ))}{" "}
+                  — this book did not have one, so these settings had nowhere to
+                  go until now.
+                </p>
+              ) : null}
               {saved.written.length > 0 && (
                 <ul className="bf-saved-list">
                   {saved.written.map((w) => (

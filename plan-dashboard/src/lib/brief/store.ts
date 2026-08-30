@@ -16,9 +16,9 @@
  * carry keys this form has never heard of (translation_policy,
  * notebooklm_settings, source_tradition). A redump would silently discard both.
  */
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import yaml from "js-yaml";
 
 /** Which file a field is stored in. */
@@ -263,7 +263,27 @@ export function patchYamlLines(
 export interface SaveResult {
   written: { field: string; file: StoreFile; path: string; value: string }[];
   skipped: { field: string; reason: string }[];
+  /** Files this save had to create because the book did not have them. */
+  created?: string[];
 }
+
+/**
+ * Header for a `series-config.yaml` this module creates.
+ *
+ * Only ever written when the file is ABSENT, so it cannot displace a comment
+ * anyone wrote. It says where the file came from because the other way a book
+ * gets one is `intake_launch.py::_write_series_config`, and a reader comparing
+ * two books should not have to guess which path produced which.
+ */
+const SERIES_HEADER = [
+  "# series-config.yaml — the pipeline settings for this book.",
+  "#",
+  "# Created by the Intake form when settings were saved for a book that had",
+  "# none. A book scaffolded by hand never gets one (only intake_launch.py's",
+  "# _write_series_config does), and half the form's fields live in this file —",
+  "# so without it those saves were silently dropped.",
+  "",
+].join("\n");
 
 /** Apply changed fields to the right file each. Only listed fields are touched. */
 export async function saveBook(
@@ -293,18 +313,36 @@ export async function saveBook(
     byFile[loc.file].push({ field, path: loc.path, value });
   }
 
+  const created: string[] = [];
+
   for (const file of ["meta", "series"] as StoreFile[]) {
     const pending = byFile[file];
     if (pending.length === 0) continue;
     const p = filePath(dir, file);
     if (!existsSync(p)) {
-      for (const c of pending) {
-        skipped.push({
-          field: c.field,
-          reason: `this book has no ${file === "meta" ? META_FILE : SERIES_FILE}`,
-        });
+      // A missing series-config.yaml is CREATED, not reported as an obstacle.
+      // It is optional by construction — the pipeline reads it with defaults
+      // when absent, and only intake_launch.py writes one — so a book scaffolded
+      // by any other route has none, and eighteen of this form's ~34 fields live
+      // in it. Skipping meant saving those fields appeared to work and silently
+      // did nothing (source_language and video_style, reported 2026-08-30).
+      //
+      // meta.yml is NOT created the same way: it is the book's identity, every
+      // real book has one, and writing a fresh one from a handful of patched
+      // fields would turn "you pointed at the wrong folder" into a new file
+      // that makes the wrong folder look like a book.
+      if (file === "meta") {
+        for (const c of pending) {
+          skipped.push({
+            field: c.field,
+            reason: `this book has no ${META_FILE}`,
+          });
+        }
+        continue;
       }
-      continue;
+      await mkdir(dirname(p), { recursive: true });
+      await writeFile(p, SERIES_HEADER, "utf8");
+      created.push(SERIES_FILE);
     }
     let text = await readFile(p, "utf8");
     for (const c of pending) {
@@ -314,5 +352,5 @@ export async function saveBook(
     await writeFile(p, text, "utf8");
   }
 
-  return { written, skipped };
+  return created.length ? { written, skipped, created } : { written, skipped };
 }

@@ -35,3 +35,6 @@ provenance:
     narrative_frame is still deliberately NOT set — per the
     narrative-frame-is-a-source-property rule, that gets decided by reading
     the actual transcript once it lands, not guessed at scaffold time.
+title_english: Purification of the Heart
+archetype: lecture-series
+content_level: general

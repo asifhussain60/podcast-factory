@@ -1007,3 +1007,12 @@
 .bf-saved-skipped {
   color: var(--c-amber);
 }
+
+/* Creating a file the book did not have is a real event, not a warning — it
+   reads in the ink colour the written list uses, not the amber of a skip. */
+.bf-saved-note {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+}
