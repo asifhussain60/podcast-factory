@@ -39,6 +39,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import _intake_media
 from _paths import BOOK_SUBDIRS, REPO_ROOT, content_dir, ensure_book_skeleton
 
 WORKSPACE_BOOKS = REPO_ROOT / "content" / "drafts"  # deprecated (legacy flat layout)
@@ -632,6 +633,8 @@ def _intake_from_audio_transcript(
     category: str = "books",
     companion_source_path: str | None = None,
     source_fidelity: str = "verbatim",
+    audio_source: str | None = None,
+    timestamps_path: str | None = None,
 ) -> int:
     """Intake a clean English transcript from an audio source (lecture, talk, etc.).
 
@@ -639,6 +642,7 @@ def _intake_from_audio_transcript(
     Starts pipeline at Phase 0b (refine).
 
     source_fidelity: "verbatim" | "edited" | "summary"
+    audio_source / timestamps_path: stored, read by no phase — see `_intake_media`.
     """
     _validate_slug(slug)
 
@@ -670,32 +674,25 @@ def _intake_from_audio_transcript(
             shutil.copy2(companion_src, companion_dst)
             _info(f"    Copied companion → {companion_dst.relative_to(REPO_ROOT)}")
 
-    state = {
-        "schema_version": 1,
-        "book_slug": slug,
-        "source_path": str(dst_transcript.relative_to(REPO_ROOT)),
-        "source_kind": "audio-transcript",
-        "input_type": "audio-transcript",
-        "source_language": "en",
-        "source_fidelity": source_fidelity,
-        "companion_source_path": (str(companion_dst.relative_to(REPO_ROOT)) if companion_dst else None),
-        "phase": "0b",
-        "phase_status": "pending",
-        "last_completed_phase": "0a",
-        "last_error": None,
-        "category": category,
-        "status": "draft",
-        "started": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "phases": {
-            "0a": {
-                "completed_via": "audio-transcript-intake",
-                "completed_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                "note": "Phase 0a skipped — source is a pre-extracted transcript",
-            }
-        },
-        "intake_via": "scripts/podcast/intake_book.py --from-transcript",
-    }
+    try:
+        landed, timestamps_dst = _intake_media.stage_companions(
+            book_dir, [Path.cwd(), REPO_ROOT, RAW_DIR], audio_source, timestamps_path
+        )
+    except ValueError as e:
+        _die(str(e))
+    audio_copied = [str(p.relative_to(REPO_ROOT)) for p in landed]
+    for line in _intake_media.report(audio_copied, timestamps_dst, REPO_ROOT):
+        _info(line)
+
+    state = _intake_media.transcript_state(
+        slug=slug,
+        category=category,
+        source_path=str(dst_transcript.relative_to(REPO_ROOT)),
+        source_fidelity=source_fidelity,
+        companion_path=(str(companion_dst.relative_to(REPO_ROOT)) if companion_dst else None),
+        audio_paths=audio_copied,
+        timestamps_path=(str(timestamps_dst.relative_to(REPO_ROOT)) if timestamps_dst else None),
+    )
     state_path = book_dir / "_system" / "orchestrator-state.json"
     state_path.write_text(json.dumps(state, indent=2) + "\n")
     _info("    state.json: phase=0b, last_completed_phase=0a (0a skipped — transcript)")
@@ -860,6 +857,7 @@ def main() -> int:
         default="verbatim",
         help="For --from-transcript: how closely the transcript matches the original audio.",
     )
+    _intake_media.add_cli_args(parser)
     parser.add_argument(
         "--slug",
         dest="slug_flag",
@@ -990,6 +988,8 @@ def main() -> int:
             category=args.category_flag or "books",
             companion_source_path=args.companion_source,
             source_fidelity=args.source_fidelity,
+            audio_source=args.transcript_audio,
+            timestamps_path=args.transcript_timestamps,
         )
 
     # PDF intake — require both positionals

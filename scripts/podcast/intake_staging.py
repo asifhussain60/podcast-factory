@@ -50,7 +50,12 @@ ROLES: tuple[str, ...] = (
 )
 DEFAULT_ROLE = "supplementary_text"
 MANIFEST_NAME = ".staging.json"
-MAX_FILE_BYTES = 500 * 1024 * 1024  # 500 MB per file
+# Raised from 500 MB (2026-08-30) — real sermon-length lecture recordings routinely
+# exceed it (e.g. a ~570 MB .m4a part). Buffered fully into server memory by the
+# upload endpoint (see upload.ts), so this stays a finite cap rather than unbounded —
+# 4 GB is comfortably above any file seen so far and well inside what a local Node
+# process can safely hold.
+MAX_FILE_BYTES = 4 * 1024 * 1024 * 1024  # 4 GB per file
 
 
 # ── paths ────────────────────────────────────────────────────────────────────
