@@ -17,6 +17,7 @@ import UploadStaging from "../intake/UploadStaging";
 import VoicePicker from "../intake/VoicePicker";
 import BriefStep from "./BriefStep";
 import BriefReview from "./BriefReview";
+import BriefProgress from "./BriefProgress";
 import BriefDialog from "./BriefDialog";
 import PromptPanel from "./PromptPanel";
 import type { Option } from "./BriefField";
@@ -62,6 +63,11 @@ function readDraft(): Record<string, string> | null {
 
 export default function BriefWizard() {
   const [step, setStep] = useState<StepId>(1);
+  // The furthest step reached. Steps 2-5 arrive pre-answered from the content
+  // profile's defaults and carry no REQUIRED field, so "has no blockers" alone
+  // would call them complete before they had been seen — a blank form reported
+  // four of five done. Completion means answered AND walked through.
+  const [furthest, setFurthest] = useState<StepId>(1);
   const [values, setValues] = useState<Record<string, string>>({});
   const [vocab, setVocab] = useState<VocabPayload | null>(null);
   const [options, setOptions] = useState<Record<string, string[]>>({});
@@ -131,6 +137,11 @@ export default function BriefWizard() {
     }
   }, [values, loading]);
 
+  const goTo = useCallback((id: StepId) => {
+    setStep(id);
+    setFurthest((f) => (id > f ? id : f));
+  }, []);
+
   const setValue = useCallback(
     (key: string, value: string) => {
       setValues((prev) => {
@@ -184,6 +195,16 @@ export default function BriefWizard() {
 
   const stepBlocked = blockers.find((b) => b.step === step);
   const canGenerate = blockers.length === 0 && !busy;
+
+  // You may reach a step only when every step BEFORE it is answered. Derived
+  // from the live blocker list rather than remembering how far you once got:
+  // going back and emptying a required field re-locks everything after it,
+  // which a high-water mark would not do. The step you are standing on always
+  // stays reachable so the gate can never strand you on a page you cannot leave.
+  const firstBlockedStep = blockers.length
+    ? Math.min(...blockers.map((b) => b.step))
+    : Number.POSITIVE_INFINITY;
+  const canVisit = (id: StepId) => id <= firstBlockedStep || id === step;
 
   async function generate() {
     setBusy(true);
@@ -247,192 +268,213 @@ export default function BriefWizard() {
   const current = STEPS.find((s) => s.id === step)!;
 
   return (
-    <div className="bf-wizard">
-      <ol className="bf-rail" aria-label="Steps">
-        {STEPS.map((s) => {
-          const state =
-            s.id === step ? "current" : s.id < step ? "done" : "ahead";
-          const short = blockers.some((b) => b.step === s.id);
-          return (
-            <li className={`bf-rail-item is-${state}`} key={s.id}>
-              <button
-                type="button"
-                className="bf-rail-link"
-                aria-current={s.id === step ? "step" : undefined}
-                onClick={() => setStep(s.id)}
+    <>
+      <BriefProgress
+        current={step}
+        furthest={furthest}
+        blockedSteps={blockers.map((b) => b.step)}
+      />
+      <div className="bf-wizard">
+        <ol className="bf-rail" aria-label="Steps">
+          {STEPS.map((s) => {
+            const state =
+              s.id === step ? "current" : s.id < step ? "done" : "ahead";
+            const short = blockers.some((b) => b.step === s.id);
+            const locked = !canVisit(s.id);
+            return (
+              <li
+                className={`bf-rail-item is-${state}${locked ? " is-locked" : ""}`}
+                key={s.id}
               >
-                <span className="bf-rail-num" aria-hidden="true">
-                  {s.id}
-                </span>
-                <span className="bf-rail-text">
-                  <span className="bf-rail-title">{s.title}</span>
-                  <span className="bf-rail-blurb">{s.blurb}</span>
-                </span>
-                {short && s.id !== step && (
-                  <span
-                    className="bf-rail-flag"
-                    aria-label="unanswered questions"
-                  >
-                    !
+                <button
+                  type="button"
+                  className="bf-rail-link"
+                  aria-current={s.id === step ? "step" : undefined}
+                  disabled={locked}
+                  title={
+                    locked
+                      ? "Finish the steps before this one first."
+                      : undefined
+                  }
+                  onClick={() => goTo(s.id)}
+                >
+                  <span className="bf-rail-num" aria-hidden="true">
+                    {s.id}
                   </span>
-                )}
-              </button>
-            </li>
-          );
-        })}
-      </ol>
+                  <span className="bf-rail-text">
+                    <span className="bf-rail-title">{s.title}</span>
+                    <span className="bf-rail-blurb">{s.blurb}</span>
+                  </span>
+                  {short && s.id !== step && (
+                    <span
+                      className="bf-rail-flag"
+                      aria-label="unanswered questions"
+                    >
+                      !
+                    </span>
+                  )}
+                </button>
+              </li>
+            );
+          })}
+        </ol>
 
-      <section className="bf-card" aria-labelledby="bf-step-heading">
-        <header className="bf-step-head">
-          <p className="bf-step-eyebrow">
-            Step {step} of {STEPS.length}
-          </p>
-          <h2 className="bf-step-title" id="bf-step-heading">
-            {current.title}
-          </h2>
-          <p className="bf-step-blurb">{current.blurb}</p>
-        </header>
+        <section className="bf-card" aria-labelledby="bf-step-heading">
+          <header className="bf-step-head">
+            <p className="bf-step-eyebrow">
+              Step {step} of {STEPS.length}
+            </p>
+            <h2 className="bf-step-title" id="bf-step-heading">
+              {current.title}
+            </h2>
+            <p className="bf-step-blurb">{current.blurb}</p>
+          </header>
 
-        {step === 5 ? (
-          <>
-            <BriefReview
-              values={values}
-              bucket={bucket}
-              stagedNames={stagedNames}
-              optionsFor={optionsFor}
-              onJump={setStep}
-            />
+          {step === 5 ? (
+            <>
+              <BriefReview
+                values={values}
+                bucket={bucket}
+                stagedNames={stagedNames}
+                optionsFor={optionsFor}
+                onJump={goTo}
+              />
+              <BriefStep
+                step={5}
+                values={values}
+                optionsFor={optionsFor}
+                onChange={setValue}
+                onExplain={(field, opts) =>
+                  setExplain({ field, options: opts })
+                }
+              />
+            </>
+          ) : (
             <BriefStep
-              step={5}
+              step={step}
               values={values}
               optionsFor={optionsFor}
               onChange={setValue}
               onExplain={(field, opts) => setExplain({ field, options: opts })}
-            />
-          </>
-        ) : (
-          <BriefStep
-            step={step}
-            values={values}
-            optionsFor={optionsFor}
-            onChange={setValue}
-            onExplain={(field, opts) => setExplain({ field, options: opts })}
-          >
-            {step === 1 && values.content_profile && (
-              <p className="bf-derived">
-                This goes on the <strong>{bucket}</strong> shelf, and will run
-                on the branch{" "}
-                <code>
-                  {bucket}/{values.slug || "…"}
-                </code>
-                .
-              </p>
-            )}
-            {step === 2 && (
-              <UploadStaging
-                onChange={({ token, files }) => {
-                  setStagingToken(token);
-                  setStagedNames(files.map((f) => f.filename));
-                }}
-              />
-            )}
-            {step === 4 && (
-              // The picker's own default is ElevenLabs, retired in 2026-08. The
-              // engine each profile actually uses comes from the content-type
-              // registry instead, so a brief cannot commission a dead engine.
-              <VoicePicker
-                key={values.content_profile}
-                defaultEngine={
-                  vocab?.profileAudioEngine[values.content_profile ?? ""] ??
-                  "notebooklm"
-                }
-                defaultHostA={
-                  vocab?.profileVoiceCast[values.content_profile ?? ""]?.host_a
-                }
-                defaultHostB={
-                  vocab?.profileVoiceCast[values.content_profile ?? ""]?.host_b
-                }
-                onChange={mergeVoice}
-              />
-            )}
-          </BriefStep>
-        )}
-
-        {error && (
-          <p className="intake-error bf-note" role="alert">
-            {error}
-          </p>
-        )}
-
-        <footer className="bf-nav">
-          <button
-            type="button"
-            className="bf-btn"
-            disabled={step === 1}
-            onClick={() => setStep((s) => (s > 1 ? ((s - 1) as StepId) : s))}
-          >
-            Back
-          </button>
-
-          {step < 5 ? (
-            <button
-              type="button"
-              className="bf-btn bf-btn-primary"
-              disabled={!!stepBlocked}
-              onClick={() => setStep((s) => (s + 1) as StepId)}
             >
-              Next
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="bf-btn bf-btn-primary"
-              disabled={!canGenerate}
-              onClick={generate}
-            >
-              {busy ? "Writing…" : "Generate the brief"}
-            </button>
+              {step === 1 && values.content_profile && (
+                <p className="bf-derived">
+                  This goes on the <strong>{bucket}</strong> shelf, and will run
+                  on the branch{" "}
+                  <code>
+                    {bucket}/{values.slug || "…"}
+                  </code>
+                  .
+                </p>
+              )}
+              {step === 2 && (
+                <UploadStaging
+                  onChange={({ token, files }) => {
+                    setStagingToken(token);
+                    setStagedNames(files.map((f) => f.filename));
+                  }}
+                />
+              )}
+              {step === 4 && (
+                // The picker's own default is ElevenLabs, retired in 2026-08. The
+                // engine each profile actually uses comes from the content-type
+                // registry instead, so a brief cannot commission a dead engine.
+                <VoicePicker
+                  key={values.content_profile}
+                  defaultEngine={
+                    vocab?.profileAudioEngine[values.content_profile ?? ""] ??
+                    "notebooklm"
+                  }
+                  defaultHostA={
+                    vocab?.profileVoiceCast[values.content_profile ?? ""]
+                      ?.host_a
+                  }
+                  defaultHostB={
+                    vocab?.profileVoiceCast[values.content_profile ?? ""]
+                      ?.host_b
+                  }
+                  onChange={mergeVoice}
+                />
+              )}
+            </BriefStep>
           )}
-        </footer>
 
-        {stepBlocked && (
-          <p className="intake-hint bf-blocked" role="status">
-            Before moving on: {stepBlocked.reasons.join(", ")}.
-          </p>
-        )}
-        {step === 5 && blockers.length > 0 && (
-          <ul className="bf-blockers" aria-label="What is still missing">
-            {blockers.map((b) => (
-              <li key={b.step}>
-                <button
-                  type="button"
-                  className="bf-blocker-link"
-                  onClick={() => setStep(b.step)}
-                >
-                  {STEPS.find((s) => s.id === b.step)?.title}
-                </button>
-                {" — "}
-                {b.reasons.join(", ")}
-              </li>
+          {error && (
+            <p className="intake-error bf-note" role="alert">
+              {error}
+            </p>
+          )}
+
+          <footer className="bf-nav">
+            <button
+              type="button"
+              className="bf-btn"
+              disabled={step === 1}
+              onClick={() => goTo((step > 1 ? step - 1 : step) as StepId)}
+            >
+              Back
+            </button>
+
+            {step < 5 ? (
+              <button
+                type="button"
+                className="bf-btn bf-btn-primary"
+                disabled={!!stepBlocked}
+                onClick={() => goTo((step + 1) as StepId)}
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="bf-btn bf-btn-primary"
+                disabled={!canGenerate}
+                onClick={generate}
+              >
+                {busy ? "Writing…" : "Generate the brief"}
+              </button>
+            )}
+          </footer>
+
+          {stepBlocked && (
+            <p className="intake-hint bf-blocked" role="status">
+              Before moving on: {stepBlocked.reasons.join(", ")}.
+            </p>
+          )}
+          {step === 5 && blockers.length > 0 && (
+            <ul className="bf-blockers" aria-label="What is still missing">
+              {blockers.map((b) => (
+                <li key={b.step}>
+                  <button
+                    type="button"
+                    className="bf-blocker-link"
+                    onClick={() => goTo(b.step)}
+                  >
+                    {STEPS.find((s) => s.id === b.step)?.title}
+                  </button>
+                  {" — "}
+                  {b.reasons.join(", ")}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <BriefDialog
+          open={!!explain}
+          title={explain ? explain.field.label : ""}
+          onClose={() => setExplain(null)}
+        >
+          <dl className="bf-explain-list">
+            {(explain?.options ?? []).map((o) => (
+              <div className="bf-explain-row" key={o.value}>
+                <dt>{o.label}</dt>
+                <dd>{o.description || "—"}</dd>
+              </div>
             ))}
-          </ul>
-        )}
-      </section>
-
-      <BriefDialog
-        open={!!explain}
-        title={explain ? explain.field.label : ""}
-        onClose={() => setExplain(null)}
-      >
-        <dl className="bf-explain-list">
-          {(explain?.options ?? []).map((o) => (
-            <div className="bf-explain-row" key={o.value}>
-              <dt>{o.label}</dt>
-              <dd>{o.description || "—"}</dd>
-            </div>
-          ))}
-        </dl>
-      </BriefDialog>
-    </div>
+          </dl>
+        </BriefDialog>
+      </div>
+    </>
   );
 }
