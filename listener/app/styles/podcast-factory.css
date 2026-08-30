@@ -3547,6 +3547,14 @@
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    /* The action row below sizes itself off the CARD's own width via `cqi`
+       units, not the viewport's — a 3-up desktop grid packs this card down to
+       ~230px on a 1280px-wide screen, far under the width any viewport media
+       query would fire at, and `.pf-book`'s own `overflow: hidden` was
+       silently cropping the row flush with the card edge instead of visibly
+       overflowing it, which is what made the buttons read as edge-to-edge
+       with no margin at all. */
+    container-type: inline-size;
     transition:
       transform var(--pf-motion),
       box-shadow var(--pf-motion),
@@ -3826,9 +3834,14 @@
     align-items: center;
     justify-content: center;
     align-self: stretch;
-    gap: clamp(1rem, 5vw, 1.65rem);
+    /* `cqi` = a percentage of `.pf-book`'s own inline size, so the row
+       shrinks with the CARD, never just the viewport (see the note on
+       `.pf-book`). The `rem` bounds keep it from ever growing past the
+       original fixed size or shrinking to something unusably small. */
+    gap: clamp(0.5rem, 4cqi, 1.65rem);
     margin-top: auto;
     padding-top: var(--pf-space-6);
+    padding-inline: var(--pf-space-3);
     min-height: 4.6rem;
   }
 
@@ -3837,12 +3850,12 @@
     isolation: isolate;
     --pf-action-tone: var(--l-muted);
     display: inline-flex;
-    flex: 0 0 4.9rem;
+    flex: 0 0 clamp(3.4rem, 22cqi, 4.9rem);
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-width: 0;
-    width: 4.9rem;
+    width: clamp(3.4rem, 22cqi, 4.9rem);
     padding: 0;
     border: 0;
     background: transparent;
@@ -3896,8 +3909,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3.9rem;
-    height: 3.9rem;
+    width: clamp(2.6rem, 18cqi, 3.9rem);
+    height: clamp(2.6rem, 18cqi, 3.9rem);
     border-radius: var(--pf-radius-pill);
     border: 1px solid
       color-mix(in srgb, var(--pf-action-tone) 62%, var(--l-ink));
@@ -3912,8 +3925,8 @@
   .pf-book-action__circle svg {
     position: relative;
     z-index: 1;
-    width: 1.68rem;
-    height: 1.68rem;
+    width: clamp(1.15rem, 8cqi, 1.68rem);
+    height: clamp(1.15rem, 8cqi, 1.68rem);
   }
 
   .pf-book-action__circle::after {
@@ -3951,28 +3964,6 @@
     font-weight: 800;
     line-height: 1;
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--l-danger) 40%, var(--l-elev));
-  }
-
-  @media (max-width: 379px) {
-    .pf-book__actions {
-      gap: var(--pf-space-3);
-      min-height: 4.25rem;
-    }
-
-    .pf-book-action {
-      flex-basis: 4.35rem;
-      width: 4.35rem;
-    }
-
-    .pf-book-action__circle {
-      width: 3.55rem;
-      height: 3.55rem;
-    }
-
-    .pf-book-action__circle svg {
-      width: 1.5rem;
-      height: 1.5rem;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
