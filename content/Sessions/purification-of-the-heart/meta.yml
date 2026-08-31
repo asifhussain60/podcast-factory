@@ -36,6 +36,25 @@ provenance:
     narrative-frame-is-a-source-property rule, that gets decided by reading
     the actual transcript once it lands, not guessed at scaffold time.
 title_english: Purification of the Heart
+# The title of the SOURCE work, not of these recordings: Hamza Yusuf's
+# "Purification of the Heart" is his translation and commentary on Imam
+# al-Mawlud's didactic poem, and this book's own series-config names that poem
+# in transliteration as "Matharat al-Qulub". This field is the script for that
+# same transliteration, so the shelf card can show a native-script title the way
+# every sibling book does.
+#
+# PROVENANCE, stated plainly because this repo's rule is never-guess on Arabic:
+# there is no scan or OCR of the Arabic title anywhere on disk -- the only
+# in-repo record is the romanization in series-config.yaml. So this is a
+# romanization rendered back into script, NOT a value read off a source. It is
+# the standard title of a well-known work rather than a reconstruction of an
+# obscure one, but it has had no second pair of eyes. Correct it in place if it
+# is wrong; nothing downstream derives anything from it but the card heading.
+#
+# Bare, not vowelled, per Asif's 2026-08-10 call on spiritual-ethos: book-title
+# cards are kept unvowelled site-wide. The "always vowel Arabic script" rule
+# governs chapter body prose and glossary terms, not this field.
+title_arabic: "مطهرة القلوب"
 archetype: lecture-series
 content_level: general
 study_track: theology
