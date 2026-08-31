@@ -61,6 +61,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _align_paragraphs import SELF_SUPPORT, align, is_monotonic  # noqa: E402
 from _book_edits import fingerprint, write_chapter_body  # noqa: E402
+from _cue_gate import Timing, verdict  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _transcript import from_vtt  # noqa: E402
 from reader_narration import audio_duration_seconds, chapter_blocks  # noqa: E402
@@ -72,9 +73,12 @@ from sessions.spoken import spoken_chapters  # noqa: E402
 PHASE = "sessions-read-along"
 MANIFEST_SCHEMA = 1
 
-#: The share of transcript cues that must land on a paragraph with real evidence
-#: before the timings are trusted enough to publish.
-_CUE_CONFIDENCE = 0.55
+# The cue-share threshold that used to decide this (`_CUE_CONFIDENCE = 0.55`) is
+# gone, not relaxed: it measured cue granularity rather than accuracy, and
+# refused all twenty-four correctly-placed chapters of a book whose recordings
+# are ten hours long. The conditions in `_cue_gate` replace it. The share itself
+# is still computed and still recorded in the manifest as `confidence`, where it
+# remains a useful diagnostic and decides nothing.
 
 # correct/restore_script/retention/detect_runs/_mushaf_wording moved to
 # `_verbatim_correct.py` (2026-08-30) so phase 0d can reuse them without the
@@ -148,7 +152,107 @@ def cue_map(markdown: str, cues) -> tuple[list[dict], float]:
     return out, min(confident / len(alignments), placed)
 
 
+def time_recording(chapters: list[tuple[str, str]], cues) -> dict[str, dict]:
+    """Time every chapter of ONE recording in a single alignment pass.
+
+    `chapters` is (key, markdown) in the order they are spoken. Returns
+    key -> {"cues", "monotonic", "score", "paragraphs"}.
+
+    WHY THIS EXISTS BESIDE `cue_map` rather than replacing it. `cue_map` asks the
+    question for one chapter against a whole recording's cues, which is exactly
+    right while a recording holds ONE chapter — the shape every session book had
+    until now, and the shape `surah-al-fateha` and `love-of-the-prophet` still
+    are. Ask it of a chapter that is a sixteenth of a ten-hour recording and the
+    other fifteen-sixteenths of the cues are forced onto its paragraphs. That is
+    not a tuning problem: measured on `purification-of-the-heart`, per-chapter
+    scores 0.02 while this pass over the same files scores 0.31 and places all
+    twenty-four chapters in perfect order.
+
+    One alignment per recording is also what makes the neighbour conditions in
+    `_cue_gate` mean anything — two chapters aligned separately share no frame in
+    which they could be seen to overlap.
+    """
+    said = [c for c in cues if c.text.strip()]
+    blocks: list[str] = []
+    block_indices: list[int] = []
+    owner: list[str] = []
+    counts: dict[str, int] = {}
+    for key, markdown in chapters:
+        for block_index, text in chapter_blocks(markdown):
+            blocks.append(text)
+            block_indices.append(block_index)
+            owner.append(key)
+            counts[key] = counts.get(key, 0) + 1
+
+    def _blank() -> dict[str, dict]:
+        return {k: {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": counts.get(k, 0)} for k, _ in chapters}
+
+    if not blocks or not said:
+        return _blank()
+    alignments = align(blocks, [c.text for c in said])
+    if not alignments:
+        return _blank()
+
+    monotonic = is_monotonic(alignments)
+    spans: dict[int, list] = {}
+    for alignment, cue in zip(alignments, said):
+        spans.setdefault(alignment.source_index, []).append((cue, alignment.score))
+
+    # Kept and recorded, no longer decisive — see `_cue_gate` for why.
+    score = round(sum(1 for a in alignments if a.score >= SELF_SUPPORT) / len(alignments), 3)
+    out = {k: {"cues": [], "monotonic": monotonic, "score": score, "paragraphs": counts.get(k, 0)} for k, _ in chapters}
+    for idx, key in enumerate(owner):
+        window = spans.get(idx)
+        if not window:
+            # Same rule as `cue_map`: a paragraph no cue landed on is skipped
+            # rather than guessed at from its neighbours, because a guessed span
+            # lights it up during somebody else's sentence.
+            continue
+        # A paragraph's span is built from the cues that actually MATCH it, not
+        # from every cue the monotonic path had to put somewhere. Audio matching
+        # nothing in the book has no earlier paragraph to fall into, so it all
+        # lands on the first — which is how paragraph one of "Love of the World"
+        # came to span 137 minutes while the median paragraph spans one. Those
+        # two hours are the chapters the book opens with and these recordings
+        # cover before this chapter set begins: real audio, no text. A paragraph
+        # with no self-supported cue at all keeps its whole window, because then
+        # the window is the only evidence there is.
+        matched = [c for c, score in window if score >= SELF_SUPPORT] or [c for c, _s in window]
+        chapter = out[key]
+        chapter["cues"].append(
+            {
+                "idx": len(chapter["cues"]),
+                "blockIndex": block_indices[idx],
+                "startS": round(min(c.offset_ms for c in matched) / 1000, 3),
+                "endS": round(max(c.end_ms for c in matched) / 1000, 3),
+                "text": blocks[idx],
+            }
+        )
+    return out
+
+
 # ── the pass ─────────────────────────────────────────────────────────────────
+
+
+def _chapter_as_it_stands(book_dir: Path, title: str) -> str:
+    """One chapter's prose from the reading edition, unmodified.
+
+    Read through the library's own splitter rather than off `chapters/*.txt`, so
+    the text that gets timed is character-for-character the text that is
+    published — the pairing is only honest if those cannot differ.
+    """
+    from _listener_book import split_chapters
+
+    md = book_dir / "book" / "book.md"
+    if not md.is_file():
+        return ""
+    from _book_edits import anchor_key
+
+    want = anchor_key(title)
+    for chapter in split_chapters(md.read_text(encoding="utf-8")):
+        if chapter.anchor == want:
+            return chapter.markdown
+    return ""
 
 
 def _manifest_path(book_dir: Path) -> Path:
@@ -177,9 +281,16 @@ def read_along_book(
     force: bool = False,
     limit: int | None = None,
     dry_run: bool = False,
+    timing_only: bool = False,
     log=print,
 ) -> dict:
-    """Correct, script and time every chapter that came off a recording."""
+    """Correct, script and time every chapter that came off a recording.
+
+    Under `timing_only` the prose is read, never written: no model is called and
+    the chapters keep the exact wording they have. For a book whose chapters were
+    already corrected and Arabic-restored upstream, that is the whole of what is
+    left to do, and re-running the rewrite to reach it would buy drift.
+    """
     book_dir = Path(book_dir).resolve()
     chapters = spoken_chapters(book_dir)
     if not chapters:
@@ -206,7 +317,7 @@ def read_along_book(
     )
     if dry_run:
         for key, entry in todo:
-            log(f"    would correct and time: {entry['title']}")
+            log(f"    would {'time' if timing_only else 'correct and time'}: {entry['title']}")
         return {"outcome": "dry-run", "planned": len(todo)}
 
     done: list[str] = []
@@ -214,12 +325,21 @@ def read_along_book(
     warnings: list[str] = []
     resolutions: list = []
 
+    # PASS 1 — the prose. Correct what the transcription got wrong, put the
+    # Arabic script back, and write the chapter. Skipped whole under
+    # `timing_only`, which is how a book whose chapters ALREADY went through
+    # both gets timings without paying a model to rewrite finished text and
+    # risk drifting it. The chapter is then read back as it stands.
+    texts: dict[str, str] = {}
     for index, (key, entry) in enumerate(todo, start=1):
         title = entry["title"]
-        episode = int(entry["episode"])
         base = entry.get("base") or ""
-        log(f"  [{index}/{len(todo)}] {title} (recording {episode})")
+        if timing_only:
+            texts[key] = _chapter_as_it_stands(book_dir, title) or base
+            log(f"  [{index}/{len(todo)}] {title} — timing only, prose untouched")
+            continue
 
+        log(f"  [{index}/{len(todo)}] {title} (recording {entry['episode']})")
         text, notes = correct(book_dir, base, label=key, log=log)
         warnings.extend(notes)
         text, found = restore_script(book_dir, text, label=key, book_title=book_dir.name, log=log)
@@ -233,46 +353,82 @@ def read_along_book(
             f"{sum(1 for r in found if r.provenance == 'reconstructed')} reconstructed, "
             f"{sum(1 for r in found if not r.ok)} left as spoken"
         )
-
         # Writes book.md AND records the Composer edit, which is what makes the
         # corrected chapter survive the next ingest — the same guarantee, through
         # the same call, that a chapter Asif types by hand gets.
         write_chapter_body(book_dir, title, text)
+        texts[key] = text
 
+    # PASS 2 — the timings, one alignment per RECORDING rather than per chapter.
+    # Ordered by the chapter's own sequence so a recording's chapters are handed
+    # to the aligner in the order they are spoken, which is what its monotonic
+    # path assumes and what lets the neighbour conditions see an overlap at all.
+    by_recording: dict[int, list[tuple[str, str]]] = {}
+    for key, entry in todo:
+        by_recording.setdefault(int(entry["episode"]), []).append((key, entry))
+    order = {key: idx for idx, (key, _e) in enumerate(chapters.items())}
+
+    for episode, members in sorted(by_recording.items()):
+        members.sort(key=lambda kv: order.get(kv[0], 0))
         vtt = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
-        cues, confidence = ([], 0.0)
+        timings: dict[str, dict] = {}
         if vtt.exists():
-            cues, confidence = cue_map(text, from_vtt(vtt.read_text(encoding="utf-8")))
+            timings = time_recording(
+                [(key, texts.get(key, "")) for key, _e in members],
+                from_vtt(vtt.read_text(encoding="utf-8")),
+            )
 
         audio = book_dir / "m4a" / "Episodes" / f"ep{episode:02d}.mp3"
         if not audio.exists():
-            untimed.append(f"{title}: recording ep{episode:02d}.mp3 is not on disk")
+            for _key, entry in members:
+                untimed.append(f"{entry['title']}: recording ep{episode:02d}.mp3 is not on disk")
             continue
-        if confidence < _CUE_CONFIDENCE:
-            # Published WITHOUT cues rather than not published: the reader still
-            # gets the lecture to listen to while reading, and nothing is
-            # highlighted in the wrong place.
-            untimed.append(f"{title}: paragraphs could not be timed confidently ({confidence:.0%})")
-            cues = []
+        recording_s = round(audio_duration_seconds(audio), 3)
 
-        manifest["chapters"][key] = {
-            "title": title,
-            "episode": episode,
-            "audio": f"m4a/Episodes/{audio.name}",
-            "audio_key": f"{book_dir.name}/audio/ep{episode:02d}.mp3",
-            # The RECORDING's length, not the last cue's end. They coincide when
-            # the alignment reached the final paragraph and diverge exactly when
-            # it did not — so taking it from the cues would report a chapter as
-            # shorter than the audio the player is about to stream, and would
-            # report nothing at all for a chapter published without cues.
-            "duration_s": round(audio_duration_seconds(audio), 3),
-            "source_hash": fingerprint(base),
-            "voice": "author",
-            "confidence": round(confidence, 3),
-            "cues": cues,
-        }
-        write_manifest(book_dir, manifest)
-        done.append(title)
+        for position, (key, entry) in enumerate(members):
+            title = entry["title"]
+            timing = timings.get(key) or {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": 0}
+            cues = timing["cues"]
+            before = timings.get(members[position - 1][0], {}).get("cues") if position else None
+            after = timings.get(members[position + 1][0], {}).get("cues") if position + 1 < len(members) else None
+            call = verdict(
+                Timing(
+                    paragraphs=timing["paragraphs"],
+                    cues=cues,
+                    monotonic=timing["monotonic"],
+                    recording_s=recording_s,
+                    before_end_s=max((c["endS"] for c in before), default=None) if before else None,
+                    after_start_s=min((c["startS"] for c in after), default=None) if after else None,
+                )
+            )
+            if not call.ok:
+                # Published WITHOUT cues rather than not published: the reader
+                # still gets the lecture to listen to while reading, and nothing
+                # is highlighted in the wrong place. The refusal now names the
+                # condition that refused instead of quoting a percentage.
+                untimed.append(f"{title}: {call.reason}")
+                cues = []
+
+            manifest["chapters"][key] = {
+                "title": title,
+                "episode": episode,
+                "audio": f"m4a/Episodes/{audio.name}",
+                "audio_key": f"{book_dir.name}/audio/ep{episode:02d}.mp3",
+                # The RECORDING's length, not the last cue's end. They coincide
+                # when the alignment reached the final paragraph and diverge
+                # exactly when it did not — so taking it from the cues would
+                # report a chapter as shorter than the audio the player is about
+                # to stream, and would report nothing at all for a chapter
+                # published without cues.
+                "duration_s": recording_s,
+                "source_hash": fingerprint(entry.get("base") or ""),
+                "voice": "author",
+                "confidence": timing["score"],
+                "gate": {"ok": call.ok, "checked": call.checked, "failures": call.failures},
+                "cues": cues,
+            }
+            write_manifest(book_dir, manifest)
+            done.append(title)
 
     write_manifest(book_dir, manifest)
     if resolutions:
@@ -298,6 +454,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--force", action="store_true", help="redo chapters already corrected")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument(
+        "--timing-only",
+        action="store_true",
+        help="write timings only; never rewrite a chapter (no model call)",
+    )
     args = parser.parse_args(argv)
 
     book_dir = resolve_content(args.slug)
@@ -320,7 +481,9 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 1
 
-    report = read_along_book(book_dir, force=args.force, limit=args.limit, dry_run=args.dry_run)
+    report = read_along_book(
+        book_dir, force=args.force, limit=args.limit, dry_run=args.dry_run, timing_only=args.timing_only
+    )
     print(json.dumps(report, indent=2, ensure_ascii=False))
     if args.dry_run:
         return 0

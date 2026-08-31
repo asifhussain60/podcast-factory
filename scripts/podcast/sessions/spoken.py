@@ -121,3 +121,68 @@ def _carry_images(heard: str, notes: str) -> str:
         out.extend(placed.get(i, ()))
     out.extend(trailing)
     return "\n\n".join(out)
+
+
+def derive_spoken_chapters(book_dir: Path, chapters: list[tuple[str, str, str]]) -> dict[str, dict]:
+    """Work out which recording each chapter was spoken in, from the transcripts.
+
+    `chapters` is (key, title, prose) in reading order. Returns the record
+    `write_spoken_chapters` stores.
+
+    WHY THIS IS DERIVED RATHER THAN DECLARED. A book ingested by this lane learns
+    the pairing from the folders it was delivered in, and folders stay
+    authoritative wherever they exist. `purification-of-the-heart` reached
+    Sessions down the ORCHESTRATED route instead: twenty-four chapters cut from
+    two ten-hour recordings, with nothing on disk saying which chapter belongs to
+    which. Splitting that by hand is a guess typed into a file that later reads
+    as a fact, so it is measured instead — every chapter is aligned against every
+    recording and assigned to the one that actually carries its words.
+
+    The evidence is legible afterwards: on that book the split came out as
+    chapters 1-16 in the first recording and 17-24 in the second, contiguous, in
+    order, with 2h16m at the head of the first matching no chapter at all — which
+    is exactly the material the book's contents page opens with and this chapter
+    set deliberately begins after.
+    """
+    from _align_paragraphs import SELF_SUPPORT
+    from _narration_plan import chapter_blocks
+    from _transcript import from_vtt
+
+    blocks: list[str] = []
+    owner: list[int] = []
+    for index, (_key, _title, prose) in enumerate(chapters):
+        for _block_index, text in chapter_blocks(prose):
+            blocks.append(text)
+            owner.append(index)
+    if not blocks:
+        return {}
+
+    support: dict[int, dict[int, int]] = {}
+    for path in sorted((book_dir / "transcripts").glob("ep*.vtt")):
+        try:
+            episode = int(path.stem[2:])
+        except ValueError:
+            continue
+        said = [c for c in from_vtt(path.read_text(encoding="utf-8")) if c.text.strip()]
+        if not said:
+            continue
+        for alignment in align(blocks, [c.text for c in said]):
+            if alignment.score >= SELF_SUPPORT:
+                support.setdefault(owner[alignment.source_index], {})[episode] = (
+                    support.setdefault(owner[alignment.source_index], {}).get(episode, 0) + 1
+                )
+
+    out: dict[str, dict] = {}
+    for index, (key, title, prose) in enumerate(chapters):
+        votes = support.get(index)
+        if not votes:
+            # No recording claims it. Left out rather than assigned to a
+            # neighbour's tape, which would time it against someone else's words.
+            continue
+        out[key] = {
+            "title": title,
+            "sequence": str(index + 1),
+            "episode": str(max(votes, key=lambda ep: votes[ep])),
+            "base": prose,
+        }
+    return out
