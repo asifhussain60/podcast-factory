@@ -36,8 +36,10 @@ yours.
 
 ```bash
 python3 scripts/repo_surgeon_probe.py            # full
-python3 scripts/repo_surgeon_probe.py --scope podcast   # the post-merge sweep
-python3 scripts/repo_surgeon_probe.py --scope apps      # the two web surfaces
+python3 scripts/repo_surgeon_probe.py --scope podcast   # the pipeline surface
+python3 scripts/repo_surgeon_probe.py --scope dashboard # the Astro Site ONLY
+python3 scripts/repo_surgeon_probe.py --scope library   # the Library ONLY
+python3 scripts/repo_surgeon_probe.py --scope apps      # both web surfaces together
 python3 scripts/repo_surgeon_probe.py --json     # machine-readable
 ```
 
@@ -90,13 +92,41 @@ that cannot fail converts an unknown into false confidence.
 
 | Trigger | Effect |
 |---|---|
-| `/repo-surgeon` | Full sweep, `--preview` default |
-| `/repo-surgeon --fix` | Execute the approved repair plan (destructive ops still confirm) |
-| `/repo-surgeon --scope podcast` | Pipeline + book-pipeline + capability probes — the post-merge sweep CLAUDE.md mandates |
-| `/repo-surgeon --scope apps` | The Astro Site + the Podcast Factory Library — gates, routes, tests, clean code |
+| `/repo-surgeon` | Full sweep — all three surfaces in sequence (below), then Pass 6. `--preview` default |
+| `/repo-surgeon --fix` | Execute the approved repair plan for the surface under review (destructive ops still confirm) |
+| `/repo-surgeon --scope podcast` | THE PIPELINE surface only — `scripts/podcast/`, book-pipeline + capability probes. The post-merge sweep CLAUDE.md mandates |
+| `/repo-surgeon --scope dashboard` | THE PODCAST FACTORY ASTRO SITE only — `plan-dashboard/`. Never touches the Library |
+| `/repo-surgeon --scope library` | THE PODCAST FACTORY LIBRARY only — `listener/`. Never touches the Astro Site |
+| `/repo-surgeon --scope apps` | Both web surfaces together — the union of `dashboard` + `library`, for a change that genuinely crosses them |
 | `/repo-surgeon --plan-only` | Plan conformance only |
 | `/repo-surgeon --root-only` | Contract root-membership check only |
-| `/repo-surgeon --cleanup` | The closing hygiene pass (Pass 6). Dry-run first, always |
+| `/repo-surgeon --cleanup` | The closing hygiene pass (Pass 6), repo-wide by design. Dry-run first, always |
+
+## Three surfaces, reviewed and fixed independently
+
+This repo ships three independently deployable things, and a combined sweep buries
+one surface's real findings under another's noise — a Library access-control P0
+under forty pipeline debris notes, or an Astro Site formatting fix bundled into the
+same approval as a Library security fix. Unless asked for a specific single surface,
+run and resolve them IN THIS ORDER, each one fully reviewed, approved, and (if
+`--fix`) applied before the next surface's review begins:
+
+1. **Pipeline** (`--scope podcast`) — `scripts/podcast/`, the orchestrator, the
+   phase modules, the book-pipeline invariants.
+2. **Podcast Factory Astro Site** (`--scope dashboard`) — `plan-dashboard/`. A view
+   or page change surfaced here is ALSO subject to the Cortex HTML View Quality
+   Standard (`skills-staging/html-view-quality/SKILL.md`) and the
+   `html-view-challenger` gate — repo-surgeon finds the defect, that standard
+   governs how a view-level fix is made.
+3. **Podcast Factory Library** (`--scope library`) — `listener/`. Its `RT-*`
+   findings are a SECURITY surface (route position is the access policy itself),
+   never a tidiness one — treat and approve them accordingly, never folded into an
+   unrelated fix.
+4. **Pass 6 cleanup, once, last, across the whole tree.** Debris and hygiene belong
+   to no single surface, so this is the one step that stays combined.
+
+A request scoped to one surface ("the Library is broken", "clean up the Astro
+Site") runs only that surface's pass — do not widen it to all three uninvited.
 
 ## Every run ends with Pass 6
 
@@ -131,6 +161,30 @@ never swept: they are somebody's working files.
   rebuild; reclaiming the wrong thing costs work that does not come back.
 
 ## Revision log
+
+- **2026-08-31 (second pass)** — Split `--scope apps` into `--scope dashboard`
+  and `--scope library`, and added the *Three surfaces* section above so the
+  pipeline, the Astro Site and the Library are each reviewed, approved and fixed
+  as their own pass rather than one combined sweep — a Library security finding
+  no longer sits buried under pipeline debris notes, and a fix for one surface is
+  never bundled into the same approval as another's. The filter lives in the
+  shared `_apps()` helper (a `scope:` tag per `apps:` contract entry, matched
+  against the probe's own `--scope`), so every existing app-level check gained the
+  split for free rather than each reimplementing it. Pass 6 cleanup stays
+  repo-wide by design — debris belongs to no single surface. 4 tests added.
+
+- **2026-08-31** — Two project skills had been authored straight into the
+  gitignored `.claude/skills/` — the directory Claude Code reads natively for
+  project-scoped skills — with no tracked source anywhere: invisible to git, the
+  skill registry, and every prior probe run, on a repo whose own model is
+  machine-agnostic. Added `project_skills:` to the contract, a canonical source
+  under `skills-staging/`, `scripts/podcast/sync-skill-wrappers.sh` to keep the
+  two in sync (same shape as `sync-agent-wrappers.sh`), and two checks: `A3`
+  (mirror parity, orphan detection) and `A4` (no bare single-word quoted trigger —
+  e.g. `'challenge'` — claimed by two specs at once, the exact shape that would
+  have let a new skill hijack an existing agent's invocation before one skill's
+  trigger list was deliberately narrowed to multi-word phrasing). 13 tests added.
+  Both checks report clean on the current tree.
 
 - **2026-08-25** — Closed the probe's own test gap. The twelve core checks had no
   clean case and no defect case, while the two newer modules had both; the file

@@ -60,6 +60,52 @@ def app_profile(**overrides) -> dict:
     return {"apps": [app], "verify": ["cd listener && npm run test"], "size_gates": [{"glob": "listener/**/*.ts"}]}
 
 
+# ---------- _apps: single-surface scoping (--scope dashboard / --scope library) ----------
+
+
+def two_app_profile() -> dict:
+    return {
+        "apps": [
+            {"dir": "plan-dashboard", "name": "Astro Site", "scope": "dashboard", "gates": []},
+            {"dir": "listener", "name": "Library", "scope": "library", "gates": []},
+        ]
+    }
+
+
+def test_apps_returns_every_app_when_scope_is_all(tmp_path):
+    write(tmp_path, "plan-dashboard/.keep", "")
+    write(tmp_path, "listener/.keep", "")
+    probe = make_probe(tmp_path, two_app_profile())
+    assert [a["dir"] for a in surface._apps(probe)] == ["plan-dashboard", "listener"]
+
+
+def test_apps_filters_to_dashboard_only(tmp_path):
+    write(tmp_path, "plan-dashboard/.keep", "")
+    write(tmp_path, "listener/.keep", "")
+    probe = make_probe(tmp_path, two_app_profile())
+    probe.scope = "dashboard"
+    assert [a["dir"] for a in surface._apps(probe)] == ["plan-dashboard"]
+
+
+def test_apps_filters_to_library_only(tmp_path):
+    write(tmp_path, "plan-dashboard/.keep", "")
+    write(tmp_path, "listener/.keep", "")
+    probe = make_probe(tmp_path, two_app_profile())
+    probe.scope = "library"
+    assert [a["dir"] for a in surface._apps(probe)] == ["listener"]
+
+
+def test_apps_scoped_run_ignores_the_other_surfaces_missing_directory(tmp_path):
+    """The point of the filter: a --scope library run must never report a P1 about
+    plan-dashboard not existing, when plan-dashboard was never asked about."""
+    write(tmp_path, "listener/.keep", "")  # plan-dashboard deliberately absent
+    probe = make_probe(tmp_path, two_app_profile())
+    probe.scope = "library"
+    apps = surface._apps(probe)
+    assert [a["dir"] for a in apps] == ["listener"]
+    assert ids(probe) == []
+
+
 # ---------- GT: gate coverage ----------
 
 

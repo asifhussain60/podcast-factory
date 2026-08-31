@@ -268,7 +268,8 @@ def test_retired_surfaces_flags_each_banned_path(tmp_path, banned):
     assert probe.findings[0].severity == "P0"
 
 
-# ---------- A2 / A1: the agent and skill registries ----------
+# ---------- A2: the agent registry (A1, the skill registry, moved to
+# test_repo_surgeon_specs.py alongside A3/A4 when check_skill_registry moved) ----------
 
 
 def test_agent_mirrors_clean(tmp_path):
@@ -312,52 +313,6 @@ def test_agent_mirrors_escalates_an_empty_canonical_directory(tmp_path):
     assert probe.findings[0].severity == "P0"
 
 
-def test_skill_registry_clean(tmp_path):
-    write(tmp_path, "docs/reference/skill-registry.md", "| skills-staging/alpha/ | a skill |\n")
-    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
-    probe = make_probe(tmp_path, {})
-    probe.check_skill_registry()
-    assert ids(probe) == []
-
-
-def test_skill_registry_flags_a_missing_registry(tmp_path):
-    probe = make_probe(tmp_path, {})
-    probe.check_skill_registry()
-    assert ids(probe) == ["A1"]
-
-
-def test_skill_registry_flags_a_skill_with_no_row(tmp_path):
-    """Matched on the DEFINITION PATH, not the bare name: a loose substring match
-    passes on any incidental prose mention."""
-    write(tmp_path, "docs/reference/skill-registry.md", "alpha is mentioned here in passing\n")
-    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
-    probe = make_probe(tmp_path, {})
-    probe.check_skill_registry()
-    assert ids(probe) == ["A1"]
-
-
-def test_skill_registry_flags_a_skill_with_no_skill_md(tmp_path):
-    write(tmp_path, "docs/reference/skill-registry.md", "| skills-staging/alpha/ |\n")
-    write(tmp_path, "skills-staging/alpha/notes.md", "#\n")
-    probe = make_probe(tmp_path, {})
-    probe.check_skill_registry()
-    assert ids(probe) == ["A1"]
-    assert "no SKILL.md" in probe.findings[0].summary
-
-
-def test_skill_registry_survives_a_missing_skills_directory(tmp_path):
-    """The registry's absence was a finding; the directory's absence was a traceback.
-
-    A fresh clone that has not run the skill installer has no skills-staging/, so this
-    crashed the pre-commit hook on the very first tree it was most likely to meet.
-    """
-    write(tmp_path, "docs/reference/skill-registry.md", "# registry\n")
-    probe = make_probe(tmp_path, {})
-    probe.check_skill_registry()
-    assert ids(probe) == ["A1"]
-    assert "skills-staging" in probe.findings[0].summary
-
-
 # ---------- SK: the audit's own references ----------
 
 SPEC_TARGETS = ("skills-staging/repo-surgeon/SKILL.md", "infra/claude-agents/repo-surgeon.md")
@@ -396,33 +351,6 @@ def test_self_references_ignores_anchors_and_mail_links(tmp_path):
         write(tmp_path, rel, "[a](#section) [b](mailto:x@y.z) [c](http://x) [d](https://x)\n")
     probe = make_probe(tmp_path, {})
     probe.check_self_references()
-    assert ids(probe) == []
-
-
-# ---------- AU-S2: machine-specific paths in pipeline source ----------
-
-
-def test_abs_paths_clean(tmp_path):
-    write(tmp_path, "scripts/podcast/a.py", "PATH = Path(__file__).parent\n")
-    probe = make_probe(tmp_path, {})
-    probe.check_abs_paths()
-    assert ids(probe) == []
-
-
-def test_abs_paths_flags_a_hardcoded_home_directory(tmp_path):
-    write(tmp_path, "scripts/podcast/a.py", 'ROOT = "/Users/someone/PROJECTS/x"\n')
-    probe = make_probe(tmp_path, {})
-    probe.check_abs_paths()
-    assert ids(probe) == ["AU-S2"]
-    assert probe.findings[0].severity == "P0"
-    assert probe.findings[0].line == 1
-
-
-def test_abs_paths_ignores_a_comment_and_a_test_tree(tmp_path):
-    write(tmp_path, "scripts/podcast/a.py", '# see /Users/someone/notes.txt\nX = "ok"\n')
-    write(tmp_path, "scripts/podcast/tests/test_a.py", 'ROOT = "/Users/someone/x"\n')
-    probe = make_probe(tmp_path, {})
-    probe.check_abs_paths()
     assert ids(probe) == []
 
 

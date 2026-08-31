@@ -23,8 +23,12 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 | **Repo-surgeon** | BRONZE (target) | Active in staging — a project-specific layer over the generic `repo-audit` skill; backed by `scripts/repo_surgeon_probe.py` | `skills-staging/repo-surgeon/SKILL.md` |
 | **Studio-composer** | BRONZE (target) | Active in staging — behavioural contract for the Book Composer / Preview / LIVE Session surfaces; defers styling to html-view-quality | `skills-staging/studio-composer/SKILL.md` |
 | **Ui-designer** | N/A — design system | Active in staging — the Astro site's design system (typography, `--c-*` palette, editorial cards); load for any site design work | `skills-staging/ui-designer/SKILL.md` |
+| **Podcast-factory-deploy** | N/A — ops runbook | Active — project-scoped, discovered by Claude Code directly via `.claude/skills/` (not the Cowork install path the rows above use); build/run/deploy for the two web apps | `skills-staging/podcast-factory-deploy/SKILL.md` → `.claude/skills/podcast-factory-deploy/SKILL.md` |
+| **Challenge-my-request** | N/A — meta/process | Active — project-scoped, discovered by Claude Code directly via `.claude/skills/`; forces critical evaluation of Asif's own requests about the pipeline/tooling before compliance | `skills-staging/challenge-my-request/SKILL.md` → `.claude/skills/challenge-my-request/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
+
+**Two install paths, and they are not interchangeable.** Every skill above except the last two is installed by `scripts/install-claude-skills.sh`, which mirrors `skills-staging/*/SKILL.md` into the GLOBAL Cowork skills directory (`~/Library/Application Support/Claude/skills/`) — cross-project, Cowork-facing. **Podcast-factory-deploy** and **Challenge-my-request** are different: they are discovered by Claude Code natively from `.claude/skills/<name>/SKILL.md`, project-scoped to this repo only, and kept in sync by `scripts/podcast/sync-skill-wrappers.sh` from the `project_skills:` list in `.repo-audit/profile.yaml` (that contract is the authority on which names belong here — this row set must match it). repo-surgeon's A3 check enforces the pairing; A4 checks that no skill or agent shares a bare single-word trigger with another.
 
 ## Skills NOT present in this repo (sibling repo)
 

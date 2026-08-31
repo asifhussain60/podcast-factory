@@ -374,3 +374,166 @@ def test_every_check_survives_an_empty_repo(tmp_path, check):
     first tree any of these meets on a fresh clone is a partial one."""
     probe = make_probe(tmp_path, {})
     check(probe)
+
+
+# ---------- AU-S2: machine-specific paths in pipeline source ----------
+
+
+def test_abs_paths_clean(tmp_path):
+    write(tmp_path, "scripts/podcast/a.py", "PATH = Path(__file__).parent\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_abs_paths(probe)
+    assert ids(probe) == []
+
+
+def test_abs_paths_flags_a_hardcoded_home_directory(tmp_path):
+    write(tmp_path, "scripts/podcast/a.py", 'ROOT = "/Users/someone/PROJECTS/x"\n')
+    probe = make_probe(tmp_path, {})
+    specs.check_abs_paths(probe)
+    assert ids(probe) == ["AU-S2"]
+    assert probe.findings[0].severity == "P0"
+    assert probe.findings[0].line == 1
+
+
+def test_abs_paths_ignores_a_comment_and_a_test_tree(tmp_path):
+    write(tmp_path, "scripts/podcast/a.py", '# see /Users/someone/notes.txt\nX = "ok"\n')
+    write(tmp_path, "scripts/podcast/tests/test_a.py", 'ROOT = "/Users/someone/x"\n')
+    probe = make_probe(tmp_path, {})
+    specs.check_abs_paths(probe)
+    assert ids(probe) == []
+
+
+# ---------- A1: the skill registry ----------
+
+
+def test_skill_registry_clean(tmp_path):
+    write(tmp_path, "docs/reference/skill-registry.md", "| skills-staging/alpha/ | a skill |\n")
+    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_skill_registry(probe)
+    assert ids(probe) == []
+
+
+def test_skill_registry_flags_a_missing_registry(tmp_path):
+    probe = make_probe(tmp_path, {})
+    specs.check_skill_registry(probe)
+    assert ids(probe) == ["A1"]
+
+
+def test_skill_registry_flags_a_skill_with_no_row(tmp_path):
+    """Matched on the DEFINITION PATH, not the bare name: a loose substring match
+    passes on any incidental prose mention."""
+    write(tmp_path, "docs/reference/skill-registry.md", "alpha is mentioned here in passing\n")
+    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_skill_registry(probe)
+    assert ids(probe) == ["A1"]
+
+
+def test_skill_registry_flags_a_skill_with_no_skill_md(tmp_path):
+    write(tmp_path, "docs/reference/skill-registry.md", "| skills-staging/alpha/ |\n")
+    write(tmp_path, "skills-staging/alpha/notes.md", "#\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_skill_registry(probe)
+    assert ids(probe) == ["A1"]
+    assert "no SKILL.md" in probe.findings[0].summary
+
+
+def test_skill_registry_survives_a_missing_skills_directory(tmp_path):
+    """The registry's absence was a finding; the directory's absence was a traceback.
+
+    A fresh clone that has not run the skill installer has no skills-staging/, so this
+    crashed the pre-commit hook on the very first tree it was most likely to meet.
+    """
+    write(tmp_path, "docs/reference/skill-registry.md", "# registry\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_skill_registry(probe)
+    assert ids(probe) == ["A1"]
+    assert "skills-staging" in probe.findings[0].summary
+
+
+# ---------- A3: project-skill mirrors (skills-staging <-> .claude/skills) ----------
+
+
+def test_project_skill_mirrors_clean(tmp_path):
+    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
+    write(tmp_path, ".claude/skills/alpha/SKILL.md", "#\n")
+    probe = make_probe(tmp_path, {"project_skills": ["alpha"]})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == []
+
+
+def test_project_skill_mirrors_silent_with_nothing_declared(tmp_path):
+    """No project_skills in the contract means this repo doesn't use the pattern —
+    silence, not a finding about an empty list."""
+    probe = make_probe(tmp_path, {})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == []
+
+
+def test_project_skill_mirrors_flags_a_declared_skill_with_no_canonical_source(tmp_path):
+    probe = make_probe(tmp_path, {"project_skills": ["alpha"]})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == ["A3"]
+    assert "no canonical" in probe.findings[0].summary
+
+
+def test_project_skill_mirrors_flags_a_missing_runtime_mirror(tmp_path):
+    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
+    write(tmp_path, ".claude/skills/.keep", "")  # runtime dir exists, alpha's copy doesn't
+    probe = make_probe(tmp_path, {"project_skills": ["alpha"]})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == ["A3"]
+    assert "no generated runtime mirror" in probe.findings[0].summary
+
+
+def test_project_skill_mirrors_survives_a_missing_claude_directory(tmp_path):
+    """A fresh clone or CI has no .claude/skills/ at all (gitignored) — that must
+    not read as every declared skill missing its mirror."""
+    write(tmp_path, "skills-staging/alpha/SKILL.md", "#\n")
+    probe = make_probe(tmp_path, {"project_skills": ["alpha"]})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == []
+
+
+def test_project_skill_mirrors_flags_an_undeclared_runtime_directory(tmp_path):
+    write(tmp_path, ".claude/skills/ghost/SKILL.md", "#\n")
+    probe = make_probe(tmp_path, {"project_skills": []})
+    specs.check_project_skill_mirrors(probe)
+    assert ids(probe) == ["A3"]
+    assert "ghost" in probe.findings[0].summary
+
+
+# ---------- A4: bare single-word trigger collisions ----------
+
+
+def test_trigger_collisions_clean_with_multi_word_phrases(tmp_path):
+    write(tmp_path, "infra/claude-agents/alpha.md", "---\ndescription: \"Invoke for: 'do the alpha thing'.\"\n---\n")
+    write(
+        tmp_path,
+        "skills-staging/beta/SKILL.md",
+        "---\ndescription: \"Invoke on: 'do the beta thing'.\"\n---\n",
+    )
+    probe = make_probe(tmp_path, {})
+    specs.check_trigger_collisions(probe)
+    assert ids(probe) == []
+
+
+def test_trigger_collisions_flags_a_shared_bare_word(tmp_path):
+    """The exact shape that would have let a new skill hijack an existing agent's
+    invocation: two specs both claiming the bare word 'challenge' as a trigger."""
+    write(tmp_path, "infra/claude-agents/alpha.md", "---\ndescription: \"Invoke for: 'challenge'.\"\n---\n")
+    write(tmp_path, "skills-staging/beta/SKILL.md", "---\ndescription: \"Invoke on: 'challenge'.\"\n---\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_trigger_collisions(probe)
+    assert ids(probe) == ["A4"]
+    assert "challenge" in probe.findings[0].summary
+    assert probe.findings[0].severity == "P2"
+
+
+def test_trigger_collisions_ignores_the_generated_readme(tmp_path):
+    write(tmp_path, "infra/claude-agents/_README.md", "---\ndescription: \"'challenge' appears here too.\"\n---\n")
+    write(tmp_path, "skills-staging/beta/SKILL.md", "---\ndescription: \"Invoke on: 'challenge'.\"\n---\n")
+    probe = make_probe(tmp_path, {})
+    specs.check_trigger_collisions(probe)
+    assert ids(probe) == []

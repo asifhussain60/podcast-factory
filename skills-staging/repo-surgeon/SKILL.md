@@ -102,11 +102,50 @@ who executes each pass.
 |---|---|
 | `--preview` | Findings + plan only, no execution. **Default.** |
 | `--fix` | Execute the approved repair plan. Destructive ops still need confirmation. |
-| `--scope podcast` | Pipeline + book-pipeline + capability probes. The post-merge sweep `CLAUDE.md` mandates. |
-| `--scope apps` | The two web surfaces only — gates, routes, test hygiene, clean code. |
+| `--scope podcast` | The pipeline surface — pipeline + book-pipeline + capability probes. The post-merge sweep `CLAUDE.md` mandates. |
+| `--scope dashboard` | The Podcast Factory Astro Site ONLY — never touches the Library. Gates, routes, test hygiene, clean code, data contract, scoped to `plan-dashboard/` alone via the `scope: dashboard` tag on its `apps:` entry. |
+| `--scope library` | The Podcast Factory Library ONLY — never touches the Astro Site. Same probe set, scoped to `listener/` alone via `scope: library`. |
+| `--scope apps` | Both web surfaces together — the convenience union of `dashboard` + `library`, for when a change genuinely crosses both. |
 | `--plan-only` / `--pass 5` | Plan conformance only. |
 | `--root-only` | Contract root-membership check only. |
 | `--cleanup` | The closing hygiene pass. See *Pass 6* below. Always dry-run first. |
+
+### Three surfaces, each reviewed and fixed on its own
+
+This repo is three independently deployable things — the pipeline (`scripts/podcast/`),
+the Podcast Factory Astro Site (`plan-dashboard/`), and the Podcast Factory Library
+(`listener/`) — and a finding in one says nothing about the health of the other two. A
+single combined sweep buries a Library security finding under forty pipeline debris
+notes, and a combined FIX pass risks bundling an Astro Site formatting change with a
+Library access-control fix in one review, which is exactly the kind of scope-mixing
+`CLAUDE.md`'s branch-per-content-piece discipline exists to prevent at the content
+layer — the same discipline applies here, at the surface layer.
+
+**The default multi-surface sweep runs each surface as its own pass, not one pass
+that happens to touch three trees:**
+
+1. `--scope podcast` — review, then (on approval) fix, the pipeline. Independent of
+   either app; this is the post-merge sweep `CLAUDE.md` already mandates on its own
+   cadence.
+2. `--scope dashboard` — review, then (on approval) fix, the Astro Site alone. Its
+   findings (`GT-*`, `RT-*`, `CQ-*`, `TS-FOCUS`) never mix with the Library's.
+3. `--scope library` — review, then (on approval) fix, the Library alone. Its
+   `RT-*` findings are a SECURITY surface (see below), never a tidiness one — never
+   bundle a Library access-control fix into the same approval as an Astro Site
+   formatting change.
+4. **Pass 6 cleanup runs LAST, once, across the whole tree.** Debris and hygiene are
+   genuinely repo-wide (a stale `__pycache__` doesn't belong to one surface), so
+   splitting the cleanup pass three ways would just triple the same survey. See
+   *Pass 6* below.
+
+Each surface pass is deterministic in the same sense the probe itself is: the same
+tree scoped the same way produces the same findings in the same order, every time —
+`--scope dashboard` two runs apart with no tree change reports identically. Findings
+for one surface are shown, and a fix plan for that surface is approved, BEFORE the
+next surface's review starts — three surfaces reviewed in one sitting is not one
+combined approval, it is three sequential ones. A single-surface request (`"the
+Library is broken"`, `"clean up the Astro Site"`) runs only that surface's pass, not
+all three.
 
 ---
 
@@ -166,6 +205,8 @@ by hand what the script already reports.
 | Retired surfaces | `RS-RESURRECT` | `server/`, `site/`, `shared/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` stay deleted |
 | Agents | `A2` | Canonical specs and their generated `.github` mirrors are the same set |
 | Skills | `A1` | Every `skills-staging/` directory is registered and has a `SKILL.md` |
+| **Project skills** | `A3` | Every skill in `project_skills:` has a canonical `skills-staging/` source AND a generated `.claude/skills/` mirror; no undeclared `.claude/skills/` directory exists with no tracked source |
+| **Trigger collisions** | `A4` | No bare single-word quoted trigger (`'challenge'`) is claimed by two agent/skill specs at once — the exact shape that would have let a new skill hijack an existing agent's invocation |
 | Self-integrity | `SK-DEADREF`, `SK-MISSING` | Every relative link in this skill and its agent spec resolves |
 | Pipeline | `AU-S2`, `AU-A2` | No machine-specific paths in pipeline source; no duplicated version constant has drifted |
 | Book pipeline | `AU-V1`, `AU-V2`, `AU-V4`, `AU-V5`, `AU-V6` | The unified compose route is the only route, its schema mirrors agree, its stages exist, its governance ids resolve |
@@ -316,14 +357,18 @@ appears nowhere in `plan-dashboard/`, so the rule asserted a mirror that does no
 
 ---
 
-## The web surfaces (`--scope apps`)
+## The web surfaces (`--scope dashboard`, `--scope library`, or `--scope apps` for both)
 
-Two apps, and they are not interchangeable. Both are declared in the contract's
-`apps:` block — directory, source roots, gates, route policy — so this file names
-neither a path nor a gate.
+Two apps, and they are not interchangeable — each has its OWN scope tag
+(`scope: dashboard` / `scope: library`) on its `apps:` entry, so `--scope dashboard`
+never touches the Library's tree and `--scope library` never touches the Astro
+Site's, even though the same six check functions run either way. Both are declared
+in the contract's `apps:` block — directory, source roots, gates, route policy — so
+this file names neither a path nor a gate.
 
 | | Podcast Factory Astro Site | Podcast Factory Library |
 |---|---|---|
+| Scope flag | `--scope dashboard` | `--scope library` |
 | Audience | Admin / authoring | The readers, on the public internet |
 | Routing | File-based (`src/pages/**`) | A manifest that **is** the access policy |
 | Lint | ESLint + Prettier, in CI | **None** — reported as `CQ-NO-LINT` |
@@ -500,6 +545,18 @@ Two project-specific severity calls:
 - **Does not fix through a live pipeline.** L6 halts instead.
 
 ## Revision log
+
+- **2026-08-31** — Split `--scope apps` into `--scope dashboard` and
+  `--scope library`, each auditing exactly one web surface. Every app-level check
+  already iterated the shared `_apps()` helper, so the fix lived there once: it now
+  filters by `probe.scope` against a `scope:` tag added to each `apps:` contract
+  entry, rather than each check re-implementing its own filter. `--scope apps`
+  stays as the union of both, for a change that genuinely crosses them. Asif asked
+  for the pipeline, the Astro Site and the Library to each be reviewed, analyzed
+  and fixed as independent passes, converging on approval one at a time, with Pass
+  6's cleanup the only step that stays repo-wide (debris belongs to no one
+  surface). 4 tests added, pinning the filter directly rather than through a check
+  that happens to call it.
 
 - **2026-08-16** — Widened from the pipeline to every surface the project ships.
   Added seven probe groups in a new module: capabilities (`CAP-*`), gate coverage
