@@ -210,6 +210,7 @@ by hand what the script already reports.
 | Self-integrity | `SK-DEADREF`, `SK-MISSING` | Every relative link in this skill and its agent spec resolves |
 | Pipeline | `AU-S2`, `AU-A2` | No machine-specific paths in pipeline source; no duplicated version constant has drifted |
 | Book pipeline | `AU-V1`, `AU-V2`, `AU-V4`, `AU-V5`, `AU-V6` | The unified compose route is the only route, its schema mirrors agree, its stages exist, its governance ids resolve |
+| Book identity | `AU-V7` | Every book on the shelf has an author, a native-script title, and a study track recorded in its own `meta.yml` — never guessed, only reported |
 | **Capabilities** | `CAP-PHASE`, `CAP-AGENT-REF`, `CAP-CMD-REF` | Every phase the orchestrator declares has a handler; every agent a doc invokes has a spec; every command a normative doc prints exists |
 | **Gate coverage** | `GT-APP-UNVERIFIED`, `GT-UNGATED`, `GT-MISSING` | Every web app is named in the verify list, and every gate it declares is wired into CI, a hook, or that list |
 | **Routes** | `RT-DANGLING`, `RT-ORPHAN`, `RT-BOUNDARY`, `RT-PATH-GATE`, `RT-POLICY-GONE` | The Library's route tree — which IS its access policy — resolves both ways, owns its error boundary, and gates by position rather than by pathname |
@@ -349,6 +350,7 @@ The unified book path must remain the sole compose route. Architecture:
 | AU-V4 | P1 | **Unified stages exist** — `compose_book_v2`, `author_phase_book_augment`, `apply_fluency_adapt`, `apply_author_companion_voice`. |
 | AU-V5 | P1 | **Governance ids resolve** — every `BR-*` id cited by `_book_render_checks.py` is defined in `docs/standards/book-print-quality.md`, and the `book-render-challenger` spec exists in both tracked mirrors. The probe derives the id list from the code rather than hardcoding it; the prose rule hardcoded the original four and so never noticed three later checks citing a standard that omits them. |
 | AU-V6 | P1 | **Legacy compose stays retired** — no `generate_translation_edition.py`, no `book-illustrated.md` assembly, no `book-slides.md` injection write. |
+| AU-V7 | P2 | **Every book's identity is complete, or the gap is on record** — re-runs `normalize_book_metadata.py --json` and turns each entry in its `unknown` report into a finding (no author, no native-script title, no study track anywhere the pipeline reads). P2, not P1: the script refuses to invent an author or an Arabic title for a religious text, so the gap is closed by a human supplying the true name, not by a blocked commit. This is what would have caught `purification-of-the-heart` shipping to the Studio shelf with no Arabic title — the detector already existed, it just had no gate running it. |
 
 `AU-V3` was **removed on 2026-07-27**. It asserted that the `book.visuals-index/v1`
 schema string must match verbatim between `_visual_candidates.py` and the
