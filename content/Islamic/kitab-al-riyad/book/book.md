@@ -700,7 +700,7 @@ The sound clarification of what he has brought is contained in what has already 
 
 ## 6. Parts or Traces?
 
-telling, and short of it. It is now established that these souls are neither parts nor traces in the sense the dispute has fixed upon. We may therefore take up the judgment between the two contenders directly: the question whether the soul is parts or traces, and the discussion that follows from it.
+Telling, and short of it. It is now established that these souls are neither parts nor traces in the sense the dispute has fixed upon. We may therefore take up the judgment between the two contenders directly: the question whether the soul is parts or traces, and the discussion that follows from it.
 
 **The First Section**
 

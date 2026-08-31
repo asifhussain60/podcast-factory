@@ -87,6 +87,8 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         # eye; called after step 11 rather than with the three report steps above,
         # because the honorific convention and the paragraph mirror both run between.
         "defect-scan",
+        # 2026-08-31: a chapter begins with a capital letter (_chapter_opening.py).
+        "opening",
         "bridges",
         "honorifics",
         "arabic-alignment",

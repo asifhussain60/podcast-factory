@@ -25,7 +25,7 @@ from _step_ledger import record_step as _record_step
 #: report-only steps moved to `_book_reports`: each test had `_book_apparatus.py`
 #: hard-coded. One list, so the next split updates them together instead of silently
 #: dropping whichever steps moved.
-APPARATUS_MODULES: tuple[str, ...] = ("_book_apparatus.py", "_book_reports.py")
+APPARATUS_MODULES: tuple[str, ...] = ("_book_apparatus.py", "_book_reports.py", "_book_typography.py")
 
 #: The phase every apparatus step files under. The apparatus is the tail of a compose
 #: whether it was reached through `compose_book_v2` or run standalone by
@@ -60,6 +60,7 @@ APPARATUS_STEPS: tuple[str, ...] = (
     "vowelling",
     "arabic-substitution",
     "spelling",
+    "opening",
     "arabic-audit",
     "duplication",
     "defect-scan",
