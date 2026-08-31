@@ -6,10 +6,14 @@
   "status": "draft",
   "source_kind": "audio-transcript",
   "source_language": "en",
-  "phase": "0d",
-  "phase_status": "completed",
+  "phase": "0e",
+  "phase_status": "failed",
   "last_completed_phase": "0d",
-  "last_error": null,
+  "last_error": {
+    "phase": "0e",
+    "message": "phase review: PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything",
+    "ts": "2026-08-31T18:08:56Z"
+  },
   "started": "2026-08-30T00:00:00Z",
   "updated": "2026-08-30T22:14:58Z",
   "phases": {
@@ -73,8 +77,16 @@
       "ts_completed": "2026-08-31T18:08:48Z"
     },
     "0e": {
-      "status": "running",
-      "ts_started": "2026-08-31T03:21:24Z"
+      "status": "failed",
+      "ts_started": "2026-08-31T03:21:24Z",
+      "ts_completed": "2026-08-31T18:08:56Z",
+      "review": {
+        "verdict": "PHASE-BROKEN",
+        "failed": 1,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": "PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything"
+      }
     }
   },
   "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
@@ -91,7 +103,7 @@
   ],
   "next_phase": "0e",
   "unattended": true,
-  "ts_updated": "2026-08-31T18:08:48Z",
+  "ts_updated": "2026-08-31T18:08:56Z",
   "phase_attempts": {},
   "run_id": "20260831T141252Z-6a3f79",
   "content_profile": "islamic_session"
