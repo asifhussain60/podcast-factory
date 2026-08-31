@@ -40,6 +40,11 @@ export interface FieldLocation {
   path: string;
   /** Additional keys to read from when `path` is absent, in order. */
   readAlso?: string[];
+  /** Stored as a YAML LIST of strings, carried in the form as one per line.
+   *  `chapter_list` is the only such field: a chapter list IS a sequence, and
+   *  flattening it to a comma string would break on the first title
+   *  containing a comma. */
+  list?: boolean;
 }
 
 export const FIELD_FILES: Record<string, FieldLocation> = {
@@ -85,6 +90,14 @@ export const FIELD_FILES: Record<string, FieldLocation> = {
   video_style: { file: "series", path: "video_style" },
   episode_planning_mode: { file: "series", path: "episode_planning_mode" },
   slide_deck_mode: { file: "series", path: "slide_deck_mode" },
+  // The chapter questions (added 2026-08-31). `intake_launch` has written
+  // these into series-config.yaml since the day they existed, but nothing read
+  // them back — so loading a book whose chapters were already settled showed an
+  // empty box, and re-generating its brief would have dropped them.
+  chapter_segmentation: { file: "series", path: "chapter_segmentation" },
+  chapter_count_hint: { file: "series", path: "chapter_count_hint" },
+  arabic_restoration: { file: "series", path: "arabic_restoration" },
+  chapter_list: { file: "series", path: "chapter_list", list: true },
   volume: { file: "series", path: "volume" },
 };
 
@@ -112,6 +125,19 @@ function dig(doc: unknown, path: string): unknown {
     cur = (cur as Record<string, unknown>)[part];
   }
   return cur;
+}
+
+/** A YAML list of scalars as the form's newline-joined string, or undefined
+ *  when it is not a list of scalars. An empty list reads as an empty string —
+ *  "this book has no chapters recorded" is a real answer, distinct from absent. */
+function asFormList(v: unknown): string | undefined {
+  if (!Array.isArray(v)) return undefined;
+  const out: string[] = [];
+  for (const item of v) {
+    if (item === null || typeof item === "object") return undefined;
+    out.push(String(item).trim());
+  }
+  return out.filter(Boolean).join("\n");
 }
 
 /** A YAML scalar as the form's string value. Objects/arrays are not editable. */
@@ -163,7 +189,7 @@ export async function loadBook(
         if (raw !== undefined) break;
       }
     }
-    const v = asFormValue(raw);
+    const v = loc.list ? asFormList(raw) : asFormValue(raw);
     if (v !== undefined) values[key] = v;
   }
   return { slug, bucket, dir, values, present };
@@ -260,6 +286,55 @@ export function patchYamlLines(
   return finish(lines);
 }
 
+/**
+ * Replace a top-level key whose value is a LIST, keeping every other line.
+ *
+ * Its own function rather than a branch inside `patchYamlLines`, because the
+ * two differ in the thing that makes line-patching hard: a scalar occupies one
+ * line and a list occupies a line plus every `-` item under it, so removing the
+ * old value means finding where the block ENDS. A list is only ever top-level
+ * here (`chapter_list`), so nesting is deliberately not supported — a nested
+ * list would need indent-relative block detection, and inventing that for a
+ * caller that does not exist is how the wrong thing gets written later.
+ *
+ * An empty list is written as `key: []` rather than a bare `key:`, which YAML
+ * reads as null — and null is "never answered", not "answered: none".
+ */
+export function patchYamlList(
+  original: string,
+  key: string,
+  items: string[],
+): string {
+  const endedWithNewline = original.endsWith("\n");
+  const lines = original.split("\n");
+  const block = items.length
+    ? [`${key}:`, ...items.map((i) => `  - ${yamlScalar(i)}`)]
+    : [`${key}: []`];
+
+  const idx = lines.findIndex((ln) => new RegExp(`^${key}:\\s*.*$`).test(ln));
+  if (idx === -1) {
+    let at = lines.length;
+    while (at > 0 && lines[at - 1].trim() === "") at -= 1;
+    lines.splice(at, 0, ...block);
+  } else {
+    // The old value runs to the next line that is neither an item nor blank.
+    let end = idx + 1;
+    while (
+      end < lines.length &&
+      (lines[end].trim() === "" || /^\s*-\s/.test(lines[end]))
+    ) {
+      end += 1;
+    }
+    // Trailing blank lines belong to whatever follows, not to this key.
+    while (end > idx + 1 && lines[end - 1].trim() === "") end -= 1;
+    lines.splice(idx, end - idx, ...block);
+  }
+
+  let text = lines.join("\n");
+  if (endedWithNewline && !text.endsWith("\n")) text += "\n";
+  return text;
+}
+
 export interface SaveResult {
   written: { field: string; file: StoreFile; path: string; value: string }[];
   skipped: { field: string; reason: string }[];
@@ -346,7 +421,16 @@ export async function saveBook(
     }
     let text = await readFile(p, "utf8");
     for (const c of pending) {
-      text = patchYamlLines(text, c.path, c.value);
+      text = FIELD_FILES[c.field]?.list
+        ? patchYamlList(
+            text,
+            c.path,
+            c.value
+              .split("\n")
+              .map((l) => l.trim())
+              .filter(Boolean),
+          )
+        : patchYamlLines(text, c.path, c.value);
       written.push({ field: c.field, file, path: c.path, value: c.value });
     }
     await writeFile(p, text, "utf8");

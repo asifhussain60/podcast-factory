@@ -62,7 +62,10 @@ import {
   pendingLane,
   type ComposeLane,
 } from "./compose-lane";
-import { createComposeNarration, type ComposeNarration } from "./compose-narration";
+import {
+  createComposeNarration,
+  type ComposeNarration,
+} from "./compose-narration";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
 import { composeChapter, registerComposeChapters } from "./compose-view-state";
@@ -4245,8 +4248,9 @@ function boot(): void {
   const narrationGenerateBtn = root.querySelector<HTMLButtonElement>(
     "#cx-narration-generate",
   );
-  const narrationAudio =
-    root.querySelector<HTMLAudioElement>("#cx-narration-audio");
+  const narrationAudio = root.querySelector<HTMLAudioElement>(
+    "#cx-narration-audio",
+  );
   const narrationStatus = root.querySelector<HTMLElement>(
     "#cx-narration-status",
   );

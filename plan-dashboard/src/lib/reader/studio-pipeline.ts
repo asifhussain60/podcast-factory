@@ -45,7 +45,8 @@ export interface StudioStep {
  * recorded one — null for 'none'/'progress', and for 'articulated'/'published'
  * on older books whose phase entry predates that field.
  */
-export type ArticulationStage = "none" | "progress" | "articulated" | "published";
+export type ArticulationStage =
+  "none" | "progress" | "articulated" | "published";
 
 export interface ArticulationStatus {
   stage: ArticulationStage;
@@ -156,7 +157,9 @@ function sessionsPhaseIndex(phase: string | null | undefined): number {
 }
 
 /** Sessions lane: articulation is the `sessions-articulate` phase's own entry. */
-function sessionsArticulationStatus(state: RawState | null): ArticulationStatus {
+function sessionsArticulationStatus(
+  state: RawState | null,
+): ArticulationStatus {
   if (state?.status === "published") {
     return { stage: "published", at: state.published_at ?? null };
   }
@@ -385,7 +388,9 @@ export interface StudioPipeline {
  * Build the four-step status model for a book. Resilient: a book with no state
  * file is treated as "intake active, everything else pending".
  */
-export async function loadStudioPipeline(slug: string): Promise<StudioPipeline> {
+export async function loadStudioPipeline(
+  slug: string,
+): Promise<StudioPipeline> {
   const ref = await findContent(slug);
   const dir = ref?.dir ?? "";
 

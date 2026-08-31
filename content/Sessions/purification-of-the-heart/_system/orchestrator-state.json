@@ -7,15 +7,15 @@
   "source_kind": "audio-transcript",
   "source_language": "en",
   "phase": "0d",
-  "phase_status": "completed",
+  "phase_status": "halted",
   "last_completed_phase": "0d",
-  "last_error": null,
+  "last_error": "Phase 0e (enrichment) was stopped by hand on 2026-08-30 after it rewrote two chapters into third-person literary prose. Root cause: content_profile was unset, so this recorded sermon defaulted to islamic_scholarly and ran the book pipeline. Profile is now islamic_session, which skips enrichment by construction. The state said phase=0e/running until 2026-08-31 with no process alive; reset to the last phase that genuinely completed.",
   "started": "2026-08-30T00:00:00Z",
   "updated": "2026-08-30T22:14:58Z",
   "phases": {
     "scaffold": {
       "status": "completed",
-      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile — content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run — this state is a placeholder, not a pipeline-produced record.",
+      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile \u2014 content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run \u2014 this state is a placeholder, not a pipeline-produced record.",
       "completed_via": "manual-scaffold-standby"
     },
     "0a": {
@@ -71,6 +71,10 @@
         "total": 5,
         "blocking_fail": null
       }
+    },
+    "0e": {
+      "status": "running",
+      "ts_started": "2026-08-31T03:21:24Z"
     }
   },
   "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
@@ -87,7 +91,8 @@
   ],
   "next_phase": "0e",
   "unattended": true,
-  "ts_updated": "2026-08-31T03:21:14Z",
+  "ts_updated": "2026-08-31T03:21:24Z",
   "phase_attempts": {},
-  "run_id": "20260830T233610Z-0df10a"
+  "run_id": "20260830T233610Z-0df10a",
+  "content_profile": "islamic_session"
 }

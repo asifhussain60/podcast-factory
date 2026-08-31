@@ -10,6 +10,7 @@
  * engaged with a field rather than while you are still typing into it.
  */
 import { LOCK_REASONS, type FieldDef } from "../../lib/brief/fields";
+import ChapterListEditor from "./ChapterListEditor";
 
 export interface Option {
   value: string;
@@ -133,6 +134,15 @@ export default function BriefField({
           ))}
         </datalist>
       </>
+    );
+  } else if (field.kind === "chapters") {
+    control = (
+      <ChapterListEditor
+        value={value}
+        onChange={(v) => onChange(field.key, v)}
+        labelId={labelId}
+        describedBy={describedBy}
+      />
     );
   } else if (field.kind === "textarea") {
     control = (

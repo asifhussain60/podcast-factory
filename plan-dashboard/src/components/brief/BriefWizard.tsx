@@ -26,6 +26,7 @@ import BriefStep from "./BriefStep";
 import BriefReview from "./BriefReview";
 import BriefProgress from "./BriefProgress";
 import ContentPicker from "./ContentPicker";
+import ChapterSources from "./ChapterSources";
 import BriefDialog from "./BriefDialog";
 import PromptPanel from "./PromptPanel";
 import SavedPrompt from "./SavedPrompt";
@@ -35,12 +36,19 @@ import {
   FIELDS,
   FIELDS_BY_KEY,
   STEPS,
+  completenessProblems,
   invalidOn,
   missingOn,
   slugify,
   type FieldDef,
   type StepId,
+  WORK_STEP,
+  SOURCE_STEP,
+  CHAPTERS_STEP,
+  PODCAST_STEP,
+  REVIEW_STEP,
 } from "../../lib/brief/fields";
+import { chapterList } from "../../lib/brief/render";
 
 const DRAFT_KEY = "pf-intake-brief-draft";
 
@@ -60,6 +68,8 @@ interface ContentItem {
   title: string;
   bucket: string;
   status: string;
+  /** When the book was last worked on, ms since the epoch; 0 when never. */
+  touched?: number;
 }
 
 interface LoadedContent {
@@ -114,6 +124,9 @@ export default function BriefWizard() {
   const [loading, setLoading] = useState(true);
   const [stagingToken, setStagingToken] = useState<string | null>(null);
   const [stagedNames, setStagedNames] = useState<string[]>([]);
+  // The ROLES too, not just the names: whether a recorded session has its
+  // recording attached is a readiness question, and a filename cannot answer it.
+  const [stagedRoles, setStagedRoles] = useState<string[]>([]);
   const [slugTouched, setSlugTouched] = useState(false);
   const [explain, setExplain] = useState<{
     field: FieldDef;
@@ -340,7 +353,7 @@ export default function BriefWizard() {
       // dozen default keys into a book that never carried them. Only a field
       // you actually touch after loading is written now.
       setBaseline(shown);
-      setFurthest(5);
+      setFurthest(REVIEW_STEP);
     } catch (e) {
       setError(
         e instanceof ApiFetchError && e.status !== 0
@@ -364,6 +377,35 @@ export default function BriefWizard() {
     },
     [vocab, options],
   );
+
+  /**
+   * Land on the piece you were last working on (Asif, 2026-08-31).
+   *
+   * Opening the form on a blank new commission meant re-picking the same book
+   * every visit, when nine visits in ten are to carry on with the one already
+   * in flight. "Last" is the same `touched` the picker sorts by — the newest
+   * change among the files a working session actually writes.
+   *
+   * THREE THINGS IT WILL NOT DO. It never runs twice (the ref), so choosing
+   * "Commission something new" is not undone a moment later. It never runs when
+   * a draft is in progress, because loading a book replaces what is on screen
+   * and a half-answered commission must not be thrown away. And it loads a
+   * book, which is a read — nothing is written, and every field stays exactly
+   * as editable as if you had picked it yourself.
+   */
+  const preloaded = useRef(false);
+  useEffect(() => {
+    if (preloaded.current || loading || items.length === 0) return;
+    preloaded.current = true;
+    const draft = readDraft();
+    // A draft with a title or a folder name is real work in progress. The seed
+    // values alone are not — those are just the defaults written back.
+    if (draft?.title?.trim() || draft?.slug?.trim()) return;
+    const last = [...items].sort(
+      (a, b) => (b.touched ?? 0) - (a.touched ?? 0),
+    )[0];
+    if (last?.touched) selectContent(last.slug);
+  }, [items, loading, selectContent]);
 
   const bucket = editing
     ? editing.bucket
@@ -447,8 +489,31 @@ export default function BriefWizard() {
     return out;
   }, [values]);
 
+  /**
+   * The pipeline-readiness problems, which gate GENERATING and nothing else.
+   *
+   * Deliberately separate from `blockers`, which gate NAVIGATION: not having
+   * uploaded the recording yet is a perfectly good reason to be refused a
+   * brief, and a terrible reason to be unable to reach the questions about
+   * chapters. These are the SERVER's own checks, imported rather than
+   * restated, so the button is lit exactly when the endpoint would accept.
+   */
+  const notReady = useMemo(
+    () =>
+      completenessProblems(values, {
+        sourceCount: stagedNames.length,
+        roles: stagedRoles,
+        // A book that already exists has its sources in its own folder, and
+        // nothing is staged when you merely open it — so the upload checks
+        // would report a book with a recording sitting on disk as having
+        // nothing to work from, and refuse to write its brief.
+        existing: !!editing,
+      }),
+    [values, stagedNames, stagedRoles, editing],
+  );
+
   const stepBlocked = blockers.find((b) => b.step === step);
-  const canGenerate = blockers.length === 0 && !busy;
+  const canGenerate = blockers.length === 0 && notReady.length === 0 && !busy;
 
   // You may reach a step only when every step BEFORE it is answered. Derived
   // from the live blocker list rather than remembering how far you once got:
@@ -543,6 +608,14 @@ export default function BriefWizard() {
       </section>
     );
 
+  const chapterCount = chapterList({
+    values,
+    bucket,
+    briefDir: "",
+    repoRoot: "",
+    sources: [],
+    generatedAt: "",
+  }).length;
   const current = STEPS.find((s) => s.id === step)!;
 
   return (
@@ -623,7 +696,7 @@ export default function BriefWizard() {
             <p className="bf-step-blurb">{current.blurb}</p>
           </header>
 
-          {step === 5 ? (
+          {step === REVIEW_STEP ? (
             <>
               <BriefReview
                 values={values}
@@ -633,7 +706,7 @@ export default function BriefWizard() {
                 onJump={goTo}
               />
               <BriefStep
-                step={5}
+                step={REVIEW_STEP}
                 values={values}
                 optionsFor={optionsFor}
                 onChange={setValue}
@@ -654,7 +727,7 @@ export default function BriefWizard() {
               onPickFolder={pickFolder}
               lockedFields={lockedFields}
             >
-              {step === 1 && values.content_profile && (
+              {step === WORK_STEP && values.content_profile && (
                 <p className="bf-derived">
                   This goes on the <strong>{bucket}</strong> shelf, and will run
                   on the branch{" "}
@@ -664,35 +737,69 @@ export default function BriefWizard() {
                   .
                 </p>
               )}
-              {step === 2 && (
+              {step === CHAPTERS_STEP && values.slug && (
+                <ChapterSources
+                  slug={values.slug}
+                  onChapters={(titles) =>
+                    setValue("chapter_list", titles.join("\n"))
+                  }
+                />
+              )}
+              {step === CHAPTERS_STEP && chapterCount > 0 && (
+                // Reading a count off a textarea is exactly the kind of thing a
+                // person should not have to do by eye, and the number is what
+                // the run is measured against.
+                <p className="bf-derived">
+                  <strong>{chapterCount}</strong>{" "}
+                  {chapterCount === 1 ? "chapter" : "chapters"} listed. The
+                  pipeline will use these names exactly, in this order.
+                </p>
+              )}
+              {step === SOURCE_STEP && (
                 <UploadStaging
                   onChange={({ token, files }) => {
                     setStagingToken(token);
                     setStagedNames(files.map((f) => f.filename));
+                    setStagedRoles(files.map((f) => f.role));
                   }}
                 />
               )}
-              {step === 4 && (
-                // The picker's own default is ElevenLabs, retired in 2026-08. The
-                // engine each profile actually uses comes from the content-type
-                // registry instead, so a brief cannot commission a dead engine.
-                <VoicePicker
-                  key={values.content_profile}
-                  defaultEngine={
-                    vocab?.profileAudioEngine[values.content_profile ?? ""] ??
-                    "notebooklm"
-                  }
-                  defaultHostA={
-                    vocab?.profileVoiceCast[values.content_profile ?? ""]
-                      ?.host_a
-                  }
-                  defaultHostB={
-                    vocab?.profileVoiceCast[values.content_profile ?? ""]
-                      ?.host_b
-                  }
-                  onChange={mergeVoice}
-                />
-              )}
+              {step === PODCAST_STEP &&
+                values.source_medium === "audio_lecture" && (
+                  // A recorded session IS its own audio. No episode is generated
+                  // for it and no voice is synthesised, so every question on this
+                  // step -- the voice picker included -- has no answer that means
+                  // anything. Say so rather than leaving a step that looks broken.
+                  <p className="bf-derived">
+                    No podcast is made from a recorded session &mdash; the
+                    recording is the episode &mdash; so the episode and voice
+                    settings do not apply and are not asked. The two questions
+                    left describe the material itself. Slide decks are still
+                    produced; that choice is on <strong>The edition</strong>.
+                  </p>
+                )}
+              {step === PODCAST_STEP &&
+                values.source_medium !== "audio_lecture" && (
+                  // The picker's own default is ElevenLabs, retired in 2026-08. The
+                  // engine each profile actually uses comes from the content-type
+                  // registry instead, so a brief cannot commission a dead engine.
+                  <VoicePicker
+                    key={values.content_profile}
+                    defaultEngine={
+                      vocab?.profileAudioEngine[values.content_profile ?? ""] ??
+                      "notebooklm"
+                    }
+                    defaultHostA={
+                      vocab?.profileVoiceCast[values.content_profile ?? ""]
+                        ?.host_a
+                    }
+                    defaultHostB={
+                      vocab?.profileVoiceCast[values.content_profile ?? ""]
+                        ?.host_b
+                    }
+                    onChange={mergeVoice}
+                  />
+                )}
             </BriefStep>
           )}
 
@@ -706,13 +813,13 @@ export default function BriefWizard() {
             <button
               type="button"
               className="bf-btn"
-              disabled={step === 1}
+              disabled={step === WORK_STEP}
               onClick={() => goTo((step > 1 ? step - 1 : step) as StepId)}
             >
               Back
             </button>
 
-            {step < 5 ? (
+            {step < REVIEW_STEP ? (
               <button
                 type="button"
                 className="bf-btn bf-btn-primary"
@@ -722,24 +829,43 @@ export default function BriefWizard() {
                 Next
               </button>
             ) : (
-              <button
-                type="button"
-                className="bf-btn bf-btn-primary"
-                disabled={
-                  editing
-                    ? busy || Object.keys(changed).length === 0
-                    : !canGenerate
-                }
-                onClick={editing ? saveChanges : generate}
-              >
-                {busy
-                  ? "Saving…"
-                  : editing
-                    ? `Save ${Object.keys(changed).length || "no"} change${
-                        Object.keys(changed).length === 1 ? "" : "s"
-                      }`
-                    : "Generate the brief"}
-              </button>
+              <>
+                {/* Editing a piece that already exists had NO way to reach the
+                    brief at all: its primary action is Save, and Generate was
+                    the primary action of the other mode (Asif, 2026-08-31).
+                    Added as the SECONDARY action rather than a second primary,
+                    so exactly one Generate is ever on screen — in a new
+                    commission it IS the primary, here it sits beside Save. */}
+                {editing && (
+                  <button
+                    type="button"
+                    className="bf-btn"
+                    disabled={!canGenerate}
+                    onClick={generate}
+                    title="Write the commission and the hand-off prompt for this piece"
+                  >
+                    {busy ? "Working…" : "Generate the brief"}
+                  </button>
+                )}
+                <button
+                  type="button"
+                  className="bf-btn bf-btn-primary"
+                  disabled={
+                    editing
+                      ? busy || Object.keys(changed).length === 0
+                      : !canGenerate
+                  }
+                  onClick={editing ? saveChanges : generate}
+                >
+                  {busy
+                    ? "Saving…"
+                    : editing
+                      ? `Save ${Object.keys(changed).length || "no"} change${
+                          Object.keys(changed).length === 1 ? "" : "s"
+                        }`
+                      : "Generate the brief"}
+                </button>
+              </>
             )}
           </footer>
 
@@ -806,10 +932,16 @@ export default function BriefWizard() {
               Before moving on: {stepBlocked.reasons.join(", ")}.
             </p>
           )}
-          {step === 5 && blockers.length > 0 && (
+          {step === REVIEW_STEP && blockers.length + notReady.length > 0 && (
             <ul className="bf-blockers" aria-label="What is still missing">
-              {blockers.map((b) => (
-                <li key={b.step}>
+              {[
+                ...blockers,
+                // Readiness problems read the same way as missing answers and
+                // are fixed the same way -- by going to a step -- so they are
+                // listed together rather than in a second list of their own.
+                ...notReady.map((n) => ({ step: n.step, reasons: [n.reason] })),
+              ].map((b, i) => (
+                <li key={`${b.step}-${i}`}>
                   <button
                     type="button"
                     className="bf-blocker-link"

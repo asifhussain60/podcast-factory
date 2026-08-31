@@ -2709,3 +2709,4 @@
 {"ts": "2026-08-31T03:21:03Z", "phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "input_tokens": 2, "output_tokens": 8, "cache_read": 0, "cache_create": 733, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-31T03:21:08Z", "phase": "romanization", "step": "render", "model": "claude-opus-5", "input_tokens": 2, "output_tokens": 142, "cache_read": 732, "cache_create": 0, "cost_usd": 0.0, "engine": "max"}
 {"ts": "2026-08-31T03:21:14Z", "phase": "romanization", "step": "render", "model": "claude-opus-5", "input_tokens": 2, "output_tokens": 115, "cache_read": 0, "cache_create": 731, "cost_usd": 0.0, "engine": "max"}
+{"ts": "2026-08-31T03:29:18Z", "phase": "0e", "step": "ch01-the-world-and-the-envious-heart", "model": "claude-opus-5", "input_tokens": 14, "output_tokens": 36157, "cache_read": 779920, "cache_create": 159608, "cost_usd": 0.0, "engine": "max"}

@@ -13,20 +13,31 @@
  * names, which also makes the brief folder self-contained.
  */
 import type { APIRoute } from "astro";
-import { copyFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
+import {
+  appendFileSync,
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
 import { basename, join } from "node:path";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
-import { getRepoRoot } from "../../../lib/content-paths";
+import { findContent, getRepoRoot } from "../../../lib/content-paths";
+import { readChapters } from "./chapter-sources";
 import { runPythonJson } from "../../../lib/intake-cli";
 import {
   FIELDS,
   STEPS,
+  completenessProblems,
   isVisible,
   type StepId,
 } from "../../../lib/brief/fields";
 import {
+  chapterList,
   renderDocument,
   renderPrompt,
+  settingsPairs,
   type BriefInput,
   type StagedFileRef,
 } from "../../../lib/brief/render";
@@ -108,6 +119,28 @@ function validate(
   return errors;
 }
 
+/**
+ * One JSONL line per attempt, refusals included.
+ *
+ * The refusals are the point. A brief that was never written leaves no trace on
+ * disk, so the questions people cannot get past were invisible — which is
+ * exactly what you need to know to improve the form. Appended, never rewritten,
+ * and a logging failure can never take the endpoint down with it.
+ */
+function logAttempt(entry: Record<string, unknown>): void {
+  try {
+    const dir = join(getRepoRoot(), "content", "_system", "briefs");
+    mkdirSync(dir, { recursive: true });
+    appendFileSync(
+      join(dir, "_log.jsonl"),
+      JSON.stringify({ at: new Date().toISOString(), ...entry }) + "\n",
+      "utf8",
+    );
+  } catch {
+    /* the log is a diagnostic, never a reason to fail a request */
+  }
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let body: { values?: Record<string, string>; stagingToken?: string | null };
   try {
@@ -132,7 +165,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const errors = validate(values, vocab, options);
-  if (errors.length) return apiError(errors.join(" "), 422);
+  if (errors.length) {
+    logAttempt({ slug, ok: false, kind: "invalid", problems: errors });
+    return apiError(errors.join(" "), 422);
+  }
 
   const bucket = vocab.profileBucket[values.content_profile ?? ""] ?? "Islamic";
   const briefDir = briefDirFor(slug);
@@ -164,12 +200,69 @@ export const POST: APIRoute = async ({ request }) => {
     }
   }
 
+  // The pipeline-readiness gate. Deliberately AFTER the staged files are known,
+  // because half of what makes a commission complete is what was uploaded, and
+  // deliberately BEFORE anything is written: a brief that exists is a brief
+  // somebody will paste.
+  // Whether the book already exists is RESOLVED FROM DISK, never taken from the
+  // request: it decides whether a gate applies, and a gate a caller can switch
+  // off by asserting something is not a gate.
+  const existing = (await findContent(slug)) !== null;
+  const incomplete = completenessProblems(values, {
+    sourceCount: sources.length,
+    roles: sources.map((f) => f.role),
+    existing,
+  });
+  if (incomplete.length) {
+    logAttempt({
+      slug,
+      ok: false,
+      kind: "incomplete",
+      profile: values.content_profile,
+      medium: values.source_medium,
+      existing,
+      problems: incomplete.map((p) => p.reason),
+    });
+    return apiError(
+      "The commission is not ready for the pipeline yet: " +
+        incomplete.map((p) => p.reason).join("; ") +
+        ".",
+      422,
+    );
+  }
+
   // Human labels so the document reads in words, not tokens.
   const labels: Record<string, string> = {};
   for (const [field, opts] of Object.entries(vocab.vocabularies)) {
     for (const o of opts) {
       for (const f of FIELDS)
         if (f.vocab === field) labels[`${f.key}:${o.value}`] = o.label;
+    }
+  }
+
+  // An existing book's sources are its OWN files. Nothing is staged when you
+  // merely open it, so without this the prompt listed no source at all and a
+  // fresh session had no idea where the recordings and transcripts were.
+  if (existing && sources.length === 0) {
+    const ref = await findContent(slug);
+    if (ref) {
+      for (const [sub, role] of [
+        ["source", "source_recording"],
+        ["transcripts", "timestamped_transcript"],
+      ] as const) {
+        try {
+          for (const name of readdirSync(join(ref.dir, sub)).sort()) {
+            if (name.startsWith(".")) continue;
+            sources.push({
+              filename: name,
+              role,
+              absolutePath: join(ref.dir, sub, name),
+            });
+          }
+        } catch {
+          /* a book without that folder simply contributes nothing */
+        }
+      }
     }
   }
 
@@ -181,6 +274,12 @@ export const POST: APIRoute = async ({ request }) => {
     sources,
     generatedAt: new Date().toISOString(),
     labels,
+    existing,
+    // Chapters the contents page lists that the recordings never reach, from
+    // the same file the form's Load button reads.
+    uncovered: (readChapters(join(briefDir, "chapter-sources"))?.chapters ?? [])
+      .filter((c) => c.covered === false)
+      .map((c) => c.title),
   };
 
   const existed = existsSync(join(briefDir, "brief.md"));
@@ -197,6 +296,19 @@ export const POST: APIRoute = async ({ request }) => {
       ) + "\n",
       "utf8",
     );
+    logAttempt({
+      slug,
+      ok: true,
+      kind: existed ? "regenerated" : "created",
+      profile: values.content_profile,
+      medium: values.source_medium,
+      bucket,
+      segmentation: values.chapter_segmentation,
+      chapters: chapterList(input).length,
+      chapter_count_hint: values.chapter_count_hint,
+      sources: sources.length,
+      answered: settingsPairs(input).length,
+    });
     return apiOk(
       {
         slug,

@@ -1,0 +1,62 @@
+{
+  "slug": "purification-of-the-heart",
+  "bucket": "Sessions",
+  "values": {
+    "narrative_frame": "first_person_author",
+    "autonomy": "manual",
+    "source_medium": "audio_lecture",
+    "book_voice": "faithful",
+    "book_augmentation": "none",
+    "book_visuals": "manual_only",
+    "deliverable_mode": "",
+    "slide_deck_mode": "per-chapter",
+    "chapter_segmentation": "from_source_toc",
+    "arabic_restoration": "audio_grounded",
+    "source_fidelity": "verbatim",
+    "category": "lectures",
+    "density": "medium",
+    "content_profile": "islamic_session",
+    "content_family": "islamic",
+    "source_language": "en",
+    "is_volume": "false",
+    "enable_book_branch": "true",
+    "enable_slide_decks": "true",
+    "audience_profile": "traditional",
+    "host_dynamic": "deep_dive",
+    "length_tier": "extended",
+    "video_style": "none",
+    "episode_planning_mode": "problem_solution",
+    "slug": "purification-of-the-heart",
+    "title": "Purification of the Heart",
+    "title_english": "Purification of the Heart",
+    "author": "Sheikh Hamza Yusuf",
+    "study_track": "theology",
+    "archetype": "lecture-series",
+    "content_level": "general",
+    "chapter_count_hint": "24",
+    "chapter_list": "Love of the World\nEnvy\nBlameworthy Modesty\nFantasizing\nFear of Poverty\nOstentation\nRelying on Other Than God\nDispleasure with the Divine Decree\nSeeking Reputation\nFalse Hopes\nNegative Thoughts\nVanity\nFraud\nAnger\nHeedlessness\nRancor\nBoasting & Arrogance\nDispleasure with Blame\nAntipathy Toward Death\nObliviousness to Blessings\nDerision\nComprehensive Treatment for the Heart\nBeneficial Actions for Purifying the Heart\nThe Root of All Diseases of the Heart"
+  },
+  "sources": [
+    {
+      "filename": "01-purification-of-the-heart.mp3",
+      "role": "source_recording",
+      "absolutePath": "/Users/asifhussain/PROJECTS/podcast-factory/content/Sessions/purification-of-the-heart/source/01-purification-of-the-heart.mp3"
+    },
+    {
+      "filename": "02-purification-of-the-heart.mp3",
+      "role": "source_recording",
+      "absolutePath": "/Users/asifhussain/PROJECTS/podcast-factory/content/Sessions/purification-of-the-heart/source/02-purification-of-the-heart.mp3"
+    },
+    {
+      "filename": "01-purification-of-the-heart.vtt",
+      "role": "timestamped_transcript",
+      "absolutePath": "/Users/asifhussain/PROJECTS/podcast-factory/content/Sessions/purification-of-the-heart/transcripts/01-purification-of-the-heart.vtt"
+    },
+    {
+      "filename": "02-purification-of-the-heart.vtt",
+      "role": "timestamped_transcript",
+      "absolutePath": "/Users/asifhussain/PROJECTS/podcast-factory/content/Sessions/purification-of-the-heart/transcripts/02-purification-of-the-heart.vtt"
+    }
+  ],
+  "generatedAt": "2026-08-31T13:49:19.542Z"
+}

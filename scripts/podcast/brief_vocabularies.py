@@ -244,6 +244,45 @@ def get_vocabularies() -> dict[str, list[dict[str, str]]]:
             _opt("per-chapter", "Per chapter", "One deck for each chapter. The default."),
             _opt("book", "One for the book", "A single deck covering the whole book."),
         ],
+        # HOW a recorded series becomes chapters. Asked rather than derived
+        # because both answers are right for different series: a course of
+        # weekly lectures is one chapter per recording, while a single long
+        # sitting that moves through several distinct topics reads better cut
+        # at those topic boundaries. Nothing in a file listing can tell the two
+        # apart, and guessing wrong reshapes the whole edition.
+        "chapter_segmentation": [
+            _opt(
+                "one_per_recording",
+                "One chapter per recording",
+                "Each audio file becomes exactly one chapter. The default: a recording IS a session.",
+            ),
+            _opt(
+                "from_source_toc",
+                "Follow the book's own chapter list",
+                "The sessions teach through a published work chapter by chapter. Cut the chapters where the book does and keep the book's own chapter names.",
+            ),
+            _opt(
+                "from_transcript",
+                "Work the chapters out from the transcript",
+                "No chapter list exists to follow: read the transcript for topic boundaries and cut chapters there.",
+            ),
+        ],
+        # Arabic that the transcriber wrote out phonetically ("Bismillahir
+        # Rahmanir Rahim") has to go back into script before the edition is
+        # printed. Qur'anic runs are always resolved against the canonical
+        # mushaf; this decides what happens to everything else.
+        "arabic_restoration": [
+            _opt(
+                "audio_grounded",
+                "Check the recording",
+                "Where the text alone is ambiguous, listen to that moment of the recording to settle what was actually said. Slower, and the most accurate.",
+            ),
+            _opt(
+                "text_only",
+                "From the transcript alone",
+                "Resolve from the written transcript and the canonical sources only. Faster; a garbled phrase stays unresolved rather than being checked.",
+            ),
+        ],
         "source_fidelity": [
             _opt("verbatim", "Verbatim", "The transcript is word for word."),
             _opt("edited", "Edited", "The transcript has been tidied."),
@@ -273,6 +312,8 @@ def defaults() -> dict[str, str]:
         "book_visuals": _flags.BOOK_VISUALS_MANUAL_ONLY,
         "deliverable_mode": "",
         "slide_deck_mode": "per-chapter",
+        "chapter_segmentation": "one_per_recording",
+        "arabic_restoration": "audio_grounded",
         "source_fidelity": "verbatim",
         "category": "books",
         "density": "medium",

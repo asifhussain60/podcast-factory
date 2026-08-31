@@ -12,10 +12,18 @@
  * pipeline registry that owns them.
  */
 
-export type StepId = 1 | 2 | 3 | 4 | 5;
+export type StepId = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type FieldKind =
-  "text" | "number" | "select" | "combo" | "switch" | "textarea";
+  | "text"
+  | "number"
+  | "select"
+  | "combo"
+  | "switch"
+  | "textarea"
+  /** An ordered list of titles, one per row. Carried as a newline-joined
+   *  string like any other field -- see ChapterListEditor for why. */
+  | "chapters";
 
 /**
  * Fields all render at one width -- they fill their grid cell -- so that labels,
@@ -62,16 +70,34 @@ export const STEPS: { id: StepId; title: string; blurb: string }[] = [
   { id: 2, title: "The source", blurb: "What we are working from." },
   {
     id: 3,
+    title: "The chapters",
+    blurb: "How it is divided, and what each part is called.",
+  },
+  {
+    id: 4,
     title: "The edition",
     blurb: "Who narrates it, and what we are making.",
   },
   {
-    id: 4,
+    id: 5,
     title: "The podcast",
     blurb: "How it will sound and how it is classified.",
   },
-  { id: 5, title: "Review", blurb: "Check it over, then generate." },
+  { id: 6, title: "Review", blurb: "Check it over, then generate." },
 ];
+
+/**
+ * The steps by name. Every consumer addresses a step through these rather than
+ * by its number: inserting "The chapters" as step 3 on 2026-08-31 renumbered
+ * three later steps, and a hard-coded `step === 5` for the review screen is
+ * exactly the breakage that cannot be seen by reading the line that broke.
+ */
+export const WORK_STEP: StepId = 1;
+export const SOURCE_STEP: StepId = 2;
+export const CHAPTERS_STEP: StepId = 3;
+export const EDITION_STEP: StepId = 4;
+export const PODCAST_STEP: StepId = 5;
+export const REVIEW_STEP: StepId = 6;
 
 export const FIELDS: FieldDef[] = [
   // ── 1 · The work ──────────────────────────────────────────────────────────
@@ -245,6 +271,58 @@ export const FIELDS: FieldDef[] = [
     showIf: { key: "is_volume", equals: ["true"] },
   },
   {
+    // Asked, never derived. A file listing cannot tell a course of weekly
+    // lectures (one chapter each) from one long sitting that moves through
+    // several topics (cut at those boundaries), and guessing wrong reshapes
+    // the whole edition.
+    key: "chapter_segmentation",
+    label: "How the chapters are decided",
+    step: 3,
+    kind: "select",
+    vocab: "chapter_segmentation",
+    required: true,
+    fullRow: true,
+    showIf: { key: "source_medium", equals: ["audio_lecture"] },
+    hint: "A recording is usually one chapter. Choose the other option when one long sitting covers several distinct topics.",
+  },
+  {
+    // The chapter breakdown, for EVERY route (Asif, 2026-08-31). A session
+    // series usually teaches through a published work whose chapters are
+    // already named and already in order, and a book being adapted has a table
+    // of contents -- in both cases the list exists before the pipeline runs,
+    // and typing it here is what stops the chapter-design step inventing its
+    // own names for chapters that already have them.
+    key: "chapter_list",
+    label: "The chapters",
+    step: 3,
+    kind: "chapters",
+    fullRow: true,
+    maxLength: 8000,
+    hint: "In order, exactly as they should be titled. Leave empty if the chapters are not known yet.",
+  },
+  {
+    // A guide, never a decision. Phase 0d reads the source and settles the
+    // real count; this is what the cost estimate is built on, and what a run
+    // that comes back with three chapters instead of thirty is measured
+    // against. Left blank it simply is not checked.
+    key: "chapter_count_hint",
+    label: "Roughly how many chapters",
+    step: 3,
+    kind: "number",
+    hint: "Only needed when the chapters above are not listed. A guess is fine — it sizes the cost estimate and flags a run that comes back wildly different.",
+    showIf: { key: "chapter_list", equals: [""] },
+  },
+  {
+    key: "arabic_restoration",
+    label: "Putting the Arabic back",
+    step: 2,
+    kind: "select",
+    vocab: "arabic_restoration",
+    fullRow: true,
+    showIf: { key: "source_medium", equals: ["audio_lecture"] },
+    hint: "Transcribers write Arabic phonetically. Qur'an is always restored from the canonical mushaf; this decides how hadith, poetry and quotations are settled.",
+  },
+  {
     key: "source_fidelity",
     label: "How exact the transcript is",
     step: 2,
@@ -258,7 +336,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "narrative_frame",
     label: "Who narrates it",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "narrative_frame",
     required: true,
@@ -268,7 +346,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "narrator_subject",
     label: "The narrator's name",
-    step: 3,
+    step: 4,
     kind: "text",
     required: true,
     showIf: { key: "narrative_frame", equals: ["participant_narrator"] },
@@ -277,29 +355,50 @@ export const FIELDS: FieldDef[] = [
   {
     key: "deliverable_mode",
     label: "Kind of edition",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "deliverable_mode",
   },
   {
     key: "book_voice",
     label: "Voice of the edition",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "book_voice",
   },
   {
     key: "enable_book_branch",
     label: "Produce a reading edition (PDF)",
-    step: 3,
+    step: 4,
     kind: "switch",
     defaultOn: true,
     hint: "Off, and none of the book-building steps will run at all.",
   },
   {
+    // On step 3 rather than step 4 since 2026-08-31: a deck is a DELIVERABLE,
+    // not a podcast setting. Sessions produce decks and never produce episodes,
+    // so leaving this among the podcast questions made it invisible for exactly
+    // the route that still needs it (Asif, 2026-08-31).
+    key: "enable_slide_decks",
+    label: "Produce slide decks",
+    step: 4,
+    kind: "switch",
+    defaultOn: true,
+    hint: "Decks are produced for both books and recorded sessions.",
+  },
+  {
+    key: "slide_deck_mode",
+    label: "Decks per",
+    step: 4,
+    kind: "select",
+    vocab: "slide_deck_mode",
+    advanced: true,
+    showIf: { key: "enable_slide_decks", equals: ["true"] },
+  },
+  {
     key: "book_augmentation",
     label: "What may be added",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "book_augmentation",
     advanced: true,
@@ -307,7 +406,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "book_visuals",
     label: "Figures",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "book_visuals",
     advanced: true,
@@ -315,7 +414,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "autonomy",
     label: "How far it may run unattended",
-    step: 3,
+    step: 4,
     kind: "select",
     vocab: "autonomy",
     advanced: true,
@@ -326,30 +425,34 @@ export const FIELDS: FieldDef[] = [
   {
     key: "audience_profile",
     label: "Audience",
-    step: 4,
+    step: 5,
     kind: "select",
     options: "audience_profile",
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     key: "host_dynamic",
     label: "Conversation style",
-    step: 4,
+    step: 5,
     kind: "select",
     options: "host_dynamic",
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     key: "length_tier",
     label: "Episode length",
-    step: 4,
+    step: 5,
     kind: "select",
     options: "length_tier",
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     key: "video_style",
     label: "Video style",
-    step: 4,
+    step: 5,
     kind: "select",
     options: "video_style",
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     // Moved from step 4 to step 1 (Asif, 2026-08-30): it is the shelf the
@@ -363,42 +466,28 @@ export const FIELDS: FieldDef[] = [
     hint: "The shelf readers browse it under on the Library.",
   },
   {
-    key: "enable_slide_decks",
-    label: "Produce slide decks",
-    step: 4,
-    kind: "switch",
-    defaultOn: true,
-  },
-  {
     key: "episode_planning_mode",
     label: "How episodes are planned",
-    step: 4,
+    step: 5,
     kind: "select",
     options: "episode_planning_mode",
     advanced: true,
-  },
-  {
-    key: "slide_deck_mode",
-    label: "Decks per",
-    step: 4,
-    kind: "select",
-    vocab: "slide_deck_mode",
-    advanced: true,
-    showIf: { key: "enable_slide_decks", equals: ["true"] },
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     key: "archetype",
     label: "Archetype",
-    step: 4,
+    step: 5,
     kind: "combo",
     vocab: "archetype",
     advanced: true,
     hint: "The authoring doctrine that governs how episodes are written.",
+    showIf: { key: "source_medium", equals: ["printed_text"] },
   },
   {
     key: "content_level",
     label: "Depth of the material",
-    step: 4,
+    step: 5,
     kind: "select",
     vocab: "content_level",
     advanced: true,
@@ -406,7 +495,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "density",
     label: "Density",
-    step: 4,
+    step: 5,
     kind: "select",
     vocab: "density",
     advanced: true,
@@ -416,7 +505,7 @@ export const FIELDS: FieldDef[] = [
   {
     key: "notes",
     label: "In your words",
-    step: 5,
+    step: 6,
     kind: "textarea",
     fullRow: true,
     maxLength: 4000,
@@ -439,6 +528,78 @@ export function isVisible(
 ): boolean {
   if (!f.showIf) return true;
   return f.showIf.equals.includes(values[f.showIf.key] ?? "");
+}
+
+/**
+ * Everything the PIPELINE needs that a per-field `required` flag cannot express,
+ * because each one depends on another answer.
+ *
+ * Kept here, beside the fields themselves, so the wizard's own blocker list and
+ * the server's refusal to write a brief are computed by ONE function. They were
+ * two checks for one question until 2026-08-31, and the browser's was the looser
+ * of the two — which is the wrong way round for a document that starts a
+ * multi-hour, paid run.
+ *
+ * Each entry names the step to jump to, so a problem found on the review screen
+ * is one click from the question that fixes it.
+ */
+export function completenessProblems(
+  values: Record<string, string>,
+  opts: {
+    sourceCount: number;
+    roles: readonly string[];
+    /** The book already exists on disk, so its sources are its own files and
+     *  nothing needs staging. The upload checks below are skipped for it. */
+    existing?: boolean;
+  },
+): { step: StepId; reason: string }[] {
+  const out: { step: StepId; reason: string }[] = [];
+  const has = (k: string) => (values[k] ?? "").trim() !== "";
+  const chapters = (values.chapter_list ?? "")
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean).length;
+
+  if (!opts.existing) {
+    if (opts.sourceCount === 0) {
+      out.push({
+        step: SOURCE_STEP,
+        reason:
+          "no source file has been added — the pipeline has nothing to work from",
+      });
+    }
+
+    if (values.source_medium === "audio_lecture") {
+      // The lane's own rule: a recording is the witness, and its transcript is
+      // what becomes the chapter text. One without the other cannot be
+      // processed.
+      if (opts.sourceCount > 0 && !opts.roles.includes("source_recording")) {
+        out.push({
+          step: SOURCE_STEP,
+          reason:
+            "a recorded session needs its recording added, marked Source recording",
+        });
+      }
+    }
+  }
+
+  if (values.chapter_segmentation === "from_source_toc" && chapters === 0) {
+    out.push({
+      step: CHAPTERS_STEP,
+      reason:
+        "the chapters are set to follow the book's own list, but no list has been given",
+    });
+  }
+
+  if (chapters === 0 && !has("chapter_count_hint")) {
+    out.push({
+      step: CHAPTERS_STEP,
+      reason:
+        "list the chapters, or give a rough number — otherwise nothing measures what the run comes back with",
+    });
+  }
+
+  return out;
 }
 
 /** Every required field on a step that is visible and still empty. */

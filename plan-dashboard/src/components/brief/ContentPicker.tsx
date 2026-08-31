@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { STEPS } from "../../lib/brief/fields";
 
 /**
  * ContentPicker — commission something new, or load a piece that already exists.
@@ -21,6 +22,8 @@ interface Item {
   title: string;
   bucket: string;
   status: string;
+  /** When it was last worked on, ms since the epoch; absent or 0 when never. */
+  touched?: number;
 }
 
 interface Props {
@@ -33,10 +36,22 @@ interface Props {
 
 const NEW_LABEL = "Commission something new";
 
+/**
+ * How the list is ordered. "Recent" is the DEFAULT, from Asif (2026-08-31): the
+ * piece you are working on is the one you are almost always here to open, and
+ * alphabetical order buries it at whatever letter it happens to start with.
+ *
+ * Recency deliberately IGNORES the shelf grouping — a flat "what I was working
+ * on" list is the whole point, and re-grouping it by bucket would scatter the
+ * six most recent across six headings.
+ */
+type Order = "recent" | "alpha";
+
 export default function ContentPicker({ items, value, busy, onChange }: Props) {
   const selected = items.find((i) => i.slug === value) ?? null;
 
   const [open, setOpen] = useState(false);
+  const [order, setOrder] = useState<Order>("recent");
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -53,6 +68,15 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
     const pool = q
       ? items.filter((i) => i.title.toLowerCase().includes(q))
       : items;
+    if (order === "recent") {
+      // One flat group. The empty-string heading is how the renderer below is
+      // told there is no shelf label to draw.
+      const byRecent = [...pool].sort(
+        (a, b) =>
+          (b.touched ?? 0) - (a.touched ?? 0) || a.title.localeCompare(b.title),
+      );
+      return [["", byRecent]] as [string, Item[]][];
+    }
     const byBucket = new Map<string, Item[]>();
     for (const i of pool) {
       const list = byBucket.get(i.bucket) ?? [];
@@ -60,7 +84,7 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
       byBucket.set(i.bucket, list);
     }
     return [...byBucket.entries()];
-  }, [items, query]);
+  }, [items, query, order]);
 
   const flatMatches = useMemo(
     () => filtered.flatMap(([, list]) => list),
@@ -158,6 +182,34 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
           onKeyDown={onKeyDown}
         />
         {open && (
+          <div
+            className="bf-combo-order"
+            role="group"
+            aria-label="Order the list"
+          >
+            {(
+              [
+                ["recent", "Recently worked on"],
+                ["alpha", "By shelf, A\u2013Z"],
+              ] as [Order, string][]
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                className={"bf-combo-orderbtn" + (order === id ? " is-on" : "")}
+                aria-pressed={order === id}
+                // The list closes on blur, and a click steals focus from the
+                // input before this handler runs -- the same reason every
+                // option row below prevents its pointerdown.
+                onPointerDown={(e) => e.preventDefault()}
+                onClick={() => setOrder(id)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+        {open && (
           <ul id="bf-picker-list" role="listbox" className="bf-combo-list">
             {rowCount === 0 && (
               <li className="bf-combo-empty">No match for "{query}"</li>
@@ -184,7 +236,9 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
               })()}
             {filtered.map(([bucket, list]) => (
               <li key={bucket} className="bf-combo-group" role="presentation">
-                <span className="bf-combo-group-label">{bucket}</span>
+                {bucket && (
+                  <span className="bf-combo-group-label">{bucket}</span>
+                )}
                 <ul role="presentation">
                   {list.map((i) => {
                     rowIndex += 1;
@@ -202,6 +256,9 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
                         onClick={() => pick(i.slug)}
                       >
                         {i.title}
+                        {order === "recent" && (
+                          <span className="bf-combo-shelf">{i.bucket}</span>
+                        )}
                         {i.status === "published" && (
                           <span className="bf-combo-published">published</span>
                         )}
@@ -217,7 +274,7 @@ export default function ContentPicker({ items, value, busy, onChange }: Props) {
       <p className="intake-hint bf-note">
         {value
           ? "Editing an existing piece. Changes are saved back to its own files; the Library picks them up at the next publish."
-          : "Answer the five steps and you get a written commission and a hand-off prompt. Nothing is created until you press Generate."}
+          : `Answer the ${STEPS.length} steps and you get a written commission and a hand-off prompt. Nothing is created until you press Generate.`}
       </p>
     </div>
   );

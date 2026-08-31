@@ -2667,3 +2667,4 @@
 {"phase": "romanization", "step": "render", "model": "claude-haiku-4-5-20251001", "fallback": true, "divergence": true}
 {"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "romanization", "step": "render", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0e", "step": "ch01-the-world-and-the-envious-heart", "model": "claude-opus-5", "fallback": true, "divergence": true}

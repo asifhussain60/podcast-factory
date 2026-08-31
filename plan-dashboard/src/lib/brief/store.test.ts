@@ -11,7 +11,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import yaml from "js-yaml";
-import { patchYamlLines } from "./store";
+import { patchYamlLines, patchYamlList } from "./store";
 
 /** Just enough of the fixtures' shape to assert on; `any` would hide a typo. */
 interface MetaDoc {
@@ -157,4 +157,62 @@ test("a file with no trailing newline does not gain one", () => {
   const out = patchYamlLines("a: 1\nb: 2", "c", "3");
   assert.ok(!out.endsWith("\n"));
   assert.equal(series(out).c, 3);
+});
+
+// ── Chapter lists ──────────────────────────────────────────────────────────
+// `chapter_list` is the one field stored as a YAML SEQUENCE. The line-patcher
+// had only ever written scalars, and a scalar writer let loose on a list would
+// leave the old `- ` items orphaned under the new value.
+
+test("a list replaces its whole block, leaving neighbours and comments alone", () => {
+  const before = [
+    "# a comment above",
+    "title: A Book",
+    "chapter_list:",
+    "  - Old One",
+    "  - Old Two",
+    "  - Old Three",
+    "video_style: none",
+    "",
+  ].join("\n");
+  const after = patchYamlList(before, "chapter_list", ["Envy", "Anger"]);
+  assert.match(after, /# a comment above/);
+  assert.match(after, /^title: A Book$/m);
+  assert.match(after, /^video_style: none$/m);
+  assert.doesNotMatch(after, /Old (One|Two|Three)/);
+  const doc = yaml.load(after) as { chapter_list: string[] };
+  assert.deepEqual(doc.chapter_list, ["Envy", "Anger"]);
+});
+
+test("a list is appended when the key is absent, keeping the trailing newline", () => {
+  const after = patchYamlList("title: A Book\n", "chapter_list", ["Envy"]);
+  assert.ok(after.endsWith("\n"));
+  const doc = yaml.load(after) as { chapter_list: string[] };
+  assert.deepEqual(doc.chapter_list, ["Envy"]);
+});
+
+test("an emptied list is written as [] rather than a bare key", () => {
+  // A bare `chapter_list:` is YAML null, which reads back as "never answered".
+  // Emptying the box is an answer, and must not be indistinguishable from
+  // never having opened the form.
+  const after = patchYamlList("chapter_list:\n  - Envy\n", "chapter_list", []);
+  const doc = yaml.load(after) as { chapter_list: unknown };
+  assert.deepEqual(doc.chapter_list, []);
+});
+
+test("a title needing quotes survives the round trip", () => {
+  const titles = ["Boasting & Arrogance", "Anger: the four powers", "#1 Envy"];
+  const doc = yaml.load(
+    patchYamlList("title: A Book\n", "chapter_list", titles),
+  ) as { chapter_list: string[] };
+  assert.deepEqual(doc.chapter_list, titles);
+});
+
+test("a list rewritten twice does not accumulate items", () => {
+  let text = "title: A Book\n";
+  text = patchYamlList(text, "chapter_list", ["A", "B", "C"]);
+  text = patchYamlList(text, "chapter_list", ["A", "B"]);
+  text = patchYamlList(text, "chapter_list", ["Z"]);
+  const doc = yaml.load(text) as { chapter_list: string[] };
+  assert.deepEqual(doc.chapter_list, ["Z"]);
 });
