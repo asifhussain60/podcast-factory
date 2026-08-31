@@ -240,6 +240,8 @@ def _phase_0d_stitch(
         out_source_map.write_text(header + "\n".join(sm_rows) + "\n", encoding="utf-8")
 
 
+from _pipeline_preconditions import stale_done_markers as _stale_done_markers  # noqa: E402
+
 from _authoring._supplied_chapters import (  # noqa: E402
     assert_plan_matches,
     supplied_titles_for,
@@ -656,6 +658,23 @@ def author_phase_0d(
         )
 
     assert_plan_matches(source_chapters, supplied_chapters, toc_path=toc_path, error_cls=AuthoringError)
+
+    # Checkpoints are keyed by POSITION, so a re-segmented book's old markers
+    # skip the wrong chapters — seventeen of twenty-four, silently, reporting
+    # success. A marker records the title it checkpointed; one that disagrees
+    # with the plan at its index belongs to a plan that no longer exists.
+    _stale = _stale_done_markers(chunks_dir, source_chapters)
+    if _stale:
+        raise AuthoringError(
+            phase="0d-toc",
+            message="checkpoints belong to a different plan: " + "; ".join(_stale[:6]),
+            manual_fallback=(
+                f"The chapter set changed since these were written. Delete the stale markers "
+                f"(rm {chunks_dir}/sc-*.done) along with the chapter files and contracts they "
+                f"refer to, then retry Phase 0d. Do NOT delete only the markers: the chapter "
+                f"files they point at belong to the old plan too."
+            ),
+        )
 
     refined_lines = in_content.read_text(encoding="utf-8").splitlines()
 
