@@ -4686,20 +4686,52 @@ button.cx-hdr-btn--publish.is-pending::after {
    The highlight is a WASH plus a rule down the margin, not a border box: a box
    round a paragraph reads as a container the prose lives in, and this paragraph
    is no different from its neighbours a second earlier or later. */
+/* The read-along transport sits at the FOOT of the window, fixed. It used to
+   ride in the flow above the editor, where it scrolled out of reach after the
+   first screen of a chapter that runs several -- Asif, 2026-08-31: "I don't
+   want this at the top because it is inaccessible after the scroll."
+
+   z-index 898 places it just under the back-to-top control at 899, which is
+   lifted clear of it below rather than being allowed to sit on top of it. */
 .cx-read-along-bar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 898;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--sp-4, 1rem);
   flex-wrap: wrap;
-  padding: 0.5rem 0.75rem;
-  border-bottom: 1px solid
-    color-mix(in oklab, var(--c-ink, #1f1d18) 12%, transparent);
+  padding: 0.55rem clamp(0.75rem, 3vw, 2rem);
+  border-top: 1px solid var(--c-rule, #d9d3c4);
+  background: var(--c-bg-card, #fffdf8);
+  box-shadow: 0 -2px 12px
+    color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
   font-size: 0.95rem;
   color: var(--c-ink-dim, #5c574d);
 }
 
 .cx-read-along-bar[hidden] {
   display: none;
+}
+
+/* Room at the foot of the document for the strip to stand on. Without it the
+   closing lines of a chapter sit behind the strip with no way to scroll them
+   out. Added only while a transport is actually drawn, which is the minority
+   of chapters. */
+body.cx-has-read-along {
+  padding-bottom: 5.5rem;
+}
+
+/* The back-to-top control would otherwise land on the strip. */
+body.cx-has-read-along .cx-fabs {
+  bottom: calc(var(--sp-5, 1.5rem) + 3.5rem);
+}
+
+.cx-ra-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .cx-ra-play {
@@ -4711,6 +4743,65 @@ button.cx-hdr-btn--publish.is-pending::after {
   color: var(--c-accent, #8b4513);
   font: inherit;
   cursor: pointer;
+}
+
+.cx-ra-skip {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--c-rule, #d9d3c4);
+  border-radius: 0.35rem;
+  background: transparent;
+  color: var(--c-ink-dim, #5c574d);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.cx-ra-skip:hover {
+  border-color: var(--c-accent, #8b4513);
+  color: var(--c-accent, #8b4513);
+}
+
+.cx-ra-skip:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+/* The scrubber takes the slack so the strip stays one row for as long as it can,
+   and is the first thing to wrap when it cannot. */
+.cx-ra-scrubber {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1 1 16rem;
+  min-width: 12rem;
+}
+
+/* Tabular figures so the elapsed time does not jitter the seek bar sideways
+   every time a digit changes. */
+.cx-ra-time {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--c-ink-dim, #5c574d);
+}
+
+.cx-ra-seek {
+  flex: 1 1 auto;
+  min-width: 6rem;
+  accent-color: var(--c-accent, #8b4513);
+  cursor: pointer;
+}
+
+.cx-ra-seek:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 3px;
+}
+
+/* The label is the least useful thing on a narrow window: it says whose voice
+   this is, which does not change while you listen. */
+@media (max-width: 60rem) {
+  .cx-ra-label {
+    display: none;
+  }
 }
 
 .cx-ra-play:hover {
