@@ -312,6 +312,17 @@ export default function BriefWizard() {
             if (frame) next.narrative_frame = frame;
             const category = vocab?.profileCategory[profile];
             if (category) next.category = category;
+            // A recording is PROOFREAD, never re-voiced, and `episode_voice`
+            // is the field the pipeline reads to know that — the same field
+            // that decides whether the chapters ARE the reading edition or a
+            // fresh one is authored from the transcript. It was never gathered
+            // here: `purification-of-the-heart` only carries it because it was
+            // typed into series-config.yaml by hand after a rewriting pass had
+            // already reached two of its chapters. Derived rather than asked,
+            // because on a recording there is no second right answer.
+            if (next.source_medium === "audio_lecture")
+              next.episode_voice = "verbatim";
+            else delete next.episode_voice;
           }
         }
         return next;

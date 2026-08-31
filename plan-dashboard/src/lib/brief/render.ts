@@ -182,6 +182,18 @@ export function processingRules(input: BriefInput): string[] {
       "Qur'an, hadith, poetry and quotations are set in their own styled " +
         "blocks, not run into the surrounding prose.",
     );
+    // Added 2026-08-31, with the read-along lane. Missing, the hand-off never
+    // mentioned that a session's text can follow the speaker's own voice, so
+    // the timings were only ever built for books ingested down the Sessions
+    // lane's own route -- and this one, which came the orchestrated way, had no
+    // chapter-to-recording map and no timings at all.
+    rules.push(
+      "The chapters are timed against the recordings so the reader can follow " +
+        "the speaker's own voice, using the transcripts already provided. " +
+        "Never synthesise a narration voice for a session: the recording is the " +
+        "narration. Where the chapters have already been proofread and had " +
+        "their Arabic restored, time them WITHOUT rewriting them.",
+    );
     if (input.uncovered?.length) {
       // Asif, 2026-08-31. The material the recordings never reach is NOT left
       // as a hole and NOT authored as chapters of its own: it is condensed into

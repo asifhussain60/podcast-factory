@@ -10,8 +10,13 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chapterList, processingRules, type BriefInput } from "./render";
-import { STEPS, completenessProblems } from "./fields";
+import {
+  chapterList,
+  processingRules,
+  settingsPairs,
+  type BriefInput,
+} from "./render";
+import { FIELDS, STEPS, completenessProblems, isVisible } from "./fields";
 
 function input(values: Record<string, string>): BriefInput {
   return {
@@ -255,4 +260,144 @@ test("a book whose recordings reach every chapter gets no introduction rule", ()
     input({ ...SESSION, chapter_list: "Envy\nAnger" }),
   ).join("\n");
   assert.doesNotMatch(out, /introduction chapter/);
+});
+
+// ---------------------------------------------------------------------------
+// The form and the brief must not drift apart
+//
+// Asif, 2026-08-31: "Make sure your brief is updated as well. This should always
+// happen if anything in the intake form is modified."
+//
+// A note saying so is what already failed. `episode_voice` decides whether a
+// recording is proofread or re-voiced — and whether its chapters ARE the reading
+// edition — and the form never gathered it: `purification-of-the-heart` carries
+// it only because it was typed into series-config.yaml by hand, after a
+// rewriting pass had already reached two of its chapters.
+//
+// So every setting the pipeline reads is listed below and must be accounted
+// for. Adding one to the pipeline without deciding where it comes from fails
+// here rather than being discovered in a book.
+// ---------------------------------------------------------------------------
+
+/** Every series-config.yaml key any pipeline phase reads, and where it comes from. */
+const PIPELINE_SETTINGS: Record<
+  string,
+  "asked" | "derived" | "not-from-the-form"
+> = {
+  content_profile: "derived", // from content_family + source_medium
+  category: "derived", // from the resolved profile
+  narrative_frame: "asked",
+  source_medium: "asked",
+  source_language: "asked",
+  chapter_segmentation: "asked",
+  chapter_list: "asked",
+  chapter_count_hint: "asked",
+  arabic_restoration: "asked",
+  source_fidelity: "asked",
+  narrator_subject: "asked",
+  deliverable_mode: "asked",
+  book_voice: "asked",
+  book_augmentation: "asked",
+  book_visuals: "asked",
+  enable_book_branch: "asked",
+  enable_slide_decks: "asked",
+  slide_deck_mode: "asked",
+  autonomy: "asked",
+  audience_profile: "asked",
+  host_dynamic: "asked",
+  length_tier: "asked",
+  video_style: "asked",
+  episode_planning_mode: "asked",
+  content_level: "asked",
+  density: "asked",
+  archetype: "asked",
+  study_track: "asked",
+  episode_voice: "derived", // a recording is verbatim; there is no second answer
+  // Written by the pipeline itself, never by a person filling this form.
+  enable_video: "not-from-the-form", // follows video_style
+  target_language: "not-from-the-form", // translation lane only
+  density_standard: "not-from-the-form", // resolved from density
+  audio_engine: "not-from-the-form", // stamped at intake from the profile
+  reader_narration: "not-from-the-form", // the lane decides; a session reads from its own recording
+};
+
+/** Identity and free text: what the book IS, not how the pipeline treats it. */
+const NOT_A_SETTING = new Set([
+  "title",
+  "title_arabic",
+  "title_english",
+  "original_title",
+  "short_name",
+  "author",
+  "slug",
+  "content_family",
+  "doctrinal_school",
+  "doctrinal_period",
+  "doctrinal_genre",
+  "is_volume",
+  "work_slug",
+  "volume",
+  "notes",
+]);
+
+test("every setting the pipeline reads is asked for, or deliberately is not", () => {
+  for (const [key, origin] of Object.entries(PIPELINE_SETTINGS)) {
+    const field = FIELDS.find((f) => f.key === key);
+    if (origin === "asked") {
+      assert.ok(field, `${key} is marked asked but has no field on the form`);
+    } else if (origin === "not-from-the-form") {
+      assert.ok(
+        !field,
+        `${key} is marked not-from-the-form but IS a field — mark it asked`,
+      );
+    }
+  }
+});
+
+test("no field is added to the form without saying what the pipeline does with it", () => {
+  for (const f of FIELDS) {
+    if (NOT_A_SETTING.has(f.key) || f.formOnly) continue;
+    assert.ok(
+      PIPELINE_SETTINGS[f.key],
+      `${f.key} is gathered by the form but is not listed as a pipeline setting — ` +
+        "add it to PIPELINE_SETTINGS, or to NOT_A_SETTING if the pipeline never reads it",
+    );
+  }
+});
+
+test("every field the form gathers reaches the brief", () => {
+  const values: Record<string, string> = { ...SESSION };
+  for (const f of FIELDS) values[f.key] = values[f.key] ?? "x";
+  const emitted = new Set(settingsPairs(input(values)).map(([k]) => k));
+  for (const f of FIELDS) {
+    if (f.formOnly || f.kind === "textarea" || f.kind === "chapters") continue;
+    if (!isVisible(f, values)) continue;
+    assert.ok(
+      emitted.has(f.key),
+      `${f.key} is gathered by the form but never reaches the brief`,
+    );
+  }
+});
+
+test("a value derived by the wizard reaches the brief even with no field of its own", () => {
+  const emitted = new Set(
+    settingsPairs(input({ ...SESSION, episode_voice: "verbatim" })).map(
+      ([k]) => k,
+    ),
+  );
+  assert.ok(emitted.has("episode_voice"));
+});
+
+test("a recorded session is told to time the chapters against the recording, never to synthesise a voice", () => {
+  const out = rules(SESSION);
+  assert.match(out, /follow the speaker's own voice/);
+  assert.match(out, /Never synthesise a narration voice/);
+  assert.match(out, /WITHOUT rewriting them/);
+});
+
+test("a printed book is not told about recordings it does not have", () => {
+  assert.doesNotMatch(
+    rules({ source_medium: "printed_text" }),
+    /speaker's own voice/,
+  );
 });

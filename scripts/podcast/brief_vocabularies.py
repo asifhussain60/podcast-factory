@@ -114,6 +114,33 @@ PROFILE_CATEGORY: dict[str, str] = {
 }
 
 
+#: What each medium actually DOES, said only where the two differ. Derived from
+#: FAMILY_PROFILES rather than written out, so a family that starts varying by
+#: medium gets the sentence automatically and one that stops varying loses it.
+_ROUTE_GLOSS: dict[str, str] = {
+    "printed_text": (
+        " Chapters are written from the text and episodes are generated for them, "
+        "and the reading edition is composed as its own deliverable."
+    ),
+    "audio_lecture": (
+        " The recording IS the chapter: it is proofread but never rewritten, no "
+        "podcast episodes are generated, and the text can follow the speaker's own "
+        "voice as it plays."
+    ),
+}
+
+
+def _route_gloss(medium: str) -> str:
+    """The route sentence, only for media that actually lead somewhere different.
+
+    A family whose two media resolve to the SAME content profile does not fork,
+    and telling its operator that one answer skips the podcast would be false.
+    Only `islamic` forks today; this asks the map rather than assuming that.
+    """
+    forks = any(len(set(media.values())) > 1 for media in FAMILY_PROFILES.values())
+    return _ROUTE_GLOSS.get(medium, "") if forks else ""
+
+
 def _assert_families_cover_registry() -> None:
     """Every profile the pipeline knows must be reachable from some family."""
     reachable = {p for media in FAMILY_PROFILES.values() for p in media.values()}
@@ -201,16 +228,26 @@ def get_vocabularies() -> dict[str, list[dict[str, str]]]:
         "autonomy": _from_registry(AUTONOMY_LEVELS),
         # Worded as the thing itself rather than as the pipeline token: this is
         # half of what decides the content profile, so it has to read plainly.
+        #
+        # The LABEL now names the road as well as the source (Asif, 2026-08-31:
+        # "use values that make it clear where you're asking me to select
+        # Book/Content vs Sessions Path"). Both options described only what the
+        # material was, and nothing on the form said that this one answer sends
+        # the work down a wholly different pipeline — no podcast on one side, no
+        # rewriting on the other. `_route_gloss` appends that consequence, and
+        # ONLY on the family where it is true: for Technical, Fiction, Explainer,
+        # General and Supplication both media resolve to the same profile, so a
+        # route promise there would be a sentence the form cannot keep.
         "source_medium": [
             _opt(
                 _flags.SOURCE_PRINTED_TEXT,
-                "A printed book or manuscript",
-                _GLOSS[_flags.SOURCE_PRINTED_TEXT],
+                "A printed book or manuscript — the Book route",
+                _GLOSS[_flags.SOURCE_PRINTED_TEXT] + _route_gloss(_flags.SOURCE_PRINTED_TEXT),
             ),
             _opt(
                 _flags.SOURCE_AUDIO_LECTURE,
-                "A recorded talk or session",
-                _GLOSS[_flags.SOURCE_AUDIO_LECTURE],
+                "A recorded talk or session — the Sessions route",
+                _GLOSS[_flags.SOURCE_AUDIO_LECTURE] + _route_gloss(_flags.SOURCE_AUDIO_LECTURE),
             ),
         ],
         "book_voice": [
