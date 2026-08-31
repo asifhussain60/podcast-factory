@@ -45,11 +45,14 @@ title_english: Purification of the Heart
 #
 # PROVENANCE, stated plainly because this repo's rule is never-guess on Arabic:
 # there is no scan or OCR of the Arabic title anywhere on disk -- the only
-# in-repo record is the romanization in series-config.yaml. So this is a
-# romanization rendered back into script, NOT a value read off a source. It is
-# the standard title of a well-known work rather than a reconstruction of an
-# obscure one, but it has had no second pair of eyes. Correct it in place if it
-# is wrong; nothing downstream derives anything from it but the card heading.
+# in-repo record is the romanization in series-config.yaml. So this value began
+# as that romanization rendered back into script, NOT as a value read off a
+# source.
+#
+# CONFIRMED BY ASIF, 2026-08-31. He read it and ruled it correct, which is what
+# this field rests on -- a human who reads Arabic, not a derivation. Recorded
+# here because the derivation above is the kind of reasoning that looks like
+# evidence to whoever reads it next, and it is not: the confirmation is.
 #
 # Bare, not vowelled, per Asif's 2026-08-10 call on spiritual-ethos: book-title
 # cards are kept unvowelled site-wide. The "always vowel Arabic script" rule
