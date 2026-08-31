@@ -23,7 +23,7 @@ import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
-import { cueAt, type Cue } from "~/components/player/Transcript";
+import { type Cue } from "~/components/player/Transcript";
 import { useOptionalPlayer, type NowPlaying } from "~/components/player/Player";
 import { useMarks } from "~/components/reader/useMarks";
 import { useReading } from "~/components/useReading";
@@ -64,40 +64,17 @@ import { sourceReferenceFor } from "~/server/sourceReference.server";
  */
 export const middleware: Route.MiddlewareFunction[] = [requireUnitAccess];
 
-export function readAlongBlockIndex(
-  active: boolean,
-  cues: Cue[] | null | undefined,
-  position: number,
-): number {
-  if (!active || cues === null || cues === undefined || cues.length === 0)
-    return -1;
-  if (!Number.isFinite(position)) return -1;
-  const cueIndex = cueAt(cues, Math.max(0, position));
-  if (cueIndex < 0) return -1;
-  const blockIndex = cues[cueIndex].blockIndex ?? cueIndex;
-  return Number.isInteger(blockIndex) && blockIndex >= 0 ? blockIndex : -1;
-}
-
-export interface ReadAlongRect {
-  top: number;
-  height: number;
-}
-
-export function readAlongTargetScrollY({
-  rect,
-  scrollY,
-  viewportHeight,
-  playerHeight,
-}: {
-  rect: ReadAlongRect;
-  scrollY: number;
-  viewportHeight: number;
-  playerHeight: number;
-}): number {
-  const visibleHeight = Math.max(1, viewportHeight - Math.max(0, playerHeight));
-  const centerOffset = Math.max(0, (visibleHeight - rect.height) / 2);
-  return Math.max(0, scrollY + rect.top - centerOffset);
-}
+// The rule for WHICH paragraph is being spoken is not defined here any more: it
+// is one rule with two surfaces asking it — this reader and the Book Composer —
+// and it lives in plan-dashboard, copied in by `npm run read-along`. Re-exported
+// under the same names so every caller and test is unchanged.
+export {
+  readAlongBlockIndex,
+  readAlongTargetScrollY,
+  type ReadAlongRect,
+} from "~/lib/read-along";
+// Re-exporting publishes the names to importers; this module uses them itself.
+import { readAlongBlockIndex, readAlongTargetScrollY } from "~/lib/read-along";
 
 function readAlongTrace(label: string, detail: Record<string, unknown>) {
   if (typeof window === "undefined") return;

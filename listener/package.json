@@ -31,6 +31,7 @@
     "seed:people": "node scripts/seed-people.mjs",
     "controls": "node scripts/controls.mjs",
     "quote-inks": "node scripts/sync-quote-inks.mjs",
+    "read-along": "node scripts/sync-read-along.mjs",
     "study-tracks": "node scripts/sync-study-tracks.mjs"
   },
   "dependencies": {

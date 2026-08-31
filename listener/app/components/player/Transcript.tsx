@@ -31,6 +31,8 @@ export interface Cue {
 const STAMP =
   /^(?:(\d+):)?(\d{1,2}):(\d{2})\.(\d{3})\s+-->\s+(?:(\d+):)?(\d{1,2}):(\d{2})\.(\d{3})/;
 
+import { cueAt } from "~/lib/read-along";
+
 const seconds = (h: string | undefined, m: string, s: string, ms: string) =>
   Number(h ?? 0) * 3600 + Number(m) * 60 + Number(s) + Number(ms) / 1000;
 
@@ -89,21 +91,7 @@ export function parseVtt(source: string): Cue[] {
  * than nothing. The alternative makes the highlight blink out in every gap, which
  * reads as the transcript losing its place.
  */
-export function cueAt(cues: Cue[], position: number): number {
-  let low = 0;
-  let high = cues.length - 1;
-  let found = -1;
-  while (low <= high) {
-    const mid = (low + high) >> 1;
-    if (cues[mid].startS <= position) {
-      found = mid;
-      low = mid + 1;
-    } else {
-      high = mid - 1;
-    }
-  }
-  return found;
-}
+export { cueAt } from "~/lib/read-along";
 
 export function Transcript({
   cues,

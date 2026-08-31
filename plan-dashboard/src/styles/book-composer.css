@@ -4675,3 +4675,73 @@ button.cx-hdr-btn--publish.is-pending::after {
   color: var(--c-ink-dim, #5c574d);
   background: color-mix(in oklab, var(--c-ink, #1f1d18) 5%, transparent);
 }
+
+/* ── Read-along ───────────────────────────────────────────────────────────────
+   The transport, and the paragraph the recording is speaking.
+
+   Colours come from the existing `--c-*` tokens: this is a reading aid on a page
+   whose palette is the edition's, and a new hue here would read as a fifth kind
+   of annotation beside the Companion tint, the colour spans and the markers.
+
+   The highlight is a WASH plus a rule down the margin, not a border box: a box
+   round a paragraph reads as a container the prose lives in, and this paragraph
+   is no different from its neighbours a second earlier or later. */
+.cx-read-along-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid
+    color-mix(in oklab, var(--c-ink, #1f1d18) 12%, transparent);
+  font-size: 0.95rem;
+  color: var(--c-ink-dim, #5c574d);
+}
+
+.cx-read-along-bar[hidden] {
+  display: none;
+}
+
+.cx-ra-play {
+  min-width: 5rem;
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--c-accent, #8b4513);
+  border-radius: 0.35rem;
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 8%, transparent);
+  color: var(--c-accent, #8b4513);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cx-ra-play:hover {
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 16%, transparent);
+}
+
+.cx-ra-play:focus-visible {
+  outline: 2px solid var(--c-accent, #8b4513);
+  outline-offset: 2px;
+}
+
+.cx-ra-follow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.cx-read-along {
+  background: color-mix(in oklab, var(--c-accent, #8b4513) 9%, transparent);
+  box-shadow: -0.6rem 0 0 0
+    color-mix(in oklab, var(--c-accent, #8b4513) 55%, transparent);
+  border-radius: 0.15rem;
+  /* The highlight moves with the voice, so it moves often. A transition makes
+     each move read as the same highlight travelling rather than as one blinking
+     out and another appearing. */
+  transition: background 180ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-read-along {
+    transition: none;
+  }
+}
