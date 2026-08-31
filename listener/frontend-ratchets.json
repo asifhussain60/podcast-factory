@@ -36,8 +36,8 @@
     "enforced": true,
     "grandfathered": {
       "app/components/player/Player.tsx": 1370,
-      "app/routes/admin._index.tsx": 1399,
-      "app/routes/book.$slug.read.$chapter.tsx": 1162,
+      "app/routes/admin._index.tsx": 879,
+      "app/routes/book.$slug.read.$chapter.tsx": 1161,
       "app/routes/book.$slug.tsx": 1280
     }
   }
