@@ -30,7 +30,7 @@ He then turns to envy — and here I will pause, because envy is a lengthy topic
 
 ## Envy
 
-Now, حَسَدٌ. We ended on حَسَدٌ last time. Hasad is probably one of the most serious diseases. There is a difference of opinion among scholars about which disease is the root of all others: some say حَسَدٌ is the root disease. I would argue it always traces back to هُمَا — desire — because within حَسَدٌ there is always an underlying desire. So ultimately it goes back to هُمَا. Or to حُبُّ الْجَاهِ, as Ibn 'Ashraf suggests — though even Ibn 'Ashraf admits that the source of all wrong is حُبُّ الْعَاجِلَةِ, love of the immediate world, which again connects to desire.
+We ended on حَسَدٌ last time. حَسَدٌ is probably one of the most serious diseases. There is a difference of opinion among scholars about which disease is the root of all others: some say حَسَدٌ is the root disease. I would argue it always traces back to هُمَا — desire — because within حَسَدٌ there is always an underlying desire. So ultimately it goes back to هُمَا. Or to حُبُّ الْجَاهِ, as Ibn 'Ashraf suggests — though even Ibn 'Ashraf admits that the source of all wrong is حُبُّ الْعَاجِلَةِ, love of the immediate world, which again connects to desire.
 
 According to the scholars, حَسَدٌ is the first disease, the first manifestation of disobedience in the heavens. The first act of disobedience toward Allah in the heavenly realm was حَسَدٌ — because nothing prevented Iblis from prostrating except حَسَدٌ. The particular form is called تَزُزّ: he could not bear that Adam, peace be upon him, would hold a higher station than him. He could not endure it. It is also connected to تَكَبُّر — he was filled with arrogance and pride. The حَسَدٌ and the arrogance were intertwined.
 
