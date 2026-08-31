@@ -179,6 +179,39 @@ _is_iter_cap_halt() {
     return 1
 }
 
+_needs_human_fix() {
+    # THE GENERAL RULE the three checks above are each a special case of
+    # (Asif, 2026-08-31): a failure the CODE ITSELF described how to fix by hand
+    # is not a crash to retry — it is a halt.
+    #
+    # `manual_fallback` is set by a failing phase precisely when it knows what a
+    # person must do next, and it is already recorded at
+    # `.phases[<phase>].manual_fallback`. Retrying regardless throws that
+    # instruction away up to twenty times, each attempt paying for the same
+    # model calls to reach the same deterministic failure.
+    #
+    # This repo learned the lesson twice and hard-coded a case each time —
+    # per-chapter/failed (2026-05-25, "retrying blindly will reproduce the same
+    # finding 20x") and 0ci/halted — without ever drawing the rule. A gate added
+    # later, like phase 0d's supplied-chapter-set check, would have been retried
+    # twenty times because its phase name was not on a list.
+    local phase status mf
+    phase="$(_state '.phase')"
+    status="$(_state '.phase_status')"
+    [[ "$status" == "failed" ]] || return 1
+    mf="$(_state ".phases[\"$phase\"].manual_fallback // empty")"
+    [[ -n "$mf" ]]
+}
+
+_log_human_fix() {
+    local phase
+    phase="$(_state '.phase')"
+    _log "=== NEEDS A HUMAN: $SLUG failed at phase $phase. Watchdog will NOT retry. ==="
+    _log "Review the log and fix the cause before starting this again."
+    _log "Reason: $(_state '.last_error.message')"
+    _log "Fix:    $(_state ".phases[\"$phase\"].manual_fallback")"
+}
+
 # ── Short-circuit if already done, at a human-review gate, or at iter-cap halt ─
 if _is_done; then
     _log "Already complete (phase=$(_state '.phase') status=$(_state '.phase_status')) — nothing to do."
@@ -190,6 +223,11 @@ if _is_human_review_gate; then
     _log "Review the series plan, then re-run: bash scripts/podcast/watch_orchestrator.sh $SLUG"
     rm -f "$SENTINEL"
     exit 0
+fi
+if _needs_human_fix; then
+    _log_human_fix
+    rm -f "$SENTINEL"
+    exit 2
 fi
 if _is_iter_cap_halt; then
     _log "At iter-cap halt (per-chapter/failed) — human review required. Watchdog will not retry."
@@ -270,6 +308,12 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         _log "3. Fix the P0, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG --retry-phase per-chapter"
         rm -f "$SENTINEL"
         exit 0
+    fi
+
+    if _needs_human_fix; then
+        _log_human_fix
+        rm -f "$SENTINEL"
+        exit 2
     fi
 
     if [[ "$RC" -eq 1 ]]; then
