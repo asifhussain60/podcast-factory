@@ -44,6 +44,7 @@ import json
 import re
 from pathlib import Path
 
+from _arabic_emphasis import repair as _deitalicise
 from _authoring._claude_runtime import pure_json_call_options, pure_text_call_options
 from _authoring._core import _run_claude_p_with_retry
 
@@ -287,4 +288,9 @@ def restore_script(book_dir: Path, text: str, *, phase: str, label: str, book_ti
         resolutions.append(resolution)
         if resolution.ok:
             text = text.replace(run, resolution.arabic)
+            # The emphasis around it marked a ROMANIZATION. Now that script has
+            # taken its place the marker is a category error, and the Arabic
+            # faces have no italic — a renderer asked for one shears the glyphs.
+            # See `_arabic_emphasis`.
+            text, _ = _deitalicise(text)
     return text, resolutions

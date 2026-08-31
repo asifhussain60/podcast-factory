@@ -541,3 +541,20 @@ DETECTORS = {
     "bare-arabic": bare_arabic,
     "orphaned-heading": orphaned_heading,
 }
+
+
+def italicised_arabic(md: str) -> list[tuple[str, str]]:
+    """(chapter, run) for every Arabic run wearing a romanization's italics.
+
+    The sixth defect, and the same shape as the other five: found by eye in a
+    finished edition after every automatic gate had passed it. Eleven books
+    carry it. The rule and the reason live in `_arabic_emphasis`; this is the
+    per-chapter reporting the compose review gate and `pf-compose-fix` read.
+    """
+    from _arabic_emphasis import findings
+
+    hits: list[tuple[str, str]] = []
+    for title, body in chapters(md):
+        for run in findings(body):
+            hits.append((title, run))
+    return hits
