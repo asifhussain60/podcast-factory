@@ -14,7 +14,7 @@
       "name": "chapter-contracts-exist",
       "kind": "own",
       "passed": true,
-      "note": "17 chapter contract(s)"
+      "note": "24 chapter contract(s)"
     },
     {
       "gate": "RA1",

@@ -7,9 +7,9 @@
   "source_kind": "audio-transcript",
   "source_language": "en",
   "phase": "0d",
-  "phase_status": "running",
-  "last_completed_phase": "0ci",
-  "last_error": "Phase 0e (enrichment) was stopped by hand on 2026-08-30 after it rewrote two chapters into third-person literary prose. Root cause: content_profile was unset, so this recorded sermon defaulted to islamic_scholarly and ran the book pipeline. Profile is now islamic_session, which skips enrichment by construction. The state said phase=0e/running until 2026-08-31 with no process alive; reset to the last phase that genuinely completed.",
+  "phase_status": "completed",
+  "last_completed_phase": "0d",
+  "last_error": null,
   "started": "2026-08-30T00:00:00Z",
   "updated": "2026-08-30T22:14:58Z",
   "phases": {
@@ -61,7 +61,7 @@
       }
     },
     "0d": {
-      "status": "running",
+      "status": "completed",
       "ts_started": "2026-08-30T22:38:10Z",
       "review": {
         "verdict": "PHASE-SOUND",
@@ -69,7 +69,8 @@
         "crashed": 0,
         "total": 5,
         "blocking_fail": null
-      }
+      },
+      "ts_completed": "2026-08-31T18:08:48Z"
     },
     "0e": {
       "status": "running",
@@ -90,10 +91,8 @@
   ],
   "next_phase": "0e",
   "unattended": true,
-  "ts_updated": "2026-08-31T14:12:52Z",
-  "phase_attempts": {
-    "0d": 1
-  },
+  "ts_updated": "2026-08-31T18:08:48Z",
+  "phase_attempts": {},
   "run_id": "20260831T141252Z-6a3f79",
   "content_profile": "islamic_session"
 }

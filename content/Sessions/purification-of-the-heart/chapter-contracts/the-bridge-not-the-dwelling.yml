@@ -7,19 +7,16 @@ episode_number: 1
 title: Love of the World
 audience: traditional
 angle: faithful_narrative
-angle_note: Verbatim session — proofread only (spelling, punctuation, paragraph breaks,
-  obviously dropped words), never rewritten. No angle is chosen; the recording sets
-  its own.
+angle_note: Verbatim session — proofread only (spelling, punctuation, paragraph breaks, obviously dropped words), never rewritten. No angle is chosen; the recording sets its own.
 episode_format: monologue
-format_rationale: One continuous recorded session, presented as delivered — no hosts,
-  no discussion format.
+format_rationale: One continuous recorded session, presented as delivered — no hosts, no discussion format.
 essential: core
 essential_rationale: A session of the source recording.
 host_dynamic: verbatim
 host_dynamic_rationale: No hosts — this is the speaker's own recorded words.
 length_target: 1,279
 key_tensions:
-- None — presented as the speaker recorded it, with no editorial angle imposed.
+  - None — presented as the speaker recorded it, with no editorial angle imposed.
 tone_constraints: []
 anchor_passages: []
 adaptation_mode: faithful
@@ -28,10 +25,8 @@ show_notes: []
 thesis_relevance: Part of the recorded series.
 sermon:
   present: false
-
-# Session grouping (deterministic — docs/standards/chapter-density.md)
 session_index: 1
-session_title: "Love of the World"
+session_title: Love of the World
 session_slug: love-of-the-world
 session_episode: 1
 session_episode_count: 1
