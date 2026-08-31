@@ -1,6 +1,6 @@
 # Purification of the Heart
 
-A commission for the podcast factory, written from the Intake form on 2026-08-31T13:49:19.542Z. Nothing has been created yet — this document is the brief, not the book.
+A commission for the podcast factory, written from the Intake form on 2026-08-31T13:59:46.033Z. Nothing has been created yet — this document is the brief, not the book.
 
 - **Folder name:** `purification-of-the-heart`
 - **Shelf:** Sessions
@@ -106,6 +106,7 @@ Worked out from the answers above, in the order the steps run. These are the ins
 - Restore the Arabic the transcriber wrote out phonetically -- Qur'an, hadith, poetry and quotations -- back into Arabic script. Qur'anic runs are set from the canonical mushaf's own wording, never from a reconstruction. Where the text alone is ambiguous, check that moment of the recording to settle what was actually said.
 - All Arabic carries its diacritics. There is no unvowelled Arabic in the finished edition.
 - Qur'an, hadith, poetry and quotations are set in their own styled blocks, not run into the surrounding prose.
+- The 5 chapters the recordings do not reach — Introduction to Purification, Miserliness, Wantonness, Hatred, Iniquity — together with the book's own front matter, history and preface, are condensed into ONE introduction chapter. Author it the way this pipeline authors an edition's introduction: denoised, well articulated, and brief. Do NOT write them as chapters of their own, and do not leave the reader to start at the middle of the book with no orientation.
 - NO podcast is generated. There are no episodes, no NotebookLM upload bundle and no synthesised voices -- the audio already exists and is the lecture itself.
 - Produce a slide deck for each chapter.
 
