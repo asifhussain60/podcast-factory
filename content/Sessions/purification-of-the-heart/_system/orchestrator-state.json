@@ -6,9 +6,9 @@
   "status": "draft",
   "source_kind": "audio-transcript",
   "source_language": "en",
-  "phase": "0ci",
+  "phase": "0d",
   "phase_status": "completed",
-  "last_completed_phase": "0ci",
+  "last_completed_phase": "0d",
   "last_error": null,
   "started": "2026-08-30T00:00:00Z",
   "updated": "2026-08-30T22:14:58Z",
@@ -59,6 +59,18 @@
         "total": 4,
         "blocking_fail": null
       }
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-08-30T22:38:10Z",
+      "ts_completed": "2026-08-31T03:21:14Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      }
     }
   },
   "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
@@ -73,9 +85,9 @@
     "content/Sessions/purification-of-the-heart/transcripts/01-purification-of-the-heart.vtt",
     "content/Sessions/purification-of-the-heart/transcripts/02-purification-of-the-heart.vtt"
   ],
-  "next_phase": "0d",
+  "next_phase": "0e",
   "unattended": true,
-  "ts_updated": "2026-08-30T22:38:05Z",
+  "ts_updated": "2026-08-31T03:21:14Z",
   "phase_attempts": {},
-  "run_id": "20260830T221546Z-2af00a"
+  "run_id": "20260830T233610Z-0df10a"
 }
