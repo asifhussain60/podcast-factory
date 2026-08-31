@@ -305,6 +305,14 @@ generators:
   - listener/scripts/sync-quote-inks.mjs
   - listener/scripts/sync-study-tracks.mjs
   - listener/scripts/sync-fonts.mjs
+  # Declared 2026-08-31, closing a gap this list itself created: the generator
+  # existed and its --check ran inside test/read-along.test.ts (part of the
+  # listener `test` gate) since it was written, but the top-level `generators:`
+  # enumeration this check walks never named it — so GEN-UNPINNED could not see
+  # the one generator in this app that copies a rule (which paragraph a
+  # recording is on) shared between the Podcast Factory Library and the Book
+  # Composer's chapter view.
+  - listener/scripts/sync-read-along.mjs
   # Declared 2026-08-17. `prebuild` rewrote six tracked src/generated/mermaid/*.svg
   # on every build with nothing comparing the result, so it was a generator the
   # audit could not see: a mermaid version drift (11.15.0 against the lockfile's

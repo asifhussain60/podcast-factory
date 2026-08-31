@@ -23,7 +23,10 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const SOURCE = resolve(HERE, "../../plan-dashboard/src/lib/reader/read-along.ts");
+const SOURCE = resolve(
+  HERE,
+  "../../plan-dashboard/src/lib/reader/read-along.ts",
+);
 const TARGET = join(HERE, "../app/lib/read-along.ts");
 
 const BANNER = `// GENERATED — do not edit.
@@ -33,6 +36,7 @@ const BANNER = `// GENERATED — do not edit.
 // \`npm run read-along\`. test/read-along.test.ts fails when this drifts.
 `;
 
+/** @param {string} source */
 function generate(source) {
   return BANNER + "\n" + source.trimStart();
 }
@@ -42,7 +46,9 @@ const check = process.argv.includes("--check");
 if (!existsSync(SOURCE)) {
   // The admin site is a sibling checkout, not a dependency: a repo without it is
   // not a drift, and failing here would make this app unbuildable on its own.
-  console.log("sync-read-along: no admin site alongside this one — nothing to check");
+  console.log(
+    "sync-read-along: no admin site alongside this one — nothing to check",
+  );
   process.exit(0);
 }
 
