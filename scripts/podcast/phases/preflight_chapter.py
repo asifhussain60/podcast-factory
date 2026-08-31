@@ -83,7 +83,26 @@ def smoke_check_chapter(book_dir: Path, slug: str) -> tuple[bool, str]:
         n = len(chapter_file.read_text(encoding="utf-8").split())
     except Exception as e:
         return False, f"chapter unreadable: {str(e).splitlines()[0][:160]}"
-    if n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
+    # The band bounds an AUTHORED episode, where length is a production choice:
+    # too short means truncated, too long means unlistenable. For a verbatim
+    # chapter length is not a choice at all — it is how long the speaker spoke,
+    # and the text is his own words with the wrong ones corrected. Enforcing an
+    # episode band there asks the pipeline to pad or cut a transcript.
+    #
+    # Measured on `purification-of-the-heart` (2026-08-31): three of twenty-four
+    # chapters fell outside it — 252 words, 353 words, and 24,537 — and each one
+    # matched its source slice exactly. The gate was right about the numbers and
+    # wrong about what they meant.
+    #
+    # Emptiness is still caught, for verbatim too: a zero-word chapter is a
+    # failure under any voice.
+    from _pipeline_flags import EPISODE_VOICE_VERBATIM, episode_voice
+
+    _verbatim = episode_voice(book_dir) == EPISODE_VOICE_VERBATIM
+    if _verbatim:
+        if n == 0:
+            return False, "chapter is empty"
+    elif n < CHAPTER_WORD_MIN_HARD or n > CHAPTER_WORD_MAX_HARD:
         return False, (f"chapter word count {n} outside hard band [{CHAPTER_WORD_MIN_HARD}, {CHAPTER_WORD_MAX_HARD}]")
 
     # 4. Density gate (R-MAX-CONCEPTS, 2026-06-10) — OPT-IN via

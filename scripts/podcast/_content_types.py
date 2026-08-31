@@ -54,6 +54,12 @@ class ContentType:
     # Default ElevenLabs cast (host key -> voice-library name) stamped at intake
     # when the chosen engine is elevenlabs and the operator picked no voices.
     default_voice_cast: dict = field(default_factory=dict)
+    # Skip the per-chapter PODCAST lane entirely — the NotebookLM episode loop,
+    # its convergence passes, and the audio phases after it. Not a performance
+    # switch: for a recorded session the audio ALREADY EXISTS and is the
+    # lecture, so there is no episode to build and nothing for a challenger to
+    # converge. Defaults False, so every existing profile is untouched.
+    skip_per_chapter: bool = False
 
 
 CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
@@ -177,6 +183,14 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         skip_phonetics=True,
         skip_enrichment=True,
         skip_ocr=True,
+        # Added 2026-08-31 after `purification-of-the-heart` finished phase 0d
+        # and walked straight into the podcast lane, where a smoke gate written
+        # for authored episodes rejected three chapters for being the length the
+        # speaker actually spoke. The docstring above already said "produces no
+        # NotebookLM episodes, because the audio already exists and is the
+        # lecture itself" — it was true of the lane's own driver and not of the
+        # orchestrated route, which had no way to express it.
+        skip_per_chapter=True,
         literary_voice={
             "narrator_voice": "author_first_person",
             "narrator_subject": "the speaker",

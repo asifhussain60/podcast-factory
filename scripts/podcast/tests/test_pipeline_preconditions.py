@@ -164,3 +164,97 @@ def test_the_live_run_s_own_markers_would_pass(tmp_path):
         _marker(tmp_path, i, t)
     plan = _plan("Love of the World", "Envy", "Blameworthy Modesty", "Fantasizing")
     assert stale_done_markers(tmp_path, plan) == []
+
+
+# ── The podcast lane, and the band that halted a finished book ───────────────
+# `purification-of-the-heart` completed phase 0d with all 24 chapters, then
+# walked into the episode lane it has no episodes for, and was rejected by a
+# word-count band written for authored episodes. Two fixes, both here.
+
+
+def test_a_recorded_session_skips_the_podcast_lane():
+    """The audio already exists and IS the lecture — there is no episode to
+    build and nothing for a challenger to converge."""
+    from _content_types import phase_capabilities
+
+    assert phase_capabilities("islamic_session").skip_per_chapter is True
+
+
+def test_every_other_profile_still_runs_the_podcast_lane():
+    """The capability defaults False. A book that had episodes yesterday must
+    still have them today."""
+    from _content_types import CONTENT_TYPE_REGISTRY, phase_capabilities
+
+    for profile in CONTENT_TYPE_REGISTRY:
+        if profile == "islamic_session":
+            continue
+        assert phase_capabilities(profile).skip_per_chapter is False, profile
+
+
+def test_an_unknown_profile_runs_the_lane():
+    from _content_types import phase_capabilities
+
+    assert phase_capabilities("something-nobody-registered").skip_per_chapter is False
+
+
+def test_the_driver_asks_the_profile_rather_than_naming_the_book():
+    """A check keyed to a slug would not cover the next session series."""
+    import inspect
+
+    from phases import chapter_driver
+
+    src = inspect.getsource(chapter_driver._drive_per_chapter_and_after)
+    assert "skip_per_chapter" in src
+    assert "purification" not in src.lower()
+
+
+def test_skipping_the_lane_still_runs_slides_and_finalize():
+    """The brief asks for a slide deck per chapter. Skipping EPISODES must not
+    skip the deliverables that come after them."""
+    import inspect
+
+    from phases import chapter_driver
+
+    src = inspect.getsource(chapter_driver._drive_per_chapter_and_after)
+    skip_block = src[src.index("skip_per_chapter") :]
+    assert "drive_post_chapter" in skip_block[:1200]
+
+
+def _chapter(tmp_path, words: int, *, verbatim: bool):
+    import yaml
+
+    d = tmp_path / "bk"
+    (d / "_system").mkdir(parents=True)
+    (d / "chapters").mkdir()
+    (d / "chapter-contracts").mkdir()
+    cfg = {"content_profile": "islamic_session"}
+    if verbatim:
+        cfg["episode_voice"] = "verbatim"
+    (d / "_system" / "series-config.yaml").write_text(yaml.safe_dump(cfg), encoding="utf-8")
+    return d
+
+
+def test_a_verbatim_chapter_is_not_measured_against_the_episode_band(tmp_path):
+    """252 words is how long he spoke about relying on other than God."""
+    from _pipeline_flags import EPISODE_VOICE_VERBATIM, episode_voice
+
+    d = _chapter(tmp_path, 252, verbatim=True)
+    assert episode_voice(d) == EPISODE_VOICE_VERBATIM
+
+
+def test_an_authored_book_keeps_the_band(tmp_path):
+    from _pipeline_flags import EPISODE_VOICE_VERBATIM, episode_voice
+
+    d = _chapter(tmp_path, 252, verbatim=False)
+    assert episode_voice(d) != EPISODE_VOICE_VERBATIM
+
+
+def test_the_band_exemption_still_catches_an_empty_chapter():
+    """Verbatim relaxes the band, not emptiness: a zero-word chapter is a
+    failure under any voice."""
+    import inspect
+
+    from phases import preflight_chapter
+
+    src = inspect.getsource(preflight_chapter)
+    assert 'return False, "chapter is empty"' in src
