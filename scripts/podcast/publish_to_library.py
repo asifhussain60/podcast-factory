@@ -439,6 +439,20 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     _info("")
     _info(f"==> DONE. Marked {slug} published ({episode_count} episode(s)) in place.")
 
+    # The cross-content search index. Publishing is the moment a book's chapters
+    # stop moving, so it is the moment the index should learn them — without
+    # this the tables sat empty and no question could be asked across books.
+    # NON-FATAL by the same rule as the deliveries below: a search index is a
+    # convenience, and a book that is finished must not be held unpublished
+    # because an index could not be written.
+    try:
+        from hydrate_search_index import hydrate
+
+        summary = hydrate([slug], log=lambda m: None)
+        _info(f"    search index: {summary['chapters']} chapter(s) indexed for {slug}")
+    except Exception as exc:  # pragma: no cover - defensive
+        _warn(f"    search index not updated ({type(exc).__name__}: {exc}) — run hydrate_search_index.py")
+
     # Google Drive and the Listener. Both leave this machine, so both are
     # non-fatal — see _publish_downstream.py.
     from _publish_downstream import deliver
