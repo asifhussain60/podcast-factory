@@ -105,6 +105,19 @@ EPISODE_VOICE_AUTHORED = "authored"
 EPISODE_VOICE_VERBATIM = "verbatim"
 _VALID_EPISODE_VOICE = frozenset({EPISODE_VOICE_AUTHORED, EPISODE_VOICE_VERBATIM})
 
+#: HOW phase 0d decides what the chapters ARE. Asked at intake because no rule
+#: can derive it: a course of weekly lectures is one chapter per recording, one
+#: long sitting is cut at its topic seams, and a series teaching through a
+#: published work takes that work's own chapter list.
+CHAPTER_SEGMENTATION_KEY = "chapter_segmentation"
+CHAPTER_LIST_KEY = "chapter_list"
+SEGMENTATION_PER_RECORDING = "one_per_recording"
+SEGMENTATION_FROM_SOURCE_TOC = "from_source_toc"
+SEGMENTATION_FROM_TRANSCRIPT = "from_transcript"
+_VALID_SEGMENTATION = frozenset(
+    {SEGMENTATION_PER_RECORDING, SEGMENTATION_FROM_SOURCE_TOC, SEGMENTATION_FROM_TRANSCRIPT}
+)
+
 
 def _read_series_config(book_dir: Path) -> dict[str, Any]:
     """Load ``_system/series-config.yaml`` defensively (never raises)."""
@@ -210,6 +223,53 @@ def episode_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     if explicit and explicit not in _VALID_EPISODE_VOICE:
         _reject_unknown(EPISODE_VOICE_KEY, explicit, _VALID_EPISODE_VOICE)
     return explicit or EPISODE_VOICE_AUTHORED
+
+
+def chapter_segmentation(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """``one_per_recording`` | ``from_source_toc`` | ``from_transcript``.
+
+    Defaults to ``from_transcript`` — which is what phase 0d has always done for
+    every book: read the source and decide the units itself. Naming the existing
+    behaviour rather than changing it means a book that never answered the
+    question is unaffected.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    explicit = str(cfg.get(CHAPTER_SEGMENTATION_KEY) or "").strip().lower()
+    if explicit and explicit not in _VALID_SEGMENTATION:
+        _reject_unknown(CHAPTER_SEGMENTATION_KEY, explicit, _VALID_SEGMENTATION)
+    return explicit or SEGMENTATION_FROM_TRANSCRIPT
+
+
+def chapter_list(book_dir: Path, cfg: dict[str, Any] | None = None) -> list[str]:
+    """The chapter titles the operator supplied, in order; ``[]`` when none.
+
+    Returned even when the segmentation says otherwise, so a caller can report
+    the contradiction rather than silently honouring one of the two. A non-list
+    value is treated as absent: this is a hand-editable YAML file, and a typo
+    that made it a string must not become a one-chapter book.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    raw = cfg.get(CHAPTER_LIST_KEY)
+    if not isinstance(raw, list):
+        return []
+    return [str(t).strip() for t in raw if str(t).strip()]
+
+
+def supplied_chapter_titles(book_dir: Path, cfg: dict[str, Any] | None = None) -> list[str]:
+    """The titles phase 0d must USE, or ``[]`` when it is free to decide.
+
+    The single accessor every caller should ask, because it is where the two
+    keys are reconciled: a list is only authoritative when the segmentation
+    answer actually says to follow it. A book carrying a leftover list under a
+    different segmentation gets ``[]`` and the ordinary behaviour.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    if chapter_segmentation(book_dir, cfg) != SEGMENTATION_FROM_SOURCE_TOC:
+        return []
+    return chapter_list(book_dir, cfg)
 
 
 def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
