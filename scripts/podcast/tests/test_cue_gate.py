@@ -184,3 +184,65 @@ def test_an_ordinarily_long_paragraph_is_not_refused():
 def test_a_chapter_too_short_to_have_a_typical_paragraph_makes_no_claim():
     """With two paragraphs there is no median to be disproportionate to."""
     assert verdict(_timing(paragraphs=2, cues=_cues((0, 5), (5, 4000)), recording_s=9000.0)).ok
+
+
+# ── rescuing a chapter instead of refusing it ────────────────────────────────
+def test_the_swallowing_paragraph_is_dropped_and_the_rest_survive():
+    """`purification-of-the-heart`'s final chapter: one paragraph holding 24
+    minutes of audio that matches no text, and 245 correctly timed ones.
+    Refusing the whole chapter for the one is a heavy price for the rest."""
+    from _cue_gate import drop_swallowing_paragraphs
+
+    cues = _cues((0, 60), (60, 120), (120, 180), (180, 3000), (3000, 3060))
+    kept, dropped = drop_swallowing_paragraphs(cues)
+
+    assert len(dropped) == 1
+    assert dropped[0]["startS"] == 180
+    assert len(kept) == 4
+
+
+def test_dropping_renumbers_what_is_left():
+    """`idx` is the position a reader's highlight steps through. Left unrenumbered
+    the sequence has a hole in it."""
+    from _cue_gate import drop_swallowing_paragraphs
+
+    kept, _dropped = drop_swallowing_paragraphs(_cues((0, 60), (60, 120), (120, 3000), (3000, 3060)))
+
+    assert [c["idx"] for c in kept] == list(range(len(kept)))
+
+
+def test_a_chapter_of_ordinary_paragraphs_loses_nothing():
+    from _cue_gate import drop_swallowing_paragraphs
+
+    cues = _cues((0, 60), (60, 120), (120, 240), (240, 300))
+    kept, dropped = drop_swallowing_paragraphs(cues)
+
+    assert dropped == []
+    assert kept == cues
+
+
+def test_dropping_cannot_rescue_a_chapter_a_reader_could_not_follow():
+    """Coverage still has the last word: strip enough paragraphs and the gate
+    refuses, which is where that judgement belongs."""
+    from _cue_gate import drop_swallowing_paragraphs
+
+    ordinary = [(i, i + 1) for i in range(6)]
+    swallowing = [(10, 210), (210, 410)]
+    cues = _cues(*ordinary, *swallowing)
+    kept, dropped = drop_swallowing_paragraphs(cues)
+
+    assert len(dropped) == 2
+    call = verdict(_timing(paragraphs=len(cues), cues=kept, recording_s=3600.0))
+    assert not call.ok
+    assert any("coverage" in f for f in call.failures)
+
+
+def test_the_dropper_and_the_condition_share_one_definition():
+    """Two answers to "what counts as swallowing" is how a paragraph gets
+    dropped by one and refused by the other."""
+    import inspect
+
+    import _cue_gate
+
+    src = inspect.getsource(_cue_gate.drop_swallowing_paragraphs)
+    assert "MAX_SPAN_OVER_MEDIAN" in src

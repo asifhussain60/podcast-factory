@@ -182,6 +182,43 @@ CONDITIONS: tuple[tuple[str, str, Callable[[Timing], "str | None"]], ...] = (
 )
 
 
+def drop_swallowing_paragraphs(cues: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Remove the paragraphs holding audio that matches no text. Returns (kept, dropped).
+
+    The same rule `_no_paragraph_swallows_the_chapter` judges by, applied one
+    paragraph at a time instead of to the whole chapter — and it uses that
+    condition's own constant, so the two can never disagree about what counts as
+    swallowing.
+
+    WHY DROP RATHER THAN REFUSE. This is the rule the timing pass already applies
+    to a paragraph no cue landed on: skip it rather than guess a span, because a
+    guessed span lights it up during somebody else's sentence. A swallowing
+    paragraph is the same defect arriving from the other direction — it has a
+    span, and the span is wrong. Refusing the whole chapter for it costs the
+    other two hundred and forty-five paragraphs their correct timings, which is a
+    heavy price for one. `purification-of-the-heart`'s final chapter is exactly
+    that case: one paragraph holding twenty-four minutes, and 245 good ones.
+
+    Coverage still has the last word. A chapter that loses so many paragraphs
+    this way that a reader could not follow it is refused by that condition,
+    which is where the judgement belongs.
+    """
+    if len(cues) < 3:
+        return cues, []
+    spans = sorted(c["endS"] - c["startS"] for c in cues)
+    median = spans[len(spans) // 2]
+    if median <= 0:
+        return cues, []
+    limit = median * MAX_SPAN_OVER_MEDIAN
+    kept = [c for c in cues if (c["endS"] - c["startS"]) <= limit]
+    dropped = [c for c in cues if (c["endS"] - c["startS"]) > limit]
+    # `idx` is the position a reader's highlight steps through, so it has to be
+    # renumbered after a removal or the sequence has a hole in it.
+    for position, cue in enumerate(kept):
+        cue["idx"] = position
+    return kept, dropped
+
+
 def verdict(t: Timing) -> Verdict:
     """Judge one chapter's timings against every condition, in order.
 

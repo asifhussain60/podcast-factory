@@ -21,7 +21,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -131,7 +132,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -479,7 +481,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -582,7 +585,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -657,7 +661,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -781,7 +786,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -1570,7 +1576,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -1617,7 +1624,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -1783,7 +1791,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -2096,7 +2105,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -2514,7 +2524,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -2729,7 +2740,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -2867,7 +2879,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -3005,7 +3018,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -3689,7 +3703,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -3960,7 +3975,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -4049,7 +4065,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -4593,7 +4610,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -4731,7 +4749,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -4981,7 +5000,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -5182,7 +5202,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -5313,7 +5334,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -5997,7 +6019,8 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": []
+        "failures": [],
+        "dropped_paragraphs": 0
       },
       "cues": [
         {
@@ -6264,7 +6287,7 @@
       "voice": "author",
       "confidence": 0.351,
       "gate": {
-        "ok": false,
+        "ok": true,
         "checked": [
           "has-timings",
           "alignment-held",
@@ -6275,11 +6298,1726 @@
           "no-paragraph-swallows-the-chapter",
           "clear-of-neighbours"
         ],
-        "failures": [
-          "no-paragraph-swallows-the-chapter: one paragraph spans 24 min against a typical 0.6 min — it is holding audio that matches no text"
-        ]
+        "failures": [],
+        "dropped_paragraphs": 1
       },
-      "cues": []
+      "cues": [
+        {
+          "idx": 0,
+          "blockIndex": 0,
+          "startS": 14525.38,
+          "endS": 14582.2,
+          "text": "Now we come to the root causes of the diseases. And what I will do is cover the treatment of diseases through next week —, will be here, and I will ask him to teach that class. He knows this book deeply. He loves it. He has spent a great deal of time with it. I have read sections of it with him — and I read much of it with Abdullah as well. We actually completed a of it on, on the day of. We went through every disease, named them all, and made asking to purify us of all of them., for all of us."
+        },
+        {
+          "idx": 1,
+          "blockIndex": 1,
+          "startS": 14590.74,
+          "endS": 14655.8,
+          "text": "Now he says: the comprehensive root — in the view of both Imam al- i and Imam Ibn Askar — of all these diseases is love of the temporal world. There is some difference of opinion on this, as we saw: Ibn Abbad considered the root to be — desire. But you can see how flows from. And when Ibn Askar says the root is — love of status and power — even that is, because why do you want status? You want power, you want the world. So in the end it really does come back to. There is a on this — though it is classified as weak —: the love of this world is at the root of every wrong action."
+        },
+        {
+          "idx": 2,
+          "blockIndex": 2,
+          "startS": 14655.8,
+          "endS": 14693.6,
+          "text": "on the other hand, considered the root to be a man's self-satisfaction with himself. That is a distinct and fascinating take. He was a jurist who died in 709 AH, corresponding to 1309 CE, and he is considered one of the greatest masters of this science. He wrote the. Imam al-Banna said that had it been permissible to recite something other than the in prayer, it would have been permissible to recite the — a clear hyperbole, but an indication of the profound esteem in which the work was held."
+        },
+        {
+          "idx": 3,
+          "blockIndex": 3,
+          "startS": 14720.04,
+          "endS": 14751.78,
+          "text": "In the thirty-fifth aphorism, says that the source of every disobedience, every indifference, and every passion is self-satisfaction with the self. And the source of every obedience, every vigilance, and every virtue is dissatisfaction with the self. He says: it is better for you to keep company with an ignorant man who is dissatisfied with himself than with a learned man who is satisfied with himself. And then: what knowledge is there in a self-satisfied scholar? And what ignorance is there in an unlearned man who is dissatisfied with himself — and who therefore keeps asking, keeps wanting to learn?"
+        },
+        {
+          "idx": 4,
+          "blockIndex": 4,
+          "startS": 14782.42,
+          "endS": 14822.76,
+          "text": "This connects directly to something strange about modern culture. Think of the whole industry of self-help books aimed at getting rid of shame, building confidence, feeling good about yourself. But why is the person standing in that self-help aisle in the first place? Because he is dissatisfied with himself. And if he were completely self-satisfied, he would never pick up a book. The author of the book, incidentally, has no real interest in your becoming self-satisfied — because then you would stop buying books. Most of that industry is built on keeping you just dissatisfied enough to keep purchasing. But the point stands: dissatisfaction with the self is what drives a person to want to change and improve."
+        },
+        {
+          "idx": 5,
+          "blockIndex": 5,
+          "startS": 14822.76,
+          "endS": 14865.98,
+          "text": "If anyone here were truly satisfied with themselves, you would not be in this class studying the diseases of the heart. The very fact that people have these struggles is what moves them to seek help. If you feel you lack guidance, you seek guidance. The one who submits to begins seeking because he knows he needs direction. But if you are walking through life perfectly content — I am already guided, I have no need — you will never reach out."
+        },
+        {
+          "idx": 6,
+          "blockIndex": 6,
+          "startS": 14872.42,
+          "endS": 14883.84,
+          "text": "Now, Sidi Ahmad Zarruq identifies three signs of contentment with the soul."
+        },
+        {
+          "idx": 7,
+          "blockIndex": 7,
+          "startS": 14894.4,
+          "endS": 14964.24,
+          "text": "The first is seeing that the belongs to oneself. This is interesting to consider in the modern context: we have a bill of rights but no bill of responsibilities. Islam is far more focused on your responsibilities than on your rights. The, in a real sense, is a bill of rights over us. And the concept of an rights, as understood in the secular modern framework, carries a very different set of assumptions than the Islamic one. an beings do have rights — but in the Islamic understanding, those rights originate with. They are rights embedded in His servants. If someone is protected from oppression, it is because has a that His creation not be oppressed. If someone takes a life in accordance with, it is because demands His right be fulfilled. The an being has a right — but it was given by, and the other person fulfills it because he fears."
+        },
+        {
+          "idx": 8,
+          "blockIndex": 8,
+          "startS": 14981.62,
+          "endS": 15006.88,
+          "text": "This is why — fear of — is the very foundation of a society. The first sign of self-satisfaction, then, is always seeing the rights as belonging to the self: they wronged me, it is all their fault, I am always the injured party. This is an extremely common psychological pattern."
+        },
+        {
+          "idx": 9,
+          "blockIndex": 9,
+          "startS": 15008.36,
+          "endS": 15057.7,
+          "text": "There is a Moroccan story about a and a self-satisfied scholar who disliked him. This scholar came to visit one day and said: the least of my students is better than you. The said: show me. Come to my tomorrow. The next day, the secretly instructed all his students: when the visiting scholar enters, do not return his. And when my student comes in — who had been set up to visit — do not say to him either."
+        },
+        {
+          "idx": 10,
+          "blockIndex": 10,
+          "startS": 15091.64,
+          "endS": 15098.36,
+          "text": "The self-satisfied scholar walked in, no one returned his greeting, and his reaction was immediate outrage: are these your students? Have they not he what commands? Have they not he His words — return a greeting with what is better, or at least return it in kind?"
+        },
+        {
+          "idx": 11,
+          "blockIndex": 11,
+          "startS": 15099.74,
+          "endS": 15134.88,
+          "text": "Then the 's own student came in. No one returned his. He said: — again. Still nothing. Then he said: O brothers, please forgive me. I must have done something wrong. What did I do? Why have you not responded? Whatever I have done, please excuse me."
+        },
+        {
+          "idx": 12,
+          "blockIndex": 12,
+          "startS": 15156.4,
+          "endS": 15168.62,
+          "text": "Those two responses reveal everything. The self-satisfied man arrived saying: I have a right, and you have violated it. The student arrived thinking: what right of yours did I fail to fulfill? One looked outw in demand; the other looked inw in concern. That is why, even as the least of the 's students, the young man showed something the scholar — for all his learning — did not possess. This is the behind 's words: what knowledge does a self-satisfied scholar truly have? And what real ignorance remains in an unlearned man who is genuinely dissatisfied with himself and wants to be taught?"
+        },
+        {
+          "idx": 13,
+          "blockIndex": 13,
+          "startS": 15201.79,
+          "endS": 15277.71,
+          "text": "The second sign of contentment with the self is ignoring one's own faults by interpreting them away — convincing yourself that you are already in a state of purity, even if you have to construct a justification to get there. For instance, a person gets angry and tells himself: well, the Prophet said anger can be from the best of the, and I am from the best of the, so this is fine. He sees the fault but reframes it so that it no longer registers as a fault. This is what the poet meant when he said: the eye of contentment does not see faults. Just as the eye of one in love cannot see the beloved's flaws — and one of the signs of falling out of love is that you begin noticing them all: I never noticed before that one ear is larger than the other."
+        },
+        {
+          "idx": 14,
+          "blockIndex": 14,
+          "startS": 15301.81,
+          "endS": 15310.69,
+          "text": "The third sign of self-satisfaction is excessive self-pity — poor me, I am having such a h time — chronic complaining and self-indulgent lamentation."
+        },
+        {
+          "idx": 15,
+          "blockIndex": 15,
+          "startS": 15310.69,
+          "endS": 15321.09,
+          "text": "Those are the three signs of a person who is satisfied with himself. The three signs of the opposite — of a person genuinely dissatisfied with himself — are these:"
+        },
+        {
+          "idx": 16,
+          "blockIndex": 16,
+          "startS": 15332.67,
+          "endS": 15405.05,
+          "text": "The first is constant self-scrutiny, a persistent suspicion of one's own intentions. And this is modeled even by Yusuf, peace be upon him, who is a prophet —. There is a scholarly disagreement about the precise meaning of his statement, which Sayyid Ahmad Zarruq and others discuss. But Yusuf said: I will not declare my innocent — for by its nature, the commands to evil. So always ex e your intentions. Ask yourself: am I doing this for? Hazrat Abu Bakr said: the only one who feels safe from is the hypocrite. The true believer is always watchful over himself, always alert to the blemishes of the soul. This is reflected in the the Prophet made: do not leave me to my own soul even for the blink of an eye, or less than that."
+        },
+        {
+          "idx": 17,
+          "blockIndex": 17,
+          "startS": 15405.05,
+          "endS": 15436.81,
+          "text": "The second sign is forcing the self to do difficult things — things it dislikes. Eating less. Giving out money. Going out in the path of. These are to the — the self naturally recoils from them. is genuinely h. Charity is genuinely h. The wants to hold on to what it has. Compelling it to do otherwise is one of the marks of a person who has not surrendered to self-satisfaction."
+        },
+        {
+          "idx": 18,
+          "blockIndex": 18,
+          "startS": 15455.46,
+          "endS": 15472.8,
+          "text": "Abu Uthman said: whoever sees anything good about himself has not truly seen the faults of his soul."
+        },
+        {
+          "idx": 19,
+          "blockIndex": 19,
+          "startS": 15476.28,
+          "endS": 15487.34,
+          "text": "Now there is an obvious question here — and it is an important one, because the whole Western discourse around self-help, psychology, and modern wellness is built on the opposite premise. Is this not just self-loathing? Is this not low self-esteem? Is this not exactly what the self-esteem movement told us is harmful?"
+        },
+        {
+          "idx": 20,
+          "blockIndex": 20,
+          "startS": 15502.22,
+          "endS": 15504.3,
+          "text": "And the answer is: look at the actual people shaped by this tradition. Look at the real. They are not miserable. They are not broken. They carry genuine ility alongside genuine dignity."
+        },
+        {
+          "idx": 21,
+          "blockIndex": 21,
+          "startS": 15513.42,
+          "endS": 15549.44,
+          "text": "Consider Aisha, may be pleased with her. She was the wife of the best of creation. She was physically beautiful. She was among the most brilliant minds in Islamic history — and in an history. She came from a noble family, the aristocracy of Quraysh. And yet, when she yearned for to declare her innocence in the incident of the slander, she said:"
+        },
+        {
+          "idx": 22,
+          "blockIndex": 23,
+          "startS": 15549.44,
+          "endS": 15561.62,
+          "text": "I considered myself so insignificant that I would never have imagined the would be revealed on my account."
+        },
+        {
+          "idx": 23,
+          "blockIndex": 24,
+          "startS": 15563.78,
+          "endS": 15597.52,
+          "text": "Despite all of that — beauty, lineage, brilliance, position — she did not reg herself as someone for whom would descend. And yet Aisha was not a woman without self-confidence. She was a woman of enormous strength. She was one of the very few people who questioned the Prophet directly — she c lenged him on a point of when he said that a person given an easy reckoning would enter paradise:"
+        },
+        {
+          "idx": 24,
+          "blockIndex": 27,
+          "startS": 15605.02,
+          "endS": 15619.94,
+          "text": "She also led an army out. She later regretted it, but in the moment she said: he is wrong and we are right — let us go resolve this. She rode out in her hawdaj to the Battle of the Camel. And when one of the men addressed her as, she replied:"
+        },
+        {
+          "idx": 25,
+          "blockIndex": 29,
+          "startS": 15632.18,
+          "endS": 15645.96,
+          "text": "Which in the Arabic of the time carried the force of: do not call me your mother — you are no son of mine. That is a sharp, strong response. She was a strong woman."
+        },
+        {
+          "idx": 26,
+          "blockIndex": 30,
+          "startS": 15656.56,
+          "endS": 15671.68,
+          "text": "And yet, with all of that, her sense of her own standing before was one of profound smallness. That is what this teaching is about. It is not about collapsing into self-loathing. It is not about erasing confidence. It is about never becoming content with where you are — always knowing there is more, always wanting to improve. Be confident, yes. But do not be complacent."
+        },
+        {
+          "idx": 27,
+          "blockIndex": 31,
+          "startS": 15671.68,
+          "endS": 15771.58,
+          "text": "No matter how accomplished you become, there is always someone better. No matter how much you have mastered, there is always more mastery to pursue. The master calligrapher looks at his work and sees room to improve. If he stops seeing it, he stops improving. And every one of these sciences — every field of knowledge, every spiritual state, every skill — is endless. True mastery belongs not to the one who has arrived, but to the one who never stops. The one committed to constant improvement is the real master, because they are always moving forw, always refining their technique. But the moment a person is self-satisfied, the improvement stops — and in a very real sense, so does the life of the heart."
+        },
+        {
+          "idx": 28,
+          "blockIndex": 32,
+          "startS": 15790.54,
+          "endS": 15798.74,
+          "text": "This is what he means when he says that self-dissatisfaction acts as an impetus to seek virtuous character and to remain vigilant about what is unbecoming. So you remain watchful."
+        },
+        {
+          "idx": 29,
+          "blockIndex": 33,
+          "startS": 15798.74,
+          "endS": 15849.3,
+          "text": "We will stop there. Next week we will finish this section, and then the week after that I will go through the — the morning and evening remembrances — which everyone should be doing. I will get you a copy of those. And then we will do the. That is how the remaining sessions will be structured."
+        },
+        {
+          "idx": 30,
+          "blockIndex": 34,
+          "startS": 15915.78,
+          "endS": 15966.0,
+          "text": "Now there was a question from the previous class about women and male slaves — specifically whether a woman may own a bondsman. Yes, that is permissible in the. But they are not, and all the normal rules reg ing seclusion and mixing apply. There can be no sexual relationship between the two. That was the question."
+        },
+        {
+          "idx": 31,
+          "blockIndex": 35,
+          "startS": 15967.02,
+          "endS": 15984.04,
+          "text": "Now before we close, let me do the — the keys — because I did not cover that last week."
+        },
+        {
+          "idx": 32,
+          "blockIndex": 36,
+          "startS": 15984.04,
+          "endS": 16028.84,
+          "text": "is the plural of, which means key in Arabic. The root, if you look at the word, is the same root as the verb to open. And the — the morphological pattern — it sits on is that of a tool: the thing you use to do the action. is the thing you use to sweep. The is the thing you use to open."
+        },
+        {
+          "idx": 33,
+          "blockIndex": 37,
+          "startS": 16035.84,
+          "endS": 16312.14,
+          "text": "In Arabic, the word for key does not just mean an object that unlocks something — it means the thing that causes an opening. The metaphor is richer than the English word \"key\" carries. And it connects directly to one of the names of: — the One who opens. People who carry spiritual keys have the ability to open things that are otherwise closed. And there are many on this: \"such and such is the key to such and such.\" is the key to — to the opening, to relief. If you want from, the key is patience."
+        },
+        {
+          "idx": 34,
+          "blockIndex": 38,
+          "startS": 17236.32,
+          "endS": 17313.86,
+          "text": "The, then, is what tells us what is good and what is bad or ugly — the intellect has no independent access to that. It can sometimes arrive at the right answer, but not always, which makes it a relative and limited source of guidance rather than an absolute one. The indicates what is and what is. And when a person recognizes that his will not save him or help him, he turns to what actually will help him — namely, doing what has commanded — and that recognition leads him to act in accordance with and His message."
+        },
+        {
+          "idx": 35,
+          "blockIndex": 39,
+          "startS": 17395.46,
+          "endS": 17469.28,
+          "text": "The poem's point, the sheikh explains, is that the origin of both heart disease and spiritual well-being is the company one keeps, for the states that a man is upon the of his companion. If you keep company with someone who delays his prayer, who neglects, or who commits wrong actions, you will inevitably drift tow those same things. Conversely, good company will pull you in a good direction. This is precisely why people must ex e who they spend time with, because one's companions are a reliable indicator of one's own spiritual state. The sheikh offers a vivid illustration: if you sit at the door of a bar, you will smell the foulness of alcohol; if you sit at the door of a perfumer, you will breathe in the fragrance of perfume. Whatever you are near, you are affected by. Proximity to goodness brings goodness; proximity to corruption brings corruption."
+        },
+        {
+          "idx": 36,
+          "blockIndex": 40,
+          "startS": 17559.4,
+          "endS": 17588.68,
+          "text": "For this reason — mentioned in the — is recorded in the of as having told his son: sit with the. Keep their company. The are people who possess knowledge and live by it, and sitting with them is like rain falling on dry earth and bringing it back to life. That is what their company does to the earth of your heart — it revives it, and it does so in a way you may not even notice. Simply being in the presence of righteous, knowledgeable people allows the heart to stir back to life, and begins to grow and increase within it."
+        },
+        {
+          "idx": 37,
+          "blockIndex": 41,
+          "startS": 17655.61,
+          "endS": 17810.37,
+          "text": "He says that sitting with the — the people of true knowledge, the — will take a person from six things to six things: from doubt to certainty; from doing things for other than to doing them with sincerity, with, for alone; from heedlessness to the remembrance of; from desiring this world to desiring the next; from arrogance to repentance; and from corrupt inner character and bad intentions tow people to sincere, wholesome character and genuine goodwill. makes a related point in his: do not keep company with someone whose state — his, his condition — does not elevate you, and whose speech does not direct you tow. If a person's presence neither lifts your nor points you tow, that company is harmful."
+        },
+        {
+          "idx": 38,
+          "blockIndex": 42,
+          "startS": 17848.99,
+          "endS": 17936.53,
+          "text": "Of all the diseases ex ed in the, the comprehensive cure — the one that addresses all of them — is the remembrance of. More than anything else, is what heals the heart. Dhikr includes recitation of, and all the formulas of praise — as well as the supplications the Prophet has transmitted to us. But the highest and best form of is. A person who is in a state of will have a heart — a pure heart."
+        },
+        {
+          "idx": 39,
+          "blockIndex": 43,
+          "startS": 17986.21,
+          "endS": 18026.07,
+          "text": "Ahmad ibn Hanbal is reported to have seen ninety-nine times in his dreams. In one of them he was asked: of all the things that draw a slave near to, which is the greatest? answered him: recitation of. He then asked: Ya, with understanding or without understanding? And answered, according to the Imam — with understanding or without. This means that even someone who does not understand the words he is reading is still drawing close to through the."
+        },
+        {
+          "idx": 40,
+          "blockIndex": 44,
+          "startS": 18047.05,
+          "endS": 18108.11,
+          "text": "In, the Messenger of said that the difference between one who remembers and one who does not is like the difference between the living and the dead. Whoever remembers — — his heart is alive, and so he is alive. Whoever does not remember — — his heart is dead, and so he is considered dead. A sound also says: make remembrance of until people say you are mad. This is because one thing that marks people who are troubled in their minds is that they talk to themselves constantly. Someone who remembers all the time may appear, outw ly, very similar — a non- who sees you walking down the street doing may well think you are talking to yourself. That is what the points to."
+        },
+        {
+          "idx": 41,
+          "blockIndex": 45,
+          "startS": 18145.81,
+          "endS": 18225.09,
+          "text": "There is also the sound, transmitted in various narrations, in which the Prophet asks: s l I not tell you what the best of all your actions is — the purest in the sight of your Lord and King, the highest in rank among all the deeds that carry degrees, better for you than spending gold and silver, and better even than going out to meet your enemy in, striking them and being struck, killing them and being killed? They said: of course, tell us. He said: — the remembrance of. Some people wonder how remembrance could be better than. The — may have mercy on them — explain that is the, the end itself, the very purpose for which we were created. and everything else are — means. And no means, however noble, is greater than the end it serves. We were created to remember, which is why is the highest thing in the."
+        },
+        {
+          "idx": 42,
+          "blockIndex": 46,
+          "startS": 18237.97,
+          "endS": 18338.67,
+          "text": "says: — remember Me, and I will remember you. Whoever remembers his Lord, remembers him. And whoever remembers has been enriched in both this world and the next, and stands in need of nothing. Another distinguishing feature of — unlike, fasting, or even formal prayer — is that it is not bound to a specific time or place. It can accompany every an act. There are related to going to the toilet, to eating, to marital relations — every moment of life has a belonging to it. And it is said that whoever is in a state of remembrance of is never struck by calamity in a way that harms him, because whatever befalls someone who was remembering only raises him in rank. If he dies while remembering, he dies as a martyr. This is the treatment for the diseased and foul soul — remembrance of."
+        },
+        {
+          "idx": 43,
+          "blockIndex": 47,
+          "startS": 18377.57,
+          "endS": 18396.81,
+          "text": "When you wish to engage in, you begin with — seeking forgiveness — because the purpose of is purification, and the reason purification is needed is the wrong actions one has accumulated. So the process begins by asking to remove those wrong actions. Once He removes them, the that follows will then remove their lingering effects, for wrong actions leave traces and effects on the heart."
+        },
+        {
+          "idx": 44,
+          "blockIndex": 48,
+          "startS": 18405.35,
+          "endS": 18508.17,
+          "text": "You then send prayers upon the Prophet, because upon the Prophet acts as a — a nurturer — for the heart and as a means of its purification. This is why most of the later specifically encouraged these two practices: for the wrong actions most of us are engaged in, and upon the Prophet because by the of the, it is the only that is absolutely guaranteed to be accepted by. Anyone who says is — accepted. commanded this with a command He Himself initiated, which is unique among all of His commands — He does not begin with the action Himself except in the case of prayer upon the Messenger of. He said: — and then enjoined the believers: — pray upon the Messenger of and greet him with peace.. Whoever prays upon the Prophet once, prays upon him ten times — this is established in. And whoever has prayed upon ten times, what else could he possibly need?"
+        },
+        {
+          "idx": 45,
+          "blockIndex": 49,
+          "startS": 18508.17,
+          "endS": 18575.85,
+          "text": "— the Prophet of said that prayer upon him is light in this world, light in the grave, and light on the. It gives you guidance — and that guidance — when you need it most. It illuminates the grave so that it is light rather than dark. And it illuminates the so that you can see your way across it. Light in the heart, as the Prophet said."
+        },
+        {
+          "idx": 46,
+          "blockIndex": 50,
+          "startS": 18603.15,
+          "endS": 18647.77,
+          "text": "Because we have been commanded to pray upon the Prophet, it is generally good to begin by reciting the actual, for in doing so you are fulfilling the command of — this is called. That command is obligatory at least once in a lifetime, but you can fulfill it anew every single time you send prayers upon the Prophet. The one who prays upon the Prophet should observe the same he would observe when remembering: it is for him to be in, to face the, and so on — the same courtesies that are for prayer apply here as well."
+        },
+        {
+          "idx": 47,
+          "blockIndex": 51,
+          "startS": 18672.07,
+          "endS": 18901.85,
+          "text": "He also mentions — that when you pray upon the Messenger of, you should do so as if you were in his presence. In the same way that in prayer means worshipping as though you see Him, in upon the Prophet means bringing his presence before you as though he were there — calling to mind the guidance he gave us, all the things we owe him as our for teaching us and for conveying to us the knowledge of. And you remember that Himself and His angels send prayer upon this Messenger, so in doing so you are participating in something that Himself declared He does."
+        },
+        {
+          "idx": 48,
+          "blockIndex": 52,
+          "startS": 18924.55,
+          "endS": 18984.71,
+          "text": "Another thing to be mindful of in is what is called — incorrect pronunciation. You should avoid it to the best of your ability. Some people simply cannot pronounce every Arabic sound correctly, but the effort must still be made. He notes that some mispronunciations constitute a or a, a sin or an error, while others can reach the level of — potentially taking a person out of Islam. As for those who cannot distinguish between sounds like and — the — if there is a genuine heaviness in the tongue, a physical impediment that persists despite every effort to correct it, then that person is: excused by the. He should still engage in even if the pronunciation falls short, because the incapacity is real and does not burden a soul beyond what it can bear."
+        },
+        {
+          "idx": 49,
+          "blockIndex": 53,
+          "startS": 19008.89,
+          "endS": 19048.13,
+          "text": "He receives the rew, and no wrongdoing is entailed by performing the in that way. Among the greatest acts of worship is also meditating on creation. mentions in the those who remember Him standing, sitting, and reclining on their sides, and who reflect on the creation of the heavens and the earth. Dhikr and — remembrance and reflection — are thus joined together."
+        },
+        {
+          "idx": 50,
+          "blockIndex": 54,
+          "startS": 19066.93,
+          "endS": 19143.08,
+          "text": "It is said that the action of the heart, which is, is better than all the actions of the limbs. This is why one narration states that a single moment of reflection is better than a year of worship. The signs of genuine reflection fall into four directions."
+        },
+        {
+          "idx": 51,
+          "blockIndex": 55,
+          "startS": 19143.88,
+          "endS": 19215.2,
+          "text": "The first is reflecting on the signs of. The second is reflecting on creation and what those signs point to — and this leads to love of, because one sees everything has done for the an being. The third is reflecting on promised rew s and the signs connected to them; each sign kindles a desire for the, so that the mark of this reflection is a yearning, a, for. The fourth is reflecting on promised punishment; the sign of this reflection is that fear takes root in the heart and the person turns away from disobedience."
+        },
+        {
+          "idx": 52,
+          "blockIndex": 56,
+          "startS": 19216.26,
+          "endS": 19264.82,
+          "text": "There is also reflection on the weakness of the self — the harshness of the tow despite His unceasing. When one contemplates all that has given and then honestly weighs how little one has offered in return, this reflection produces, a deep sense of shame before — shame that He has given so much, while one has given so little in return."
+        },
+        {
+          "idx": 53,
+          "blockIndex": 57,
+          "startS": 19323.35,
+          "endS": 19341.21,
+          "text": "The heart is what distinguishes good from evil, and the source of all these matters lies in the inrushings that come to the heart. These inrushings arrive like a guest descending upon the heart, and they take different forms."
+        },
+        {
+          "idx": 54,
+          "blockIndex": 58,
+          "startS": 19401.09,
+          "endS": 19419.97,
+          "text": "The question Qais raised concerned what people today call the. Imam al-Maqari distinguished between the and the. The are those who merely claim to be Sufis. A common sign of such people is that they engage in abundant while neglecting the — the obligatory duties."
+        },
+        {
+          "idx": 55,
+          "blockIndex": 59,
+          "startS": 19432.47,
+          "endS": 19474.41,
+          "text": "The 's answer was direct: the first and foremost obligation on every an being is to acquire knowledge — before anything else. A person who has not learned the, the indivi lly obligatory matters, has no before. It is as though he stands on the same footing as an animal, or worse, because an animal is not morally responsible, whereas this person is astray and is making no effort to correct himself."
+        },
+        {
+          "idx": 56,
+          "blockIndex": 60,
+          "startS": 19483.23,
+          "endS": 19512.01,
+          "text": "'Abd al-Khadim cited many scholars on this point — Imam al-Sha'rani, Imam al-Suyuti, and all the great imams who mastered both the outw sciences and — all of them affirm that must precede. If a person pursues without first grounding himself in, he will go astray. There is no without the knowledge of the. Tasawwuf comes after."
+        },
+        {
+          "idx": 57,
+          "blockIndex": 61,
+          "startS": 19533.71,
+          "endS": 19560.95,
+          "text": "Even — dutiful care of one's parents — though it is the highest virtue mentions in the after, still comes after learning what has made obligatory. If caring for one's parents is preventing one from acquiring that obligatory knowledge, then one is committing a wrong by abandoning what is more right."
+        },
+        {
+          "idx": 58,
+          "blockIndex": 62,
+          "startS": 19683.61,
+          "endS": 19693.31,
+          "text": "Reg ing the question about women: a woman in a state of menstrual impurity may perform all forms of that men perform. She may not recite from the extensively, though there are nuances — if she has memorized the, she may recite what is needed to retain her memorization, or she may recite short phrases such as or verses like in that capacity. She may not touch the physical during that period. Beyond these restrictions, she may freely recite the, and the prayers upon the Prophet."
+        },
+        {
+          "idx": 59,
+          "blockIndex": 63,
+          "startS": 19744.75,
+          "endS": 19847.29,
+          "text": "Reg ing the question about non- s in America who are drawn to Islam through its spiritual teachings — those who hear about the inner meanings of the tradition and feel themselves drawn closer — the 's answer was that the best path for all people is submission to the will of and acceptance of His commands as He has made them binding. When the Prophet called people to Islam, he began with and then told them that had made five prayers obligatory. He called them first to the unity of and then to prayer. That is the methodology of the Messenger of, and that is what we should be calling people to."
+        },
+        {
+          "idx": 60,
+          "blockIndex": 64,
+          "startS": 19853.23,
+          "endS": 19893.21,
+          "text": "In contemporary culture there is a pervasive false or pseudo-spirituality built on the notion that one can access without. This is a Dajjalic phenomenon — it misleads people and draws them away from the truth. It is, in effect, anti-spirituality, because genuine spirituality is protected by the. The fruit is protected by its peel; if you strip the peel before the fruit has ripened, you ruin it. Likewise, if you reach for spirituality before you have shielded yourself with the, you will destroy your soul and become one of those false figures — the — people who project an outw appearance of spiritual attainment while their hearts remain filled with every disease."
+        },
+        {
+          "idx": 61,
+          "blockIndex": 65,
+          "startS": 19938.51,
+          "endS": 19953.49,
+          "text": "The also addressed the importance of concealing one's faults. If a person has committed wrong, he should veil it and make; will forgive him. But if he publicizes it openly, the harm multiplies, because the sin spreads as a tribulation beyond himself."
+        },
+        {
+          "idx": 62,
+          "blockIndex": 66,
+          "startS": 20069.83,
+          "endS": 20109.03,
+          "text": "He cited the of the man who came to the mosque and told the Prophet that he had committed and asked to be given the prescribed punishment. The Prophet turned away from him. The man followed him outside and repeated himself. Finally the Prophet looked at him and said: \"Did you not just perform and pray with us?\" — meaning: that is what Islam is for, to purify one's wrongs. The man, however, persisted until the punishment was carried out. The Prophet also said that whoever commits such offenses should cover himself with covering and make, but whoever comes forw and openly admits his sin, the prescribed punishment will be applied."
+        },
+        {
+          "idx": 63,
+          "blockIndex": 67,
+          "startS": 20217.73,
+          "endS": 20218.89,
+          "text": "The then turned to the question of companionship. For worldly matters, one should keep company with those who have less, not those who have more — because constantly comparing oneself to those who have bigger houses and better cars feeds love of the. But for matters of the, one should always seek the company of those who are better. If one only keeps company with people whose is weaker, one begins to think one's own is sufficient and grows complacent."
+        },
+        {
+          "idx": 64,
+          "blockIndex": 68,
+          "startS": 20229.85,
+          "endS": 20257.41,
+          "text": "The people of, he noted, tend to see themselves as lesser than everyone around them, so the danger of pride does not really apply to them in the same way. Keeping their company benefits you precisely because their ility makes you feel how much further you still have to go."
+        },
+        {
+          "idx": 65,
+          "blockIndex": 69,
+          "startS": 20267.97,
+          "endS": 20295.89,
+          "text": "This is also why one should never look down on anyone. A person who appears to be in a worse state today might make a tomorrow that accepts and rise to become a of — while the one who despised him might later stumble. No one can know another person's standing with. So one should never feel superior to anyone in this, and should always seek out the company of those who are better in their."
+        },
+        {
+          "idx": 66,
+          "blockIndex": 70,
+          "startS": 20523.51,
+          "endS": 20597.97,
+          "text": "Those are rightly guided, if they truly follow what those imams brought — because those four imams — it is; those four imams are, meaning it is an absolute consensus that they are rightly guided. So those who call to something other than that are on shaky ground. In matters of, take a simple, sound creed from a straightforw source — Ibn Ashir, Imam al-Tahawi, any of those — and do not wade into: where is, what is the hand like, all of that. Someone came to me and asked what I say about the verse, and I said that the very fact they are asking that question is, by the testimony of the itself, a sign of deviation in the heart — because the states that anyone who pursues those verses has deviation in their heart. So whenever you hear people arguing over the verses of that belong to the, the ambiguous ones, just leave them alone. That is guidance."
+        },
+        {
+          "idx": 67,
+          "blockIndex": 71,
+          "startS": 20608.75,
+          "endS": 20696.61,
+          "text": "The question had been: what do we do in a time when have disappeared and people of are scarce? What Hafri — may bless him — said was that the very asking of that question is a sign that the person cares about their soul, so it is a good question, and it reflects a real condition. He said that if you are in this country, then things like the classes you are attending now are good — this is the right kind of thing to do. He said to make sure the source of your knowledge is sound. The things we teach, like these — these are that are, rooted in our tradition, and they come through a chain of. His and my is, and whoever has seen knows who he is. His knowledge is pure. The source of the knowledge is pure. No one who has lived with for over seventy years can say they ever saw him do something even. He has never been he to speak an ill word about anyone by name. His knowledge is pure, and he teaches people the remembrance of, because he is in a state that one of the people described this way: — sitting with him is like sitting with someone who is simultaneously present and absent. He is present in that he will teach you and answer your questions; he is absent in that his heart has moved away from this world — it is no longer in this world."
+        },
+        {
+          "idx": 68,
+          "blockIndex": 72,
+          "startS": 20702.51,
+          "endS": 20851.09,
+          "text": "People like that are rare to find. There is a question here —, he is; we love him. A woman asked: is it possible for a woman to come and learn from you, to study with you? He said that anyone who wants to go to Mauritania may go. He said the hidden aspiration of a is — more cutting than the sword. If the hidden intention is strong, people can do remarkable things."
+        },
+        {
+          "idx": 69,
+          "blockIndex": 73,
+          "startS": 20852.21,
+          "endS": 20892.59,
+          "text": "He gave the example of Yahya, an American man who became here. He was young — nineteen or twenty — when he took his. He was, as the put it, a spoiled American, from a wealthy family, with older brothers. He became and wanted to seek knowledge. He had an expense-paid place at Berkeley, had already completed two years of college. He came to me, and I told him initially to just finish university for his parents' sake, and then go."
+        },
+        {
+          "idx": 70,
+          "blockIndex": 74,
+          "startS": 20892.59,
+          "endS": 20930.39,
+          "text": "My sister Nabila — and I told this — said to me: you did him an injustice. I said: why? It is only two years; it will pass quickly, and then he can go do what he wants. She said: how do you know what will happen to him in those two years? Maybe he will encounter a at Berkeley. Maybe he will lose the desire for knowledge right now, while the fuel is still burning in his heart. When she said that, I realized she was right. I went to him and said: that advice I gave you — I was wrong. He said: I am really glad you said that, because I was not going to take it anyway. That is what he told me."
+        },
+        {
+          "idx": 71,
+          "blockIndex": 75,
+          "startS": 20931.77,
+          "endS": 20968.25,
+          "text": "When I told — who is the cousin of and the cousin of, having learned all his knowledge from him — when I told him what I had said, and what my sister had said, he replied, I had wanted to tell you that you were wrong, but my respect for you held me back. I am glad your sister said it. And he said he loves her for the good counsel she gave."
+        },
+        {
+          "idx": 72,
+          "blockIndex": 77,
+          "startS": 22407.69,
+          "endS": 22484.55,
+          "text": "The best of is, and the highest station of is what is called. comes from — called it, which in Arabic literally means extinction. This concept arises from the fact that each of us experiences a sense of separation from other people. One of the things you notice about a newborn is that this sense of separation does not yet exist in them. There is no \"I,\" no fixed focal point of self. You can see it in the unfocused way their eyes move — there is no centralization. As the child grows into its identity, into its sense of \"I-ness,\" it begins to perceive itself as separate from everything else."
+        },
+        {
+          "idx": 73,
+          "blockIndex": 78,
+          "startS": 22491.15,
+          "endS": 22581.62,
+          "text": "said that in deep spiritual practice, certain experiences can arise. One type is called, which occurs when someone is overcome by a spiritual state that is often beyond their control — it simply is uncontrollable. The scholars of this science distinguish between and, and is actually higher than. The is where you are fixed in a condition. The of, for instance, is where you cannot commit disobedience, because you are established in the station of — you are in a, and so you cannot knowingly do wrong. The of, by contrast, is when someone who has been doing wrong actions is suddenly seized by an intense state of remorse and turns to for forgiveness. That is a, not a. The is better because it endures. The of is when someone is settled in a station of detachment; the of is a state that comes upon them and does not last. A person may experience a of or a of, but it passes. So the is above the."
+        },
+        {
+          "idx": 74,
+          "blockIndex": 79,
+          "startS": 22641.02,
+          "endS": 22709.88,
+          "text": "Then there is what is called — an inrush that enters the heart, very powerful, flooding it with light and bringing with it an extraordinary expansion. That too is a temporary state. What is saying is that the highest is, and beyond there is something called. is when the self is no longer aware of itself — there is a, a disappearance, a loss of the experience of the self. This does not last permanently, because if it did, you would call it insanity. And this is precisely why spiritual psychosis is real. There are people who go into experiences they cannot control or understand, and they become ill. It happens regularly in this culture — many people who take up meditation, who go into Zen Buddhism or similar paths, and practice intensively, can literally lose themselves completely. This is why it is so dangerous to pursue these things without the protection of prayer, without, without the grounding that Islam provides. Islam is all about grounding. We are not chasing spiritual experiences — we are meant to be grounded. That is what has commanded. But if you do what commands, and you do it properly, then certain things will often happen inw ly, in the interior self. And there is a science for understanding those things — part of which is the science of, knowing whether what arises comes from, because has many games he can play on those pursuing this path, or whether it is angelic, or whether it comes from the."
+        },
+        {
+          "idx": 75,
+          "blockIndex": 80,
+          "startS": 22731.48,
+          "endS": 22772.7,
+          "text": "This is one of the problems with New Age practitioners: most of what happens to them — and they do have genuine experiences, people who go into New Age religion, or Zen, or Kundalini with its fire yoga and breathing practices — they cannot distinguish between the satanic, the, the angelic, and the. They have no tools to tell them apart. And most of what is happening to them is from and the. Possession? Yes, absolutely — possession is very real. People open themselves up to a to enter them. That is absolutely the case."
+        },
+        {
+          "idx": 76,
+          "blockIndex": 81,
+          "startS": 22807.34,
+          "endS": 22844.76,
+          "text": "As for group — I will address that in a moment. So this idea, what is, is simply that the person engaged in is no longer aware of their own self. And that can genuinely happen. says this is the highest form of. This is why when Ali's son — not al-Hasan or al-Husayn, but one of his other sons — was struck by an arrow, those who wanted to remove it waited until he entered prayer. When he went into prayer, they pulled it out, and he felt nothing. That is someone truly in that state where the self is absent — completely absent."
+        },
+        {
+          "idx": 77,
+          "blockIndex": 82,
+          "startS": 22844.76,
+          "endS": 22883.32,
+          "text": "There are people in India, yogis, who can do very radical things through meditation — endure extraordinary pain and the like. So these experiences are not exclusive to s in terms of the underlying psychology. The an psyche has remarkable capacities. What s recognize, however, is that if a person is sincere and is genuinely remembering, then can bring that person into a state of absolute witnessing with, where they are no longer aware of their surroundings. Many of the were in that state — clearly, many of them were."
+        },
+        {
+          "idx": 78,
+          "blockIndex": 83,
+          "startS": 22893.52,
+          "endS": 22949.48,
+          "text": "This is one of the interpretations of the: \"My slave does not draw near to Me by anything more beloved to Me than the, and he will continue to draw near to Me through the until I love him. And when I love him, I become the eye with which he sees, the ear with which he hears, the tongue with which he speaks, the hand with which he grasps. And if he seeks refuge in Me, I give him refuge. If he asks Me, I give him.\" That never means that God becomes man — which is called. is to believe, and whoever believes it is outside of Islam. is the doctrine of divine incarnation, and that does not mean that. Anyone who interprets it that way is a — a heretic, outside of Islam. We do not believe in divine incarnation. We do not believe that God becomes creation. That is the position of Christianity, Hinduism, and similar traditions, not ours."
+        },
+        {
+          "idx": 79,
+          "blockIndex": 84,
+          "startS": 22955.8,
+          "endS": 23013.44,
+          "text": "What we do believe is that a an being can reach such a state of awareness of the of — the acts of — that it transforms their perception entirely. The whole world is the of; we do not say the world is, but we say the world is His act. And there are people who enter a state of absolute witnessing in which they see everything as the of — they see behind all of creation. They no longer perceive otherness the way other people do in this world of separation. They recognize that everything comes from — the good and the bad — and so they see it all as good. For the moment, everything is good. That is what that experience means. Even though good and bad exist, it all comes from, and because it all comes from, it is all, for the moment, good — because even the bad holds wisdom: it causes growth, purification, and drawing closer to. So even the bad is seen as good. This is why says:"
+        },
+        {
+          "idx": 80,
+          "blockIndex": 86,
+          "startS": 23023.02,
+          "endS": 23029.94,
+          "text": "Maybe you love a thing and it is bad for you."
+        },
+        {
+          "idx": 81,
+          "blockIndex": 88,
+          "startS": 23029.94,
+          "endS": 23040.82,
+          "text": "And maybe you hate a thing, but it is good for you. And knows, and you do not know. That is the reality of being in a state of or with."
+        },
+        {
+          "idx": 82,
+          "blockIndex": 89,
+          "startS": 23060.12,
+          "endS": 23104.98,
+          "text": "Now, what you need to do is go through the sheet in front of you. You will find many different versions of these, which are called — the morning and evening remembrances. My recommendation, for myself and for all of you, is to do these every day to the best of your ability. If you cannot do all of them, there are certain ones you should absolutely not miss, and I will point those out. Now, this particular collection does not have a specific narration from the Messenger of specifying that he did this, then this, then this in sequence. So whenever you see these compiled collections, the formulations will vary. Sidi Ahmad Zarruq has one — — which is a very fine one, drawn entirely from the Book and the."
+        },
+        {
+          "idx": 83,
+          "blockIndex": 90,
+          "startS": 23115.5,
+          "endS": 23159.02,
+          "text": "One of the things Sidi Ahmad Zarruq says is that you should observe the that came down from the Messenger of before turning to any written by other people. It is permissible to read composed by others, provided those people knew what they were saying — meaning they were known to be true scholars and people of. The had, the had, and these have come down to us. There are that come from other than the Prophet as well. But what Sidi Ahmad Zarruq said is this: if you are neglecting the and that the Prophet told us to observe every day and preferring other people's compositions over them, then something is wrong. That is his point."
+        },
+        {
+          "idx": 84,
+          "blockIndex": 91,
+          "startS": 23162.48,
+          "endS": 23187.74,
+          "text": "And Qadi Abu Bakr Ibn Arabi said, at the end of his book, that primary task with any is to pull them away from the remembrance of altogether. But if he finds them persisting in much remembrance, he will then try to steer them away from the remembrance drawn from the Book and the, tow remembrance composed by other people."
+        },
+        {
+          "idx": 85,
+          "blockIndex": 92,
+          "startS": 23193.6,
+          "endS": 23225.06,
+          "text": "That is strategy. And so the beautiful thing here — and this is the of Abdullah Al-Had, who is from the noble lineage, one of the of Yemen — is that he is considered a of the twelfth century as well. His grandson was one of my teachers, Ahmad Mashhur Al-Had, who wrote, which has been translated into English. I received this from him, and he took it from his father, who took it from his grandfather, who took it from the author himself."
+        },
+        {
+          "idx": 86,
+          "blockIndex": 93,
+          "startS": 23226.64,
+          "endS": 23245.34,
+          "text": "He begins it with. This follows the that anything worth doing, if it does not begin with, is cut off from. So anything that is truly worth doing should be done in the name of, in the name of compassion."
+        },
+        {
+          "idx": 87,
+          "blockIndex": 94,
+          "startS": 23245.34,
+          "endS": 23287.16,
+          "text": "He then begins with, recited three times. This comes from a in which the Prophet said: — is one of you incapable of reading the Qur'an once every day? The Companions asked, \"Who could do that,?\" He replied that Surah al-Ikhlas — — is equivalent to one third of the Qur'an in its weight and meaning. By reading it three times, we hope for the rew of having read the entire Qur'an. It should therefore be read every day — ideally after every prayer, and at the very least in the morning and evening."
+        },
+        {
+          "idx": 88,
+          "blockIndex": 95,
+          "startS": 23287.64,
+          "endS": 23325.16,
+          "text": "The next two are called the. means that which gives you refuge — from, meaning protection. So the are ‏ ‎ and ‏ ‎, and these should be read every day. There is a indicating they should be recited before sleep, after which you cover yourself — a protection from the and the."
+        },
+        {
+          "idx": 89,
+          "blockIndex": 96,
+          "startS": 23330.08,
+          "endS": 23367.16,
+          "text": "He then prescribes reciting, three times, the supplication of seeking refuge in from the of. means to goad someone on — \"come on, do it, do it.\" The of the are those whisperings within the soul urging you tow what you should not do. So in this supplication you seek refuge in from the of."
+        },
+        {
+          "idx": 90,
+          "blockIndex": 97,
+          "startS": 23379.72,
+          "endS": 23419.98,
+          "text": "One of the signs of the end of time is — that people's minds will be overwhelmed by constant whispering, until that is all they hear. When you consider this now, it is striking: so many people have music, films, and television running constantly around them, and all of that is from — all of it, without exception. By exposing yourself to it, you are allowing not merely to whisper but to send visual images stre g into you as well. All of it goes into the heart. In doing so, you are slowly destroying your heart."
+        },
+        {
+          "idx": 91,
+          "blockIndex": 98,
+          "startS": 23424.96,
+          "endS": 23455.2,
+          "text": "People walk around carrying all these images that surface in their minds — songs, jingles, advertising music — and everywhere you go now, in stores and shopping centers, it is all there, constantly bomb ing people. This supplication is a shield against the of. The carries its own impulses as well."
+        },
+        {
+          "idx": 92,
+          "blockIndex": 99,
+          "startS": 23457.04,
+          "endS": 23458.26,
+          "text": "Recited three times:"
+        },
+        {
+          "idx": 93,
+          "blockIndex": 101,
+          "startS": 23463.88,
+          "endS": 23476.52,
+          "text": "\"My Lord, I seek refuge in You from the insinuations of the, and I seek refuge in You, my Lord, lest they be present.\""
+        },
+        {
+          "idx": 94,
+          "blockIndex": 102,
+          "startS": 23477.44,
+          "endS": 23488.96,
+          "text": "You say it all together, three times separately — recite it once, then return to the beginning and recite it again."
+        },
+        {
+          "idx": 95,
+          "blockIndex": 103,
+          "startS": 23489.12,
+          "endS": 23552.14,
+          "text": "As for sports: most sports involve the exposure of. People's flesh that one should not be looking at is on display — shorts that reveal the thighs, and so on. said: ‏ ‎ — and says, do not keep company with those who take their lives as, play and pastime. In fact, they call baseball in this country the national pastime. — — the national pastime."
+        },
+        {
+          "idx": 96,
+          "blockIndex": 104,
+          "startS": 23552.24,
+          "endS": 23599.04,
+          "text": "Now, if you want to go out and actually play some sport, at least you get some physical exercise from it. But to sit and watch — I will tell you honestly: when I was growing up, baseball was my life through high school. It was all I cared about. And I simply cannot watch a game now. You could not pay me to watch a game, and I am completely serious. I loved baseball. Football too. You could not pay me. I was once at someone's house and they were watching the Iranian-American soccer match, and I did unfortunately indulge a little — but it was at someone else's house; I would not do that on my own. I would not waste my time that way. Those things are simply a waste of your life."
+        },
+        {
+          "idx": 97,
+          "blockIndex": 105,
+          "startS": 23606.82,
+          "endS": 23653.44,
+          "text": "You need to ask yourself: how much is an hour of your life worth? How much are two hours worth? People are selling their kidneys now. If someone could buy a year of your life from you, what would you sell it for? Once you begin to realize that you will be accountable not only for your life but for every minute of it — and that life itself, along with health, is the greatest gift has given you after — you start to ask: what are you doing with what has provided you?"
+        },
+        {
+          "idx": 98,
+          "blockIndex": 106,
+          "startS": 23655.82,
+          "endS": 23711.92,
+          "text": "We were created to use our time well. That does not mean you cannot enjoy yourself — there are things, permissible forms of enjoyment. That is precisely why the Prophet, when attending a wedding, asked whether they had brought some entertainment. They said yes. He said that the Ansar love entertainment, and he wanted to show the Jews and the Christians that there is in our religion — that we are not joyless, not prudish, not people who refuse to enjoy themselves or mark occasions. But what is happening now — this entire society has become one vast entertainment machine. People work solely in order to be entertained; they earn money so they can go out and spend it on entertainment. We all need to disengage from that. Wean ourselves away from this society. Just wean yourself — cut the cord. Stop nursing from the breast of and the breast of."
+        },
+        {
+          "idx": 99,
+          "blockIndex": 107,
+          "startS": 23721.5,
+          "endS": 23743.62,
+          "text": "And it is pleasant, no doubt about it — it is pleasant. You sit back and watch a good film for a couple of hours. And then what? There is always an empty feeling afterw, the sense that you have just wasted two hours of your life. Everyone knows this feeling at the end — you watch it, and then what? Why would you do that? It is all a trick. They just trick you into it."
+        },
+        {
+          "idx": 100,
+          "blockIndex": 108,
+          "startS": 23747.66,
+          "endS": 23759.68,
+          "text": "So: — or as it appears in the next passage — — do you think We created you, just for nothing? Did We create you in vain?"
+        },
+        {
+          "idx": 101,
+          "blockIndex": 110,
+          "startS": 23765.12,
+          "endS": 23779.94,
+          "text": "And you will not be returned to Us? You are not going to come back to Us? Exalted is, the King, the Truth. There is no god but He. — the Lord of the Noble Throne."
+        },
+        {
+          "idx": 102,
+          "blockIndex": 112,
+          "startS": 23789.18,
+          "endS": 23792.28,
+          "text": "This is a verse of the Qur'an that the Prophet would recite every day."
+        },
+        {
+          "idx": 103,
+          "blockIndex": 113,
+          "startS": 23799.74,
+          "endS": 23838.46,
+          "text": "Then comes another verse — a supplication: \"O, forgive, have compassion, for You are the best of those who show mercy.\" And then yet another verse the Prophet would recite every day: — \"Glory be to when you enter the evening\" — — \"and when you enter the morning.\" This is the foundation of the said at those two times — — morning and evening are the times to say. ‏ ‎ — \"And His is all praise in the heavens and the earth, in the evening and at midday.\" Scholars have also cited this verse as a proof for the five prayers: corresponds to, to, to and, and to."
+        },
+        {
+          "idx": 104,
+          "blockIndex": 114,
+          "startS": 23861.04,
+          "endS": 23881.26,
+          "text": "As for — \"Forgive, show mercy, for You are the best of those who show mercy\" — is this for oneself alone or for all s? In principle it is general, but when you are making this supplication the is specifically for yourself."
+        },
+        {
+          "idx": 105,
+          "blockIndex": 115,
+          "startS": 23891.18,
+          "endS": 23948.92,
+          "text": "Then comes: — \"He brings the living from the dead and the dead from the living.\" The mention several meanings here: one is the literal example of a chick emerging from an egg, or the an being arising from a dead, inanimate source. But there is also a spiritual meaning — brings out of, and can extinguish. Dead hearts come alive through faith, and living hearts can die by falling into disbelief. The Prophet also said that brings the earth back to life after its death, and that in the same way He will raise us up — and this too points to the heart's capacity for revival. In the Qur'an, the word is used as a traditional — so revives the heart through His remembrance after it has died through heedlessness and forgetfulness of Him."
+        },
+        {
+          "idx": 106,
+          "blockIndex": 116,
+          "startS": 23948.92,
+          "endS": 23970.46,
+          "text": "The Prophet also used to recite this: — three times. That was among his."
+        },
+        {
+          "idx": 107,
+          "blockIndex": 117,
+          "startS": 23987.3,
+          "endS": 24039.62,
+          "text": "Then there is the verse that the Prophet would recite in both the morning and the evening: ‏ ‎ — \"Had We revealed this to a mountain, you would have seen it bled, torn apart by the of.\" Khashya is fear grounded in knowledge — it is different from. A rat can experience, but a rat cannot have. That is why the scholars are described as those who have of, and why the Messenger of said — \"I am the most knowledgeable of you concerning \" — and therefore — the most filled with. What is conveying here is that the carries such a weight of knowledge that even a mountain — an inanimate object — would be shattered and bled by if the were revealed to it, because of the meanings and knowledge contained within it. This is precisely why — deep reflection on the — leads to, a bled and awed awareness of."
+        },
+        {
+          "idx": 108,
+          "blockIndex": 118,
+          "startS": 24067.9,
+          "endS": 24149.7,
+          "text": "then says that these are similitudes He strikes for anity so that they might reflect. Does this mean the mountain has knowledge? Some scholars say that the mountain here is a symbol of a scholar, because in Arabic a great scholar is compared to a mountain — — \"he is a mountain among mountains.\" They would say of someone like Imam al-Shafi'i:. So the meaning is that if this were revealed to anyone of immense knowledge and understanding, it would shatter them. Yet also tells us in the that He offered the trust to the heavens, the earth, and the mountains. Scholars note that begins with the heavens because they are His most awe-inspiring creation in terms of sheer magnitude — the Messenger of is the greatest in terms of, but in terms of awesomeness the heavens surpass everything, and only the astronomer can begin to grasp that. Then comes the earth, then the mountains. And that refusal, scholars say, was not a refusal of."
+        },
+        {
+          "idx": 109,
+          "blockIndex": 119,
+          "startS": 24153.42,
+          "endS": 24211.18,
+          "text": "then says He is — there is no doubt in it — the Knower of the seen and the unseen. means \"the seen,\" but it also carries the meaning of testimony, because everything visible is testifying to. This is why the Prophet said: how extraordinary that a man could disobey, how strange that anyone could disbelieve in Him — — in every movement and every stillness there is always a, a witness. Everything in creation is testifying that is One. So the — this visible world — is, in its very meaning, saying. That is the message the entire world is sending to the an being, and the an being is the one capable of decoding it."
+        },
+        {
+          "idx": 110,
+          "blockIndex": 120,
+          "startS": 24228.86,
+          "endS": 24280.32,
+          "text": "This is why describes Himself as the King, the Holy, the Sanctified, the Complete. here does not mean peace in the ordinary sense — it is wrong to render name as simply \"peace\" in that casual way. is the one who makes others safe, who gives. is the one who oversees everything and holds all things in His control. is the Great, the Powerful. is the Compeller — the One who compels all things and all beings to do what they do. is the Exalted, the Magnificent, the Supremely Great. And — \"Glory be to above all that they associate with Him.\" In Arabic, means: when you say you are declaring that is utterly unlike anything. You are asserting His incomparability."
+        },
+        {
+          "idx": 111,
+          "blockIndex": 121,
+          "startS": 24313.12,
+          "endS": 24393.4,
+          "text": "As for: I prefer not to use certain terms because of their complexity in, but, and represent three aspects of the creative process —, and. Al-K iq is when decides to create: He possesses the, the, and the, and when these three converge, creation comes into being. In ultimate reality this capacity is always present — His power to be is eternally there. When He decides to create, He is — the One who actually brings it into existence. Creation is called, which is why the Prophet is called — the finest of all that the has brought into being. Al-Musawwir is the Fashioner: He shapes and gives form. In the context of a fetus, is the One who determined there would be a an life; is the One who brought about the seed in the man and the ovum in the woman and united them; and is the One who fashions the form — the cells differentiate, the liver becomes a liver, the brain becomes a brain, the spine takes its shape. That is."
+        },
+        {
+          "idx": 112,
+          "blockIndex": 122,
+          "startS": 24393.4,
+          "endS": 24434.2,
+          "text": "In reality, however, there is no linearity in. Imam says these are only facets — and because we are limited, we can only perceive one aspect at a time. is describing for us what is in reality a multi-faceted process, but it is only multi-faceted from our limited vantage point. In truth it is all one; it is all. Attributes are approximations for an understanding, because we exist in time and our intellects are bounded. These are simply different facets of a single creative reality. Is that clear?"
+        },
+        {
+          "idx": 113,
+          "blockIndex": 123,
+          "startS": 24440.68,
+          "endS": 24454.24,
+          "text": "— has the most beautiful names. — everything in the heavens and the earth glorifies Him, and beyond that, without exception, everything — rocks, atoms, all things — is praising. — and He is."
+        },
+        {
+          "idx": 114,
+          "blockIndex": 124,
+          "startS": 24514.98,
+          "endS": 24547.86,
+          "text": "Then: — —. Whether this verse was included based on a or on the compiler's own is unclear. But one of its wisdoms, I think, is this: in a certain sense we are living in an age of. A great flood is coming — and all of us know it. When was building his ark, people laughed at him. Building an ark in this age — preparing for the — invites the same ridicule. People think you are a fool. If you are genuinely concerned about the, people assume something is wrong with you. Even s — they would not say outright that they do not believe in the, because they do not want to make that admission, but all of their actions tell you otherwise. Everything they care about is. And when they see s who are focused on the, they say: \", why don't you do something for yourself? For your? — live for your world as if you will live forever.\""
+        },
+        {
+          "idx": 115,
+          "blockIndex": 125,
+          "startS": 24795.18,
+          "endS": 24837.7,
+          "text": "Next comes: — \"O, I have entered this morning in Your blessing, with good health and with my wrongs veiled by You — — so complete Your blessing upon me, Your, and Your veiling, in this world and the next.\" This is said three times."
+        },
+        {
+          "idx": 116,
+          "blockIndex": 126,
+          "startS": 24837.7,
+          "endS": 24896.14,
+          "text": "The next supplication: the Prophet said that whoever recites it four times receives a rew equivalent to that of freeing a an being from bondage. It goes: — \"O, I enter this morning calling You to bear witness\" — — \"and calling the angels who carry Your throne to bear witness\" — — \"and all of Your angels and all of Your creation to bear witness\" — — \"that You are, there is no god but You, alone, without partner, and that Muhammad is Your servant and Your messenger.\" This is said four times."
+        },
+        {
+          "idx": 117,
+          "blockIndex": 127,
+          "startS": 24918.3,
+          "endS": 24941.28,
+          "text": "Then: — \"All praise belongs to, Lord of all the worlds, a praise commensurate with His blessings and reciprocating all the increase He bestows.\" This encompasses the complete fulfillment of and for all the of. When we asked Habibullah al-Hajj for a — a piece of counsel — to pass on to people, this is the supplication he gave. He would say it frequently:."
+        },
+        {
+          "idx": 118,
+          "blockIndex": 128,
+          "startS": 24963.46,
+          "endS": 24999.6,
+          "text": "Then comes a supplication the Prophet said removes all traces of: \"I believe in the Magnificent, and I reject everything magical and every object worshipped alongside. I have taken hold of the firmest handle\" — which is the, the, and the way of Islam — \"and this handle will never break as long as you hold onto it. There is no separation, and is...\" This is a protective supplication."
+        },
+        {
+          "idx": 119,
+          "blockIndex": 129,
+          "startS": 25015.42,
+          "endS": 25070.82,
+          "text": "The following supplication: the Prophet said that whoever recites it three times receives the of, because you are saying: — \"I am content with as my Lord\" — — \"and with Islam as my \" — — or, in some recitations — — \"and with Muhammad as my Prophet and Messenger.\" As for adding: it is not found in the transmitted wording, but adding it out of — out of reverence — is permissible, and this is called, as has been discussed. Just as 'Ali refused to remove the words \" \" from the treaty of Hudaybiyyah, one may add out of the same spirit of reverence. Both forms exist, but the actual wording transmitted in the is.."
+        },
+        {
+          "idx": 120,
+          "blockIndex": 130,
+          "startS": 25078.36,
+          "endS": 25102.64,
+          "text": "Then the next supplication: the Prophet said to recite it seven times in the morning and seven times in the evening — — \" is enough for me; there is no god but Him. I have placed my trust in Him, and He is the Lord of the magnificent throne.\" Seven times."
+        },
+        {
+          "idx": 121,
+          "blockIndex": 131,
+          "startS": 25110.48,
+          "endS": 25180.64,
+          "text": "Then: — a concise prayer upon the Prophet. We know from that Jibril brought the Prophet the glad tidings that whoever sends one prayer upon him receives ten times the of in return. So the instruction here is to do it ten times — which equals a hundred instances of upon you. It is preferable to send prayers upon the Prophet at least a hundred times in the morning and a hundred times in the evening. Muhammad, for an extended period of his life, would do it five thousand times a day as a spiritual practice. For fourteen years he maintained a practice of supplication twice daily, a of the once daily, and one hundred and fourteen thousand recitations of every single day. Those who were present said that when he emerged from his, people would make simply by seeing him."
+        },
+        {
+          "idx": 122,
+          "blockIndex": 132,
+          "startS": 25219.94,
+          "endS": 25242.52,
+          "text": "He lived in Fes at a, and he had a room there — a room he occupied so long and so deeply that he memorized one of the most demanding books of, a multi-volume work, entirely by heart. He was a great scholar and a. But people talked — they wondered why he never left that room. They assumed he must be hiding treasure up there, some gold he did not want anyone to find. So they went to his father to persuade him to go up, because he would not allow anyone to enter, and there was a ladder to reach it. His father came up, and he let him in — and when his father entered, he found the word — \"death\" — written across every wall. There was nothing else in the room. His father understood: he realized that some people are in a world entirely their own, and others simply cannot comprehend it. That man was in a completely different realm —."
+        },
+        {
+          "idx": 123,
+          "blockIndex": 133,
+          "startS": 25282.24,
+          "endS": 25344.14,
+          "text": "As for the form of the prayer on the Prophet: if you say then the verb is with a. But if you say — like that — then carries a, because this is the, the form of supplication. Even though it uses what looks like a past-tense verb, it is actually a supplication — like when you say, you are saying \"may have mercy on him,\" but you use the past tense — as if it has already been accepted. Similarly, is said of the in the past tense, though you could equally say — using the direct form of. So with the direct form — the or — you would say with a. There are various forms one may use; this particular one is shorter and so lends itself to higher volume of repetition. I believe this is the that the used."
+        },
+        {
+          "idx": 124,
+          "blockIndex": 134,
+          "startS": 25363.75,
+          "endS": 25387.05,
+          "text": "After that comes a supplication in which the Prophet asked for good surprises and sought refuge from bad ones — being something that happens suddenly and unexpectedly. So you are asking to let only good surprises reach you in your day, and to shield you from the harmful ones."
+        },
+        {
+          "idx": 125,
+          "blockIndex": 135,
+          "startS": 25397.41,
+          "endS": 25500.2,
+          "text": "Now we come to. The Prophet said — and it is in the — that this is the, the foremost of all ways of seeking forgiveness, the best form in which a person can ask for it. You say: \"O, You are my Lord; there is no god but You. You created me and I am Your servant. I am upon Your — the covenant of Islam — and Your promise to forgive me and admit me into, to the best of my ability.\" In other words: as best I am able, I am doing what You have commanded me to do. \"I seek refuge in You from the evil I have done. I return to You, acknowledging that all my blessings are from You — I am returning them to You, admitting they are Yours entirely. And I take full responsibility for my wrong actions: they are mine, I committed them, I admit them. So forgive me, for none can forgive wrong actions but You.\" That is this supplication."
+        },
+        {
+          "idx": 126,
+          "blockIndex": 136,
+          "startS": 25509.96,
+          "endS": 25548.34,
+          "text": "Then: \"Whatever willed came to be, and whatever He did not will did not come to be\" — this is sometimes said in times of, calamity, as an acknowledgement and surrender. \"And I know that is powerful over all things, and that encompasses all things in His knowledge.\""
+        },
+        {
+          "idx": 127,
+          "blockIndex": 137,
+          "startS": 25551.68,
+          "endS": 25621.6,
+          "text": "\"I seek refuge from the evil of my own soul and from the evil of every creature that You hold by its forelock.\" This is a reminder of: every creature is in grip. Their evil reaches you only because — who holds them by the forelock — has permitted it. So when you seek refuge in from the evil of others, will protect you from that evil. There are many that speak to this, and it is a powerful supplication. There is also a of reciting it forty-one times before. These two names invoked in it are very powerful names."
+        },
+        {
+          "idx": 128,
+          "blockIndex": 138,
+          "startS": 25621.6,
+          "endS": 25662.36,
+          "text": "\"I am seeking through Your mercy, and I am seeking safety from Your punishment — rectify all of my affairs and do not leave me to my own soul, and do not leave me to anyone from Your creation, even for the blink of an eye. Be my sole reliance — do not make me dependent on anyone other than You.\" This does not mean you will never receive help from others — but you recognize that all help comes from alone. That is the meaning: do not let me think the help is coming from other than You."
+        },
+        {
+          "idx": 129,
+          "blockIndex": 139,
+          "startS": 25672.3,
+          "endS": 25777.06,
+          "text": "may be pleased with him, was once c lenged by an atheist who told him he did not believe in. said to him: \"Have you ever been at sea?\" The man said yes — and then told him what had happened: he had been on a boat when a violent storm struck, so severe that the vessel was torn to pieces. All the sailors drowned. He alone survived, clinging to a plank of wood. Then the ocean took even the plank from his hands, and he had nothing. said: \"What did you do?\" He said: \"The sea flung me to the shore and I survived.\" said to him: \"When you bo ed that boat, you put your trust in the boat and in the sailors. When took those away from you, you put your trust in that little piece of wood. And when you lost the wood — where did you put your trust then? Did you hope to survive?\" He said: \"Yes, I hoped that I would.\" said: \"Who did you hope in?\" Because in Arabic, is a transitive verb — requires an object. You cannot hope in the abstract; hope must have an object. So he pressed him: \"From whom were you hoping for safety?\" Then he said: \" — O servant of — the One who took away every means you had, and then saved you despite the absence of every means — that was.\" That is — \"do not leave me to myself or to any of Your creation for even the blink of an eye.\" — not even less than that."
+        },
+        {
+          "idx": 130,
+          "blockIndex": 140,
+          "startS": 25812.18,
+          "endS": 25957.36,
+          "text": "— Sheikh al-Khatri told me that someone once came to him without a job, and he gave him this supplication. Within a few days, that person had found work. It comes from a in which a man came to the Prophet and said: \", I am crushed by debts and overwhelmed by and.\" The Prophet gave him this supplication, and the man said he began reciting it and resolved all his debts and lifted his grief. So: — \"O, I seek refuge in You from and \" — — \"and I seek refuge in You from and.\" is anxiety about the future — worry over what has not yet come. is grief over the past — sorrow over what has already gone. One concerns the future, the other the past. And says in the: — the friends of have no fear about the future nor grief about the past. This is about entering the present moment, because there is no past or future for. When you are in a state of awareness of, the past holds no anxiety and the future holds no dread — you cannot change the past, and the future is entirely in hands. All you have is the present. So there is no point in carrying grief about the past or anxiety about the future."
+        },
+        {
+          "idx": 131,
+          "blockIndex": 141,
+          "startS": 25957.36,
+          "endS": 26000.82,
+          "text": "is the condition of someone who has the desire but lacks the ability — without. is the opposite: having the ability but lacking the will — without. Both are states to seek refuge from. You want to be someone who has both: the ability to do what needs to be done, and the will to do what should be done."
+        },
+        {
+          "idx": 132,
+          "blockIndex": 142,
+          "startS": 26000.82,
+          "endS": 26109.9,
+          "text": "— \"I seek refuge in You from and.\" is cow ice — the Arabic word comes from the image of curdled cheese: a cow, when firmness is required, collapses. They lack, steadiness. You are seeking refuge from the inability to give yourself with when it is called for. is miserliness — the cow ice of wealth. So is the cow ice of the self and body; is the cow ice of wealth and property. And says: — \" has purchased from the believers their selves and their wealth, and in exchange is Paradise.\" What He purchased requires with both — their wealth and their selves. If you are a cow you cannot give yourself in with your body. If you are a miser you cannot give in with your wealth. So and are the two things that prevent you from fulfilling what has purchased from you — which is why seeking refuge from them is so important."
+        },
+        {
+          "idx": 133,
+          "blockIndex": 143,
+          "startS": 26116.44,
+          "endS": 26168.08,
+          "text": "— \"I seek refuge in You from overwhelming debt and from being overpowered by men.\" These two are paired deliberately. If you study history, you will find that one of the primary means by which the gained control over the s was through debt. They would lend s money — on interest — and when the s could not repay, the debt had compounded to a point where they could no longer meet their obligations. That is when the demands for concessions began. Debt is a mechanism of control."
+        },
+        {
+          "idx": 134,
+          "blockIndex": 144,
+          "startS": 26172.66,
+          "endS": 26225.1,
+          "text": "In this country, the entire economic system is designed to put people into debt. The tax laws are structured that way. The banking system was built that way — because those who hold your debt hold power over you. They make people into economic slaves. People will resist physical enslavement — they will rebel against it. But economic slavery is different: it comes with guilt. In German, the word for debt — Schuld — is the same word for guilt. When you are in debt, you feel you owe something; you feel diminished. And through that sense of obligation, people become enslaved. This is a deep wisdom in seeking refuge from debt and from being overpowered by others — because the two go together."
+        },
+        {
+          "idx": 135,
+          "blockIndex": 145,
+          "startS": 26262.68,
+          "endS": 26286.44,
+          "text": "This is also why the scholars said: if there were anything better to ask for than — and in its full meaning encompasses Islam itself, as well as spiritual, physical, and economic well-being — the Prophet would have told his uncle to ask for it. So asking for is among the most comprehensive of supplications."
+        },
+        {
+          "idx": 136,
+          "blockIndex": 146,
+          "startS": 27334.59,
+          "endS": 27359.53,
+          "text": "And this is why, when went to and found wearing a magnificent robe, richly ornamented, was troubled by it."
+        },
+        {
+          "idx": 137,
+          "blockIndex": 147,
+          "startS": 27367.93,
+          "endS": 27384.23,
+          "text": "And said to: these are people — if you come to them dressed the way we dress in the desert, they will think nothing of you. That was the wisdom behind it. did remove his robe and put on a finer one, then mounted a — but then he dismounted, put his own robes back on, and refused. He simply said: gave us dignity through our Islam, not through outw trappings. And if we seek honor in anything other than that, will iliate us."
+        },
+        {
+          "idx": 138,
+          "blockIndex": 148,
+          "startS": 27388.87,
+          "endS": 27409.23,
+          "text": "Remarkably, in Jerusalem, their own books had foretold that the man who would open the city would have — I believe — seventy-three patches on his robe. When they counted the patches on robe, the number matched what was written in their books. Seventy-two? Seventeen? I am not entirely certain of the exact figure."
+        },
+        {
+          "idx": 139,
+          "blockIndex": 149,
+          "startS": 27447.51,
+          "endS": 27470.23,
+          "text": "Now, reg ing the last point someone raised — about group: there is a scholarly disagreement on this. Some scholars considered it a blameworthy innovation — a — meaning not forbidden outright, but disapproved. What troubled them was the absence of a clear narration showing that the Messenger of or the Companions practiced it in that specific form. Imam al-Shafi'i, on the other hand, considered it permissible and saw nothing wrong with it. He drew on indicating that there was a teacher with a group of learners, and that the Prophet sat among those learning and said, \"I was sent as a teacher\" — though he did not rebuke the other group either. However, because of the weakness of that particular narration, it is difficult to derive a firm ruling from it alone."
+        },
+        {
+          "idx": 140,
+          "blockIndex": 150,
+          "startS": 27491.81,
+          "endS": 27516.31,
+          "text": "There is, however, a completely sound stating that has traveling angels — — who roam the earth searching for circles of remembrance. When they come upon one, they descend upon it. Then, when they return to, He asks them — and this is to teach us, of course, knows — \"How did you find My servants?\" And they reply: \"We found them saying...\" The indicates they were gathered in a."
+        },
+        {
+          "idx": 141,
+          "blockIndex": 151,
+          "startS": 27525.57,
+          "endS": 27550.95,
+          "text": "Some scholars derived from this that it is permissible to gather for, but not necessarily to recite in unison, since the does not specify a single voice. Other scholars held that there is no prohibition on reciting in unison, since itself is permissible and no clear prohibition of that form exists. They noted that there are showing the Companions did say certain things together — the and the like — so collective vocalization is not without precedent."
+        },
+        {
+          "idx": 142,
+          "blockIndex": 152,
+          "startS": 27555.79,
+          "endS": 27587.23,
+          "text": "These are matters. The majority of scholars, particularly the later ones, permitted group. The actively encouraged it in Morocco, including the communal recitation of the in a single voice. They established a practice in Morocco that continues to this day: completing the entire every month in the mosques. The initiated this because they observed that people had stopped reading the — and by setting a collective recitation in the mosque, people would join in simply because it was there and it was a good thing to do. Their reasoning was that it was better for people to read and complete the than not to read it at all."
+        },
+        {
+          "idx": 143,
+          "blockIndex": 153,
+          "startS": 27604.37,
+          "endS": 27661.07,
+          "text": "Ibn al-Hajj disagreed with this in his. On the question of poetry, he noted that the Prophet loved to hear it — there are many sound on this — and that he would listen and say, in effect, \"Yes, let us hear more.\" The Arabs used to sing their poetry — the — in their gatherings. So in the tradition of, such as one finds in Palestine, Syria, and Morocco, there are sung poems in praise of and of the Messenger of. That is permissible, and it is in fact a wholesome form of entertainment — beautiful to listen to when done well, with good voices. People would be far better served listening to that than to music and the like."
+        },
+        {
+          "idx": 144,
+          "blockIndex": 154,
+          "startS": 27662.49,
+          "endS": 27682.75,
+          "text": "As for a translation — I do not have one written down, but I just gave you one, more or less, so it is on tape. It would need to be polished, since I rendered it on the spot. But even without the meanings, these things carry benefit."
+        },
+        {
+          "idx": 145,
+          "blockIndex": 155,
+          "startS": 27683.89,
+          "endS": 27705.05,
+          "text": "On the question of what Abu Hanifa said about — as far as I know, the Hanafi accepts group. And historically, s did practice it. If you study the early books, you will find that group was indeed practiced."
+        },
+        {
+          "idx": 146,
+          "blockIndex": 156,
+          "startS": 27707.71,
+          "endS": 27738.17,
+          "text": "does not do it in that form — he is like Ibn al-Hajj in the, cautious about anything that even carries a scent of. But he does not make of others, because he is a scholar and he knows the ruling. He himself simply exercises caution — that is all. And yet if you spend time with him, all he does is. Being in his company is itself a form of group, because everyone around him is in a state of remembrance. So."
+        },
+        {
+          "idx": 147,
+          "blockIndex": 157,
+          "startS": 27754.99,
+          "endS": 27767.21,
+          "text": "The essential point is: remember. Those who remember standing, sitting, and reclining on their sides — that is the stand. And there is a that Sheikh Khatri mentioned in which the Prophet said: \"S l I not tell you what the best of your actions is, the purest in the sight of your Lord, the highest in your ranks, better for you than spending gold and silver, and better for you than that you should go out and strike the necks of the enemy and they strike yours?\" They said: \"Tell us, O Messenger of.\" He said: \"The remembrance of —.\""
+        },
+        {
+          "idx": 148,
+          "blockIndex": 158,
+          "startS": 27845.01,
+          "endS": 27846.91,
+          "text": "The scholars stipulate, of course, that if a city is under attack, takes precedence over everything. So these matters must always be understood in context. If defenders are needed at the walls and a group instead sits saying \" is better\" — that is ignorance and foolishness. Everything has its context. But in its proper place, is the highest act. This is why the scholars have said that performing voluntary — when the communal obligation of is already being fulfilled — is superior to going out on voluntary. The reason is fundamental: is a means to an end, and an end always ranks above the means. We were not created to kill people. We were created to remember. But if people are preventing us from remembering, killing us for it, then we must go out and stop them — and that is the point."
+        },
+        {
+          "idx": 149,
+          "blockIndex": 161,
+          "startS": 27867.29,
+          "endS": 27896.95,
+          "text": "\"O you who believe, answer and His Messenger when they call you to what brings you to life.\" The scholars have said, nearly by consensus, that this is interpreted as referring to — for that is what brings this back to life. So let no one belittle or the station of the. The is honored in this, and all of us should carry within ourselves a longing for. The Prophet said that whoever dies and never even entertained in his heart the thought \"I wish I could go on \" dies a form of spiritual death — a."
+        },
+        {
+          "idx": 150,
+          "blockIndex": 162,
+          "startS": 27919.77,
+          "endS": 27943.11,
+          "text": "So is immense. I am not belittling it in any way. But what people have forgotten is this: what will give s the certainty — the — they need when they go out to fight, and what will make them capable of fighting solely for sake, is of. Because there are many s today who want to go out and fight simply because they are angry. Truly. They are angry at the world, angry at the Americans, angry at one thing or another. And there is much in the world that is legitimately angering. But anger alone is not spirituality. It is not a purified state of the. Dhikr is what rectifies the heart and elevates its motivation from the self to. That is the work."
+        },
+        {
+          "idx": 151,
+          "blockIndex": 163,
+          "startS": 27984.77,
+          "endS": 28006.69,
+          "text": "As for the — that is another matter. Personally, I believe the scholars settled these questions centuries ago, and it is genuinely saddening that we are still debating them. The formal celebration of the on a fixed date was not something the first community practiced in that organized form. But there is no doubt that they were celebrating him every single day of their lives. There is a sound in which a man asked the Prophet whether he could fast on Mondays, and the Prophet replied: \"That is the day I was born\" — indicating it was an excellent day to observe the fast. That is a sound."
+        },
+        {
+          "idx": 152,
+          "blockIndex": 164,
+          "startS": 28011.93,
+          "endS": 28015.33,
+          "text": "There is also a in which the Prophet mentioned that Abu Lahab — the bitter enemy of Islam — is given a small relief from punishment every Monday in, amounting to"
+        },
+        {
+          "idx": 153,
+          "blockIndex": 165,
+          "startS": 28017.51,
+          "endS": 28090.17,
+          "text": "water between his t b and forefinger, because he freed a slave girl on the day the Prophet was born. In other words, even Abu Lahab's spontaneous joy at the Prophet's birth earned him a weekly reprieve from torment. So one should never say \"we do not celebrate the Prophet's birthday.\" And I have he people say that. There is a that a man will utter a word without thinking, and it will carry him further than he imagines. You should never say that. If you wish to frame it in terms, you may say: \"To celebrate his birthday on a specific fixed date is something the did not formalize.\" But to say \"we do not celebrate his birthday\" — no. Never. We celebrate his birth. We should be happy every day of our lives that he was born, because it is only through him that we came to know, and it is only through his sacrifice that we have the today. We should celebrate every single day that he came into this world."
+        },
+        {
+          "idx": 154,
+          "blockIndex": 166,
+          "startS": 28095.15,
+          "endS": 28112.67,
+          "text": "Holding a gathering on the twelfth of is a later innovation, yes. Most scholars called it a — a praiseworthy innovation. Some scholars were against it; that is true. But the majority were not. Imam al-Suyuti wrote a saying it was a good thing and that people should do it. You can find that in his collected."
+        },
+        {
+          "idx": 155,
+          "blockIndex": 167,
+          "startS": 28113.97,
+          "endS": 28166.49,
+          "text": "So if you choose not to observe it in that form, that is fine. But consider the person whose priorities are entirely disordered: he attends the celebration once a year and does nothing the Prophet commanded for the rest of the year. That is truly shameful. If you want to celebrate the Prophet, do what he told you to do — that is what will genuinely honor him. Coming together once a year for a celebration and then ignoring his guidance for the remaining three hundred and sixty-four days is a contradiction. What is genuinely good is to hear the, and traditionally that is what these gatherings consisted of: reciting the account of his birth and his — the noble qualities and virtues of the Messenger of. That is a sound and beneficial practice."
+        },
+        {
+          "idx": 156,
+          "blockIndex": 168,
+          "startS": 28178.35,
+          "endS": 28185.41,
+          "text": "On the question of which date the Prophet was actually born — that is a separate dispute between Eastern and Western scholarship. The argument over the precise date is one of the classical objections raised against fixing the celebration to a single day. Time magazine even ran an article about this once, with a photograph of someone celebrating the Prophet's birthday as though it were literally a birthday party — candles and all."
+        },
+        {
+          "idx": 157,
+          "blockIndex": 169,
+          "startS": 28191.79,
+          "endS": 28193.73,
+          "text": "There you go. We should pray."
+        },
+        {
+          "idx": 158,
+          "blockIndex": 170,
+          "startS": 28279.8,
+          "endS": 28335.22,
+          "text": ". I think it is a blessing that we have come to the end of the, and for most of us I believe this is the first day of — which is truly the month of. It feels entirely fitting that we should conclude the study of the at the opening of this month, because is the greatest practical school for implementing everything we have learned over the past twelve weeks about the heart. The purpose of is to purify the heart with — that is its purpose, that is its blessing, and that is its secret: it exists to purify the heart."
+        },
+        {
+          "idx": 159,
+          "blockIndex": 171,
+          "startS": 28335.22,
+          "endS": 28369.74,
+          "text": "I want to say something about — I'm not sure how many of you were here last night — how many people saw the moon last night? How many went out to look for it? About the same number. For those who were here, I think we all had a truly wonderful experience. Were you here with us? Who was here? Wasn't that a remarkable experience?"
+        },
+        {
+          "idx": 160,
+          "blockIndex": 172,
+          "startS": 28369.74,
+          "endS": 28429.28,
+          "text": "I was also thinking this morning about yesterday and seeing the, and something struck me that I find to be a genuinely interesting perspective. When we saw the last night for the first time, my initial reaction was uncertainty — I didn't know whether it was really there. I actually wondered whether my eyes were playing tricks on me, because it seemed to come into existence and then vanish again, flickering in and out. I realized that when we first went out, there was nothing there but the light of the sun. We had to wait. Then Venus appeared, and then, after some time, we were finally able to see that small sliver."
+        },
+        {
+          "idx": 161,
+          "blockIndex": 173,
+          "startS": 28442.68,
+          "endS": 28474.04,
+          "text": "What I came to understand is this: says that they ask you about the new moons, and directed the Messenger of to tell them that these moons are simply markers of time. But the explain that the reason people asked about the was that they were trying to understand the mechanism — how does this new moon come into being? The reason for that question is that people in antiquity actually believed that every moon was literally a new moon: that it disappeared completely and then began again from nothing. They wanted to understand how that was happening."
+        },
+        {
+          "idx": 162,
+          "blockIndex": 174,
+          "startS": 28478.14,
+          "endS": 28520.9,
+          "text": "What I realized is that, in His response, did not negate their belief — He simply explained why the moon is there. It is their, their appointed times: a way of marking time for people, for, to determine the times of and. And one of the things that Qadi Abu Bakr ibn al-Arabi said in his is that the secret of this using a lunar calendar rather than a solar calendar is that the sun governs worldly benefits while the moon governs otherworldly benefits. So the orientation of time for this is tow the next world, not tow this one."
+        },
+        {
+          "idx": 163,
+          "blockIndex": 175,
+          "startS": 28527.26,
+          "endS": 28634.32,
+          "text": "What I also realized is this: if you look at it from a purely direct, non-abstract perspective, what you witness when you watch the new moon is what philosophers call emergence — and this is the real problem for those who deny the Creator. How do things come into existence out of nothing? Why is there something rather than nothing? That is their problem. And there you are, sitting, looking at the sky, and suddenly this thing emerges out of nothing right before your eyes — because you cannot see it initially. The reason you cannot see it is the sun: the sun's light is too strong. The reason you are then able to see it is that the sun's light has dimmed. And what emerges is reflected light. What you are seeing is reflected light — and really, the entire creation is reflected light. is the source; the entire creation is reflected light from. The only reason we can see it is that allows it to exist. He is the one who brings it into existence and the one who takes it out of existence. What you are witnessing is this extraordinary event: is letting you see reflected light come into being. That is the new moon. That is why it is called — the birth. Just as a child must be born, this is the birth of reflected light, which is creation itself, because all of it reflects. The whole thing is a reflection of."
+        },
+        {
+          "idx": 164,
+          "blockIndex": 177,
+          "startS": 28657.37,
+          "endS": 28673.96,
+          "text": "How strange that we can disobey — and stranger still that anyone can disbelieve in Him — when in every movement and every stillness there is a clear witness for, and in everything itself there is a sign."
+        },
+        {
+          "idx": 165,
+          "blockIndex": 178,
+          "startS": 28676.24,
+          "endS": 28756.64,
+          "text": "So the creation sets up these meanings in these images, and what we are doing is trying to decode what those meanings are. It is a genuine gift to witness the birth of the new moon — a real gift. I think people felt that last night, because instead of you had. The speaks of three levels, and. Imam 's example is that is like hearing a trustworthy person tell you there is a fire in the forest — you believe them, but that is not the same as seeing the fire yourself. When you go and actually see it, that is. And if you go and touch it, that is. The new moon is an amazing thing in that reg. Imam recorded a in which the Prophet, said: — the best of servants are those who are vigilant about new moons and prayer times as a means of remembering. And I think for all of us last night, the natural impulse when we saw it was precisely to remember —. And for me personally, there was a real of that entered my heart — a feeling, a surge of energy — because it was. That was the moon. It is a real gift."
+        },
+        {
+          "idx": 166,
+          "blockIndex": 179,
+          "startS": 28781.76,
+          "endS": 28815.38,
+          "text": "Anyway, I just wanted to share that with you. So let us review what we covered. We went through the diseases of the heart: we began by looking at the importance of, and then we ex ed the of knowing the and their treatments — which, as Imam stated, constitutes a — and then he went through the diseases of the heart alphabetically. He obviously gives the most attention to those that matter most. The scholars who have narrowed it down say that if you can control roughly four or five of these diseases, the rest become relatively easy to remove. But he began with."
+        },
+        {
+          "idx": 167,
+          "blockIndex": 180,
+          "startS": 28840.52,
+          "endS": 28856.78,
+          "text": "is a month that is truly suited to curing. They said that the Prophet, was the most generous of an beings and was even more generous during — described as, like a rain-bearing wind that brings gifts and causes things to flourish. So there is. Then there is —..."
+        },
+        {
+          "idx": 168,
+          "blockIndex": 181,
+          "startS": 28866.4,
+          "endS": 28881.6,
+          "text": "being delighted by the, by one's livelihood. The believer's, his joy, is — when he breaks his fast and when he meets his Lord. So that stands in direct contrast to."
+        },
+        {
+          "idx": 169,
+          "blockIndex": 182,
+          "startS": 28888.02,
+          "endS": 28920.8,
+          "text": "Then there is. is a time when you are supposed to address — enmity between hearts. The Prophet, said: — the best is in — and in another: — the best is rectifying relations between people. So the best of all would be reconciling between people during. This is the time to remove from your heart tow others."
+        },
+        {
+          "idx": 170,
+          "blockIndex": 183,
+          "startS": 28921.44,
+          "endS": 28938.58,
+          "text": "Then there is — oppression and transgression against others. You are fasting, and the Prophet, told us: if someone provokes you or fights with you —: — while you are fasting, say: I am fasting. In other words: do not fight back. Tell them you don't want to go there. Say: I'm fasting."
+        },
+        {
+          "idx": 171,
+          "blockIndex": 184,
+          "startS": 28941.82,
+          "endS": 28982.62,
+          "text": "Then there is — love of position and status. is about gaining a position with. The secret of fasting is that it is the only act of that no one can tell you are performing while you are performing it. If you give charity, that is a visible act. If you pray, that is a visible act. If you make, that is visible. All the acts of that has given us can be seen outw ly. Fasting alone is invisible — you can be standing next to someone who is not fasting and someone who is fasting, and only knows which is which. You can be among all these non- s; they see you and have no idea you are fasting. You look like everyone else. The point is that the you are seeking is with, not with people. That is the cure for."
+        },
+        {
+          "idx": 172,
+          "blockIndex": 185,
+          "startS": 28991.16,
+          "endS": 29019.02,
+          "text": "Then there is. is also about weaning yourself from the. The is like a child: if you neglect to wean it, it grows up clinging to what it loves — love of — but if you wean it, it becomes weaned. is the time to wean the soul from the and from the love of the."
+        },
+        {
+          "idx": 173,
+          "blockIndex": 186,
+          "startS": 29021.2,
+          "endS": 29051.16,
+          "text": "Then there is — loving to be praised for things you have not done. is the time to witness the shortcomings of your own actions, to genuinely recognize that you have wasted the whole year, and that now it is time to make up for it. The you didn't do in the previous year — make it up now. The you neglected — give it now. What you are trying to do is perform actions that actually warrant praise. So this disease too has its cure in."
+        },
+        {
+          "idx": 174,
+          "blockIndex": 187,
+          "startS": 29051.16,
+          "endS": 29085.08,
+          "text": "Then there is — envy. To purify the heart from envy. But if you can conquer desire — because envy arises from desire — then you can remove envy from your heart. And desire, according to Imam, is rooted in the two appetites of the and the. If you can master those two — not destroy them, but bring them under control — then all the other desires become manageable."
+        },
+        {
+          "idx": 175,
+          "blockIndex": 188,
+          "startS": 30197.59,
+          "endS": 30307.27,
+          "text": "Then he mentions that what we are really doing in this month is defeating the enmity of by taking control of all the things uses to wage war against the of for an beings — His will for them, which is that they believe in Him and follow Him. That is why he mentions that says: if you give victory to through fasting and conquering, will give you victory and make you firm — and that is what you want. is part of — steadfastness. We are learning both. And by doing that, says He is with the. He also mentions the that will not take away His blessings from a people until they become preoccupied with their. And you can see that in this society — it is the best example of a pleasure culture. Everything is oriented tow gratification. The idea of fasting is completely alien to most people now because they eat all day long. Not that long ago, people did not graze all day — there were no snack machines everywhere. This grazing culture is something new."
+        },
+        {
+          "idx": 176,
+          "blockIndex": 189,
+          "startS": 30329.31,
+          "endS": 30360.63,
+          "text": "Now, reg ing the being chained in — it is only the, meaning the bad, as the indicates. And some of the, like Imam al-Qadisi al-Farsi who was a scholar, was asked why people still experience bad thoughts in. His explanation was that the s indicate only the are locked up, while the from among the believing are not. He admitted, however, that he had no textual basis for that, and said that it seems a high probability — and knows best."
+        },
+        {
+          "idx": 177,
+          "blockIndex": 190,
+          "startS": 30378.25,
+          "endS": 30397.47,
+          "text": "On a different note, it would genuinely be interesting to conduct serious statistical studies on whether crime rates go down in. That would require the kind of resources and stability you have when there is a functioning and peace in the land — but someone should attempt a PhD thesis on it and convince a university to fund the research."
+        },
+        {
+          "idx": 178,
+          "blockIndex": 191,
+          "startS": 30409.48,
+          "endS": 30475.18,
+          "text": "Now, a couple of important points. Imam, goes into the issues of fasting, which we covered last night. There are two levels of: the outw, which is the concern of the, and the inw, which is the concern of the — the. The outw ensures that your outw fasting is legally valid. The inw ensures that your inw fasting is sound. A makes this very clear, in which the Prophet, said that many people who fast gain nothing from their fast except hunger and thirst. Their outw fast may be correct, but inw ly they are breaking their fast constantly — because if you are backbiting, and doing all these things, you are breaking the fast of the heart."
+        },
+        {
+          "idx": 179,
+          "blockIndex": 192,
+          "startS": 30478.74,
+          "endS": 30498.44,
+          "text": "He describes three types of fasting: — the fast of the general public; — the fast of the elect; and — the fast of the elect of the elect."
+        },
+        {
+          "idx": 180,
+          "blockIndex": 193,
+          "startS": 30498.44,
+          "endS": 30520.74,
+          "text": "The fast of the common people is simply restraining the stomach and the genitals from pleasure during the daylight hours. That is the fast any is capable of observing."
+        },
+        {
+          "idx": 181,
+          "blockIndex": 194,
+          "startS": 30540.3,
+          "endS": 30636.54,
+          "text": "The fast of the elect is — gu ing the ears, the eyes, the tongue, the hands, and the feet. Remember that Ibn 'Ashir, speaks of the seven — the seven limbs — for which we are responsible: the eyes, the ears, the tongue, the hand, the stomach, the genitals, and the feet. Two of those seven are addressed by outw fasting — the stomach and the genitals — and so the person who abstains from food and sexual relations has gu ed two of the seven. These are called the, or the: the entrances of. Ibn al-Qayyim, noted that the an body is like a country: the capital is the heart, and the borders are the seven limbs. You must gu those seven limbs with vigilance. The heart is the one that sends out the command to gu the limbs — it dispatches the armies to the borders. enters the heart through one of those seven things. So the point of fasting is to protect the borders during and gu them so that the heart has a chance to draw near to."
+        },
+        {
+          "idx": 182,
+          "blockIndex": 196,
+          "startS": 30640.6,
+          "endS": 30662.22,
+          "text": "Fasting is prescribed so that you may learn. And —"
+        },
+        {
+          "idx": 183,
+          "blockIndex": 198,
+          "startS": 30682.08,
+          "endS": 30730.68,
+          "text": "— the Prophet, said: — is here, pointing to his heart, three times. So resides in the heart. What you are doing through fasting is protecting the heart — by gu ing the entrances through which would enter it. And has helped you: He has placed constraints on the, giving you tremendous assistance this month. He has also helped by making it obligatory to abstain from food and relations — the two most fundamental sources of temptation. But He left the rest to us, because there must be some. It is up to us to gu the eyes, the tongue, the ears, the hands, and the feet. That is the fasting of the: they fast with all seven limbs. You gu your tongue, gu your eyes, gu your hands, gu your feet. Do not look at the. Do not speak the. Do not listen to the. If someone starts to backbite in your presence, protect yourself — don't let it reach your ears. Gu your fast."
+        },
+        {
+          "idx": 184,
+          "blockIndex": 199,
+          "startS": 30758.0,
+          "endS": 30793.2,
+          "text": "The of the Prophet about was: — O, give us safely, and protect from our evil. You do not want to receive any portion of your evil. You want to receive 's portion of good. This is why carries what is known as — the sanctity of time. Wrong action committed in is graver than wrong action at other times, because has given this month a sanctity that must be honored. And you honor it by refraining from what has forbidden."
+        },
+        {
+          "idx": 185,
+          "blockIndex": 200,
+          "startS": 30850.93,
+          "endS": 30961.01,
+          "text": "One of the things has told the an being is that we are to deliver the to those who are entitled to it — that is one of the signs of the believer. The believer gives back what has been entrusted to him. The word comes from the same root as. A person who has no has no. has given us a trust: our sight, our hearing, our tongue, and above all the heart itself, which generates all the actions of the other limbs. You are — responsible — for all of them. They are trusts that has placed in your care, and you must return the on, returning it intact, not having corrupted it. Fasting is teaching us how to honor the trust and return it to Him the way He wants it returned: the tongue free of slander, the ears free of what is, the eyes free of what is, the hands free of acts, the feet free of walking tow what is, the genitals gu ed, and the stomach free of consuming what is. That is what wants. And the through which He is teaching us to achieve this — is fasting."
+        },
+        {
+          "idx": 186,
+          "blockIndex": 201,
+          "startS": 30995.06,
+          "endS": 31032.86,
+          "text": "Then there is the highest level: the fast of the elect of the elect. He defines it as — the fasting of the heart from base aspirations and lowly thoughts. In other words, the fast of the elect of the elect is that the heart's aspiration is not directed tow the at all. That is why in, giving out is the mode of the, whereas in other months we are often busy acquiring wealth. In, you should be busy giving wealth away for the sake of. You are not in a mode — you are in an mode. You have to shift this month. That is the shift."
+        },
+        {
+          "idx": 187,
+          "blockIndex": 202,
+          "startS": 31055.28,
+          "endS": 31089.98,
+          "text": "And reg ing: one of the scholars of Andalusia said that the first degree of with is — beginning to hold one's thoughts accountable. That is where it begins: the measures each thought against the of the. That is what makes him a. is the time to do of the heart."
+        },
+        {
+          "idx": 188,
+          "blockIndex": 203,
+          "startS": 31128.76,
+          "endS": 31169.94,
+          "text": "And understand that an — a common person — in Arabic does not mean someone who is ignorant of the sacred sciences. There are scholars who consider themselves above the because they are learned, yet they are still. The can be the street sweeper who knows only a few s but whose heart is entirely with. That is why the saying goes: how many people are not fasting yet with they are fasting, and how many people are fasting yet with they are not fasting? There are people throughout the year who gu their eyes, their ears, their tongues, their feet, their genitals, and their stomachs — in reality they are living the purpose of fasting, because fasting is an exercise designed to teach us how to do that properly. Others fast physically but with they are not fasting. That is the point. So when he speaks of the, do not imagine that means someone who has mastered Imam Sibawayhi's or memorized all the. These people can be nearly illiterate — if the heart is with, that is what counts."
+        },
+        {
+          "idx": 189,
+          "blockIndex": 204,
+          "startS": 31191.8,
+          "endS": 31292.36,
+          "text": "Consider Imam Sahnun — Muhammad ibn Sahnun, son of the Sahnun who wrote the. He had a in. Every day during his teaching sessions, a man would come in, walk over people's shoulders to reach the sheikh who was seated in a chair, and whisper in his ear for a while — then leave. This happened every time the sheikh taught. The sheikh would actually ask people to move aside so the man would not have to step over them. One day the man stopped coming. Imam Muhammad ibn Sahnun asked his students about him, sent someone to find him, and the man came. The sheikh asked: what happened, you stopped visiting me? The man said: — I have to explain myself. People who envy you came to me — I am a very poor man with many daughters I need to marry off. They said: go and disturb him every day in his, and if you can make him angry and iliate him in front of his students, we will give you money to marry your daughters. So every day I would come and I would curse you in your ear and say the most horrible things. And I realized it was having no effect on you whatsoever. So I gave up. Muhammad ibn Sahnun said: why didn't you simply come and ask me for money? I would have given it to you."
+        },
+        {
+          "idx": 190,
+          "blockIndex": 205,
+          "startS": 31302.18,
+          "endS": 31347.44,
+          "text": "That is the you want to learn. That is the of the people of the Messenger of, the of his family. And Salman is from our family —. He was patient from the very beginning of his search. He was a Zoroastrian, and he used to see the sacred fire go out and be quietly relit, while the worshippers were told it never goes out. His father was in charge of tending it, so Salman knew it was a lie. He set out to find the truth. He went to the Christians, served a monk for years, and witnessed that monk stealing the people's charity and burying it in his backy. He then went to another monk who was genuinely devout, and that monk told him: there is a prophet who will appear in the land of Arabia in your time."
+        },
+        {
+          "idx": 191,
+          "blockIndex": 206,
+          "startS": 31384.52,
+          "endS": 31509.68,
+          "text": "In terms of this month, here is my recommendation to myself first and foremost, and to all of you. Don't do a lot of unnecessary talking. Utilize the time. Every should be conscious that this month is unlike any other — don't waste it. The used to spend six months before begging to let them reach this month. This is not an ordinary time. And none of us knows whether this is our last; none of us even knows whether we will make it to the end of this. So seize the moment. Utilize this time. Don't let the month slip by and find yourself in the last few days full of regret about what you didn't do. We will all feel that to some degree reg less — an beings are such that we never do anything without realizing afterw we could have done it better. But hopefully the regret will be mild because we did a great deal, not because we did very little."
+        },
+        {
+          "idx": 192,
+          "blockIndex": 207,
+          "startS": 31538.1,
+          "endS": 31606.02,
+          "text": "Utilize the night. The of the in the is the tradition, but even praying one is effective. Even if you prayed your with in every — if that is all you know — and you completed your, that counts as. So do every night, even if it is twenty with. Do at night. In fact, one scholar said that tow the end of time it is good to pray the night prayer with the shorter s that carry great rew, simply because there is so little time and most people no longer have the for long recitation. So utilize the time. Try to pray the prayer. Try to rise before, do some before, and then utilize the time after — try not to sleep during that period, which is in any case, and in that time is even more precious than at other times. Then try to do the. The Prophet, instructed never to abandon the, so you should try to pray it — it is and has a very strong basis in practice, since the Prophet did it consistently: two, four, six, or eight before the, all the way up to the. For the s and the Hanafis, there is the period during which the cannot be prayed, but otherwise pray freely."
+        },
+        {
+          "idx": 193,
+          "blockIndex": 208,
+          "startS": 31641.52,
+          "endS": 31703.7,
+          "text": "And then: prayer on time. Prayer on time. We he earlier that the Messenger of, on his deathbed — his final to his — his last words were:. Prayer is above everything. Gu your prayer. Use this month to discipline yourself to pray on time. If you were not praying on time before — and you should have been — then use this time to build that discipline. Pray on time."
+        },
+        {
+          "idx": 194,
+          "blockIndex": 209,
+          "startS": 31703.78,
+          "endS": 31715.98,
+          "text": "If you're working, just stop — your prayer matters more than your job. I guarantee it. Prayer is more important than your job."
+        },
+        {
+          "idx": 195,
+          "blockIndex": 210,
+          "startS": 31716.46,
+          "endS": 31738.36,
+          "text": "Pray first. And pay particular attention to the time between and, which is a powerful time throughout the year — a time of. During especially, it carries a particular weight. It is, as the tells us, a time for the people who believe — a time of love for one another."
+        },
+        {
+          "idx": 196,
+          "blockIndex": 211,
+          "startS": 31741.8,
+          "endS": 31798.5,
+          "text": "And that is why in this culture you see people at the end of the day completely worn out, needing to go out and drink. They call it happy hour. No, seriously — that is what they call it. They need oblivion so they don't have to think about how empty their lives are. For us, that time is about preparing for sunset, which is a metaphor for death. to represents the later years of a person's life. That entire period carries symbolic weight. And breaking the fast is like what the Messenger described — there are two joys in it. The analogy being made is that breaking the fast resembles meeting your Lord: when the day is over, when death is over, you return to."
+        },
+        {
+          "idx": 197,
+          "blockIndex": 212,
+          "startS": 31806.7,
+          "endS": 31834.98,
+          "text": "After you break your fast, the best thing is to break it on, or, or a few sips of water. If you have none of that, you can break it on whatever is available. If there is no food at all, then go ahead and pray. Delaying the is only when the delay comes from believing it is somehow better to delay — at that point it becomes a. But if there is a valid reason to delay, it is perfectly fine. Just do not eat before praying."
+        },
+        {
+          "idx": 198,
+          "blockIndex": 213,
+          "startS": 31864.22,
+          "endS": 31892.06,
+          "text": "When you visit households, they will sometimes ask: do you want to eat first or pray? Tell them — let's pray first. Do not be shy about that. Because if people sit down to eat, the prayer can slip out of its time. has a very narrow window, and you do not want to delay it. The preferred time is right at the beginning. After the comes in, make your, find a clean place, and pray. During the fast you are given a small window — break the fast with something to drink, make the, and then when you finish, move to prayer. These are good habits to build: learning the, practicing them, carrying them with you."
+        },
+        {
+          "idx": 199,
+          "blockIndex": 214,
+          "startS": 31910.06,
+          "endS": 31953.62,
+          "text": "As for the prayer — if you have a strong resolve, it is better to pray your night prayers at home. But if you know yourself well enough to know that your resolve is not strong, or if there is a doing a of the in the and you want to be part of that, then going to the for it is also a good thing. It is."
+        },
+        {
+          "idx": 200,
+          "blockIndex": 215,
+          "startS": 31955.6,
+          "endS": 32012.36,
+          "text": "What you should avoid — and unfortunately many of our brothers have fallen into this — is the idea that is only eight, and so once the eight are done, they say, \", we're following the,\" and then spend the next hour standing outside the talking. Just be honest with yourself: it is fine to say you find twenty long. But do not dress your tiredness up as following the. Because the is certainly not to loiter at the door of the and make idle conversation — I guarantee you that. The Prophet, did not waste his time. And empty talk at the door of the is — that is -level behavior. That is what the marketplaces are for. We do not want to be part of that."
+        },
+        {
+          "idx": 201,
+          "blockIndex": 216,
+          "startS": 32012.58,
+          "endS": 32063.5,
+          "text": "And do not belittle people, do not look down on them. I am not trying to be judgmental — everyone is where they are for their own reasons. The point is simply this: do not see yourself as better than someone else. Instead, thank that He has not afflicted you with that affliction — because it is an affliction. When the Prophet, saw fifty people doing such things, he said what he said. Recognizing a that has given you is not arrogance. Arrogance is thinking you deserve it more than someone else does. It is simply a favor has extended to you, for reasons known only to Him — and He could take it from you tomorrow, give your state to that person, and leave you standing at the door of the talking."
+        },
+        {
+          "idx": 202,
+          "blockIndex": 217,
+          "startS": 32063.92,
+          "endS": 32101.16,
+          "text": "There is a story about one man who accused Mu'adh ibn Jabal of doing something, and Mu'adh — who was known as, someone whose supplications were answered — made a against him. In his old age, that man was seen on the streets of Medina, pinching young women as he walked, because his eyelids had literally fallen over his eyes. He could not see. That was the gave him in his old age, for falsely condemning Mu'adh ibn Jabal."
+        },
+        {
+          "idx": 203,
+          "blockIndex": 218,
+          "startS": 32101.16,
+          "endS": 32115.86,
+          "text": "So I am not asking anyone to be self-righteous — myself included. But the point stands: do not go down that road. If people are gathered and talking, greet them. It is a joyous time and there is a place for that. But keep it in its proper place."
+        },
+        {
+          "idx": 204,
+          "blockIndex": 219,
+          "startS": 32119.8,
+          "endS": 32140.8,
+          "text": "And remember our brothers and sisters who are in great tribulation right now — the people of Palestine, the people of Iraq, the people of Algeria, the people of Bosnia, the people of India. I could go on and on, and I would rather not. Those people are genuinely suffering. So temper your joy with some gravity as well."
+        },
+        {
+          "idx": 205,
+          "blockIndex": 220,
+          "startS": 32141.84,
+          "endS": 32185.6,
+          "text": "One thing I learned a long time ago about spiritual light is that sometimes, when a great deal of it descends on people, their reaction is to become giddy — to laugh, to get frivolous. You can see it happen. And it is a way of spilling the light, of wasting it. can do that to people. Because there is so much light pouring in, and they have not learned how to contain it, they end up laughing through the whole month, socializing, having a good time — and by the end they have spilled it all out. So try to hold on to what you are receiving. Try to contain the benefits of this month."
+        },
+        {
+          "idx": 206,
+          "blockIndex": 221,
+          "startS": 32190.6,
+          "endS": 32211.7,
+          "text": "I think we are about to break. Is the bus here? Yes. You are supposed to do the of the evening. I will come back after. Are they leaving now? Okay. Then before we pray, since there is still a little time, I want to read from the section on fasting in the — for the of it."
+        },
+        {
+          "idx": 207,
+          "blockIndex": 222,
+          "startS": 32219.5,
+          "endS": 32245.66,
+          "text": "What is that? I am glad you mentioned that. The other thing, during did not like storytelling, did not like idle talk. He said: this is a time of and. So the best during is. You should still be doing your and — those are important in as at any other time. But you need to have your reading of."
+        },
+        {
+          "idx": 208,
+          "blockIndex": 223,
+          "startS": 32251.16,
+          "endS": 32306.42,
+          "text": "Imam Abu Hanifa, said that if you read the at least twice a year, you are not considered to have abandoned it — meaning you will not fall under the in which the Messenger of complained that his people had left the. is the time to spend with the Book of. Ideally, if you can complete more than one, that would be excellent. I know some of you personally — and one person I know completed twenty-six in. But that was essentially all he was doing. For people who work, that is clearly difficult."
+        },
+        {
+          "idx": 209,
+          "blockIndex": 224,
+          "startS": 32307.24,
+          "endS": 32339.64,
+          "text": "If you are not proficient in recitation, there is also the option of listening to a — if you have a recording. When you are driving and you do not have much memorized, it is better to recite what you do know from memory, but if you do not have much to draw from, then simply listen to recitation. And also do some of the during — not only the of it, but genuine reflection on its meaning."
+        },
+        {
+          "idx": 210,
+          "blockIndex": 225,
+          "startS": 32344.2,
+          "endS": 32396.18,
+          "text": "If you want a structured approach, there is the seven-day of the. The pattern goes: three, five, seven, nine, eleven, thirteen, and then the. On the first day, you read the first three s. On the second day, the next five. Then seven, then nine, then eleven, then thirteen, and then the — which runs from Surah to the end of the, or according to some, from Surah. In seven days you can complete the. This is how many of the approached it: breaking it into those odd-numbered portions — three, five, seven, nine, eleven, thirteen, and the."
+        },
+        {
+          "idx": 211,
+          "blockIndex": 226,
+          "startS": 32402.7,
+          "endS": 32438.12,
+          "text": "Question. If you owe prayers, I would not pray. Use as the time to make up what you owe. Do the. Instead of, use that time to make up your missed prayers. The only prayers you should prioritize if you owe prayers are the and the — the pre-dawn prayer. Everything else should go tow making up what is owed."
+        },
+        {
+          "idx": 212,
+          "blockIndex": 227,
+          "startS": 32442.52,
+          "endS": 32476.42,
+          "text": "According to the reckoning of the scholars: if you owe prayers and you are performing fewer than five make-up prayers at each prayer time throughout the year, you are not doing enough. If you owe a great deal — years' worth — then do the minimal valid form of the prayer, just the and the. That is the you owe. Do that consistently, and, will accept it."
+        },
+        {
+          "idx": 213,
+          "blockIndex": 228,
+          "startS": 32515.28,
+          "endS": 32522.56,
+          "text": "As for estimating, the scholars say: do your best to figure out when you stopped praying. Most people remember roughly when they went seriously astray in their lives — that tends to be a recognizable turning point. Start from there."
+        },
+        {
+          "idx": 214,
+          "blockIndex": 229,
+          "startS": 32525.6,
+          "endS": 32546.92,
+          "text": "By minimal prayer, I mean: perform the — the sixteen pillars — and the eight. That is it. There are sixteen and eight. That is the form you focus on when making up a large number of prayers."
+        },
+        {
+          "idx": 215,
+          "blockIndex": 230,
+          "startS": 32559.02,
+          "endS": 32616.42,
+          "text": "If you are still learning and you have doubts about whether you are making mistakes in the prayers you are currently practicing — I think you just have to move forw. There are scholars who would say you must make those up, but my view is: if you are learning now and your errors were from ignorance, then make and ask. If there was an obligation you were not even aware of — because your parents never taught you, you genuinely did not know — then in a real sense, that responsibility traces back further. A child is an, and one of the obligations of that is to teach them the. Many s were simply never told any of this. They thought they were doing right."
+        },
+        {
+          "idx": 216,
+          "blockIndex": 231,
+          "startS": 32619.68,
+          "endS": 32623.12,
+          "text": "For those people — — I would say: make, ask to excuse you for your ignorance, and ask Him to accept those prayers. I would not burden them beyond that. I think that is the appropriate position."
+        },
+        {
+          "idx": 217,
+          "blockIndex": 232,
+          "startS": 32628.72,
+          "endS": 32675.36,
+          "text": "Question. Can a include the two after? No — the is not that. Some scholars say you should pray at least two of after, and there is a about that. But the and the should definitely be maintained even when one owes prayers."
+        },
+        {
+          "idx": 218,
+          "blockIndex": 233,
+          "startS": 32681.48,
+          "endS": 32710.98,
+          "text": "Question. If you owe prayers, what about recitation in the meantime? If you have time that you would use to make up prayers — that time should go to the. The takes precedence. As the states: \"My servant does not draw near to Me with anything more beloved to Me than the.\" So the is above everything. Truly. If you are performing and not the, you are wasting your time."
+        },
+        {
+          "idx": 219,
+          "blockIndex": 234,
+          "startS": 32726.2,
+          "endS": 32765.9,
+          "text": "If the number owed is fewer than five, do them in order. If more than five, you do not need to do them in order. And some scholars say: if you owe a large number, simply commit to a set amount at each prayer time — for example, five prayers at time, five at time, five at time, and so on. You do not have to go in sequence."
+        },
+        {
+          "idx": 220,
+          "blockIndex": 235,
+          "startS": 32768.58,
+          "endS": 32771.6,
+          "text": "Is the bus here?"
+        },
+        {
+          "idx": 221,
+          "blockIndex": 236,
+          "startS": 32794.08,
+          "endS": 32820.699,
+          "text": "Alright., a few closing words — this is the last class for those going on the intensive., and. I want to thank all of you for your attendance, your respect, and the wonderful spirit that has characterized this entire course. Please excuse me for any shortcomings or breaches of courtesy on my part. And please, make."
+        },
+        {
+          "idx": 222,
+          "blockIndex": 238,
+          "startS": 32840.0,
+          "endS": 32856.6,
+          "text": "By the blessing of, we were able to go through this text and complete it. We ask to grant us, the ability to implement what we have learned."
+        },
+        {
+          "idx": 223,
+          "blockIndex": 239,
+          "startS": 32856.6,
+          "endS": 32894.44,
+          "text": "In closing this text, I would like to share some counsel written by one of our great scholars, Sidi Ahmad Zarruq, who died in 1492. He was a great scholar from Morocco who died in Misrata in Libya. He said that the fragrance of his teaching would spread throughout the world long after his bones were laid to rest — and this has proven to be one of his, his saintly miracles, because his teaching is still reaching us and shaping us today."
+        },
+        {
+          "idx": 224,
+          "blockIndex": 241,
+          "startS": 32903.54,
+          "endS": 32968.44,
+          "text": "Know — may grant you and us success, rectify our worldly and otherworldly lives, and grant us adherence to the way of truth in our journeys and in our sojourns — that repentance is a key, and is vast, and uprightness is the source of all rectification. A servant is never free of blunders, or shortcomings, or lassitude. Therefore, never be neglectful of. Never turn away from returning to. Never neglect the acts that bring you closer to Him. Every time one of these three occurs — repent and return. Every time you make a mistake — listen and obey. Every time you display shortcomings or lack of enthusiasm — do not give up. Let your primary concern be to remove from your outw state anything that is displeasing to, and then to maintain that outw state through continuous self-counsel. Keep doing this until you find that you naturally flee from anything outw ly displeasing, and that your avoidance of the boundaries of the prohibited has become like a protective net placed before you."
+        },
+        {
+          "idx": 225,
+          "blockIndex": 242,
+          "startS": 32969.04,
+          "endS": 32992.3,
+          "text": "At this point, the time has come to turn inw — tow your heart's presence and its reality — through both reflection and remembrance. Do not hasten the end result before you have completed the beginning, but likewise, do not begin without keeping the end in view. The one who seeks what belongs to the outset at the end loses providential care, and the one who seeks what belongs to the end at the outset loses providential guidance."
+        },
+        {
+          "idx": 226,
+          "blockIndex": 243,
+          "startS": 32992.86,
+          "endS": 33007.96,
+          "text": "Act in accordance with principles and the appropriate legal rulings, not in accordance with stories and fantasies. Do not consider accounts of how things went with others except as a tonic to strengthen your resolve — certainly not as a reference to imitate based on their outw forms or what they appear to be saying."
+        },
+        {
+          "idx": 227,
+          "blockIndex": 244,
+          "startS": 33011.1,
+          "endS": 33032.9,
+          "text": "In all of this, rely on a clear path you can refer to and a foundation you can depend upon in every state. The best of these is the path of, for it contains a clear direction tow. Do not take from others' words unless what they say accords with your own path, but submit to their implications if you desire realization."
+        },
+        {
+          "idx": 228,
+          "blockIndex": 245,
+          "startS": 33033.559,
+          "endS": 33052.1,
+          "text": "Avoid all forms of vain and foul speech to your absolute utmost. Set aside anything whose benefit you cannot discern immediately. Beware of being excessively h on yourself before you have attained mastery over it, but equally beware of being too lax in anything that concerns sacred rulings."
+        },
+        {
+          "idx": 229,
+          "blockIndex": 246,
+          "startS": 33052.48,
+          "endS": 33091.42,
+          "text": "This is because the self is constantly fleeing from moderation in everything, inclining tow extremism in both deviance and guidance alike. To pause and reflect on this is extremely important, because what the is telling us is that the nature of the self is extremism — and he is warning us to be aware of this in both good deeds and foul ones, in both obedience to and disobedience to Him."
+        },
+        {
+          "idx": 230,
+          "blockIndex": 247,
+          "startS": 33095.44,
+          "endS": 33128.739,
+          "text": "So he is telling us: beware of being excessively h on yourself before you have attained mastery over it, but also beware of being too lax in anything that concerns sacred rulings. He continues: seek out a companion to help you in your affairs and take his counsel in matters that arise from both your inw states and your outw affairs. If you do take his companionship, then treat him in a manner commensurate with his state, and offer your counsel according to his limitations and capacities, for the perfected friend is no longer to be found."
+        },
+        {
+          "idx": 231,
+          "blockIndex": 248,
+          "startS": 33153.379,
+          "endS": 33178.199,
+          "text": "Indeed, in these times even a suitable, agreeable companion rarely lasts. Beware of the majority of people in matters concerning your religious and worldly affairs, unless you have established that a person has a sound relationship with his Lord — grounded in knowledge free of caprice or love of leadership, and in a sound intellect free of hidden agendas. Do not be heedless of the machinations of others or their hidden states."
+        },
+        {
+          "idx": 232,
+          "blockIndex": 249,
+          "startS": 33178.68,
+          "endS": 33203.839,
+          "text": "Consider people from the vantage point of both their origins and their actions. A person of character and distinguished lineage will rarely affect you with anything other than good, whereas a person of low origins typically lets those roots lead him to disreg you when times grow difficult. Be extremely vigilant of the dominant qualities of the people in any given land, do not be heedless of the divine wisdom in creation, and take notice of both gatheredness and separation."
+        },
+        {
+          "idx": 233,
+          "blockIndex": 250,
+          "startS": 33204.32,
+          "endS": 33226.42,
+          "text": "Some of this we have already covered in our book, so refer to it there. Engage with any matter only in a manner appropriate to what that moment specifically calls for, using gentleness and toleration, and be very wary of both harshness and laxity. Too much laxity in permissible matters pulls the heart backw in its journey until even a person of firm resolve ends up resembling a foolish boy."
+        },
+        {
+          "idx": 234,
+          "blockIndex": 251,
+          "startS": 33228.66,
+          "endS": 33241.66,
+          "text": "Work for this world as if you will live forever, but work for the next life as if you will die tomorrow. Do not neglect the externals of your worldly needs, and in the meantime do not be heedless of your end and final resting place."
+        },
+        {
+          "idx": 235,
+          "blockIndex": 252,
+          "startS": 33242.04,
+          "endS": 33260.379,
+          "text": "Be extremely vigilant about avoiding positions of leadership, but should you be tried with such responsibilities, at least know your own limitations. Be utterly sincere — with the sincerity of one who knows full well who is placing demands upon him. Surrender completely to His decree with the submission of one who knows he can never overcome Him."
+        },
+        {
+          "idx": 236,
+          "blockIndex": 253,
+          "startS": 33260.98,
+          "endS": 33279.76,
+          "text": "Have a firm foundation for all your affairs and you will be safe from their pitfalls. Organize your devotional practices and you will find your time extended through the — the blessings — within it. Never be fanatical about anything, whether it is truth or falsehood, and your heart will remain sound tow others."
+        },
+        {
+          "idx": 237,
+          "blockIndex": 254,
+          "startS": 33281.16,
+          "endS": 33315.8,
+          "text": "Never claim anything you are entitled to, let alone what you are not entitled to, and you will be safe from tricks and treachery. Anyone who claims a rank above his own will fall in iliation; those who claim a rank they do warrant will have it stripped from them; while those who claim a station less than their true rank will be elevated to levels even higher than they actually deserve. Never give your companion anything of your inner state beyond what his own state warrants. If you descend to his level, he will show you contempt, whereas if you attempt to raise him to your level, he will abandon you."
+        },
+        {
+          "idx": 238,
+          "blockIndex": 255,
+          "startS": 33316.12,
+          "endS": 33351.12,
+          "text": "Never demand a right from anyone, whether an intimate or a stranger. A stranger in reality owes you nothing, and someone close to you is too precious to be the target of your blame. Never assume that anyone in this world can truly understand your circumstances except through the lens of their own. In reality, everyone sees things in accordance with their own frame of reference and personal path. Yet when aims, purposes, and aspirations are similar, people tend to work together tow a common goal."
+        },
+        {
+          "idx": 239,
+          "blockIndex": 256,
+          "startS": 33352.059,
+          "endS": 33387.98,
+          "text": "Never belittle any talk that involves people in their absence, even if it seems harmless, given the possibility that harm may enter into it. Gu your secrets even when you feel safe with someone, for the person you confide in is not a safer vessel than your own heart from which the secret first arose. Never abandon even an atom's weight of your regular devotional practice. Never be lenient with yourself, whether in times of laxity or times of high resolve. Should you miss some of your practice at a given time, make it up at another. If you are unable to perform your usual practice, at least occupy yourself with something comparable."
+        },
+        {
+          "idx": 240,
+          "blockIndex": 257,
+          "startS": 33389.14,
+          "endS": 33423.1,
+          "text": "Never obey your ego, even for a moment. Never believe any of its claims, no matter what it tells you. Be vigilant about your resolve in all your affairs to your utmost. Should you resolve to do something, do it immediately before the resolve wanes. Ex e your soul constantly reg ing what you are obliged or need to do. Anything you have no need to do, leave it — even if it is recommended. That means not involving yourself in anything beyond what is absolutely necessary and what constitutes a real, discernible need."
+        },
+        {
+          "idx": 241,
+          "blockIndex": 258,
+          "startS": 33423.58,
+          "endS": 33433.26,
+          "text": "Treat others exactly as you would wish to be treated, and fulfill what is due to them. All of this is beautifully captured in the words of the poet:"
+        },
+        {
+          "idx": 242,
+          "blockIndex": 259,
+          "startS": 33433.26,
+          "endS": 33460.239,
+          "text": "If you desire to live such that your religion is safe, your portion full, and your honor sound — gu your tongue, and never mention another's faults, remembering that you yourself have faults and others have tongues. Watch your eye; should it ever reveal to you the faults of others, say to it: O my eye, other people have eyes too. Live treating others well, and avoid aggression, and should others aggress against you, leave them — but in the best way."
+        },
+        {
+          "idx": 243,
+          "blockIndex": 260,
+          "startS": 33463.239,
+          "endS": 33497.78,
+          "text": "The source of these words is nothing other than the traditions of the Prophet, peace and blessings of be upon him, when he said: Be vigilant of wherever you are, and follow a misdeed with a good deed — it will remove it — and treat others with the most excellent of character. In another narration he said, peace and blessings of be upon him: Every child of Adam makes mistakes, and the best of those who make mistakes are those who seek to redress them. And again: The Holy Spirit inspired my heart's core that no soul will die until it fulfills its decreed portion of this world and its appointed time here. So be conscious of and make your requests with dignity."
+        },
+        {
+          "idx": 244,
+          "blockIndex": 261,
+          "startS": 33498.5,
+          "endS": 33515.68,
+          "text": "In summation, repentance, awareness of, and uprightness are the foundations of all that is beneficial. The truth is clear, and its details are weighty and significant. The affair belongs only to; success is in His hands. Peace be upon you."
+        }
+      ]
     }
   },
   "schema": 1,

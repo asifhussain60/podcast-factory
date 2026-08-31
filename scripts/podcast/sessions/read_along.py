@@ -61,7 +61,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from _align_paragraphs import SELF_SUPPORT, align, is_monotonic  # noqa: E402
 from _book_edits import fingerprint, write_chapter_body  # noqa: E402
-from _cue_gate import Timing, verdict  # noqa: E402
+from _cue_gate import Timing, drop_swallowing_paragraphs, verdict  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _transcript import from_vtt  # noqa: E402
 from reader_narration import audio_duration_seconds, chapter_blocks  # noqa: E402
@@ -185,7 +185,10 @@ def time_recording(chapters: list[tuple[str, str]], cues) -> dict[str, dict]:
             counts[key] = counts.get(key, 0) + 1
 
     def _blank() -> dict[str, dict]:
-        return {k: {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": counts.get(k, 0)} for k, _ in chapters}
+        return {
+            k: {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": counts.get(k, 0), "dropped": 0}
+            for k, _ in chapters
+        }
 
     if not blocks or not said:
         return _blank()
@@ -228,6 +231,14 @@ def time_recording(chapters: list[tuple[str, str]], cues) -> dict[str, dict]:
                 "text": blocks[idx],
             }
         )
+
+    # A paragraph holding audio that matches no text is removed rather than
+    # allowed to refuse the chapter it sits in — see `drop_swallowing_paragraphs`.
+    # The condition of the same name stays in the gate as the backstop for
+    # anything this does not catch.
+    for chapter in out.values():
+        chapter["cues"], dropped = drop_swallowing_paragraphs(chapter["cues"])
+        chapter["dropped"] = len(dropped)
     return out
 
 
@@ -387,7 +398,7 @@ def read_along_book(
 
         for position, (key, entry) in enumerate(members):
             title = entry["title"]
-            timing = timings.get(key) or {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": 0}
+            timing = timings.get(key) or {"cues": [], "monotonic": False, "score": 0.0, "paragraphs": 0, "dropped": 0}
             cues = timing["cues"]
             before = timings.get(members[position - 1][0], {}).get("cues") if position else None
             after = timings.get(members[position + 1][0], {}).get("cues") if position + 1 < len(members) else None
@@ -424,7 +435,12 @@ def read_along_book(
                 "source_hash": fingerprint(entry.get("base") or ""),
                 "voice": "author",
                 "confidence": timing["score"],
-                "gate": {"ok": call.ok, "checked": call.checked, "failures": call.failures},
+                "gate": {
+                    "ok": call.ok,
+                    "checked": call.checked,
+                    "failures": call.failures,
+                    "dropped_paragraphs": timing.get("dropped", 0),
+                },
                 "cues": cues,
             }
             write_manifest(book_dir, manifest)
