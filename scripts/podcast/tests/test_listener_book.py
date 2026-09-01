@@ -14,6 +14,7 @@ network, no Azure, no database.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -286,3 +287,80 @@ def test_a_deck_with_no_source_has_no_name_rather_than_a_guessed_one(tmp_path):
     confidently wrong title."""
     (tmp_path / "slide-decks").mkdir(parents=True)
     assert deck_title(tmp_path, "ch01") is None
+
+
+# ---------------------------------------------------------------------------
+# An audiobook has no chapter contracts, and used to publish with no episodes.
+# ---------------------------------------------------------------------------
+
+
+def _audiobook(tmp_path):
+    (tmp_path / "_system").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "_system" / "audiobook-chapters.json").write_text(
+        json.dumps(
+            {
+                "schema": "podcast.audiobook-chapters/v1",
+                "chapters": [
+                    {"episode": 1, "file": "m4a/Episodes/ep01.m4a", "title": "01_Work_OpeningCredits"},
+                    {"episode": 2, "file": "m4a/Episodes/ep02.m4a", "title": "02_Work_FirstNight"},
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    return tmp_path
+
+
+def test_an_audiobook_gets_episodes_from_its_own_record(tmp_path):
+    """White Nights dry-ran as nine chapters and ZERO episodes on 2026-09-01:
+    `read_episodes` derives from `chapter-contracts/*.yml`, which is the PODCAST
+    lane's authored record, and an audiobook has none. It would have published as
+    text with no audio, and silently — nothing errored, the count read 0."""
+    from _listener_book import read_episodes
+
+    episodes = read_episodes(_audiobook(tmp_path))
+    assert [e.number for e in episodes] == [1, 2]
+    assert [e.blurb for e in episodes] == [None, None]
+    assert [e.style for e in episodes] == [None, None]
+
+
+def test_the_readers_title_comes_from_the_bridge_not_the_source_filename(tmp_path):
+    """`02_Work_FirstNight` is provenance. The bridge already names the chapter
+    each episode belongs to, and that name is what a reader should see."""
+    from _listener_book import read_episodes
+
+    book = _audiobook(tmp_path)
+    (book / "_system" / "listener-episode-chapters.json").write_text(
+        json.dumps({"1": ["Opening Credits"], "2": ["First Night"]}), encoding="utf-8"
+    )
+    assert [e.title for e in read_episodes(book)] == ["Opening Credits", "First Night"]
+
+
+def test_without_a_bridge_the_filename_stem_is_used_rather_than_a_guess(tmp_path):
+    from _listener_book import read_episodes
+
+    assert [e.title for e in read_episodes(_audiobook(tmp_path))] == [
+        "01_Work_OpeningCredits",
+        "02_Work_FirstNight",
+    ]
+
+
+def test_a_book_with_contracts_is_untouched_by_the_fallback(tmp_path):
+    """The fallback fires only where there are no contracts, so the podcast lane
+    keeps deriving episodes exactly as it did."""
+    from _listener_book import read_episodes
+
+    book = _audiobook(tmp_path)
+    (book / "chapter-contracts").mkdir()
+    (book / "chapter-contracts" / "ch01.yml").write_text(
+        "episode_number: 7\ntitle: From the contract\n", encoding="utf-8"
+    )
+    episodes = read_episodes(book)
+    assert [(e.number, e.title) for e in episodes] == [(7, "From the contract")]
+
+
+def test_a_book_with_neither_has_no_episodes_and_does_not_raise(tmp_path):
+    from _listener_book import read_episodes
+
+    (tmp_path / "_system").mkdir(parents=True)
+    assert read_episodes(tmp_path) == []

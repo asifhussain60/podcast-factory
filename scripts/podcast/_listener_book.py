@@ -167,6 +167,9 @@ def read_episodes(book_dir: Path) -> list[Episode]:
     with no contracts simply has no episodes here.
     """
     contracts = sorted((book_dir / "chapter-contracts").glob("*.yml"))
+    if not contracts:
+        return _audiobook_episodes(book_dir)
+
     episodes: dict[int, Episode] = {}
 
     for path in contracts:
@@ -187,6 +190,66 @@ def read_episodes(book_dir: Path) -> list[Episode]:
             style=data.get("episode_format"),
         )
 
+    return [episodes[n] for n in sorted(episodes)]
+
+
+#: The audiobook lane's own record of its recordings, written by the ingest that
+#: split the source file. Same role the chapter contracts play for the podcast
+#: lane: the authored list of what exists, with the numbering already decided.
+AUDIOBOOK_CHAPTERS = "audiobook-chapters.json"
+
+
+def _audiobook_episodes(book_dir: Path) -> list[Episode]:
+    """Episodes for a book whose audio came off a recording, not out of NotebookLM.
+
+    `read_episodes` derives episodes from `chapter-contracts/*.yml`, which is the
+    PODCAST lane's authored record. An audiobook has none — its ingest writes
+    `_system/audiobook-chapters.json` instead — so White Nights dry-ran as nine
+    chapters and ZERO episodes on 2026-09-01, with eight bridge entries pointing
+    at episodes that did not exist. The book would have published as text with no
+    audio at all, and the failure was silent: nothing errored, the count simply
+    read 0.
+
+    The titles in that file are the source's own filenames
+    (`02_WhiteNights_Introduction`), which are provenance rather than something to
+    show a reader. The bridge already names the chapter each episode belongs to,
+    and that name IS the reader-facing title, so it is used where it exists and
+    the raw stem is the fallback — never a guess, just the less good of two real
+    answers.
+
+    No blurb and no style: an audiobook chapter has neither, and inventing them
+    would put authored-looking prose under a title nobody wrote.
+    """
+    path = book_dir / "_system" / AUDIOBOOK_CHAPTERS
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return []
+
+    bridge_titles: dict[int, str] = {}
+    bridge_path = book_dir / "_system" / "listener-episode-chapters.json"
+    if bridge_path.exists():
+        try:
+            raw = json.loads(bridge_path.read_text(encoding="utf-8"))
+            for key, titles in (raw or {}).items():
+                if isinstance(titles, list) and titles and str(key).isdigit():
+                    bridge_titles[int(key)] = str(titles[0])
+        except (OSError, ValueError):
+            pass
+
+    episodes: dict[int, Episode] = {}
+    for entry in data.get("chapters") or []:
+        number = entry.get("episode")
+        if not isinstance(number, int):
+            continue
+        episodes[number] = Episode(
+            number=number,
+            title=bridge_titles.get(number) or str(entry.get("title") or f"Episode {number}"),
+            blurb=None,
+            style=None,
+        )
     return [episodes[n] for n in sorted(episodes)]
 
 

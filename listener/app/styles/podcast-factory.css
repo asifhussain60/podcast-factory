@@ -12544,6 +12544,31 @@
     gap: clamp(var(--pf-space-4), 2vw, var(--pf-space-6));
   }
 
+  /* WIDTH IS NOT ENOUGH ON ITS OWN. `auto-fit` only knows how wide the container
+     is, and a landscape phone is WIDE — 844px on an iPhone held sideways, well
+     past the 16rem floor, so three tiles would go side by side on a viewport
+     390px tall. That is the one shape this grid gets wrong left to itself.
+
+     So below 520px of height the floor is raised past what three can satisfy but
+     not past what two can: 22rem lets a 844px-wide landscape phone show two side
+     by side and refuses the third, while a 390px portrait phone still gets one.
+     Measured, not guessed — 26rem was tried first and gave a landscape phone a
+     single column, which wastes a screen that is mostly width.
+
+     Written as a floor change rather than an explicit column count so the same
+     `auto-fit` rule keeps making the decision; a hardcoded `repeat(2, 1fr)` here
+     would also force two columns onto a portrait phone, which is the opposite of
+     the fix.
+
+     Height, not `orientation: landscape`: a short window on a desktop has the
+     same problem and is not an orientation, and a tall tablet in landscape does
+     not have it. */
+  @media (max-height: 520px) {
+    .pf-welcome__tiles {
+      grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    }
+  }
+
   /* The `li` is a grid item; the link inside must fill it or the two tiles are
      the same cell size and different visible sizes. */
   .pf-welcome__tiles > li {
@@ -12563,7 +12588,14 @@
     align-items: flex-start;
     text-align: start;
     gap: var(--pf-space-4);
-    min-height: 22rem;
+    /* 22rem is the shape these want, but it is a FLOOR and a floor is wrong on a
+       screen that has no room for it: a phone held sideways is 844x390, and three
+       352px tiles on a 390px-tall viewport means the reader scrolls a chooser.
+       `min(22rem, 46vh)` keeps the tall proportion wherever there is height for
+       it and lets the tiles flatten where there is not, rather than gating the
+       whole layout on orientation. Two of them still fit above the fold at 390px
+       tall, which is the point. */
+    min-height: min(22rem, 46vh);
     padding: clamp(var(--pf-space-5), 3vw, var(--pf-space-7));
     /* A DEFINED edge, not the hairline `--l-rule` the panels use. A tile is a
        light surface on a light page carrying a pale painting, so at `--l-rule`
@@ -12611,20 +12643,14 @@
     --pf-tile-art: url("/brand/tile-sessions.webp");
   }
 
-  /* PLACEHOLDER ART, and saying so rather than letting it pass as considered.
-     There are two tile paintings and now three tiles; nothing generates them
-     (`derive-brand-assets.mjs` makes logo rasters, not these). Audiobooks
-     borrows the books' painting and mirrors it, which is at least apt — an
-     audiobook IS a book — and the teal scrim over it makes the two read as
-     different surfaces rather than as one image shown twice. A tile with no art
-     beside two that have it would break the set far more visibly. Replace this
-     with a real third painting when there is one. */
+  /* Its own painting, made for it — ruled page-lines on the left loosening into
+     teal ripples on the right, a page becoming sound. Same medium, same paper,
+     same right-weighted composition as the two above, so the three read as one
+     set; its own motif and hue, so it is told apart from BOTH at a glance rather
+     than only from one. Painted by `scripts/generate_tile_art.py`, which is
+     where the recipe for all three now lives. */
   .pf-tile[data-collection="audiobooks"] {
-    --pf-tile-art: url("/brand/tile-books.webp");
-  }
-
-  .pf-tile[data-collection="audiobooks"]::after {
-    transform: scaleX(-1);
+    --pf-tile-art: url("/brand/tile-audiobooks.webp");
   }
 
   .pf-tile::after {
