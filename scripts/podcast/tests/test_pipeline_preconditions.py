@@ -273,3 +273,48 @@ def test_the_band_exemption_still_catches_an_empty_chapter():
 
     src = inspect.getsource(preflight_chapter)
     assert 'return False, "chapter is empty"' in src
+
+
+# ── A recording is never re-voiced, and never augmented ──────────────────────
+# Asif, 2026-09-01: "Audiobooks and Session profiles should NEVER require
+# augmentation. Just fixing the lost Arabic during transcription and sanity
+# checks to make sure the read aloud is as close to the original recording as
+# possible."
+#
+# This was true only by hand until then: both correctly-configured Sessions
+# books reached `faithful` because somebody wrote `book_voice: faithful` into
+# their series-config, and `purification-of-the-heart`, which declares neither
+# knob, inherited `author_companion` + `source_only` from a default map written
+# for printed books -- a full author re-voice of prose that came off a tape.
+
+
+def test_a_spoken_book_defaults_to_faithful_and_unaugmented():
+    """The default itself must be right, with nothing declared in the config."""
+    from _pipeline_flags import (
+        BOOK_AUGMENTATION_NONE,
+        BOOK_VOICE_FAITHFUL,
+        _default_knobs,
+    )
+
+    for profile in sorted(SPOKEN_LANE_PROFILES):
+        aug, voice = _default_knobs(Path("/nonexistent"), {"content_profile": profile})
+        assert aug == BOOK_AUGMENTATION_NONE, profile
+        assert voice == BOOK_VOICE_FAITHFUL, profile
+
+
+def test_an_islamic_book_built_from_audio_still_gets_augmentation():
+    """The rule is the LANE, not the medium.
+
+    `kunooz-al-hikmah` and one Asas volume are `islamic_scholarly` books that
+    declare `source_medium: audio_lecture` because they were built from
+    recordings. Keying this rule on the medium -- the first attempt -- silently
+    stripped augmentation from both, and Islamic books are exactly the ones that
+    should keep it.
+    """
+    from _pipeline_flags import BOOK_AUGMENTATION_SOURCE_ONLY, _default_knobs
+
+    aug, _voice = _default_knobs(
+        Path("/nonexistent"),
+        {"content_profile": "islamic_scholarly", "source_medium": "audio_lecture"},
+    )
+    assert aug == BOOK_AUGMENTATION_SOURCE_ONLY

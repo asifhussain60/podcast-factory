@@ -158,6 +158,40 @@ def _default_knobs(book_dir: Path, cfg: dict[str, Any]) -> tuple[str, str]:
     mode = str(cfg.get("deliverable_mode") or "").strip()
     if mode == _TRANSLATION_EDITION_MODE:
         return BOOK_AUGMENTATION_NONE, BOOK_VOICE_FAITHFUL
+
+    # A book made from a RECORDING is never augmented and never re-voiced.
+    # (Asif, 2026-09-01: "Audiobooks and Session profiles should NEVER require
+    # augmentation. Just fixing the lost Arabic during transcription and sanity
+    # checks to make sure the read aloud is as close to the original recording as
+    # possible.")
+    #
+    # This is a source property, so it is decided here rather than left to each
+    # book's config to remember -- and "remember" is exactly what failed. Both
+    # correctly-configured Sessions books reach `faithful` only because somebody
+    # hand-wrote `book_voice: faithful` into them; `purification-of-the-heart`
+    # declares neither knob and so inherited `author_companion` + `source_only`
+    # from the map below, which is written for printed books. That is a full
+    # author re-voice of prose that came off a tape -- the exact thing
+    # `sessions/read_along.py` says must never happen, because the reader lights
+    # up each paragraph as the speaker reaches it and rewriting one breaks the
+    # only thing that makes the pairing honest.
+    #
+    # Keyed on the LANE, not on `source_medium`. Keying on the medium was the
+    # first attempt and it was too wide: `kunooz-al-hikmah` and one Asas volume
+    # are `islamic_scholarly` books that declare `source_medium: audio_lecture`
+    # because they were built from recordings, and Asif's rule is that Islamic
+    # books are precisely the ones that DO get augmentation. Having audio as a
+    # source is not the same as being a book whose recording IS the deliverable.
+    #
+    # `skip_per_chapter` is the registry's existing marker for the latter -- "the
+    # audio already exists and IS the book, so there is no episode to generate."
+    # Both spoken profiles carry it and no other profile does, so this needs no
+    # second list of profile names to keep in step with the registry.
+    from _content_types import phase_capabilities
+
+    if phase_capabilities(str(cfg.get("content_profile") or "")).skip_per_chapter:
+        return BOOK_AUGMENTATION_NONE, BOOK_VOICE_FAITHFUL
+
     from _content_profile import is_islamic_scholarly
 
     if is_islamic_scholarly(Path(book_dir)):

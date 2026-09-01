@@ -23,7 +23,10 @@ and the first tool to read the wrong one would be silently wrong.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 #: The lane, in order. This is the definition — every consumer that shows
 #: progress (`_phase_vocabulary`, the Studio track, the cross-book dashboard)
@@ -125,3 +128,31 @@ def write_state(
         + "\n",
         encoding="utf-8",
     )
+
+
+def heard_text(book_dir: Path, episode: int | None) -> str:
+    """What the recording says, as paragraphs, or "" when there is no transcript.
+
+    Lives here rather than in `sessions/` because nothing about it is KSESSIONS':
+    it reads `transcripts/ep{NN}.vtt`, which is the LANE's contract with whoever
+    transcribed the audio. An audiobook adapter needing this had to import a
+    private name out of the KSESSIONS module, which is the coupling this package
+    exists to remove. `sessions.spoken._heard_text` re-exports it, so no caller
+    moved.
+
+    The cues are grouped into paragraphs rather than emitted one per line: a VTT
+    cue is a breath, not a sentence, and one line per breath reads as a subtitle
+    file rather than as a chapter. Twelve is the smallest grouping that produced
+    paragraphs of ordinary length across the first five such recordings — it is a
+    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
+    """
+    if episode is None:
+        return ""
+    path = Path(book_dir) / "transcripts" / f"ep{episode:02d}.vtt"
+    if not path.exists():
+        return ""
+
+    from _transcript import from_vtt  # local: only this branch needs it
+
+    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
+    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))

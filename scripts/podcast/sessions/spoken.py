@@ -16,30 +16,17 @@ import re
 from pathlib import Path
 
 from _align_paragraphs import align
+from spoken_lane import scaffold as _scaffold
 
 #: Chapters whose prose is a transcription of a recording, by chapter key.
 SPOKEN_CHAPTERS_NAME = "sessions-spoken-chapters.json"
 
 
-def _heard_text(book_dir: Path, episode: int | None) -> str:
-    """What the recording says, as paragraphs, or "" when there is no transcript.
-
-    The cues are grouped into paragraphs rather than emitted one per line: a VTT
-    cue is a breath, not a sentence, and one line per breath reads as a subtitle
-    file rather than as a chapter. Twelve is the smallest grouping that produced
-    paragraphs of ordinary length across all five of these recordings — it is a
-    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
-    """
-    if episode is None:
-        return ""
-    path = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
-    if not path.exists():
-        return ""
-
-    from _transcript import from_vtt  # local: only this branch needs it
-
-    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
-    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
+#: Moved to `spoken_lane.scaffold` on 2026-09-01: it reads the LANE's transcript
+#: contract, not anything KSESSIONS-specific, and the audiobook adapter needed it
+#: without importing a private name out of this module. Re-exported so every
+#: existing caller here is unchanged.
+_heard_text = _scaffold.heard_text
 
 
 def spoken_chapters_path(book_dir: Path) -> Path:
