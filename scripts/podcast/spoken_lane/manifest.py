@@ -277,3 +277,36 @@ def slugify(name: str, overrides: dict[str, str] | None = None) -> str:
         return overrides[name]
     spaced = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", "-", name.replace("_", "-"))
     return re.sub(r"-+", "-", re.sub(r"[^a-zA-Z0-9-]", "-", spaced)).strip("-").lower()
+
+
+#: A camel-case boundary, and a letter-to-digit one. `FirstNight` -> `First Night`,
+#: `Chapter1` -> `Chapter 1`.
+_CAMEL = re.compile(r"(?<=[a-z0-9])(?=[A-Z])")
+_LETTER_DIGIT = re.compile(r"(?<=[A-Za-z])(?=\d)")
+
+
+def chapter_title(title: str, work_name: str) -> str:
+    """A readable chapter heading from a container's track name.
+
+    `03_WhiteNights_FirstNight` -> `First Night`. The leading track number and the
+    work prefix are dropped, and what remains is split on camel case.
+
+    BEST EFFORT, AND SAID SO. The input is a filename the publisher chose, not a
+    title anyone wrote for a reader, so some of it does not recover: this
+    collection catalogues one chapter as `Astory` and another as
+    `NastenkasHistory`, which come back as "Astory" and "Nastenkas History" --
+    a missing space and a missing apostrophe that no rule can put back. The raw
+    name is kept verbatim in `_system/audiobook-chapters.json`, and the heading
+    is a Composer edit away from being right. Guessing harder here would mean
+    inventing punctuation into a chapter title, which is worse than a plain one.
+    """
+    stem = _TRACK_PREFIX.sub("", title)
+    for prefix in (f"{work_name}_", f"{work_name}"):
+        if prefix and stem.startswith(prefix):
+            stem = stem[len(prefix) :]
+            break
+    stem = stem.strip("_- ")
+    if not stem:
+        return "Untitled"
+    stem = _CAMEL.sub(" ", _LETTER_DIGIT.sub(" ", stem.replace("_", " ")))
+    return re.sub(r"\s+", " ", stem).strip()

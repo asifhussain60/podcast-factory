@@ -76,7 +76,13 @@ class Collection:
     trailing: int = 0
     first_work_name: str | None = None
     study_track: str | None = None
+    author: str = ""
     slug_overrides: dict[str, str] = field(default_factory=dict)
+    #: slug -> the title a reader should see. The work name in the container is a
+    #: filename (`TheBrothersKaramazov`), and camel-splitting it loses the
+    #: apostrophe in `Uncle's Dream` and the comma in nothing at all. Twenty
+    #: titles are worth writing down once rather than deriving imperfectly.
+    titles: dict[str, str] = field(default_factory=dict)
 
 
 COLLECTIONS: dict[str, Collection] = {
@@ -98,8 +104,31 @@ COLLECTIONS: dict[str, Collection] = {
         # nothing — its tracks are just "Part 1 Chapter 01" and so on.
         first_work_name="NotesFromUnderground",
         study_track="philosophy",
+        author="Fyodor Dostoyevsky",
         # The store's own metadata says "Ofa". See manifest.slugify.
         slug_overrides={"TheDreamOfaRidiculousMan": "the-dream-of-a-ridiculous-man"},
+        titles={
+            "notes-from-underground": "Notes from Underground",
+            "white-nights": "White Nights",
+            "a-little-hero": "A Little Hero",
+            "mr-prohartchin": "Mr. Prohartchin",
+            "polzunkov": "Polzunkov",
+            "a-faint-heart": "A Faint Heart",
+            "a-christmas-tree-and-a-wedding": "A Christmas Tree and a Wedding",
+            "an-unpleasant-predicament": "An Unpleasant Predicament",
+            "the-crocodile": "The Crocodile",
+            "the-dream-of-a-ridiculous-man": "The Dream of a Ridiculous Man",
+            "uncles-dream": "Uncle's Dream",
+            "the-permanent-husband": "The Permanent Husband",
+            "poor-folk": "Poor Folk",
+            "the-double": "The Double",
+            "the-house-of-the-dead": "The House of the Dead",
+            "the-gambler": "The Gambler",
+            "the-idiot": "The Idiot",
+            "the-possessed": "The Possessed",
+            "the-brothers-karamazov": "The Brothers Karamazov",
+            "crime-and-punishment": "Crime and Punishment",
+        },
     ),
 }
 
@@ -135,6 +164,141 @@ def _ffmpeg_cut(container: Path, start_ms: int, length_ms: int, dest: Path) -> N
 
 def _probe_ms(path: Path) -> int | None:
     return M.probe_duration_ms(path)
+
+
+def _meta_yml(slug: str, title: str, author: str, study_track: str | None) -> str:
+    track = f"study_track: {study_track}\n" if study_track else ""
+    return (
+        f"slug: {slug}\n"
+        f"title: {title}\n"
+        f"author: {author}\n"
+        f"{track}"
+        "\n"
+        "series:\n"
+        "  # An audiobook's reading edition IS the transcript of the recording, so\n"
+        "  # the book branch is the whole deliverable. No podcast is generated: the\n"
+        "  # narrator already read it.\n"
+        "  enable_book_branch: true\n"
+        "  enable_slide_decks: false\n"
+        "\n"
+        "pipeline:\n"
+        "  # orchestrator-state.json is authoritative; this is a readable mirror.\n"
+        "  lane: spoken\n"
+    )
+
+
+def _series_config(title: str) -> str:
+    return (
+        f"# series-config.yaml — {title}\n"
+        "# A published audiobook: someone else's book, read aloud by a narrator.\n"
+        "\n"
+        f"content_profile: {PROFILE}\n"
+        "\n"
+        "# A novel read aloud is still narrated in the third person by its own\n"
+        "# narrator. The reader is not the frame, and neither is the person holding\n"
+        "# the microphone.\n"
+        "narrative_frame: external_narrator\n"
+        "\n"
+        "# The source is a recording, not a printed text. Gates that exist to catch\n"
+        "# a translation reading like a calque do not apply to speech.\n"
+        "source_medium: audio_lecture\n"
+        "source_language: en\n"
+        "\n"
+        "# DECLARED, not inherited, though the default now agrees.\n"
+        "#\n"
+        "# `_pipeline_flags._default_knobs` returns these for any spoken-lane book\n"
+        "# since 2026-09-01, so omitting them would be correct. They are written out\n"
+        "# anyway because `purification-of-the-heart` is what happens when a spoken\n"
+        "# book leaves them to a default: it inherited `author_companion` and would\n"
+        "# have had its prose re-voiced away from the recording it is timed against.\n"
+        "# Two lines here mean this book's contract is legible in its own config\n"
+        "# rather than only in a function somewhere else.\n"
+        "book_voice: faithful\n"
+        "book_augmentation: none\n"
+        "book_visuals: manual_only\n"
+        "\n"
+        "enable_video: false\n"
+    )
+
+
+def scaffold_book(
+    book_dir: Path,
+    *,
+    slug: str,
+    work: "M.Work",
+    collection: Collection,
+    apply: bool = False,
+) -> str:
+    """Lay the book down on the spoken lane and report the step it reached.
+
+    Idempotent, and DELIBERATELY NON-DESTRUCTIVE about prose: `book/book.md` is
+    written only when absent. Once it exists a person may have edited it in the
+    Composer, and regenerating it from the transcript would silently discard that
+    -- the same rule `_book_edits` enforces for every other route.
+
+    The step reported is what is actually true on disk, never what the caller
+    hoped: `sessions-transcribe` once every chapter has a transcript beside it,
+    `sessions-ingest` while any is still missing. A book claiming a step it has
+    not reached is worse than one claiming none, because the next phase runs on
+    the claim.
+    """
+    from _book_edits import anchor_key
+    from _branching import branch_name
+    from _paths import ensure_book_skeleton
+
+    from spoken_lane import scaffold as lane
+
+    titles = [M.chapter_title(c.title, work.name) for c in work.chapters]
+    heard = {n: lane.heard_text(book_dir, n) for n in range(1, len(work.chapters) + 1)}
+    complete = all(heard.values())
+    done_through = "sessions-transcribe" if complete else "sessions-ingest"
+    book_title = collection.titles.get(slug) or M.slugify(work.name).replace("-", " ").title()
+
+    if not apply:
+        return done_through
+
+    ensure_book_skeleton(book_dir)
+    (book_dir / "meta.yml").write_text(
+        _meta_yml(slug, book_title, collection.author, collection.study_track), encoding="utf-8"
+    )
+    (book_dir / "_system" / "series-config.yaml").write_text(_series_config(book_title), encoding="utf-8")
+
+    # Which chapters came off the tape, keyed the way the Composer keys them.
+    spoken = {
+        anchor_key(t): {"title": t, "sequence": n, "episode": n, "base": heard[n]}
+        for n, t in enumerate(titles, start=1)
+        if heard[n]
+    }
+    (book_dir / "_system" / "sessions-spoken-chapters.json").write_text(
+        json.dumps({"schema": "podcast.sessions-spoken-chapters/v1", "chapters": spoken}, indent=2, ensure_ascii=False)
+        + "\n",
+        encoding="utf-8",
+    )
+
+    # The episode-to-chapter bridge. One-to-one here and WRITTEN OUT anyway,
+    # because the reader refuses to infer it -- and for a podcast book it is a
+    # genuine judgement. An audiobook simply has nothing to judge: chapter N is
+    # recording N, which is why this file is a mapping rather than an assumption.
+    (book_dir / "_system" / "listener-episode-chapters.json").write_text(
+        json.dumps({str(n): [t] for n, t in enumerate(titles, start=1)}, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+
+    book_md = book_dir / "book" / "book.md"
+    if not book_md.exists():
+        parts = [f"# {book_title}", ""]
+        for n, t in enumerate(titles, start=1):
+            parts.extend([f"## {t}", "", heard[n] or "_Awaiting transcript._", ""])
+        book_md.write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
+
+    lane.write_state(
+        book_dir,
+        slug=slug,
+        branch=branch_name("books", slug, profile=PROFILE),
+        category="books",
+        done_through=done_through,
+    )
+    return done_through
 
 
 def split_collection(
@@ -258,9 +422,18 @@ def split_collection(
                 rec.outputs(dest)
             written += 1
 
+        # AFTER the audio, deliberately: the step this records is derived from
+        # what is on disk, so it must run once the disk is in its final state.
+        with step(book_dir, PHASE, "scaffold") as rec:
+            reached = scaffold_book(book_dir, slug=slug, work=work, collection=collection, apply=apply)
+            rec.detail(done_through=reached, chapters=len(work.chapters))
+            if not apply:
+                rec.skipped("dry-run")
+
         report["works"].append(
             {
                 "order": order,
+                "lane_step": reached,
                 "slug": slug,
                 "title": work.name,
                 "tracks": len(work.chapters),

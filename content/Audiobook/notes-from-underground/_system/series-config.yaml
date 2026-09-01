@@ -1,0 +1,29 @@
+# series-config.yaml — Notes from Underground
+# A published audiobook: someone else's book, read aloud by a narrator.
+
+content_profile: audiobook
+
+# A novel read aloud is still narrated in the third person by its own
+# narrator. The reader is not the frame, and neither is the person holding
+# the microphone.
+narrative_frame: external_narrator
+
+# The source is a recording, not a printed text. Gates that exist to catch
+# a translation reading like a calque do not apply to speech.
+source_medium: audio_lecture
+source_language: en
+
+# DECLARED, not inherited, though the default now agrees.
+#
+# `_pipeline_flags._default_knobs` returns these for any spoken-lane book
+# since 2026-09-01, so omitting them would be correct. They are written out
+# anyway because `purification-of-the-heart` is what happens when a spoken
+# book leaves them to a default: it inherited `author_companion` and would
+# have had its prose re-voiced away from the recording it is timed against.
+# Two lines here mean this book's contract is legible in its own config
+# rather than only in a function somewhere else.
+book_voice: faithful
+book_augmentation: none
+book_visuals: manual_only
+
+enable_video: false
