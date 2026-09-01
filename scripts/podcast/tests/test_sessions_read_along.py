@@ -304,3 +304,71 @@ def test_a_later_step_finishing_still_carries_read_along_forward(tmp_path: Path)
 
     state = json.loads((tmp_path / "_system" / "orchestrator-state.json").read_text(encoding="utf-8"))
     assert state["phases"][READ_ALONG_STEP]["status"] == "completed"
+
+
+# ---------------------------------------------------------------------------
+# Timing a recording that holds MORE THAN ONE chapter
+# ---------------------------------------------------------------------------
+
+
+def test_a_recording_with_several_chapters_is_aligned_once_not_once_per_chapter() -> None:
+    """`cue_map` asks the question for ONE chapter against a whole recording's
+    cues, which is right while a recording holds one chapter — the shape every
+    session book had until now. Asked of a chapter that is a fraction of a long
+    recording, the rest of the cues are forced onto its paragraphs. Measured on
+    `purification-of-the-heart`: 0.02 per chapter, 0.31 per recording."""
+    from sessions.read_along import time_recording
+
+    cues = _cues(
+        (0, "The angel appeared to him and he turned away"),
+        (4000, "Then Jibreel wrapped his wings around him"),
+        (8000, "Envy consumes good deeds as fire consumes wood"),
+        (12000, "The envious man resents what God has given"),
+    )
+    timings = time_recording(
+        [
+            ("ch01", "The angel appeared to him and he turned away.\n\nThen Jibreel wrapped his wings around him."),
+            ("ch02", "Envy consumes good deeds as fire consumes wood.\n\nThe envious man resents what God has given."),
+        ],
+        cues,
+    )
+
+    assert set(timings) == {"ch01", "ch02"}
+    assert timings["ch01"]["cues"] and timings["ch02"]["cues"]
+    # The second chapter is spoken after the first, and the split must say so.
+    assert timings["ch01"]["cues"][-1]["endS"] <= timings["ch02"]["cues"][0]["startS"]
+
+
+def test_each_chapter_is_told_how_many_paragraphs_it_had() -> None:
+    """The coverage condition needs the DENOMINATOR. Counting only the timed
+    paragraphs would make every chapter 100% covered by construction."""
+    from sessions.read_along import time_recording
+
+    timings = time_recording([("ch01", "One paragraph.\n\nTwo paragraph.\n\nThree paragraph.")], _cues((0, "One")))
+
+    assert timings["ch01"]["paragraphs"] == 3
+
+
+def test_a_recording_with_no_cues_times_nothing_rather_than_guessing() -> None:
+    from sessions.read_along import time_recording
+
+    timings = time_recording([("ch01", "A paragraph nobody recorded.")], [])
+
+    assert timings["ch01"]["cues"] == []
+    assert timings["ch01"]["monotonic"] is False
+
+
+def test_timing_only_never_rewrites_a_chapter() -> None:
+    """The mode exists so a book whose chapters were already corrected and
+    Arabic-restored can be timed without a model touching finished prose."""
+    import inspect
+
+    from sessions import read_along
+
+    src = inspect.getsource(read_along.read_along_book)
+    # The branch runs from `if timing_only:` to the `continue` that leaves the
+    # prose loop. Nothing in it may write, and it must END in that continue —
+    # falling through would reach the correction below it.
+    branch = src[src.index("if timing_only:") : src.index("continue", src.index("if timing_only:")) + len("continue")]
+    assert "write_chapter_body" not in branch
+    assert "correct(" not in branch and "restore_script(" not in branch

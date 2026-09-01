@@ -406,9 +406,166 @@ def check_standards(probe) -> None:
         )
 
 
+def check_abs_paths(probe) -> None:
+    """AU-S2 — moved here 2026-08-31 for DR-005 headroom, unchanged otherwise. A
+    machine-specific path in pipeline source breaks on the next host."""
+    pat = re.compile(r"(/Users/|/home/)[A-Za-z0-9._-]+/")
+    for p in probe.py_sources("scripts/podcast"):
+        for n, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
+            stripped = line.strip()
+            if stripped.startswith("#") or '"""' in stripped:
+                continue
+            if pat.search(line):
+                rel = p.relative_to(probe.root).as_posix()
+                probe.add(
+                    "P0",
+                    "AU-S2",
+                    "hardcoded absolute path in pipeline source",
+                    rel,
+                    n,
+                    fingerprint=f"AU-S2:{rel}:{n}",
+                )
+
+
+def check_skill_registry(probe) -> None:
+    """A1 — moved here 2026-08-31 alongside A3 (project-skill mirrors), its
+    natural sibling: both audit the skill registry's completeness, and
+    repo_surgeon_probe.py was at its own DR-005 ceiling with nowhere to grow."""
+    registry = probe.read("docs/reference/skill-registry.md")
+    if not registry:
+        probe.add("P1", "A1", "the skill registry is missing", "docs/reference/skill-registry.md")
+        return
+    staging = probe.root / "skills-staging"
+    if not staging.is_dir():
+        # A fresh clone that has not run the skill installer has no
+        # skills-staging/, so this crashed on the very tree it was most likely
+        # to meet. The registry's absence was already a finding; the
+        # directory's absence was a traceback.
+        probe.add("P1", "A1", "skills-staging/ does not exist, so no skill can be registered", "skills-staging")
+        return
+    for d in sorted(staging.iterdir()):
+        if not d.is_dir():
+            continue
+        # Match the DEFINITION PATH, not the bare name. A loose substring match on
+        # the whole file passes on any incidental prose mention, which is how
+        # html-view-quality read as registered while having no row.
+        if f"skills-staging/{d.name}/" not in registry:
+            probe.add(
+                "P2",
+                "A1",
+                f"skill {d.name} has no row in the registry (no skills-staging/{d.name}/ definition path)",
+                f"skills-staging/{d.name}",
+                fingerprint=f"A1:{d.name}",
+            )
+        if not (d / "SKILL.md").exists():
+            probe.add("P1", "A1", f"skill {d.name} has no SKILL.md", f"skills-staging/{d.name}")
+
+
+def check_project_skill_mirrors(probe) -> None:
+    """A3 — the skills-staging <-> .claude/skills pair, for the subset of skills
+    Claude Code reads directly (project_skills: in the contract), same shape as
+    repo_surgeon_probe.Probe.check_agent_mirrors. Two project skills existed only
+    under the gitignored .claude/skills/ with no tracked source anywhere until this
+    check existed — invisible to git, the registry, and every prior repo-surgeon
+    run, on a repo whose own model is machine-agnostic."""
+    # `or []`, not a bare `.get(...)`: a repo that never adopted this contract key
+    # has nothing to check, but a repo that declared it as an EMPTY list still has
+    # a runtime directory worth checking for orphans below.
+    declared = [str(n) for n in (probe.profile.get("project_skills") or [])]
+    staging = probe.root / "skills-staging"
+    runtime = probe.root / ".claude" / "skills"
+    for name in declared:
+        canonical = staging / name / "SKILL.md"
+        if not canonical.exists():
+            probe.add(
+                "P1",
+                "A3",
+                f"project skill {name!r} is declared in project_skills but has no canonical "
+                f"source at skills-staging/{name}/SKILL.md",
+                f"skills-staging/{name}",
+                fingerprint=f"A3:no-canonical:{name}",
+            )
+            continue
+        # Absent .claude/skills/ entirely means a fresh clone or CI that never ran
+        # the sync — not a defect the tree can fix, same guard
+        # sync-skill-wrappers.sh itself applies to its own check mode.
+        if not runtime.is_dir():
+            continue
+        if not (runtime / name / "SKILL.md").exists():
+            probe.add(
+                "P1",
+                "A3",
+                f"project skill {name!r} has no generated runtime mirror — run scripts/podcast/sync-skill-wrappers.sh",
+                f".claude/skills/{name}",
+                fingerprint=f"A3:no-runtime:{name}",
+            )
+    if runtime.is_dir():
+        declared_set = set(declared)
+        for d in sorted(runtime.iterdir()):
+            if not d.is_dir() or d.name in declared_set:
+                continue
+            probe.add(
+                "P1",
+                "A3",
+                f".claude/skills/{d.name} has no entry in project_skills — either add it to the "
+                "contract or remove the directory (it has no tracked source)",
+                f".claude/skills/{d.name}",
+                fingerprint=f"A3:orphan:{d.name}",
+            )
+
+
+_TRIGGER_TOKEN_RE = re.compile(r"'([A-Za-z][A-Za-z-]*)'")
+_FRONTMATTER_DESC_RE = re.compile(r'^description:\s*"(.*)"\s*$', re.MULTILINE | re.DOTALL)
+
+
+def check_trigger_collisions(probe) -> None:
+    """A4 — a bare single-word quoted trigger ('challenge') shared by two specs is
+    how a new skill silently hijacks an existing agent's invocation, or vice versa.
+    Multi-word trigger phrases ('challenge this', 'challenge <slug>') are the
+    normal, safe case and are never flagged — this only catches the exact shape
+    that would have collided before challenge-my-request's own trigger list was
+    deliberately narrowed to self-referential phrasing."""
+    spec_texts: dict[str, str] = {}
+    for base, glob, exclude in (
+        ("infra/claude-agents", "*.md", "_README.md"),
+        ("skills-staging", "*/SKILL.md", None),
+        (".claude/skills", "*/SKILL.md", None),
+    ):
+        for p in sorted((probe.root / base).glob(glob)):
+            if exclude and p.name == exclude:
+                continue
+            try:
+                spec_texts[str(p.relative_to(probe.root))] = p.read_text(encoding="utf-8")
+            except OSError:
+                continue
+    tokens: dict[str, set[str]] = {}
+    for rel, text in spec_texts.items():
+        m = _FRONTMATTER_DESC_RE.search(text[:6000])
+        if not m:
+            continue
+        for word in _TRIGGER_TOKEN_RE.findall(m.group(1)):
+            tokens.setdefault(word.lower(), set()).add(rel)
+    for word, files in sorted(tokens.items()):
+        if len(files) < 2:
+            continue
+        probe.add(
+            "P2",
+            "A4",
+            f"bare-word trigger '{word}' is a quoted invocation phrase in {len(files)} specs "
+            f"({', '.join(sorted(files))}) — confirm each excludes the others' targets, or widen "
+            "the trigger to a multi-word phrase",
+            sorted(files)[0],
+            fingerprint=f"A4:{word}",
+        )
+
+
 ALL_CHECKS = (
     check_gate_discovery,
     check_data_contract,
     check_generated_artifacts,
     check_standards,
+    check_abs_paths,
+    check_skill_registry,
+    check_project_skill_mirrors,
+    check_trigger_collisions,
 )

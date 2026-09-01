@@ -1,0 +1,15 @@
+slug: crime-and-punishment
+title: Crime and Punishment
+author: Fyodor Dostoyevsky
+study_track: philosophy
+
+series:
+  # An audiobook's reading edition IS the transcript of the recording, so
+  # the book branch is the whole deliverable. No podcast is generated: the
+  # narrator already read it.
+  enable_book_branch: true
+  enable_slide_decks: false
+
+pipeline:
+  # orchestrator-state.json is authoritative; this is a readable mirror.
+  lane: spoken

@@ -1,0 +1,33 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "Mr_Prohartchin",
+  "slug": "mr-prohartchin",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_Mr_Prohartchin_OpeningCredits",
+      "start_ms": 35460105,
+      "length_ms": 15139
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_Mr_Prohartchin_Introduction",
+      "start_ms": 35475244,
+      "length_ms": 846367
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_Mr_Prohartchin_Astory",
+      "start_ms": 36321611,
+      "length_ms": 3983940
+    }
+  ]
+}

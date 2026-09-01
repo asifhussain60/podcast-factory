@@ -18,8 +18,13 @@ import {
   apiNotFound,
   apiServerError,
 } from "../../../../lib/api-responses";
-import { findContentDirSync, listContent } from "../../../../lib/content-paths";
+import {
+  findContentDirSync,
+  getRepoRoot,
+  listContent,
+} from "../../../../lib/content-paths";
 import { runPythonJson } from "../../../../lib/intake-cli";
+import { renderSavedPrompt } from "../../../../lib/brief/render";
 import {
   FIELD_FILES,
   LOCKED_FOR_EXISTING,
@@ -128,7 +133,19 @@ export const POST: APIRoute = async ({ params, request }) => {
     const at = await locate(slug);
     if (!at) return apiNotFound(`no content named ${slug}`);
     const result = await saveBook(at.dir, changes);
-    return apiOk({ slug, dir: at.dir, ...result });
+    // Re-read rather than echoing `changes`: the prompt has to describe the
+    // book as it now IS, and a field the save skipped must not appear in it as
+    // though it had been written.
+    const after = await loadBook(slug, at.bucket, at.dir);
+    const prompt = renderSavedPrompt({
+      slug,
+      dir: at.dir,
+      bucket: at.bucket,
+      repoRoot: getRepoRoot(),
+      values: after.values,
+      changed: result.written.map((w) => w.field),
+    });
+    return apiOk({ slug, dir: at.dir, ...result, prompt });
   } catch (e) {
     return apiServerError(`Could not save ${slug}: ${String(e)}`);
   }

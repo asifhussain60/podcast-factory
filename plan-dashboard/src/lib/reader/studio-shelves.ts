@@ -144,6 +144,12 @@ const SHELF_META: Record<
     chipLabel: "Sessions",
     desc: "Lectures Asif delivered himself, read from the transcripts he marked up",
   },
+  Audiobook: {
+    icon: "fa-headphones",
+    label: "Audiobooks",
+    chipLabel: "Audiobooks",
+    desc: "Published books read aloud, timed against the recording for read-along",
+  },
 };
 
 // Hidden from the Studio picker specifically (Asif, 2026-08-12): with only

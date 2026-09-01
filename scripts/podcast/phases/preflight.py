@@ -148,6 +148,19 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
         fails.append(f"no content directory matches book-slug {book_slug!r} under content/")
         return None, fails
 
+    # 0. The folder a book lives in must agree with the profile it declares.
+    # First, because it costs nothing and because every later check — and every
+    # phase after them — trusts that profile. `purification-of-the-heart` sat in
+    # content/Sessions/ declaring none, so it defaulted to islamic_scholarly and
+    # phase 0e rewrote two chapters of a recorded sermon into literary essays.
+    from _pipeline_preconditions import bucket_mismatch
+
+    _bucket_problem = bucket_mismatch(book_dir)
+    if _bucket_problem:
+        fails.append(
+            f"{_bucket_problem} Fix content_profile in _system/series-config.yaml (or move the folder), then re-run."
+        )
+
     # 1. State file exists
     state = read_state(book_dir)
     if state is None:

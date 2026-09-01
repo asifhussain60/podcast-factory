@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "A_Faint_Heart",
+  "slug": "a-faint-heart",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_A_Faint_Heart_OpeningCredits",
+      "start_ms": 43002036,
+      "length_ms": 13467
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_A_Faint_Heart_Introduction",
+      "start_ms": 43015503,
+      "length_ms": 625313
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_A_Faint_Heart_Astorypart1.mp3",
+      "start_ms": 43640816,
+      "length_ms": 3203006
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_A_Faint_Heart_Astorypart2",
+      "start_ms": 46843822,
+      "length_ms": 2798283
+    }
+  ]
+}

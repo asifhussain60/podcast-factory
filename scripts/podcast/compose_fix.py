@@ -49,6 +49,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+from _arabic_emphasis import repair as _deitalicise
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _book_defect_fixes import (  # noqa: E402
@@ -348,6 +350,7 @@ def resolve_romanizations(
             outcome = "dropped-duplicate"
         else:
             section = section.replace(run, resolution.arabic, 1)
+            section, _ = _deitalicise(section)  # see `_arabic_emphasis`
             outcome = resolution.provenance
         md = md[:start] + section + md[end:]
         applied.append(

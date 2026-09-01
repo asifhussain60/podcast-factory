@@ -26,8 +26,14 @@ const ALLOWED_EXT = new Set([
   ".txt",
   ".md",
   ".docx",
+  // Timed-transcript formats, for the `timestamped_transcript` role.
+  ".json",
+  ".srt",
+  ".vtt",
 ]);
-const MAX_FILE_BYTES = 500 * 1024 * 1024;
+// Kept in sync with intake_staging.MAX_FILE_BYTES (scripts/podcast/intake_staging.py) —
+// raised from 500 MB (2026-08-30) for real sermon-length lecture recordings.
+const MAX_FILE_BYTES = 4 * 1024 * 1024 * 1024;
 
 function ext(name: string): string {
   const i = name.lastIndexOf(".");

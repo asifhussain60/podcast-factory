@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 103.22
+    "burn_30d_usd": 104.81
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1934,6 +1934,14 @@
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "purification-of-the-heart",
+      "title": "Purification of the Heart",
+      "phase": "per-chapter",
+      "phase_status": "failed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_session"
     },
     {
       "slug": "spiritual-ethos",

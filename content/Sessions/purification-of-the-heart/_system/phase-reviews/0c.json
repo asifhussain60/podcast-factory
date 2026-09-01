@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0c",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 4,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (714,591 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (593,649 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 79% of the source (103,306 of 130,200 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (42 window(s))"
+    }
+  ]
+}

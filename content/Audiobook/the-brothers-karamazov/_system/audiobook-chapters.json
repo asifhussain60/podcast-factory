@@ -1,0 +1,233 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheBrothersKaramazov",
+  "slug": "the-brothers-karamazov",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheBrothersKaramazov_OpeningCredits",
+      "start_ms": 421768069,
+      "length_ms": 14303
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheBrothersKaramazov_Introduction",
+      "start_ms": 421782372,
+      "length_ms": 551055
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheBrothersKaramazov_Book01_Part01",
+      "start_ms": 422333427,
+      "length_ms": 4256264
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheBrothersKaramazov_Book02_Part01",
+      "start_ms": 426589691,
+      "length_ms": 4103012
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheBrothersKaramazov_Book02_Part02",
+      "start_ms": 430692703,
+      "length_ms": 5538470
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheBrothersKaramazov_Book03_Part01",
+      "start_ms": 436231173,
+      "length_ms": 6314898
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_TheBrothersKaramazov_Book03_Part02",
+      "start_ms": 442546071,
+      "length_ms": 4454005
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_TheBrothersKaramazov_Book04_Part01",
+      "start_ms": 447000076,
+      "length_ms": 2762013
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_TheBrothersKaramazov_Book04_Part02",
+      "start_ms": 449762089,
+      "length_ms": 5069473
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_TheBrothersKaramazov_Book05_Part01",
+      "start_ms": 454831562,
+      "length_ms": 5161935
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_TheBrothersKaramazov_Book05_Part02",
+      "start_ms": 459993497,
+      "length_ms": 6265858
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_TheBrothersKaramazov_Book06_Part01",
+      "start_ms": 466259355,
+      "length_ms": 5423252
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_TheBrothersKaramazov_Book06_Part02",
+      "start_ms": 471682607,
+      "length_ms": 2232645
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_TheBrothersKaramazov_Book07_Part01",
+      "start_ms": 473915252,
+      "length_ms": 6219093
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_TheBrothersKaramazov_Book08_Part01",
+      "start_ms": 480134345,
+      "length_ms": 5264753
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_TheBrothersKaramazov_Book08_Part02",
+      "start_ms": 485399098,
+      "length_ms": 3362992
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_TheBrothersKaramazov_Book08_Part03",
+      "start_ms": 488762090,
+      "length_ms": 4275165
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_TheBrothersKaramazov_Book09_Part01",
+      "start_ms": 493037255,
+      "length_ms": 5680901
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_TheBrothersKaramazov_Book09_Part02",
+      "start_ms": 498718156,
+      "length_ms": 4564532
+    },
+    {
+      "episode": 20,
+      "file": "m4a/Episodes/ep20.m4a",
+      "transcript": "transcripts/ep20.vtt",
+      "title": "20_TheBrothersKaramazov_Book10_Part01",
+      "start_ms": 503282688,
+      "length_ms": 3546894
+    },
+    {
+      "episode": 21,
+      "file": "m4a/Episodes/ep21.m4a",
+      "transcript": "transcripts/ep21.vtt",
+      "title": "21_TheBrothersKaramazov_Book10_Part02",
+      "start_ms": 506829582,
+      "length_ms": 3870998
+    },
+    {
+      "episode": 22,
+      "file": "m4a/Episodes/ep22.m4a",
+      "transcript": "transcripts/ep22.vtt",
+      "title": "22_TheBrothersKaramazov_Book11_Part01",
+      "start_ms": 510700580,
+      "length_ms": 5582727
+    },
+    {
+      "episode": 23,
+      "file": "m4a/Episodes/ep23.m4a",
+      "transcript": "transcripts/ep23.vtt",
+      "title": "23_TheBrothersKaramazov_Book11_Part02",
+      "start_ms": 516283307,
+      "length_ms": 3497203
+    },
+    {
+      "episode": 24,
+      "file": "m4a/Episodes/ep24.m4a",
+      "transcript": "transcripts/ep24.vtt",
+      "title": "24_TheBrothersKaramazov_Book11_Part03",
+      "start_ms": 519780510,
+      "length_ms": 5583748
+    },
+    {
+      "episode": 25,
+      "file": "m4a/Episodes/ep25.m4a",
+      "transcript": "transcripts/ep25.vtt",
+      "title": "25_TheBrothersKaramazov_Book12_Part01",
+      "start_ms": 525364258,
+      "length_ms": 4522550
+    },
+    {
+      "episode": 26,
+      "file": "m4a/Episodes/ep26.m4a",
+      "transcript": "transcripts/ep26.vtt",
+      "title": "26_TheBrothersKaramazov_Book12_Part02",
+      "start_ms": 529886808,
+      "length_ms": 6474141
+    },
+    {
+      "episode": 27,
+      "file": "m4a/Episodes/ep27.m4a",
+      "transcript": "transcripts/ep27.vtt",
+      "title": "27_TheBrothersKaramazov_Book12_Part03",
+      "start_ms": 536360949,
+      "length_ms": 4712025
+    },
+    {
+      "episode": 28,
+      "file": "m4a/Episodes/ep28.m4a",
+      "transcript": "transcripts/ep28.vtt",
+      "title": "29_TheBrothersKaramazov_Epilogue",
+      "start_ms": 541072974,
+      "length_ms": 3233285
+    }
+  ]
+}

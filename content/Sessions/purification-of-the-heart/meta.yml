@@ -1,0 +1,63 @@
+slug: purification-of-the-heart
+title: Purification of the Heart
+author: Sheikh Hamza Yusuf
+category: lectures
+
+source:
+  original_language: en
+  source_type: audio-lectures
+  lecture_count: 2  # two .m4a parts staged; may be re-segmented once the transcript lands
+
+pipeline:
+  current_phase: awaiting-intake
+  phase_status: pending
+
+publication:
+  status: draft
+
+series:
+  enable_book_branch: true
+
+provenance:
+  scaffolded_date: 2026-08-30
+  scaffolded_method: >-
+    Manual scaffold ahead of source delivery, at Asif's request. Folder
+    skeleton + branch created under content/Islamic/ initially, then
+    relocated to content/Sessions/ the same day at Asif's explicit direction
+    ("these should be treated as sessions not books") — bucket only, via the
+    explicit bucket= override that resolve_bucket/branch_name already
+    support. content_profile stays unset here deliberately, defaulting to
+    islamic_scholarly, the SAME profile kunooz-al-hikmah (also audio-sourced)
+    already uses — so this book keeps the full standard pipeline, including
+    phase 0d's own content-aware chapter/episode design, rather than the
+    unrelated islamic_session profile, which bypasses that machinery
+    entirely and is scoped to the KSESSIONS_DEV corpus-import lane instead.
+    narrative_frame is still deliberately NOT set — per the
+    narrative-frame-is-a-source-property rule, that gets decided by reading
+    the actual transcript once it lands, not guessed at scaffold time.
+title_english: Purification of the Heart
+# The title of the SOURCE work, not of these recordings: Hamza Yusuf's
+# "Purification of the Heart" is his translation and commentary on Imam
+# al-Mawlud's didactic poem, and this book's own series-config names that poem
+# in transliteration as "Matharat al-Qulub". This field is the script for that
+# same transliteration, so the shelf card can show a native-script title the way
+# every sibling book does.
+#
+# PROVENANCE, stated plainly because this repo's rule is never-guess on Arabic:
+# there is no scan or OCR of the Arabic title anywhere on disk -- the only
+# in-repo record is the romanization in series-config.yaml. So this value began
+# as that romanization rendered back into script, NOT as a value read off a
+# source.
+#
+# CONFIRMED BY ASIF, 2026-08-31. He read it and ruled it correct, which is what
+# this field rests on -- a human who reads Arabic, not a derivation. Recorded
+# here because the derivation above is the kind of reasoning that looks like
+# evidence to whoever reads it next, and it is not: the confirmation is.
+#
+# Bare, not vowelled, per Asif's 2026-08-10 call on spiritual-ethos: book-title
+# cards are kept unvowelled site-wide. The "always vowel Arabic script" rule
+# governs chapter body prose and glossary terms, not this field.
+title_arabic: "مطهرة القلوب"
+archetype: lecture-series
+content_level: general
+study_track: theology

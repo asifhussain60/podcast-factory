@@ -1,10 +1,16 @@
 /**
  * BriefStep — the fields of one wizard step, from the shared FieldDef array.
  *
- * Surface fields render directly; the rarely-touched ones live behind a native
- * <details> accordion so the common case is four or five questions per screen
- * rather than forty on one page. The accordion is pure HTML — the same no-JS
- * pattern StudioSubnav.astro already uses here.
+ * EVERY field is on screen. Until 2026-08-31 the rarely-touched ones sat behind
+ * a collapsed <details> accordion, which meant the commission could be
+ * generated without their ever having been read: a setting you did not know was
+ * there is not a setting you decided. Asif asked for them expanded, and the
+ * accordion is gone rather than merely defaulted open — a panel that can be
+ * closed is a panel that will be.
+ *
+ * `advanced` survives on the FieldDef as an ORDERING hint only. The questions
+ * most commissions answer come first, the rest follow under a quiet subheading,
+ * and both are visible without a click.
  */
 import BriefField, { type Option } from "./BriefField";
 import {
@@ -23,7 +29,7 @@ interface Props {
   onPickFolder: (field: FieldDef) => void;
   /** Fields that are read-only because a piece of existing content is loaded. */
   lockedFields?: ReadonlySet<string>;
-  /** Rendered between the surface fields and the accordion (uploader, voices). */
+  /** Rendered between the common fields and the rest (uploader, voices). */
   children?: React.ReactNode;
 }
 
@@ -38,8 +44,8 @@ export default function BriefStep({
   children,
 }: Props) {
   const all = fieldsForStep(step).filter((f) => isVisible(f, values));
-  const surface = all.filter((f) => !f.advanced);
-  const advanced = all.filter((f) => f.advanced);
+  const common = all.filter((f) => !f.advanced);
+  const rest = all.filter((f) => f.advanced);
 
   const render = (f: FieldDef) => (
     <BriefField
@@ -56,19 +62,19 @@ export default function BriefStep({
 
   return (
     <div className="bf-step-fields">
-      <div className="bf-grid">{surface.map(render)}</div>
+      <div className="bf-grid">{common.map(render)}</div>
       {children}
-      {advanced.length > 0 && (
-        <details className="bf-advanced">
-          <summary className="bf-advanced-summary">
-            Advanced
-            <span className="bf-advanced-count">
-              {advanced.length} more{" "}
-              {advanced.length === 1 ? "setting" : "settings"}
+      {rest.length > 0 && (
+        <section className="bf-more" aria-labelledby={`bf-more-${step}`}>
+          <h3 className="bf-more-title" id={`bf-more-${step}`}>
+            Also on this step
+            <span className="bf-more-note">
+              Sensible defaults are already chosen — change them only if you
+              need to.
             </span>
-          </summary>
-          <div className="bf-grid bf-advanced-grid">{advanced.map(render)}</div>
-        </details>
+          </h3>
+          <div className="bf-grid">{rest.map(render)}</div>
+        </section>
       )}
     </div>
   );

@@ -1,0 +1,75 @@
+# series-config.yaml — the pipeline settings for this book.
+#
+# WHAT THIS IS. Two recordings in which Asif teaches through Hamza Yusuf's
+# "Purification of the Heart", his translation and commentary on Imam
+# al-Mawlud's Matharat al-Qulub. The recordings are not one chapter each: they
+# are two long sittings that between them cover the book from "Love of the
+# World" to the end.
+#
+# WHY THE CHAPTER LIST IS HERE (2026-08-31). Phase 0d cut the transcripts into
+# seventeen chapters and invented a title for each — merging distinct chapters
+# of the book ("The World and the Envious Heart" is Love of the World AND Envy)
+# and naming chapters that already had names. The book's own contents page is
+# the authority on both, so it is stated here rather than derived. The 24 below
+# are the chapters the recordings actually cover: the book's contents page
+# opens with Introduction, Miserliness, Wantonness, Hatred and Iniquity, and
+# the recordings begin after them.
+#
+# The Arabic is checked against the recording where the transcript alone is
+# ambiguous, and Qur'anic runs are set from the canonical mushaf.
+# THE PROFILE WAS NEVER SET, and that is what broke this book (fixed
+# 2026-08-31). With `content_profile` absent it defaulted to
+# `islamic_scholarly`, which put this recorded sermon on the full book/podcast
+# pipeline: phase 0e enrichment rewrote two chapters into third-person literary
+# essays before the run was stopped. `islamic_session` is the lane this content
+# has always belonged to -- it skips OCR, phonetics and enrichment by
+# construction, so that failure cannot recur -- and it is also what makes the
+# shelf resolve to Sessions, which is where this book has physically lived all
+# along. The commission brief was still naming an `Islamic/` branch to create
+# because it read this missing field.
+content_profile: islamic_session
+
+# The speaker's own voice: the recording opens "Hello, welcome to my lecture.
+# Today I am going to teach you how to be a Muslim." Stated rather than left to
+# default, per the standing rule that the frame is read from how the SOURCE
+# opens and never inferred from the route.
+narrative_frame: first_person_author
+source_language: en
+video_style: none
+audience_profile: traditional
+conversation_style: deep_dive
+length_tier: extended
+episode_planning_mode: problem_solution
+episode_voice: verbatim
+source_medium: audio_lecture
+chapter_segmentation: from_source_toc
+chapter_list:
+- Love of the World
+- Envy
+- Blameworthy Modesty
+- Fantasizing
+- Fear of Poverty
+- Ostentation
+- Relying on Other Than God
+- Displeasure with the Divine Decree
+- Seeking Reputation
+- False Hopes
+- Negative Thoughts
+- Vanity
+- Fraud
+- Anger
+- Heedlessness
+- Rancor
+- Boasting & Arrogance
+- Displeasure with Blame
+- Antipathy Toward Death
+- Obliviousness to Blessings
+- Derision
+- Comprehensive Treatment for the Heart
+- Beneficial Actions for Purifying the Heart
+- The Root of All Diseases of the Heart
+chapter_count_hint: 24
+arabic_restoration: audio_grounded
+enable_slide_decks: true
+slide_deck_mode: per-chapter
+enable_video: false

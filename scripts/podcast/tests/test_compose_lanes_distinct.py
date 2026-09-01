@@ -73,9 +73,34 @@ def _podcasted_books() -> list[Path]:
         if bucket.name.startswith("_") or bucket.name == "knowledge-base":
             continue
         for book in sorted(p for p in bucket.iterdir() if p.is_dir()):
-            if (book / "book" / "book.md").is_file() and list((book / "chapters").glob("*.txt")):
-                found.append(book)
+            if not ((book / "book" / "book.md").is_file() and list((book / "chapters").glob("*.txt"))):
+                continue
+            # A VERBATIM book has one lane, not two, and that is the point of it
+            # (2026-08-31). Its chapters ARE its reading edition: `book.md` is
+            # assembled from them rather than independently composed, precisely
+            # so the proofread, Arabic-restored text phase 0d produced is what
+            # reaches the Podcast Factory Library. Every assertion below is
+            # about two INDEPENDENTLY produced translations of one source and is
+            # meaningless where there is one — so this book is out of scope
+            # here, not exempted from a rule it breaks. See `_verbatim_edition`.
+            if _is_verbatim(book):
+                continue
+            found.append(book)
     return found
+
+
+def _is_verbatim(book: Path) -> bool:
+    cfg = book / "_system" / "series-config.yaml"
+    if not cfg.is_file():
+        return False
+    try:
+        import yaml
+
+        return (
+            str((yaml.safe_load(cfg.read_text(encoding="utf-8")) or {}).get("episode_voice", "")).strip() == "verbatim"
+        )
+    except Exception:
+        return False
 
 
 #: Long enough that a shared occurrence cannot be coincidence between two

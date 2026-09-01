@@ -46,7 +46,7 @@ CONTENT_DIR = REPO_ROOT / "content"
 # place a value is accepted or discarded, and duplicating its logic behind a
 # shared constant would be a second thing to keep in sync for a five-item enum
 # that changes by a whole taxonomy revision, not by refactor.
-VALID_STUDY_TRACKS = {"theology", "history", "shariah", "esoteric", "reality"}
+VALID_STUDY_TRACKS = {"theology", "history", "shariah", "esoteric", "reality", "philosophy"}
 
 
 def _composed_books() -> list[Path]:

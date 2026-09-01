@@ -156,6 +156,11 @@
   flex-direction: column;
   gap: var(--sp-5);
   animation: bf-rise 180ms ease both;
+  /* Advancing a step scrolls this card to the top of the viewport. Without a
+     margin the card lands FLUSH with it and the 52px sticky topnav covers the
+     "Step N of 5" eyebrow and the heading under it — the two lines that say
+     where you now are. Same offset .bf-rail sits at, for the same reason. */
+  scroll-margin-top: calc(52px + var(--sp-2));
 }
 
 @keyframes bf-rise {
@@ -411,44 +416,34 @@
 
 /* ── Advanced accordion ───────────────────────────────────────────────────── */
 
-/* The panel bleeds OUTWARD by exactly what its padding insets. Two things have
- * to hold at once: the fields inside must line up with the fields above (they
- * jogged 17px right when the panel was a plain inset box), and they must not
- * sit flush against the band's own edge (they did when the padding was simply
- * removed). Bleeding and padding by the same amount satisfies both -- the inner
- * grid gets the identical track width as the grid above it. */
-.bf-advanced {
-  border: 1px solid var(--c-rule-soft);
-  border-radius: var(--r-md);
-  background: var(--c-bg-sunken);
+/* The rest of a step's questions. Not a panel and deliberately not collapsible
+ * (2026-08-31): a setting behind a closed accordion is one nobody decided. It
+ * bleeds outward by exactly its own inline padding so the grid inside keeps the
+ * identical track width as the grid above it -- without that the fields jogged
+ * 17px right of the ones they line up under. */
+.bf-more {
+  border-top: 1px solid var(--c-rule-soft);
   margin-inline: calc(-1 * var(--sp-4));
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-4) var(--sp-4) 0;
+  margin-block-start: var(--sp-2);
 }
 
-.bf-advanced-summary {
-  cursor: pointer;
+.bf-more-title {
   font-family: var(--font-ui);
   font-size: var(--fs-base);
   font-weight: 600;
   color: var(--c-ink);
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: var(--sp-3);
+  margin: 0 0 var(--sp-4);
 }
 
-.bf-advanced-summary:focus-visible {
-  outline: 2px solid var(--c-accent);
-  outline-offset: 2px;
-}
-
-.bf-advanced-count {
+.bf-more-note {
   font-size: var(--fs-sm);
   font-weight: 400;
   color: var(--c-ink-muted);
-}
-
-.bf-advanced-grid {
-  padding-top: var(--sp-4);
 }
 
 .bf-derived {
@@ -464,31 +459,171 @@
 
 /* ── Review ───────────────────────────────────────────────────────────────── */
 
+/* ── Review (step 5) ───────────────────────────────────────────────────────
+   Rebuilt 2026-08-30. Was one grey column of same-weight label/value rows.
+   Card + chip geometry adapted from Sphere's section cards and skill tags
+   (Wrapbootstrap, reference only — nothing imported); every colour, space and
+   size below is this site's own token. */
+
 .bf-review {
   display: flex;
   flex-direction: column;
   gap: var(--sp-5);
 }
 
-.bf-review-group {
-  border: 1px solid var(--c-rule-soft);
-  border-radius: var(--r-md);
-  padding: var(--sp-4);
-  background: color-mix(in oklab, var(--c-bg-elev) 60%, transparent);
+/* The masthead — what is being made, said once, at the top. */
+.bf-rv-masthead {
+  padding: var(--sp-6);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-lg);
+  background: var(--c-bg-elev);
+  /* A single accent edge rather than a filled panel: the page already carries
+     one card background, and a second filled block competes with it. */
+  border-inline-start: 4px solid var(--c-accent);
 }
 
-.bf-review-group-title {
+.bf-rv-eyebrow {
+  margin: 0 0 var(--sp-2);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-rv-title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: var(--fs-lg);
-  margin: 0 0 var(--sp-3);
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
   color: var(--c-ink);
 }
 
-.bf-review-edit {
-  margin-left: auto;
+.bf-rv-byline {
+  margin: var(--sp-1) 0 0;
+  font-size: var(--fs-lg);
+  color: var(--c-ink-dim);
+}
+
+.bf-rv-facts {
+  margin: var(--sp-5) 0 0;
+  display: grid;
+  /* auto-fit so three facts sit in a row on a wide card and stack on a phone,
+     with no viewport where the layout is untested. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--sp-4);
+}
+
+/* Same two-voice rule as the card rows: sans label, serif answer. */
+.bf-rv-fact dt {
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--c-accent) 55%, var(--c-ink-muted));
+  margin-bottom: var(--sp-1);
+}
+
+.bf-rv-fact dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  line-height: var(--lh-tight);
+  color: var(--c-ink);
+  overflow-wrap: anywhere;
+}
+
+.bf-rv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.bf-rv-chip {
+  display: inline-block;
+  padding: 0.15rem var(--sp-3);
+  border: 1px solid var(--c-rule);
+  border-radius: 999px;
+  background: var(--c-bg-card);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-dim);
+  overflow-wrap: anywhere;
+}
+
+.bf-rv-empty {
+  color: var(--c-ink-muted);
+  font-style: italic;
+}
+
+.bf-rv-note {
+  margin: 0;
+}
+
+/* COLUMNS, not grid (2026-08-30, from Asif's markup: three boxes drawn round the
+   empty regions beside the short cards).
+
+   The four sections are wildly uneven — 8 answers, 2, 6, 10 — and a two-column
+   GRID lays them out in rows, so each row is as tall as its taller card. Whatever
+   is done about the shorter one is wrong: stretch it and it renders as a
+   mostly-empty panel, or let it keep its own height (align-items:start, which is
+   what the markup caught) and the grid leaves a hole beside it. Both were shipped
+   in that order, and the hole is what got drawn on.
+
+   Multi-column flows the cards instead of placing them in rows: a card starts
+   where the previous one ended, and the browser balances the columns. There is no
+   row to leave a gap in. `break-inside: avoid` on the card is what stops one
+   splitting across the fold. */
+.bf-rv-grid {
+  columns: 2;
+  column-gap: var(--sp-4);
+}
+
+/* One column below the width where two cards stop fitting — matching the 22rem
+   minimum the grid used, so the breakpoint does not move. */
+@media (max-width: 52rem) {
+  .bf-rv-grid {
+    columns: 1;
+  }
+}
+
+.bf-rv-card {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--c-bg-card);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  /* A card is one unit: never split it down a column boundary. */
+  break-inside: avoid;
+  /* Columns have no row gap, so the card carries its own bottom spacing —
+     `margin` rather than `gap`, which does not apply in a column context. */
+  margin-bottom: var(--sp-4);
+}
+
+.bf-rv-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.bf-rv-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-rv-change {
+  flex: none;
   background: none;
   border: 0;
   padding: 0;
@@ -500,36 +635,65 @@
   text-underline-offset: 2px;
 }
 
-.bf-review-edit:focus-visible {
+.bf-rv-change:focus-visible {
   outline: 2px solid var(--c-accent);
   outline-offset: 2px;
 }
 
-.bf-review-list {
+/* Screen-reader-only tail on "Change", so a list of identical buttons is
+   distinguishable out of context without repeating the step name on screen. */
+.bf-rv-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.bf-rv-rows {
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
 }
 
-.bf-review-row {
-  display: grid;
-  grid-template-columns: minmax(0, 18ch) minmax(0, 1fr);
-  gap: var(--sp-4);
-  align-items: baseline;
+/* Each answer sits on its own faint ground with an accent edge, so the eye
+   counts ANSWERS rather than reading one long ribbon of alternating text.
+   Deliberately faint: 40% of the sunken token, which is a warm beige a shade
+   off the card rather than a grey box drawn around every row. */
+.bf-rv-row {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border-inline-start: 2px solid var(--c-accent-soft);
+  background: color-mix(in oklab, var(--c-bg-sunken) 40%, transparent);
 }
 
-.bf-review-row dt {
+/* THE LABEL AND THE ANSWER ARE DIFFERENT TYPEFACES. They were both Inter,
+   separated only by size and colour — and the label was the BOLDER of the two,
+   which fought the hierarchy it was meant to establish. Now the label is small
+   uppercase sans in a warm brown drawn from the accent, and the answer is the
+   display serif: two different voices, so which is which is legible before a
+   word is read. */
+.bf-rv-row dt {
   font-family: var(--font-ui);
-  font-size: var(--fs-base);
-  color: var(--c-ink-muted);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--c-accent) 55%, var(--c-ink-muted));
+  margin-bottom: 0.2rem;
 }
 
-.bf-review-row dd {
+.bf-rv-row dd {
   margin: 0;
+  font-family: var(--font-display);
   font-size: var(--fs-base);
-  line-height: var(--lh-base);
+  line-height: var(--lh-tight);
   color: var(--c-ink);
+  overflow-wrap: anywhere;
 }
 
 /* ── Buttons + navigation ─────────────────────────────────────────────────── */
@@ -940,8 +1104,83 @@
   color: var(--c-ink-muted);
 }
 
-.bf-picker-select {
+.bf-combo {
+  position: relative;
   width: min(46ch, 100%);
+}
+
+.bf-picker-input {
+  width: 100%;
+}
+
+/* Anchored under the input via absolute position — the picker card is the
+   nearest positioned ancestor's normal-flow neighbour, so the list overlays
+   whatever is below it rather than pushing the page down as it opens and
+   closes, which would shove every other control on the landing screen. */
+.bf-combo-list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + var(--sp-1));
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: var(--sp-1) 0;
+  max-height: 22rem;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--c-bg-card);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-hover);
+}
+
+.bf-combo-group {
+  padding: 0;
+}
+
+.bf-combo-group-label {
+  display: block;
+  padding: var(--sp-2) var(--sp-3) var(--sp-1);
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--c-ink-muted);
+}
+
+.bf-combo-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-base);
+  color: var(--c-ink);
+  cursor: pointer;
+}
+
+.bf-combo-option:hover,
+.bf-combo-option.is-active {
+  background: color-mix(in oklab, var(--c-accent) 10%, transparent);
+}
+
+.bf-combo-option--new {
+  font-weight: 600;
+  border-bottom: 1px solid var(--c-rule-soft);
+}
+
+.bf-combo-published {
+  flex: none;
+  font-family: var(--font-ui);
+  font-size: var(--fs-label);
+  color: var(--c-ink-muted);
+}
+
+.bf-combo-empty {
+  padding: var(--sp-3);
+  color: var(--c-ink-muted);
+  font-style: italic;
 }
 
 /* ── A setting that exists but must not be changed here ──────────────────── */
@@ -1001,4 +1240,293 @@
 
 .bf-saved-skipped {
   color: var(--c-amber);
+}
+
+/* Creating a file the book did not have is a real event, not a warning — it
+   reads in the ink colour the written list uses, not the amber of a skip. */
+.bf-saved-note {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink-dim);
+}
+
+/* The hand-off prompt after a save. Separated from the written/skipped lists by
+   a rule: it is the next ACTION, not more reporting on the one just finished. */
+.bf-saved-prompt {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--c-rule-soft);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.bf-saved-prompt-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.bf-saved-prompt-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--c-ink);
+}
+
+.bf-saved-prompt-text {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  color: var(--c-ink);
+  background: var(--c-bg-sunken);
+  border: 1px solid var(--c-rule);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  resize: vertical;
+}
+
+/* ── Contents-page screenshots ─────────────────────────────────────────────
+ * The evidence a chapter list is worked out from. Shares .intake-drop with the
+ * source uploader rather than restyling a second drop zone: the two do
+ * different jobs but a person should not have to learn two controls to do the
+ * same gesture. */
+.bf-shots {
+  border-top: 1px solid var(--c-rule-soft);
+  margin-inline: calc(-1 * var(--sp-4));
+  padding: var(--sp-4) var(--sp-4) 0;
+  margin-block-start: var(--sp-2);
+}
+
+.bf-shots-title {
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--c-ink);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-3);
+  margin: 0 0 var(--sp-4);
+}
+
+.bf-shots-note {
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  color: var(--c-ink-muted);
+}
+
+/* auto-fit, so the pages of a contents spread lay out by how many there are
+ * rather than by a column count that would be wrong at some viewport. */
+.bf-shots-list {
+  list-style: none;
+  margin: var(--sp-4) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--sp-4);
+}
+
+.bf-shot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+/* Uncapped height: a contents page is tall and narrow, and clamping it is how
+ * the middle chapters become unreadable in the one view meant to show them. */
+.bf-shot-img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-sm);
+  background: var(--c-bg-sunken);
+}
+
+.bf-shot-remove {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: start;
+}
+
+.bf-shot-remove:hover,
+.bf-shot-remove:focus-visible {
+  color: var(--c-ink);
+  text-decoration: underline;
+}
+
+.bf-shot-name {
+  color: var(--c-ink-dim);
+}
+
+.bf-shots-handoff,
+.bf-shots-found {
+  margin-block-start: var(--sp-4);
+}
+
+.bf-shots-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-3);
+}
+
+.bf-shots-found {
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-md);
+  background: var(--c-bg-sunken);
+  padding: var(--sp-4);
+}
+
+.bf-shots-uncovered {
+  color: var(--c-ink-dim);
+}
+
+/* ── The chapter list, as rows ─────────────────────────────────────────────
+ * A textarea could hold twenty-four chapters but not let you touch ONE of
+ * them. These rows are numbered by CSS counter rather than by a written-out
+ * index, so reordering renumbers with no extra render. */
+.bf-chapters-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+/* Number, title, tools on one line where there is room. Below ~30rem the three
+ * tool buttons and the number leave the title box about 90px wide -- narrower
+ * than most chapter names -- so the tools drop to a second line and the title
+ * keeps the full width. Measured, not guessed: 375px was the width where the
+ * box stopped being able to show what was in it. */
+.bf-chapter-row {
+  display: grid;
+  grid-template-columns: 2ch 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+@container (max-width: 30rem) {
+  .bf-chapter-row {
+    grid-template-columns: 2ch 1fr;
+  }
+
+  .bf-chapter-tools {
+    grid-column: 2;
+    justify-content: flex-end;
+  }
+}
+
+/* The query above needs a container to measure; the field is the right one --
+ * these rows are as wide as the field, whatever the viewport is doing. */
+.bf-chapters {
+  container-type: inline-size;
+}
+
+.bf-chapter-num {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+.bf-chapter-input {
+  min-width: 0; /* a grid item's default `auto` refuses to shrink below content */
+}
+
+.bf-chapter-tools {
+  display: flex;
+  gap: var(--sp-1, 0.25rem);
+}
+
+.bf-chapter-btn {
+  font-family: var(--font-ui);
+  font-size: var(--fs-base);
+  line-height: 1;
+  color: var(--c-ink-muted);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  /* A real 44px-ish target: these sit in a dense column and a 12px glyph is
+     not something to ask anyone to hit. */
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.bf-chapter-btn:hover:not(:disabled),
+.bf-chapter-btn:focus-visible {
+  color: var(--c-ink);
+  border-color: var(--c-rule-soft);
+  background: var(--c-bg-sunken);
+}
+
+.bf-chapter-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.bf-chapter-btn--remove:hover:not(:disabled) {
+  color: var(--c-danger, #a33);
+}
+
+.bf-chapters-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-3);
+}
+
+.bf-chapters-count {
+  margin: 0;
+}
+
+/* ── Picker order ────────────────────────────────────────────────────────── */
+.bf-combo-order {
+  display: flex;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3) 0;
+}
+
+.bf-combo-orderbtn {
+  font-family: var(--font-ui);
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  background: none;
+  border: 1px solid var(--c-rule-soft);
+  border-radius: var(--r-sm);
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+}
+
+.bf-combo-orderbtn:hover,
+.bf-combo-orderbtn:focus-visible {
+  color: var(--c-ink);
+}
+
+.bf-combo-orderbtn.is-on {
+  color: var(--c-ink);
+  border-color: var(--c-accent);
+  background: var(--c-bg-sunken);
+  font-weight: 600;
+}
+
+/* The shelf, shown per row only in recency order — where there is no grouping
+ * heading to carry it. */
+.bf-combo-shelf {
+  font-size: var(--fs-sm);
+  color: var(--c-ink-muted);
+  margin-inline-start: var(--sp-3);
 }

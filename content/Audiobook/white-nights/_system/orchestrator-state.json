@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "book_slug": "white-nights",
+  "category": "books",
+  "branch": "Audiobook/white-nights",
+  "pipeline_mode": "sessions_lane",
+  "phase": "sessions-transcribe",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-transcribe",
+  "next_phase": "sessions-articulate",
+  "last_error": null,
+  "phases": {
+    "sessions-ingest": {
+      "status": "completed"
+    },
+    "sessions-transcribe": {
+      "status": "completed"
+    },
+    "sessions-articulate": {
+      "status": "pending"
+    },
+    "sessions-read-along": {
+      "status": "pending"
+    },
+    "sessions-preface": {
+      "status": "pending"
+    },
+    "sessions-apparatus": {
+      "status": "pending"
+    }
+  },
+  "status": "draft"
+}

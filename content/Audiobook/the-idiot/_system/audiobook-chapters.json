@@ -1,0 +1,169 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheIdiot",
+  "slug": "the-idiot",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheIdiot_OpeningCredits",
+      "start_ms": 220455959,
+      "length_ms": 13978
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheIdiot_Introduction",
+      "start_ms": 220469937,
+      "length_ms": 591783
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheIdiot_Part01_Part01",
+      "start_ms": 221061720,
+      "length_ms": 6692501
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheIdiot_Part01_Part02",
+      "start_ms": 227754221,
+      "length_ms": 4205040
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheIdiot_Part01_Part03",
+      "start_ms": 231959261,
+      "length_ms": 4227146
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheIdiot_Part01_Part04",
+      "start_ms": 236186407,
+      "length_ms": 5671055
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_TheIdiot_Part01_Part05",
+      "start_ms": 241857462,
+      "length_ms": 6323490
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_TheIdiot_Part02_Part01",
+      "start_ms": 248180952,
+      "length_ms": 5937203
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_TheIdiot_Part02_Part02",
+      "start_ms": 254118155,
+      "length_ms": 6721991
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_TheIdiot_Part02_Part03",
+      "start_ms": 260840146,
+      "length_ms": 7129594
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_TheIdiot_Part02_Part04",
+      "start_ms": 267969740,
+      "length_ms": 3490377
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_TheIdiot_Part03_Part01",
+      "start_ms": 271460117,
+      "length_ms": 7163077
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_TheIdiot_Part03_Part02",
+      "start_ms": 278623194,
+      "length_ms": 6611231
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_TheIdiot_Part03_Part03",
+      "start_ms": 285234425,
+      "length_ms": 4679703
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_TheIdiot_Part03_Part04",
+      "start_ms": 289914128,
+      "length_ms": 2852664
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_TheIdiot_Part04_Part01",
+      "start_ms": 292766792,
+      "length_ms": 5128823
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_TheIdiot_Part04_Part02",
+      "start_ms": 297895615,
+      "length_ms": 5605482
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_TheIdiot_Part04_Part03",
+      "start_ms": 303501097,
+      "length_ms": 5213344
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_TheIdiot_Part04_Part04",
+      "start_ms": 308714441,
+      "length_ms": 5633114
+    },
+    {
+      "episode": 20,
+      "file": "m4a/Episodes/ep20.m4a",
+      "transcript": "transcripts/ep20.vtt",
+      "title": "20_TheIdiot_Part04_Part05",
+      "start_ms": 314347555,
+      "length_ms": 5396363
+    }
+  ]
+}

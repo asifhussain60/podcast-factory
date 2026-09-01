@@ -54,6 +54,12 @@ class ContentType:
     # Default ElevenLabs cast (host key -> voice-library name) stamped at intake
     # when the chosen engine is elevenlabs and the operator picked no voices.
     default_voice_cast: dict = field(default_factory=dict)
+    # Skip the per-chapter PODCAST lane entirely — the NotebookLM episode loop,
+    # its convergence passes, and the audio phases after it. Not a performance
+    # switch: for a recorded session the audio ALREADY EXISTS and is the
+    # lecture, so there is no episode to build and nothing for a challenger to
+    # converge. Defaults False, so every existing profile is untouched.
+    skip_per_chapter: bool = False
 
 
 CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
@@ -177,6 +183,14 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         skip_phonetics=True,
         skip_enrichment=True,
         skip_ocr=True,
+        # Added 2026-08-31 after `purification-of-the-heart` finished phase 0d
+        # and walked straight into the podcast lane, where a smoke gate written
+        # for authored episodes rejected three chapters for being the length the
+        # speaker actually spoke. The docstring above already said "produces no
+        # NotebookLM episodes, because the audio already exists and is the
+        # lecture itself" — it was true of the lane's own driver and not of the
+        # orchestrated route, which had no way to express it.
+        skip_per_chapter=True,
         literary_voice={
             "narrator_voice": "author_first_person",
             "narrator_subject": "the speaker",
@@ -185,11 +199,58 @@ CONTENT_TYPE_REGISTRY: dict[str, "ContentType"] = {
         },
         narrative_frame="first_person_author",
     ),
+    # Published audiobooks — someone else's book, read aloud by a narrator. The
+    # SECOND profile to run the spoken lane (`pipeline_mode: sessions_lane`),
+    # which is why that lane's scaffolding was lifted out of `sessions/ingest.py`
+    # into `spoken_lane/scaffold.py`: the lane is the route, KSESSIONS is one
+    # source adapter into it, and a lane defined by whichever ingest you copied
+    # is not a lane.
+    #
+    # The bucket is a FORMAT, not a subject — exactly as `Sessions` is. What the
+    # book is ABOUT is carried by `study_track` on the card (Dostoyevsky ships as
+    # `philosophy`), so an Islamic audiobook and a Russian novel can share the
+    # shelf without either one's subject being misfiled.
+    #
+    # Every skip is load-bearing, the same reasoning as `islamic_session`:
+    #   skip_ocr        the source is a recording; there is nothing to scan
+    #   skip_phonetics  0c exists so NotebookLM says Arabic terms correctly, and
+    #                   nothing here is spoken by a model
+    #   skip_enrichment 0e injects outside doctrinal material, which would put
+    #                   words into a book its author finished writing
+    #   skip_per_chapter the audio ALREADY EXISTS and is the book, so there is no
+    #                   episode to generate and nothing for a challenger to converge
+    #
+    # NOT skipped, deliberately: the Arabic apparatus. Asif, 2026-09-01 — the
+    # shelf "would still preserve and replace arabic". A book with none records a
+    # `noop`; one with Arabic gets the same restoration ladder every other book
+    # gets, which is what makes an Islamic audiobook work on day one.
+    #
+    # `external_narrator`: a novel read aloud is still narrated in the third
+    # person by its own narrator. The reader is not the frame.
+    #
+    # Appended LAST on purpose: CONTENT_PROFILES is derived from insertion order,
+    # so adding here leaves every existing profile's position untouched.
+    "audiobook": ContentType(
+        profile="audiobook",
+        bucket="Audiobook",
+        skip_phonetics=True,
+        skip_enrichment=True,
+        skip_ocr=True,
+        skip_per_chapter=True,
+        literary_voice={
+            "narrator_voice": "narrative_voice",
+            "narrator_subject": "the narrator",
+            "addressee": "the reader",
+            "scene_source": "text_only",
+        },
+        narrative_frame="external_narrator",
+    ),
 }
 
 # Ordered top-level bucket folders under content/ (type-first layout, 2026-06-04).
 # "Supplications" appended 2026-07-19 (PDF-only facing-column lane).
 # "Sessions" appended 2026-08-11 (delivered-lecture lane).
+# "Audiobook" appended 2026-09-01 (published books read aloud; spoken lane).
 BUCKETS: tuple[str, ...] = (
     "Islamic",
     "Technical",
@@ -197,6 +258,7 @@ BUCKETS: tuple[str, ...] = (
     "Guides",
     "Supplications",
     "Sessions",
+    "Audiobook",
 )
 
 # CONTENT_PROFILES is now DERIVED from the registry (was a hand-maintained tuple

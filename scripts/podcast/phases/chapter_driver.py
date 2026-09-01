@@ -82,6 +82,34 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
         _err(f"no chapter contracts under {contracts_dir} — Phase 0d should have produced them. Cannot proceed.")
         return 2
 
+    # A recorded session HAS no podcast to build: the audio already exists and
+    # IS the lecture. Declared on the content profile beside the other three
+    # skips, so "does this kind of content have episodes?" is answered in one
+    # place rather than tested for here.
+    #
+    # It skips the EPISODE LOOP ONLY. Everything after it still runs — slide
+    # decks (the brief asks for one per chapter), the reading edition, the
+    # finalize halt — which is why this hands the full chapter set to
+    # `drive_post_chapter` rather than returning.
+    from _content_profile import resolve_content_profile
+    from _content_types import phase_capabilities
+
+    if phase_capabilities(resolve_content_profile(book_dir)).skip_per_chapter:
+        _info(f"per-chapter: skipped for this content type — {len(chapter_slugs)} chapter(s) are the deliverable.")
+        _info("  The recording already exists and is the lecture: no episodes, no upload bundle, no audio render.")
+        update_phase(
+            book_dir, phase="per-chapter", status="completed", extras={"skipped_reason": "audio already exists"}
+        )
+        from phases.post_chapter_driver import drive_post_chapter
+
+        return drive_post_chapter(
+            book_dir,
+            book_slug=book_slug,
+            completed_chapter_slugs=set(chapter_slugs),
+            outcomes=[],
+            approve_audio_render=approve_audio_render,
+        )
+
     n_swept = _sweep_orphan_episode_drafts(book_dir)
     if n_swept:
         _info(f"per-chapter sweep: removed {n_swept} orphan episode-drafts/ subdir(s)")

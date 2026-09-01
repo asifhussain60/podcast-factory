@@ -902,6 +902,10 @@
   background: var(--track-shariah-bg);
   color: var(--track-shariah-ink);
 }
+.card-track-ribbon[data-track="philosophy"] {
+  background: var(--track-philosophy-bg);
+  color: var(--track-philosophy-ink);
+}
 /* No glow on any track here (Asif, 2026-08-15). The Podcast Factory Library
    gives Esoteric and Reality a lit halo; it was ported and he did not like it
    on this surface, so all five ribbons sit flat. Deliberately NOT synced: the
@@ -2299,6 +2303,10 @@
 .studio-track-chip[data-track-filter="shariah"] {
   --track-chip-accent: var(--track-shariah-bg);
   --track-chip-ink: var(--track-shariah-ink);
+}
+.studio-track-chip[data-track-filter="philosophy"] {
+  --track-chip-accent: var(--track-philosophy-bg);
+  --track-chip-ink: var(--track-philosophy-ink);
 }
 .studio-track-chip[data-track-filter="esoteric"] {
   --track-chip-accent: var(--track-esoteric-bg);

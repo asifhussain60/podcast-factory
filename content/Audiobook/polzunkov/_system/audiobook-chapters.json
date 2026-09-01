@@ -1,0 +1,33 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "Polzunkov",
+  "slug": "polzunkov",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_Polzunkov_OpeningCredits",
+      "start_ms": 40305551,
+      "length_ms": 14860
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_Polzunkov_Introduction",
+      "start_ms": 40320411,
+      "length_ms": 602929
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_Polzunkov_AStory",
+      "start_ms": 40923340,
+      "length_ms": 2078696
+    }
+  ]
+}

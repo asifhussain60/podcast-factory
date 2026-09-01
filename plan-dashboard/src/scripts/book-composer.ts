@@ -57,12 +57,17 @@ import {
   type AutosaveController,
 } from "./autosave";
 import { createComposeEditorBridge } from "./compose-editor-bridge";
+import { ReadAlong } from "../components/studio/editor/read-along-decos";
+import { mountReadAlong } from "./read-along-transport";
 import {
   createComposeLane,
   pendingLane,
   type ComposeLane,
 } from "./compose-lane";
-import { createComposeNarration, type ComposeNarration } from "./compose-narration";
+import {
+  createComposeNarration,
+  type ComposeNarration,
+} from "./compose-narration";
 // NB: the module also exports `composeLane`, deliberately NOT imported here —
 // this file already binds that name to its ComposeLane controller instance.
 import { composeChapter, registerComposeChapters } from "./compose-view-state";
@@ -640,6 +645,7 @@ function boot(): void {
       ?.querySelector<HTMLElement>(".lib-hero-main h1")
       ?.textContent?.trim() ?? "";
   let activeEditor: ChapterEditor | null = null;
+  let readAlong: ReturnType<typeof mountReadAlong> | null = null;
   // Figures drawn into the open chapter's edit canvas. Deliberately a widget-
   // decoration feed and NOT editor content: see figure-decos.ts for why placing
   // them in the document would let `toMarkdown()` serialize them into book.md.
@@ -1695,7 +1701,14 @@ function boot(): void {
     // while you work, never what the book says.
     viewPrefs.append(notesSwitch);
 
-    shell.append(toolbar, host);
+    // The read-along transport. Drawn only for a chapter that HAS timings —
+    // which is most books' none — so it takes its place in the shell and hides
+    // itself until it knows. See read-along-transport.ts.
+    const readAlongBar = document.createElement("div");
+    readAlongBar.className = "cx-read-along-bar";
+    readAlongBar.hidden = true;
+
+    shell.append(toolbar, readAlongBar, host);
     bodyEl.insertAdjacentElement("afterend", shell);
 
     // Fresh bridge per chapter — no leaked comments/section-tags/focus state
@@ -1736,6 +1749,13 @@ function boot(): void {
         // print against. Repaints it as `.ar-raw`, which book-composer.css
         // already sizes and faces for exactly this run. See arabic-decos.ts.
         createArabicDecos(),
+        // Lights the paragraph the recording is speaking, when a chapter has
+        // timings and the transport is playing. A decoration for the same reason
+        // every one above it is: it is visible while you edit and cannot reach
+        // book.md on the next autosave. See read-along-decos.ts for why the
+        // index that finds a paragraph is confirmed by its text before anything
+        // is painted.
+        ReadAlong,
       ],
       {
         // Persists a drag-resize / align click to `_system/image-layout.json`.
@@ -1756,6 +1776,16 @@ function boot(): void {
       },
     );
     paintNotesSwitch();
+
+    // Fresh per chapter, like the bridge above: the transport holds an audio
+    // element and a chapter's cues, and neither survives a chapter switch.
+    readAlong?.destroy();
+    readAlong = mountReadAlong({
+      el: readAlongBar,
+      slug,
+      editor: () => (activeEditor?.editor as never) ?? null,
+    });
+    void readAlong.open(selectedChapter);
 
     // ── The formatting toolbar ────────────────────────────────────────────────
     // attach(), never mount(): mountChapterEditor above stays the sole owner of
@@ -4245,8 +4275,9 @@ function boot(): void {
   const narrationGenerateBtn = root.querySelector<HTMLButtonElement>(
     "#cx-narration-generate",
   );
-  const narrationAudio =
-    root.querySelector<HTMLAudioElement>("#cx-narration-audio");
+  const narrationAudio = root.querySelector<HTMLAudioElement>(
+    "#cx-narration-audio",
+  );
   const narrationStatus = root.querySelector<HTMLElement>(
     "#cx-narration-status",
   );

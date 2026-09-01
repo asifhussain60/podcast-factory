@@ -1,0 +1,73 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "WhiteNights",
+  "slug": "white-nights",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_WhiteNights_OpeningCredits",
+      "start_ms": 19236747,
+      "length_ms": 12863
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_WhiteNights_Introduction",
+      "start_ms": 19249610,
+      "length_ms": 552913
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_WhiteNights_FirstNight",
+      "start_ms": 19802523,
+      "length_ms": 1518956
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_WhiteNights_SecondNight",
+      "start_ms": 21321479,
+      "length_ms": 1669793
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_WhiteNights_NastenkasHistory",
+      "start_ms": 22991272,
+      "length_ms": 2110926
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_WhiteNights_ThirdNight",
+      "start_ms": 25102198,
+      "length_ms": 1679174
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_WhiteNights_FourthNight",
+      "start_ms": 26781372,
+      "length_ms": 2100152
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_WhiteNights_Morning",
+      "start_ms": 28881524,
+      "length_ms": 432355
+    }
+  ]
+}

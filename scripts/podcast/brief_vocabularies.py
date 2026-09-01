@@ -67,6 +67,11 @@ FAMILIES: tuple[tuple[str, str, str], ...] = (
     ("explainer", "Explainer or guide", "Onboarding, product and consumer explainers."),
     ("general", "General non-fiction", "Everything else written to inform."),
     ("supplication", "Supplication", "Prayers and devotional recitation."),
+    (
+        "audiobook",
+        "Audiobook",
+        "A published book read aloud — someone else's text, narrated.",
+    ),
 )
 
 #: family -> {source_medium -> content_profile}. A family whose two media resolve
@@ -96,6 +101,17 @@ FAMILY_PROFILES: dict[str, dict[str, str]] = {
         _flags.SOURCE_PRINTED_TEXT: "islamic_supplication",
         _flags.SOURCE_AUDIO_LECTURE: "islamic_supplication",
     },
+    # An audiobook is audio by definition, so the medium answer cannot change
+    # what it is -- both entries resolve to the same profile, exactly as every
+    # non-Islamic family above does. `audio_lecture` is the answer that fits, and
+    # picking it is what reveals the three fields this route actually needs on
+    # the form (arabic_restoration, source_fidelity, chapter_segmentation); a
+    # third `source_medium` value would have meant touching every `showIf` gate
+    # and adding a column to all seven families to express nothing new.
+    "audiobook": {
+        _flags.SOURCE_PRINTED_TEXT: "audiobook",
+        _flags.SOURCE_AUDIO_LECTURE: "audiobook",
+    },
 }
 
 #: The legacy `category` tag each profile defaults to. It is no longer asked on
@@ -111,7 +127,35 @@ PROFILE_CATEGORY: dict[str, str] = {
     "technical": "explainers",
     "consumer_explainer": "explainers",
     "general_nonfiction": "books",
+    "audiobook": "books",
 }
+
+
+#: What each medium actually DOES, said only where the two differ. Derived from
+#: FAMILY_PROFILES rather than written out, so a family that starts varying by
+#: medium gets the sentence automatically and one that stops varying loses it.
+_ROUTE_GLOSS: dict[str, str] = {
+    "printed_text": (
+        " Chapters are written from the text and episodes are generated for them, "
+        "and the reading edition is composed as its own deliverable."
+    ),
+    "audio_lecture": (
+        " The recording IS the chapter: it is proofread but never rewritten, no "
+        "podcast episodes are generated, and the text can follow the speaker's own "
+        "voice as it plays."
+    ),
+}
+
+
+def _route_gloss(medium: str) -> str:
+    """The route sentence, only for media that actually lead somewhere different.
+
+    A family whose two media resolve to the SAME content profile does not fork,
+    and telling its operator that one answer skips the podcast would be false.
+    Only `islamic` forks today; this asks the map rather than assuming that.
+    """
+    forks = any(len(set(media.values())) > 1 for media in FAMILY_PROFILES.values())
+    return _ROUTE_GLOSS.get(medium, "") if forks else ""
 
 
 def _assert_families_cover_registry() -> None:
@@ -167,6 +211,7 @@ _STUDY_TRACK_GLOSS: dict[str, str] = {
     "shariah": "Law, practice, and what is required.",
     "esoteric": "Inner meaning beneath the plain sense of the text.",
     "reality": "Metaphysics — origin, return, and the structure of being.",
+    "philosophy": "Reasoned enquiry into meaning, morals, and the human condition.",
 }
 
 _CONTENT_LEVEL_GLOSS: dict[str, str] = {
@@ -201,16 +246,26 @@ def get_vocabularies() -> dict[str, list[dict[str, str]]]:
         "autonomy": _from_registry(AUTONOMY_LEVELS),
         # Worded as the thing itself rather than as the pipeline token: this is
         # half of what decides the content profile, so it has to read plainly.
+        #
+        # The LABEL now names the road as well as the source (Asif, 2026-08-31:
+        # "use values that make it clear where you're asking me to select
+        # Book/Content vs Sessions Path"). Both options described only what the
+        # material was, and nothing on the form said that this one answer sends
+        # the work down a wholly different pipeline — no podcast on one side, no
+        # rewriting on the other. `_route_gloss` appends that consequence, and
+        # ONLY on the family where it is true: for Technical, Fiction, Explainer,
+        # General and Supplication both media resolve to the same profile, so a
+        # route promise there would be a sentence the form cannot keep.
         "source_medium": [
             _opt(
                 _flags.SOURCE_PRINTED_TEXT,
-                "A printed book or manuscript",
-                _GLOSS[_flags.SOURCE_PRINTED_TEXT],
+                "A printed book or manuscript — the Book route",
+                _GLOSS[_flags.SOURCE_PRINTED_TEXT] + _route_gloss(_flags.SOURCE_PRINTED_TEXT),
             ),
             _opt(
                 _flags.SOURCE_AUDIO_LECTURE,
-                "A recorded talk or session",
-                _GLOSS[_flags.SOURCE_AUDIO_LECTURE],
+                "A recorded talk or session — the Sessions route",
+                _GLOSS[_flags.SOURCE_AUDIO_LECTURE] + _route_gloss(_flags.SOURCE_AUDIO_LECTURE),
             ),
         ],
         "book_voice": [
@@ -244,6 +299,45 @@ def get_vocabularies() -> dict[str, list[dict[str, str]]]:
             _opt("per-chapter", "Per chapter", "One deck for each chapter. The default."),
             _opt("book", "One for the book", "A single deck covering the whole book."),
         ],
+        # HOW a recorded series becomes chapters. Asked rather than derived
+        # because both answers are right for different series: a course of
+        # weekly lectures is one chapter per recording, while a single long
+        # sitting that moves through several distinct topics reads better cut
+        # at those topic boundaries. Nothing in a file listing can tell the two
+        # apart, and guessing wrong reshapes the whole edition.
+        "chapter_segmentation": [
+            _opt(
+                "one_per_recording",
+                "One chapter per recording",
+                "Each audio file becomes exactly one chapter. The default: a recording IS a session.",
+            ),
+            _opt(
+                "from_source_toc",
+                "Follow the book's own chapter list",
+                "The sessions teach through a published work chapter by chapter. Cut the chapters where the book does and keep the book's own chapter names.",
+            ),
+            _opt(
+                "from_transcript",
+                "Work the chapters out from the transcript",
+                "No chapter list exists to follow: read the transcript for topic boundaries and cut chapters there.",
+            ),
+        ],
+        # Arabic that the transcriber wrote out phonetically ("Bismillahir
+        # Rahmanir Rahim") has to go back into script before the edition is
+        # printed. Qur'anic runs are always resolved against the canonical
+        # mushaf; this decides what happens to everything else.
+        "arabic_restoration": [
+            _opt(
+                "audio_grounded",
+                "Check the recording",
+                "Where the text alone is ambiguous, listen to that moment of the recording to settle what was actually said. Slower, and the most accurate.",
+            ),
+            _opt(
+                "text_only",
+                "From the transcript alone",
+                "Resolve from the written transcript and the canonical sources only. Faster; a garbled phrase stays unresolved rather than being checked.",
+            ),
+        ],
         "source_fidelity": [
             _opt("verbatim", "Verbatim", "The transcript is word for word."),
             _opt("edited", "Edited", "The transcript has been tidied."),
@@ -273,6 +367,8 @@ def defaults() -> dict[str, str]:
         "book_visuals": _flags.BOOK_VISUALS_MANUAL_ONLY,
         "deliverable_mode": "",
         "slide_deck_mode": "per-chapter",
+        "chapter_segmentation": "one_per_recording",
+        "arabic_restoration": "audio_grounded",
         "source_fidelity": "verbatim",
         "category": "books",
         "density": "medium",

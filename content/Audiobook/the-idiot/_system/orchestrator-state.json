@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "book_slug": "the-idiot",
+  "category": "books",
+  "branch": "Audiobook/the-idiot",
+  "pipeline_mode": "sessions_lane",
+  "phase": "sessions-ingest",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-ingest",
+  "next_phase": "sessions-transcribe",
+  "last_error": null,
+  "phases": {
+    "sessions-ingest": {
+      "status": "completed"
+    },
+    "sessions-transcribe": {
+      "status": "pending"
+    },
+    "sessions-articulate": {
+      "status": "pending"
+    },
+    "sessions-read-along": {
+      "status": "pending"
+    },
+    "sessions-preface": {
+      "status": "pending"
+    },
+    "sessions-apparatus": {
+      "status": "pending"
+    }
+  },
+  "status": "draft"
+}

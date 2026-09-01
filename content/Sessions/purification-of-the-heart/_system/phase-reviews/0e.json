@@ -1,0 +1,55 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0e",
+  "verdict": "PHASE-BROKEN",
+  "blocking_fail": "PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything",
+  "counts": {
+    "total": 6,
+    "failed": 1,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PE1",
+      "name": "enrichment-recorded",
+      "kind": "own",
+      "passed": false,
+      "note": "enrichment-log.md is missing or empty — 0e left no record of enriching anything"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (714,591 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (593,649 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 79% of the source (103,306 of 130,200 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (42 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "24 chapter contract(s)"
+    }
+  ]
+}

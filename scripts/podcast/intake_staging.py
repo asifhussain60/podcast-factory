@@ -38,19 +38,42 @@ ALLOWED_EXT: frozenset[str] = frozenset(
         ".txt",
         ".md",
         ".docx",
+        # Timed-transcript formats (2026-08-30). Added with the
+        # `timestamped_transcript` role below — without them that role could be
+        # offered but never used, since a per-sentence transcript arrives as
+        # JSON from an ASR API or as .srt/.vtt from a captioning tool, and all
+        # three were rejected at upload.
+        ".json",
+        ".srt",
+        ".vtt",
     }
 )
 AUDIO_EXT: frozenset[str] = frozenset({".mp3", ".m4a", ".wav"})
+# Formats that can carry per-sentence timings. `.txt`/`.md` are deliberately NOT
+# here: they are the PLAIN transcript's formats, and a file can be one or the
+# other but the extension cannot tell them apart — the operator's role choice does.
+TIMED_EXT: frozenset[str] = frozenset({".json", ".srt", ".vtt"})
 
 ROLES: tuple[str, ...] = (
     "primary_source",
     "source_recording",
     "pronunciation_reference",
+    # The per-sentence timed transcript that goes with `source_recording`.
+    # Its own role rather than `supplementary_text` because the pipeline treats
+    # it differently: `intake_book.py --timestamps` stores it at a fixed name
+    # (`_intake_media.TIMELINE_NAME`), and lumped in with supplementary files it
+    # was indistinguishable from any other attachment.
+    "timestamped_transcript",
     "supplementary_text",
 )
 DEFAULT_ROLE = "supplementary_text"
 MANIFEST_NAME = ".staging.json"
-MAX_FILE_BYTES = 500 * 1024 * 1024  # 500 MB per file
+# Raised from 500 MB (2026-08-30) — real sermon-length lecture recordings routinely
+# exceed it (e.g. a ~570 MB .m4a part). Buffered fully into server memory by the
+# upload endpoint (see upload.ts), so this stays a finite cap rather than unbounded —
+# 4 GB is comfortably above any file seen so far and well inside what a local Node
+# process can safely hold.
+MAX_FILE_BYTES = 4 * 1024 * 1024 * 1024  # 4 GB per file
 
 
 # ── paths ────────────────────────────────────────────────────────────────────
@@ -203,6 +226,21 @@ def validate_roles(token: str) -> dict[str, Any]:
     for p in primaries:
         if p.get("ext") in AUDIO_EXT:
             warnings.append(f"{p['filename']}: audio as primary needs transcription first")
+
+    # A timed transcript is only meaningful next to the recording it times, and
+    # only in a format that can carry timings. Both are WARNINGS, never errors:
+    # the operator may be staging files across several visits, and refusing an
+    # upload because the audio has not been added yet would be the tool telling
+    # them the order to work in.
+    timed = [f for f in files if f.get("role") == "timestamped_transcript"]
+    for t in timed:
+        if t.get("ext") not in TIMED_EXT:
+            warnings.append(
+                f"{t['filename']}: a timestamped transcript is expected as "
+                f"{', '.join(sorted(TIMED_EXT))} — a plain transcript is the primary source"
+            )
+    if timed and not any(f.get("role") == "source_recording" for f in files):
+        warnings.append("a timestamped transcript was supplied with no source_recording to time")
     return {"ok": not errors, "errors": errors, "warnings": warnings}
 
 

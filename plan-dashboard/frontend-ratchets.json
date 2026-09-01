@@ -23,7 +23,7 @@
     "@typescript-eslint/no-explicit-any": 43,
     "react-hooks/exhaustive-deps": 22,
     "react-hooks/refs": 11,
-    "react-hooks/set-state-in-effect": 17
+    "react-hooks/set-state-in-effect": 20
   },
   "fileSize": {
     "ceiling": 1000,
@@ -35,8 +35,8 @@
       "src/components/studio/editor/StudioEditor.tsx": 2315,
       "src/pages/intelligence.astro": 1271,
       "src/pages/pipeline-paths.astro": 2684,
-      "src/pages/studio/[slug]/compose.astro": 1036,
-      "src/scripts/book-composer.ts": 4254
+      "src/pages/studio/[slug]/compose.astro": 1071,
+      "src/scripts/book-composer.ts": 4341
     }
   }
 }

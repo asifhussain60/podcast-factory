@@ -1,0 +1,185 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "CrimeAndPunishment",
+  "slug": "crime-and-punishment",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_CrimeAndPunishment_OpeningCredits",
+      "start_ms": 544306259,
+      "length_ms": 13653
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_CrimeAndPunishment_Introduction",
+      "start_ms": 544319912,
+      "length_ms": 527232
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_CrimeAndPunishment_Part01_Part01",
+      "start_ms": 544847144,
+      "length_ms": 5015928
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_CrimeAndPunishment_Part01_Part02",
+      "start_ms": 549863072,
+      "length_ms": 6367050
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_CrimeAndPunishment_Part02_Part01",
+      "start_ms": 556230122,
+      "length_ms": 6244867
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_CrimeAndPunishment_Part02_Part02",
+      "start_ms": 562474989,
+      "length_ms": 2899754
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_CrimeAndPunishment_Part02_Part03",
+      "start_ms": 565374743,
+      "length_ms": 2713762
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_CrimeAndPunishment_Part02_Part04",
+      "start_ms": 568088505,
+      "length_ms": 2695140
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_CrimeAndPunishment_Part03_Part01",
+      "start_ms": 570783645,
+      "length_ms": 3664712
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_CrimeAndPunishment_Part03_Part02",
+      "start_ms": 574448357,
+      "length_ms": 3790100
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_CrimeAndPunishment_Part03_Part03",
+      "start_ms": 578238457,
+      "length_ms": 4489346
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_CrimeAndPunishment_Part04_Part01",
+      "start_ms": 582727803,
+      "length_ms": 4588959
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_CrimeAndPunishment_Part04_Part02",
+      "start_ms": 587316762,
+      "length_ms": 4467612
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_CrimeAndPunishment_Part04_Part03",
+      "start_ms": 591784374,
+      "length_ms": 3896169
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_CrimeAndPunishment_Part05_Part01",
+      "start_ms": 595680543,
+      "length_ms": 4418850
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_CrimeAndPunishment_Part05_Part02",
+      "start_ms": 600099393,
+      "length_ms": 4980215
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_CrimeAndPunishment_Part05_Part03",
+      "start_ms": 605079608,
+      "length_ms": 1965801
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_CrimeAndPunishment_Part06_Part01",
+      "start_ms": 607045409,
+      "length_ms": 3724062
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_CrimeAndPunishment_Part06_Part02",
+      "start_ms": 610769471,
+      "length_ms": 3072139
+    },
+    {
+      "episode": 20,
+      "file": "m4a/Episodes/ep20.m4a",
+      "transcript": "transcripts/ep20.vtt",
+      "title": "20_CrimeAndPunishment_Part06_Part03",
+      "start_ms": 613841610,
+      "length_ms": 4726746
+    },
+    {
+      "episode": 21,
+      "file": "m4a/Episodes/ep21.m4a",
+      "transcript": "transcripts/ep21.vtt",
+      "title": "21_CrimeAndPunishment_Part06_Part04",
+      "start_ms": 618568356,
+      "length_ms": 3352636
+    },
+    {
+      "episode": 22,
+      "file": "m4a/Episodes/ep22.m4a",
+      "transcript": "transcripts/ep22.vtt",
+      "title": "22_CrimeAndPunishment_Epilogue",
+      "start_ms": 621920992,
+      "length_ms": 2414085
+    }
+  ]
+}

@@ -511,6 +511,8 @@
   --l-ribbon-shariah-ink: #ffffff;
   --l-ribbon-reality-bg: #e0201f;
   --l-ribbon-reality-ink: #ffffff;
+  --l-ribbon-philosophy-bg: #4b3f9e;
+  --l-ribbon-philosophy-ink: #ffffff;
   /* <<< study-track-colors */
 }
 
@@ -3745,6 +3747,11 @@
   .pf-book__ribbon[data-track="history"] {
     background: var(--l-ribbon-history-bg);
     color: var(--l-ribbon-history-ink);
+  }
+
+  .pf-book__ribbon[data-track="philosophy"] {
+    background: var(--l-ribbon-philosophy-bg);
+    color: var(--l-ribbon-philosophy-ink);
   }
 
   /* The body rising into the band as a pointed arch.

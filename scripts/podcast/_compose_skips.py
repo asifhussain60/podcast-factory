@@ -53,6 +53,7 @@ PAGE_ALTERING_STEPS = frozenset(
         "arabic-substitution",  # romanization would stay on the page
         "vowelling",
         "spelling",
+        "opening",  # a chapter opening in lowercase is on the page, like a misspelling
         "front-matter",  # a whole missing section
         "opening-fold",  # the edition would begin on front matter instead of the book
         "introduction",  # a whole missing section, and the reader's first page

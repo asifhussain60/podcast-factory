@@ -81,6 +81,43 @@ _VALID_VOICE = frozenset({BOOK_VOICE_FAITHFUL, BOOK_VOICE_AUTHOR_COMPANION})
 
 _TRANSLATION_EDITION_MODE = "translation_edition"
 
+EPISODE_VOICE_KEY = "episode_voice"
+#: How phase 0d writes `chapters/*.txt` — the podcast/NotebookLM episode text,
+#: NOT the book branch's `book/book.md` (that is `book_voice`, above, an
+#: entirely separate knob for an entirely separate deliverable).
+#:
+#: `authored` (default): 0d's per-source-chapter step is handed the sliced
+#: transcript and a full episode-authoring brief — concept sections, an
+#: opening hook, a word-count target — and writes literary prose from it. Right
+#: for a scholarly text being turned into a podcast episode; wrong for a
+#: recording someone should be able to trust as what was actually said.
+#:
+#: `verbatim`: 0d skips that authoring call entirely. The sliced transcript is
+#: proofread (`_verbatim_correct.correct` — spelling, punctuation, paragraph
+#: breaks, obviously-dropped words; reverts any window that drops below 90% of
+#: the speaker's own vocabulary) and has its phonetically-written Arabic put
+#: back into script (`_verbatim_correct.restore_script`). Added 2026-08-30
+#: after `purification-of-the-heart`'s first chapter came back as paraphrased
+#: third-person narration of a sermon that opens "Hello, welcome to my
+#: lecture" — the authored brief does what it is asked, which is exactly the
+#: wrong thing for a recording meant to be trusted as verbatim.
+EPISODE_VOICE_AUTHORED = "authored"
+EPISODE_VOICE_VERBATIM = "verbatim"
+_VALID_EPISODE_VOICE = frozenset({EPISODE_VOICE_AUTHORED, EPISODE_VOICE_VERBATIM})
+
+#: HOW phase 0d decides what the chapters ARE. Asked at intake because no rule
+#: can derive it: a course of weekly lectures is one chapter per recording, one
+#: long sitting is cut at its topic seams, and a series teaching through a
+#: published work takes that work's own chapter list.
+CHAPTER_SEGMENTATION_KEY = "chapter_segmentation"
+CHAPTER_LIST_KEY = "chapter_list"
+SEGMENTATION_PER_RECORDING = "one_per_recording"
+SEGMENTATION_FROM_SOURCE_TOC = "from_source_toc"
+SEGMENTATION_FROM_TRANSCRIPT = "from_transcript"
+_VALID_SEGMENTATION = frozenset(
+    {SEGMENTATION_PER_RECORDING, SEGMENTATION_FROM_SOURCE_TOC, SEGMENTATION_FROM_TRANSCRIPT}
+)
+
 
 def _read_series_config(book_dir: Path) -> dict[str, Any]:
     """Load ``_system/series-config.yaml`` defensively (never raises)."""
@@ -121,6 +158,40 @@ def _default_knobs(book_dir: Path, cfg: dict[str, Any]) -> tuple[str, str]:
     mode = str(cfg.get("deliverable_mode") or "").strip()
     if mode == _TRANSLATION_EDITION_MODE:
         return BOOK_AUGMENTATION_NONE, BOOK_VOICE_FAITHFUL
+
+    # A book made from a RECORDING is never augmented and never re-voiced.
+    # (Asif, 2026-09-01: "Audiobooks and Session profiles should NEVER require
+    # augmentation. Just fixing the lost Arabic during transcription and sanity
+    # checks to make sure the read aloud is as close to the original recording as
+    # possible.")
+    #
+    # This is a source property, so it is decided here rather than left to each
+    # book's config to remember -- and "remember" is exactly what failed. Both
+    # correctly-configured Sessions books reach `faithful` only because somebody
+    # hand-wrote `book_voice: faithful` into them; `purification-of-the-heart`
+    # declares neither knob and so inherited `author_companion` + `source_only`
+    # from the map below, which is written for printed books. That is a full
+    # author re-voice of prose that came off a tape -- the exact thing
+    # `sessions/read_along.py` says must never happen, because the reader lights
+    # up each paragraph as the speaker reaches it and rewriting one breaks the
+    # only thing that makes the pairing honest.
+    #
+    # Keyed on the LANE, not on `source_medium`. Keying on the medium was the
+    # first attempt and it was too wide: `kunooz-al-hikmah` and one Asas volume
+    # are `islamic_scholarly` books that declare `source_medium: audio_lecture`
+    # because they were built from recordings, and Asif's rule is that Islamic
+    # books are precisely the ones that DO get augmentation. Having audio as a
+    # source is not the same as being a book whose recording IS the deliverable.
+    #
+    # `skip_per_chapter` is the registry's existing marker for the latter -- "the
+    # audio already exists and IS the book, so there is no episode to generate."
+    # Both spoken profiles carry it and no other profile does, so this needs no
+    # second list of profile names to keep in step with the registry.
+    from _content_types import phase_capabilities
+
+    if phase_capabilities(str(cfg.get("content_profile") or "")).skip_per_chapter:
+        return BOOK_AUGMENTATION_NONE, BOOK_VOICE_FAITHFUL
+
     from _content_profile import is_islamic_scholarly
 
     if is_islamic_scholarly(Path(book_dir)):
@@ -166,6 +237,73 @@ def book_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
     if explicit:
         return explicit
     return _default_knobs(book_dir, cfg)[1]
+
+
+def episode_voice(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """``authored`` | ``verbatim`` — how phase 0d writes episode chapters.
+
+    Independent of `book_voice`: a book can (and `purification-of-the-heart`
+    does) keep `book_voice: faithful` for its reading-edition branch while
+    setting `episode_voice: verbatim` for its podcast chapters — different
+    deliverables, different questions. No default map entry: unlike
+    augmentation/voice/visuals, there is no content-profile-driven default for
+    this knob — every book is `authored` unless it says otherwise, because
+    that is every book's behaviour today and a silent default change would
+    alter chapters already shipped.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    explicit = str(cfg.get(EPISODE_VOICE_KEY) or "").strip().lower()
+    if explicit and explicit not in _VALID_EPISODE_VOICE:
+        _reject_unknown(EPISODE_VOICE_KEY, explicit, _VALID_EPISODE_VOICE)
+    return explicit or EPISODE_VOICE_AUTHORED
+
+
+def chapter_segmentation(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:
+    """``one_per_recording`` | ``from_source_toc`` | ``from_transcript``.
+
+    Defaults to ``from_transcript`` — which is what phase 0d has always done for
+    every book: read the source and decide the units itself. Naming the existing
+    behaviour rather than changing it means a book that never answered the
+    question is unaffected.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    explicit = str(cfg.get(CHAPTER_SEGMENTATION_KEY) or "").strip().lower()
+    if explicit and explicit not in _VALID_SEGMENTATION:
+        _reject_unknown(CHAPTER_SEGMENTATION_KEY, explicit, _VALID_SEGMENTATION)
+    return explicit or SEGMENTATION_FROM_TRANSCRIPT
+
+
+def chapter_list(book_dir: Path, cfg: dict[str, Any] | None = None) -> list[str]:
+    """The chapter titles the operator supplied, in order; ``[]`` when none.
+
+    Returned even when the segmentation says otherwise, so a caller can report
+    the contradiction rather than silently honouring one of the two. A non-list
+    value is treated as absent: this is a hand-editable YAML file, and a typo
+    that made it a string must not become a one-chapter book.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    raw = cfg.get(CHAPTER_LIST_KEY)
+    if not isinstance(raw, list):
+        return []
+    return [str(t).strip() for t in raw if str(t).strip()]
+
+
+def supplied_chapter_titles(book_dir: Path, cfg: dict[str, Any] | None = None) -> list[str]:
+    """The titles phase 0d must USE, or ``[]`` when it is free to decide.
+
+    The single accessor every caller should ask, because it is where the two
+    keys are reconciled: a list is only authoritative when the segmentation
+    answer actually says to follow it. A book carrying a leftover list under a
+    different segmentation gets ``[]`` and the ordinary behaviour.
+    """
+    if cfg is None:
+        cfg = _read_series_config(book_dir)
+    if chapter_segmentation(book_dir, cfg) != SEGMENTATION_FROM_SOURCE_TOC:
+        return []
+    return chapter_list(book_dir, cfg)
 
 
 def book_visuals(book_dir: Path, cfg: dict[str, Any] | None = None) -> str:

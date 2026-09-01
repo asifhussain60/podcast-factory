@@ -304,7 +304,7 @@ def check(
     handoff_body = _extract_handoff_body(md_path)
     new_body, images_restored = _restore_images(base_body, handoff_body)
     new_body, paragraph_changes = repair_split_paragraphs(new_body)
-    new_body, format_changes = normalize_sessions_prose(new_body)
+    new_body, format_changes = normalize_sessions_prose(new_body, heading=heading)
     new_body, heading_changes = promote_standalone_headings(new_body)
     format_changes.extend(heading_changes)
     continuity_changes: list[dict] = []
@@ -426,7 +426,7 @@ def retrofit_book(book_dir: Path, *, log=print) -> dict:
     text = book_md.read_text(encoding="utf-8")
     changed: list[dict] = []
     for heading, body in split_chapters(text):
-        new_body, changes = normalize_sessions_prose(body.strip())
+        new_body, changes = normalize_sessions_prose(body.strip(), heading=heading)
         if not changes:
             continue
         write_chapter_body(book_dir, heading, new_body)

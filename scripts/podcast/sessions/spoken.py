@@ -16,30 +16,17 @@ import re
 from pathlib import Path
 
 from _align_paragraphs import align
+from spoken_lane import scaffold as _scaffold
 
 #: Chapters whose prose is a transcription of a recording, by chapter key.
 SPOKEN_CHAPTERS_NAME = "sessions-spoken-chapters.json"
 
 
-def _heard_text(book_dir: Path, episode: int | None) -> str:
-    """What the recording says, as paragraphs, or "" when there is no transcript.
-
-    The cues are grouped into paragraphs rather than emitted one per line: a VTT
-    cue is a breath, not a sentence, and one line per breath reads as a subtitle
-    file rather than as a chapter. Twelve is the smallest grouping that produced
-    paragraphs of ordinary length across all five of these recordings — it is a
-    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
-    """
-    if episode is None:
-        return ""
-    path = book_dir / "transcripts" / f"ep{episode:02d}.vtt"
-    if not path.exists():
-        return ""
-
-    from _transcript import from_vtt  # local: only this branch needs it
-
-    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
-    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
+#: Moved to `spoken_lane.scaffold` on 2026-09-01: it reads the LANE's transcript
+#: contract, not anything KSESSIONS-specific, and the audiobook adapter needed it
+#: without importing a private name out of this module. Re-exported so every
+#: existing caller here is unchanged.
+_heard_text = _scaffold.heard_text
 
 
 def spoken_chapters_path(book_dir: Path) -> Path:
@@ -121,3 +108,68 @@ def _carry_images(heard: str, notes: str) -> str:
         out.extend(placed.get(i, ()))
     out.extend(trailing)
     return "\n\n".join(out)
+
+
+def derive_spoken_chapters(book_dir: Path, chapters: list[tuple[str, str, str]]) -> dict[str, dict]:
+    """Work out which recording each chapter was spoken in, from the transcripts.
+
+    `chapters` is (key, title, prose) in reading order. Returns the record
+    `write_spoken_chapters` stores.
+
+    WHY THIS IS DERIVED RATHER THAN DECLARED. A book ingested by this lane learns
+    the pairing from the folders it was delivered in, and folders stay
+    authoritative wherever they exist. `purification-of-the-heart` reached
+    Sessions down the ORCHESTRATED route instead: twenty-four chapters cut from
+    two ten-hour recordings, with nothing on disk saying which chapter belongs to
+    which. Splitting that by hand is a guess typed into a file that later reads
+    as a fact, so it is measured instead — every chapter is aligned against every
+    recording and assigned to the one that actually carries its words.
+
+    The evidence is legible afterwards: on that book the split came out as
+    chapters 1-16 in the first recording and 17-24 in the second, contiguous, in
+    order, with 2h16m at the head of the first matching no chapter at all — which
+    is exactly the material the book's contents page opens with and this chapter
+    set deliberately begins after.
+    """
+    from _align_paragraphs import SELF_SUPPORT
+    from _narration_plan import chapter_blocks
+    from _transcript import from_vtt
+
+    blocks: list[str] = []
+    owner: list[int] = []
+    for index, (_key, _title, prose) in enumerate(chapters):
+        for _block_index, text in chapter_blocks(prose):
+            blocks.append(text)
+            owner.append(index)
+    if not blocks:
+        return {}
+
+    support: dict[int, dict[int, int]] = {}
+    for path in sorted((book_dir / "transcripts").glob("ep*.vtt")):
+        try:
+            episode = int(path.stem[2:])
+        except ValueError:
+            continue
+        said = [c for c in from_vtt(path.read_text(encoding="utf-8")) if c.text.strip()]
+        if not said:
+            continue
+        for alignment in align(blocks, [c.text for c in said]):
+            if alignment.score >= SELF_SUPPORT:
+                support.setdefault(owner[alignment.source_index], {})[episode] = (
+                    support.setdefault(owner[alignment.source_index], {}).get(episode, 0) + 1
+                )
+
+    out: dict[str, dict] = {}
+    for index, (key, title, prose) in enumerate(chapters):
+        votes = support.get(index)
+        if not votes:
+            # No recording claims it. Left out rather than assigned to a
+            # neighbour's tape, which would time it against someone else's words.
+            continue
+        out[key] = {
+            "title": title,
+            "sequence": str(index + 1),
+            "episode": str(max(votes, key=lambda ep: votes[ep])),
+            "base": prose,
+        }
+    return out

@@ -35,6 +35,7 @@ import argparse
 import datetime as dt
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -100,6 +101,7 @@ class Probe:
     findings: list = field(default_factory=list)
     suppressed: list = field(default_factory=list)
     notes: list = field(default_factory=list)
+    scope: str = "all"  # read by _apps() in repo_surgeon_checks.py to isolate one app
 
     # ---------- helpers ----------
 
@@ -411,36 +413,6 @@ class Probe:
                 fingerprint=f"A2:orphan:{orphan}",
             )
 
-    def check_skill_registry(self) -> None:
-        registry = self.read("docs/reference/skill-registry.md")
-        if not registry:
-            self.add("P1", "A1", "the skill registry is missing", "docs/reference/skill-registry.md")
-            return
-        staging = self.root / "skills-staging"
-        if not staging.is_dir():
-            # A fresh clone that has not run the skill installer has no
-            # skills-staging/, so this crashed on the very tree it was most likely
-            # to meet. The registry's absence was already a finding; the
-            # directory's absence was a traceback.
-            self.add("P1", "A1", "skills-staging/ does not exist, so no skill can be registered", "skills-staging")
-            return
-        for d in sorted(staging.iterdir()):
-            if not d.is_dir():
-                continue
-            # Match the DEFINITION PATH, not the bare name. A loose substring match on
-            # the whole file passes on any incidental prose mention, which is how
-            # html-view-quality read as registered while having no row.
-            if f"skills-staging/{d.name}/" not in registry:
-                self.add(
-                    "P2",
-                    "A1",
-                    f"skill {d.name} has no row in the registry (no skills-staging/{d.name}/ definition path)",
-                    f"skills-staging/{d.name}",
-                    fingerprint=f"A1:{d.name}",
-                )
-            if not (d / "SKILL.md").exists():
-                self.add("P1", "A1", f"skill {d.name} has no SKILL.md", f"skills-staging/{d.name}")
-
     def check_self_references(self) -> None:
         """The check that would have caught this whole rot two months ago.
 
@@ -479,25 +451,6 @@ class Probe:
                         )
 
     # ---------- AU: pipeline + book-pipeline conformance ----------
-
-    def check_abs_paths(self) -> None:
-        """AU-S2 — a machine-specific path in pipeline source breaks on the next host."""
-        pat = re.compile(r"(/Users/|/home/)[A-Za-z0-9._-]+/")
-        for p in self.py_sources("scripts/podcast"):
-            for n, line in enumerate(p.read_text(encoding="utf-8", errors="replace").splitlines(), 1):
-                stripped = line.strip()
-                if stripped.startswith("#") or '"""' in stripped:
-                    continue
-                if pat.search(line):
-                    rel = p.relative_to(self.root).as_posix()
-                    self.add(
-                        "P0",
-                        "AU-S2",
-                        "hardcoded absolute path in pipeline source",
-                        rel,
-                        n,
-                        fingerprint=f"AU-S2:{rel}:{n}",
-                    )
 
     def check_version_constants(self) -> None:
         """AU-A2 — a version constant pinned in two places drifts.
@@ -610,6 +563,49 @@ class Probe:
                 "the retired translation-edition script has reappeared",
                 "scripts/podcast/generate_translation_edition.py",
             )
+
+    def check_book_identity(self) -> None:
+        """AU-V7 — every book's identity is complete, or the gap is on record.
+
+        `normalize_book_metadata.py` already computes this (that is the whole
+        point of `.unknown()`: report a gap, never invent one — guessing an
+        author or an Arabic title for a religious text is the one thing that
+        script refuses to do). What it lacked was a gate that runs it: the
+        script sat as a manual report nobody remembered to re-run, which is
+        how `purification-of-the-heart` shipped to the Studio shelf with no
+        Arabic title while every sibling Sessions/Islamic book had one. This
+        check re-runs THAT script rather than re-deriving its resolution
+        order — a second answer to "what is this book called" is exactly the
+        drift the script's own docstring exists to end.
+
+        P2, not P1: a missing identity field is a real gap, but it is closed
+        by a human supplying the true name, not by a commit being blocked.
+        """
+        script = Path(__file__).resolve().parent / "podcast" / "normalize_book_metadata.py"
+        if not script.exists():
+            return
+        try:
+            result = subprocess.run(
+                [sys.executable, str(script), "--json"],
+                cwd=self.root,
+                env={**os.environ, "PODCAST_FACTORY_ROOT": str(self.root)},
+                capture_output=True,
+                text=True,
+                check=False,
+                timeout=GIT_TIMEOUT,
+            )
+            data = json.loads(result.stdout or "{}")
+        except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+            return
+        for slug, gaps in sorted((data.get("unknown") or {}).items()):
+            for gap in gaps:
+                self.add(
+                    "P2",
+                    "AU-V7",
+                    f"{slug} has no {gap} recorded anywhere the pipeline reads",
+                    f"content/*/{slug}/meta.yml",
+                    fingerprint=f"AU-V7:{slug}:{gap}",
+                )
 
     # ---------- L: plan conformance ----------
 
@@ -880,10 +876,12 @@ CHECKS: tuple = (
     CheckSpec("check_root", Probe.check_root, ("R1",)),
     CheckSpec("check_retired_surfaces", Probe.check_retired_surfaces, ("RS-RESURRECT",)),
     CheckSpec("check_agent_mirrors", Probe.check_agent_mirrors, ("A2",)),
-    CheckSpec("check_skill_registry", Probe.check_skill_registry, ("A1",)),
+    CheckSpec("check_skill_registry", specs.check_skill_registry, ("A1",)),
+    CheckSpec("check_project_skill_mirrors", specs.check_project_skill_mirrors, ("A3",)),
+    CheckSpec("check_trigger_collisions", specs.check_trigger_collisions, ("A4",)),
     CheckSpec("check_self_references", Probe.check_self_references, ("SK-MISSING", "SK-DEADREF")),
     # -- the pipeline's own surface --
-    CheckSpec("check_abs_paths", Probe.check_abs_paths, ("AU-S2",), ("podcast",)),
+    CheckSpec("check_abs_paths", specs.check_abs_paths, ("AU-S2",), ("podcast",)),
     CheckSpec("check_version_constants", Probe.check_version_constants, ("AU-A2",), ("podcast",)),
     CheckSpec(
         "check_book_pipeline",
@@ -891,6 +889,7 @@ CHECKS: tuple = (
         ("AU-V1", "AU-V2", "AU-V4", "AU-V5", "AU-V6"),
         ("podcast",),
     ),
+    CheckSpec("check_book_identity", Probe.check_book_identity, ("AU-V7",), ("podcast",)),
     CheckSpec(
         "check_capabilities",
         surface.check_capabilities,
@@ -905,27 +904,27 @@ CHECKS: tuple = (
         "check_gate_coverage",
         surface.check_gate_coverage,
         ("GT-APP-UNVERIFIED", "GT-MISSING", "GT-UNGATED", "CT-PATH"),
-        ("apps",),
+        ("apps", "dashboard", "library"),
     ),
     CheckSpec(
         "check_routes",
         surface.check_routes,
         ("RT-POLICY-GONE", "RT-DANGLING", "RT-ORPHAN", "RT-BOUNDARY", "RT-PATH-GATE"),
-        ("apps",),
+        ("apps", "dashboard", "library"),
     ),
-    CheckSpec("check_test_hygiene", surface.check_test_hygiene, ("TS-FOCUS",), ("apps",)),
+    CheckSpec("check_test_hygiene", surface.check_test_hygiene, ("TS-FOCUS",), ("apps", "dashboard", "library")),
     CheckSpec(
         "check_clean_code",
         surface.check_clean_code,
         ("CQ-NO-LINT", "CQ-NO-SIZE-GATE", "CQ-DEBUG"),
-        ("apps",),
+        ("apps", "dashboard", "library"),
     ),
-    CheckSpec("check_gate_discovery", specs.check_gate_discovery, ("GT-UNDECLARED",), ("apps",)),
+    CheckSpec("check_gate_discovery", specs.check_gate_discovery, ("GT-UNDECLARED",), ("apps", "dashboard", "library")),
     CheckSpec(
         "check_data_contract",
         specs.check_data_contract,
         ("DB-MIGRATION-GAP", "DB-TABLE-MISSING", "CT-PATH"),
-        ("apps",),
+        ("apps", "dashboard", "library"),
     ),
     # -- repo-wide: a generator writes across app boundaries, and a standard
     #    binds an agent, a skill and a pipeline pass at once --
@@ -976,7 +975,7 @@ def run(root: Path, scope: str) -> Probe:
     if waiver_path.exists():
         waivers = _load_yaml(waiver_path, ".repo-audit/waivers.yaml").get("waivers") or []
 
-    probe = Probe(root=root, profile=profile, waivers=waivers)
+    probe = Probe(root=root, profile=profile, waivers=waivers, scope=scope)
 
     for check in checks_for(scope):
         check(probe)
@@ -989,7 +988,12 @@ def run(root: Path, scope: str) -> Probe:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--json", action="store_true", help="emit findings as JSON")
-    ap.add_argument("--scope", choices=["all", "podcast", "apps"], default="all", help="probe subset")
+    ap.add_argument(
+        "--scope",
+        choices=["all", "podcast", "apps", "dashboard", "library"],
+        default="all",
+        help="probe subset — dashboard/library audit one web surface, apps audits both",
+    )
     args = ap.parse_args()
 
     top = subprocess.run(

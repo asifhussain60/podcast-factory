@@ -71,6 +71,7 @@ verify:
   - python3 scripts/check_doc_links.py # dead links in the normative docs
   - python3 scripts/sync_agent_instructions.py --check # AGENTS.md matches CLAUDE.md
   - bash scripts/podcast/sync-agent-wrappers.sh --check # agent mirrors, both directions
+  - bash scripts/podcast/sync-skill-wrappers.sh --check # project-skill mirrors (skills-staging <-> .claude/skills)
   - cd plan-dashboard && npm run lint && npm run format:check
   - cd plan-dashboard && npm run check && npm test && npm run lint:views
   - cd plan-dashboard && npm run ratchets # shrink-only lint-warning + file-size ratchets
@@ -169,6 +170,25 @@ size_gates:
       copy rather than a shared one — this app imports nothing from
       plan-dashboard/ at runtime and that boundary holds for dev tooling too.
 
+project_skills:
+  # Skills whose canonical source is skills-staging/<name>/SKILL.md and whose
+  # RUNTIME copy belongs at .claude/skills/<name>/SKILL.md — the directory Claude
+  # Code itself reads for project-scoped skills. Added 2026-08-31.
+  #
+  # This is a DIFFERENT install path than the rest of skills-staging/, most of
+  # which mirrors into the global Cowork skills directory via
+  # install-claude-skills.sh instead. A name belongs on this list only when the
+  # skill is meant to be discovered by Claude Code directly, scoped to this repo.
+  # `scripts/podcast/sync-skill-wrappers.sh` keeps the two copies in sync and
+  # flags any `.claude/skills/*` directory not declared here as an orphan — before
+  # this list existed, two project skills were authored straight into the
+  # gitignored `.claude/skills/` with no tracked source anywhere: invisible to
+  # git, to the skill registry, and to repo-surgeon, on a repo whose own stated
+  # model is machine-agnostic. A skill only one machine's untracked directory
+  # knows about does not survive a fresh clone.
+  - podcast-factory-deploy
+  - challenge-my-request
+
 apps:
   # The web surfaces, declared so the audit can reason about them instead of
   # hardcoding two directory names in a script. Added 2026-08-16.
@@ -180,6 +200,7 @@ apps:
   # other contract entry.
   - dir: plan-dashboard
     name: Podcast Factory Astro Site # ADMIN/authoring. Directory name is load-bearing.
+    scope: dashboard # `--scope dashboard` audits ONLY this app. Added 2026-08-31.
     source: [src, scripts, packages]
     lint_config: eslint.config.js
     route_kind: file # src/pages/**.astro; coverage pinned by site-health-routes.test.mjs
@@ -192,6 +213,7 @@ apps:
     # deploy unseen. Now a step in the `site` job of .github/workflows/lint.yml.
   - dir: listener
     name: Podcast Factory Library # AUDIENCE-facing Worker at podcast-factory.safinaverse.com
+    scope: library # `--scope library` audits ONLY this app. Added 2026-08-31.
     source: [app, workers, scripts]
     lint_config: eslint.config.js # added 2026-08-16, closing CQ-NO-LINT. Same
       # pinned versions and posture as plan-dashboard's config (correctness
@@ -283,6 +305,14 @@ generators:
   - listener/scripts/sync-quote-inks.mjs
   - listener/scripts/sync-study-tracks.mjs
   - listener/scripts/sync-fonts.mjs
+  # Declared 2026-08-31, closing a gap this list itself created: the generator
+  # existed and its --check ran inside test/read-along.test.ts (part of the
+  # listener `test` gate) since it was written, but the top-level `generators:`
+  # enumeration this check walks never named it — so GEN-UNPINNED could not see
+  # the one generator in this app that copies a rule (which paragraph a
+  # recording is on) shared between the Podcast Factory Library and the Book
+  # Composer's chapter view.
+  - listener/scripts/sync-read-along.mjs
   # Declared 2026-08-17. `prebuild` rewrote six tracked src/generated/mermaid/*.svg
   # on every build with nothing comparing the result, so it was a generator the
   # audit could not see: a mermaid version drift (11.15.0 against the lockfile's

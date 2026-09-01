@@ -125,7 +125,11 @@ def _write_series_config(book_dir: Path, slug: str, title: str, settings: dict[s
     )
 
     profile = settings.get("content_profile") or "islamic_scholarly"
-    video_style = settings.get("video_style") or "scenic"
+    # A recorded session has no video layer: the form hides the question for it,
+    # so falling through to the generic "scenic" default would switch one on for
+    # the one route that can never use it.
+    is_session_source = settings.get("source_medium") == "audio_lecture"
+    video_style = settings.get("video_style") or ("none" if is_session_source else "scenic")
     # Audio engine: explicit operator choice (from the voice/engine picker) wins;
     # otherwise the per-profile NEW-book default (islamic_scholarly -> notebooklm,
     # locked 2026-06-13; ElevenLabs is quarantined/dormant — chosen only explicitly).
@@ -162,6 +166,37 @@ def _write_series_config(book_dir: Path, slug: str, title: str, settings: dict[s
         # default ON. Per-book flag retained (set false to keep phonetic).
         if profile == "islamic_scholarly":
             cfg["elevenlabs_arabic_recitation"] = True
+    # Session-lane knobs. Written for every book, because each is a property of
+    # the SOURCE rather than of the route: a recorded talk commissioned under the
+    # scholarly profile is still a recorded talk, and `episode_voice: verbatim`
+    # is what stops the authoring passes rewriting it. Set from the source medium
+    # rather than from the profile for exactly that reason.
+    if is_session_source:
+        cfg["episode_voice"] = "verbatim"
+        cfg["chapter_segmentation"] = settings.get("chapter_segmentation") or "one_per_recording"
+        cfg["arabic_restoration"] = settings.get("arabic_restoration") or "audio_grounded"
+    # The chapter breakdown, when the operator supplied one. Stored as a LIST so
+    # the chapter-design step has the names to use rather than titles of its own
+    # invention -- the failure that renamed and merged this book's chapters when
+    # the form had no way to say what they were called.
+    listed = [
+        line.strip().lstrip("0123456789").lstrip(".) ").strip()
+        for line in str(settings.get("chapter_list") or "").splitlines()
+    ]
+    listed = [c for c in listed if c]
+    if listed:
+        cfg["chapter_list"] = listed
+        cfg["chapter_count_hint"] = len(listed)
+    # A GUIDE, never a target: phase 0d settles the real chapter count from the
+    # source. Stored so a run that comes back wildly different can be measured
+    # against what was asked for, and omitted entirely when left blank.
+    hint = str(settings.get("chapter_count_hint") or "").strip()
+    if not listed and hint.isdigit() and int(hint) > 0:
+        cfg["chapter_count_hint"] = int(hint)
+    if settings.get("enable_slide_decks") is not None:
+        cfg["enable_slide_decks"] = str(settings.get("enable_slide_decks")).lower() != "false"
+    if settings.get("slide_deck_mode"):
+        cfg["slide_deck_mode"] = settings["slide_deck_mode"]
     if volume is not None:
         cfg["volume"] = volume
     (book_dir / "_system" / "series-config.yaml").write_text(

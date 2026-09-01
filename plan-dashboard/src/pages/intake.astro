@@ -13,6 +13,7 @@
  */
 import Base from "../layouts/Base.astro";
 import BriefWizard from "../components/brief/BriefWizard.tsx";
+import { STEPS } from "../lib/brief/fields";
 import "../styles/intake.css";
 import "../styles/intake-brief.css";
 ---
@@ -25,8 +26,8 @@ import "../styles/intake-brief.css";
   <header class="bf-page-head">
     <h1>Commission new content</h1>
     <p>
-      Answer five short screens about a new book, lecture or session. Nothing is
-      created and nothing runs — at the end you get a written commission and a
+      Answer {STEPS.length} short screens about a new book, lecture or session. Nothing
+      is created and nothing runs — at the end you get a written commission and a
       prompt you can paste into Claude Code or Cowork to have it processed.
     </p>
   </header>

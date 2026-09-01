@@ -56,12 +56,12 @@ LOCAL_ONLY_GATES = {"controls", "security", "smoke"}
 
 
 def _apps(probe) -> list[dict]:
-    """The declared web surfaces, validated. An app whose directory is gone is a
-    contract finding, not a crash and not a silent skip."""
+    """Declared web surfaces (a missing directory is a finding, not a crash),
+    filtered to one when `probe.scope` names it — `--scope dashboard`/`library`."""
     out = []
     for app in probe.profile.get("apps") or []:
         d = str(app.get("dir") or "").strip()
-        if not d:
+        if not d or (probe.scope in ("dashboard", "library") and str(app.get("scope") or "") != probe.scope):
             continue
         if not probe.exists(d):
             probe.add(

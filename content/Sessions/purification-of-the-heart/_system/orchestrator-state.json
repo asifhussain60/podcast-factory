@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "book_slug": "purification-of-the-heart",
+  "category": "lectures",
+  "branch": "Sessions/purification-of-the-heart",
+  "status": "draft",
+  "source_kind": "audio-transcript",
+  "source_language": "en",
+  "phase": "per-chapter",
+  "phase_status": "failed",
+  "last_completed_phase": "0d",
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "pre-flight smoke gate failed: satisfied-with-oneself: chapter word count 24537 outside hard band [500, 12000]; trusting-one-hand-only: chapter word count 252 outside hard band [500, 12000]; what-does-not-concern-the-heart: chapter word count 353 outside hard band [500, 12000]",
+    "ts": "2026-08-31T18:10:28Z"
+  },
+  "started": "2026-08-30T00:00:00Z",
+  "updated": "2026-08-30T22:14:58Z",
+  "phases": {
+    "scaffold": {
+      "status": "completed",
+      "note": "Folder skeleton + branch created ahead of source delivery, then relocated from content/Islamic/ to content/Sessions/ (bucket, not content_profile — content_profile stays unset, defaulting to islamic_scholarly, so this book keeps the full standard pipeline including phase 0d's chapter design). Two source .m4a files are present under source/; the matching timestamped transcript has not landed yet. Real intake (--from-transcript, extended to also take the audio + timestamps) has not run — this state is a placeholder, not a pipeline-produced record.",
+      "completed_via": "manual-scaffold-standby"
+    },
+    "0a": {
+      "status": "completed",
+      "completed_at": "2026-08-30T22:14:58Z",
+      "completed_via": "TurboScribe export (hand-produced), tail re-transcribed with Azure",
+      "note": "Source is a supplied transcript, so Phase 0a (OCR) does not apply. Part 1's TurboScribe export stopped at exactly 10.000h against 10.273h of audio -- a hard export ceiling that left 16.4 min untranscribed. That tail was cut from the MP3, transcribed with Azure fast transcription (163 phrases, 2,146 words) and spliced into both the .txt and the .vtt at offset 35998.830s. Coverage is now 99.9% and 100.0%; both VTTs parse monotonic through _transcript.from_vtt (10,022 and 9,784 cues)."
+    },
+    "0b": {
+      "status": "completed",
+      "ts_started": "2026-08-30T22:15:46Z",
+      "ts_completed": "2026-08-30T22:37:56Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0c": {
+      "status": "completed",
+      "ts_started": "2026-08-30T22:38:01Z",
+      "ts_completed": "2026-08-30T22:38:01Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0ci": {
+      "status": "completed",
+      "ts_started": "2026-08-30T22:38:05Z",
+      "ts_completed": "2026-08-30T22:38:05Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 4,
+        "blocking_fail": null
+      }
+    },
+    "0d": {
+      "status": "completed",
+      "ts_started": "2026-08-30T22:38:10Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 5,
+        "blocking_fail": null
+      },
+      "ts_completed": "2026-08-31T18:08:48Z"
+    },
+    "0e": {
+      "status": "failed",
+      "ts_started": "2026-08-31T03:21:24Z",
+      "ts_completed": "2026-08-31T18:09:50Z",
+      "review": {
+        "verdict": "PHASE-BROKEN",
+        "failed": 1,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": "PE1 enrichment-recorded: enrichment-log.md is missing or empty — 0e left no record of enriching anything"
+      }
+    },
+    "06a": {
+      "status": "halted",
+      "ts_started": "2026-08-31T18:09:00Z",
+      "ts_completed": "2026-08-31T18:09:14Z",
+      "gate_warnings": 6
+    },
+    "0f": {
+      "status": "halted",
+      "ts_started": "2026-08-31T18:09:53Z",
+      "ts_completed": "2026-08-31T18:09:53Z",
+      "series_plan_path": "content/Sessions/purification-of-the-heart/_system/series-plan.md"
+    },
+    "per-chapter": {
+      "status": "failed",
+      "ts_completed": "2026-08-31T18:10:28Z"
+    }
+  },
+  "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
+  "input_type": "audio-transcript",
+  "source_fidelity": "verbatim",
+  "source_path": "content/Sessions/purification-of-the-heart/_system/source/text/raw-extract.md",
+  "audio_source_paths": [
+    "content/Sessions/purification-of-the-heart/source/01-purification-of-the-heart.mp3",
+    "content/Sessions/purification-of-the-heart/source/02-purification-of-the-heart.mp3"
+  ],
+  "timed_transcripts": [
+    "content/Sessions/purification-of-the-heart/transcripts/01-purification-of-the-heart.vtt",
+    "content/Sessions/purification-of-the-heart/transcripts/02-purification-of-the-heart.vtt"
+  ],
+  "next_phase": "0e",
+  "unattended": true,
+  "ts_updated": "2026-08-31T18:10:28Z",
+  "phase_attempts": {
+    "06a": 1,
+    "0f": 1
+  },
+  "run_id": "20260831T181028Z-23028a",
+  "content_profile": "islamic_session"
+}

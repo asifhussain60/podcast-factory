@@ -64,9 +64,23 @@ def compose_book_v2(book_dir: Path, *, log=print, force: bool = False) -> Path:
     # 1. Faithful base — the shared foundation for BOTH modes. Reuse the
     #    translation-edition compose as the base, driven by knobs (not by the
     #    deliverable_mode contract), so there is exactly one faithful composer.
-    from _translation_edition import author_translation_edition_compose
+    #
+    #    EXCEPT for a verbatim book, whose chapters ARE the edition. The composer
+    #    below authors prose from the raw transcript; for a recorded session that
+    #    would discard chapters phase 0d already proofread and Arabic-restored,
+    #    and replace them with the rewriting the verbatim mode exists to prevent.
+    #    See `_verbatim_edition` for why the two artifacts are one here.
+    from _pipeline_flags import EPISODE_VOICE_VERBATIM, episode_voice
+    from _verbatim_edition import assemble as _assemble_verbatim
 
-    author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
+    _assembled = None
+    if episode_voice(book_dir) == EPISODE_VOICE_VERBATIM:
+        _assembled = _assemble_verbatim(book_dir, log=log)
+
+    if _assembled is None:
+        from _translation_edition import author_translation_edition_compose
+
+        author_translation_edition_compose(book_dir, log=log, force=force, enforce_contract=False)
     # Arabic quotations surviving each stage. The upstream gates each compare against
     # their own immediate input, so a quotation lost between stages is invisible to
     # all of them — the reader only sees the total at the end and cannot tell WHERE

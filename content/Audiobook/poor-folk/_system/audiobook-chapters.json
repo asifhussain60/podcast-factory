@@ -1,0 +1,377 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "PoorFolk",
+  "slug": "poor-folk",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_PoorFolk_OpeningCredits",
+      "start_ms": 111014088,
+      "length_ms": 14721
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_PoorFolk_Introduction",
+      "start_ms": 111028809,
+      "length_ms": 569121
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_PoorFolk_April8th",
+      "start_ms": 111597930,
+      "length_ms": 923643
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_PoorFolk_April9th",
+      "start_ms": 112521573,
+      "length_ms": 106393
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_PoorFolk_April12th",
+      "start_ms": 112627966,
+      "length_ms": 227044
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_PoorFolk_April25th",
+      "start_ms": 112855010,
+      "length_ms": 137555
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_PoorFolk_May20th",
+      "start_ms": 112992565,
+      "length_ms": 175496
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_PoorFolk_June1st",
+      "start_ms": 113168061,
+      "length_ms": 3016272
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_PoorFolk_June11th",
+      "start_ms": 116184333,
+      "length_ms": 123855
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_PoorFolk_June12th",
+      "start_ms": 116308188,
+      "length_ms": 237818
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_PoorFolk_June20th",
+      "start_ms": 116546006,
+      "length_ms": 174939
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_PoorFolk_June21st",
+      "start_ms": 116720945,
+      "length_ms": 98731
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_PoorFolk_June22nd",
+      "start_ms": 116819676,
+      "length_ms": 120325
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_PoorFolk_June25th",
+      "start_ms": 116940001,
+      "length_ms": 30371
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_PoorFolk_June26th",
+      "start_ms": 116970372,
+      "length_ms": 249196
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_PoorFolk_June27th",
+      "start_ms": 117219568,
+      "length_ms": 204985
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_PoorFolk_June28th",
+      "start_ms": 117424553,
+      "length_ms": 301859
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_PoorFolk_July1st",
+      "start_ms": 117726412,
+      "length_ms": 283747
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_PoorFolk_July7th",
+      "start_ms": 118010159,
+      "length_ms": 158035
+    },
+    {
+      "episode": 20,
+      "file": "m4a/Episodes/ep20.m4a",
+      "transcript": "transcripts/ep20.vtt",
+      "title": "20_PoorFolk_July8th",
+      "start_ms": 118168194,
+      "length_ms": 219985
+    },
+    {
+      "episode": 21,
+      "file": "m4a/Episodes/ep21.m4a",
+      "transcript": "transcripts/ep21.vtt",
+      "title": "21_PoorFolk_July27th",
+      "start_ms": 118388179,
+      "length_ms": 227044
+    },
+    {
+      "episode": 22,
+      "file": "m4a/Episodes/ep22.m4a",
+      "transcript": "transcripts/ep22.vtt",
+      "title": "22_PoorFolk_July28th",
+      "start_ms": 118615223,
+      "length_ms": 386705
+    },
+    {
+      "episode": 23,
+      "file": "m4a/Episodes/ep23.m4a",
+      "transcript": "transcripts/ep23.vtt",
+      "title": "23_PoorFolk_July29th",
+      "start_ms": 119001928,
+      "length_ms": 52616
+    },
+    {
+      "episode": 24,
+      "file": "m4a/Episodes/ep24.m4a",
+      "transcript": "transcripts/ep24.vtt",
+      "title": "24_PoorFolk_August1st",
+      "start_ms": 119054544,
+      "length_ms": 215202
+    },
+    {
+      "episode": 25,
+      "file": "m4a/Episodes/ep25.m4a",
+      "transcript": "transcripts/ep25.vtt",
+      "title": "25_PoorFolk_August2nd",
+      "start_ms": 119269746,
+      "length_ms": 68127
+    },
+    {
+      "episode": 26,
+      "file": "m4a/Episodes/ep26.m4a",
+      "transcript": "transcripts/ep26.vtt",
+      "title": "26_PoorFolk_August3rd",
+      "start_ms": 119337873,
+      "length_ms": 174335
+    },
+    {
+      "episode": 27,
+      "file": "m4a/Episodes/ep27.m4a",
+      "transcript": "transcripts/ep27.vtt",
+      "title": "27_PoorFolk_August4th",
+      "start_ms": 119512208,
+      "length_ms": 512000
+    },
+    {
+      "episode": 28,
+      "file": "m4a/Episodes/ep28.m4a",
+      "transcript": "transcripts/ep28.vtt",
+      "title": "28_PoorFolk_August5th",
+      "start_ms": 120024208,
+      "length_ms": 547015
+    },
+    {
+      "episode": 29,
+      "file": "m4a/Episodes/ep29.m4a",
+      "transcript": "transcripts/ep29.vtt",
+      "title": "29_PoorFolk_August11th",
+      "start_ms": 120571223,
+      "length_ms": 211626
+    },
+    {
+      "episode": 30,
+      "file": "m4a/Episodes/ep30.m4a",
+      "transcript": "transcripts/ep30.vtt",
+      "title": "30_PoorFolk_August13th",
+      "start_ms": 120782849,
+      "length_ms": 61811
+    },
+    {
+      "episode": 31,
+      "file": "m4a/Episodes/ep31.m4a",
+      "transcript": "transcripts/ep31.vtt",
+      "title": "31_PoorFolk_August14th(The_Devils)",
+      "start_ms": 120844660,
+      "length_ms": 177261
+    },
+    {
+      "episode": 32,
+      "file": "m4a/Episodes/ep32.m4a",
+      "transcript": "transcripts/ep32.vtt",
+      "title": "32_PoorFolk_August19th",
+      "start_ms": 121021921,
+      "length_ms": 77693
+    },
+    {
+      "episode": 33,
+      "file": "m4a/Episodes/ep33.m4a",
+      "transcript": "transcripts/ep33.vtt",
+      "title": "33_PoorFolk_August21st(The_Devils)",
+      "start_ms": 121099614,
+      "length_ms": 208282
+    },
+    {
+      "episode": 34,
+      "file": "m4a/Episodes/ep34.m4a",
+      "transcript": "transcripts/ep34.vtt",
+      "title": "34_PoorFolk_September3rd(The_Devils)",
+      "start_ms": 121307896,
+      "length_ms": 366643
+    },
+    {
+      "episode": 35,
+      "file": "m4a/Episodes/ep35.m4a",
+      "transcript": "transcripts/ep35.vtt",
+      "title": "35_PoorFolk_September5th(The_Devils)",
+      "start_ms": 121674539,
+      "length_ms": 1080703
+    },
+    {
+      "episode": 36,
+      "file": "m4a/Episodes/ep36.m4a",
+      "transcript": "transcripts/ep36.vtt",
+      "title": "36_PoorFolk_September9th(The_Devils)",
+      "start_ms": 122755242,
+      "length_ms": 549662
+    },
+    {
+      "episode": 37,
+      "file": "m4a/Episodes/ep37.m4a",
+      "transcript": "transcripts/ep37.vtt",
+      "title": "37_PoorFolk_September10th(The_Devils)",
+      "start_ms": 123304904,
+      "length_ms": 77043
+    },
+    {
+      "episode": 38,
+      "file": "m4a/Episodes/ep38.m4a",
+      "transcript": "transcripts/ep38.vtt",
+      "title": "38_PoorFolk_September11th(The_Devils)",
+      "start_ms": 123381947,
+      "length_ms": 275481
+    },
+    {
+      "episode": 39,
+      "file": "m4a/Episodes/ep39.m4a",
+      "transcript": "transcripts/ep39.vtt",
+      "title": "39_PoorFolk_September15th(The_Devils)",
+      "start_ms": 123657428,
+      "length_ms": 191471
+    },
+    {
+      "episode": 40,
+      "file": "m4a/Episodes/ep40.m4a",
+      "transcript": "transcripts/ep40.vtt",
+      "title": "40_PoorFolk_September18th(The_Devils)",
+      "start_ms": 123848899,
+      "length_ms": 354290
+    },
+    {
+      "episode": 41,
+      "file": "m4a/Episodes/ep41.m4a",
+      "transcript": "transcripts/ep41.vtt",
+      "title": "41_PoorFolk_September19th(The_Devils)",
+      "start_ms": 124203189,
+      "length_ms": 45975
+    },
+    {
+      "episode": 42,
+      "file": "m4a/Episodes/ep42.m4a",
+      "transcript": "transcripts/ep42.vtt",
+      "title": "42_PoorFolk_September23rd(The_Devils)",
+      "start_ms": 124249164,
+      "length_ms": 522774
+    },
+    {
+      "episode": 43,
+      "file": "m4a/Episodes/ep43.m4a",
+      "transcript": "transcripts/ep43.vtt",
+      "title": "43_PoorFolk_September27th(The_Devils)",
+      "start_ms": 124771938,
+      "length_ms": 267168
+    },
+    {
+      "episode": 44,
+      "file": "m4a/Episodes/ep44.m4a",
+      "transcript": "transcripts/ep44.vtt",
+      "title": "44_PoorFolk_September28th(The_Devils)",
+      "start_ms": 125039106,
+      "length_ms": 105743
+    },
+    {
+      "episode": 45,
+      "file": "m4a/Episodes/ep45.m4a",
+      "transcript": "transcripts/ep45.vtt",
+      "title": "45_PoorFolk_September29th(The_Devils)",
+      "start_ms": 125144849,
+      "length_ms": 149582
+    },
+    {
+      "episode": 46,
+      "file": "m4a/Episodes/ep46.m4a",
+      "transcript": "transcripts/ep46.vtt",
+      "title": "46_PoorFolk_September30th(The_Devils)",
+      "start_ms": 125294431,
+      "length_ms": 362742
+    }
+  ]
+}

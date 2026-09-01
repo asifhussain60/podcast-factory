@@ -1,0 +1,38 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P0",
+      "message": "Critical pipeline halt: Source material incomplete. Audio lectures (2 .m4a files) staged but transcripts not yet received. Cannot verify chapter content against source audio. 24 chapters exist with partial text snippets but no complete source documentation.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P1",
+      "message": "Authenticity verification gap: Chapters reference Arabic terminology and Prophetic hadith (e.g., 'الْحَيَاءُ الْمَذْمُومُ' in ch03) but source type is listed as 'audio-lectures'. Unclear whether these are direct quotes from lecture audio or editorial additions during transcription/segmentation. Translator/transcriber notes absent.",
+      "chapter": "ch03, ch05, and others with direct Arabic citations"
+    },
+    {
+      "severity": "P1",
+      "message": "Suspicious attribution gaps: Chapter summaries contain truncated Arabic text (ch05 example cuts off mid-sentence: 'أَنْعُمِهِ أَنَّم'). Indicates either incomplete extraction or editorial summarization. Cannot trace whether content derives from lecture audio or external source material.",
+      "chapter": "ch05, likely others"
+    },
+    {
+      "severity": "P1",
+      "message": "Metadata integrity concern: Provenance field contains incomplete sentence ('Manual scaffold ahead of sourc' — appears truncated). Combined with 'phase_status: pending' and 'status: draft', suggests intake process incomplete. No source URL, citation details, or publication metadata provided.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P2",
+      "message": "Doctrinal scope note (informational): Sheikh Hamza Yusuf is Sunni traditionalist scholar (Maliki). Source material appears to be lecture-based Islamic ethics/spirituality content. No cross-sectarian contamination apparent, but confirm source aligns with expected Sunni-Maliki orientation if critical for series consistency.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P2",
+      "message": "Structural observation: 24 chapters derived from 2 audio files suggests significant re-segmentation occurred. Source file 'chapters-rationale.md' likely explains logic, but segmentation methodology not visible in review materials. Verify chapter boundaries respect original lecture structure.",
+      "chapter": "all"
+    }
+  ],
+  "reviewed_at": "2026-08-31T18:09:00Z",
+  "approved_at": null
+}

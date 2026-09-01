@@ -448,25 +448,14 @@ def apply_book_apparatus(
     except Exception as e:  # a script swap is never worth a finished book
         _record_skip(book_dir, "arabic-substitution", e, log)
 
-    # 5a-spelling. One spelling standard for the whole edition. The drafting and
-    #     re-voicing models have no consistent preference, so without this a
-    #     single book ships "honour" in one chapter and "honor" in the next.
-    #     Deterministic, whole-word, and skips fenced blocks; source records under
-    #     _system/source/ are never in scope here — this only touches book.md,
-    #     which is prose the pipeline itself authored. See _american_spelling.py.
-    from _american_spelling import to_american
+    # 5a-spelling + 5a-opening. The typographic pair — one spelling standard, and
+    #     a capital at the head of every chapter. Both change how the book is SET
+    #     and not what it says, both need the final wording, and both were lifted
+    #     into _book_typography (2026-08-31) when the line cap forced a split.
+    #     Same position in the sequence, same order within it.
+    from _book_typography import run_typography_steps
 
-    try:
-        _md = book_dir / "book" / "book.md"
-        if _md.exists():
-            _before = _md.read_text(encoding="utf-8")
-            _after = to_american(_before)
-            if _after != _before:
-                _md.write_text(_after, encoding="utf-8")
-                log("    spelling: normalized to American forms")
-        _ok(book_dir, "spelling")
-    except Exception as e:  # a spelling pass is never worth a finished book
-        _record_skip(book_dir, "spelling", e, log)
+    run_typography_steps(book_dir, log=log)
 
     # 6-7. The report-only tail — Arabic provenance audit, duplicated-passage sweep,
     #      visual policy. Lifted into _book_reports (2026-08-08): all three are
