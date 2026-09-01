@@ -133,8 +133,9 @@ export default function About({ loaderData }: Route.ComponentProps) {
           </h1>
           <p className="pf-about-hero__lead">
             Classical works published twice over — as modern English reading
-            editions, and as long-form audio drawn from the same source. Read
-            one, listen to the other, or follow both together.
+            editions and as long-form audio drawn from the same source —
+            alongside recorded teaching series and books read aloud by a
+            narrator. Read one, listen to another, or follow both together.
           </p>
         </div>
       </section>

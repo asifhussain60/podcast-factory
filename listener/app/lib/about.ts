@@ -5,6 +5,7 @@ import {
   faHighlighter,
   faImages,
   faKey,
+  faLayerGroup,
   faMagnifyingGlass,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -74,6 +75,54 @@ export interface Section {
 
 export const SECTIONS: Section[] = [
   {
+    id: "shelf",
+    title: "The shelf",
+    hue: "green",
+    short: "The shelf",
+    icon: faLayerGroup,
+    blurb:
+      "Three kinds of work, laid out so you can find one without wading through the others.",
+    entries: [
+      {
+        q: "What are Books, Sessions and Audiobooks?",
+        a: [
+          "Books are classical works published twice over — a modern English reading edition, and a series of long-form conversational episodes drawn from the same source. Follow either, or both.",
+          "Sessions are spoken teaching, gathered into series meant to be followed in order. The talk is the work; the reading edition behind it is that same evening written out.",
+          "Audiobooks are published books read aloud by a narrator, with the text beside the voice — the words light up as they are spoken, so you can listen, read, or do both at once.",
+          "If you have been given more than one kind, the site opens on a page that offers them as three tiles and says in a sentence what each one is. If you have only one kind, that page would be a choice with nothing to choose, so you go straight to the shelf.",
+        ],
+      },
+      {
+        q: "How do I narrow the shelf down?",
+        a: [
+          "The row above the shelf does three things: it searches, it switches between everything and one collection on its own, and it filters by subject — history, shariah, theology, esoteric, reality and philosophy.",
+          "Showing everything, the shelf draws books and sessions as two titled groups rather than one alphabetical run, each on its own tinted panel. Narrowed to a single collection the headings go away, because the grid already is that collection.",
+        ],
+      },
+      {
+        q: "Can I make the shelf denser, or a plain list?",
+        a: [
+          "Yes — three view modes sit in the same row. Cards is the roomy default, compact fits many more on a screen at the size of a tile, and list is one row per book with its progress beside it.",
+          "Your choice is remembered, and so are the collection and subject you last filtered by, so the shelf opens the way you left it.",
+        ],
+      },
+      {
+        q: "What is the coloured corner on a card?",
+        a: [
+          "The ribbon is the book's subject track, in the same colour as the matching filter above the shelf. In cards it carries the word; in the compact view it is the shape alone, so the corner still tells you what a book is without a label too small to read.",
+          "The card itself is tinted by its collection, so a book and a session are told apart at a glance as well as by name.",
+        ],
+      },
+      {
+        q: "How does a work in several volumes appear?",
+        a: [
+          "As one card, not six. A multi-volume work is stacked into a single card carrying a numbered picker, so choosing a volume opens it in place rather than making you find it among its siblings. In the list view the same work is one row that opens to show its volumes.",
+        ],
+      },
+    ],
+  },
+
+  {
     id: "reading",
     title: "Reading",
     hue: "blue",
@@ -99,15 +148,42 @@ export const SECTIONS: Section[] = [
       {
         q: "How do I move around a book?",
         a: [
-          "The panel on the left of the reader lists every chapter and marks the one you are in, so you can jump without going back to the book.",
+          "A single column of controls runs down the left of the reader: home, the chapter list, the reading assistant, a bookmark, the book's own page, and the source reference. The chapter list marks the chapter you are in, so you can jump without going back to the book.",
+          "The row of controls above the page now only dresses it — theme, typeface, size, spacing and width. Everything that takes you somewhere lives in the column, in one place rather than two.",
           "Books vary in what they carry. Some have a reading edition and recordings, some only one of the two — the book's own page shows what is actually there and never offers a link to something that is not.",
         ],
       },
       {
         q: "Can I keep a book for reading without signal?",
         a: [
-          "Yes. When a book is available for offline reading, its page offers a download control. Once it is saved, the downloads page shows what is on this device and opens a reader that does not need the network.",
+          "Yes. When a book is available for offline reading, its page offers a Read Offline button, paired with the PDF download and each explaining itself when you hover or focus it. Once it is saved, the downloads page shows what is on this device and opens a reader that does not need the network.",
           "Offline copies belong to the device you saved them on. They are useful for a flight or a weak connection; your account is still what decides which books can be saved in the first place.",
+        ],
+      },
+      {
+        q: "Can a chapter be read aloud to me?",
+        a: [
+          "Where a chapter has been recorded, a headphone control in the reader plays it, and the paragraph being spoken is lit as it goes — so you can follow the words with your eyes or simply listen.",
+          "It is the same player the episodes use, so it keeps going while you move around the site, and pressing the control again pauses it. A chapter with no recording does not show the control at all.",
+        ],
+      },
+      {
+        q: "Is there anything to help me hold my place on the line?",
+        a: [
+          "Yes. The reading assistant dims the page and keeps the sentence you are on clear, so your eye has one line to hold rather than a full page of them. It is off until you turn it on, and it is the eye button in the column of controls.",
+        ],
+      },
+      {
+        q: "Where in the original book does a chapter come from?",
+        a: [
+          "For books whose original has been mapped, a control in the reader shows the pages and headings in the source that a chapter was drawn from. It is off by default and stays as you set it.",
+          "It gives the page range and the headings, never the source's own words. A book that has not been mapped does not offer the control rather than offering one that answers nothing.",
+        ],
+      },
+      {
+        q: "Why are some passages set apart in coloured cards?",
+        a: [
+          "Quotations are set as cards rather than run into the paragraph, and the card says what kind of quotation it is — scripture, a reported saying, verse, or a quotation from another work. Where the original language is carried, it sits above the English with its reference beneath.",
         ],
       },
     ],
@@ -218,6 +294,20 @@ export const SECTIONS: Section[] = [
           "The downloads page tells you what is saved here and lets you remove it when you no longer need it.",
         ],
       },
+      {
+        q: "How is an audiobook different from an episode?",
+        a: [
+          "An episode is a conversation about the book. An audiobook is the book itself, read aloud by a narrator, with the text on screen beside the voice and the words lit as they are spoken.",
+          "They sit in their own part of the shelf for that reason, and a work appears there only when it has actually been narrated.",
+        ],
+      },
+      {
+        q: "Can I change how fast it plays?",
+        a: [
+          "Yes, in half steps from normal speed up to three times. Three is the ceiling on purpose: past roughly that point the gaps between words disappear before the ear can separate them.",
+          "The speed you choose is remembered, so the next episode starts where you left the dial rather than back at normal.",
+        ],
+      },
     ],
   },
 
@@ -238,7 +328,7 @@ export const SECTIONS: Section[] = [
       {
         q: "Can I download a book?",
         a: [
-          "When a book has a print edition, its page offers the PDF with its size beside the link. That is the same edition you read on screen, typeset for paper.",
+          "When a book has a print edition, its page offers a Download PDF button with the size beside it. That is the same edition you read on screen, typeset for paper.",
           "A book whose PDF has not been uploaded yet says so rather than offering a link that fails.",
         ],
       },
@@ -338,6 +428,12 @@ export const FAQ: Section = {
       ],
     },
     {
+      q: "Why do some books show a second title in another script?",
+      a: [
+        "Because that is the work's own name. Where a book has one, its original title is set beside the English on the book's page and on its card, in Arabic or Urdu as the work itself is written.",
+      ],
+    },
+    {
       q: "How do I sign out?",
       a: [
         "Sign out is at the top right of every page, beside the theme control.",
@@ -377,6 +473,42 @@ export interface Release {
  * Newest first.
  */
 export const RELEASES: Release[] = [
+  {
+    date: "2026-09-01",
+    items: [
+      "Audiobooks. Published books read aloud by a narrator, with the text beside the voice and the words lit as they are spoken. They have their own place on the shelf, so a narrated book and a talk are no longer filed together.",
+      "The site opens on a page that asks where you would like to begin, and explains in a sentence what Books, Sessions and Audiobooks are. It appears only if you have been given more than one kind.",
+      "The reader has one column of controls instead of two rows and an edge tab: home, contents, the reading assistant, a bookmark, the book's page and the source reference. The row above the page now only dresses it — theme, typeface, size, spacing and width — and the page is wider for it.",
+      "A reading assistant. It dims the page and keeps the sentence you are on clear, for anyone who loses their line on a full page of text.",
+      "Listening speeds run in half steps up to three times normal, and the speed you pick is remembered.",
+    ],
+  },
+  {
+    date: "2026-08-29",
+    items: [
+      "Showing everything, the shelf now draws books and sessions as two titled groups on their own panels rather than one alphabetical run, and each card is tinted by the collection it belongs to.",
+      "The subject ribbon on a compact card is large enough to read as a marker rather than a nick in the corner.",
+    ],
+  },
+  {
+    date: "2026-08-16",
+    items: [
+      "A work published in several volumes is one card carrying a numbered picker, instead of six cards sitting side by side. In the list view it is one row that opens to show its volumes.",
+      "A quiet control in the reader shows which pages and headings of the original book a chapter was drawn from, for the books whose source has been mapped. It is off unless you turn it on.",
+      "A book's page opens with one identity card — its category, its English title with the work's own name beside it, and the description — and the Read Offline and Download PDF buttons are paired beneath a clear chapter count, each explaining what it does.",
+      "Every control in the reading toolbar now says what it is and what it does when you hover or focus it.",
+    ],
+  },
+  {
+    date: "2026-08-14",
+    items: [
+      "Chapters can be read aloud. Where a chapter has been recorded, a control in the reader plays it and lights the paragraph being spoken.",
+      "The shelf can be shown three ways — roomy cards, a dense compact grid, or a plain list — and your choice is remembered along with the collection and subject you last filtered by.",
+      "Books carry a subject track: history, shariah, theology, esoteric, reality and philosophy. It shows as the coloured corner on a card, and as a row of filters above the shelf.",
+      "The whole of a library card is now a link, its actions sit in a fixed order, and Read opens the book's chapter list rather than dropping you into the middle of it.",
+      "Arabic is set in one face at one size and one weight throughout the reader, and is never artificially bolded.",
+    ],
+  },
   {
     date: "2026-08-13",
     items: [
