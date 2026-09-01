@@ -79,7 +79,10 @@ export {
   type ReadAlongRect,
 } from "~/lib/read-along";
 // Re-exporting publishes the names to importers; this module uses them itself.
-import { readAlongBlockIndex, readAlongTargetScrollY } from "~/lib/read-along";
+// `readAlongTargetScrollY` is re-exported above but no longer imported here —
+// its only caller was `centerReadAlongBlock`, which now lives beside it.
+import { readAlongBlockIndex } from "~/lib/read-along";
+import { centerReadAlongBlock } from "~/lib/read-along-scroll";
 
 function readAlongTrace(label: string, detail: Record<string, unknown>) {
   if (typeof window === "undefined") return;
@@ -95,23 +98,11 @@ function readAlongTrace(label: string, detail: Record<string, unknown>) {
   }
 }
 
-function centerReadAlongBlock(block: HTMLElement) {
-  if (typeof window === "undefined") return;
-  const styles = window.getComputedStyle(document.documentElement);
-  const playerHeight = Number.parseFloat(
-    styles.getPropertyValue("--pf-player-h"),
-  );
-  const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
-  const top = readAlongTargetScrollY({
-    rect: block.getBoundingClientRect(),
-    scrollY: window.scrollY,
-    viewportHeight,
-    playerHeight: Number.isFinite(playerHeight) ? playerHeight : 0,
-  });
-  window.scrollTo({ top, behavior: "smooth" });
-}
-
-export async function loader({ params, request, context }: Route.LoaderArgs) {
+export async function loader({
+  params,
+  request,
+  context,
+}: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const slug = params.slug;
   const key = decodeURIComponent(params.chapter);
@@ -672,6 +663,14 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
      near-identical bookmarks in one chapter would be noise, not a feature.  */
   const bookmarked = bookmarks.length > 0;
 
+  // Opening one drawer closes the other, which is what the two edge tabs used to
+  // do between them. The contents lost its tab to the action rail; the rule it
+  // carried has to live somewhere, and this is the only caller left.
+  const toggleContents = useCallback(() => {
+    setContentsOpen((open) => !open);
+    setNotesOpen(false);
+  }, []);
+
   const toggleBookmark = useCallback(() => {
     if (bookmarked) {
       for (const b of bookmarks) submit("unbookmark", { id: b.id });
@@ -827,10 +826,6 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               and their notes on it stay on opposite sides. */}
           <ContentsPanel
             open={contentsOpen}
-            onOpen={() => {
-              setContentsOpen(true);
-              setNotesOpen(false);
-            }}
             onClose={() => setContentsOpen(false)}
             chapters={contents}
             currentKey={chapter.anchorKey}
@@ -907,15 +902,14 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
 
         <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
 
-        <ReaderToolbar
-          bookmarked={bookmarked}
-          onToggleBookmark={toggleBookmark}
-        />
+        <ReaderToolbar />
 
         <div className="pf-toolbar-rail">
           <ReaderTopActions
             bookHref={`/book/${slug}`}
             bookTitle={bookTitle}
+            contentsOpen={contentsOpen}
+            onToggleContents={toggleContents}
             bookmarked={bookmarked}
             onToggleBookmark={toggleBookmark}
             hasSourceReference={sourceRef !== null}
@@ -925,15 +919,19 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               setReadingAssistantEnabled((enabled) => !enabled)
             }
           />
-        </div>
 
-        {narration !== null && player !== null ? (
-          <ChapterListenControl
-            active={narrationActive}
-            playing={player.playing === true}
-            onToggle={playNarration}
-          />
-        ) : null}
+          {/* OUTSIDE the panel and under it, centred on the same axis (Asif,
+              2026-09-01). Inside the rail's column but outside `.pf-reader-actions`,
+              so "centred under the buttons" is layout rather than an offset that
+              would drift the moment the rail gained or lost one. */}
+          {narration !== null && player !== null ? (
+            <ChapterListenControl
+              active={narrationActive}
+              playing={player.playing === true}
+              onToggle={playNarration}
+            />
+          ) : null}
+        </div>
       </div>
 
       <div className="pf-reader-page">

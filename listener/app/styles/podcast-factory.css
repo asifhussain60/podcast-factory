@@ -1557,6 +1557,12 @@
     --pf-reader-action-colour: var(--l-display);
   }
 
+  /* The chapters. Takes the accent, the same as "this book" beneath it, because
+     the two are the same errand at two scales — the book, and a place in it. */
+  .pf-reader-action--contents {
+    --pf-reader-action-colour: var(--l-accent);
+  }
+
   .pf-reader-action--bookmark {
     --pf-reader-action-colour: var(--l-warn);
   }
@@ -1614,6 +1620,12 @@
     left: 3.25rem;
     width: 4.75rem;
     transform: translateY(-50%);
+    /* A column of two: the panel of buttons, then Listen beneath it. Centred
+       rather than stretched, because the one below is wider than the panel and
+       is meant to be — see `.pf-reader-listen`. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   /* Reading appearance stays in the centred toolbar above the page. It wraps
@@ -1674,28 +1686,56 @@
      button: the notes are a panel on the right edge now, and the number lives on
      the tab that opens them (`.pf-edge-tab__count`). */
 
+  /* OUTSIDE the action panel and UNDER it, on the same axis (Asif, 2026-09-01).
+     It floated in the bottom-right corner until then, 8.4rem of right margin it
+     needed to itself — which is margin the sheet wanted, and a control in a
+     corner reads as belonging to the window rather than to the book.
+
+     Not `fixed` any more, and that is the point: it is a child of
+     `.pf-toolbar-rail` sitting after `.pf-reader-actions`, so the rail's own
+     `align-items: center` puts it under the buttons and keeps it there. An
+     offset computed from the rail's height would have been right until the
+     first reader whose chapter has no source reference, or who is not the
+     administrator, and so sees a rail one or two buttons shorter.
+
+     It is WIDER than the buttons above it — 5.9rem against the rail's 4.75rem —
+     and overhangs by half a rem either side. Deliberate, and Asif's call: it is
+     not one of the panel's buttons and should not read as one. */
   .pf-reader-listen {
     --listen-violet: #6c35bc;
     --listen-violet-deep: #351057;
     --listen-violet-bright: #8f4bda;
     --listen-cyan: #75e9ff;
     --listen-paper: #fffaff;
-    position: fixed;
     z-index: 23;
-    right: max(2.5rem, env(safe-area-inset-right));
-    bottom: calc(
-      1.6rem + var(--pf-player-h, 0px) + env(safe-area-inset-bottom)
-    );
     display: none;
+    margin-block-start: var(--pf-space-4);
     pointer-events: none;
   }
 
-  /* The Orbit Portal is intentionally desktop-only. Tablets and phones keep
-     every pixel for the book; they reach the same audio through the ordinary
-     episode/player surfaces without a fixed control covering the reading line. */
-  @media (min-width: 1400px) {
+  /* Shown from a landscape tablet up, which is where the rail is a side column
+     at all. Below this the rail is a bottom dock across the foot of the page and
+     there is no "under the panel" to be under — the reader reaches the same
+     audio through the ordinary episode player. The gate was 1400px and desktop
+     only until 2026-09-01; Asif widened it to iPads and tablets in landscape,
+     which is exactly the width at which the rail stands up. */
+  @media (min-width: 1024px) {
     .pf-reader-listen {
       display: block;
+      animation: pf-listen-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+  }
+
+  /* Arrives after the buttons above it rather than with them — the panel is the
+     controls, this is the invitation, and one following the other says so. */
+  @keyframes pf-listen-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: none;
     }
   }
 
@@ -1916,13 +1956,10 @@
     flex: none;
   }
 
-  .pf-toolbar__group--primary {
-    padding-inline-end: var(--pf-space-3);
-    border-inline-end: 1px solid var(--l-rule-soft);
-  }
-
-  /* A hairline between the marks and the typography, so the row reads as two
-     kinds of thing rather than one long strip of buttons. */
+  /* `--primary` was here: the Home and Bookmark shortcuts, and the hairline that
+     separated them from the typography. Both were duplicates of action-rail
+     buttons and were removed on 2026-09-01, and with one group left the rule
+     that divided two has nothing to divide. */
   .pf-toolbar__group--set {
     flex-direction: row;
     flex-wrap: wrap;
@@ -1959,23 +1996,31 @@
     }
   }
 
+  /* Six actions do not fit one row on the narrowest phone. At 375px the dock may
+     be 343px wide and six 3rem buttons with their gaps and padding come to 344 —
+     one pixel over, and `flex-wrap: nowrap` above turns that into an overflow
+     rather than a second row. Six only happens for the administrator on a chapter
+     that has a source reference, which is precisely the case Asif asked to keep
+     working at every viewport, so the dock is allowed to wrap here and only
+     here. Above 640px there is room for all six in a line. */
   @media (max-width: 639px) {
-    .pf-toolbar__group--primary {
-      width: 100%;
-      padding-inline-end: 0;
-      padding-block-end: var(--pf-space-2);
-      border-inline-end: 0;
-      border-block-end: 1px solid var(--l-rule-soft);
+    .pf-reader-actions {
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
 
-  /* A tablet and an ordinary desktop keep the action rail clear of the
-     Contents tab. The reading leaf remains physically centred. */
+  /* A tablet and an ordinary desktop put the action rail back at the side.
+     `left` used to be 3.25rem, which was clearance for the Contents tab against
+     the edge. That tab is gone (2026-09-01) and the rail moves into the space it
+     held — 1.25rem from the edge, its right edge at 6rem, which is what the
+     sheet below is widened against. The reading leaf remains physically
+     centred. */
   @media (min-width: 768px) and (max-width: 1791px) {
     .pf-toolbar-rail {
       top: 50%;
       bottom: auto;
-      left: 3.25rem;
+      left: 1.25rem;
       width: 4.75rem;
       transform: translateY(-50%);
     }
@@ -1989,6 +2034,91 @@
       flex-wrap: nowrap;
       width: 100%;
       border-radius: var(--pf-radius-lg);
+    }
+  }
+
+  /* ---- Contents, opening -------------------------------------------------
+     The drawer no longer arrives from an edge tab; it opens from the action
+     rail sitting a few centimetres to its right, so the movement has to read as
+     that button unfolding rather than as a panel flying in from off-screen.
+
+     Two motions, and they are deliberately different lengths. The drawer itself
+     is quick — it is furniture, and furniture that takes its time is furniture
+     in the way. The chapters then FAN, each one a beat behind the last, which is
+     the part Asif asked for: the list assembling itself is what tells a reader
+     the panel is a list, before they have read a word of it.
+
+     The stagger is by `nth-child` rather than an inline `--i` per row: a stagger
+     needs to be visible, not complete, and past the first screenful nobody can
+     see which row moved first. Ten steps, then every remaining row shares the
+     tenth — a book with twenty-nine chapters animates in the same time as one
+     with eight. */
+  @keyframes pf-drawer-unfold {
+    from {
+      opacity: 0;
+      transform: translateX(-1.5rem) scaleX(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes pf-toc-fan {
+    from {
+      opacity: 0;
+      transform: translateX(-0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .pf-drawer--start {
+    transform-origin: left center;
+    animation: pf-drawer-unfold 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .pf-drawer--start .pf-toc__list > li {
+    animation: pf-toc-fan 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 200ms;
+  }
+
+  .pf-drawer--start .pf-toc__list > li:nth-child(1) {
+    animation-delay: 110ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(3) {
+    animation-delay: 130ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(4) {
+    animation-delay: 140ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(5) {
+    animation-delay: 150ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(6) {
+    animation-delay: 160ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(7) {
+    animation-delay: 170ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(8) {
+    animation-delay: 180ms;
+  }
+  .pf-drawer--start .pf-toc__list > li:nth-child(9) {
+    animation-delay: 190ms;
+  }
+
+  /* Motion is the whole point of this panel and it is still not worth making
+     anyone ill. Reduced motion gets the finished state, immediately. */
+  @media (prefers-reduced-motion: reduce) {
+    .pf-drawer--start,
+    .pf-drawer--start .pf-toc__list > li {
+      animation: none;
     }
   }
 
@@ -2045,10 +2175,31 @@
       max-width: min(66rem, calc(100vw - 28rem));
     }
 
+    /* WIDEST TAKES THE RECLAIMED GUTTER (Asif, 2026-09-01: "maximize the extra
+       space"). Its reserve was 24rem — 12rem of margin a side — held for chrome
+       that does not need it: with the Contents tab gone the left holds only the
+       rail, whose right edge is now at 6rem, and the right holds the marks tab
+       at 2.75rem. 15rem leaves 7.5rem a side, clearing the rail by 1.5rem and
+       the tab by nearly 5.
+
+       THE LINE LENGTH DOES NOT CHANGE. `.pf-page > *` caps every child at
+       `--l-reading-measure` — the reader's own chosen measure, 100ch here — and
+       centres it, so this widens the PAPER and shrinks the grey beside it while
+       the prose column stays exactly where it was. That is what makes taking
+       this much gutter safe rather than a 130-character line.
+
+       Standard and Wider are untouched: their reserves are what make the three
+       buttons visibly different, and spending this gutter on them would collapse
+       the difference the settings exist to show. */
     .pf-reader:has(.pf-toolbar[data-measure="100"]) .pf-reader-page {
-      max-width: min(76rem, calc(100vw - 24rem));
+      max-width: calc(100vw - 15rem);
     }
   }
+
+  /* The 4rem the Orbit Portal used to need on the right went back to the sheet
+     when it moved under the action rail (2026-09-01). Nothing floats in the
+     right margin now but the marks tab at 2.75rem, so Widest keeps its full
+     reserve at every width from 1024px up and this exception is gone. */
 
   /* The full panel begins only when the widest reading leaf already fits in
      the protected centre. The breakpoint therefore changes the chrome without
@@ -7923,13 +8074,9 @@
       transform var(--pf-motion);
   }
 
-  .pf-edge-tab--start {
-    inset-inline-start: 0;
-    transform: translateY(-50%);
-    border-inline-start: 0;
-    border-start-end-radius: var(--pf-radius-lg);
-    border-end-end-radius: var(--pf-radius-lg);
-  }
+  /* `.pf-edge-tab--start` was here. The contents lost its tab on 2026-09-01 and
+     is opened from the action rail; the marks panel on the right keeps its own,
+     so the base `.pf-edge-tab` rules above stay. */
 
   .pf-edge-tab--end {
     inset-inline-end: 0;
@@ -7972,10 +8119,6 @@
      to be repeated — a `transform` replaces, it does not compose. */
   .pf-edge-tab:hover {
     color: var(--l-accent);
-  }
-
-  .pf-edge-tab--start:hover {
-    transform: translate(var(--pf-space-1), -50%);
   }
 
   .pf-edge-tab--end:hover {

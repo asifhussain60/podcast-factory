@@ -15,9 +15,18 @@ import { Icon } from "~/components/Icon";
  * pixels taller on one side than the other is the kind of difference nobody can
  * name but everybody sees.
  *
- * Collapsed, the panel is a tab against its edge, carrying its own affordance —
- * which is why nothing in the toolbar opens either of them. Both tabs are fixed
- * and centred, so they line up across the page whatever is scrolled.
+ * Collapsed, a panel is EITHER a tab against its edge or nothing at all, and
+ * `onOpen` is what decides. Given a handler, the tab is drawn and carries the
+ * affordance itself; without one the collapsed panel renders nothing, because
+ * something else opens it. The two are tied to one prop deliberately — a tab
+ * with no handler and a handler with no way to reach it are both configurations
+ * that would compile.
+ *
+ * The contents took the second route on 2026-09-01 (Asif): its tab is gone and
+ * the reader's left action rail opens it, which is why that rail is where the
+ * chapters now live. Your marks on the right keep their tab. Both were fixed and
+ * centred so the pair lined up across the page; with one of them gone that
+ * symmetry is no longer a rule this file has to keep.
  *
  * Fixed rather than in the flow, so opening one never moves the paragraph being
  * read. On a phone it covers the page and the scrim dims what it covers; on a
@@ -40,7 +49,8 @@ export function SidePanel({
   /** `nav` for a list of places, `aside` for anything else. */
   as: "nav" | "aside";
   open: boolean;
-  onOpen: () => void;
+  /** Omit to draw NO tab when collapsed — for a panel opened from elsewhere. */
+  onOpen?: () => void;
   onClose: () => void;
   /** The tab's word, and the drawer's heading. One string, so they agree. */
   label: string;
@@ -64,6 +74,8 @@ export function SidePanel({
   children: React.ReactNode;
 }) {
   if (!open) {
+    // Nothing to draw: no handler means no affordance belongs on this edge.
+    if (onOpen === undefined) return null;
     return (
       <button
         type="button"

@@ -13,25 +13,33 @@ export interface ChapterEntry {
 /**
  * The book's contents, in the panel on the left.
  *
- * It is NOT in the toolbar. It was — first as the book's own title doubling as
- * the toggle, then as a "Contents" button — and both put a way of LEAVING this
- * chapter in the row of controls for how this chapter is SET. They are different
- * kinds of thing, and the row was the longer for holding both.
+ * IT IS OPENED FROM THE ACTION RAIL, and has no tab of its own (Asif,
+ * 2026-09-01). This reverses a rule stated twice in this file and once in
+ * `ReaderToolbar`, so it is worth saying what changed rather than deleting the
+ * old note: the objection was that contents sat in "the row of controls for how
+ * this chapter is SET", mixing a way of LEAVING the chapter with the settings
+ * that dress it. That row and the rail are now different objects. Appearance —
+ * theme, face, size, spacing, width — lives in the toolbar above the page; the
+ * rail holds only ways of going somewhere: home, this book, your bookmark. The
+ * chapters belong with those three, and the old objection does not reach them
+ * there.
  *
- * Everything about how the panel opens, closes and looks lives in `SidePanel`,
- * which your marks on the right side use too. This file is only what is IN it:
- * the chapters, and what each one costs to read.
+ * Passing no `onOpen` is what removes the edge tab; `SidePanel` draws one only
+ * for a panel that opens itself. The rail owns the affordance now, so a tab as
+ * well would be two controls for one drawer sitting four inches apart.
+ *
+ * Everything about how the panel closes and looks lives in `SidePanel`, which
+ * your marks on the right side use too. This file is only what is IN it: the
+ * chapters, and what each one costs to read.
  */
 export function ContentsPanel({
   open,
-  onOpen,
   onClose,
   chapters,
   currentKey,
   slug,
 }: {
   open: boolean;
-  onOpen: () => void;
   onClose: () => void;
   chapters: ChapterEntry[];
   currentKey: string;
@@ -42,7 +50,6 @@ export function ContentsPanel({
       side="start"
       as="nav"
       open={open}
-      onOpen={onOpen}
       onClose={onClose}
       label="Contents"
       icon={faListUl}

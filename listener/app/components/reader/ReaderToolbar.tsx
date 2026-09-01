@@ -9,6 +9,7 @@ import {
   faEyeSlash,
   faGripLines,
   faHouse,
+  faListUl,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
@@ -140,6 +141,8 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
 export function ReaderTopActions({
   bookHref,
   bookTitle,
+  contentsOpen,
+  onToggleContents,
   bookmarked,
   onToggleBookmark,
   hasSourceReference,
@@ -149,6 +152,9 @@ export function ReaderTopActions({
 }: {
   bookHref: string;
   bookTitle: string;
+  /** Whether the contents drawer is showing, so the button reads as pressed. */
+  contentsOpen: boolean;
+  onToggleContents: () => void;
   bookmarked: boolean;
   onToggleBookmark: () => void;
   showReadingAssistant?: boolean;
@@ -168,10 +174,17 @@ export function ReaderTopActions({
     <TooltipProvider>
       <div className="pf-reader-actions" aria-label="Reading actions">
         {/* ---- Getting about, and what you have marked ----------------------
-          Contents is NOT here. It was, twice — as the book's title doubling as a
-          toggle, then as a labelled button — and both put a way of LEAVING this
-          chapter into the row of controls for how this chapter is SET. It is a
-          collapsible panel on the left now, carrying its own affordance. */}
+          Everything here is a way of GOING somewhere: the library, this book,
+          the chapters, your place in them. Nothing here dresses the page — the
+          theme, face, size, spacing and width all live in the toolbar above.
+          That separation is what lets contents sit in this column at all.
+
+          It was kept out twice, as the book's title doubling as a toggle and
+          then as a labelled button, on the grounds that a way of LEAVING a
+          chapter does not belong among the controls for how that chapter is
+          SET. Both objections were to a single row that held both kinds of
+          thing. This is no longer that row, so Asif put the chapters back into
+          it (2026-09-01) and took away their edge tab — see `ContentsPanel`. */}
         <Tooltip header="Home" description="Back to your library">
           <Link
             to="/library"
@@ -182,40 +195,31 @@ export function ReaderTopActions({
           </Link>
         </Tooltip>
 
+        {/* Second, and deliberately: after the way out of the book and before
+            everything about this one. Its drawer opens on the left, beside the
+            button, so the movement reads as the same object growing rather than
+            a panel arriving from somewhere else. */}
         <Tooltip
-          header="This book"
-          description={`Open ${bookTitle}'s reading, listening, deck and print options`}
-        >
-          <Link
-            to={bookHref}
-            aria-label={`Open ${bookTitle}`}
-            className="pf-reader-action pf-reader-action--book"
-          >
-            <Icon icon={faBook} title={`Open ${bookTitle}`} />
-          </Link>
-        </Tooltip>
-
-        <Tooltip
-          header={bookmarked ? "Bookmarked" : "Bookmark"}
+          header="Contents"
           description={
-            bookmarked
-              ? "Remove the bookmark at your current place"
-              : "Mark your place in this chapter, to jump back to it later"
+            contentsOpen
+              ? "Hide the chapter list"
+              : "Jump to any chapter in this book"
           }
         >
           <button
             type="button"
-            onClick={onToggleBookmark}
-            aria-pressed={bookmarked}
-            className="pf-reader-action pf-reader-action--bookmark"
+            onClick={onToggleContents}
+            aria-expanded={contentsOpen}
+            aria-label={contentsOpen ? "Hide contents" : "Show contents"}
+            className="pf-reader-action pf-reader-action--contents"
           >
             <Icon
-              icon={faBookmark}
-              title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
+              icon={faListUl}
+              title={contentsOpen ? "Hide contents" : "Show contents"}
             />
           </button>
         </Tooltip>
-
         {showReadingAssistant ? (
           <Tooltip
             header="Reading assistant"
@@ -242,7 +246,38 @@ export function ReaderTopActions({
             </button>
           </Tooltip>
         ) : null}
-
+        <Tooltip
+          header={bookmarked ? "Bookmarked" : "Bookmark"}
+          description={
+            bookmarked
+              ? "Remove the bookmark at your current place"
+              : "Mark your place in this chapter, to jump back to it later"
+          }
+        >
+          <button
+            type="button"
+            onClick={onToggleBookmark}
+            aria-pressed={bookmarked}
+            className="pf-reader-action pf-reader-action--bookmark"
+          >
+            <Icon
+              icon={faBookmark}
+              title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
+            />
+          </button>
+        </Tooltip>
+        <Tooltip
+          header="This book"
+          description={`Open ${bookTitle}'s reading, listening, deck and print options`}
+        >
+          <Link
+            to={bookHref}
+            aria-label={`Open ${bookTitle}`}
+            className="pf-reader-action pf-reader-action--book"
+          >
+            <Icon icon={faBook} title={`Open ${bookTitle}`} />
+          </Link>
+        </Tooltip>
         {hasSourceReference ? (
           <Tooltip
             header="Source reference"
@@ -279,13 +314,16 @@ export function ReaderTopActions({
   );
 }
 
-export function ReaderToolbar({
-  bookmarked,
-  onToggleBookmark,
-}: {
-  bookmarked: boolean;
-  onToggleBookmark: () => void;
-}) {
+/**
+ * How the page is SET — theme, face, size, spacing, width. Nothing else.
+ *
+ * It carried a Home link and a Bookmark button until 2026-09-01, kept as
+ * "familiar" shortcuts to the same two things the action rail already offers.
+ * Asif had them removed: two controls for one action, four inches apart, teach a
+ * reader that the two rows mean different things and then disprove it. Going
+ * somewhere is the rail's job; this row only dresses the page.
+ */
+export function ReaderToolbar() {
   const prefs = useReading();
   const id = useId();
 
@@ -295,42 +333,6 @@ export function ReaderToolbar({
   return (
     <TooltipProvider>
       <div className="pf-toolbar" data-measure={prefs.measure}>
-        {/* These two established shortcuts remain in the top toolbar. The
-            persistent left rail repeats them as larger, always-available
-            actions; it does not take them away from this familiar location. */}
-        <div className="pf-toolbar__group pf-toolbar__group--primary">
-          <Tooltip header="Home" description="Back to your library">
-            <Link
-              to="/library"
-              aria-label="Back to your library"
-              className="pf-tool"
-            >
-              <Icon icon={faHouse} title="Back to your library" />
-            </Link>
-          </Tooltip>
-
-          <Tooltip
-            header={bookmarked ? "Bookmarked" : "Bookmark"}
-            description={
-              bookmarked
-                ? "Remove the bookmark at your current place"
-                : "Mark your place in this chapter, to jump back to it later"
-            }
-          >
-            <button
-              type="button"
-              onClick={onToggleBookmark}
-              aria-pressed={bookmarked}
-              className="pf-tool"
-            >
-              <Icon
-                icon={faBookmark}
-                title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
-              />
-            </button>
-          </Tooltip>
-        </div>
-
         {/* ---- How the page is set ----------------------------------------- */}
         <div className="pf-toolbar__group pf-toolbar__group--set">
           <ThemePicker compact />

@@ -66,7 +66,11 @@ const STATES = {
     {
       name: "contents-open",
       act: async (page) => {
-        await page.click(".pf-edge-tab--start");
+        // Opened from the action rail, not an edge tab: the contents lost its
+        // tab on 2026-09-01 and this click is the only way in now. Kept as a
+        // click on the real control rather than a state poke, because a shot of
+        // a drawer nothing can open is a shot of a bug.
+        await page.click(".pf-reader-action--contents");
         await page.waitForSelector(".pf-drawer--start", { timeout: 2000 });
       },
     },
