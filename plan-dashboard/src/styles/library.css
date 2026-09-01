@@ -1182,6 +1182,29 @@ a.lib-fact-file:focus-visible {
   min-width: 0;
   height: 2.2rem;
 }
+/* Playback speed, the same 1x-3x scale the Podcast Factory Library offers.
+   `flex: none` so it keeps its width while the native audio control beside it
+   takes the remaining room — the control is narrow and a shrinking select is
+   how a two-character label ends up clipped. */
+.audio-miniplayer-rate {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+}
+.audio-miniplayer-rate select {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--c-ink-dim);
+  background: var(--c-bg-elev);
+  border: 1px solid var(--c-rule);
+  border-radius: 6px;
+  padding: 0.2rem 0.35rem;
+  cursor: pointer;
+}
+.audio-miniplayer-rate select:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
 .audio-miniplayer-close {
   flex: none;
   border: none;
