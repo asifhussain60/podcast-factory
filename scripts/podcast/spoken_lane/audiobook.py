@@ -248,7 +248,20 @@ def scaffold_book(
     from _paths import ensure_book_skeleton
 
     from spoken_lane import scaffold as lane
-    from spoken_lane import transcript_check
+    from spoken_lane import transcript_check, transcript_repair
+
+    # REPAIR BEFORE CHECKING, because the exporter's damage is not the book's
+    # fault and it has a deterministic fix. `transcript_check` detects mangled
+    # quotes; without this it would only ever block the book and wait for a
+    # person, which is where ep05's 138 replacement characters left us. Damage
+    # the repair cannot explain is deliberately LEFT IN PLACE, so the check that
+    # runs next still refuses the book rather than accepting a guess.
+    if apply:
+        repairs = transcript_repair.repair_book(book_dir, apply=True)
+        if repairs:
+            with step(book_dir, PHASE, "transcript-repair") as rec:
+                rec.changed(sum(r.fixed for r in repairs))
+                rec.detail(episodes=[str(r) for r in repairs])
 
     titles = [M.chapter_title(c.title, work.name) for c in work.chapters]
     heard = {n: lane.heard_text(book_dir, n) for n in range(1, len(work.chapters) + 1)}
