@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router";
 
 import { Icon } from "~/components/Icon";
 import { clock, usePlayer, type NowPlaying } from "~/components/player/Player";
-import { collectionOf } from "~/lib/collection";
+import { collectionOf, type CollectionAccent } from "~/lib/collection";
 import { percentRead } from "~/lib/book-progress";
 import { PRE_ROLL_S } from "~/lib/marks";
 import { studyTrackLabel } from "~/lib/study-track";
@@ -277,7 +277,7 @@ function CardActions({
   slug: string;
   title: string;
   card: LibraryCard | null;
-  collection: "sessions" | undefined;
+  collection: CollectionAccent;
   listen: {
     mode: "resume" | "start";
     episode: CardPlayableEpisode;
@@ -398,7 +398,7 @@ function ListenAction({
   listen,
 }: {
   title: string;
-  collection: "sessions" | undefined;
+  collection: CollectionAccent;
   listen: {
     mode: "resume" | "start";
     episode: CardPlayableEpisode;

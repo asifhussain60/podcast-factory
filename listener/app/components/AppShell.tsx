@@ -3,6 +3,7 @@ import { useRouteLoaderData } from "react-router";
 import type { loader as authedLoader } from "~/routes/_authed";
 import { SiteFooter } from "~/components/SiteFooter";
 import { SiteHeader } from "~/components/SiteHeader";
+import type { CollectionAccent } from "~/lib/collection";
 
 /**
  * Every signed-in page, from the masthead down to the floor.
@@ -86,7 +87,7 @@ export function AppShell({
    * The library grid is the one place both collections appear at once, and there
    * the attribute is per CARD instead.
    */
-  collection?: "sessions";
+  collection?: CollectionAccent;
   children: React.ReactNode;
 }) {
   // Undefined only where there is no `_authed` match at all, which off the real

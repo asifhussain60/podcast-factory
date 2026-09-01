@@ -49,25 +49,38 @@ describe("inCollection", () => {
     for (const u of UNITS) expect(inCollection(u.bucket, "all")).toBe(true);
   });
 
-  it("'books' shows every non-Sessions bucket and hides Sessions", () => {
+  it("'books' shows every unnamed bucket and hides the two named ones", () => {
     expect(inCollection("Islamic", "books")).toBe(true);
     expect(inCollection("Technical", "books")).toBe(true);
     expect(inCollection("Fiction", "books")).toBe(true);
     expect(inCollection("Guides", "books")).toBe(true);
     expect(inCollection("Sessions", "books")).toBe(false);
+    expect(inCollection("Audiobook", "books")).toBe(false);
   });
 
   it("'sessions' shows only the Sessions bucket", () => {
     expect(inCollection("Sessions", "sessions")).toBe(true);
     expect(inCollection("Islamic", "sessions")).toBe(false);
+    // The split of 2026-09-01: an audiobook used to answer here, when both
+    // spoken buckets shared one collection. It has its own now.
+    expect(inCollection("Audiobook", "sessions")).toBe(false);
+  });
+
+  it("'audiobooks' shows only the Audiobook bucket", () => {
+    expect(inCollection("Audiobook", "audiobooks")).toBe(true);
+    expect(inCollection("Sessions", "audiobooks")).toBe(false);
+    expect(inCollection("Islamic", "audiobooks")).toBe(false);
   });
 
   it("a bucket the taxonomy has not seen yet still lands with the books", () => {
-    // Defined as NOT sessions rather than an enumerated list, so a future
-    // bucket is reachable under "Books" from day one rather than invisible
-    // under every filter until someone remembers to add it here.
+    // Books are defined as NOT one of the named collections rather than as an
+    // enumerated list, so a future bucket is reachable under "Books" from day
+    // one rather than invisible under every filter until someone remembers to
+    // add it here. The failure mode is silent: nobody reports a book they
+    // cannot see.
     expect(inCollection("SomeFutureBucket", "books")).toBe(true);
     expect(inCollection("SomeFutureBucket", "sessions")).toBe(false);
+    expect(inCollection("SomeFutureBucket", "audiobooks")).toBe(false);
   });
 });
 
@@ -98,9 +111,19 @@ describe("every Collection x Track combination", () => {
     for (const track of ALL_TRACK_CHOICES) {
       it(`collection=${collection} track=${track} matches a hand-computed set`, () => {
         const expected = UNITS.filter((u) => {
-          const collectionOk =
-            collection === "all" ||
-            (u.bucket === "Sessions") === (collection === "sessions");
+          // Hand-computed from the BUCKETS, deliberately — the point of this
+          // matrix is to check `inCollection` against an independent reading of
+          // the rule, so it must not call the thing it is testing. Rewritten for
+          // the three-way split of 2026-09-01; it previously asked only whether
+          // a bucket was Sessions, which quietly made "audiobooks" mean "every
+          // book" rather than failing.
+          const named =
+            u.bucket === "Sessions"
+              ? "sessions"
+              : u.bucket === "Audiobook"
+                ? "audiobooks"
+                : "books";
+          const collectionOk = collection === "all" || named === collection;
           const trackOk = track === "all" || u.studyTrack === track;
           return collectionOk && trackOk;
         });

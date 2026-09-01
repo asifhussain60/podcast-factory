@@ -33,7 +33,7 @@ import {
 
 import type { Route } from "./+types/book.$slug";
 import { AppShell } from "~/components/AppShell";
-import { collectionOf } from "~/lib/collection";
+import { collectionOf, type CollectionAccent } from "~/lib/collection";
 import { DeckShelf } from "~/components/DeckViewer";
 import { EmptyState } from "~/components/EmptyState";
 import { Icon } from "~/components/Icon";
@@ -876,7 +876,7 @@ function Podcast({
   slug: string;
   bookTitle: string;
   /** Which collection this book belongs to, for the bar it hands the audio to. */
-  collection: "sessions" | undefined;
+  collection: CollectionAccent;
   sessions: Session[];
   chapters: Route.ComponentProps["loaderData"]["chapters"];
   markedEpisodes: Map<number, number>;

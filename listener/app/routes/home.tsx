@@ -184,6 +184,7 @@ const COLLECTION_LABELS: Record<Collection, string> = {
   all: "Everything",
   books: "Books",
   sessions: "Sessions",
+  audiobooks: "Audiobooks",
 };
 
 /**

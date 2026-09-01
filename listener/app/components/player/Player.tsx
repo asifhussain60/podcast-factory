@@ -29,6 +29,7 @@ import {
 } from "~/lib/listening";
 import { localTranscript, localUrl } from "~/lib/offline";
 import { applyRate, loadRate, RATES, saveRate } from "~/lib/playback-rate";
+import type { CollectionAccent } from "~/lib/collection";
 
 /**
  * One <audio> element for the whole site.
@@ -67,7 +68,7 @@ export interface NowPlaying {
    * would then paint the bar for whatever is on screen instead of for what is
    * coming out of the speakers.
    */
-  collection?: "sessions";
+  collection?: CollectionAccent;
 }
 
 /** Which side panel the player is showing, or none. */

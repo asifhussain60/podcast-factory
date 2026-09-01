@@ -900,6 +900,68 @@
   --l-band-ornament: #a992d0; /* 3.70:1 */
 }
 
+/* Audiobooks — a published book read aloud by a narrator. Teal, because the two
+   accents already spoken for are the books' navy and the sessions' violet, and a
+   third hue has to be told apart from BOTH at a glance rather than only from one.
+
+   Same discipline as the violet above: declared once per palette, ratios measured
+   and written beside each value, and re-derived by test/theme.test.ts — which
+   discovers overlays by parsing these selectors, so this block is gated the
+   moment it exists rather than when somebody remembers to list it.
+
+   The bare selector is the default case for a reader who has never opened the
+   theme picker, exactly as the violet's is. Without it every audiobook card
+   would come out in the books' navy for precisely those readers. */
+[data-collection="audiobooks"],
+[data-theme="light"] [data-collection="audiobooks"],
+[data-theme="light"][data-collection="audiobooks"] {
+  --l-accent: #0f6b64; /* 5.78:1 on bg */
+  --l-accent-hover: #0a544e;
+  --l-accent-soft: #d6ece9; /* accent reads 5.15:1 on this */
+  --l-on-accent: #ffffff; /* 6.35:1 on accent */
+
+  --l-display: #1d4f4a; /* 8.42:1 on bg */
+
+  --l-band: #1d4f4a;
+  --l-on-band: #f4f8f7; /* 8.64:1 */
+  --l-band-muted: #a8c9c4; /* 5.21:1 */
+  --l-band-ornament: #6fb5ac; /* 3.28:1 */
+}
+
+[data-theme="dark"] [data-collection="audiobooks"],
+[data-theme="dark"][data-collection="audiobooks"] {
+  --l-accent: #6fd7c9; /* 10.65:1 on bg */
+  --l-accent-hover: #95e6da;
+  --l-accent-soft: #12332f; /* accent reads 7.95:1 on this */
+  --l-on-accent: #04231f; /* 9.67:1 on accent */
+
+  --l-display: #8fe0d3; /* 11.98:1 on bg */
+
+  /* Lighter than the page, like the navy and the violet here and for the same
+     reason: on a dark sheet a band darker than the card reads as a hole in it. */
+  --l-band: #20423d;
+  --l-on-band: #eaf4f2; /* 9.81:1 */
+  --l-band-muted: #a9cfc9; /* 6.53:1 */
+  --l-band-ornament: #6fd7c9; /* 5.98:1 */
+}
+
+[data-theme="sepia"] [data-collection="audiobooks"],
+[data-theme="sepia"][data-collection="audiobooks"] {
+  --l-accent: #14625b; /* 5.89:1 on bg */
+  --l-accent-hover: #0e4b45;
+  --l-accent-soft: #d2e6e2; /* accent reads 5.52:1 on this */
+  --l-on-accent: #f8f2e6; /* 6.43:1 on accent */
+
+  --l-display: #274f4a; /* 7.49:1 on bg */
+
+  /* Greyed towards the paper, exactly as the sepia navy and violet are. A
+     saturated teal band on parchment reads as a sticker laid on the page. */
+  --l-band: #274f4a;
+  --l-on-band: #f1f6f4; /* 8.35:1 */
+  --l-band-muted: #b4cfca; /* 5.52:1 */
+  --l-band-ornament: #84b7b0; /* 3.42:1 */
+}
+
 /* ==========================================================================
  * 4. TAILWIND BRIDGE
  *
@@ -12464,7 +12526,20 @@
     padding: 0;
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+    /* 16rem, and the number was measured rather than picked. With two tiles the
+       floor only decided WHEN they stacked and anything from 18 to 22rem gave
+       two across on every desktop. With three it decides whether a landscape
+       iPad shows three or drops one to a lonely second row, which is the layout
+       Asif asked against.
+
+       At 1024px the list's own container measures about 910px after the page's
+       padding; three tiles and two gaps need a floor under 17.6rem to fit, so
+       18rem missed by a hair and 22rem missed by 250px. 16rem clears it with
+       room and still refuses to cram: at a 900px window the container leaves
+       each tile 245px, under the floor, so it stays two across rather than
+       squeezing three. `min(…, 100%)` keeps a single tile from overflowing a
+       narrow phone. */
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
     align-items: stretch;
     gap: clamp(var(--pf-space-4), 2vw, var(--pf-space-6));
   }
@@ -12534,6 +12609,22 @@
 
   .pf-tile[data-collection="sessions"] {
     --pf-tile-art: url("/brand/tile-sessions.webp");
+  }
+
+  /* PLACEHOLDER ART, and saying so rather than letting it pass as considered.
+     There are two tile paintings and now three tiles; nothing generates them
+     (`derive-brand-assets.mjs` makes logo rasters, not these). Audiobooks
+     borrows the books' painting and mirrors it, which is at least apt — an
+     audiobook IS a book — and the teal scrim over it makes the two read as
+     different surfaces rather than as one image shown twice. A tile with no art
+     beside two that have it would break the set far more visibly. Replace this
+     with a real third painting when there is one. */
+  .pf-tile[data-collection="audiobooks"] {
+    --pf-tile-art: url("/brand/tile-books.webp");
+  }
+
+  .pf-tile[data-collection="audiobooks"]::after {
+    transform: scaleX(-1);
   }
 
   .pf-tile::after {
