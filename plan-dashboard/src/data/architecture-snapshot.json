@@ -116,6 +116,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "book-editor",
+      "name": "Book Editor",
+      "role": "Copy-editor for a spoken-source book, and the LAST gate before a person is sent ",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Copy-editor for a spoken-source book, and the LAST gate before a person is sent to the Book Composer. Reads the composed `book/book.md` of a Sessions-lane or Audiobook-lane book, consumes the deterministic evidence `spoken_lane/prose_rev…",
+      "what_it_knows": "See infra/claude-agents/book-editor.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "book-publication-reviewer",
       "name": "Book Publication Reviewer",
       "role": "Reader-facing publication reviewer for the FINAL PDF on every PDF-generating rou",
