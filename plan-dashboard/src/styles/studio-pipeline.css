@@ -1413,6 +1413,52 @@
   white-space: nowrap;
 }
 
+/* Where each volume stands, said in colour as well as in words (Asif,
+   2026-09-01). The row already carried `data-status`, so this is paint over an
+   existing signal rather than a new one — `classifyStatusBucket` decides the
+   three values and nothing here re-derives them.
+
+     in-the-works  amber   being worked on now
+     published     green   done
+     up-next       sunken  not started
+
+   Tinted from the SAME status tokens the rest of the site uses (--c-amber for
+   in-flight, --c-green for shipped), mixed into the card surface rather than set
+   flat, so the row stays a tint and the theme's own light/dark values carry it —
+   a hardcoded pastel would read as a different palette in dark mode.
+
+   Colour is never the only cue: every row keeps its written status beside the
+   title, which is what a reader who cannot separate these hues relies on. */
+.studio-series-vol[data-status="in-the-works"] {
+  background: color-mix(in oklab, var(--c-amber) 13%, var(--card-surface));
+  border-color: color-mix(in oklab, var(--c-amber) 34%, var(--card-rule));
+}
+.studio-series-vol[data-status="published"] {
+  background: color-mix(in oklab, var(--c-green) 13%, var(--card-surface));
+  border-color: color-mix(in oklab, var(--c-green) 32%, var(--card-rule));
+}
+/* Not started reads as RECESSED rather than tinted — it is the absence of work,
+   and giving it a hue of its own would put three competing colours on one list. */
+.studio-series-vol[data-status="up-next"] {
+  background: var(--c-bg-sunken);
+  border-color: var(--c-rule-soft);
+  color: var(--card-ink-muted);
+}
+
+/* Hover and focus must still answer, and a status tint left unchanged on hover
+   makes a coloured row look disabled. Each keeps its own hue and simply deepens,
+   so the affordance survives the colour. */
+.studio-series-vol[data-status="in-the-works"]:hover {
+  background: color-mix(in oklab, var(--c-amber) 22%, var(--card-surface));
+}
+.studio-series-vol[data-status="published"]:hover {
+  background: color-mix(in oklab, var(--c-green) 22%, var(--card-surface));
+}
+.studio-series-vol[data-status="up-next"]:hover {
+  background: color-mix(in oklab, var(--card-accent) 7%, var(--c-bg-sunken));
+  color: var(--card-ink);
+}
+
 /* ════════════════════════════════════════════════════════════
    Studio picker — lifecycle status filter chips
    ════════════════════════════════════════════════════════════ */
