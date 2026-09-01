@@ -4339,6 +4339,37 @@
     text-wrap: balance;
   }
 
+  /* A FACE PER COLLECTION, and the SAME SIZE for all three (Asif, 2026-09-01).
+     Colour already separates them; on a shelf where every card is the same
+     shape, a second signal in the title itself is what makes the kind readable
+     before the words are.
+
+     No new download. The offer was one extra self-hosted face; it turned out
+     none was needed — Sora and Lexend are both already declared and served from
+     this app, so three collections get three faces at the cost of zero. Sora is
+     the welcome tiles' own face, which is a real connection rather than a
+     coincidence: the tile a reader pressed to reach Sessions is set in it.
+
+     Only `font-family` changes. Size, line-height, colour and balance stay on
+     the rule above, so the three titles remain the same object in three voices
+     rather than three differently-sized things. */
+  /* BOTH title elements, because a card has one or the other and which one
+     depends on the BOOK, not the collection: a work with an original-script
+     title puts that in the band and its English name in the body
+     (`.pf-book__title`); a work without one puts its English name in the band
+     (`.pf-book__band-title--latin`). White Nights is the second kind, so a rule
+     naming only the first left the one audiobook on the shelf unchanged — which
+     is exactly the card the change was for. */
+  .pf-book[data-collection="sessions"] .pf-book__title,
+  .pf-book[data-collection="sessions"] .pf-book__band-title--latin {
+    font-family: var(--l-font-tile);
+  }
+
+  .pf-book[data-collection="audiobooks"] .pf-book__title,
+  .pf-book[data-collection="audiobooks"] .pf-book__band-title--latin {
+    font-family: var(--l-font-lexend);
+  }
+
   .pf-book__title-link:hover .pf-book__title {
     color: var(--l-accent);
   }
@@ -4919,6 +4950,12 @@
      that corner's radius on the outside while squaring off on the inside — a
      pill with four round corners pinned to a corner looks stuck on rather than
      built in. */
+  /* Pinned to the corner, but its LABEL is not pinned to the edge. The pill sat
+     flush at `top: 0` with 0.5rem of padding above the word, so "ISLAMIC" read
+     as crowded into the corner rather than placed in it (Asif, 2026-09-01: "the
+     top is tight"). The extra room goes into the pill's own top padding rather
+     than into an offset: an offset would unpin it and lose the corner shape the
+     rounded inner edge is drawn for. */
   .pf-pill--pinned {
     position: absolute;
     top: 0;
@@ -4926,7 +4963,7 @@
     border-radius: 0 0 var(--pf-radius-lg) 0;
     background: color-mix(in srgb, var(--l-on-band) 14%, transparent);
     color: var(--l-on-band);
-    padding: var(--pf-space-2) var(--pf-space-4);
+    padding: var(--pf-space-4) var(--pf-space-4) var(--pf-space-3);
     text-transform: uppercase;
     letter-spacing: var(--pf-tracking-eyebrow);
     font-size: var(--pf-pill-sm-size);
@@ -12388,6 +12425,21 @@
     border: 1px solid color-mix(in oklab, var(--l-accent) 14%, var(--l-rule));
     border-radius: var(--pf-radius-lg);
     box-shadow: var(--pf-elev-1);
+  }
+
+  /* On a phone the two gutters stack and cost the cards a fifth of the screen:
+     `.pf-container` already gives the page 24px a side and this panel adds 16
+     inside it, so a 390px window spends 80px on nested margins and leaves the
+     card 308 (measured, 2026-09-01, while checking the shelf at phone widths).
+
+     The panel keeps its tint, border and corners — it is still a visible group —
+     and gives up only the horizontal inset, which the page gutter was already
+     providing. Vertical padding is untouched: that one separates the group's
+     heading from its cards and has nothing to do with the page edge. */
+  @media (max-width: 639px) {
+    .pf-shelf-group {
+      padding-inline: var(--pf-space-2);
+    }
   }
 
   .pf-shelf-group__head {
