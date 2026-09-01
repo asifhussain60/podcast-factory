@@ -140,7 +140,12 @@ def _normalize_after_articulation(book_dir: Path, title: str, *, log) -> None:
     body = next((b for h, b in split_chapters(text) if h.strip() == title), None)
     if body is None:
         return
-    new_body, changes = normalize_sessions_prose(body.strip())
+    # `heading=` passed since 2026-09-01. Without it the echoed-heading rule
+    # cannot fire, which made it an audiobook-only rule BY ACCIDENT rather
+    # than by design -- a Sessions lecture whose speaker reads the chapter
+    # title aloud has the same defect. A no-op on all three books on disk
+    # (none has one), verified before landing.
+    new_body, changes = normalize_sessions_prose(body.strip(), heading=title)
     if not changes:
         return
     write_chapter_body(book_dir, title, new_body)

@@ -50,7 +50,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from _sessions_prose_format import CAPS_RUN, SPACE_BEFORE_COMMA  # noqa: E402
+from _arabic_coverage import ARABIC_BODY  # noqa: E402
+from _sessions_prose_format import CAPS_RUN, SPACE_BEFORE_COMMA, _is_markdown_structure  # noqa: E402
 
 #: Codes whose presence means the cleanup has not run. See the module docstring.
 #:
@@ -70,6 +71,35 @@ BLOCKING = frozenset({"ECHOED_HEADING", "SPACING", "MID_SENTENCE_BREAKS"})
 _FRONT_MATTER = re.compile(r"\b(narrated by|translated by|all rights reserved|is a production of)\b", re.I)
 
 _SENTENCE_START = re.compile(r"^[\"'(\[A-Z0-9]")
+
+#: What a chapter body says when its recording has not been transcribed yet.
+#: Written by `spoken_lane/audiobook.py` so the book still composes and its
+#: structure is visible. It is NOT prose and must not be reviewed as prose --
+#: the first version scored it and reported 20 blocking findings on The Idiot,
+#: a book whose only actual problem is that nobody has transcribed it. A review
+#: that fails a book for not having started is noise, and noise is what stops
+#: anyone reading the findings that matter.
+_PLACEHOLDER = "_Awaiting transcript._"
+
+#: A paragraph that is not PROSE, and so has no sentence to start.
+#:
+#: The mid-sentence check read every block as prose, and on `surah-al-fateha` --
+#: a published book -- that reported 49 of 125 paragraphs broken in one chapter
+#: and held the whole book NOT READY. Forty-three of the forty-nine were a
+#: Qur'anic blockquote, a heading, or a list item; three more opened in Arabic,
+#: which is RTL and has no capital letter to find. The book was fine and the
+#: check was measuring markdown.
+#:
+#: `_is_markdown_structure` already answers the first half and is imported
+#: rather than restated -- it is the same question `_sessions_prose_format` asks
+#: before it touches a line.
+_ARABIC_START = re.compile(f"^[{ARABIC_BODY}]")
+
+
+def _is_prose(paragraph: str) -> bool:
+    """True when a paragraph is running text that should begin like a sentence."""
+    text = paragraph.strip()
+    return bool(text) and not _is_markdown_structure(text) and not _ARABIC_START.match(text)
 
 
 @dataclass(frozen=True)
@@ -102,7 +132,7 @@ def review_book(book_dir: Path) -> list[Finding]:
     """Every prose finding in this book's composed edition."""
     findings: list[Finding] = []
     for heading, body in _chapters(Path(book_dir) / "book" / "book.md"):
-        if not body:
+        if not body or body.strip() == _PLACEHOLDER:
             continue
 
         # BLOCKING — the cleanup fixes these unaided.
@@ -125,13 +155,14 @@ def review_book(book_dir: Path) -> list[Finding]:
             findings.append(Finding(heading, "FRONT_MATTER", "reads as publisher credits, not the author's text"))
 
         paras = [p.strip() for p in body.split("\n\n") if p.strip()]
-        mid = [p for p in paras if not _SENTENCE_START.match(p)]
-        if paras and len(mid) / len(paras) > 0.25:
+        prose = [p for p in paras if _is_prose(p)]
+        mid = [p for p in prose if not _SENTENCE_START.match(p)]
+        if prose and len(mid) / len(prose) > 0.25:
             findings.append(
                 Finding(
                     heading,
                     "MID_SENTENCE_BREAKS",
-                    f"{len(mid)}/{len(paras)} paragraphs start mid-sentence — the transcript may carry "
+                    f"{len(mid)}/{len(prose)} prose paragraphs start mid-sentence — the transcript may carry "
                     "no sentence punctuation to break on",
                 )
             )
@@ -147,6 +178,19 @@ def is_composer_ready(book_dir: Path) -> bool:
     book_dir = Path(book_dir)
     if not (book_dir / "book" / "book.md").exists():
         return False
+
+    # A book whose chapters are all placeholders is not ready, it is UNSTARTED,
+    # and the difference matters more than it looks. Skipping placeholder
+    # chapters in `review_book` (correctly, since they are not prose) made The
+    # Idiot report zero findings and therefore READY -- a book with no
+    # transcripts at all, about which the honest answer is "there is nothing
+    # here yet". Reporting nothing wrong is not the same as being right, and an
+    # empty book passing a readiness gate is the worst failure this gate has:
+    # it sends someone to read a file of placeholders.
+    chapters = _chapters(book_dir / "book" / "book.md")
+    if not chapters or all(b.strip() == _PLACEHOLDER or not b.strip() for _h, b in chapters):
+        return False
+
     return not [f for f in review_book(book_dir) if f.blocking]
 
 

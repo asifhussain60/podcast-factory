@@ -258,3 +258,145 @@ class TestParagraphsBreakWhereSentencesDo(unittest.TestCase):
         paras = [p.strip() for p in text.split("\n\n") if p.strip() and not p.startswith("#")]
         bad = [p for p in paras if not _re.match(r"^[\"'(\[A-Z0-9]", p)]
         self.assertEqual(bad, [], f"{len(bad)}/{len(paras)} paragraphs start mid-sentence")
+
+
+class TestTheGateIsActuallyWired(unittest.TestCase):
+    """Gaps found by challenging the work end to end, 2026-09-01.
+
+    Each is a way the readiness gate said the wrong thing about a real book.
+    """
+
+    def setUp(self):
+        import tempfile
+
+        self._td = tempfile.TemporaryDirectory()
+        self.d = Path(self._td.name)
+        (self.d / "book").mkdir(parents=True)
+
+    def tearDown(self):
+        self._td.cleanup()
+
+    def _write(self, *chapters: tuple[str, str]) -> None:
+        parts = ["# Book", ""]
+        for head, body in chapters:
+            parts += [f"## {head}", "", body, ""]
+        (self.d / "book" / "book.md").write_text("\n".join(parts), encoding="utf-8")
+
+    def test_an_untranscribed_chapter_is_not_reviewed_as_prose(self):
+        """The Idiot reported 20 BLOCKING findings for not being transcribed.
+
+        Its chapters are all `_Awaiting transcript._`, which does not begin like
+        a sentence, so every one tripped the mid-sentence check. A review that
+        fails a book for not having started is noise.
+        """
+        self._write(*[(f"Part {n}", R._PLACEHOLDER) for n in range(1, 6)])
+        self.assertEqual(R.review_book(self.d), [])
+
+    def test_but_an_untranscribed_book_is_still_not_ready(self):
+        """And this is the failure that fix introduced.
+
+        Skipping placeholders made The Idiot report ZERO findings and therefore
+        READY — a book with no transcripts at all. Reporting nothing wrong is
+        not the same as being right; an empty book passing the gate sends
+        somebody to read a file of placeholders.
+        """
+        self._write(*[(f"Part {n}", R._PLACEHOLDER) for n in range(1, 6)])
+        self.assertFalse(R.is_composer_ready(self.d))
+
+    def test_a_part_transcribed_book_is_judged_on_what_it_has(self):
+        self._write(("One", "A real sentence, properly formed."), ("Two", R._PLACEHOLDER))
+        self.assertTrue(R.is_composer_ready(self.d))
+
+    def test_readiness_decides_the_lane_step(self):
+        """`is_composer_ready` existed only in its own docstring until this.
+
+        The requirement — do not send a person to the Composer before the
+        chapters are clean — was documented, tested, and consumed by nothing.
+        The audiobook scaffolder now holds a book at `sessions-ingest` when its
+        prose is not review-clean, so the Studio's existing step display IS the
+        gate and no new field has to be learned by anything.
+        """
+        import inspect
+
+        from spoken_lane import audiobook
+
+        src = inspect.getsource(audiobook.scaffold_book)
+        self.assertIn("is_composer_ready", src, "the gate must be consulted by the scaffolder")
+        self.assertIn("sessions-ingest", src, "a book failing it must be held back")
+
+
+class TestEveryCallerCanStripAnEchoedHeading(unittest.TestCase):
+    """The rule was audiobook-only by accident: two callers omitted `heading=`.
+
+    A Sessions lecture whose speaker reads the chapter title aloud has exactly
+    the same defect, and would not have been fixed.
+    """
+
+    def test_the_sessions_and_handoff_callers_pass_the_heading(self):
+        import inspect
+
+        import compose_articulate
+        from sessions import articulate
+
+        for mod in (articulate, compose_articulate):
+            src = inspect.getsource(mod)
+            calls = [ln for ln in src.splitlines() if "normalize_sessions_prose(" in ln and "def " not in ln]
+            bare = [ln.strip() for ln in calls if "heading=" not in ln]
+            self.assertEqual(bare, [], f"{mod.__name__} calls the normalizer without a heading: {bare}")
+
+
+class TestMarkdownIsNotProse(unittest.TestCase):
+    """The false positive that held a PUBLISHED book NOT READY.
+
+    `surah-al-fateha` reported 49 of 125 paragraphs broken in one chapter. Of
+    those 49, thirty were Qur'anic blockquotes, nine were headings, one was a
+    list item and three opened in Arabic — which is RTL and has no capital to
+    find. Forty-three of forty-nine were not prose at all. The book was fine;
+    the check was measuring markdown, and it would have blocked every Islamic
+    Sessions book.
+    """
+
+    def setUp(self):
+        import tempfile
+
+        self._td = tempfile.TemporaryDirectory()
+        self.d = Path(self._td.name)
+        (self.d / "book").mkdir(parents=True)
+
+    def tearDown(self):
+        self._td.cleanup()
+
+    def _write(self, body: str) -> None:
+        (self.d / "book" / "book.md").write_text(f"# B\n\n## Chapter\n\n{body}\n", encoding="utf-8")
+
+    def test_a_quranic_blockquote_is_not_a_broken_sentence(self):
+        self._write("A real sentence here.\n\n> ٱللَّهُ وَلِىُّ ٱلَّذِينَ آمَنُوا۟\n\n> and its rendering")
+        self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_headings_and_list_items_are_not_broken_sentences(self):
+        self._write("A real sentence.\n\n### Protective Friend\n\n- the first is to ask\n\n- the second")
+        self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_a_paragraph_opening_in_arabic_is_not_a_broken_sentence(self):
+        self._write("A real sentence.\n\nصلى الله عليه وسلم and then more\n\nAnother sentence.")
+        self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_genuinely_broken_prose_is_still_caught(self):
+        """The check must keep its teeth: this is the White Nights defect."""
+        self._write("weeping on\n\na bench. Over the course\n\nof four nights\n\nthey share a brief")
+        self.assertIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_every_shipped_sessions_book_is_review_clean(self):
+        """A published book must not be reported broken by this gate."""
+        import _paths
+        from spoken_lane.transcript_check import _is_spoken_lane
+
+        blocked = []
+        for *_r, d in _paths.iter_content():
+            book = Path(d)
+            if "Sessions" not in str(book) or not _is_spoken_lane(book):
+                continue
+            blocks = [str(f) for f in R.review_book(book) if f.blocking]
+            if blocks:
+                blocked.append((book.name, blocks[:3]))
+        self.assertEqual(blocked, [], f"a shipped Sessions book is reported not-ready: {blocked}")

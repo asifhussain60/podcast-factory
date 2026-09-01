@@ -325,6 +325,27 @@ def scaffold_book(
             parts.extend([f"## {t}", "", body, ""])
         book_md.write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
 
+    # READINESS DECIDES THE STEP, so the Studio's existing display IS the gate.
+    #
+    # Asif, 2026-09-01: "I should not be told to view the Book, session,
+    # audiobook in Compose until the chapters have been cleaned and cleared
+    # through this review and fix step." `is_composer_ready` computed that
+    # answer and NOTHING CONSUMED IT -- it appeared in its own docstring and
+    # nowhere else, so the requirement was documented, tested, and unenforced.
+    #
+    # Wired here rather than into a new field the Studio must learn to read:
+    # `sessions-transcribe` already means "this book's text is usable", and a
+    # book whose composed prose still carries a blocking finding does not meet
+    # that. One number, one place, no schema change, no TS mirror to keep in
+    # step. Recomputed AFTER book.md is written, because that is what it judges.
+    from spoken_lane import prose_review
+
+    if done_through == "sessions-transcribe" and not prose_review.is_composer_ready(book_dir):
+        done_through = "sessions-ingest"
+        with step(book_dir, PHASE, "composer-gate") as rec:
+            rec.detail(blocked_by=[str(f) for f in prose_review.review_book(book_dir) if f.blocking][:10])
+            rec.noop("prose not review-clean; holding the book at ingest")
+
     lane.write_state(
         book_dir,
         slug=slug,
