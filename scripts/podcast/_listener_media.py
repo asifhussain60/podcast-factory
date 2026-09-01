@@ -343,12 +343,22 @@ def collect_reader_narration(book: Book) -> None:
 
     by_anchor = {chapter.anchor: chapter for chapter in book.chapters}
     root = manifest.parent
+    claimed: set[str] = set()
     for anchor, entry in chapters.items():
         if not isinstance(entry, dict) or anchor not in by_anchor:
             continue
         rel = str(entry.get("audio") or "")
         path = book.directory / rel if rel else root / f"{anchor}.mp3"
-        if not path.exists() or path.suffix.lower() != ".mp3":
+        # BOTH audio suffixes, not just the synthesised one. Azure writes `.mp3`,
+        # so an `.mp3`-only gate held for as long as every narration was
+        # synthesised — but an `author-recording` book is timed against the
+        # narrator's own delivery, and those arrive as `.m4a` beside the
+        # episodes. White Nights had a complete manifest, eight cued chapters
+        # and 2h48m of a human reading, and every one was dropped here in
+        # silence: no narration attached, nothing reported unmatched, and a
+        # Listen control in the reader pointing at audio that was never
+        # published. `collect_audio` has always accepted both.
+        if not path.exists() or path.suffix.lower() not in (".mp3", ".m4a"):
             continue
         # A chapter read aloud by the author is his EPISODE recording — the same
         # object the episode player already streams, already uploaded. So the
@@ -360,11 +370,16 @@ def collect_reader_narration(book: Book) -> None:
         # narration key it always got.
         wanted = str(entry.get("audio_key") or "")
         existing = next((a for a in book.assets if a.key == wanted), None) if wanted else None
+        # The fallback key and the content type both follow the FILE, not the
+        # synthesiser's format. A `.m4a` served as `audio/mpeg` is a recording
+        # the browser may refuse to play, which is the same silence as not
+        # publishing it.
+        suffix = path.suffix.lower()
         asset = existing or Asset(
-            key=wanted or f"{book.slug}/narration/{narration_object_name(anchor)}",
+            key=wanted or f"{book.slug}/narration/{Path(narration_object_name(anchor)).with_suffix(suffix).name}",
             slug=book.slug,
             kind="audio",
-            content_type=CONTENT_TYPES[".mp3"],
+            content_type=CONTENT_TYPES.get(suffix, CONTENT_TYPES[".mp3"]),
             path=path,
         )
         by_anchor[anchor].narration = ChapterNarration(
@@ -376,6 +391,17 @@ def collect_reader_narration(book: Book) -> None:
         )
         if existing is None:
             book.assets.append(asset)
+        claimed.add(path.name)
+
+    # A recording the narration just claimed is SHIPPED, so it must stop being
+    # reported as left behind. `collect_audio` runs first and files anything it
+    # cannot hang on an episode under `unmatched_audio`; on an audiobook there
+    # are no episodes to hang them on, so all eight of White Nights' chapters
+    # were named as not shipped in the same breath as being published as the
+    # read-along. A warning that fires on a healthy book is worse than no
+    # warning, because it is the one an operator learns to scroll past.
+    if claimed:
+        book.unmatched_audio = [name for name in book.unmatched_audio if name.rsplit("/", 1)[-1] not in claimed]
 
 
 def collect_media(book: Book) -> None:

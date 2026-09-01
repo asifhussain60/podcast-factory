@@ -327,3 +327,97 @@ def test_execute_batches_local_statements_instead_of_importing_file(tmp_path):
     assert "--local" in command
     assert "--command" in command
     assert all(not str(part).startswith("--file=") for part in command)
+
+
+def test_an_author_recording_in_m4a_is_collected_not_silently_dropped(tmp_path):
+    """The gate here accepted `.mp3` only, which held for as long as every
+    narration was Azure-synthesised. An `author-recording` book is timed against
+    the narrator's own delivery and those arrive as `.m4a`: White Nights had a
+    complete manifest, eight cued chapters and 2h48m of a human reading, and
+    every one was dropped in silence — no narration, nothing reported, and a
+    Listen control pointing at audio that was never published.
+    """
+    book = a_book(tmp_path)
+    recording = tmp_path / "m4a" / "Episodes" / "ep01.m4a"
+    recording.parent.mkdir(parents=True)
+    recording.write_bytes(b"M4A")
+    (tmp_path / "book" / "narration").mkdir(parents=True)
+    (tmp_path / "book" / "narration" / "manifest.json").write_text(
+        json.dumps(
+            {
+                "engine": "author-recording",
+                "chapters": {
+                    "one": {
+                        "audio": "m4a/Episodes/ep01.m4a",
+                        "duration_s": 12.9,
+                        "voice": "author",
+                        "cues": [{"idx": 0, "blockIndex": 0, "startS": 0.5, "endS": 12.4}],
+                    }
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    collect_reader_narration(book)
+
+    narration = book.chapters[0].narration
+    assert narration is not None, "an .m4a author recording must attach"
+    assert narration.cues, "the read-along timings must survive"
+    # Served as `audio/mpeg` a browser may refuse to play it, which is the same
+    # silence as never publishing it. The fallback key follows the file too.
+    assert narration.audio.content_type == "audio/mp4"
+    assert narration.audio.key.endswith(".m4a")
+
+
+def test_a_recording_published_as_narration_is_not_also_reported_unmatched(tmp_path):
+    """`collect_audio` runs first and files anything it cannot hang on an episode
+    under `unmatched_audio`. An audiobook has no episodes to hang them on, so
+    every chapter was named as `not shipped` in the same breath as being
+    published as the read-along. A warning that fires on a healthy book is the
+    one an operator learns to scroll past.
+    """
+    book = a_book(tmp_path)
+    recording = tmp_path / "m4a" / "Episodes" / "ep01.m4a"
+    recording.parent.mkdir(parents=True)
+    recording.write_bytes(b"M4A")
+    book.unmatched_audio.append("Episodes/ep01.m4a")
+    book.unmatched_audio.append("Episodes/ep99.m4a")
+    (tmp_path / "book" / "narration").mkdir(parents=True)
+    (tmp_path / "book" / "narration" / "manifest.json").write_text(
+        json.dumps(
+            {
+                "engine": "author-recording",
+                "chapters": {"one": {"audio": "m4a/Episodes/ep01.m4a", "voice": "author", "cues": []}},
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    collect_reader_narration(book)
+
+    # The claimed one goes; a genuinely stray recording is still reported.
+    assert book.unmatched_audio == ["Episodes/ep99.m4a"]
+
+
+def test_every_study_track_python_allows_is_a_value_the_schema_accepts():
+    """`STUDY_TRACKS` decides which value survives the publish; the CHECK decides
+    which one the database will take. They drifted when the Audiobook lane added
+    'philosophy' to the set without widening the constraint, and the failure was
+    not cosmetic: the constraint aborts the WHOLE publish, so White Nights could
+    not reach the Library at all and nothing was wrong with the book.
+    """
+    from _listener_book import STUDY_TRACKS  # noqa: PLC0415
+
+    conn = db_with_schema()
+    rejected = []
+    for track in sorted(STUDY_TRACKS):
+        try:
+            conn.execute(
+                "INSERT INTO unit_detail (slug, study_track, published_at) VALUES (?, ?, '2026-01-01T00:00:00Z')",
+                (f"book-{track}", track),
+            )
+        except sqlite3.IntegrityError:
+            rejected.append(track)
+
+    assert rejected == [], f"schema rejects study_track values Python allows: {rejected}"
