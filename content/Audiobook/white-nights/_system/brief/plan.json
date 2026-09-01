@@ -1,0 +1,2536 @@
+{
+  "total_words": 3500,
+  "opening_words": 192,
+  "closing_words": 262,
+  "body_words": 3046,
+  "section_words": {
+    "1": 516,
+    "2": 509,
+    "3": 555,
+    "4": 520,
+    "5": 536,
+    "6": 410
+  },
+  "points": [
+    {
+      "id": "S01-P01",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The unnamed narrator is a twenty-six-year-old man who has lived in Petersburg eight years without friends, forming imaginary bonds with strangers and buildings instead of people.",
+      "kind": "context",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P02",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "He calls himself a 'dreamer': his real life is empty, so he lives on invented romances and relives rare real moments in fantasy.",
+      "kind": "definition",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 3,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P03",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "His sadness comes from a specific cause: everyone in Petersburg is leaving for summer villas, leaving him behind with nowhere to go and no one to invite him.",
+      "kind": "cause",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "summer villas"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P04",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "After a joyful day walking in the countryside, he returns at ten at night along a deserted canal embankment and sees a young woman leaning on the railing, crying.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "canal embankment"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P05",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She flees from him, but a drunken man chases her, and the narrator drives the man off with his walking stick, which is what gives him the chance to speak to her.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the drunken man"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P06",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The narrator confesses immediately and completely that he is shy, has never had a relationship with a woman, and only falls in love with imagined ideals.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P07",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The girl responds with warmth rather than mockery, telling him she too has no one to confide in and that she feels she knows him as if they had been friends twenty years.",
+      "kind": "relationship",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.75,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P08",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She agrees to meet him at the same spot the next night at ten, but insists she must be there for her own private reason, which she keeps secret.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P09",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She sets one condition on their friendship: he must not fall in love with her.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the girl",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P10",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "They promise to exchange their life stories the following night, with him beginning.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 4.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P11",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The narrator walks all night unable to go home, declaring that in two minutes she has made him happy forever and perhaps reconciled him with himself.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P12",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The section establishes the book's central tension between fantasy and real human contact — that a dreamer's happiness may be built on a few borrowed moments.",
+      "kind": "theme",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P01",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka returns and insists they proceed sensibly, demanding the narrator tell her his whole story because she does not yet know him.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [
+        "S01-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P02",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator says he has no story because he has lived utterly alone, seeing people but never truly speaking to anyone.",
+      "kind": "claim",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 3,
+      "recurrence_sections": 6,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P03",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka reveals she lives with her blind grandmother, who two years ago pinned Nastenka's dress to her own to keep her from running off.",
+      "kind": "context",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P04",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "She gives her name — Nastenka — the first exchange of identity between them.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 4.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P05",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator defines himself as 'a type': a dreamer, a creature who hides in a dim Petersburg corner like a snail in its shell and drives away all acquaintances.",
+      "kind": "definition",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer",
+        "Petersburg"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 4,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P06",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He describes the dreamer's joy as an inner, fantasy-fed richness that makes real life seem dull, lifeless and slow by comparison.",
+      "kind": "framework",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 5.25,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P07",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He warns that a day comes when the dreamer would trade every dream for one moment of real, imperfect life.",
+      "kind": "theme",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 5.75,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P08",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He confesses that his fancy has worn out, that he now celebrates anniversaries of feelings that never happened, and that he fears old age arriving with nothing real to regret.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P09",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka does not laugh at his confession but weeps and says she felt the same while pinned to her grandmother, recognizing herself in him.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P10",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator tells Nastenka she has made him stop despising himself and that these two evenings have been the only real happiness he has known, while dreading what happens when it ends.",
+      "kind": "relationship",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P11",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka vows they will never part and asks him to be like an older brother giving her warm advice.",
+      "kind": "relationship",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.25,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P12",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The section ends with the two clasping hands as a sealed pact and Nastenka beginning to tell her own story.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P01",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Nastenka, seventeen and orphaned, has been raised by her blind grandmother, who literally pinned Nastenka's dress to her own to keep her from misbehaving.",
+      "kind": "context",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P02",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The household survives on the grandmother's pension plus rent from a lodger in their small wooden house's upper story.",
+      "kind": "context",
+      "weight": 2.0,
+      "depends_on": [],
+      "entities": [
+        "Fekla"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 2.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P03",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "A young, pleasant-looking new lodger moves in, and the grandmother immediately warns Nastenka not to get ideas about him.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 5.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P04",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The lodger discovers Nastenka pinned to her grandmother and, seeing her humiliation, silently bows and leaves, an act of tact that begins their bond.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P05",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He lends her French books, Walter Scott and Pushkin, which replace her childish daydreams with richer imaginative life.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Walter Scott",
+        "Pushkin"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 4.75,
+      "tier": "expendable",
+      "tiered_relatively": true,
+      "retained_as_prerequisite": true
+    },
+    {
+      "id": "S03-P06",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He invites her to the theatre alone, she refuses to deceive her grandmother, and he then arranges a box at The Barber of Seville for all three, which Nastenka later realises was a test of her character that she passed.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "The Barber of Seville",
+        "Rosina"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P07",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "After the opera season he withdraws entirely, and Nastenka, restless and wasting away, concludes his kindness was only pity.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P08",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Learning he will leave for Moscow for a year, Nastenka packs a bundle and goes to his room at night, offering to run away with him.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Moscow",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P09",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He refuses to take her because he is poor and has no right to bind her, but swears that if she still loves him in a year he will return and marry her, and they keep it secret from the grandmother.",
+      "kind": "cause",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P10",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The year is up: he has been back in Petersburg three days and has not come to the bench where they agreed to meet at ten o'clock, which is why Nastenka was weeping when the Dreamer found her.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Petersburg"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P11",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The Dreamer dictates a letter for her that asserts her right to write without reproach or plea, and she reveals she had already written and carried it, sealed, all along.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P12",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Nastenka entrusts the Dreamer with delivering the letter and asks him to bring any answer to the bench at ten the next night, making him the agent of his own rival's return.",
+      "kind": "relationship",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.25,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P13",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "They laugh together over 'Rosina' and part with 'Till tomorrow,' leaving the Dreamer standing in the street elated and already in love.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Rosina",
+        "the Dreamer"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 3,
+      "score": 6.75,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P01",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The narrator realizes that all of Nastenka's warmth toward him was an overflow of joy meant for another man, not love for him.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S01-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 6,
+      "score": 8.75,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P02",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Nastenka arrives at the third meeting radiant and early, certain her lover will answer her letter that night.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [
+        "S03-P13"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P03",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "She tells the narrator she likes him precisely because he has not fallen in love with her, and promises they will be friends closer than brother and sister once she is married.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P04",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The lover does not come; footsteps raise then dash their hopes, and Nastenka's gaiety collapses into anxiety.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P05",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The narrator tries to confess his feelings indirectly through the image of a forgotten melody reawakening, but Nastenka hushes him once she guesses his meaning.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P06",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "He suppresses his own love to comfort her, inventing reasons the letter may be delayed and promising to check for a reply at first light.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P07",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Weeping, Nastenka compares the two men and says the narrator is better, kinder and more thoughtful, yet she loves the other more.",
+      "kind": "event",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P08",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Nastenka voices the story's theme by asking why people cannot be open as brothers instead of hiding their hearts behind walls.",
+      "kind": "theme",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 3.75,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P09",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "She senses the narrator is sacrificing something for her and thanks him, declaring he is no longer the isolated dreamer he described himself as.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P10",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "They part with her promise to come the day after tomorrow whatever happens, and her question 'We'll always be together, won't we?'",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P11",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "On the rainy fourth day she does not come; the narrator wanders to their bench and near her door but turns back in shame, ending the day in loneliness.",
+      "kind": "resolution",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P12",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "No reply to the letter has arrived, and the narrator bitterly concludes the lovers must already be together.",
+      "kind": "turn",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P01",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator meets Nastenka at the canal at nine and tells her there is no letter and that her lover has not come, destroying her last hope.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [
+        "S04-P01"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P02",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka collapses into sobs, calling her lover's three days of total silence cruel and inhuman, and tormenting herself with the shame of having gone to him first and begged for love.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S03-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P03",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "She refuses the narrator's offer to go to the lover in her name and write another letter, declaring she no longer knows him, no longer loves him, and will forget him.",
+      "kind": "turn",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P04",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Her grieving question — whether the narrator would ever have abandoned a girl who bared her soul to him — breaks his restraint and provokes his confession.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P05",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator confesses that he loves Nastenka, apologising in advance for the absurdity and bad timing of saying it.",
+      "kind": "event",
+      "weight": 5.0,
+      "depends_on": [
+        "S02-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P06",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka replies that she had long known he loved her, having thought it merely liking, and is flustered rather than surprised.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 4.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P07",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator insists his love would never be a burden: he would love her so completely that even if she still loved the other man she would feel only warmth and the presence of someone living for her happiness.",
+      "kind": "theme",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P08",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka accepts him, saying she will get over her lover because he mocked her while the narrator wept with her, and that she now loves him because he is nobler — offering her hand and promising her gratitude will grow into love worthy of his.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P09",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "She reframes her year-long love as possibly a childish delusion born of her confined life with Grandmother, and concludes the lover was never worthy of her.",
+      "kind": "claim",
+      "weight": 3.0,
+      "depends_on": [
+        "S02-P08"
+      ],
+      "entities": [
+        "Nastenka",
+        "Grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P10",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The two spend the night in delirious joyful planning — he will move into the empty top-floor room as Granny's lodger the next day, they will bring Granny, Matrona and Fekla, she will give lessons, and they will go to the theatre.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona",
+        "Fekla",
+        "Granny",
+        "The Barber of Seville"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P11",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "As he walks her home the lover appears in the street and calls her name, and Nastenka tears herself from the narrator and runs into his arms.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P12",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Before leaving, Nastenka runs back to kiss the narrator warmly in gratitude, then takes her lover's hand and disappears into the night, leaving the narrator standing frozen and hollowed out.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 6,
+      "score": 8.75,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P01",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The morning after the night's events brings rain, gloom and a feverish, weakened narrator, mirroring his inner state.",
+      "kind": "context",
+      "weight": 1.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 1.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P02",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The servant Matrona delivers a letter whose handwriting the narrator instantly recognises as Nastenka's.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P03",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "In the letter Nastenka begs forgiveness, admitting she deceived both the narrator and herself and that their brief union was a dream.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S05-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P04",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "Nastenka says she still loves the narrator and wishes she could love both men, echoing her earlier wish that the narrator were her lodger.",
+      "kind": "claim",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P05",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "She explains her heart returned to the lodger so quickly because it had always belonged to him.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P06",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "Nastenka announces she will marry the returned lodger next week and asks the narrator to remain her friend and brother and to meet them both.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P07",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The narrator weeps over the letter, then Matrona's cheerful remark about clearing cobwebs for a wedding lands as bitter irony.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P08",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "He has a vision of Matrona, the room and the house across the street aging and decaying, and sees himself unchanged and equally lonely fifteen years on.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P09",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "He refuses to blame Nastenka or shadow her happiness with bitterness or guilt, wishing her clear skies and untroubled joy.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P10",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The story closes on the question of whether a single moment of pure happiness is enough to justify a whole lifetime — the narrator's implied yes.",
+      "kind": "theme",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 6.75,
+      "tier": "important",
+      "tiered_relatively": true
+    }
+  ],
+  "retained": [
+    {
+      "id": "S01-P01",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The unnamed narrator is a twenty-six-year-old man who has lived in Petersburg eight years without friends, forming imaginary bonds with strangers and buildings instead of people.",
+      "kind": "context",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P02",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "He calls himself a 'dreamer': his real life is empty, so he lives on invented romances and relives rare real moments in fantasy.",
+      "kind": "definition",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 3,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P03",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "His sadness comes from a specific cause: everyone in Petersburg is leaving for summer villas, leaving him behind with nowhere to go and no one to invite him.",
+      "kind": "cause",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "summer villas"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P04",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "After a joyful day walking in the countryside, he returns at ten at night along a deserted canal embankment and sees a young woman leaning on the railing, crying.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "canal embankment"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P05",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She flees from him, but a drunken man chases her, and the narrator drives the man off with his walking stick, which is what gives him the chance to speak to her.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the drunken man"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P06",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The narrator confesses immediately and completely that he is shy, has never had a relationship with a woman, and only falls in love with imagined ideals.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P07",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The girl responds with warmth rather than mockery, telling him she too has no one to confide in and that she feels she knows him as if they had been friends twenty years.",
+      "kind": "relationship",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.75,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P08",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She agrees to meet him at the same spot the next night at ten, but insists she must be there for her own private reason, which she keeps secret.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P09",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "She sets one condition on their friendship: he must not fall in love with her.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the girl",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P11",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The narrator walks all night unable to go home, declaring that in two minutes she has made him happy forever and perhaps reconciled him with himself.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S01-P12",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "The section establishes the book's central tension between fantasy and real human contact — that a dreamer's happiness may be built on a few borrowed moments.",
+      "kind": "theme",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P01",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka returns and insists they proceed sensibly, demanding the narrator tell her his whole story because she does not yet know him.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [
+        "S01-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P02",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator says he has no story because he has lived utterly alone, seeing people but never truly speaking to anyone.",
+      "kind": "claim",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 3,
+      "recurrence_sections": 6,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P03",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka reveals she lives with her blind grandmother, who two years ago pinned Nastenka's dress to her own to keep her from running off.",
+      "kind": "context",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P05",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator defines himself as 'a type': a dreamer, a creature who hides in a dim Petersburg corner like a snail in its shell and drives away all acquaintances.",
+      "kind": "definition",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer",
+        "Petersburg"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 4,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P06",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He describes the dreamer's joy as an inner, fantasy-fed richness that makes real life seem dull, lifeless and slow by comparison.",
+      "kind": "framework",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 5.25,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P07",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He warns that a day comes when the dreamer would trade every dream for one moment of real, imperfect life.",
+      "kind": "theme",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 5.75,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P08",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "He confesses that his fancy has worn out, that he now celebrates anniversaries of feelings that never happened, and that he fears old age arriving with nothing real to regret.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P09",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka does not laugh at his confession but weeps and says she felt the same while pinned to her grandmother, recognizing herself in him.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P10",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The narrator tells Nastenka she has made him stop despising himself and that these two evenings have been the only real happiness he has known, while dreading what happens when it ends.",
+      "kind": "relationship",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P11",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "Nastenka vows they will never part and asks him to be like an older brother giving her warm advice.",
+      "kind": "relationship",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.25,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P12",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "The section ends with the two clasping hands as a sealed pact and Nastenka beginning to tell her own story.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P01",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Nastenka, seventeen and orphaned, has been raised by her blind grandmother, who literally pinned Nastenka's dress to her own to keep her from misbehaving.",
+      "kind": "context",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P03",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "A young, pleasant-looking new lodger moves in, and the grandmother immediately warns Nastenka not to get ideas about him.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 5.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P04",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The lodger discovers Nastenka pinned to her grandmother and, seeing her humiliation, silently bows and leaves, an act of tact that begins their bond.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P05",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He lends her French books, Walter Scott and Pushkin, which replace her childish daydreams with richer imaginative life.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Walter Scott",
+        "Pushkin"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 2,
+      "score": 4.75,
+      "tier": "expendable",
+      "tiered_relatively": true,
+      "retained_as_prerequisite": true
+    },
+    {
+      "id": "S03-P06",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He invites her to the theatre alone, she refuses to deceive her grandmother, and he then arranges a box at The Barber of Seville for all three, which Nastenka later realises was a test of her character that she passed.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "The Barber of Seville",
+        "Rosina"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P07",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "After the opera season he withdraws entirely, and Nastenka, restless and wasting away, concludes his kindness was only pity.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P08",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Learning he will leave for Moscow for a year, Nastenka packs a bundle and goes to his room at night, offering to run away with him.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Moscow",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P09",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "He refuses to take her because he is poor and has no right to bind her, but swears that if she still loves him in a year he will return and marry her, and they keep it secret from the grandmother.",
+      "kind": "cause",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the lodger",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P10",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The year is up: he has been back in Petersburg three days and has not come to the bench where they agreed to meet at ten o'clock, which is why Nastenka was weeping when the Dreamer found her.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Petersburg"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P11",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The Dreamer dictates a letter for her that asserts her right to write without reproach or plea, and she reveals she had already written and carried it, sealed, all along.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P12",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "Nastenka entrusts the Dreamer with delivering the letter and asks him to bring any answer to the bench at ten the next night, making him the agent of his own rival's return.",
+      "kind": "relationship",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.25,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P13",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "They laugh together over 'Rosina' and part with 'Till tomorrow,' leaving the Dreamer standing in the street elated and already in love.",
+      "kind": "resolution",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Rosina",
+        "the Dreamer"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 3,
+      "score": 6.75,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P01",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The narrator realizes that all of Nastenka's warmth toward him was an overflow of joy meant for another man, not love for him.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S01-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 6,
+      "score": 8.75,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P02",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Nastenka arrives at the third meeting radiant and early, certain her lover will answer her letter that night.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [
+        "S03-P13"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P03",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "She tells the narrator she likes him precisely because he has not fallen in love with her, and promises they will be friends closer than brother and sister once she is married.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P04",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The lover does not come; footsteps raise then dash their hopes, and Nastenka's gaiety collapses into anxiety.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P05",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "The narrator tries to confess his feelings indirectly through the image of a forgotten melody reawakening, but Nastenka hushes him once she guesses his meaning.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P06",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "He suppresses his own love to comfort her, inventing reasons the letter may be delayed and promising to check for a reply at first light.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P07",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Weeping, Nastenka compares the two men and says the narrator is better, kinder and more thoughtful, yet she loves the other more.",
+      "kind": "event",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P09",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "She senses the narrator is sacrificing something for her and thanks him, declaring he is no longer the isolated dreamer he described himself as.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P10",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "They part with her promise to come the day after tomorrow whatever happens, and her question 'We'll always be together, won't we?'",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P11",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "On the rainy fourth day she does not come; the narrator wanders to their bench and near her door but turns back in shame, ending the day in loneliness.",
+      "kind": "resolution",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P12",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "No reply to the letter has arrived, and the narrator bitterly concludes the lovers must already be together.",
+      "kind": "turn",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P01",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator meets Nastenka at the canal at nine and tells her there is no letter and that her lover has not come, destroying her last hope.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [
+        "S04-P01"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P02",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka collapses into sobs, calling her lover's three days of total silence cruel and inhuman, and tormenting herself with the shame of having gone to him first and begged for love.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [
+        "S03-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P03",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "She refuses the narrator's offer to go to the lover in her name and write another letter, declaring she no longer knows him, no longer loves him, and will forget him.",
+      "kind": "turn",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P04",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Her grieving question — whether the narrator would ever have abandoned a girl who bared her soul to him — breaks his restraint and provokes his confession.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 4,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P05",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator confesses that he loves Nastenka, apologising in advance for the absurdity and bad timing of saying it.",
+      "kind": "event",
+      "weight": 5.0,
+      "depends_on": [
+        "S02-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.5,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P07",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The narrator insists his love would never be a burden: he would love her so completely that even if she still loved the other man she would feel only warmth and the presence of someone living for her happiness.",
+      "kind": "theme",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 6.25,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P08",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka accepts him, saying she will get over her lover because he mocked her while the narrator wept with her, and that she now loves him because he is nobler — offering her hand and promising her gratitude will grow into love worthy of his.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P09",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "She reframes her year-long love as possibly a childish delusion born of her confined life with Grandmother, and concludes the lover was never worthy of her.",
+      "kind": "claim",
+      "weight": 3.0,
+      "depends_on": [
+        "S02-P08"
+      ],
+      "entities": [
+        "Nastenka",
+        "Grandmother"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 5.5,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P10",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "The two spend the night in delirious joyful planning — he will move into the empty top-floor room as Granny's lodger the next day, they will bring Granny, Matrona and Fekla, she will give lessons, and they will go to the theatre.",
+      "kind": "event",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona",
+        "Fekla",
+        "Granny",
+        "The Barber of Seville"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.5,
+      "tier": "supporting",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P11",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "As he walks her home the lover appears in the street and calls her name, and Nastenka tears herself from the narrator and runs into his arms.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.0,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P12",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Before leaving, Nastenka runs back to kiss the narrator warmly in gratitude, then takes her lover's hand and disappears into the night, leaving the narrator standing frozen and hollowed out.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 1,
+      "recurrence_sections": 6,
+      "score": 8.75,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P02",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The servant Matrona delivers a letter whose handwriting the narrator instantly recognises as Nastenka's.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona",
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P03",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "In the letter Nastenka begs forgiveness, admitting she deceived both the narrator and herself and that their brief union was a dream.",
+      "kind": "turn",
+      "weight": 5.0,
+      "depends_on": [
+        "S05-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P04",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "Nastenka says she still loves the narrator and wishes she could love both men, echoing her earlier wish that the narrator were her lodger.",
+      "kind": "claim",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P05",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "She explains her heart returned to the lodger so quickly because it had always belonged to him.",
+      "kind": "cause",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 7.0,
+      "tier": "important",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P06",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "Nastenka announces she will marry the returned lodger next week and asks the narrator to remain her friend and brother and to meet them both.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 6,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P08",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "He has a vision of Matrona, the room and the house across the street aging and decaying, and sees himself unchanged and equally lonely fifteen years on.",
+      "kind": "turn",
+      "weight": 4.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 6.0,
+      "tier": "optional",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P09",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "He refuses to blame Nastenka or shadow her happiness with bitterness or guilt, wishing her clear skies and untroubled joy.",
+      "kind": "resolution",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 5,
+      "score": 8.5,
+      "tier": "essential",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P10",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The story closes on the question of whether a single moment of pure happiness is enough to justify a whole lifetime — the narrator's implied yes.",
+      "kind": "theme",
+      "weight": 5.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 6.75,
+      "tier": "important",
+      "tiered_relatively": true
+    }
+  ],
+  "dropped": [
+    {
+      "id": "S01-P10",
+      "section_index": 1,
+      "section_title": "First Night",
+      "text": "They promise to exchange their life stories the following night, with him beginning.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 4.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S02-P04",
+      "section_index": 2,
+      "section_title": "Second Night",
+      "text": "She gives her name — Nastenka — the first exchange of identity between them.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 4.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S03-P02",
+      "section_index": 3,
+      "section_title": "Nastenkas History",
+      "text": "The household survives on the grandmother's pension plus rent from a lodger in their small wooden house's upper story.",
+      "kind": "context",
+      "weight": 2.0,
+      "depends_on": [],
+      "entities": [
+        "Fekla"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 2.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S04-P08",
+      "section_index": 4,
+      "section_title": "Third Night",
+      "text": "Nastenka voices the story's theme by asking why people cannot be open as brothers instead of hiding their hearts behind walls.",
+      "kind": "theme",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 3.75,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S05-P06",
+      "section_index": 5,
+      "section_title": "Fourth Night",
+      "text": "Nastenka replies that she had long known he loved her, having thought it merely liking, and is flustered rather than surprised.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Nastenka"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 2,
+      "score": 4.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P01",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The morning after the night's events brings rain, gloom and a feverish, weakened narrator, mirroring his inner state.",
+      "kind": "context",
+      "weight": 1.0,
+      "depends_on": [],
+      "entities": [
+        "the Dreamer"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 1,
+      "score": 1.5,
+      "tier": "expendable",
+      "tiered_relatively": true
+    },
+    {
+      "id": "S06-P07",
+      "section_index": 6,
+      "section_title": "Morning",
+      "text": "The narrator weeps over the letter, then Matrona's cheerful remark about clearing cobwebs for a wedding lands as bitter irony.",
+      "kind": "event",
+      "weight": 3.0,
+      "depends_on": [],
+      "entities": [
+        "Matrona"
+      ],
+      "in_degree": 0,
+      "recurrence_sections": 3,
+      "score": 5.0,
+      "tier": "expendable",
+      "tiered_relatively": true
+    }
+  ],
+  "essential_ids": [
+    "S01-P02",
+    "S01-P08",
+    "S02-P02",
+    "S02-P05",
+    "S03-P08",
+    "S03-P09",
+    "S03-P10",
+    "S04-P01",
+    "S05-P08",
+    "S05-P11",
+    "S05-P12",
+    "S06-P03",
+    "S06-P06",
+    "S06-P09"
+  ],
+  "duplicates": [],
+  "tiered_relatively": true
+}

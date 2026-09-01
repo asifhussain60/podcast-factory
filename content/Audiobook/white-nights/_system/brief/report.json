@@ -1,0 +1,17 @@
+{
+  "total_words": 3500,
+  "strategy": "narrative",
+  "points": 71,
+  "retained": 64,
+  "essential": 14,
+  "draft_words": 3146,
+  "coverage": {
+    "essential": 14,
+    "shortlisted": 0,
+    "missing": [],
+    "percent": 100.0
+  },
+  "accepted": true,
+  "reasons": [],
+  "words": 3146
+}

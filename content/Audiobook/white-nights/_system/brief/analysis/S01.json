@@ -1,0 +1,114 @@
+{
+  "title": "First Night",
+  "purpose": "Introduces the lonely dreamer narrator and his chance night meeting with Nastenka, establishing the pact of friendship that drives the whole story.",
+  "points": [
+    {
+      "text": "The unnamed narrator is a twenty-six-year-old man who has lived in Petersburg eight years without friends, forming imaginary bonds with strangers and buildings instead of people.",
+      "kind": "context",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "the narrator"
+      ]
+    },
+    {
+      "text": "He calls himself a 'dreamer': his real life is empty, so he lives on invented romances and relives rare real moments in fantasy.",
+      "kind": "definition",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "dreamer"
+      ]
+    },
+    {
+      "text": "His sadness comes from a specific cause: everyone in Petersburg is leaving for summer villas, leaving him behind with nowhere to go and no one to invite him.",
+      "kind": "cause",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Petersburg",
+        "summer villas"
+      ]
+    },
+    {
+      "text": "After a joyful day walking in the countryside, he returns at ten at night along a deserted canal embankment and sees a young woman leaning on the railing, crying.",
+      "kind": "event",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "canal embankment"
+      ]
+    },
+    {
+      "text": "She flees from him, but a drunken man chases her, and the narrator drives the man off with his walking stick, which is what gives him the chance to speak to her.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "the drunken man"
+      ]
+    },
+    {
+      "text": "The narrator confesses immediately and completely that he is shy, has never had a relationship with a woman, and only falls in love with imagined ideals.",
+      "kind": "event",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ]
+    },
+    {
+      "text": "The girl responds with warmth rather than mockery, telling him she too has no one to confide in and that she feels she knows him as if they had been friends twenty years.",
+      "kind": "relationship",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ]
+    },
+    {
+      "text": "She agrees to meet him at the same spot the next night at ten, but insists she must be there for her own private reason, which she keeps secret.",
+      "kind": "turn",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "the girl"
+      ]
+    },
+    {
+      "text": "She sets one condition on their friendship: he must not fall in love with her.",
+      "kind": "turn",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "the girl",
+        "the narrator"
+      ]
+    },
+    {
+      "text": "They promise to exchange their life stories the following night, with him beginning.",
+      "kind": "event",
+      "weight": 3,
+      "depends_on": [],
+      "entities": []
+    },
+    {
+      "text": "The narrator walks all night unable to go home, declaring that in two minutes she has made him happy forever and perhaps reconciled him with himself.",
+      "kind": "resolution",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "the narrator"
+      ]
+    },
+    {
+      "text": "The section establishes the book's central tension between fantasy and real human contact — that a dreamer's happiness may be built on a few borrowed moments.",
+      "kind": "theme",
+      "weight": 4,
+      "depends_on": [],
+      "entities": []
+    }
+  ],
+  "fingerprint": "561496e187ca7922"
+}

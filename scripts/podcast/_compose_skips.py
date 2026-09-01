@@ -57,6 +57,10 @@ PAGE_ALTERING_STEPS = frozenset(
         "front-matter",  # a whole missing section
         "opening-fold",  # the edition would begin on front matter instead of the book
         "introduction",  # a whole missing section, and the reader's first page
+        # The condensed edition. Page-altering for the same reason as the two
+        # above and one more: it is the only part of the book a reader may read
+        # INSTEAD of the rest, so its absence is not a missing ornament.
+        "brief",
         "bridges",  # human-authored orientation
         "honorifics",
         "arabic-alignment",

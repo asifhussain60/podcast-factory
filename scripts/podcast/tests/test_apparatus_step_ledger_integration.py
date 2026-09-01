@@ -42,6 +42,7 @@ from _step_ledger import last_by_step, outcome_counts, read_steps
 #: Everything here either invokes a model directly or spawns something that does.
 PAID_OR_SLOW = (
     ("_book_frontmatter", "apply_introduction"),  # one claude -p per book
+    ("_book_brief", "apply_brief"),  # one claude -p per section, plus two to four per book
     ("_annotation_policy", "propose_annotation_policy"),  # model judgment
     ("_etymology", "build_etymology_atoms"),  # two claude -p calls
     ("vowel_glossary", "vowel_glossary"),  # Gemini

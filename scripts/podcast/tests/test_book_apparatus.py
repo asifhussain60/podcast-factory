@@ -80,6 +80,9 @@ def test_every_apparatus_step_lives_in_the_apparatus():
         "front-matter",
         "opening-fold",
         "introduction",
+        # 2026-09-01: "The Book in Brief" — the whole book condensed into one
+        # standalone section above the introduction (_book_brief.py).
+        "brief",
         "arabic-audit",
         "duplication",
         "visual-policy",

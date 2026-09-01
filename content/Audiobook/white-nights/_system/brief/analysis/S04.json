@@ -1,0 +1,115 @@
+{
+  "title": "Third Night",
+  "purpose": "It raises the dreamer's love to conscious agony while Nastenka's lover fails to answer, deepening the mutual bond and setting up the final reversal.",
+  "points": [
+    {
+      "text": "The narrator realizes that all of Nastenka's warmth toward him was an overflow of joy meant for another man, not love for him.",
+      "kind": "turn",
+      "weight": 5,
+      "depends_on": [
+        "S01-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka arrives at the third meeting radiant and early, certain her lover will answer her letter that night.",
+      "kind": "event",
+      "weight": 4,
+      "depends_on": [
+        "S03-P13"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "She tells the narrator she likes him precisely because he has not fallen in love with her, and promises they will be friends closer than brother and sister once she is married.",
+      "kind": "event",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The lover does not come; footsteps raise then dash their hopes, and Nastenka's gaiety collapses into anxiety.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator tries to confess his feelings indirectly through the image of a forgotten melody reawakening, but Nastenka hushes him once she guesses his meaning.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "He suppresses his own love to comfort her, inventing reasons the letter may be delayed and promising to check for a reply at first light.",
+      "kind": "cause",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Weeping, Nastenka compares the two men and says the narrator is better, kinder and more thoughtful, yet she loves the other more.",
+      "kind": "event",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka voices the story's theme by asking why people cannot be open as brothers instead of hiding their hearts behind walls.",
+      "kind": "theme",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "She senses the narrator is sacrificing something for her and thanks him, declaring he is no longer the isolated dreamer he described himself as.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [
+        "S02-P02"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "They part with her promise to come the day after tomorrow whatever happens, and her question 'We'll always be together, won't we?'",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "On the rainy fourth day she does not come; the narrator wanders to their bench and near her door but turns back in shame, ending the day in loneliness.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "No reply to the letter has arrived, and the narrator bitterly concludes the lovers must already be together.",
+      "kind": "turn",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    }
+  ],
+  "fingerprint": "7a686c3ecb812bdc"
+}

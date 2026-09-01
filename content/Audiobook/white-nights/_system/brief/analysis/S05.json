@@ -1,0 +1,119 @@
+{
+  "title": "Fourth Night",
+  "purpose": "Brings the story to its climax and reversal: the dreamer confesses his love and is briefly accepted by Nastenka, only for her lover's sudden return to take her away, leaving the dreamer alone.",
+  "points": [
+    {
+      "text": "The narrator meets Nastenka at the canal at nine and tells her there is no letter and that her lover has not come, destroying her last hope.",
+      "kind": "event",
+      "weight": 4,
+      "depends_on": [
+        "S04-P01"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka collapses into sobs, calling her lover's three days of total silence cruel and inhuman, and tormenting herself with the shame of having gone to him first and begged for love.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [
+        "S03-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "She refuses the narrator's offer to go to the lover in her name and write another letter, declaring she no longer knows him, no longer loves him, and will forget him.",
+      "kind": "turn",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Her grieving question — whether the narrator would ever have abandoned a girl who bared her soul to him — breaks his restraint and provokes his confession.",
+      "kind": "cause",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator confesses that he loves Nastenka, apologising in advance for the absurdity and bad timing of saying it.",
+      "kind": "event",
+      "weight": 5,
+      "depends_on": [
+        "S02-P05"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka replies that she had long known he loved her, having thought it merely liking, and is flustered rather than surprised.",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator insists his love would never be a burden: he would love her so completely that even if she still loved the other man she would feel only warmth and the presence of someone living for her happiness.",
+      "kind": "theme",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka accepts him, saying she will get over her lover because he mocked her while the narrator wept with her, and that she now loves him because he is nobler — offering her hand and promising her gratitude will grow into love worthy of his.",
+      "kind": "turn",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "She reframes her year-long love as possibly a childish delusion born of her confined life with Grandmother, and concludes the lover was never worthy of her.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [
+        "S02-P08"
+      ],
+      "entities": [
+        "Nastenka",
+        "Grandmother"
+      ]
+    },
+    {
+      "text": "The two spend the night in delirious joyful planning — he will move into the empty top-floor room as Granny's lodger the next day, they will bring Granny, Matrona and Fekla, she will give lessons, and they will go to the theatre.",
+      "kind": "event",
+      "weight": 4,
+      "entities": [
+        "Matrona",
+        "Fekla",
+        "Granny",
+        "The Barber of Seville"
+      ]
+    },
+    {
+      "text": "As he walks her home the lover appears in the street and calls her name, and Nastenka tears herself from the narrator and runs into his arms.",
+      "kind": "turn",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Before leaving, Nastenka runs back to kiss the narrator warmly in gratitude, then takes her lover's hand and disappears into the night, leaving the narrator standing frozen and hollowed out.",
+      "kind": "resolution",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    }
+  ],
+  "fingerprint": "3b8b3f172aa20145"
+}

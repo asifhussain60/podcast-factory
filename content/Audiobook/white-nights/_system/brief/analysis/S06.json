@@ -1,0 +1,93 @@
+{
+  "title": "Morning",
+  "purpose": "Delivers the story's resolution: Nastenka's letter confirming she will marry the returned lodger, and the Dreamer's choice to bless rather than blame her, fixing the book's final meaning.",
+  "points": [
+    {
+      "text": "The morning after the night's events brings rain, gloom and a feverish, weakened narrator, mirroring his inner state.",
+      "kind": "context",
+      "weight": 1,
+      "entities": [
+        "the Dreamer"
+      ]
+    },
+    {
+      "text": "The servant Matrona delivers a letter whose handwriting the narrator instantly recognises as Nastenka's.",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "Matrona",
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "In the letter Nastenka begs forgiveness, admitting she deceived both the narrator and herself and that their brief union was a dream.",
+      "kind": "turn",
+      "weight": 5,
+      "depends_on": [
+        "S05-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "Nastenka says she still loves the narrator and wishes she could love both men, echoing her earlier wish that the narrator were her lodger.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "She explains her heart returned to the lodger so quickly because it had always belonged to him.",
+      "kind": "cause",
+      "weight": 4,
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ]
+    },
+    {
+      "text": "Nastenka announces she will marry the returned lodger next week and asks the narrator to remain her friend and brother and to meet them both.",
+      "kind": "resolution",
+      "weight": 5,
+      "entities": [
+        "Nastenka",
+        "the lodger"
+      ]
+    },
+    {
+      "text": "The narrator weeps over the letter, then Matrona's cheerful remark about clearing cobwebs for a wedding lands as bitter irony.",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "Matrona"
+      ]
+    },
+    {
+      "text": "He has a vision of Matrona, the room and the house across the street aging and decaying, and sees himself unchanged and equally lonely fifteen years on.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Matrona"
+      ]
+    },
+    {
+      "text": "He refuses to blame Nastenka or shadow her happiness with bitterness or guilt, wishing her clear skies and untroubled joy.",
+      "kind": "resolution",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The story closes on the question of whether a single moment of pure happiness is enough to justify a whole lifetime — the narrator's implied yes.",
+      "kind": "theme",
+      "weight": 5,
+      "entities": [
+        "the Dreamer"
+      ]
+    }
+  ],
+  "fingerprint": "2a149f9d941a1c41"
+}

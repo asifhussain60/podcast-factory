@@ -187,6 +187,23 @@ def apply_book_apparatus(
     except Exception as e:  # apparatus is never worth a finished translation
         _record_skip(book_dir, "introduction", e, log)
 
+    # 5f. "The Book in Brief" — the whole book condensed into one standalone
+    #     section, placed ABOVE the introduction so a reader meets the substance
+    #     before the apparatus that describes it (Asif, 2026-09-01). Cached per
+    #     book; a re-compose that changed no prose re-buys nothing.
+    #
+    #     STRICTLY AFTER the introduction and BEFORE the house-style steps below.
+    #     Both orderings are load-bearing, and each is argued beside the code that
+    #     depends on it — `_book_brief.inject_brief` for the first, 5e for the second.
+
+    from _book_brief import apply_brief
+
+    try:
+        apply_brief(book_dir, log=log, force=force)
+        _ok(book_dir, "brief")
+    except Exception as e:  # apparatus is never worth a finished translation
+        _record_skip(book_dir, "brief", e, log)
+
     # 5a-translit. Fold scholarly transliteration to the plain house form, AFTER
     #     the model passes. The base composer already does this at the end of its
     #     own run (_translation_edition), but the fluency and augment passes come

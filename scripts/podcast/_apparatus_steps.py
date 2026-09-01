@@ -48,6 +48,7 @@ APPARATUS_STEPS: tuple[str, ...] = (
     "front-matter",
     "opening-fold",
     "introduction",
+    "brief",
     "translit",
     "quran-arabic",
     "citation-names",

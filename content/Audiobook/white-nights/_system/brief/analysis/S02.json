@@ -1,0 +1,110 @@
+{
+  "title": "Second Night",
+  "purpose": "The narrator confesses his life as a solitary dreamer, which binds him and Nastenka into a pact of mutual confidence and sets up her own story.",
+  "points": [
+    {
+      "text": "Nastenka returns and insists they proceed sensibly, demanding the narrator tell her his whole story because she does not yet know him.",
+      "kind": "event",
+      "weight": 3,
+      "depends_on": [
+        "S01-P12"
+      ],
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator says he has no story because he has lived utterly alone, seeing people but never truly speaking to anyone.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "the narrator"
+      ]
+    },
+    {
+      "text": "Nastenka reveals she lives with her blind grandmother, who two years ago pinned Nastenka's dress to her own to keep her from running off.",
+      "kind": "context",
+      "weight": 4,
+      "entities": [
+        "Nastenka",
+        "grandmother"
+      ]
+    },
+    {
+      "text": "She gives her name — Nastenka — the first exchange of identity between them.",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator defines himself as 'a type': a dreamer, a creature who hides in a dim Petersburg corner like a snail in its shell and drives away all acquaintances.",
+      "kind": "definition",
+      "weight": 5,
+      "entities": [
+        "dreamer",
+        "Petersburg"
+      ]
+    },
+    {
+      "text": "He describes the dreamer's joy as an inner, fantasy-fed richness that makes real life seem dull, lifeless and slow by comparison.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "dreamer"
+      ]
+    },
+    {
+      "text": "He warns that a day comes when the dreamer would trade every dream for one moment of real, imperfect life.",
+      "kind": "theme",
+      "weight": 5,
+      "entities": [
+        "dreamer"
+      ]
+    },
+    {
+      "text": "He confesses that his fancy has worn out, that he now celebrates anniversaries of feelings that never happened, and that he fears old age arriving with nothing real to regret.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "the narrator"
+      ]
+    },
+    {
+      "text": "Nastenka does not laugh at his confession but weeps and says she felt the same while pinned to her grandmother, recognizing herself in him.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The narrator tells Nastenka she has made him stop despising himself and that these two evenings have been the only real happiness he has known, while dreading what happens when it ends.",
+      "kind": "relationship",
+      "weight": 4,
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ]
+    },
+    {
+      "text": "Nastenka vows they will never part and asks him to be like an older brother giving her warm advice.",
+      "kind": "relationship",
+      "weight": 5,
+      "entities": [
+        "Nastenka"
+      ]
+    },
+    {
+      "text": "The section ends with the two clasping hands as a sealed pact and Nastenka beginning to tell her own story.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "Nastenka",
+        "the narrator"
+      ]
+    }
+  ],
+  "fingerprint": "1198ec3169c82bb6"
+}

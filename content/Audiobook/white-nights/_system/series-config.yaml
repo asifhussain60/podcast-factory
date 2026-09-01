@@ -27,3 +27,27 @@ book_augmentation: none
 book_visuals: manual_only
 
 enable_video: false
+
+# --- The Book in Brief ---------------------------------------------------
+# The condensed edition that opens the book, above the introduction.
+#
+# DECLARED, not inferred, for the same reason `narrative_frame` above is: what
+# kind of book this is decides what a condensation must protect, and a pipeline
+# that reads it off the prose will read it differently after a rewrite. The
+# profile here is `audiobook`, which says how the text was made and nothing about
+# what it is — a recording can be a novella or a lecture — so the strategy has to
+# be stated.
+#
+# `narrative` protects characters, motivation, the causal chain, the turning
+# points and the ending; it treats atmosphere and description as compressible.
+brief_strategy: narrative
+brief_mode: standard
+
+# The audiobook opens with a modern editorial introduction — an essay ABOUT the
+# novella, written by the producer, which recounts the entire plot including the
+# ending before Dostoyevsky's text begins. It is not part of the book, and
+# condensing it would build the brief out of somebody else's summary: analysed as
+# a chapter it produced ten "essential" points, every one a restatement of a
+# chapter that had not been read yet.
+brief_exclude_sections:
+  - Introduction
