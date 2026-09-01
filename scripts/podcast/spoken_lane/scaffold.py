@@ -23,6 +23,7 @@ and the first tool to read the wrong one would be silently wrong.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -142,9 +143,9 @@ def heard_text(book_dir: Path, episode: int | None) -> str:
 
     The cues are grouped into paragraphs rather than emitted one per line: a VTT
     cue is a breath, not a sentence, and one line per breath reads as a subtitle
-    file rather than as a chapter. Twelve is the smallest grouping that produced
-    paragraphs of ordinary length across the first five such recordings — it is a
-    rhythm, and the articulation pass repunctuates and re-breaks it afterwards.
+    file rather than as a chapter. `group_into_paragraphs` decides where they
+    break — at a sentence end, never at a cue count. See its docstring for what
+    the count-based rule did to 46% of White Nights.
     """
     if episode is None:
         return ""
@@ -154,5 +155,79 @@ def heard_text(book_dir: Path, episode: int | None) -> str:
 
     from _transcript import from_vtt  # local: only this branch needs it
 
-    lines = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
-    return "\n\n".join(" ".join(lines[i : i + 12]) for i in range(0, len(lines), 12))
+    cues = [cue.text.strip() for cue in from_vtt(path.read_text(encoding="utf-8")) if cue.text.strip()]
+    return group_into_paragraphs(cues)
+
+
+#: A cue that completes a sentence. The closing bracket allows for a quotation
+#: mark or parenthesis after the stop — `he said."` ends a sentence just as
+#: `he said.` does.
+_SENTENCE_END = re.compile(r"[.!?][\"'’”)\]]*$")
+
+#: Words a paragraph should reach before it is allowed to close. Below this a
+#: sentence-per-paragraph reads as dialogue transcript rather than prose; the old
+#: twelve-cue rule produced a median of 74, so this stays in the same register
+#: while letting the break land where the sentence actually ends.
+_PARAGRAPH_TARGET_WORDS = 70
+
+#: A paragraph that begins the way a sentence does.
+_SENTENCE_START = re.compile(r"[\"'(\[A-Z0-9]")
+
+
+def group_into_paragraphs(cues: list[str], target_words: int = _PARAGRAPH_TARGET_WORDS) -> str:
+    """Join cues into paragraphs that BREAK WHERE SENTENCES DO.
+
+    Asif, 2026-09-01, circling two of them in the Composer: "Fix the review step
+    to check for broken sentences split between paragraphs."
+
+    The rule this replaces was `lines[i:i+12]` — a new paragraph every twelfth
+    cue, counted without ever looking at the words. A VTT cue is a breath, so
+    twelve of them land wherever the narrator happened to be, and in White Nights
+    that put **168 of 359 paragraphs (46%)** starting mid-sentence:
+
+        ...he meets Nastenka, a young woman weeping on
+
+        a bench. Over the course of four nights...
+
+    Detecting that afterwards was the first instinct and it is the wrong one: the
+    defect is manufactured HERE, deterministically, for free, and a check that
+    reports a self-inflicted wound every time is not a check. `prose_review` still
+    carries the check, because a transcript can arrive with no terminal
+    punctuation at all and then no grouping rule can save it — but it should be
+    reporting the exception, not the norm.
+
+    The cue text is NEVER altered: cues are joined, and the only decision is
+    where a paragraph ends. That keeps the read-along pairing intact, which
+    depends on the words being the ones on the tape.
+    """
+    paragraphs: list[str] = []
+    current: list[str] = []
+    words = 0
+    for cue in cues:
+        current.append(cue)
+        words += len(cue.split())
+        # Close only on a completed sentence that has reached a readable length.
+        # Either condition alone is wrong: length alone is the old bug, and a
+        # sentence boundary alone gives one-sentence paragraphs.
+        if words >= target_words and _SENTENCE_END.search(cue):
+            paragraphs.append(" ".join(current))
+            current, words = [], 0
+    if current:
+        tail = " ".join(current)
+        # A tail too short to have closed a paragraph joins the previous one
+        # rather than becoming a stub. Making it its own paragraph would
+        # reintroduce the exact defect this function exists to remove: a
+        # paragraph opening mid-sentence, lowercase, because the words before it
+        # are somewhere above.
+        #
+        # The one exception is a tail that stands on its own — begins like a
+        # sentence and ends like one. A short closing line is a real paragraph.
+        # (An earlier version tested the PREVIOUS paragraph instead, which is
+        # backwards: it left the fragment stranded precisely when the paragraph
+        # above it was well-formed, which is nearly always.)
+        stands_alone = _SENTENCE_START.match(tail) and _SENTENCE_END.search(tail)
+        if paragraphs and not stands_alone:
+            paragraphs[-1] = paragraphs[-1] + " " + tail
+        else:
+            paragraphs.append(tail)
+    return "\n\n".join(paragraphs)

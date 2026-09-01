@@ -53,7 +53,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _sessions_prose_format import CAPS_RUN, SPACE_BEFORE_COMMA  # noqa: E402
 
 #: Codes whose presence means the cleanup has not run. See the module docstring.
-BLOCKING = frozenset({"ECHOED_HEADING", "SPACING"})
+#:
+#: `MID_SENTENCE_BREAKS` joined them on 2026-09-01. It was advisory while the
+#: grouping rule manufactured the defect — 46% of White Nights' paragraphs began
+#: mid-sentence, and blocking on a self-inflicted wound would have blocked every
+#: book forever. `group_into_paragraphs` now breaks at sentence ends and that
+#: figure is 0, so a book still showing them has a transcript with no terminal
+#: punctuation to break on. That is a real defect, and a person should see the
+#: book only after somebody has looked at it.
+BLOCKING = frozenset({"ECHOED_HEADING", "SPACING", "MID_SENTENCE_BREAKS"})
 
 #: Words that mark a chapter as the publisher's front matter rather than the
 #: author's text — "This is White Nights … translated by Tim Zengerink, narrated
@@ -123,7 +131,8 @@ def review_book(book_dir: Path) -> list[Finding]:
                 Finding(
                     heading,
                     "MID_SENTENCE_BREAKS",
-                    f"{len(mid)}/{len(paras)} paragraphs start mid-sentence — sessions-articulate has not run",
+                    f"{len(mid)}/{len(paras)} paragraphs start mid-sentence — the transcript may carry "
+                    "no sentence punctuation to break on",
                 )
             )
     return findings

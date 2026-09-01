@@ -191,3 +191,70 @@ class TestComposerReadiness(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestParagraphsBreakWhereSentencesDo(unittest.TestCase):
+    """The defect Asif circled twice: a sentence split across a paragraph break.
+
+    The rule replaced was `lines[i:i+12]` — a new paragraph every twelfth cue,
+    counted without looking at the words — which put 168 of White Nights' 359
+    paragraphs (46%) mid-sentence. Fixed at the source rather than detected
+    after: a check that reports a self-inflicted wound on every book is noise.
+    """
+
+    def _cues(self, text: str) -> list[str]:
+        return text.split("|")
+
+    def test_a_paragraph_never_ends_mid_sentence(self):
+        from spoken_lane.scaffold import group_into_paragraphs
+
+        cues = self._cues("He meets Nastenka, a young woman weeping on|a bench. " + "word " * 80 + "End here.")
+        out = group_into_paragraphs(cues, target_words=10)
+        for para in out.split("\n\n"):
+            self.assertRegex(para.rstrip(), r"[.!?][\"'’”)\]]*$", f"paragraph ends mid-sentence: {para[-60:]!r}")
+
+    def test_no_paragraph_starts_mid_sentence(self):
+        from spoken_lane.scaffold import group_into_paragraphs
+
+        cues = ["The night was long.", "It ended.", "Then came morning.", "She left."] * 6
+        out = group_into_paragraphs(cues, target_words=8)
+        for para in out.split("\n\n"):
+            self.assertRegex(para, r"^[\"'(\[A-Z0-9]", f"paragraph starts mid-sentence: {para[:60]!r}")
+
+    def test_the_words_are_never_altered(self):
+        """Only WHERE a paragraph ends is decided. Read-along depends on this."""
+        from spoken_lane.scaffold import group_into_paragraphs
+
+        cues = ["One two three.", "Four five six.", "Seven eight nine."]
+        out = group_into_paragraphs(cues, target_words=4)
+        self.assertEqual(out.replace("\n\n", " ").split(), " ".join(cues).split())
+
+    def test_a_tail_with_no_sentence_end_is_not_orphaned(self):
+        from spoken_lane.scaffold import group_into_paragraphs
+
+        out = group_into_paragraphs(["A full sentence here.", "and a trailing fragment"], target_words=3)
+        self.assertIn("trailing fragment", out)
+        self.assertEqual(len(out.split("\n\n")), 1, "the fragment joins the paragraph, it does not become one")
+
+    def test_a_transcript_with_no_punctuation_at_all_still_returns_its_words(self):
+        from spoken_lane.scaffold import group_into_paragraphs
+
+        cues = ["no punctuation anywhere"] * 5
+        self.assertEqual(group_into_paragraphs(cues, target_words=3).split(), " ".join(cues).split())
+
+    def test_mid_sentence_breaks_now_block(self):
+        """Advisory while the grouping manufactured it; blocking now it cannot."""
+        self.assertIn("MID_SENTENCE_BREAKS", R.BLOCKING)
+
+    def test_the_real_book_has_none(self):
+        import _paths
+
+        found = _paths.find_content("white-nights")
+        if not found:
+            self.skipTest("white-nights not on disk")
+        import re as _re
+
+        text = (Path(found[-1]) / "book" / "book.md").read_text(encoding="utf-8")
+        paras = [p.strip() for p in text.split("\n\n") if p.strip() and not p.startswith("#")]
+        bad = [p for p in paras if not _re.match(r"^[\"'(\[A-Z0-9]", p)]
+        self.assertEqual(bad, [], f"{len(bad)}/{len(paras)} paragraphs start mid-sentence")
