@@ -54,6 +54,7 @@ import _paths  # noqa: E402
 from _step_ledger import step  # noqa: E402
 
 from spoken_lane import manifest as M  # noqa: E402
+from spoken_lane import transcript_check  # noqa: E402
 
 PHASE = "audiobook-split"
 PROFILE = "audiobook"
@@ -247,11 +248,20 @@ def scaffold_book(
     from _paths import ensure_book_skeleton
 
     from spoken_lane import scaffold as lane
+    from spoken_lane import transcript_check
 
     titles = [M.chapter_title(c.title, work.name) for c in work.chapters]
     heard = {n: lane.heard_text(book_dir, n) for n in range(1, len(work.chapters) + 1)}
-    complete = all(heard.values())
-    done_through = "sessions-transcribe" if complete else "sessions-ingest"
+
+    # PRESENT IS NOT USABLE. `all(heard.values())` was the whole test until
+    # 2026-09-01, and it passed for a chapter carrying 138 replacement characters
+    # where its quotes and apostrophes should have been -- the file was there and
+    # had words in it, so the book claimed `sessions-transcribe` and handed
+    # corrupted prose to every phase after. The checker asks the questions that
+    # actually matter: does it parse, is it corrupt, is it a transcript of THIS
+    # chapter. Findings are reported by the caller, never swallowed.
+    findings = transcript_check.check_book(book_dir)
+    done_through = "sessions-transcribe" if heard and all(heard.values()) and not findings else "sessions-ingest"
     book_title = collection.titles.get(slug) or M.slugify(work.name).replace("-", " ").title()
 
     if not apply:
@@ -286,9 +296,20 @@ def scaffold_book(
 
     book_md = book_dir / "book" / "book.md"
     if not book_md.exists():
+        # CLEANED BEFORE IT IS WRITTEN, not after somebody notices. The narrator
+        # reads each chapter's title aloud, so the transcription opens with words
+        # the heading above it already carries -- six of White Nights' eight
+        # chapters, two of them shouted ("SECOND NIGHT"). Passing the heading is
+        # what lets `normalize_sessions_prose` recognise and drop the repeat;
+        # every other caller omits it and gets byte-identical output.
+        from _sessions_prose_format import normalize_sessions_prose
+
         parts = [f"# {book_title}", ""]
         for n, t in enumerate(titles, start=1):
-            parts.extend([f"## {t}", "", heard[n] or "_Awaiting transcript._", ""])
+            body = heard[n] or "_Awaiting transcript._"
+            if heard[n]:
+                body, _changes = normalize_sessions_prose(body, heading=t)
+            parts.extend([f"## {t}", "", body, ""])
         book_md.write_text("\n".join(parts).rstrip() + "\n", encoding="utf-8")
 
     lane.write_state(
@@ -427,6 +448,10 @@ def split_collection(
         with step(book_dir, PHASE, "scaffold") as rec:
             reached = scaffold_book(book_dir, slug=slug, work=work, collection=collection, apply=apply)
             rec.detail(done_through=reached, chapters=len(work.chapters))
+            if reached != "sessions-transcribe":
+                problems = transcript_check.check_book(book_dir)
+                if problems:
+                    rec.detail(transcript_findings=[str(f) for f in problems])
             if not apply:
                 rec.skipped("dry-run")
 
