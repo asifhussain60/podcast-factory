@@ -1,0 +1,57 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheCrocodile",
+  "slug": "the-crocodile",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheCrocodile_OpeningCredits",
+      "start_ms": 59435629,
+      "length_ms": 14396
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheCrocodile_Introduction",
+      "start_ms": 59450025,
+      "length_ms": 567402
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheCrocodile_Chapter1",
+      "start_ms": 60017427,
+      "length_ms": 1063891
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheCrocodile_Chapter2",
+      "start_ms": 61081318,
+      "length_ms": 823426
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheCrocodile_Chapter3",
+      "start_ms": 61904744,
+      "length_ms": 1352655
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheCrocodile_Chapter4",
+      "start_ms": 63257399,
+      "length_ms": 1032034
+    }
+  ]
+}

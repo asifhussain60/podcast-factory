@@ -1,0 +1,161 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "The_Permanent_Husband",
+  "slug": "the-permanent-husband",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_The_Permanent_Husband_OpeningCredits",
+      "start_ms": 91961059,
+      "length_ms": 14721
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_The_Permanent_Husband_Introduction",
+      "start_ms": 91975780,
+      "length_ms": 715778
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_The_Permanent_Husband_Chapter1",
+      "start_ms": 92691558,
+      "length_ms": 669152
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_The_Permanent_Husband_Chapter2",
+      "start_ms": 93360710,
+      "length_ms": 1390921
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_The_Permanent_Husband_Chapter3",
+      "start_ms": 94751631,
+      "length_ms": 1138242
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_The_Permanent_Husband_Chapter4",
+      "start_ms": 95889873,
+      "length_ms": 710437
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_The_Permanent_Husband_Chapter5",
+      "start_ms": 96600310,
+      "length_ms": 1663106
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_The_Permanent_Husband_Chapter6",
+      "start_ms": 98263416,
+      "length_ms": 1143071
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_The_Permanent_Husband_Chapter7",
+      "start_ms": 99406487,
+      "length_ms": 1391618
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_The_Permanent_Husband_Chapter8",
+      "start_ms": 100798105,
+      "length_ms": 709276
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_The_Permanent_Husband_Chapter9",
+      "start_ms": 101507381,
+      "length_ms": 942497
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_The_Permanent_Husband_Chapter10",
+      "start_ms": 102449878,
+      "length_ms": 1093241
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_The_Permanent_Husband_Chapter11",
+      "start_ms": 103543119,
+      "length_ms": 1126353
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_The_Permanent_Husband_Chapter12",
+      "start_ms": 104669472,
+      "length_ms": 1700211
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_The_Permanent_Husband_Chapter13",
+      "start_ms": 106369683,
+      "length_ms": 941754
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_The_Permanent_Husband_Chapter14",
+      "start_ms": 107311437,
+      "length_ms": 1350611
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_The_Permanent_Husband_Chapter15",
+      "start_ms": 108662048,
+      "length_ms": 1047730
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_The_Permanent_Husband_Chapter16",
+      "start_ms": 109709778,
+      "length_ms": 933720
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_The_Permanent_Husband_Chapter17",
+      "start_ms": 110643498,
+      "length_ms": 370590
+    }
+  ]
+}

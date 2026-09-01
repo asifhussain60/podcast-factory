@@ -1,0 +1,129 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheDouble",
+  "slug": "the-double",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheDouble_OpeningCredits(The_Devils)",
+      "start_ms": 125657173,
+      "length_ms": 14582
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheDouble_Introduction(The_Devils)",
+      "start_ms": 125671755,
+      "length_ms": 610220
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheDouble_Chapter01(The_Devils)",
+      "start_ms": 126281975,
+      "length_ms": 786599
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheDouble_Chapter02(The_Devils)",
+      "start_ms": 127068574,
+      "length_ms": 1174651
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheDouble_Chapter03",
+      "start_ms": 128243225,
+      "length_ms": 1002823
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheDouble_Chapter04",
+      "start_ms": 129246048,
+      "length_ms": 1477346
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_TheDouble_Chapter05",
+      "start_ms": 130723394,
+      "length_ms": 764215
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_TheDouble_Chapter06",
+      "start_ms": 131487609,
+      "length_ms": 173267
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_TheDouble_Chapter07",
+      "start_ms": 131660876,
+      "length_ms": 1418414
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_TheDouble_Chapter08",
+      "start_ms": 133079290,
+      "length_ms": 1869810
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_TheDouble_Chapter09",
+      "start_ms": 134949100,
+      "length_ms": 2625387
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_TheDouble_Chapter10",
+      "start_ms": 137574487,
+      "length_ms": 2915543
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_TheDouble_Chapter11",
+      "start_ms": 140490030,
+      "length_ms": 1457145
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_TheDouble_Chapter12",
+      "start_ms": 141947175,
+      "length_ms": 1477346
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_TheDouble_Chapter13",
+      "start_ms": 143424521,
+      "length_ms": 1928881
+    }
+  ]
+}

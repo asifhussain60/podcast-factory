@@ -1,0 +1,65 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheDreamOfaRidiculousMan",
+  "slug": "the-dream-of-a-ridiculous-man",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheDreamOfaRidiculousMan_OpeningCredits",
+      "start_ms": 64289433,
+      "length_ms": 21826
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheDreamOfaRidiculousMan_Introduction",
+      "start_ms": 64311259,
+      "length_ms": 630932
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheDreamOfaRidiculousMan_Chapter1",
+      "start_ms": 64942191,
+      "length_ms": 545668
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheDreamOfaRidiculousMan_Chapter2",
+      "start_ms": 65487859,
+      "length_ms": 273438
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheDreamOfaRidiculousMan_Chapter3",
+      "start_ms": 65761297,
+      "length_ms": 667109
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheDreamOfaRidiculousMan_Chapter4",
+      "start_ms": 66428406,
+      "length_ms": 461473
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_TheDreamOfaRidiculousMan_Chapter5",
+      "start_ms": 66889879,
+      "length_ms": 605669
+    }
+  ]
+}

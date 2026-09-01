@@ -1,0 +1,33 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "A_Christmas_Tree_and_a_Wedding",
+  "slug": "a-christmas-tree-and-a-wedding",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_A_Christmas_Tree_and_a_Wedding_OpeningCredits",
+      "start_ms": 49642105,
+      "length_ms": 14953
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_A_Christmas_Tree_and_a_Wedding_Introduction",
+      "start_ms": 49657058,
+      "length_ms": 572789
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_A_Christmas_Tree_and_a_Wedding_Astory",
+      "start_ms": 50229847,
+      "length_ms": 1079263
+    }
+  ]
+}

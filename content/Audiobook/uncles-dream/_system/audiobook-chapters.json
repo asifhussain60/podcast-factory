@@ -1,0 +1,145 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "UnclesDream",
+  "slug": "uncles-dream",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_UnclesDream_OpeningCredits",
+      "start_ms": 67495548,
+      "length_ms": 14442
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_UnclesDream_Introduction",
+      "start_ms": 67509990,
+      "length_ms": 620019
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_UnclesDream_Chapter1",
+      "start_ms": 68130009,
+      "length_ms": 582310
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_UnclesDream_Chapter2",
+      "start_ms": 68712319,
+      "length_ms": 796351
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_UnclesDream_Chapter3",
+      "start_ms": 69508670,
+      "length_ms": 1228382
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_UnclesDream_Chapter4",
+      "start_ms": 70737052,
+      "length_ms": 1307422
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_UnclesDream_Chapter5",
+      "start_ms": 72044474,
+      "length_ms": 4321976
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_UnclesDream_Chapter6",
+      "start_ms": 76366450,
+      "length_ms": 1696078
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_UnclesDream_Chapter7",
+      "start_ms": 78062528,
+      "length_ms": 1000176
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_UnclesDream_Chapter8",
+      "start_ms": 79062704,
+      "length_ms": 2502182
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_UnclesDream_Chapter9",
+      "start_ms": 81564886,
+      "length_ms": 2133913
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_UnclesDream_Chapter10",
+      "start_ms": 83698799,
+      "length_ms": 1566882
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_UnclesDream_Chapter11",
+      "start_ms": 85265681,
+      "length_ms": 1509064
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_UnclesDream_Chapter12",
+      "start_ms": 86774745,
+      "length_ms": 1074526
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_UnclesDream_Chapter13",
+      "start_ms": 87849271,
+      "length_ms": 1660598
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_UnclesDream_Chapter14",
+      "start_ms": 89509869,
+      "length_ms": 873813
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_UnclesDream_Chapter15",
+      "start_ms": 90383682,
+      "length_ms": 1577377
+    }
+  ]
+}

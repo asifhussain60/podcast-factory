@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "An_Unpleasant_Predicament",
+  "slug": "an-unpleasant-predicament",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_An_Unpleasant_Predicament_OpeningCredits",
+      "start_ms": 51309110,
+      "length_ms": 14303
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_An_Unpleasant_Predicament_Introduction",
+      "start_ms": 51323413,
+      "length_ms": 609245
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_An_Unpleasant_Predicament_AnUnpleasantPredicamentpart1",
+      "start_ms": 51932658,
+      "length_ms": 4065071
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_An_Unpleasant_Predicament_AnUnpleasantPredicamentpart2",
+      "start_ms": 55997729,
+      "length_ms": 3437900
+    }
+  ]
+}

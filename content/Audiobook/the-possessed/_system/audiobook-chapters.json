@@ -1,0 +1,177 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "ThePossessed",
+  "slug": "the-possessed",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_ThePossessed_OpeningCredits",
+      "start_ms": 319743918,
+      "length_ms": 16904
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_ThePossessed_Introduction",
+      "start_ms": 319760822,
+      "length_ms": 574461
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_ThePossessed_Part01_Part01",
+      "start_ms": 320335283,
+      "length_ms": 7144872
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_ThePossessed_Part01_Part02",
+      "start_ms": 327480155,
+      "length_ms": 6804421
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_ThePossessed_Part01_Part03",
+      "start_ms": 334284576,
+      "length_ms": 6170842
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_ThePossessed_Part01_Part04",
+      "start_ms": 340455418,
+      "length_ms": 6818261
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_ThePossessed_Part01_Part05",
+      "start_ms": 347273679,
+      "length_ms": 6173953
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_ThePossessed_Part02_Part01",
+      "start_ms": 353447632,
+      "length_ms": 4787908
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_ThePossessed_Part02_Part02",
+      "start_ms": 358235540,
+      "length_ms": 5327725
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_ThePossessed_Part02_Part03",
+      "start_ms": 363563265,
+      "length_ms": 5887047
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_ThePossessed_Part02_Part04",
+      "start_ms": 369450312,
+      "length_ms": 6628089
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_ThePossessed_Part02_Part05",
+      "start_ms": 376078401,
+      "length_ms": 3763304
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_ThePossessed_Part02_Part06",
+      "start_ms": 379841705,
+      "length_ms": 3259617
+    },
+    {
+      "episode": 14,
+      "file": "m4a/Episodes/ep14.m4a",
+      "transcript": "transcripts/ep14.vtt",
+      "title": "14_ThePossessed_Part02_Part07",
+      "start_ms": 383101322,
+      "length_ms": 4949983
+    },
+    {
+      "episode": 15,
+      "file": "m4a/Episodes/ep15.m4a",
+      "transcript": "transcripts/ep15.vtt",
+      "title": "15_ThePossessed_Part03_Part01",
+      "start_ms": 388051305,
+      "length_ms": 7092163
+    },
+    {
+      "episode": 16,
+      "file": "m4a/Episodes/ep16.m4a",
+      "transcript": "transcripts/ep16.vtt",
+      "title": "16_ThePossessed_Part03_Part02",
+      "start_ms": 395143468,
+      "length_ms": 6306957
+    },
+    {
+      "episode": 17,
+      "file": "m4a/Episodes/ep17.m4a",
+      "transcript": "transcripts/ep17.vtt",
+      "title": "17_ThePossessed_Part03_Part03",
+      "start_ms": 401450425,
+      "length_ms": 4210474
+    },
+    {
+      "episode": 18,
+      "file": "m4a/Episodes/ep18.m4a",
+      "transcript": "transcripts/ep18.vtt",
+      "title": "18_ThePossessed_Part03_Part04",
+      "start_ms": 405660899,
+      "length_ms": 4645059
+    },
+    {
+      "episode": 19,
+      "file": "m4a/Episodes/ep19.m4a",
+      "transcript": "transcripts/ep19.vtt",
+      "title": "19_ThePossessed_Part03_Part05",
+      "start_ms": 410305958,
+      "length_ms": 4269499
+    },
+    {
+      "episode": 20,
+      "file": "m4a/Episodes/ep20.m4a",
+      "transcript": "transcripts/ep20.vtt",
+      "title": "20_ThePossessed_Part03_Part06",
+      "start_ms": 414575457,
+      "length_ms": 4081696
+    },
+    {
+      "episode": 21,
+      "file": "m4a/Episodes/ep21.m4a",
+      "transcript": "transcripts/ep21.vtt",
+      "title": "21_ThePossessed_Part03_Part07",
+      "start_ms": 418657153,
+      "length_ms": 3110916
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+# Catalog-only grouping for the Podcast Factory Library and the Podcast Factory
+# Astro Site — read ONLY by scripts/podcast/sync_listener_work_groups.py and
+# plan-dashboard/src/lib/reader/work-groups.ts, never by _work_manifest.py,
+# orchestrate_work.py, intake_book.py, or any pipeline phase.
+#
+# The twenty works below arrived as ONE purchased audiobook container and were
+# cut apart by spoken_lane/audiobook.py. Each is a flat, independently-resolvable
+# book folder with its own _system/, m4a/ and transcripts/ — not nested vol-NN/
+# dirs under a shared parent the way content/Islamic/asaas-al-taveel/work.yml's
+# volumes are. This file exists so both surfaces stack them into one set card.
+#
+# WHY NOT A REAL work.yml. Two reasons, both fatal. _paths.is_work_parent()
+# treats the mere presence of a file named work.yml as proof the directory is a
+# work parent, and then volume_dirs() discovers volumes by globbing vol-* —
+# never by reading the manifest's own list. So a work.yml here would either
+# force twenty renames (Crime and Punishment becoming
+# dostoyevsky-collection-vol-20, which is a worse name than the one it has) or,
+# dropped in place, would advertise a work parent with zero discoverable volumes
+# to intake, orchestration and path resolution alike.
+#
+# The _listener-groups/ convention sidesteps both: the directory name starts with
+# "_", which every content scan on both sides of the repo already skips, and the
+# file is not named work.yml, so is_work_parent() never fires on it.
+work_slug: dostoyevsky-collection
+title: "The Complete Fyodor Dostoyevsky Collection"
+bucket: Audiobook
+volumes:
+  - order: 1
+    slug: notes-from-underground
+    title: "Notes from Underground"
+  - order: 2
+    slug: white-nights
+    title: "White Nights"
+  - order: 3
+    slug: a-little-hero
+    title: "A Little Hero"
+  - order: 4
+    slug: mr-prohartchin
+    title: "Mr. Prohartchin"
+  - order: 5
+    slug: polzunkov
+    title: "Polzunkov"
+  - order: 6
+    slug: a-faint-heart
+    title: "A Faint Heart"
+  - order: 7
+    slug: a-christmas-tree-and-a-wedding
+    title: "A Christmas Tree and a Wedding"
+  - order: 8
+    slug: an-unpleasant-predicament
+    title: "An Unpleasant Predicament"
+  - order: 9
+    slug: the-crocodile
+    title: "The Crocodile"
+  - order: 10
+    slug: the-dream-of-a-ridiculous-man
+    title: "The Dream of a Ridiculous Man"
+  - order: 11
+    slug: uncles-dream
+    title: "Uncle's Dream"
+  - order: 12
+    slug: the-permanent-husband
+    title: "The Permanent Husband"
+  - order: 13
+    slug: poor-folk
+    title: "Poor Folk"
+  - order: 14
+    slug: the-double
+    title: "The Double"
+  - order: 15
+    slug: the-house-of-the-dead
+    title: "The House of the Dead"
+  - order: 16
+    slug: the-gambler
+    title: "The Gambler"
+  - order: 17
+    slug: the-idiot
+    title: "The Idiot"
+  - order: 18
+    slug: the-possessed
+    title: "The Possessed"
+  - order: 19
+    slug: the-brothers-karamazov
+    title: "The Brothers Karamazov"
+  - order: 20
+    slug: crime-and-punishment
+    title: "Crime and Punishment"

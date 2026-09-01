@@ -1,0 +1,113 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "TheHouseOfTheDead",
+  "slug": "the-house-of-the-dead",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_TheHouseOfTheDead_OpeningCredits",
+      "start_ms": 145353402,
+      "length_ms": 14860
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_TheHouseOfTheDead_Introduction",
+      "start_ms": 145368262,
+      "length_ms": 584074
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_TheHouseOfTheDead_Part01_Part01",
+      "start_ms": 145952336,
+      "length_ms": 4500445
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_TheHouseOfTheDead_Part01_Part02",
+      "start_ms": 150452781,
+      "length_ms": 5476937
+    },
+    {
+      "episode": 5,
+      "file": "m4a/Episodes/ep05.m4a",
+      "transcript": "transcripts/ep05.vtt",
+      "title": "05_TheHouseOfTheDead_Part01_Part03",
+      "start_ms": 155929718,
+      "length_ms": 4031216
+    },
+    {
+      "episode": 6,
+      "file": "m4a/Episodes/ep06.m4a",
+      "transcript": "transcripts/ep06.vtt",
+      "title": "06_TheHouseOfTheDead_Part01_Part04",
+      "start_ms": 159960934,
+      "length_ms": 4339484
+    },
+    {
+      "episode": 7,
+      "file": "m4a/Episodes/ep07.m4a",
+      "transcript": "transcripts/ep07.vtt",
+      "title": "07_TheHouseOfTheDead_Part01_Part05",
+      "start_ms": 164300418,
+      "length_ms": 2626409
+    },
+    {
+      "episode": 8,
+      "file": "m4a/Episodes/ep08.m4a",
+      "transcript": "transcripts/ep08.vtt",
+      "title": "08_TheHouseOfTheDead_Part02_Part01",
+      "start_ms": 166926827,
+      "length_ms": 5451209
+    },
+    {
+      "episode": 9,
+      "file": "m4a/Episodes/ep09.m4a",
+      "transcript": "transcripts/ep09.vtt",
+      "title": "09_TheHouseOfTheDead_Part02_Part02",
+      "start_ms": 172378036,
+      "length_ms": 3979993
+    },
+    {
+      "episode": 10,
+      "file": "m4a/Episodes/ep10.m4a",
+      "transcript": "transcripts/ep10.vtt",
+      "title": "10_TheHouseOfTheDead_Part02_Part03",
+      "start_ms": 176358029,
+      "length_ms": 6681356
+    },
+    {
+      "episode": 11,
+      "file": "m4a/Episodes/ep11.m4a",
+      "transcript": "transcripts/ep11.vtt",
+      "title": "11_TheHouseOfTheDead_Part02_Part04",
+      "start_ms": 183039385,
+      "length_ms": 5762263
+    },
+    {
+      "episode": 12,
+      "file": "m4a/Episodes/ep12.m4a",
+      "transcript": "transcripts/ep12.vtt",
+      "title": "12_TheHouseOfTheDead_Part02_Part05",
+      "start_ms": 188801648,
+      "length_ms": 6590984
+    },
+    {
+      "episode": 13,
+      "file": "m4a/Episodes/ep13.m4a",
+      "transcript": "transcripts/ep13.vtt",
+      "title": "13_TheHouseOfTheDead_Part02_Part06",
+      "start_ms": 195392632,
+      "length_ms": 1201771
+    }
+  ]
+}

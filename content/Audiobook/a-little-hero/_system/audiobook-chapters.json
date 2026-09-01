@@ -1,0 +1,41 @@
+{
+  "schema": "podcast.audiobook-chapters/v1",
+  "collection": "dostoyevsky",
+  "work": "A_Little_Hero",
+  "slug": "a-little-hero",
+  "source_container": "/Users/asifhussain/Documents/DVDFab/BookFab/eBook_Converted/audible/The Complete Fyodor Dostoyevsky Collection.mp3",
+  "chapters": [
+    {
+      "episode": 1,
+      "file": "m4a/Episodes/ep01.m4a",
+      "transcript": "transcripts/ep01.vtt",
+      "title": "01_A_Little_Hero_OpeningCredits",
+      "start_ms": 29313879,
+      "length_ms": 13606
+    },
+    {
+      "episode": 2,
+      "file": "m4a/Episodes/ep02.m4a",
+      "transcript": "transcripts/ep02.vtt",
+      "title": "02_A_Little_Hero_Introduction",
+      "start_ms": 29327485,
+      "length_ms": 552402
+    },
+    {
+      "episode": 3,
+      "file": "m4a/Episodes/ep03.m4a",
+      "transcript": "transcripts/ep03.vtt",
+      "title": "03_A_Little_Hero_ALittleHeropart1",
+      "start_ms": 29879887,
+      "length_ms": 2587956
+    },
+    {
+      "episode": 4,
+      "file": "m4a/Episodes/ep04.m4a",
+      "transcript": "transcripts/ep04.vtt",
+      "title": "04_A_Little_Hero_ALittleHeropart2",
+      "start_ms": 32467843,
+      "length_ms": 2992262
+    }
+  ]
+}
