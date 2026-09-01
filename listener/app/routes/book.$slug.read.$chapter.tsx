@@ -7,8 +7,6 @@ import {
   faHeadphones,
   faImages,
   faNoteSticky,
-  faPause,
-  faPlay,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router";
 
@@ -21,6 +19,7 @@ import { NotesList } from "~/components/reader/NotesList";
 import { ContentsPanel } from "~/components/reader/ContentsPanel";
 import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
+import { ChapterListenControl } from "~/components/reader/ChapterListenControl";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
 import { type Cue } from "~/components/player/Transcript";
@@ -906,35 +905,11 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
         </div>
 
         {narration !== null && player !== null ? (
-          <div className="pf-reader-listen">
-            <button
-              type="button"
-              onClick={playNarration}
-              aria-pressed={narrationActive && player.playing === true}
-              title={
-                narrationActive && player.playing === true
-                  ? "Pause chapter audio"
-                  : "Listen to this chapter"
-              }
-              className="pf-reader-listen__button"
-            >
-              <Icon
-                icon={
-                  narrationActive && player.playing === true ? faPause : faPlay
-                }
-                title={
-                  narrationActive && player.playing === true
-                    ? "Pause chapter audio"
-                    : "Listen to this chapter"
-                }
-              />
-              <span className="sr-only">
-                {narrationActive && player.playing === true
-                  ? "Pause chapter audio"
-                  : "Listen to this chapter"}
-              </span>
-            </button>
-          </div>
+          <ChapterListenControl
+            active={narrationActive}
+            playing={player.playing === true}
+            onToggle={playNarration}
+          />
         ) : null}
       </div>
 
