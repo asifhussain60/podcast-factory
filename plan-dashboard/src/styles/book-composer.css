@@ -4763,10 +4763,26 @@ button.cx-hdr-btn--publish.is-pending::after {
   gap: var(--sp-4, 1rem);
   flex-wrap: wrap;
   padding: 0.55rem clamp(0.75rem, 3vw, 2rem);
+  /* A GROUND OF ITS OWN, not the sheet's (Asif, 2026-09-01: "so I can visually
+     see it separate from the reader"). It was `--c-bg-card` — the same near-white
+     the chapter is printed on — so the strip read as the last inch of the page
+     rather than as a control attached to the window, and a hairline border was
+     the only thing saying otherwise.
+
+     Sunken plus a trace of the accent: recessed says "beneath the page", the
+     warmth says "this belongs to the book" rather than to the browser. Mixed
+     from tokens rather than set as a colour, so the dark theme's own values
+     carry it and the palette is unchanged. The border above it goes solid
+     `--c-rule` at full strength for the same reason the ground changed — the
+     seam should be visible without being looked for. */
   border-top: 1px solid var(--c-rule, #d9d3c4);
-  background: var(--c-bg-card, #fffdf8);
-  box-shadow: 0 -2px 12px
-    color-mix(in oklab, var(--c-ink, #1f1d18) 8%, transparent);
+  background: color-mix(
+    in oklab,
+    var(--c-accent, #8b4513) 6%,
+    var(--c-bg-sunken, #efeae0)
+  );
+  box-shadow: 0 -3px 14px
+    color-mix(in oklab, var(--c-ink, #1f1d18) 12%, transparent);
   font-size: 0.95rem;
   color: var(--c-ink-dim, #5c574d);
 }
