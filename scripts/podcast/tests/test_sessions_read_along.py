@@ -372,3 +372,75 @@ def test_timing_only_never_rewrites_a_chapter() -> None:
     branch = src[src.index("if timing_only:") : src.index("continue", src.index("if timing_only:")) + len("continue")]
     assert "write_chapter_body" not in branch
     assert "correct(" not in branch and "restore_script(" not in branch
+
+
+# ---------------------------------------------------------------------------
+# The lane carries a second source now, and three KSESSIONS assumptions were
+# hiding in this module until an audiobook reached it (2026-09-01).
+# ---------------------------------------------------------------------------
+
+
+def _spoken_book(tmp_path, *, profile: str, voice: str = "faithful"):
+    (tmp_path / "_system").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "m4a" / "Episodes").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "_system" / "series-config.yaml").write_text(
+        f"content_profile: {profile}\nbook_voice: {voice}\n", encoding="utf-8"
+    )
+    return tmp_path
+
+
+def test_a_faithful_audiobook_may_be_timed_without_articulation_having_run(tmp_path):
+    """An audiobook's prose is the narrator's words. Articulating it is the one
+    thing this module's opening paragraph says must never happen, so waiting for
+    that step is waiting forever — which is where `white-nights` sat."""
+    from sessions.read_along import _articulation_not_applicable
+
+    book = _spoken_book(tmp_path, profile="audiobook")
+    assert _articulation_not_applicable(book, timing_only=True) is True
+
+
+def test_but_only_on_a_timing_only_run(tmp_path):
+    """A full run rewrites prose, which is exactly what the gate exists to order."""
+    from sessions.read_along import _articulation_not_applicable
+
+    book = _spoken_book(tmp_path, profile="audiobook")
+    assert _articulation_not_applicable(book, timing_only=False) is False
+
+
+def test_a_sessions_lecture_is_never_exempt(tmp_path):
+    """There articulation is real work, `pending` means not yet, and timing first
+    would time prose that is about to change."""
+    from sessions.read_along import _articulation_not_applicable
+
+    book = _spoken_book(tmp_path, profile="islamic_scholarly")
+    assert _articulation_not_applicable(book, timing_only=True) is False
+
+
+def test_a_recording_is_found_whatever_container_it_was_delivered_in(tmp_path):
+    """`.mp3` was the whole rule, written for KSESSIONS lectures. The first
+    audiobook through this step reported "recording ep01.mp3 is not on disk"
+    eight times for eight files that were sitting right there as `.m4a`."""
+    from sessions.read_along import _recording
+
+    book = _spoken_book(tmp_path, profile="audiobook")
+    assert _recording(book, 1) is None
+    (book / "m4a" / "Episodes" / "ep01.m4a").write_bytes(b"")
+    assert _recording(book, 1).name == "ep01.m4a"
+    # mp3 still wins where both exist — the lectures' own format is unchanged.
+    (book / "m4a" / "Episodes" / "ep01.mp3").write_bytes(b"")
+    assert _recording(book, 1).name == "ep01.mp3"
+
+
+def test_progress_is_recorded_for_a_book_outside_the_ksessions_registry(tmp_path):
+    """`SERIES[slug]` was the whole state writer, so the first audiobook to reach
+    this step raised KeyError AFTER the manifest had already been written."""
+    from sessions.read_along import _record_progress
+
+    book = _spoken_book(tmp_path, profile="audiobook")
+    _record_progress(book, "some-audiobook")
+    state = json.loads((book / "_system" / "orchestrator-state.json").read_text(encoding="utf-8"))
+    assert state["last_completed_phase"] == "sessions-read-along"
+    assert state["branch"] == "Audiobook/some-audiobook"
+    # And it must NOT claim the step this book legitimately skipped.
+    assert state["phases"]["sessions-articulate"]["status"] == "pending"
+    assert state["status"] == "draft"

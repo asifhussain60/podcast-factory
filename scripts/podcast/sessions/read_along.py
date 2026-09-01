@@ -65,9 +65,14 @@ from _cue_gate import Timing, drop_swallowing_paragraphs, verdict  # noqa: E402
 from _paths import resolve_content  # noqa: E402
 from _transcript import from_vtt  # noqa: E402
 from reader_narration import audio_duration_seconds, chapter_blocks  # noqa: E402
+from spoken_lane.sources import AUDIO_EXTENSIONS
+from spoken_lane.sources import (  # noqa: E402
+    articulation_not_applicable as _articulation_not_applicable,
+)
+from spoken_lane.sources import record_progress as _record_progress
+from spoken_lane.sources import recording as _recording
 
-from sessions.ingest import ARTICULATE_STEP, READ_ALONG_STEP, _write_state  # noqa: E402
-from sessions.series import SERIES  # noqa: E402
+from sessions.ingest import ARTICULATE_STEP, READ_ALONG_STEP  # noqa: E402
 from sessions.spoken import spoken_chapters  # noqa: E402
 
 PHASE = "sessions-read-along"
@@ -389,10 +394,11 @@ def read_along_book(
                 from_vtt(vtt.read_text(encoding="utf-8")),
             )
 
-        audio = book_dir / "m4a" / "Episodes" / f"ep{episode:02d}.mp3"
-        if not audio.exists():
+        audio = _recording(book_dir, episode)
+        if audio is None:
+            wanted = "/".join(f"ep{episode:02d}{ext}" for ext in AUDIO_EXTENSIONS)
             for _key, entry in members:
-                untimed.append(f"{entry['title']}: recording ep{episode:02d}.mp3 is not on disk")
+                untimed.append(f"{entry['title']}: no recording on disk — looked for {wanted}")
             continue
         recording_s = round(audio_duration_seconds(audio), 3)
 
@@ -424,7 +430,7 @@ def read_along_book(
                 "title": title,
                 "episode": episode,
                 "audio": f"m4a/Episodes/{audio.name}",
-                "audio_key": f"{book_dir.name}/audio/ep{episode:02d}.mp3",
+                "audio_key": f"{book_dir.name}/audio/{audio.name}",
                 # The RECORDING's length, not the last cue's end. They coincide
                 # when the alignment reached the final paragraph and diverge
                 # exactly when it did not — so taking it from the cues would
@@ -466,7 +472,11 @@ def read_along_book(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("slug", choices=sorted(SERIES))
+    # No `choices=sorted(SERIES)`. That list is the KSESSIONS registry, so the
+    # spoken lane's own CLI could not name a book from any other source — an
+    # audiobook was rejected by argparse before a line of this module ran. The
+    # slug is validated by `resolve_content` below, which knows every bucket.
+    parser.add_argument("slug", help="book slug (any spoken-lane book, not only a KSESSIONS series)")
     parser.add_argument("--force", action="store_true", help="redo chapters already corrected")
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--dry-run", action="store_true")
@@ -489,7 +499,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"could not read orchestrator-state.json: {exc}", file=sys.stderr)
         return 2
     art_status = ((state.get("phases") or {}).get(ARTICULATE_STEP) or {}).get("status")
-    if art_status != "completed":
+    if art_status != "completed" and not _articulation_not_applicable(book_dir, timing_only=args.timing_only):
         print(
             f"read-along: refusing — sessions-articulate is {art_status!r}, not completed. "
             "Run articulate.py to the end first.",
@@ -504,7 +514,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.dry_run:
         return 0
 
-    _write_state(book_dir, SERIES[args.slug], done_through=READ_ALONG_STEP)
+    _record_progress(book_dir, args.slug)
     print(f"read-along: orchestrator-state.json now reports through {READ_ALONG_STEP!r}")
     return 0
 
