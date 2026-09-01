@@ -82,7 +82,7 @@ class Chapter:
 #: anything outside it is dropped rather than guessed. Named (rather than left as
 #: the inline literal it was until 2026-08-30) so the intake form can offer exactly
 #: these values instead of restating the list and drifting from it.
-STUDY_TRACKS: frozenset[str] = frozenset({"theology", "history", "shariah", "esoteric", "reality"})
+STUDY_TRACKS: frozenset[str] = frozenset({"theology", "history", "shariah", "esoteric", "reality", "philosophy"})
 
 
 @dataclass

@@ -36,7 +36,9 @@ from pathlib import Path
 
 from _book_edits import anchor_key, apply_composer_edits
 from _book_frontmatter import apply_introduction
+from _branching import branch_name
 from _paths import content_dir, ensure_book_skeleton
+from spoken_lane import scaffold as _scaffold
 
 from .convert import convert, localise_images
 from .dump import Session, duplicate_transcripts, load_sessions
@@ -134,88 +136,27 @@ def _title_of(series: Series, session: Session) -> str:
 # Deliberately the SAME file the orchestrator writes, under the same key. A
 # second progress file for a second lane would be a second answer to one
 # question, and the first tool to read the wrong one would be silently wrong.
-LANE_STEPS: tuple[str, ...] = (
-    "sessions-ingest",
-    "sessions-transcribe",
-    "sessions-articulate",
-    "sessions-read-along",
-    "sessions-preface",
-    "sessions-apparatus",
-)
-
-#: The one lane step this module does not run. Named so `_write_state` and
-#: `articulate.py` cannot disagree about which step that is.
-ARTICULATE_STEP = "sessions-articulate"
-
-#: The step that pairs a spoken chapter's prose against the recording it came
-#: from. Also not run by this module, and also long enough (model calls per
-#: chapter) that its own status must be carried over rather than derived from
-#: position — same reasoning as ARTICULATE_STEP, one step later in the lane.
-READ_ALONG_STEP = "sessions-read-along"
+LANE_STEPS = _scaffold.LANE_STEPS
+ARTICULATE_STEP = _scaffold.ARTICULATE_STEP
+READ_ALONG_STEP = _scaffold.READ_ALONG_STEP
 
 
 def _write_state(book_dir: Path, series: Series, *, done_through: str) -> None:
-    """Record what this lane has actually finished, and claim nothing else.
+    """Record this KSESSIONS series' progress through the shared spoken lane.
 
-    `status` is `draft` and stays `draft`: publishing is a decision a person
-    makes, and nothing here may make a book audience-facing by running.
+    The lane's step sequence and its state-file shape moved to
+    `spoken_lane/scaffold.py` on 2026-09-01, when a second source (audiobooks)
+    joined the lane: keeping them here would have meant the lane was whatever
+    this KSESSIONS-specific module said it was. What stays here is the one thing
+    that IS specific to this source — that its books are `lectures` on the
+    `Sessions` shelf.
     """
-    path = book_dir / "_system" / "orchestrator-state.json"
-    prior = {}
-    if path.exists():
-        try:
-            prior = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, ValueError):
-            prior = {}
-
-    cut = LANE_STEPS.index(done_through)
-    phases = {step: {"status": "completed" if i <= cut else "pending"} for i, step in enumerate(LANE_STEPS)}
-
-    # `sessions-articulate` is the one step in this list the ingest does not
-    # perform — `articulate.py` does, on its own, because it is hours of model
-    # time and re-running the ingest must stay a cheap deterministic walk. So its
-    # status is carried over rather than derived from position (2026-08-11).
-    # Until this, finishing the preface marked it complete purely by sitting
-    # earlier in the tuple, and both Sessions books reported "Refining the
-    # language ✓" for a pass that had no code behind it at all.
-    #
-    # `sessions-read-along` gets the same treatment, EXCEPT when THIS call is
-    # the one reporting it done. `read_along.py` marks its own completion
-    # through this same writer (`done_through=READ_ALONG_STEP`, unlike
-    # `articulate.py`, which patches its own phase entry directly) — carrying
-    # over the prior status unconditionally would have made the call a no-op
-    # for the one step it exists to record, because the "prior" value read here
-    # is always the PRE-completion status. Found 2026-08-15: `read_along.py`
-    # printed success on every run and never once left `completed` behind.
-    if done_through != ARTICULATE_STEP:
-        prior_articulate = (prior.get("phases") or {}).get(ARTICULATE_STEP) or {}
-        phases[ARTICULATE_STEP] = {"status": str(prior_articulate.get("status") or "pending")}
-    if done_through != READ_ALONG_STEP:
-        prior_read_along = (prior.get("phases") or {}).get(READ_ALONG_STEP) or {}
-        phases[READ_ALONG_STEP] = {"status": str(prior_read_along.get("status") or "pending")}
-
-    path.write_text(
-        json.dumps(
-            {
-                "schema_version": 1,
-                "book_slug": series.slug,
-                "category": "lectures",
-                "branch": f"Sessions/{series.slug}",
-                "pipeline_mode": "sessions_lane",
-                "phase": done_through,
-                "phase_status": "completed",
-                "last_completed_phase": done_through,
-                "next_phase": LANE_STEPS[cut + 1] if cut + 1 < len(LANE_STEPS) else None,
-                "last_error": None,
-                "phases": phases,
-                # Never promoted here. `publish_to_library.py` is what flips it,
-                # and only after a person has looked at the book.
-                "status": prior.get("status", "draft"),
-            },
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
+    _scaffold.write_state(
+        book_dir,
+        slug=series.slug,
+        branch=branch_name("lectures", series.slug, profile=PROFILE),
+        category="lectures",
+        done_through=done_through,
     )
 
 

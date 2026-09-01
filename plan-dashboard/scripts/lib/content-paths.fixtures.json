@@ -32,7 +32,8 @@
       "Fiction",
       "Guides",
       "Supplications",
-      "Sessions"
+      "Sessions",
+      "Audiobook"
     ],
     "stages": ["drafts", "published"],
     "statuses": ["draft", "published", "archived"],

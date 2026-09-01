@@ -68,6 +68,8 @@ const REGIONS = [
       ["--l-ribbon-shariah-ink", "--track-shariah-ink"],
       ["--l-ribbon-reality-bg", "--track-reality-bg"],
       ["--l-ribbon-reality-ink", "--track-reality-ink"],
+      ["--l-ribbon-philosophy-bg", "--track-philosophy-bg"],
+      ["--l-ribbon-philosophy-ink", "--track-philosophy-ink"],
     ],
   },
 ];

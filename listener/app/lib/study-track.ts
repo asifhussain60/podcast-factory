@@ -5,7 +5,12 @@
  * touched.
  */
 export type StudyTrack =
-  "theology" | "history" | "shariah" | "esoteric" | "reality";
+  | "theology"
+  | "history"
+  | "shariah"
+  | "esoteric"
+  | "reality"
+  | "philosophy";
 
 const LABELS: Record<StudyTrack, string> = {
   theology: "Theology",
@@ -13,6 +18,7 @@ const LABELS: Record<StudyTrack, string> = {
   shariah: "Shariah",
   esoteric: "Esoteric",
   reality: "Reality",
+  philosophy: "Philosophy",
 };
 
 /** Display order for the filter chips — not alphabetical, so a book's own
@@ -23,6 +29,7 @@ export const ALL_STUDY_TRACKS: StudyTrack[] = [
   "theology",
   "esoteric",
   "reality",
+  "philosophy",
 ];
 
 export function isStudyTrack(value: string | null): value is StudyTrack {

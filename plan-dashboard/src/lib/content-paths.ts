@@ -53,6 +53,7 @@ export const BUCKETS = [
   "Guides",
   "Supplications",
   "Sessions",
+  "Audiobook",
 ] as const;
 export type Bucket = (typeof BUCKETS)[number];
 

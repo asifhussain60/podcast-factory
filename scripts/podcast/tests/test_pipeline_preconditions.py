@@ -172,6 +172,14 @@ def test_the_live_run_s_own_markers_would_pass(tmp_path):
 # word-count band written for authored episodes. Two fixes, both here.
 
 
+#: The profiles whose audio ALREADY EXISTS, so there is no episode to generate.
+#: Listed here rather than derived from `skip_per_chapter` itself — deriving it
+#: would make the test below assert that a thing equals itself. Adding a profile
+#: here is the deliberate act of saying "this one has no podcast", which is
+#: exactly the decision the test exists to keep honest.
+SPOKEN_LANE_PROFILES = {"islamic_session", "audiobook"}
+
+
 def test_a_recorded_session_skips_the_podcast_lane():
     """The audio already exists and IS the lecture — there is no episode to
     build and nothing for a challenger to converge."""
@@ -180,13 +188,20 @@ def test_a_recorded_session_skips_the_podcast_lane():
     assert phase_capabilities("islamic_session").skip_per_chapter is True
 
 
+def test_an_audiobook_skips_the_podcast_lane():
+    """Same reason, different source: the narrator already read the book."""
+    from _content_types import phase_capabilities
+
+    assert phase_capabilities("audiobook").skip_per_chapter is True
+
+
 def test_every_other_profile_still_runs_the_podcast_lane():
     """The capability defaults False. A book that had episodes yesterday must
     still have them today."""
     from _content_types import CONTENT_TYPE_REGISTRY, phase_capabilities
 
     for profile in CONTENT_TYPE_REGISTRY:
-        if profile == "islamic_session":
+        if profile in SPOKEN_LANE_PROFILES:
             continue
         assert phase_capabilities(profile).skip_per_chapter is False, profile
 

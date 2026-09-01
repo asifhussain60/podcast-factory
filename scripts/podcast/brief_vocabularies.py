@@ -67,6 +67,11 @@ FAMILIES: tuple[tuple[str, str, str], ...] = (
     ("explainer", "Explainer or guide", "Onboarding, product and consumer explainers."),
     ("general", "General non-fiction", "Everything else written to inform."),
     ("supplication", "Supplication", "Prayers and devotional recitation."),
+    (
+        "audiobook",
+        "Audiobook",
+        "A published book read aloud — someone else's text, narrated.",
+    ),
 )
 
 #: family -> {source_medium -> content_profile}. A family whose two media resolve
@@ -96,6 +101,17 @@ FAMILY_PROFILES: dict[str, dict[str, str]] = {
         _flags.SOURCE_PRINTED_TEXT: "islamic_supplication",
         _flags.SOURCE_AUDIO_LECTURE: "islamic_supplication",
     },
+    # An audiobook is audio by definition, so the medium answer cannot change
+    # what it is -- both entries resolve to the same profile, exactly as every
+    # non-Islamic family above does. `audio_lecture` is the answer that fits, and
+    # picking it is what reveals the three fields this route actually needs on
+    # the form (arabic_restoration, source_fidelity, chapter_segmentation); a
+    # third `source_medium` value would have meant touching every `showIf` gate
+    # and adding a column to all seven families to express nothing new.
+    "audiobook": {
+        _flags.SOURCE_PRINTED_TEXT: "audiobook",
+        _flags.SOURCE_AUDIO_LECTURE: "audiobook",
+    },
 }
 
 #: The legacy `category` tag each profile defaults to. It is no longer asked on
@@ -111,6 +127,7 @@ PROFILE_CATEGORY: dict[str, str] = {
     "technical": "explainers",
     "consumer_explainer": "explainers",
     "general_nonfiction": "books",
+    "audiobook": "books",
 }
 
 
@@ -194,6 +211,7 @@ _STUDY_TRACK_GLOSS: dict[str, str] = {
     "shariah": "Law, practice, and what is required.",
     "esoteric": "Inner meaning beneath the plain sense of the text.",
     "reality": "Metaphysics — origin, return, and the structure of being.",
+    "philosophy": "Reasoned enquiry into meaning, morals, and the human condition.",
 }
 
 _CONTENT_LEVEL_GLOSS: dict[str, str] = {
