@@ -364,3 +364,34 @@ def test_a_book_with_neither_has_no_episodes_and_does_not_raise(tmp_path):
 
     (tmp_path / "_system").mkdir(parents=True)
     assert read_episodes(tmp_path) == []
+
+
+# ---------------------------------------------------------------------------
+# Every card prints a credit, and it prints one that fits.
+# ---------------------------------------------------------------------------
+
+
+def test_a_book_with_no_author_is_credited_anonymous_not_left_blank():
+    """The card is a jacket and a jacket always prints a credit, so the absence
+    of a name is answered here rather than by a rule in the template."""
+    from _listener_book import ANONYMOUS, credit
+
+    assert credit({}) == (ANONYMOUS, ANONYMOUS)
+    assert credit({"author": "   "}) == (ANONYMOUS, ANONYMOUS)
+
+
+def test_the_alias_is_what_a_card_prints_and_the_full_name_survives():
+    from _listener_book import credit
+
+    assert credit({"author": "Hamid al-Din Ahmad ibn Abdullah al-Kirmani", "author_short": "Al-Kirmani"}) == (
+        "Hamid al-Din Ahmad ibn Abdullah al-Kirmani",
+        "Al-Kirmani",
+    )
+
+
+def test_without_an_alias_the_full_name_is_used_rather_than_being_shortened():
+    """Never derived. Shortening an Arabic name by rule means guessing which part
+    is the surname, and Arabic names do not have one."""
+    from _listener_book import credit
+
+    assert credit({"author": "Asif Hussain"}) == ("Asif Hussain", "Asif Hussain")

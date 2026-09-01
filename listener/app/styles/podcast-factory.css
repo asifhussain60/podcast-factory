@@ -4104,14 +4104,34 @@
     position: relative;
     /* Clips the arch below — see ::after. */
     overflow: hidden;
+    /* A COLUMN since the credit joined the title (2026-09-01). It was a plain
+       centred flex row holding one child; with two it has to stack them, and
+       `justify-content: center` keeps the pair optically centred in the band
+       exactly as the single title was. The ornaments are pinned rather than flex
+       items — see their own rule — so they are unaffected by the axis change. */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     /* A fixed height, not a minimum. A two-line Arabic title on one card beside
        a one-line title on the next would start their bodies at different
        heights, and a grid of cards that do not agree where their white begins
-       reads as broken rather than varied. */
-    height: 10.5rem;
+       reads as broken rather than varied.
+
+       11.5rem since the jacket credit joined the title (2026-09-01). The band
+       holds two things where it held one, and the Arabic went UP rather than
+       down to keep the title dominant — so the container grows instead of the
+       type shrinking. Raising it is safe precisely because it is shared: every
+       card gets the same number, so the white still begins at one height across
+       the grid.
+
+       The number is the CONTENT, measured: the tallest case is a two-line Arabic
+       title plus a credit at 152px, and 184 leaves 16px above and below — enough
+       that the title clears the bucket pill pinned in the corner. Do NOT size
+       this from `scrollHeight`: the band's `::after` arch deliberately overhangs
+       and is clipped, so scrollHeight reads 25px over on every card regardless
+       of what is in it, which is what sent the first attempt to 12.25rem. */
+    height: 11.5rem;
     padding: var(--pf-space-4) var(--pf-space-7);
     background: var(--l-band);
     text-align: center;
@@ -4124,8 +4144,14 @@
        column. Amiri also sets smaller than Scheherazade at a given size, hence
        the bump from 1.95rem. */
     font-family: var(--l-font-arabic-display);
-    font-size: 2.35rem;
-    line-height: 1.55;
+    /* Raised from 2.35rem when the credit joined it below (Asif, 2026-09-01:
+       "the English author font size is larger than the arabic — the Arabic
+       should be the more prominent one"). It was not literally larger — 37.6px
+       against a 12px credit — but Arabic sets with far less visual mass per em
+       than tracked Latin capitals, so the two read as level. Type is judged by
+       the eye, not the number, and the eye was right. */
+    font-size: 2.7rem;
+    line-height: 1.45;
     overflow-wrap: break-word;
     /* Two lines is what a band this tall holds. A third would be cut through
        the middle of the letterforms, and for vowelled Arabic — where the marks
@@ -4146,13 +4172,53 @@
 
   /* The fallback, for the books with no Arabic title at all. Display serif at a
      size that fills the same band without pretending to be Arabic. */
+  /* THE JACKET CREDIT. A cover prints the author beneath the title, smaller and
+     quieter, and that is what this is — set on the band, not in the white body,
+     because the band is the cover.
+
+     Tracked out and uppercase, which is the single move that separates a CREDIT
+     from a subtitle: at this size, in sentence case, it would read as the second
+     half of the title. `--l-band-muted` is the band's own quiet ink, already
+     contrast-measured against every band in all three themes and all three
+     collections (5.1-6.5:1), so it recedes without dropping under the floor.
+
+     It inherits the collection's face from `.pf-book__band`, so the title and
+     the credit are one typographic voice per collection rather than two.
+
+     Clamped to two lines: a very long attribution ("Qadi al-Nu'man ibn Muhammad
+     ibn Hayyun al-Tamimi") must not push the band past the fixed height every
+     card shares — a grid whose white begins at different heights reads as broken
+     rather than varied, which is the rule the band's own comment states. */
+  .pf-book__author {
+    margin-block-start: var(--pf-space-3);
+    font-size: var(--pf-text-xs);
+    line-height: 1.3;
+    letter-spacing: var(--pf-tracking-eyebrow);
+    text-transform: uppercase;
+    /* Quiet, and quieter than it was. The credit must sit UNDER the title in the
+       hierarchy, and against Arabic — which carries less visual weight per em
+       than tracked Latin capitals — a full-strength muted ink was enough to draw
+       the eye first. Mixed toward the band rather than swapped for a new token,
+       so it stays the band's own colour in every theme and collection. */
+    color: color-mix(in oklab, var(--l-band-muted) 82%, var(--l-band));
+    /* ONE line, now that the alias exists: it is chosen to fit, so a clamp that
+       could wrap would only hide a badly-chosen alias instead of showing it. */
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .pf-book__band-title--latin {
     font-family: var(--l-font-card-title);
     font-size: var(--pf-text-xl);
     line-height: 1.3;
     letter-spacing: var(--pf-tracking-tight);
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    /* Two lines, not three. The band's height is fixed so every card's white
+       begins at the same place, and the credit below now needs a line of it —
+       three lines of title plus two of author overflowed a 10.5rem band. */
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   /* Pinned to the band's edges rather than sitting in the flex row: as flex

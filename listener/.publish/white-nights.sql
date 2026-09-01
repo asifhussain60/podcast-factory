@@ -1,6 +1,6 @@
 INSERT INTO content_unit (slug, bucket, title, kind, sort_order) VALUES ('white-nights', 'Audiobook', 'White Nights', 'book', 0) ON CONFLICT(slug) DO UPDATE SET bucket = excluded.bucket, title = excluded.title;
 DELETE FROM unit_detail WHERE slug = 'white-nights';
-INSERT INTO unit_detail (slug, title_arabic, title_language, study_track, blurb_html, edition_note, cover_key, pdf_key, published_at, source_commit) VALUES ('white-nights', NULL, NULL, 'philosophy', NULL, NULL, NULL, NULL, '2026-09-01T22:32:47Z', '3ee76e8c5f28f15120e47d25988fb9db80ebe525');
+INSERT INTO unit_detail (slug, author, author_short, title_arabic, title_language, study_track, blurb_html, edition_note, cover_key, pdf_key, published_at, source_commit) VALUES ('white-nights', 'Fyodor Dostoyevsky', 'Dostoyevsky', NULL, NULL, 'philosophy', NULL, NULL, NULL, NULL, '2026-09-01T23:58:40Z', '9dcd3c856fc68c1ebd2ae397f48bd2f04fc08e61');
 DELETE FROM chapter WHERE slug = 'white-nights';
 INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES ('white-nights', 'opening credits', 1, 'Opening Credits', '', 24);
 UPDATE chapter SET html = html || '<p>This is White Nights, a poignant tale of love, loneliness, and dreams, written by Fyodor Dostoyevsky, translated by Tim Zengerink, narrated by Zeke Ring.</p>' WHERE slug = 'white-nights' AND anchor_key = 'opening credits';

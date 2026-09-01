@@ -217,6 +217,11 @@ export function BookBand({
   card: LibraryCard | null;
 }) {
   const originalTitle = card?.titleOriginal ?? null;
+  // The alias, because it fits on one line. The full attribution goes to the
+  // accessible name and the tooltip — a religious text's author is not a thing
+  // to lose, only a thing that does not fit on a card.
+  const author = card?.authorShort ?? card?.author ?? "Anonymous";
+  const authorFull = card?.author ?? author;
   const originalLanguage = card?.titleLanguage ?? "ar";
   const studyTrack = card?.studyTrack ?? null;
   const trackLabel = studyTrackLabel(studyTrack);
@@ -256,6 +261,23 @@ export function BookBand({
           {originalTitle}
         </p>
       )}
+
+      {/* The jacket credit. A cover prints the author under the title, smaller
+          and quieter, and that is the whole reason this sits in the BAND rather
+          than down in the white body with the buttons: the band is the cover.
+
+          Never conditional. The column is NOT NULL with an 'Anonymous' default
+          and the loader coalesces the LEFT JOIN, so there is always a name to
+          set — which is what lets every card in the grid keep the same shape
+          instead of some of them starting their white a line higher.
+
+          No "by". A jacket rarely prints it and position carries the meaning;
+          the accessible name below supplies it for a reader who cannot see the
+          layout. */}
+      <p className="pf-book__author" title={authorFull}>
+        <span className="sr-only">Written by {authorFull}</span>
+        <span aria-hidden="true">{author}</span>
+      </p>
 
       <span
         className="pf-book__ornament pf-book__ornament--end"

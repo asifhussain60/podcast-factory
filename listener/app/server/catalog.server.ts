@@ -102,6 +102,18 @@ export interface Session {
 export interface UnitDetail {
   titleOriginal: string | null;
   titleLanguage: "ar" | "ur" | "zh" | null;
+  /**
+   * Who wrote it. NEVER null — the column is NOT NULL with an 'Anonymous'
+   * default, so a card can print a credit unconditionally the way a jacket
+   * does, instead of the template carrying a rule about missing names.
+   *
+   * `?? "Anonymous"` below is for the LEFT JOIN, not for the column: a
+   * `content_unit` row with no `unit_detail` yet yields SQL NULL for every `d.`
+   * field regardless of that column's default.
+   */
+  author: string;
+  /** The one-line form a card prints — see migration 0021. Never null. */
+  authorShort: string;
   /** Rendered at publish time by the same function as the chapters. */
   blurbHtml: string | null;
   editionNote: string | null;
@@ -183,13 +195,15 @@ export async function detailOf(
 ): Promise<UnitDetail | null> {
   const row = await db
     .prepare(
-      `SELECT d.title_arabic, d.title_language, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
+      `SELECT d.author, d.author_short, d.title_arabic, d.title_language, d.blurb_html, d.edition_note, d.cover_key, d.pdf_key, d.published_at,
               (SELECT m.bytes       FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_bytes,
               (SELECT m.uploaded_at FROM media_asset m WHERE m.key = d.pdf_key) AS pdf_uploaded_at
        FROM unit_detail d WHERE d.slug = ? LIMIT 1`,
     )
     .bind(slug)
     .first<{
+      author: string | null;
+      author_short: string | null;
       title_arabic: string | null;
       title_language: "ar" | "ur" | "zh" | null;
       blurb_html: string | null;
@@ -204,6 +218,8 @@ export async function detailOf(
   if (row === null) return null;
 
   return {
+    author: row.author ?? "Anonymous",
+    authorShort: row.author_short ?? row.author ?? "Anonymous",
     titleOriginal: row.title_arabic,
     titleLanguage:
       row.title_arabic === null ? null : (row.title_language ?? "ar"),
@@ -508,6 +524,18 @@ export interface LibraryCard {
   deckAvailable: boolean;
   titleOriginal: string | null;
   titleLanguage: "ar" | "ur" | "zh" | null;
+  /**
+   * Who wrote it. NEVER null — the column is NOT NULL with an 'Anonymous'
+   * default, so a card can print a credit unconditionally the way a jacket
+   * does, instead of the template carrying a rule about missing names.
+   *
+   * `?? "Anonymous"` below is for the LEFT JOIN, not for the column: a
+   * `content_unit` row with no `unit_detail` yet yields SQL NULL for every `d.`
+   * field regardless of that column's default.
+   */
+  author: string;
+  /** The one-line form the card actually prints — see migration 0021. */
+  authorShort: string;
   /** The library ribbon's category — null on a book not yet classified. */
   studyTrack: string | null;
 }
@@ -542,6 +570,8 @@ export async function libraryCards(
   const { results } = await db
     .prepare(
       `SELECT u.slug,
+              d.author,
+              d.author_short,
               d.title_arabic,
               d.title_language,
               d.study_track,
@@ -574,6 +604,8 @@ export async function libraryCards(
     .bind(...slugs)
     .all<{
       slug: string;
+      author: string | null;
+      author_short: string | null;
       title_arabic: string | null;
       title_language: "ar" | "ur" | "zh" | null;
       study_track: string | null;
@@ -599,6 +631,8 @@ export async function libraryCards(
       pdfAvailable: r.pdf_ready > 0,
       deckPages: r.deck_pages,
       deckAvailable: r.deck_ready > 0,
+      author: r.author ?? "Anonymous",
+      authorShort: r.author_short ?? r.author ?? "Anonymous",
       titleOriginal: r.title_arabic,
       titleLanguage:
         r.title_arabic === null ? null : (r.title_language ?? "ar"),

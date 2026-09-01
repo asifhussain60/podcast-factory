@@ -1,0 +1,17 @@
+-- The name that fits on one line.
+--
+-- 0020 gave every book its author. Several of them are long by tradition rather
+-- than by accident — "Qadi al-Nu'man ibn Muhammad ibn Hayyun al-Tamimi",
+-- "Hamid al-Din Ahmad ibn Abdullah al-Kirmani" — and a jacket credit that wraps
+-- to two lines and then clips mid-patronymic is worse than one that does not try
+-- (Asif, 2026-09-01: "an additional alias field that has a name that always fits
+-- in one line, e.g. Al-Kirmani, Dostoyevsky").
+--
+-- So the card prints the ALIAS and the full name stays available for the places
+-- with room for it. Two columns rather than one shortened in place, because the
+-- long form is the correct attribution of a religious text and truncating it in
+-- the database would lose it everywhere, not just on a card.
+--
+-- Defaults to 'Anonymous' for the same reason 0020's author does: the card
+-- prints a credit unconditionally, so the schema guarantees there is one.
+ALTER TABLE unit_detail ADD COLUMN author_short TEXT NOT NULL DEFAULT 'Anonymous';

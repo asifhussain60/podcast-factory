@@ -1,0 +1,18 @@
+-- Who wrote it.
+--
+-- The Library has never carried an author. Not a rendering gap: there was no
+-- column, the publisher never read one, and the card never asked — the name
+-- lived only in each book's `meta.yml` in the pipeline repo, which no reader can
+-- see. Asif (2026-09-01): "all cards should always show author names."
+--
+-- NOT NULL with a default, deliberately. The card is designed like a jacket, and
+-- a jacket always prints a credit — a nullable column would make "always" a
+-- thing the template has to remember rather than a thing the schema guarantees.
+-- Where no author is recorded the value is 'Anonymous' (Asif's answer), which is
+-- an honest statement about a work of unknown authorship rather than a blank
+-- where a name should be.
+--
+-- SQLite cannot add a NOT NULL column with a non-constant default in place, but
+-- a constant is exactly what this is, so a plain ALTER does it — no table
+-- rebuild, unlike 0017 and 0019 which had to change a CHECK.
+ALTER TABLE unit_detail ADD COLUMN author TEXT NOT NULL DEFAULT 'Anonymous';

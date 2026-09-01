@@ -54,6 +54,11 @@ from _paths import find_content  # noqa: E402
 
 LISTENER = Path(__file__).resolve().parents[2] / "listener"
 
+#: What a card credits when the book records no author (Asif, 2026-09-01). The
+#: string is shared with the migration's column default so the two cannot
+#: disagree about what an unattributed work is called.
+ANONYMOUS = "Anonymous"
+
 # A heading that opens a chapter of the reading edition. `# ` is the book title
 # and never a chapter; `### ` and deeper are sections inside one.
 CHAPTER_HEADING_RE = re.compile(r"^##\s+(?!#)(.+?)\s*$")
@@ -96,6 +101,19 @@ class Book:
     study_track: str | None
     blurb: str | None
     edition_note: str | None
+    #: Never empty. `ANONYMOUS` where a book records no author — the card is
+    #: designed like a jacket and a jacket always prints a credit, so "always" is
+    #: guaranteed here rather than remembered by a template.
+    #:
+    #: Defaulted rather than required so the loader stays the only place that has
+    #: to know how a missing author is spelled. Twenty-five tests construct a
+    #: `Book` directly to exercise media collection and the publish SQL, and none
+    #: of them is about attribution; making them all name an author would be
+    #: fixture noise that says nothing.
+    author: str = ANONYMOUS
+    #: The name a card can print on ONE line. Falls back to `author`, which is
+    #: right for the short ones and is why this is not required of every book.
+    author_short: str = ANONYMOUS
     chapters: list[Chapter] = field(default_factory=list)
     episodes: list[Episode] = field(default_factory=list)
     sessions: list[Session] = field(default_factory=list)
@@ -282,6 +300,25 @@ def read_bridge(book_dir: Path, chapters: list[Chapter]) -> list[tuple[int, str]
     return pairs
 
 
+def credit(meta: dict) -> tuple[str, str]:
+    """A book's author and the one-line form a card prints, from its `meta.yml`.
+
+    Its own function so the rule can be tested without a book on disk — the
+    loader around it resolves a slug through the content tree, which a unit test
+    would have to build a whole bucket to satisfy.
+
+    NEITHER IS EVER DERIVED. A missing author becomes `ANONYMOUS`, which is an
+    honest statement about a work of unknown authorship and is true of several of
+    these; it is not a placeholder to be improved later. And a missing alias
+    becomes the full name rather than an abbreviation of it: shortening
+    "Jaʿfar ibn Manṣūr al-Yaman" by rule means guessing which part is the
+    surname, and Arabic names do not have one. The alias is a judgement somebody
+    made and recorded, or it is the full name unchanged.
+    """
+    author = str(meta.get("author") or "").strip() or ANONYMOUS
+    return author, (str(meta.get("author_short") or "").strip() or author)
+
+
 def load_book(slug: str) -> Book:
     found = find_content(slug)
     if found is None:
@@ -329,6 +366,10 @@ def load_book(slug: str) -> Book:
         else None
     )
 
+    # An author of unknown authorship is a real answer, and a truer one than a
+    # blank. Several of these works are anonymous by their own tradition.
+    author, author_short = credit(meta)
+
     study_track = meta.get("study_track")
     if study_track not in STUDY_TRACKS and study_track is not None:
         study_track = None
@@ -338,6 +379,8 @@ def load_book(slug: str) -> Book:
         bucket=bucket,
         directory=directory,
         title=str(meta.get("title") or slug),
+        author=author,
+        author_short=author_short,
         title_arabic=original_title,
         title_language=title_language,
         study_track=study_track,
