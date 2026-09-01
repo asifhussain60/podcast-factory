@@ -345,7 +345,10 @@ _SPACING_REPAIRS: tuple[tuple[re.Pattern, str], ...] = (
 #: though nothing were missing, which is the worst thing a cleanup can do: it
 #: does not fix the defect, it hides it. The gap belongs in a report where
 #: somebody can put the term back.
-SPACE_BEFORE_COMMA = re.compile(r"([A-Za-z0-9]) +([,;])")
+#: `?` and `!` included since 2026-09-01: the first version checked only `,`
+#: and `;`, and `book-editor` found a fourth instance of the same shape before
+#: a question mark that this therefore never reported.
+SPACE_BEFORE_COMMA = re.compile(r"([A-Za-z0-9]) +([,;?!])")
 
 
 def repair_spacing(body: str) -> tuple[str, list[dict]]:

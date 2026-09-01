@@ -1,0 +1,235 @@
+{
+  "schema": "podcast.book-editor-report/v1",
+  "slug": "white-nights",
+  "bucket": "Audiobook",
+  "profile": "audiobook",
+  "generated_at": "2026-09-01",
+  "agent": "book-editor",
+  "run": 1,
+  "iterations_used": 1,
+  "verdict": "READY-WITH-NOTES",
+  "verdict_reason": "No P0 stands unresolved that this agent could fix inside its retention gate. Two P0-class defects are reported unfixed on purpose because every candidate repair would either invent a word the tape may not contain or guess at a garbled run only the audio can settle; both carry recording timestamps. prose_review reports 0 blocking findings. One advisory finding (Opening Credits, FRONT_MATTER) is escalated to Asif rather than decided here, because removing provenance is not a copy editor's call.",
+  "deterministic_tools": {
+    "transcript_check": {"result": "ok", "findings": 0},
+    "prose_review_before": {"composer_ready": true, "blocking": 0, "advisory": 3,
+      "advisory_list": ["Opening Credits/FRONT_MATTER", "Introduction/SPOKEN_HEADING", "Nastenkas History/GAP_BEFORE_COMMA x3"]},
+    "prose_review_after": {"composer_ready": true, "blocking": 0, "advisory": 1,
+      "advisory_list": ["Opening Credits/FRONT_MATTER"]}
+  },
+  "gate": {
+    "rule": "word-level retention >= 0.90 and length ratio in [0.92, 1.12], measured per chapter against the pre-edit composed body",
+    "results": [
+      {"chapter": "Opening Credits",   "retention": 0.9583, "length_ratio": 1.0066, "passed": true},
+      {"chapter": "Introduction",      "retention": 0.9890, "length_ratio": 1.0028, "passed": true},
+      {"chapter": "Nastenkas History", "retention": 0.9977, "length_ratio": 0.9991, "passed": true},
+      {"chapter": "Third Night",       "retention": 0.9993, "length_ratio": 1.0002, "passed": true},
+      {"chapter": "Fourth Night",      "retention": 0.9998, "length_ratio": 1.0000, "passed": true}
+    ],
+    "reverted": []
+  },
+  "write_path": "_book_edits.write_chapter_body -> _system/composer-edits.json (5 chapter edits) + book/book.md; replayed by compose_book_v2. book/book.md was never written by hand.",
+  "findings": [
+    {
+      "id": "F01", "severity": "P1", "chapter": "Opening Credits", "class": "FRONT_MATTER",
+      "status": "withheld-needs-asif",
+      "what": "The whole chapter body is the audiobook's spoken credit line: 'This is White Nights, a poignant tale of love, loneliness, and dreams, written by Fyodor Dostoyevsky, translated by Tim Zengerink, narrated by Zeke Ring.'",
+      "judgement": "This is not a chapter of the reading edition. It is the narrator's opening announcement, the spoken equivalent of a title card, and it reads as an advertisement in the middle of a book's first page. But it is also the ONLY record in the edition of who translated the text and who read it, and both are real provenance a published edition owes its reader.",
+      "recommendation": "Delete the chapter from the reading edition, and move the translator and narrator to a copyright/provenance line in the edition front matter, e.g. 'Translated by Tim Zengerink. Narrated by Zeke Ring.' Do NOT simply delete: that discards attribution. If the edition has no front-matter surface yet, keep the chapter but retitle it and set it as a colophon rather than chapter one.",
+      "why_not_fixed": "Deleting a chapter and relocating attribution is an editorial decision about the shape of the edition, not a copy-editing correction. Asif decides."
+    },
+    {
+      "id": "F02", "severity": "P1", "chapter": "Introduction", "class": "SPOKEN_HEADING",
+      "status": "fixed",
+      "what": "Three section headings the narrator read aloud were sitting inline in the prose with no punctuation separating them from the sentence that follows: 'The Poetic Heart of a Lonely Dreamer' (opening the chapter), 'Light, Shadows, and the Ephemeral Nature of Love' (mid-paragraph), and 'THE DREAMER, THE OUTSIDER, AND THE SEEDS OF DOSTOYEVSKY'S THEMES' (mid-paragraph, in capitals). Only the third was flagged by prose_review, because only it is in capitals.",
+      "judgement": "All three share one signature: a completed sentence, then a capitalised noun phrase carrying NO terminal punctuation, then a new sentence beginning a new topic. The first sits at the very top of the chapter, which is where a section heading belongs. This is a publisher's introduction with three named sections, and the narrator read each title aloud. This is NOT the surah-al-fateha case: there the capitals are emphatic speech inside a quotation, spoken by a character; here nothing is in quotation and the phrases are not utterances by anyone in the text.",
+      "fix": "Promoted all three to level-3 headings. The all-capitals one was set in title case to match its two siblings; its words are unchanged.",
+      "words_changed": 0
+    },
+    {
+      "id": "F03", "severity": "P1", "chapter": "Nastenkas History", "class": "GAP_BEFORE_COMMA",
+      "status": "fixed",
+      "what": "Three spaces before a comma: 'I read them on the sly ,\"', 'a cheerful, \"Good morning ,\"', and '\"By all means, let's go ,\"'. A fourth of the same kind, before a question mark, was not flagged by prose_review because it only checks commas: 'someone to talk to or spend time with ?\"'",
+      "judgement": "NO TERM WAS DROPPED. In every one of the four cases the VTT cue boundary falls exactly between the word and the closing punctuation, and the two cues are timestamp-contiguous with zero elapsed gap. TurboScribe split the punctuation onto its own cue and the cue joiner inserted a space. Nothing is missing from the audio.",
+      "evidence": [
+        {"transcript": "transcripts/ep05.vtt", "cues": "242 -> 243", "at": "00:09:34.370 -> 00:09:34.370", "text": "'Of course, I read them on the sly' | ',\" she admitted with a sly little smile.'"},
+        {"transcript": "transcripts/ep05.vtt", "cues": "285 -> 286", "at": "00:11:15.670 -> 00:11:15.670", "text": "'...a cheerful, \"Good morning' | ',\" and asked how Grandmother was doing.'"},
+        {"transcript": "transcripts/ep05.vtt", "cues": "383 -> 384", "at": "00:15:03.550 -> 00:15:03.550", "text": "'\"By all means, let's go' | ',\" Grandmother declared with enthusiasm.'"},
+        {"transcript": "transcripts/ep05.vtt", "cues": "n/a", "at": "~00:12:30", "text": "'...someone to talk to or spend time with ?\"' (same cue-join shape)"}
+      ],
+      "fix": "Closed all four spaces. This is the one condition under which closing a gap is correct rather than concealing a defect: the recording is proven contiguous across the join, so there is no missing term to recover.",
+      "words_changed": 0
+    },
+    {
+      "id": "F04", "severity": "P0", "chapter": "all", "class": "PROPER_NOUN_INCONSISTENT",
+      "status": "fixed",
+      "what": "The author's name is spelled two ways in one book: 'Dostoevsky' 5 times (Opening Credits and the first half of the Introduction) and 'Dostoyevsky' 6 times (the second half of the Introduction).",
+      "judgement": "The two spellings are homophones, so the recording cannot and does not distinguish them; normalising changes zero spoken words. meta.yml declares the author as 'Fyodor Dostoyevsky', and that is also the in-book majority.",
+      "fix": "All 5 'Dostoevsky' normalised to 'Dostoyevsky'.",
+      "words_changed": 0
+    },
+    {
+      "id": "F05", "severity": "P0", "chapter": "Nastenkas History", "class": "MISHEARD_REAL_WORD",
+      "status": "fixed",
+      "what": "The opera is called 'the Barbara of Seville' twice, in the theatre scene and in the sentence about dreaming of it all night.",
+      "judgement": "The same book names it correctly twice, a page earlier: 'They're performing The Barber of Seville' and 'It's the same barber.' 'Barbara' is a real name, so no spellchecker flags it; only the surrounding text reveals the mishearing. TurboScribe's error, not the narrator's.",
+      "fix": "Both occurrences corrected to 'Barber of Seville'.",
+      "words_changed": 2
+    },
+    {
+      "id": "F06", "severity": "P0", "chapter": "Nastenkas History", "class": "DOES_NOT_PARSE",
+      "status": "fixed",
+      "what": "A one-word sentence fragment sat between two complete sentences: '...swept up in the shared joy of that silly little moment. it. Her laughter mixed with mine...'",
+      "judgement": "The stray 'it.' is its own VTT cue, cue 857, spanning 00:33:14.530 to 00:33:14.630 — one hundred milliseconds. No word is spoken in a tenth of a second at narration pace; this is a transcriber artifact, not speech. The sentence before it is already complete.",
+      "evidence": {"transcript": "transcripts/ep05.vtt", "cue": 857, "at": "00:33:14.530 --> 00:33:14.630", "duration_ms": 100},
+      "fix": "Stray 'it.' removed.",
+      "words_changed": 1
+    },
+    {
+      "id": "F07", "severity": "P0", "chapter": "Third Night", "class": "PROPER_NOUN_INCONSISTENT",
+      "status": "fixed",
+      "what": "'Now, Stenka, I said softly, trying to comfort her' — the only place in the book where she is not called Nastenka. 'Nastenka' appears 143 times; 'Stenka' once.",
+      "judgement": "'Stenka' is not a diminutive of Nastasya, and the dreamer addresses her as Nastenka everywhere else including in the same paragraph's neighbours. TurboScribe dropped the leading syllable. Normalising to the book's one and only form is dominant: it is right if the narrator said Nastenka, and if he genuinely said something else the book was already wrong 143 to 1.",
+      "evidence": {"transcript": "transcripts/ep06.vtt", "cue": 371, "at": "00:14:39.780 --> 00:14:42.640"},
+      "fix": "'Stenka' -> 'Nastenka'.",
+      "verify_by_ear": "ep06 at 00:14:39.780, if a reviewer wants to confirm.",
+      "words_changed": 1
+    },
+    {
+      "id": "F08", "severity": "P0", "chapter": "Third Night", "class": "PROPER_NOUN_INCONSISTENT",
+      "status": "fixed",
+      "what": "'My nastenka—yes, I still dared to think of her as mine' — her name lowercased, the only occurrence of 143.",
+      "fix": "Capitalised.",
+      "words_changed": 0
+    },
+    {
+      "id": "F09", "severity": "P0", "chapter": "Third Night", "class": "MISHEARD_REAL_WORD",
+      "status": "fixed",
+      "what": "'...and at the way your scolding me now.' 'your' for 'you're'.",
+      "judgement": "Homophone in speech, so the tape is unaffected by the correction. The sentence does not parse as written.",
+      "evidence": {"transcript": "transcripts/ep06.vtt", "cue": 196, "at": "00:07:53.880 --> 00:07:55.180"},
+      "fix": "'your scolding' -> \"you're scolding\".",
+      "words_changed": 0
+    },
+    {
+      "id": "F10", "severity": "P0", "chapter": "Fourth Night", "class": "PROPER_NOUN_INCONSISTENT",
+      "status": "fixed",
+      "what": "The charwoman is 'Fekla' 5 times in Nastenka's History and 'Fyokla' once in the Fourth Night.",
+      "judgement": "Both are legitimate transliterations of the same Russian name, and unlike Dostoevsky/Dostoyevsky they are NOT homophones — the recording does settle which the narrator said, and this agent cannot listen. Normalising the lone outlier to the five-occurrence form is nevertheless dominant: whichever the narrator said, one spelling in the book is strictly better than two, and if the audio proves 'Fyokla' the correct remedy is to flip all six, not to restore the split.",
+      "evidence": {"transcript": "transcripts/ep07.vtt", "cue": 653, "at": "00:25:40.690 --> 00:25:45.410"},
+      "fix": "'Fyokla' -> 'Fekla'.",
+      "verify_by_ear": "ep07 at 00:25:40.690 against ep05 at cues 197/205/253/845/877.",
+      "words_changed": 1
+    },
+    {
+      "id": "F11", "severity": "P1", "chapter": "Nastenkas History", "class": "ECHOED_HEADING",
+      "status": "fixed",
+      "what": "The chapter opened 'Nastenka's History Half my story you know already' — the narrator read the chapter title aloud and it was left in the prose directly beneath the '## Nastenkas History' heading that already carries it.",
+      "fix": "Echoed title removed from the prose; the chapter now opens 'Half my story you know already'.",
+      "words_changed": 2
+    },
+    {
+      "id": "F12", "severity": "P0", "chapter": "Introduction", "class": "DOES_NOT_PARSE",
+      "status": "withheld-needs-audio",
+      "what": "'The White Nights of St. Petersburg. Petersburg, those luminous summer evenings where night never fully arrives, mirror the dreamer's emotional state...' — 'The White Nights of St. Petersburg.' is a subject with no predicate, and 'Petersburg' is then repeated to start the next sentence.",
+      "judgement": "Unlike the cue-join gaps in F03, the timestamps here show a REAL one-second silence between the two cues (cue 63 ends 00:02:57.140, cue 64 begins 00:02:58.140). That is a pause the narrator actually took, and the repeated word may genuinely be on the tape as a restart. Deleting it would delete something spoken.",
+      "recommendation": "Listen at ep02 00:02:56-00:02:59. If the narrator repeats the word, the intended sentence is almost certainly 'The White Nights of St. Petersburg, those luminous summer evenings where night never fully arrives, mirror the dreamer's emotional state' — replace '. Petersburg,' with ',' and the passage parses exactly. That is a two-word deletion and is inside the retention gate; it was not applied only because it removes audible speech.",
+      "evidence": {"transcript": "transcripts/ep02.vtt", "cues": "63 -> 64", "at": "00:02:57.140 -> 00:02:58.140", "silence_ms": 1000},
+      "why_not_fixed": "The contract forbids removing words the recording contains without evidence they are transcriber noise. The one-second gap is evidence of the opposite."
+    },
+    {
+      "id": "F13", "severity": "P0", "chapter": "Nastenkas History", "class": "GARBLED_RUN",
+      "status": "withheld-needs-audio",
+      "what": "'With a mischievous grin I began softly, R-O-R-O-S-I-C-N-A-N-A. / Rosina! we both burst out together, humming the name in unison.' The spelled-out letter sequence is nonsense.",
+      "judgement": "The letters are spread across three VTT cues ('R', '-O-R-O-S-I-C-N-A', '-N-A.'), so TurboScribe was transcribing a sung or spelled sequence it could not resolve. The intended word is plainly Rosina, but what the narrator actually voiced cannot be reconstructed from the text: it may be a plain spelling 'R-O-S-I-N-A', or a sung Rossini phrase with repeats. Guessing would print letters nobody spoke into a read-along book.",
+      "recommendation": "Listen at ep05 00:32:49-00:32:58 and transcribe the letters by ear. If they are simply R-O-S-I-N-A, set them so.",
+      "evidence": {"transcript": "transcripts/ep05.vtt", "cues": "846, 847, 848", "at": "00:32:49.770 --> 00:32:57.510"},
+      "why_not_fixed": "Cannot be repaired without hearing the recording; a reconstruction would be fabrication."
+    },
+    {
+      "id": "F14", "severity": "P1", "chapter": "Third Night", "class": "DROPPED_ARTICLE",
+      "status": "withheld",
+      "what": "'...her eyes filled with strange mixture of sadness and warmth.' The article before 'strange mixture' is missing.",
+      "judgement": "The transcript reads the same, so either the narrator elided the article or TurboScribe dropped it. Supplying 'a' inserts a word the tape may not contain.",
+      "evidence": {"transcript": "transcripts/ep06.vtt", "cue": 491, "at": "00:19:17.200 --> 00:19:20.500"},
+      "recommendation": "Listen at ep06 00:19:17. If the narrator says 'a strange mixture', insert it; the correction is one word and well inside the gate."
+    },
+    {
+      "id": "F15", "severity": "P1", "chapter": "Fourth Night", "class": "DROPPED_WORD",
+      "status": "withheld",
+      "what": "\"'And I'm expecting a bonus soon, so between us will be just fine.'\" The clause has no subject.",
+      "judgement": "Almost certainly 'so between us we'll be just fine', with 'we'll' swallowed into 'us'. Same reasoning as F14: supplying it inserts a word.",
+      "evidence": {"transcript": "transcripts/ep07.vtt", "cues": "716 -> 717", "at": "00:28:14.490 --> 00:28:20.110"},
+      "recommendation": "Listen at ep07 00:28:17."
+    },
+    {
+      "id": "F16", "severity": "P1", "chapter": "Fourth Night, Morning, Nastenkas History", "class": "QUOTE_CONVENTION",
+      "status": "withheld-needs-asif",
+      "what": "The book uses THREE different conventions for spoken dialogue. First Night, Second Night and Third Night carry no quotation marks at all. Nastenka's History uses straight double quotes. Fourth Night and Morning use a doubled apostrophe (''like this'') and in places a double-quote-plus-apostrophe (\"'like this'), across roughly 26 lines.",
+      "judgement": "The doubled-apostrophe forms are unambiguously a rendering defect and will print as two apostrophes rather than a quotation mark. But converting them to '\"' leaves the book with two conventions instead of three, and choosing ONE convention for the whole book means deciding whether to add quotation marks to three chapters of unmarked dialogue — which requires attributing hundreds of lines to speakers, i.e. a rewrite this route forbids.",
+      "recommendation": "Asif picks the house convention. If unmarked dialogue stays (it is a defensible modern style and it is what the majority of the book already does), then the right fix is to STRIP the quote marks from the two chapters that have them, not to add them elsewhere. Either way it is one decision applied mechanically afterwards.",
+      "why_not_fixed": "A whole-book typographic decision, not a copy edit."
+    },
+    {
+      "id": "F17", "severity": "P2", "chapter": "all", "class": "HOUSE_STYLE",
+      "status": "withheld",
+      "what": "British and American spellings are mixed: 'colour' 3 / 'color' 5, 'sombre' 2, 'theatre' 8, 'neighbor' 1, 'favorite' 1, 'honor' 3, 'realize' 14. Also 'to-day' and 'to-night' appear once each against 8 of 'today' and 4 of 'tonight'.",
+      "judgement": "Spelling is not audible, so normalising would not touch the tape. But the repo's standing rule is that American respelling is applied to AUTHORED prose and never to source records or transcripts, and this book's prose IS a transcript. Left alone deliberately.",
+      "recommendation": "If Asif wants one spelling standard across the audiobook shelf, that is a lane-level rule to add to the spoken lane, not a per-book edit."
+    },
+    {
+      "id": "F18", "severity": "P2", "chapter": "Nastenkas History", "class": "HOUSE_STYLE",
+      "status": "withheld",
+      "what": "'grandmother' is lowercase 16 times and 'Grandmother' capitalised 29 times, switching mid-chapter — the early half of Nastenka's History uses lowercase, the rest capitalises it as a name.",
+      "judgement": "Not audible, and both are defensible (common noun vs. term of address). Inconsistent within one speaker's account, so worth normalising eventually; not worth an edit ahead of Asif's house-style decision in F16."
+    },
+    {
+      "id": "F19", "severity": "P2", "chapter": "Nastenkas History", "class": "CHAPTER_TITLE",
+      "status": "withheld",
+      "what": "The chapter heading is 'Nastenkas History', missing its apostrophe. The prose spelled it correctly before F11 removed the echo.",
+      "judgement": "The heading is derived from the source container's track name, '05_WhiteNights_NastenkasHistory', where an apostrophe could not appear in a filename. Changing the '## ' heading changes its anchor_key, which is what every Composer edit in composer-edits.json is filed under — so it must be changed in the chapter map and the sidecar together, not by editing book.md.",
+      "recommendation": "Fix in _system/audiobook-chapters.json and re-key the sidecar, as one deliberate change."
+    },
+    {
+      "id": "F20", "severity": "P2", "chapter": "Second Night", "class": "INTERNAL_INCONSISTENCY",
+      "status": "withheld",
+      "what": "Nastenka says she 'married a Chinese prince' in her dreams, and four sentences later the dreamer replies 'If you've been married to a Chinese emperor'. Later, in Nastenka's History, it is 'a Chinese prince' again.",
+      "judgement": "Could be the translation's own looseness or the narrator's, not necessarily a transcription error. Changing a word of dialogue on a guess is exactly what this route forbids.",
+      "recommendation": "Leave unless the audio shows the narrator said 'prince' both times."
+    },
+    {
+      "id": "F21", "severity": "P2", "chapter": "First Night, Second Night", "class": "PROPER_NOUN_SPELLING",
+      "status": "withheld",
+      "what": "Three Russian proper nouns are spelled unconventionally, each appearing exactly once so nothing is internally inconsistent: 'Aptokarsky Islands' (conventionally Aptekarsky), 'Kameny' (conventionally Kamenny), and 'Prince Mishkin' (conventionally Myshkin).",
+      "judgement": "Single occurrences, no in-book contradiction, and every one of them is a name. This route never substitutes a name. Reported only so a reviewer with the audio can settle them.",
+      "recommendation": "Verify by ear; if corrected, correct in the chapter map's spirit as a spelling fix, never as an anglicisation."
+    },
+    {
+      "id": "F22", "severity": "P2", "chapter": "Second Night", "class": "PUNCTUATION",
+      "status": "withheld",
+      "what": "'That's the kind of advice I need?' ends with a question mark where the sentence is a statement.",
+      "judgement": "Punctuation is not on the tape, so this is safely correctable — held back only because it is cosmetic and belongs with the F16 punctuation pass rather than as a lone edit in an otherwise evidence-driven set."
+    },
+    {
+      "id": "F23", "severity": "P2", "chapter": "Morning", "class": "PUNCTUATION",
+      "status": "withheld",
+      "what": "Nastenka's letter is signed 'Your, Nastenka.' — a comma where the sign-off reads 'Your Nastenka' or 'Yours, Nastenka'.",
+      "judgement": "Same class as F22."
+    },
+    {
+      "id": "F24", "severity": "P2", "chapter": "Introduction", "class": "APPARATUS",
+      "status": "withheld-needs-asif",
+      "what": "The Introduction is roughly 1,275 words of critical commentary on White Nights. It is not Dostoyevsky's text; it was written for this audiobook production and read by the narrator.",
+      "judgement": "Not front matter in the F01 sense — it is substantive apparatus a reader benefits from, and this route's P0 for non-authorial prose covers credits, sign-offs and advertisements, none of which this is. But a reading edition should not present a producer's essay under a heading indistinguishable from the author's own chapters.",
+      "recommendation": "Retitle it so its authorship is visible, e.g. 'Introduction (from the audiobook production)', or set it as a foreword before the title page. Asif decides."
+    }
+  ],
+  "summary": {
+    "p0_total": 7, "p0_fixed": 5, "p0_withheld": 2,
+    "p1_total": 7, "p1_fixed": 3, "p1_withheld": 4,
+    "p2_total": 10, "p2_fixed": 0, "p2_withheld": 10,
+    "chapters_edited": 5, "chapters_reverted": 0,
+    "words_changed_total": 7,
+    "needs_asif": ["F01", "F16", "F24"],
+    "needs_audio": ["F12", "F13", "F14", "F15", "F07 (verify)", "F10 (verify)", "F21 (verify)"]
+  }
+}
