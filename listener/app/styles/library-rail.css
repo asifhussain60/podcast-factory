@@ -1,0 +1,451 @@
+/* The library's filter rail.
+ *
+ * Its own file rather than more of `podcast-factory.css`, for the reason that
+ * file's own header gives for being one: it is a theme, and this is one view's
+ * furniture. Imported AFTER it in `app.css`, and in the same `@layer
+ * components`, so it can restate `.pf-track-chip` for the column without either
+ * winning by accident — layer first, then source order, never specificity
+ * games.
+ *
+ * WHAT THIS COSTS, STATED ONCE. The panel is `position: fixed` in the gutter
+ * beside the page, which means the gutter has to be guaranteed rather than hoped
+ * for: `.pf-container:has(.pf-library-rail)` gives up 23rem so the grid and the
+ * panel can never overlap. That is the same mechanic `.pf-reader-page` uses to
+ * make room for `.pf-toolbar-rail`, and it has the same consequence — above
+ * about 1216px it costs nothing, because the container is already narrower than
+ * the room available, while between 1024 and 1216 it genuinely squeezes the
+ * three-column grid. Asif was shown all six viewports, measured, and chose this
+ * with that trade on the table (2026-09-01).
+ *
+ * `:has()` rather than a new `AppShell` prop: the shell already decides between
+ * `pf-container`, `pf-flush` and `pf-reader`, and a fourth mode existing only
+ * for this page would put a library concern in the shell every other page pays
+ * to read.
+ */
+
+@layer components {
+  .pf-library-rail {
+    /* Below the drawers and their scrim, exactly as the reader's rail sits
+       below Contents and Companion — chrome must never cover a panel. */
+    z-index: 18;
+  }
+
+  .pf-library-rail__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0.55rem;
+    /* Warm ground rather than a white slab: the panel is furniture standing on
+       the page, and a flat white rectangle reads as a hole cut in it. */
+    background: linear-gradient(180deg, var(--l-elev) 0%, var(--l-sunken) 190%);
+    /* The band's navy in the border rather than the flat rule, so the panel
+       belongs to the same family as the cards it stands beside. */
+    border: 1px solid color-mix(in srgb, var(--l-band) 26%, transparent);
+    border-radius: var(--pf-radius-xl);
+    box-shadow:
+      0 10px 26px rgb(28 36 51 / 12%),
+      0 2px 6px rgb(28 36 51 / 7%),
+      inset 0 1px 0 rgb(255 255 255 / 85%);
+  }
+
+  /* ---- Section headings inside the panel -------------------------------- */
+
+  .pf-rail-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0.55rem 0.4rem 0.2rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--l-faint);
+  }
+
+  /* A rule that starts where the words stop, so the heading divides the column
+     without a full-width line boxing each group into its own card. */
+  .pf-rail-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: color-mix(in srgb, var(--l-band) 14%, transparent);
+  }
+
+  .pf-rail-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* ---- One row ----------------------------------------------------------- */
+
+  .pf-rail-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.34rem 0.45rem;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--l-ink);
+    font-family: var(--l-font-ui);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .pf-rail-item:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--l-band) 7%, transparent);
+  }
+
+  .pf-rail-item:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  /* Selected is a wash with a spine, not a filled slab. It has to hold its own
+     next to five saturated track dots without turning the column into a fight
+     between two coloured things. */
+  .pf-rail-item[aria-pressed="true"] {
+    background: var(--l-accent-soft);
+    color: var(--l-accent-hover);
+    font-weight: 600;
+  }
+
+  .pf-rail-item[aria-pressed="true"]::before {
+    content: "";
+    position: absolute;
+    inset-block: 18%;
+    left: 0;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--l-accent);
+  }
+
+  .pf-rail-item__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The tinted holder is the whole colour idea for collections: a low-saturation
+     wash of that kind's own hue, carrying the icon. */
+  .pf-rail-item__icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--l-band) 11%, var(--l-elev));
+    color: var(--l-band);
+    box-shadow: inset 0 0 0 1px rgb(28 36 51 / 6%);
+    font-size: 0.82rem;
+  }
+
+  .pf-rail-item[data-collection="books"] .pf-rail-item__icon {
+    background: color-mix(in srgb, var(--l-ribbon-theology-bg) 13%, var(--l-elev));
+    color: var(--l-ribbon-theology-bg);
+  }
+
+  .pf-rail-item[data-collection="sessions"] .pf-rail-item__icon {
+    background: color-mix(in srgb, var(--l-ribbon-history-bg) 13%, var(--l-elev));
+    color: var(--l-ribbon-history-bg);
+  }
+
+  .pf-rail-item[data-collection="audiobooks"] .pf-rail-item__icon {
+    background: color-mix(in srgb, var(--l-ribbon-esoteric-bg) 20%, var(--l-elev));
+    color: var(--l-warn);
+  }
+
+  /* ---- Tracks ------------------------------------------------------------
+     `.pf-track-chip` keeps carrying the per-track colour — its `data-track`
+     attribute already resolves to the same `--l-ribbon-*` pair the card's corner
+     ribbon paints from. What changes in the column is only its SHAPE: a pill in
+     a wrapping row becomes a full-width row with a dot. */
+
+  .pf-rail-group--tracks .pf-track-chip {
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    justify-content: flex-start;
+  }
+
+  .pf-rail-group--tracks .pf-track-chip::after {
+    /* The dot, drawn before the label. `order` puts it first without needing a
+       span in the markup that a screen reader would then have to skip. */
+    content: "";
+    order: -1;
+    flex: none;
+    width: 9px;
+    height: 9px;
+    margin: 0 0.45rem 0 0.5rem;
+    border-radius: 50%;
+    background: var(--track-dot, var(--l-faint));
+    box-shadow:
+      0 0 0 2.5px var(--l-elev),
+      0 0 0 3.5px rgb(28 36 51 / 8%);
+  }
+
+  .pf-rail-group--tracks .pf-track-chip[data-track="theology"] {
+    --track-dot: var(--l-ribbon-theology-bg);
+  }
+  .pf-rail-group--tracks .pf-track-chip[data-track="history"] {
+    --track-dot: var(--l-ribbon-history-bg);
+  }
+  .pf-rail-group--tracks .pf-track-chip[data-track="shariah"] {
+    --track-dot: var(--l-ribbon-shariah-bg);
+  }
+  .pf-rail-group--tracks .pf-track-chip[data-track="esoteric"] {
+    --track-dot: var(--l-ribbon-esoteric-bg);
+  }
+  .pf-rail-group--tracks .pf-track-chip[data-track="reality"] {
+    --track-dot: var(--l-ribbon-reality-bg);
+  }
+  .pf-rail-group--tracks .pf-track-chip[data-track="philosophy"] {
+    --track-dot: var(--l-ribbon-philosophy-bg);
+  }
+
+  .pf-rail-group--tracks .pf-track-chip__count {
+    margin-left: auto;
+    padding-left: 0.4rem;
+    font-size: 0.68rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--l-faint);
+  }
+
+  .pf-rail-group--tracks .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
+    color: var(--l-accent);
+  }
+
+  /* ---- The three view icons ---------------------------------------------- */
+
+  .pf-rail-views {
+    display: flex;
+    gap: 2px;
+    margin-top: 0.45rem;
+    padding: 3px;
+    background: color-mix(in srgb, var(--l-band) 7%, transparent);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 2px rgb(28 36 51 / 6%);
+  }
+
+  .pf-rail-view {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    /* A floor, not a width. `flex: 1` with no basis let these shrink to the
+       glyph itself — 15px wide on the dock, which `npm run smoke` refuses and
+       is right to: three icons that share a group still have to be hittable
+       one at a time. In the desktop column the flex still spreads them across
+       the panel, so this only ever binds on the dock. */
+    min-width: 2.25rem;
+    /* 2.25rem tall rather than the 2.75rem the row's swatches use: these are
+       three equal icons inside a segmented group, not standalone targets, and
+       the group as a whole clears the touch minimum. */
+    min-height: 2.25rem;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--l-muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .pf-rail-view:hover {
+    background: color-mix(in srgb, var(--l-band) 8%, transparent);
+  }
+
+  .pf-rail-view[aria-pressed="true"] {
+    background: var(--l-elev);
+    color: var(--l-accent);
+    box-shadow: 0 1px 3px rgb(28 36 51 / 14%);
+  }
+
+  /* ---- Where the panel stands -------------------------------------------
+     Under 1024px there is no gutter to stand in, so it becomes a dock across
+     the foot. That is the same answer `.pf-toolbar-rail` gives, for the same
+     reason, and it is written first so the side placement is the exception a
+     media query adds rather than the default a phone has to undo. */
+
+  .pf-library-rail {
+    position: fixed;
+    /* Edge to edge rather than centred on `max-content`. A dock sized to its
+       own contents overflowed both edges of a 390px phone the moment the
+       contents were wider than the screen; pinning both sides means the panel
+       can only ever be as wide as the phone. */
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.85rem;
+  }
+
+  .pf-library-rail__panel {
+    flex-direction: row;
+    /* TWO ROWS on a phone, deliberately: the field on top, the icons beneath.
+       Everything on one row means either a search field too narrow to read what
+       you typed, or no search at all — and search by title is the control this
+       page is used for most. Two rows costs about 88px at the foot of the
+       screen and keeps every control working. */
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    padding: 0.45rem;
+    border-radius: var(--pf-radius-lg);
+  }
+
+  /* The groups lie down with the panel. Without this the four collection icons
+     stayed a column inside a row, and the dock grew into a slab over the grid. */
+  .pf-library-rail .pf-rail-group {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  /* Its own row, full width, so the field keeps a readable length. */
+  .pf-library-rail__panel > .pf-search {
+    flex: 1 1 100%;
+    margin: 0;
+  }
+
+  /* Eleven labelled rows cannot be a bottom bar on a 390px phone: stacked, they
+     cover the very grid they filter. So on the dock the labels go and the five
+     tracks fold away, leaving search, the four collections, Advanced and the
+     three view icons. The tracks are not lost — `/search` is one of the icons
+     that remain, and it filters by track on a page with room to do it. */
+  .pf-library-rail .pf-rail-label,
+  .pf-library-rail .pf-rail-group--tracks,
+  .pf-library-rail .pf-rail-item__label {
+    display: none;
+  }
+
+  .pf-library-rail .pf-rail-item {
+    width: auto;
+    padding: 0.3rem;
+  }
+
+  .pf-library-rail .pf-rail-item[aria-pressed="true"] {
+    background: transparent;
+  }
+
+  .pf-library-rail .pf-rail-item[aria-pressed="true"]::before {
+    display: none;
+  }
+
+  .pf-library-rail .pf-rail-item[aria-pressed="true"] .pf-rail-item__icon {
+    box-shadow: inset 0 0 0 1.5px var(--l-accent);
+  }
+
+  .pf-library-rail .pf-rail-item__icon {
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 9px;
+  }
+
+  .pf-library-rail .pf-rail-views {
+    margin-top: 0;
+    margin-left: 0.35rem;
+    border-radius: 11px;
+  }
+
+  @media (min-width: 1024px) {
+    .pf-library-rail {
+      top: 50%;
+      bottom: auto;
+      left: 1.5rem;
+      width: 11rem;
+      max-width: none;
+      transform: translateY(-50%);
+    }
+
+    .pf-library-rail__panel {
+      flex-direction: column;
+      gap: 2px;
+      width: 100%;
+      padding: 0.55rem;
+      border-radius: var(--pf-radius-xl);
+      /* The column is about 730px tall with every group shown, which is taller
+         than a short desktop window — a 1280x720 laptop, or any browser with a
+         couple of toolbars. Centred on `top: 50%`, the ends would simply be off
+         the screen with no way to reach them. It scrolls inside itself instead,
+         so the last control is always reachable however short the window. */
+      max-height: calc(100dvh - 2rem);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .pf-library-rail .pf-rail-group {
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pf-library-rail__panel > .pf-search {
+      flex: none;
+      margin: 0 0 0.15rem;
+    }
+
+    .pf-library-rail .pf-rail-label,
+    .pf-library-rail .pf-rail-group--tracks,
+    .pf-library-rail .pf-rail-item__label {
+      display: revert;
+    }
+
+    .pf-library-rail .pf-rail-label {
+      display: flex;
+    }
+
+    .pf-library-rail .pf-rail-group--tracks {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pf-library-rail .pf-rail-item {
+      width: 100%;
+      padding: 0.34rem 0.45rem;
+    }
+
+    .pf-library-rail .pf-rail-item[aria-pressed="true"] {
+      background: var(--l-accent-soft);
+    }
+
+    .pf-library-rail .pf-rail-item[aria-pressed="true"]::before {
+      display: block;
+    }
+
+    .pf-library-rail .pf-rail-item[aria-pressed="true"] .pf-rail-item__icon {
+      box-shadow: inset 0 0 0 1px rgb(28 36 51 / 6%);
+    }
+
+    .pf-library-rail .pf-rail-item__icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 8px;
+    }
+
+    .pf-library-rail .pf-rail-views {
+      margin-top: 0.45rem;
+      margin-left: 0;
+      border-radius: 12px;
+    }
+
+    /* The reserve. 23rem is the rail's 11rem plus its 1.5rem offset, doubled so
+       the grid stays on the page's true centre line rather than being pushed
+       off it — a centred grid with a panel on one side only looks like a
+       mistake, and the reader's leaf solves it the same way. */
+    .pf-container:has(.pf-library-rail) {
+      max-width: min(var(--pf-measure-page), calc(100vw - 23rem));
+    }
+  }
+}

@@ -399,3 +399,6 @@ content/**/_system/status-card.txt
 # source files beside it are not (same reason content/**/_source/ is ignored).
 content/_system/briefs/*/source/
 content/knowledge-base/_index/hydration-log.jsonl
+
+# Throwaway design-review mockups (never shipped, never committed)
+.design-previews/

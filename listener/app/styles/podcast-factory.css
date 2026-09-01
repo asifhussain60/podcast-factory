@@ -3006,52 +3006,6 @@
     color: var(--l-accent);
   }
 
-  /* ---- The library's find row ---------------------------------------------
-     The box, the collection chips and the way to the advanced page, on ONE
-     line. They were three stacked blocks, which read as three unrelated
-     controls when they are three ways of narrowing the same grid — and the
-     stack cost enough height to push the first card under the fold.
-
-     `flex-wrap` rather than a breakpoint: the row folds when the things in it
-     stop fitting, which is a different width on a phone with two collections
-     than on one with three. `justify-content: center` keeps the folded state
-     centred under a centred masthead instead of hanging off the left. */
-
-  .pf-library-find {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--pf-space-3) var(--pf-space-4);
-    margin-top: var(--pf-space-6);
-  }
-
-  /* `.pf-search` carries its own `margin: var(--pf-space-6) auto 0` — the
-     spacing it needs when it is the only control on the page and centres
-     itself. In this row the ROW owns both, so the margin is zeroed at the call
-     site rather than lifted off the base class, which the about page and the
-     admin header also depend on. Same reason, same shape, as
-     `.pf-about-find__inner > .pf-search`.
-
-     It grows and shrinks; the chips and the button do not. A search field is
-     the only thing here that gets better with more room. */
-  .pf-library-find > .pf-search {
-    flex: 1 1 18rem;
-    margin: 0;
-  }
-
-  .pf-library-find > .pf-collections {
-    margin-top: 0;
-  }
-
-  /* Matches the pill height of the two controls beside it, so the row has one
-     baseline rather than three. */
-  .pf-library-find__more {
-    flex: none;
-    min-height: 2.75rem;
-    border-radius: var(--pf-radius-pill);
-  }
-
   .pf-empty {
     margin-top: var(--pf-space-7);
   }
@@ -9600,73 +9554,6 @@
     color: var(--l-on-accent);
   }
 
-  /* The library's collection filter — the swatch control with somewhere to
-     stand. It sits under the search box in the masthead, which is centred, so
-     the only thing it needs of its own is the gap and its own line. */
-  .pf-collections {
-    display: inline-flex;
-    margin-top: var(--pf-space-4);
-  }
-
-  /* The library's study-track filter — its OWN bordered panel, not a second
-     loose row under the search box. Search-by-name and browse-by-taxonomy
-     are two different tools, and a shared background/border is what tells
-     the eye that rather than reading as one blurred wall of controls. Full
-     width like `.pf-library-find` above it, so it lines up with everything
-     else on the page rather than floating as an island. */
-  .pf-tracks-panel {
-    margin-top: var(--pf-space-4);
-    padding: var(--pf-space-4) var(--pf-space-5);
-    /* `--l-sunken`, not the `whitesmoke` this had. A hardcoded colour is a
-       colour that belongs to one theme, and this one belongs to none of them:
-       on the dark palette it drew a white slab across an otherwise near-black
-       page. `--l-sunken` is the recessed surface every theme declares, which is
-       exactly what a panel holding controls below the page level should sit
-       on. */
-    background: var(--l-sunken);
-    border: 2px solid color-mix(in srgb, var(--l-rule) 85%, black);
-    border-radius: var(--pf-radius-lg);
-    text-align: center;
-  }
-
-  /* Cards vs. compact vs. list. Pinned to the end of `.pf-library-find`'s row
-     with its own auto margin — that row is `justify-content: center`, and an
-     auto margin on one flex item claims the row's slack space ahead of the
-     centring, pushing this item to the row's true end regardless. A row of
-     its own for three buttons left the width beside them empty; this reuses
-     space the row already has. */
-  .pf-library-view-toggle {
-    margin-inline-start: auto;
-  }
-
-  .pf-tracks-panel__label {
-    margin: 0 0 var(--pf-space-3);
-    font-family: var(--l-font-ui);
-    font-size: var(--pf-text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--pf-tracking-eyebrow);
-    color: var(--l-faint);
-  }
-
-  /* NOT `.pf-swatches`: that control is one segmented pill sized for two or
-     three mutually exclusive words. Each track is its own independent chip
-     instead, so the taxonomy can grow past five without a redesign.
-     `justify-content: center` is the fix for the row reading left-ragged
-     under an otherwise centred panel.
-
-     NEVER wraps to a second row (Asif, 2026-08-14, reverses the original
-     wrap-on-narrow design above) — `flex-wrap: nowrap` plus `min-width: 0`
-     on each chip below lets them shrink together instead, so six chips read
-     as one row narrowed rather than as a row plus a leftover. */
-  .pf-tracks {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--pf-space-2);
-  }
-
   /* Colour lives on the chip itself, from the same `--l-ribbon-*` pair the
      card's own corner ribbon reads — so the chip that filters to Esoteric and
      the ribbon that says Esoteric are never two colours for one category. */
@@ -9678,8 +9565,10 @@
     /* `flex: 0 1 auto` (the default) would still refuse to shrink below the
        label's own min-content width — a flex item's implicit `min-width` is
        `auto`, not `0`. This is the one declaration that actually unlocks
-       shrinking; `.pf-track-chip__label` below is what makes shrinking past
-       that point readable (ellipsis) instead of a squeeze. */
+       shrinking; the label's own ellipsis rule is what makes shrinking past
+       that point readable instead of a squeeze. In the library rail the chip
+       is a full-width row and this never binds, but the declaration stays:
+       it is what the chip needs anywhere it is laid out in a line. */
     min-width: 0;
     padding: var(--pf-space-1) var(--pf-space-4);
     border: 1.5px solid var(--pf-track-line, var(--l-rule));
@@ -9697,29 +9586,11 @@
       opacity var(--pf-motion);
   }
 
-  /* The word, truncated first when a chip runs out of room — the count
-     beside it stays whole (`.pf-track-chip__count` keeps `flex: none`
-     wherever it's already declared), because a clipped number reads as a
-     different number where a clipped word still reads as the same word.
-     `min-width` is a floor, not 0: six chips this tight genuinely cannot all
-     show a full word at a 390px phone width, but "T…" beside a coloured
-     border is still legible as Theology, where nothing at all is not. */
-  .pf-track-chip__label {
-    overflow: hidden;
-    min-width: 1.4em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   /* Below a phone width, the chips' own padding and count badge were half
      the row's width, leaving the floor above as the ONLY thing between the
      label and nothing — so the padding shrinks here to buy the label back
      as many real characters as the row has room for. */
   @media (max-width: 479px) {
-    .pf-tracks {
-      gap: var(--pf-space-1);
-    }
-
     .pf-track-chip {
       gap: var(--pf-space-1);
       padding-inline: var(--pf-space-2);
@@ -11796,8 +11667,8 @@
 
   /* `.pf-search` carries its own top margin and auto-centring for the pages
      where it is the only control. Zeroed at the call site, exactly as
-     `.pf-library-find` and `.pf-about-find__inner` do, rather than lifted off
-     the base class those two still depend on. */
+     `.pf-about-find__inner` does, rather than lifted off the base class those
+     pages still depend on. */
   .pf-find > .pf-search {
     margin: 0;
     flex: 1 1 22rem;

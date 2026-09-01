@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -22,10 +22,18 @@ import { describe, expect, it } from "vitest";
  * for; this test is the cheap half.
  */
 
-const CSS = readFileSync(
-  new URL("../app/styles/podcast-factory.css", import.meta.url),
-  "utf8",
-);
+/* EVERY stylesheet under `app/styles`, not just the theme. The library rail
+ * moved into its own file on 2026-09-01 and this gate immediately reported all
+ * eleven of its classes as styled nowhere — correct about the file it was
+ * reading, wrong about the app. A gate that has to be edited by hand each time
+ * a stylesheet is added is a gate that will one day be edited to pass. */
+const CSS = readdirSync(new URL("../app/styles/", import.meta.url))
+  .filter((name) => name.endsWith(".css"))
+  .sort()
+  .map((name) =>
+    readFileSync(new URL(`../app/styles/${name}`, import.meta.url), "utf8"),
+  )
+  .join("\n");
 
 /** Every `.pf-*` / `.reader*` class the stylesheet declares a rule for. */
 function declared(css: string): Set<string> {

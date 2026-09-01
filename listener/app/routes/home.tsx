@@ -1,23 +1,17 @@
-import {
-  faList,
-  faSliders,
-  faTableCells,
-  faTableCellsLarge,
-} from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 
 import type { Route } from "./+types/home";
 import { AppShell } from "~/components/AppShell";
 import { BookCard } from "~/components/BookCard";
 import { BookListRow, WorkListRow } from "~/components/BookListRow";
 import { EmptyState } from "~/components/EmptyState";
-import { Icon } from "~/components/Icon";
-import { SearchBox } from "~/components/SearchBox";
+import { LibraryRail } from "~/components/LibraryRail";
 import { groupIntoWorks, WorkCard } from "~/components/WorkCard";
 import {
   collectionOf,
   COLLECTIONS,
+  COLLECTION_LABELS,
   inCollection,
   type Collection,
 } from "~/lib/collection";
@@ -180,13 +174,6 @@ function fold(value: string): string {
  * two files for no reason. Kept importable so the filter matrix is unit-
  * tested directly rather than only through a rendered `Home`.
  */
-const COLLECTION_LABELS: Record<Collection, string> = {
-  all: "Everything",
-  books: "Books",
-  sessions: "Sessions",
-  audiobooks: "Audiobooks",
-};
-
 /**
  * The study-track filter.
  *
@@ -464,152 +451,26 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </p>
 
         {units.length === 0 ? null : (
-          /* One row: type, narrow, or go and ask a harder question.
-             They were stacked — the box on its own line, the chips on the next
-             — which read as three unrelated controls and pushed the first card
-             below the fold on a laptop. They are three ways of narrowing ONE
-             grid, so they sit on one line and wrap together on a phone. */
-          <div className="pf-library-find">
-            <SearchBox
-              id="library-search"
-              label="Search the library"
-              placeholder="Search by title"
-              action={{ kind: "filter", value: query, onChange: setQuery }}
-            />
-
-            {/* The same segmented control the theme picker uses, for the same
-                reason it does: three choices, mutually exclusive, and pressing
-                one is the whole interaction. `aria-pressed` rather than a
-                tablist — nothing here is a tab panel; it is one grid being
-                narrowed. */}
-            {mixed ? (
-              <div
-                className="pf-swatches pf-collections"
-                role="group"
-                aria-label="Show which part of the library"
-              >
-                {COLLECTIONS.map((choice) => (
-                  <button
-                    key={choice}
-                    type="button"
-                    className="pf-swatch"
-                    aria-pressed={collection === choice}
-                    onClick={() => setCollection(choice)}
-                  >
-                    {COLLECTION_LABELS[choice]}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            {/* A LINK, not a button: it goes to a page, so it must open in a new
-                tab on a middle-click and be copyable like any other address. */}
-            <Link
-              to="/search"
-              className="pf-button pf-button--soft pf-library-find__more"
-            >
-              <Icon icon={faSliders} />
-              Advanced search
-            </Link>
-
-            {/* Pinned to the row's end rather than given a row of its own below
-                the panel — a dedicated row for three buttons left the rest of
-                that row's width empty. This one changes how the same result is
-                DRAWN, which is a different kind of choice than the search box
-                and the collection/track filters beside it (which change WHAT
-                shows), so it keeps its own group rather than joining theirs. */}
-            <div
-              role="group"
-              aria-label="Book display"
-              className="pf-stepper pf-stepper--sm pf-library-view-toggle"
-            >
-              <button
-                type="button"
-                onClick={() => setViewMode("cards")}
-                aria-pressed={viewMode === "cards"}
-                aria-label="Card view"
-                title="Card view"
-                className="pf-stepper__step pf-stepper__step--toggle"
-              >
-                <Icon icon={faTableCellsLarge} title="Card view" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode("compact")}
-                aria-pressed={viewMode === "compact"}
-                aria-label="Compact tile view"
-                title="Compact tile view"
-                className="pf-stepper__step pf-stepper__step--toggle"
-              >
-                <Icon icon={faTableCells} title="Compact tile view" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode("list")}
-                aria-pressed={viewMode === "list"}
-                aria-label="List view"
-                title="List view"
-                className="pf-stepper__step pf-stepper__step--toggle"
-              >
-                <Icon icon={faList} title="List view" />
-              </button>
-            </div>
-          </div>
-        )}
-
-        {units.length === 0 ? null : (
-          /* Its own bordered panel, not a second loose row under the search
-             box — the two are different tools (search by name, browse by
-             taxonomy) and read that way now instead of blurring into one
-             wall of controls. Independent chips inside it, not a segmented
-             control: a sixth track should wrap onto a second line rather
-             than force the row to squeeze or overflow. Each chip's colour
-             comes from the SAME `--l-ribbon-*` pair its cards paint their
-             corner ribbon from, in `.pf-track-chip` — so choosing "Esoteric"
-             here and seeing it on a card are the same colour, not two
-             decisions that happen to agree today. */
-          <div className="pf-tracks-panel">
-            <p className="pf-tracks-panel__label" id="library-tracks-label">
-              Browse by track
-            </p>
-            <div
-              className="pf-tracks"
-              role="group"
-              aria-labelledby="library-tracks-label"
-            >
-              <button
-                type="button"
-                className="pf-track-chip"
-                aria-pressed={track === "all"}
-                onClick={() => setTrack("all")}
-              >
-                <span className="pf-track-chip__label">All tracks</span>
-                <span className="pf-track-chip__count">{units.length}</span>
-              </button>
-              {ALL_STUDY_TRACKS.map((choice) => {
-                const n = trackCounts.get(choice) ?? 0;
-                return (
-                  <button
-                    key={choice}
-                    type="button"
-                    className="pf-track-chip"
-                    data-track={choice}
-                    aria-pressed={track === choice}
-                    // Disabled rather than hidden: the empty track still
-                    // teaches the reader the taxonomy has five members, even
-                    // before anything is filed under it.
-                    disabled={n === 0}
-                    onClick={() => setTrack(choice)}
-                  >
-                    <span className="pf-track-chip__label">
-                      {studyTrackLabel(choice)}
-                    </span>
-                    <span className="pf-track-chip__count">{n}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          /* Every way of narrowing the library, in one panel down the side.
+             It was five blocks stacked above the grid — search, the chooser,
+             Advanced search, the view icons, and a bordered track panel — which
+             read as a wall of controls and pushed the first card under the fold.
+             The rail is `position: fixed`, so `.pf-container` reserves the
+             gutter it stands in; that reserve, and what it costs between 1024
+             and 1216px, is stated in `library-rail.css`. */
+          <LibraryRail
+            query={query}
+            onQuery={setQuery}
+            mixed={mixed}
+            collection={collection}
+            onCollection={setCollection}
+            track={track}
+            onTrack={setTrack}
+            trackCounts={trackCounts}
+            total={units.length}
+            viewMode={viewMode}
+            onViewMode={setViewMode}
+          />
         )}
       </section>
 

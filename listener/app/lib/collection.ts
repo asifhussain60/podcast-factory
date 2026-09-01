@@ -73,5 +73,19 @@ export function collectionOf(bucket: string): CollectionAccent {
 export const COLLECTIONS = ["all", "books", "sessions", "audiobooks"] as const;
 export type Collection = (typeof COLLECTIONS)[number];
 
+/**
+ * What each collection is CALLED on screen.
+ *
+ * Here rather than in the library route, because two surfaces now name the same
+ * collections — the route's own headings and the rail's chooser — and a second
+ * copy is how "Audiobooks" ends up as "Audiobook" in one of them.
+ */
+export const COLLECTION_LABELS: Record<Collection, string> = {
+  all: "Everything",
+  books: "Books",
+  sessions: "Sessions",
+  audiobooks: "Audiobooks",
+};
+
 export const inCollection = (bucket: string, choice: Collection): boolean =>
   choice === "all" || (collectionOf(bucket) ?? "books") === choice;

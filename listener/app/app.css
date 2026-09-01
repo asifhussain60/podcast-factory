@@ -13,3 +13,8 @@
  * did here: the active theme chip rendered ink-on-accent at 2.8:1 instead of the
  * white its token specifies. */
 @import "./styles/podcast-factory.css";
+
+/* One view's furniture, after the theme it builds on. Its own file because the
+   theme above is a THEME; see the header of `library-rail.css` for what the
+   rail costs the grid and why that was chosen. */
+@import "./styles/library-rail.css";
