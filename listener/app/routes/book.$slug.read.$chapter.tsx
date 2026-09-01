@@ -19,6 +19,7 @@ import { NotesList } from "~/components/reader/NotesList";
 import { ContentsPanel } from "~/components/reader/ContentsPanel";
 import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
+import { ReaderTopActions } from "~/components/reader/ReaderToolbar";
 import { ChapterListenControl } from "~/components/reader/ChapterListenControl";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
@@ -46,6 +47,11 @@ import { readingMinutes } from "~/lib/reading";
 import { chapterOf, chaptersOf, surfacesOf } from "~/server/catalog.server";
 import { companionFor } from "~/server/companion.server";
 import { sourceReferenceFor } from "~/server/sourceReference.server";
+import {
+  applyReadingAssistantSentences,
+  clearReadingAssistantSentences,
+  focusReadingAssistantSentences,
+} from "~/lib/reading-assistant";
 
 /**
  * One chapter of the reading edition.
@@ -225,6 +231,7 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   } | null>(null);
   /** Bumped once per paint, so the sweep below re-observes the marks just made. */
   const [paints, setPaints] = useState(0);
+  const [readingAssistantEnabled, setReadingAssistantEnabled] = useState(false);
 
   const body = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLSpanElement>(null);
@@ -237,6 +244,15 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
   const { showSourceRefs } = useReading();
   const marks = useMarks(slug);
   const player = useOptionalPlayer();
+  useEffect(() => {
+    const reader = body.current;
+    if (reader === null) return;
+    clearReadingAssistantSentences(reader);
+    if (!readingAssistantEnabled) return;
+    const sentences = applyReadingAssistantSentences(reader);
+    focusReadingAssistantSentences(reader, sentences);
+    return () => clearReadingAssistantSentences(reader);
+  }, [chapter.html, paints, readingAssistantEnabled]);
   const markCount = marks.annotations.length + marks.bookmarks.length;
   const annotations = useMemo(
     () => annotationsInChapter(marks, chapter.anchorKey),
@@ -874,15 +890,10 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       }
     >
       {/* ---- Above the page ----
-          The work's name, then the controls, then the sheet. Both sit OUTSIDE
-          the article deliberately: the sheet is the book, and a control
-          printed on it would be a control printed in the book.
-
-          The toolbar was in a sticky header until now. Out of it, nothing at
-          all covers the prose while reading — and the title, which a sticky
-          bar could only ever show as a truncated fragment, gets its full size
-          back. The cost is honest: changing a setting mid-chapter means
-          scrolling up. */}
+          The work's name, then the sheet. The controls are siblings of the
+          article but fixed inside a reserved side gutter, so they remain
+          reachable during a long chapter without covering or shifting the
+          printed page. */}
       <div className="pf-reader-head">
         {/* The title is the way back to the book.
             It was a plain heading, and the only link to `/book/:slug` in the
@@ -896,11 +907,23 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
 
         <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
 
+        <ReaderToolbar
+          bookmarked={bookmarked}
+          onToggleBookmark={toggleBookmark}
+        />
+
         <div className="pf-toolbar-rail">
-          <ReaderToolbar
+          <ReaderTopActions
+            bookHref={`/book/${slug}`}
+            bookTitle={bookTitle}
             bookmarked={bookmarked}
             onToggleBookmark={toggleBookmark}
             hasSourceReference={sourceRef !== null}
+            showReadingAssistant={isAdmin}
+            readingAssistantEnabled={readingAssistantEnabled}
+            onToggleReadingAssistant={() =>
+              setReadingAssistantEnabled((enabled) => !enabled)
+            }
           />
         </div>
 
@@ -953,7 +976,9 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               own dependencies had not changed, so nothing repainted it. */}
           <div
             ref={body}
-            className="reader pf-chapter-body"
+            className={`reader pf-chapter-body${
+              readingAssistantEnabled ? " pf-reading-assistant" : ""
+            }`}
             dangerouslySetInnerHTML={html}
           />
         </article>

@@ -2,8 +2,11 @@ import { useId } from "react";
 import {
   faAlignJustify,
   faBars,
+  faBook,
   faBookOpenReader,
   faBookmark,
+  faEye,
+  faEyeSlash,
   faGripLines,
   faHouse,
   type IconDefinition,
@@ -92,7 +95,7 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
 }
 
 /**
- * Everything that controls the reading view, in ONE row above it.
+ * Everything that controls the reading view, in one floating side panel.
  *
  * This replaces two surfaces that used to coexist: a typeface-and-size bar under
  * the book title, and a floating "Aa" panel in the top-right carrying theme,
@@ -101,16 +104,17 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
  * relative to each other, but the reader had no way to know that and the panel
  * sat on top of the paragraph whose setting it was there to change.
  *
- * It is not sticky and not in a header. It sits between the book's title and the
- * page, in the flow, and scrolls away with them — so the only thing over the
- * prose while reading is the prose.
+ * The panel stays at the edge of the reading canvas so the settings remain
+ * available halfway through a long chapter. It returns to a compact horizontal
+ * dock where the viewport is too narrow to leave a real outer margin.
  *
  * Three decisions shape the layout:
  *
- *   1. **One row, on every screen.** Below the tablet tier it scrolls
- *      horizontally rather than collapsing into a popover, because a popover is
- *      the thing being removed. A scrolling strip is the same idiom the mobile
- *      nav already uses.
+ *   1. **One column when the margin is tight, more only when it is safe.** The
+ *      desktop panel stacks its settings vertically. A landscape tablet uses
+ *      two columns only for the four compact navigation actions, while an
+ *      exceptionally wide display can give the setting groups a second column.
+ *      Narrow screens wrap the complete set into a compact multi-row dock.
  *
  *   2. **Buttons for spacing AND for width, a stepper for size.** Six chips do
  *      not fit a phone, which is why only one of the two three-step settings
@@ -133,19 +137,154 @@ function WidthIcon({ measure }: { measure: (typeof MEASURES)[number] }) {
  *   3. **Nothing overlays the text.** The one thing that still floats is the
  *      selection bar, which has to — it points at the words it acts on.
  */
-export function ReaderToolbar({
+export function ReaderTopActions({
+  bookHref,
+  bookTitle,
   bookmarked,
   onToggleBookmark,
   hasSourceReference,
+  showReadingAssistant,
+  readingAssistantEnabled,
+  onToggleReadingAssistant,
 }: {
+  bookHref: string;
+  bookTitle: string;
   bookmarked: boolean;
   onToggleBookmark: () => void;
+  showReadingAssistant?: boolean;
+  readingAssistantEnabled?: boolean;
+  onToggleReadingAssistant?: () => void;
   /**
    * Whether THIS chapter has a source-reference row. The toggle is not drawn
    * at all when it does not — most books have no crosswalk, and a control
    * with nothing behind it is worse than no control.
    */
   hasSourceReference: boolean;
+}) {
+  const prefs = useReading();
+  const assistantEnabled = Boolean(readingAssistantEnabled);
+
+  return (
+    <TooltipProvider>
+      <div className="pf-reader-actions" aria-label="Reading actions">
+        {/* ---- Getting about, and what you have marked ----------------------
+          Contents is NOT here. It was, twice — as the book's title doubling as a
+          toggle, then as a labelled button — and both put a way of LEAVING this
+          chapter into the row of controls for how this chapter is SET. It is a
+          collapsible panel on the left now, carrying its own affordance. */}
+        <Tooltip header="Home" description="Back to your library">
+          <Link
+            to="/library"
+            aria-label="Back to your library"
+            className="pf-reader-action pf-reader-action--home"
+          >
+            <Icon icon={faHouse} title="Back to your library" />
+          </Link>
+        </Tooltip>
+
+        <Tooltip
+          header="This book"
+          description={`Open ${bookTitle}'s reading, listening, deck and print options`}
+        >
+          <Link
+            to={bookHref}
+            aria-label={`Open ${bookTitle}`}
+            className="pf-reader-action pf-reader-action--book"
+          >
+            <Icon icon={faBook} title={`Open ${bookTitle}`} />
+          </Link>
+        </Tooltip>
+
+        <Tooltip
+          header={bookmarked ? "Bookmarked" : "Bookmark"}
+          description={
+            bookmarked
+              ? "Remove the bookmark at your current place"
+              : "Mark your place in this chapter, to jump back to it later"
+          }
+        >
+          <button
+            type="button"
+            onClick={onToggleBookmark}
+            aria-pressed={bookmarked}
+            className="pf-reader-action pf-reader-action--bookmark"
+          >
+            <Icon
+              icon={faBookmark}
+              title={bookmarked ? "Remove bookmark" : "Bookmark this place"}
+            />
+          </button>
+        </Tooltip>
+
+        {showReadingAssistant ? (
+          <Tooltip
+            header="Reading assistant"
+            description={
+              assistantEnabled
+                ? "Show one sentence clearly and dim the rest"
+                : "Dim most text and make the active sentence clearer"
+            }
+          >
+            <button
+              type="button"
+              onClick={onToggleReadingAssistant}
+              aria-pressed={assistantEnabled}
+              className="pf-reader-action pf-reader-action--assistant"
+            >
+              <Icon
+                icon={assistantEnabled ? faEye : faEyeSlash}
+                title={
+                  assistantEnabled
+                    ? "Disable reading assistant"
+                    : "Enable reading assistant"
+                }
+              />
+            </button>
+          </Tooltip>
+        ) : null}
+
+        {hasSourceReference ? (
+          <Tooltip
+            header="Source reference"
+            description={
+              prefs.showSourceRefs
+                ? "Hide the original book's page range and headings"
+                : "Show the original book's page range and headings for this chapter"
+            }
+          >
+            <button
+              type="button"
+              onClick={() =>
+                setReading({
+                  ...prefs,
+                  showSourceRefs: !prefs.showSourceRefs,
+                })
+              }
+              aria-pressed={prefs.showSourceRefs}
+              className="pf-reader-action pf-reader-action--source"
+            >
+              <Icon
+                icon={faBookOpenReader}
+                title={
+                  prefs.showSourceRefs
+                    ? "Hide source reference"
+                    : "Show source reference"
+                }
+              />
+            </button>
+          </Tooltip>
+        ) : null}
+      </div>
+    </TooltipProvider>
+  );
+}
+
+export function ReaderToolbar({
+  bookmarked,
+  onToggleBookmark,
+}: {
+  bookmarked: boolean;
+  onToggleBookmark: () => void;
 }) {
   const prefs = useReading();
   const id = useId();
@@ -155,18 +294,16 @@ export function ReaderToolbar({
 
   return (
     <TooltipProvider>
-      <div className="pf-toolbar">
-        {/* ---- Getting about, and what you have marked ----------------------
-          Contents is NOT here. It was, twice — as the book's title doubling as a
-          toggle, then as a labelled button — and both put a way of LEAVING this
-          chapter into the row of controls for how this chapter is SET. It is a
-          collapsible panel on the left now, carrying its own affordance. */}
-        <div className="pf-toolbar__group">
+      <div className="pf-toolbar" data-measure={prefs.measure}>
+        {/* These two established shortcuts remain in the top toolbar. The
+            persistent left rail repeats them as larger, always-available
+            actions; it does not take them away from this familiar location. */}
+        <div className="pf-toolbar__group pf-toolbar__group--primary">
           <Tooltip header="Home" description="Back to your library">
             <Link
               to="/library"
               aria-label="Back to your library"
-              className="pf-toolbar__home"
+              className="pf-tool"
             >
               <Icon icon={faHouse} title="Back to your library" />
             </Link>
@@ -192,38 +329,6 @@ export function ReaderToolbar({
               />
             </button>
           </Tooltip>
-
-          {hasSourceReference ? (
-            <Tooltip
-              header="Source reference"
-              description={
-                prefs.showSourceRefs
-                  ? "Hide the original book's page range and headings"
-                  : "Show the original book's page range and headings for this chapter"
-              }
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  setReading({
-                    ...prefs,
-                    showSourceRefs: !prefs.showSourceRefs,
-                  })
-                }
-                aria-pressed={prefs.showSourceRefs}
-                className="pf-tool"
-              >
-                <Icon
-                  icon={faBookOpenReader}
-                  title={
-                    prefs.showSourceRefs
-                      ? "Hide source reference"
-                      : "Show source reference"
-                  }
-                />
-              </button>
-            </Tooltip>
-          ) : null}
         </div>
 
         {/* ---- How the page is set ----------------------------------------- */}
@@ -338,11 +443,10 @@ export function ReaderToolbar({
             the empty half of a desktop window instead of adding white space
             inside the same narrow leaf (Asif, 2026-08-06).
 
-            Hidden below the tablet tier, and that is the honest behaviour rather
-            than a tidy-up: under about 900px the sheet is already capped by the
-            window, so all three steps render identically and the control would
-            be three buttons that do nothing. The CSS hides it; the setting still
-            applies if it was chosen on a wider screen. */}
+            Hidden only where the viewport is physically too narrow to offer
+            three distinct sheets. From an ordinary desktop upward each choice
+            has its own responsive cap, so the control remains both available
+            and truthful even while a side gutter is reserved for this panel. */}
           <div
             role="group"
             aria-label="Page width"

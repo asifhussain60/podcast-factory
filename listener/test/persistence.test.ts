@@ -36,6 +36,14 @@ const PLAYER = readFileSync(
   "utf8",
 );
 
+/** The speed scale, its storage key, its validation and its application moved out
+ *  of Player.tsx on 2026-09-01 when extending the scale to 3x pushed that file
+ *  past its size ceiling. The rules below are unchanged; only where they live is. */
+const RATE = readFileSync(
+  new URL("../app/lib/playback-rate.ts", import.meta.url),
+  "utf8",
+);
+
 /** A real store, not a mock that always succeeds: these tests are about what
  *  comes BACK, so the same object has to answer both halves. Same shape the
  *  reading store's own suite uses. */
@@ -153,25 +161,39 @@ describe("the listening speed", () => {
   // <audio> element, a router and a session. What is being checked is the thing
   // that was actually missing — a write, a read, and a validator — not the DOM.
   it("is written when it is changed", () => {
-    expect(PLAYER).toMatch(/localStorage\.setItem\(RATE_KEY/);
+    expect(RATE).toMatch(/localStorage\.setItem\(RATE_KEY/);
+    expect(PLAYER).toMatch(/saveRate\(next\)/);
   });
 
   it("is read back and applied on mount", () => {
-    expect(PLAYER).toMatch(/function loadRate\(\)/);
+    expect(RATE).toMatch(/export function loadRate\(\)/);
     expect(PLAYER).toMatch(/const stored = loadRate\(\)/);
   });
 
   it("validates against the rates the buttons offer", () => {
     // A stored 0 is a silent, unrecoverable pause; a rate between the buttons
     // lights none of them. It must check membership, not merely finiteness.
-    expect(PLAYER).toMatch(
-      /RATES as readonly number\[\]\)\.includes\(stored\)/,
-    );
+    expect(RATE).toMatch(/RATES as readonly number\[\]\)\.includes\(stored\)/);
   });
 
   it("re-applies the speed when a new episode starts", () => {
     // Setting `element.src` resets `playbackRate` to 1. Without this the control
     // reads 1.5x while the audio plays at normal speed.
-    expect(PLAYER).toMatch(/element\.playbackRate = rate;/);
+    expect(PLAYER).toMatch(/applyRate\(element, rate\)/);
+  });
+
+  it("keeps the voice at its own pitch, which is what makes 3x usable", () => {
+    // Without `preservesPitch` the top of the scale is a chipmunk and the words
+    // are gone long before the speed is the problem. Every current browser
+    // defaults it to true, so this was working by luck rather than by decision.
+    expect(RATE).toMatch(/element\.preservesPitch = true;/);
+  });
+
+  it("offers 1x to 3x in half steps, and no slow speeds", () => {
+    // 3x is about where speech stops being followable. `playbackRate` accepts far
+    // more and browsers mute audio above about 4x, so the ceiling is a judgement
+    // about listening rather than a limit of the API — pinned so raising it is a
+    // decision somebody makes on purpose.
+    expect(RATE).toMatch(/RATES = \[1, 1\.5, 2, 2\.5, 3\] as const;/);
   });
 });

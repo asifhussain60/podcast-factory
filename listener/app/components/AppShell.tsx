@@ -42,9 +42,9 @@ export function AppShell({
   /**
    * The reading column instead of the page container.
    *
-   * The reader sets its own two widths — a 76rem control rail above a 56rem
-   * sheet — so its `main` must not also be capped at the page measure. Every
-   * other page is one column and takes the container.
+   * The reader sets its own page and prose widths, including a full-canvas
+   * widest view, so its `main` must not also be capped at the page measure.
+   * Every other page is one column and takes the container.
    */
   reader?: boolean;
   /**

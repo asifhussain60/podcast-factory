@@ -2677,6 +2677,66 @@ body:has(.composer-grid) .to-top {
   margin-inline: auto;
   display: flow-root; /* contain floated (wrap) figures within the chapter */
 }
+
+.composer.is-reading-assisted .cx-body .cx-reading-assistant-sentence {
+  color: color-mix(in srgb, var(--c-ink, #1f1d18) 16%, var(--c-paper, #fffdf8));
+  opacity: 0.18;
+}
+
+.composer.is-reading-assisted.is-editing.has-reading-assistant-highlights
+  .ProseMirror
+  :is(p, li, blockquote, figcaption, dd, dt),
+.composer.is-reading-assisted.is-editing.has-reading-assistant-highlights
+  .ProseMirror
+  :is(p, li, blockquote, figcaption, dd, dt)
+  * {
+  color: color-mix(
+    in srgb,
+    var(--c-ink, #1f1d18) 16%,
+    var(--c-paper, #fffdf8)
+  ) !important;
+}
+
+::highlight(cx-reading-assistant-focus) {
+  color: var(--c-ink, #1f1d18);
+}
+
+.composer.is-reading-assisted .cx-body .cx-reading-assistant-sentence--focus,
+.composer.is-reading-assisted .cx-body :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--c-ink, #1f1d18);
+  opacity: 1;
+}
+
+.cx-reading-assistant-btn[aria-pressed="true"] {
+  color: var(--c-ink, #1f1d18);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+@media (prefers-contrast: more) {
+  .composer.is-reading-assisted .cx-body .cx-reading-assistant-sentence {
+    color: color-mix(
+      in srgb,
+      var(--c-ink, #1f1d18) 32%,
+      var(--c-paper, #fffdf8)
+    );
+    opacity: 0.36;
+  }
+
+  .composer.is-reading-assisted.is-editing.has-reading-assistant-highlights
+    .ProseMirror
+    :is(p, li, blockquote, figcaption, dd, dt),
+  .composer.is-reading-assisted.is-editing.has-reading-assistant-highlights
+    .ProseMirror
+    :is(p, li, blockquote, figcaption, dd, dt)
+    * {
+    color: color-mix(
+      in srgb,
+      var(--c-ink, #1f1d18) 32%,
+      var(--c-paper, #fffdf8)
+    ) !important;
+  }
+}
+
 /* Narrow screens get the page, not the margins: 3rem of padding either side of a
    390px viewport leaves the text less room than the frame. The gutter the Arabic
    control sits in is already returned to the flow at this width (arabic-reveal.css),

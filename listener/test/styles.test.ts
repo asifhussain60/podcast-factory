@@ -122,6 +122,11 @@ const DELIBERATE = new Set([
   // classList on the rendered book block so the HTML published from the reading
   // edition stays untouched.
   "pf-read-aloud",
+  // The reading assistant wraps sentences after the published chapter HTML is
+  // mounted, then promotes one sentence per paragraph with classList. Neither
+  // class can appear in JSX without changing the book HTML the reader receives.
+  "pf-reading-assistant-sentence",
+  "pf-reading-assistant-sentence--focus",
 ]);
 
 describe("the stylesheet and the markup", () => {

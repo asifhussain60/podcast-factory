@@ -173,6 +173,18 @@ describe("the page width scale", () => {
     expect(MEASURE_SHEET[MEASURES[0]]).toBe("56rem");
   });
 
+  it("keeps two book-like widths and makes Widest a full reading canvas", () => {
+    expect(MEASURE_SHEET).toEqual({
+      68: "56rem",
+      84: "66rem",
+      100: "112rem",
+    });
+    expect(CSS).toContain("max-width: calc(100vw - 4rem)");
+    expect(CSS).toContain(
+      "max-width: min(var(--l-reading-measure), calc(100vw - 20rem))",
+    );
+  });
+
   it("only ever gets wider", () => {
     const rem = (value: string) => Number.parseFloat(value);
     for (let i = 1; i < MEASURES.length; i++) {
@@ -199,6 +211,37 @@ describe("the page width scale", () => {
     // control but never declared in the CSS silently does nothing.
     expect(CSS).toContain("--pf-measure-reader:");
     expect(CSS).toContain("max-width: var(--pf-measure-reader)");
+  });
+
+  it("only offers width choices when all three sheets can change", () => {
+    // From 1024px the three measures receive different responsive caps while
+    // the persistent toolbar gutter remains protected. The control therefore
+    // stays available without offering two buttons that render the same page.
+    expect(CSS).toContain("@media (min-width: 1024px)");
+    expect(CSS).toMatch(
+      /@media \(min-width: 1024px\)[\s\S]*?\.pf-stepper--wide-only\s*{[\s\S]*?display: inline-flex/,
+    );
+    for (const measure of MEASURES) {
+      expect(CSS).toContain(
+        `.pf-reader:has(.pf-toolbar[data-measure="${measure}"]) .pf-reader-page`,
+      );
+    }
+  });
+
+  it("keeps responsive page widths monotonic around toolbar changes", () => {
+    // The compact panel lasts until its protected width tier ends. The full
+    // panel starts at 1792px and the two-column panel at 2240px, so crossing
+    // either boundary changes only the chrome and never makes the reading page
+    // narrower.
+    expect(CSS).toContain("@media (min-width: 768px) and (max-width: 1791px)");
+    expect(CSS).toContain("@media (min-width: 1792px) and (max-width: 2239px)");
+    expect(CSS).toContain("@media (min-width: 2240px)");
+  });
+
+  it("keeps side-rail actions vertical when the tablet layout moves left", () => {
+    expect(CSS).toMatch(
+      /@media \(min-width: 768px\) and \(max-width: 1791px\)[\s\S]*?\.pf-reader-actions\s*{[\s\S]*?flex-direction: column/,
+    );
   });
 
   it("applies the sheet before first paint", () => {

@@ -5,12 +5,7 @@
  * touched.
  */
 export type StudyTrack =
-  | "theology"
-  | "history"
-  | "shariah"
-  | "esoteric"
-  | "reality"
-  | "philosophy";
+  "theology" | "history" | "shariah" | "esoteric" | "reality" | "philosophy";
 
 const LABELS: Record<StudyTrack, string> = {
   theology: "Theology",

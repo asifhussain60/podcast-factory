@@ -87,14 +87,14 @@ export const MEASURES = [68, 84, 100] as const;
  * Not derived with `calc`. `ch` resolves against the font of the element it is
  * used on, and the sheet is not set in the reading face — so a computed sheet
  * would be measured in the wrong glyph and drift from its own column as the
- * reading typeface changed. These are measured pairs: each keeps the same slack
- * between column and sheet edge that 68ch/56rem has today, so the printer's
- * margin looks the same at every step instead of growing with the page.
+ * reading typeface changed. Standard and Wider keep printer-like margins.
+ * Widest is deliberately a roomier canvas: on a large monitor it uses the
+ * otherwise empty side space while the 100ch prose column remains centred.
  */
 export const MEASURE_SHEET: Record<(typeof MEASURES)[number], string> = {
   68: "56rem",
   84: "66rem",
-  100: "76rem",
+  100: "112rem",
 };
 
 /**

@@ -28,6 +28,7 @@ import {
   withPendingMoments,
 } from "~/lib/listening";
 import { localTranscript, localUrl } from "~/lib/offline";
+import { applyRate, loadRate, RATES, saveRate } from "~/lib/playback-rate";
 
 /**
  * One <audio> element for the whole site.
@@ -152,8 +153,6 @@ interface PlayerState {
 
 const PlayerContext = createContext<PlayerState | null>(null);
 
-export const RATES = [0.9, 1, 1.2, 1.5, 1.8] as const;
-
 /**
  * Where the listener had got to, keyed by the EPISODE rather than by its file.
  *
@@ -172,33 +171,6 @@ export const RATES = [0.9, 1, 1.2, 1.5, 1.8] as const;
  * is gone.
  */
 const POSITION_KEY = "pf-positions";
-
-/**
- * How fast the listener plays things — remembered like every other setting.
- *
- * It was React state alone, so a listener who plays at 1.5× was returned to 1×
- * by every reload and every new visit, on every episode. That is not a position
- * (which belongs to one episode) but a PREFERENCE about listening, so it is one
- * value rather than a map, and it sits beside the positions rather than in
- * `pf-reading` — that key is the reading column's typography, and a listening
- * speed inside it would be a second meaning for one store.
- */
-const RATE_KEY = "pf-rate";
-
-function loadRate(): number {
-  try {
-    const stored = Number(localStorage.getItem(RATE_KEY));
-    // Validated against the SCALE THE UI OFFERS, never merely against "is a
-    // number". `playbackRate = 0` is a silent, unrecoverable pause, and a rate
-    // between the buttons would light none of them — the control would read as
-    // broken. Same rule as `storedReading`, and it must keep using the exported
-    // RATES rather than a second list: a copy that drifted would reject every
-    // real stored value and reset to 1, which is the bug this exists to fix.
-    return (RATES as readonly number[]).includes(stored) ? stored : 1;
-  } catch {
-    return 1;
-  }
-}
 
 const positionKey = (item: NowPlaying) =>
   item.kind === "chapter"
@@ -439,7 +411,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (stored === 1) return;
     setRateState(stored);
     const element = audio.current;
-    if (element !== null) element.playbackRate = stored;
+    if (element !== null) applyRate(element, stored);
   }, []);
 
   const play = useCallback(
@@ -471,7 +443,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       // Setting a new source resets `playbackRate` to 1. Without this, choosing
       // 1.5x and then playing the next episode silently dropped back to normal
       // speed while the control still showed 1.5x.
-      element.playbackRate = rate;
+      applyRate(element, rate);
 
       // The words, loaded alongside the audio rather than when the panel opens.
       // Cleared FIRST so the panel never shows the previous episode's transcript
@@ -573,13 +545,9 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
 
   const setRate = useCallback((next: number) => {
     const element = audio.current;
-    if (element !== null) element.playbackRate = next;
+    if (element !== null) applyRate(element, next);
     setRateState(next);
-    try {
-      localStorage.setItem(RATE_KEY, String(next));
-    } catch {
-      // Storage disabled. The rate still applies to this session.
-    }
+    saveRate(next);
   }, []);
 
   const close = useCallback(() => {

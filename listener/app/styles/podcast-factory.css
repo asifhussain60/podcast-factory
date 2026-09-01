@@ -1502,23 +1502,129 @@
     color: var(--l-faint);
   }
 
-  /* The rail exists so the card can be `width: fit-content` and still centre:
-     it is the full-width track `margin-inline: auto` measures against. It does
-     NOT scroll — see the note on the card below. */
-  .pf-toolbar-rail {
+  /* Navigation and chapter actions are the persistent left rail. Each action
+     carries its own theme-aware hue so the larger icons are easy to distinguish
+     without relying on a label that is only visible in a tooltip. */
+  .pf-reader-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pf-space-3);
     width: 100%;
-    max-width: 100%;
+    padding: var(--pf-space-3) var(--pf-space-2);
+    background: var(--l-surface);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-lg);
+    box-shadow: var(--pf-elev-1);
   }
 
-  /* A panel, not a bare row. Floating unframed between a large title and a
-     bordered sheet, the controls read as loose objects on the page background;
-     the card gives them one edge and says they are one thing. Same surface,
-     border and radius as every other card on the site, and the elevation is a
-     step below the sheet's so it reads as sitting on the page rather than in
-     front of it. */
+  .pf-reader-action {
+    --pf-reader-action-colour: var(--l-display);
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    flex: none;
+    padding: 0;
+    border: 1px solid
+      color-mix(in srgb, var(--pf-reader-action-colour) 32%, transparent);
+    border-radius: 50%;
+    background: color-mix(
+      in srgb,
+      var(--pf-reader-action-colour) 12%,
+      var(--l-surface)
+    );
+    color: var(--pf-reader-action-colour);
+    font-size: 1.35rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background var(--pf-motion),
+      border-color var(--pf-motion),
+      box-shadow var(--pf-motion),
+      transform var(--pf-motion);
+  }
+
+  .pf-reader-action--book {
+    --pf-reader-action-colour: var(--l-accent);
+  }
+
+  .pf-reader-action--home {
+    --pf-reader-action-colour: var(--l-display);
+  }
+
+  .pf-reader-action--bookmark {
+    --pf-reader-action-colour: var(--l-warn);
+  }
+
+  .pf-reader-action--assistant {
+    --pf-reader-action-colour: var(--l-ok);
+  }
+
+  .pf-reader-action--source {
+    --pf-reader-action-colour: var(--l-heading-1);
+  }
+
+  .pf-reader-action:hover {
+    border-color: var(--pf-reader-action-colour);
+    background: color-mix(
+      in srgb,
+      var(--pf-reader-action-colour) 20%,
+      var(--l-surface)
+    );
+    box-shadow: 0 0.4rem 1rem
+      color-mix(in srgb, var(--pf-reader-action-colour) 16%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .pf-reader-action[aria-pressed="true"] {
+    border-color: var(--pf-reader-action-colour);
+    background: var(--pf-reader-action-colour);
+    color: var(--l-surface);
+  }
+
+  @media (max-width: 639px) {
+    .pf-reader-actions {
+      flex-direction: row;
+      gap: var(--pf-space-2);
+      padding: var(--pf-space-2);
+    }
+
+    .pf-reader-action {
+      width: 3rem;
+      height: 3rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  /* The controls live in their own fixed gutter. The reading leaf reserves the
+     same amount of room on both sides below, so this panel never pushes the
+     book off its centre line and never sits on top of the prose. */
+  .pf-toolbar-rail {
+    position: fixed;
+    /* Drawers and their scrim are 24/25. Reader chrome belongs below both, so
+       opening Contents or Companion can never leave controls sitting over the
+       panel's rows. */
+    z-index: 23;
+    top: 50%;
+    left: 3.25rem;
+    width: 4.75rem;
+    transform: translateY(-50%);
+  }
+
+  /* Reading appearance stays in the centred toolbar above the page. It wraps
+     into as many rows as the viewport needs, but remains in normal flow, so it
+     cannot hide the text it changes. */
   .pf-toolbar {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: var(--pf-space-3);
     width: fit-content;
     max-width: 100%;
@@ -1528,23 +1634,9 @@
     border: 1px solid var(--l-rule);
     border-radius: var(--pf-radius-lg);
     box-shadow: var(--pf-elev-1);
-    /* The CARD is the scroller, not the rail around it.
-       Scrolling the rail was right while the row was unframed; with a border on
-       it, the frame itself scrolled — so at tablet width you saw a rounded left
-       corner and a right edge that simply ran off the screen, which reads as a
-       broken box rather than as more to see. Scrolling inside the card keeps the
-       frame whole at every width, and a control clipped by a border a reader can
-       see is its own invitation to drag. */
-    overflow-x: auto;
-    scrollbar-width: none;
-    scroll-snap-type: x proximity;
+    overflow: visible;
   }
 
-  .pf-toolbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .pf-toolbar__home,
   .pf-tool {
     display: inline-flex;
     align-items: center;
@@ -1565,7 +1657,6 @@
       color var(--pf-motion);
   }
 
-  .pf-toolbar__home:hover,
   .pf-tool:hover {
     background: var(--l-sunken);
     color: var(--l-ink);
@@ -1592,7 +1683,9 @@
     position: fixed;
     z-index: 23;
     right: max(2.5rem, env(safe-area-inset-right));
-    bottom: calc(1.6rem + var(--pf-player-h, 0px) + env(safe-area-inset-bottom));
+    bottom: calc(
+      1.6rem + var(--pf-player-h, 0px) + env(safe-area-inset-bottom)
+    );
     display: none;
     pointer-events: none;
   }
@@ -1823,48 +1916,42 @@
     flex: none;
   }
 
+  .pf-toolbar__group--primary {
+    padding-inline-end: var(--pf-space-3);
+    border-inline-end: 1px solid var(--l-rule-soft);
+  }
+
   /* A hairline between the marks and the typography, so the row reads as two
      kinds of thing rather than one long strip of buttons. */
   .pf-toolbar__group--set {
-    padding-inline-start: var(--pf-space-3);
-    border-inline-start: 1px solid var(--l-rule-soft);
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: auto;
+    padding-block-start: 0;
+    border-block-start: 0;
   }
 
-  /* Below the tablet tier the row cannot hold everything at a legible size, and
-     the answer is NOT a popover — that is the thing being removed. The card
-     takes the full width and its contents scroll inside it, which is the same
-     idiom the site's own mobile navigation uses.
-
-     Full width rather than fit-content, because a card sized to content that is
-     wider than the screen is a card wider than the screen: it would be clipped
-     by the viewport instead of by its own border, and the right edge would be
-     gone rather than merely full. */
-  /* It WRAPS below the tablet tier; it no longer scrolls.
-     Measured at 393px before this: the row was 774px wide against a 393px
-     window, so six of its nine controls — typeface, both size steps, all three
-     spacing toggles and line width — sat past the right edge, reachable only by
-     dragging inside the card and with nothing on screen to say so (Asif,
-     2026-08-06). A scrolling strip is a fine idiom when the overflow is
-     obviously more of the same thing; here it hid every typographic setting the
-     toolbar exists for.
-
-     Wrapping and not a popover, because the popover is what this toolbar
-     replaced and must not come back. The card is not sticky — it scrolls away
-     with the title — so the extra height costs a reader nothing. */
-  @media (max-width: 899px) {
-    .pf-toolbar {
-      width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
-      overflow-x: visible;
+  /* A narrow screen cannot spare a side gutter without crushing the book. The
+     action rail becomes a compact bottom dock there, while the appearance
+     toolbar stays above the page and wraps in normal flow. */
+  @media (max-width: 1023px) {
+    .pf-toolbar-rail {
+      top: auto;
+      bottom: calc(var(--pf-space-3) + var(--pf-player-h, 0px));
+      left: 50%;
+      width: fit-content;
+      max-width: calc(100% - 2rem);
+      transform: translateX(-50%);
     }
 
-    /* The GROUPS have to wrap too, and this is the whole fix rather than a
-       detail of it. They are `flex: none`, so wrapping only the card put each
-       group on its own line and left the second one — swatches, typeface, size,
-       spacing, width — a single 590px-wide unbreakable item. With the card no
-       longer scrolling, that overflowed the PAGE instead: 148px of sideways
-       document scroll at 320px, which is worse than what it replaced. */
+    .pf-reader-actions {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      width: fit-content;
+      border-radius: var(--pf-radius-pill);
+    }
+
     .pf-toolbar__group {
       flex: 0 1 auto;
       flex-wrap: wrap;
@@ -1872,15 +1959,36 @@
     }
   }
 
-  /* The hairline between "what you have marked" and "how the page is set" is a
-     left border, which is right while the two share a line and wrong the moment
-     the second group starts its own — there it is a stray vertical mark against
-     the card's inner edge. Below the tier where they can wrap, the line break
-     does the separating. */
-  @media (max-width: 899px) {
-    .pf-toolbar__group--set {
-      padding-inline-start: 0;
-      border-inline-start: 0;
+  @media (max-width: 639px) {
+    .pf-toolbar__group--primary {
+      width: 100%;
+      padding-inline-end: 0;
+      padding-block-end: var(--pf-space-2);
+      border-inline-end: 0;
+      border-block-end: 1px solid var(--l-rule-soft);
+    }
+  }
+
+  /* A tablet and an ordinary desktop keep the action rail clear of the
+     Contents tab. The reading leaf remains physically centred. */
+  @media (min-width: 768px) and (max-width: 1791px) {
+    .pf-toolbar-rail {
+      top: 50%;
+      bottom: auto;
+      left: 3.25rem;
+      width: 4.75rem;
+      transform: translateY(-50%);
+    }
+
+    /* The rail is back at the side from this breakpoint onward, so its actions
+       must return to a single vertical column with it. Keeping the bottom-dock
+       row here made the buttons overflow the narrow rail into the reading leaf
+       at tablet widths. */
+    .pf-reader-actions {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      width: 100%;
+      border-radius: var(--pf-radius-lg);
     }
   }
 
@@ -1915,6 +2023,71 @@
     max-width: var(--pf-measure-reader);
     margin-inline: auto;
     padding-inline: var(--pf-space-5);
+  }
+
+  @media (min-width: 768px) and (max-width: 1791px) {
+    .pf-reader-page {
+      max-width: min(var(--pf-measure-reader), calc(100vw - 24rem));
+    }
+  }
+
+  /* From a standard desktop upward the three width buttons must produce three
+     visibly different sheets. Each setting gets the widest centred leaf that
+     still clears the persistent left panel by at least one full spacing unit.
+     The unequal reserves are deliberate: a narrow leaf has more spare gutter,
+     while Widest uses that room instead of pretending to change. */
+  @media (min-width: 1024px) and (max-width: 1599px) {
+    .pf-reader:has(.pf-toolbar[data-measure="68"]) .pf-reader-page {
+      max-width: min(56rem, calc(100vw - 32rem));
+    }
+
+    .pf-reader:has(.pf-toolbar[data-measure="84"]) .pf-reader-page {
+      max-width: min(66rem, calc(100vw - 28rem));
+    }
+
+    .pf-reader:has(.pf-toolbar[data-measure="100"]) .pf-reader-page {
+      max-width: min(76rem, calc(100vw - 24rem));
+    }
+  }
+
+  /* The full panel begins only when the widest reading leaf already fits in
+     the protected centre. The breakpoint therefore changes the chrome without
+     changing the page underneath it. */
+  @media (min-width: 1792px) and (max-width: 2239px) {
+    .pf-reader-page {
+      max-width: min(var(--pf-measure-reader), calc(100vw - 36rem));
+    }
+  }
+
+  /* Widest is the reading-canvas mode, not merely a slightly longer line. It
+     expands the sheet into both empty gutters on a large display, while the
+     prose itself remains capped at 100ch and centred inside it. The sheet is
+     fluid rather than stopping at a desktop-sized rem cap, so every larger
+     viewport contributes its available width. A 2rem margin on each side keeps
+     the paper visibly framed. The protected inner measure leaves 10rem on each
+     side at the smallest full-canvas viewport, which is enough for the action
+     rail and Listen to overlap only the paper margin, never the prose. */
+  @media (min-width: 1600px) {
+    .pf-reader:has(.pf-toolbar[data-measure="100"]) .pf-reader-page {
+      max-width: calc(100vw - 4rem);
+    }
+
+    .pf-reader:has(.pf-toolbar[data-measure="100"]) .pf-page > * {
+      max-width: min(var(--l-reading-measure), calc(100vw - 20rem));
+    }
+  }
+
+  /* On an exceptionally wide display the action rail stays deliberately slim.
+     The book remains on the physical centre. */
+  @media (min-width: 2240px) {
+    .pf-toolbar-rail {
+      left: 2rem;
+      width: 4.75rem;
+    }
+
+    .pf-reader-page {
+      max-width: min(var(--pf-measure-reader), calc(100vw - 64rem));
+    }
   }
 
   /* ---- Stepper -----------------------------------------------------------
@@ -2021,7 +2194,7 @@
   }
 
   /* A control only where it can do something.
-     Page width is three steps of `--pf-measure-reader`, and below about 900px
+     Page width is three steps of `--pf-measure-reader`, and below a desktop
      the sheet is already capped by the window — so every step renders the same
      page and the buttons would be an offer the layout cannot keep. `display`
      rather than `visibility` so it leaves the scrolling toolbar strip entirely
@@ -2034,7 +2207,9 @@
     display: none;
   }
 
-  @media (min-width: 900px) {
+  /* At 1024px the responsive caps above make all three choices distinct while
+     still protecting the toolbar gutter. */
+  @media (min-width: 1024px) {
     .pf-stepper--wide-only {
       display: inline-flex;
     }
@@ -2177,6 +2352,24 @@
 
   .pf-chapter-body {
     margin-top: var(--pf-space-6);
+  }
+
+  .pf-chapter-body.pf-reading-assistant .pf-reading-assistant-sentence {
+    color: color-mix(in srgb, var(--l-ink) 16%, var(--l-paper));
+    opacity: 0.18;
+  }
+
+  .pf-chapter-body.pf-reading-assistant .pf-reading-assistant-sentence--focus,
+  .pf-chapter-body.pf-reading-assistant :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--l-ink);
+    opacity: 1;
+  }
+
+  @media (prefers-contrast: more) {
+    .pf-chapter-body.pf-reading-assistant .pf-reading-assistant-sentence {
+      color: color-mix(in srgb, var(--l-ink) 32%, var(--l-paper));
+      opacity: 0.36;
+    }
   }
 
   .pf-chapter-body > .pf-read-aloud {
@@ -10007,6 +10200,15 @@
      Arabic is a display line, whatever it is called. */
   .reader p:not(.ar-block):not(.ar) > .ar-inline {
     white-space: nowrap;
+  }
+
+  /* A long inline Arabic citation can be wider than a phone's entire reading
+     column. On that one tier legibility wins over the no-break preference: the
+     run may wrap, so it never creates sideways page scroll or hides its ending. */
+  @media (max-width: 639px) {
+    .reader p:not(.ar-block):not(.ar) > .ar-inline {
+      white-space: normal;
+    }
   }
 
   /* A standalone Arabic quotation. This is the common shape in this library: the
