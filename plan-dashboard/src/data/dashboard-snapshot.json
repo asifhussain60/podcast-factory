@@ -1864,12 +1864,44 @@
   "generator": "regenerate-snapshots",
   "books_in_flight": [
     {
+      "slug": "a-christmas-tree-and-a-wedding",
+      "title": "A Christmas Tree and a Wedding",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "a-faint-heart",
+      "title": "A Faint Heart",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "a-little-hero",
+      "title": "A Little Hero",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
       "slug": "al-anwaar-al-lateefah",
       "title": "al-anwaar-al-lateefah",
       "phase": "0c",
       "phase_status": "pending",
       "cost_to_date_usd": 0,
       "kind": "unknown"
+    },
+    {
+      "slug": "an-unpleasant-predicament",
+      "title": "An Unpleasant Predicament",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
     },
     {
       "slug": "ayyuhal-walad",
@@ -1886,6 +1918,14 @@
       "phase_status": "failed",
       "cost_to_date_usd": 0,
       "kind": "technical"
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
     },
     {
       "slug": "degrees-of-excellence",
@@ -1920,6 +1960,14 @@
       "kind": "islamic_session"
     },
     {
+      "slug": "mr-prohartchin",
+      "title": "Mr. Prohartchin",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
       "slug": "mukhtasar-ul-asar-1",
       "title": "Mukhtasar-ul-Asaar 1",
       "phase": "reader-narration",
@@ -1934,6 +1982,30 @@
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "notes-from-underground",
+      "title": "Notes from Underground",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "polzunkov",
+      "title": "Polzunkov",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "poor-folk",
+      "title": "Poor Folk",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
     },
     {
       "slug": "purification-of-the-heart",
@@ -1960,6 +2032,62 @@
       "kind": "islamic_session"
     },
     {
+      "slug": "the-brothers-karamazov",
+      "title": "The Brothers Karamazov",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-crocodile",
+      "title": "The Crocodile",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-double",
+      "title": "The Double",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-dream-of-a-ridiculous-man",
+      "title": "The Dream of a Ridiculous Man",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-gambler",
+      "title": "The Gambler",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-house-of-the-dead",
+      "title": "The House of the Dead",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
       "slug": "the-master-and-the-disciple",
       "title": "The Master and the Disciple",
       "phase": "reader-narration",
@@ -1968,12 +2096,44 @@
       "kind": "islamic_scholarly"
     },
     {
+      "slug": "the-permanent-husband",
+      "title": "The Permanent Husband",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "the-possessed",
+      "title": "The Possessed",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
+      "slug": "uncles-dream",
+      "title": "Uncle's Dream",
+      "phase": "sessions-ingest",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
+    },
+    {
       "slug": "where-the-caravans-set-forth",
       "title": "Where the Caravans Set Forth",
       "phase": "publish",
       "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "phase": "sessions-read-along",
+      "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "audiobook"
     }
   ],
   "wave_execution_events": [],

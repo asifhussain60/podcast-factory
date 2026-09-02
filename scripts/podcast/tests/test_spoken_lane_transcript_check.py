@@ -107,6 +107,14 @@ class TestChecks(unittest.TestCase):
         found = [f for f in T.check_book(d) if f.code == "ORPHAN"]
         self.assertEqual([f.episode for f in found], [2])
 
+    def test_no_local_audio_at_all_is_not_orphaned(self):
+        """`m4a/**` is gitignored, so a fresh checkout (CI, a second machine) has
+        zero recordings for every book. That must not read as every transcript
+        being orphaned -- it means this machine hasn't pulled the audio down."""
+        d = book(self.tmp, vtts={1: VTT, 2: VTT})
+        found = [f for f in T.check_book(d) if f.code == "ORPHAN"]
+        self.assertEqual(found, [])
+
     def test_a_transcript_of_a_different_chapter_is_caught(self):
         """Cues ending 5s in, against a 40-minute recording."""
         d = book(self.tmp, audio={1: ".m4a"}, vtts={1: VTT})

@@ -35,7 +35,6 @@ import argparse
 import datetime as dt
 import importlib.util
 import json
-import os
 import re
 import subprocess
 import sys
@@ -564,49 +563,6 @@ class Probe:
                 "scripts/podcast/generate_translation_edition.py",
             )
 
-    def check_book_identity(self) -> None:
-        """AU-V7 — every book's identity is complete, or the gap is on record.
-
-        `normalize_book_metadata.py` already computes this (that is the whole
-        point of `.unknown()`: report a gap, never invent one — guessing an
-        author or an Arabic title for a religious text is the one thing that
-        script refuses to do). What it lacked was a gate that runs it: the
-        script sat as a manual report nobody remembered to re-run, which is
-        how `purification-of-the-heart` shipped to the Studio shelf with no
-        Arabic title while every sibling Sessions/Islamic book had one. This
-        check re-runs THAT script rather than re-deriving its resolution
-        order — a second answer to "what is this book called" is exactly the
-        drift the script's own docstring exists to end.
-
-        P2, not P1: a missing identity field is a real gap, but it is closed
-        by a human supplying the true name, not by a commit being blocked.
-        """
-        script = Path(__file__).resolve().parent / "podcast" / "normalize_book_metadata.py"
-        if not script.exists():
-            return
-        try:
-            result = subprocess.run(
-                [sys.executable, str(script), "--json"],
-                cwd=self.root,
-                env={**os.environ, "PODCAST_FACTORY_ROOT": str(self.root)},
-                capture_output=True,
-                text=True,
-                check=False,
-                timeout=GIT_TIMEOUT,
-            )
-            data = json.loads(result.stdout or "{}")
-        except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
-            return
-        for slug, gaps in sorted((data.get("unknown") or {}).items()):
-            for gap in gaps:
-                self.add(
-                    "P2",
-                    "AU-V7",
-                    f"{slug} has no {gap} recorded anywhere the pipeline reads",
-                    f"content/*/{slug}/meta.yml",
-                    fingerprint=f"AU-V7:{slug}:{gap}",
-                )
-
     # ---------- L: plan conformance ----------
 
     def wave_families(self, plan: dict) -> list:
@@ -841,7 +797,6 @@ class Probe:
 # check could be run and untested, or tested and unrun, or listed in the catalog
 # and neither — the exact prose-rot this file's docstring was written about,
 # reached by a different road.
-#
 # `fn` takes the probe as its only argument for BOTH kinds of check: a `Probe`
 # method accessed on the class is a plain function whose first parameter is the
 # instance, so `Probe.check_contract(probe)` and `surface.check_routes(probe)`
@@ -889,7 +844,7 @@ CHECKS: tuple = (
         ("AU-V1", "AU-V2", "AU-V4", "AU-V5", "AU-V6"),
         ("podcast",),
     ),
-    CheckSpec("check_book_identity", Probe.check_book_identity, ("AU-V7",), ("podcast",)),
+    CheckSpec("check_book_identity", specs.check_book_identity, ("AU-V7",), ("podcast",)),
     CheckSpec(
         "check_capabilities",
         surface.check_capabilities,

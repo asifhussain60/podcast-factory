@@ -44,8 +44,10 @@ stops resolving is a finding against the contract rather than a silent skip.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 from repo_surgeon_checks import GATE_SCRIPTS, LOCAL_ONLY_GATES, _apps
@@ -427,6 +429,31 @@ def check_abs_paths(probe) -> None:
                 )
 
 
+def check_book_identity(probe) -> None:
+    """AU-V7 — moved 2026-09-02, DR-005 headroom. Re-runs normalize_book_metadata.py so its report is read."""
+    script = Path(__file__).resolve().parent / "podcast" / "normalize_book_metadata.py"
+    try:
+        result = subprocess.run(
+            [sys.executable, str(script), "--json"],
+            cwd=probe.root,
+            env={**os.environ, "PODCAST_FACTORY_ROOT": str(probe.root)},
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        data = json.loads(result.stdout or "{}")
+    except (OSError, subprocess.SubprocessError, json.JSONDecodeError):
+        return
+    for slug, gap in ((s, g) for s, gaps in sorted((data.get("unknown") or {}).items()) for g in gaps):
+        probe.add(
+            "P2",
+            "AU-V7",
+            f"{slug} has no {gap} recorded anywhere the pipeline reads",
+            f"content/*/{slug}/meta.yml",
+            fingerprint=f"AU-V7:{slug}:{gap}",
+        )
+
+
 def check_skill_registry(probe) -> None:
     """A1 — moved here 2026-08-31 alongside A3 (project-skill mirrors), its
     natural sibling: both audit the skill registry's completeness, and
@@ -565,6 +592,7 @@ ALL_CHECKS = (
     check_generated_artifacts,
     check_standards,
     check_abs_paths,
+    check_book_identity,
     check_skill_registry,
     check_project_skill_mirrors,
     check_trigger_collisions,

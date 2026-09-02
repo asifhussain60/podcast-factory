@@ -168,9 +168,14 @@ def check_book(book_dir: Path) -> list[Finding]:
                 )
 
     # A transcript with no recording behind it: the reverse gap, equally silent.
-    for vtt in sorted((book_dir / "transcripts").glob("ep*.vtt")):
-        if vtt.stem[2:].isdigit() and int(vtt.stem[2:]) not in episodes:
-            out.append(Finding(int(vtt.stem[2:]), "ORPHAN", "transcript has no recording"))
+    # Gated on `episodes` being non-empty: `m4a/**` is never committed (see
+    # .gitignore), so a book with ZERO local recordings only means this machine
+    # hasn't materialized its audio, not that every transcript is stale. Real
+    # signal needs at least one recording actually present to compare against.
+    if episodes:
+        for vtt in sorted((book_dir / "transcripts").glob("ep*.vtt")):
+            if vtt.stem[2:].isdigit() and int(vtt.stem[2:]) not in episodes:
+                out.append(Finding(int(vtt.stem[2:]), "ORPHAN", "transcript has no recording"))
 
     return out
 

@@ -61,6 +61,7 @@ const BUCKETS = [
   "Guides",
   "Supplications",
   "Sessions",
+  "Audiobook",
 ];
 const BOOK_ROOTS = [
   ...BUCKETS.map((b) => path.join(CONTENT, b)),

@@ -28,7 +28,7 @@ CONTENT = REPO / "content"
 # Pinned to scripts/podcast/_content_types.py::BUCKETS — see the note on the same
 # constant in regenerate-snapshots.mjs. Being pinned to that mirror alone is what
 # let "Supplications" go missing from both for three weeks.
-BUCKETS = ("Islamic", "Technical", "Fiction", "Guides", "Supplications", "Sessions")
+BUCKETS = ("Islamic", "Technical", "Fiction", "Guides", "Supplications", "Sessions", "Audiobook")
 BOOK_ROOTS = tuple(CONTENT / b for b in BUCKETS) + (
     CONTENT / "drafts",
     CONTENT / "published" / "books",

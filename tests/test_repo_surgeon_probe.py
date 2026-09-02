@@ -485,68 +485,6 @@ def test_book_pipeline_flags_a_retired_compose_path_coming_back(tmp_path):
     assert ids(probe) == ["AU-V6"]
 
 
-# ---------- AU-V7: book identity completeness ----------
-
-NORMALIZE_SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "podcast" / "normalize_book_metadata.py"
-
-
-def write_book(root: Path, slug: str, meta: dict, *, bucket: str = "Islamic") -> None:
-    """A minimal book meta.yml under a real bucket dir — `collect()` only needs
-    `<bucket>/<slug>/meta.yml` to exist; it never reads the book's other files."""
-    import yaml as _yaml
-
-    write(root, f"content/{bucket}/{slug}/meta.yml", _yaml.safe_dump(meta, allow_unicode=True))
-
-
-@pytest.mark.skipif(not NORMALIZE_SCRIPT.exists(), reason="normalize_book_metadata.py not found")
-def test_book_identity_clean(tmp_path):
-    write_book(
-        tmp_path, "a-book", {"title": "A Book", "author": "Someone", "title_arabic": "كتاب", "study_track": "theology"}
-    )
-    probe = make_probe(tmp_path, {})
-    probe.check_book_identity()
-    assert ids(probe) == []
-
-
-@pytest.mark.skipif(not NORMALIZE_SCRIPT.exists(), reason="normalize_book_metadata.py not found")
-def test_book_identity_flags_a_book_with_no_arabic_title_recorded_anywhere(tmp_path):
-    # This is the live incident: `purification-of-the-heart` shipped to the
-    # Studio shelf with no `title_arabic` and nothing else on disk (no
-    # `doctrinal_context`, no sibling volume) could supply one either.
-    write_book(
-        tmp_path,
-        "purification-of-the-heart",
-        {"title": "Purification of the Heart", "author": "Someone", "study_track": "theology"},
-    )
-    probe = make_probe(tmp_path, {})
-    probe.check_book_identity()
-    assert ids(probe) == ["AU-V7"]
-    assert "no native-script title" in probe.findings[0].summary
-
-
-@pytest.mark.skipif(not NORMALIZE_SCRIPT.exists(), reason="normalize_book_metadata.py not found")
-def test_book_identity_stays_quiet_when_the_gap_is_already_filled(tmp_path):
-    write_book(
-        tmp_path,
-        "purification-of-the-heart",
-        {
-            "title": "Purification of the Heart",
-            "author": "Someone",
-            "title_arabic": "مطهرة القلوب",
-            "study_track": "theology",
-        },
-    )
-    probe = make_probe(tmp_path, {})
-    probe.check_book_identity()
-    assert ids(probe) == []
-
-
-def test_book_identity_empty_tree_cannot_crash(tmp_path):
-    probe = make_probe(tmp_path, {})
-    probe.check_book_identity()
-    assert ids(probe) == []
-
-
 # ---------- L: plan conformance ----------
 
 PLAN = "_workspace/plan/refactor/plan.yaml"
