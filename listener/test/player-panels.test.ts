@@ -27,10 +27,10 @@ const CHAPTER: NowPlaying = {
 };
 
 describe("the persistent player panels", () => {
-  it("replaces transcript with notes for chapter read-aloud", () => {
+  it("keeps transcript available alongside notes for chapter read-aloud", () => {
     const model = playerPanelModel(CHAPTER, []);
 
-    expect(model.showTranscript).toBe(false);
+    expect(model.showTranscript).toBe(true);
     expect(model.notesLabel).toBe("Notes");
     expect(model.noteScope).toBe("chapter");
   });

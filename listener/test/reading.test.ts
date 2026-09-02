@@ -239,8 +239,17 @@ describe("the page width scale", () => {
   });
 
   it("keeps side-rail actions vertical when the tablet layout moves left", () => {
+    // Split into two rules 2026-09-02: an ordinary laptop or monitor at
+    // 1024px+ is reliably landscape, so that half is unconditional; a tablet
+    // held in portrait at 768-1023px is checked separately, gated on
+    // `orientation: portrait` so a phone lying on its side in that same
+    // width range is not mistaken for one (see the CSS comment beside
+    // `.pf-toolbar-rail`). Both still put the actions back in a column.
     expect(CSS).toMatch(
-      /@media \(min-width: 768px\) and \(max-width: 1791px\)[\s\S]*?\.pf-reader-actions\s*{[\s\S]*?flex-direction: column/,
+      /@media \(min-width: 1024px\) and \(max-width: 1791px\)[\s\S]*?\.pf-reader-actions\s*{[\s\S]*?flex-direction: column/,
+    );
+    expect(CSS).toMatch(
+      /@media \(min-width: 768px\) and \(max-width: 1023px\) and \(orientation: portrait\)[\s\S]*?\.pf-reader-actions\s*{[\s\S]*?flex-direction: column/,
     );
   });
 

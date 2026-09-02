@@ -1,4 +1,4 @@
-import { useId } from "react";
+import { Fragment, useId, type ReactNode } from "react";
 import {
   faAlignJustify,
   faBars,
@@ -170,21 +170,38 @@ export function ReaderTopActions({
   const prefs = useReading();
   const assistantEnabled = Boolean(readingAssistantEnabled);
 
-  return (
-    <TooltipProvider>
-      <div className="pf-reader-actions" aria-label="Reading actions">
-        {/* ---- Getting about, and what you have marked ----------------------
-          Everything here is a way of GOING somewhere: the library, this book,
-          the chapters, your place in them. Nothing here dresses the page — the
-          theme, face, size, spacing and width all live in the toolbar above.
-          That separation is what lets contents sit in this column at all.
-
-          It was kept out twice, as the book's title doubling as a toggle and
-          then as a labelled button, on the grounds that a way of LEAVING a
-          chapter does not belong among the controls for how that chapter is
-          SET. Both objections were to a single row that held both kinds of
-          thing. This is no longer that row, so Asif put the chapters back into
-          it (2026-09-01) and took away their edge tab — see `ContentsPanel`. */}
+  // Built as a list, not inline JSX, so it can be SPLIT — see
+  // `.pf-reader-actions__gap` below. Below the tablet gate this bar floats
+  // free of the screen edge with Listen astride its top seam (Asif,
+  // 2026-09-02, after two earlier attempts: stacking the full orb below the
+  // buttons buried several lines of text; shrinking it to an icon-only button
+  // lost the "this is different from the others" signal entirely). The gap
+  // marker rendered between the two halves is invisible on desktop
+  // (`display: none` there, see the CSS) and reserves the orb's own width on
+  // a phone, so the row makes real room for it rather than an icon
+  // disappearing under it. Order here is the ONLY definition of order — the
+  // split is computed from `items.length`, not from which buttons happen to
+  // be present, so a source-reference chapter or a non-admin reader still
+  // gets a centred gap rather than one pushed off to whichever side ran out
+  // of conditionals first.
+  const items: { key: string; node: ReactNode }[] = [
+    {
+      key: "home",
+      // ---- Getting about, and what you have marked ------------------------
+      // Everything here is a way of GOING somewhere: the library, this book,
+      // the chapters, your place in them. Nothing here dresses the page —
+      // the theme, face, size, spacing and width all live in the toolbar
+      // above. That separation is what lets contents sit in this column at
+      // all.
+      //
+      // It was kept out twice, as the book's title doubling as a toggle and
+      // then as a labelled button, on the grounds that a way of LEAVING a
+      // chapter does not belong among the controls for how that chapter is
+      // SET. Both objections were to a single row that held both kinds of
+      // thing. This is no longer that row, so Asif put the chapters back
+      // into it (2026-09-01) and took away their edge tab — see
+      // `ContentsPanel`.
+      node: (
         <Tooltip header="Home" description="Back to your library">
           <Link
             to="/library"
@@ -194,11 +211,15 @@ export function ReaderTopActions({
             <Icon icon={faHouse} title="Back to your library" />
           </Link>
         </Tooltip>
-
-        {/* Second, and deliberately: after the way out of the book and before
-            everything about this one. Its drawer opens on the left, beside the
-            button, so the movement reads as the same object growing rather than
-            a panel arriving from somewhere else. */}
+      ),
+    },
+    {
+      key: "contents",
+      // Second, and deliberately: after the way out of the book and before
+      // everything about this one. Its drawer opens on the left, beside the
+      // button, so the movement reads as the same object growing rather than
+      // a panel arriving from somewhere else.
+      node: (
         <Tooltip
           header="Contents"
           description={
@@ -220,32 +241,46 @@ export function ReaderTopActions({
             />
           </button>
         </Tooltip>
-        {showReadingAssistant ? (
-          <Tooltip
-            header="Reading assistant"
-            description={
-              assistantEnabled
-                ? "Show one sentence clearly and dim the rest"
-                : "Dim most text and make the active sentence clearer"
-            }
+      ),
+    },
+  ];
+
+  if (showReadingAssistant) {
+    items.push({
+      key: "assistant",
+      node: (
+        <Tooltip
+          header="Reading assistant"
+          description={
+            assistantEnabled
+              ? "Show one sentence clearly and dim the rest"
+              : "Dim most text and make the active sentence clearer"
+          }
+        >
+          <button
+            type="button"
+            onClick={onToggleReadingAssistant}
+            aria-pressed={assistantEnabled}
+            className="pf-reader-action pf-reader-action--assistant"
           >
-            <button
-              type="button"
-              onClick={onToggleReadingAssistant}
-              aria-pressed={assistantEnabled}
-              className="pf-reader-action pf-reader-action--assistant"
-            >
-              <Icon
-                icon={assistantEnabled ? faEye : faEyeSlash}
-                title={
-                  assistantEnabled
-                    ? "Disable reading assistant"
-                    : "Enable reading assistant"
-                }
-              />
-            </button>
-          </Tooltip>
-        ) : null}
+            <Icon
+              icon={assistantEnabled ? faEye : faEyeSlash}
+              title={
+                assistantEnabled
+                  ? "Disable reading assistant"
+                  : "Enable reading assistant"
+              }
+            />
+          </button>
+        </Tooltip>
+      ),
+    });
+  }
+
+  items.push(
+    {
+      key: "bookmark",
+      node: (
         <Tooltip
           header={bookmarked ? "Bookmarked" : "Bookmark"}
           description={
@@ -266,6 +301,11 @@ export function ReaderTopActions({
             />
           </button>
         </Tooltip>
+      ),
+    },
+    {
+      key: "book",
+      node: (
         <Tooltip
           header="This book"
           description={`Open ${bookTitle}'s reading, listening, deck and print options`}
@@ -278,37 +318,77 @@ export function ReaderTopActions({
             <Icon icon={faBook} title={`Open ${bookTitle}`} />
           </Link>
         </Tooltip>
-        {hasSourceReference ? (
-          <Tooltip
-            header="Source reference"
-            description={
-              prefs.showSourceRefs
-                ? "Hide the original book's page range and headings"
-                : "Show the original book's page range and headings for this chapter"
+      ),
+    },
+  );
+
+  if (hasSourceReference) {
+    items.push({
+      key: "source",
+      node: (
+        <Tooltip
+          header="Source reference"
+          description={
+            prefs.showSourceRefs
+              ? "Hide the original book's page range and headings"
+              : "Show the original book's page range and headings for this chapter"
+          }
+        >
+          <button
+            type="button"
+            onClick={() =>
+              setReading({
+                ...prefs,
+                showSourceRefs: !prefs.showSourceRefs,
+              })
             }
+            aria-pressed={prefs.showSourceRefs}
+            className="pf-reader-action pf-reader-action--source"
           >
-            <button
-              type="button"
-              onClick={() =>
-                setReading({
-                  ...prefs,
-                  showSourceRefs: !prefs.showSourceRefs,
-                })
+            <Icon
+              icon={faBookOpenReader}
+              title={
+                prefs.showSourceRefs
+                  ? "Hide source reference"
+                  : "Show source reference"
               }
-              aria-pressed={prefs.showSourceRefs}
-              className="pf-reader-action pf-reader-action--source"
-            >
-              <Icon
-                icon={faBookOpenReader}
-                title={
-                  prefs.showSourceRefs
-                    ? "Hide source reference"
-                    : "Show source reference"
-                }
-              />
-            </button>
-          </Tooltip>
-        ) : null}
+            />
+          </button>
+        </Tooltip>
+      ),
+    });
+  }
+
+  const mid = Math.ceil(items.length / 2);
+  const start = items.slice(0, mid);
+  const end = items.slice(mid);
+
+  return (
+    <TooltipProvider>
+      <div className="pf-reader-actions" aria-label="Reading actions">
+        {/* Real wing ELEMENTS, not just two runs of buttons either side of a
+            gap marker — a phone chapter is as likely to carry five buttons as
+            four or six, so the two sides are rarely equal in count. Flowing
+            them as one row with a wide spacer in the middle let the spacer
+            drift wherever `justify-content` happened to put it, which is not
+            necessarily the row's own geometric centre; the orb above is fixed
+            at that centre regardless (`left: 50%` on `.pf-toolbar-rail`), so
+            an uneven split visibly overlapped a button. Two `1fr` grid
+            columns either side of a fixed-width centre column (see the
+            max-width: 1023px rule near `.pf-reader-listen`) keep the two
+            wings equal-WIDTH by construction, however unequal their button
+            COUNTS are — which is what actually keeps the gap under the orb. */}
+        <div className="pf-reader-actions__wing pf-reader-actions__wing--start">
+          {start.map(({ key, node }) => (
+            <Fragment key={key}>{node}</Fragment>
+          ))}
+        </div>
+        <span className="pf-reader-actions__gap" aria-hidden="true" />
+        <div className="pf-reader-actions__wing pf-reader-actions__wing--end">
+          {end.map(({ key, node }) => (
+            <Fragment key={key}>{node}</Fragment>
+          ))}
+        </div>
       </div>
     </TooltipProvider>
   );

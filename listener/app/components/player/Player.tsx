@@ -87,8 +87,7 @@ export function playerPanelModel(
     notesLabel:
       noteCount === 0 ? "Notes" : `Notes, ${noteCount} in this ${noteScope}`,
     showTranscript:
-      !isChapter &&
-      (current.transcriptSrc !== null || current.cues !== undefined),
+      current.transcriptSrc !== null || current.cues !== undefined,
   };
 }
 
@@ -428,9 +427,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       }
 
       setCurrent(episode);
-      setPanel((open) =>
-        episode.kind === "chapter" && open === "transcript" ? null : open,
-      );
       /* The copy on this device if there is one, otherwise the network.
          A SYNCHRONOUS lookup, and that is the constraint that shaped
          lib/offline.ts: `element.play()` below has to run inside the gesture
@@ -1094,7 +1090,6 @@ function PlayerPanelDrawer() {
   }, [panel, reload]);
 
   if (current === null || panel === null) return null;
-  if (current.kind === "chapter" && panel === "transcript") return null;
 
   /* THIS EPISODE's notes, not the whole book's.
      The panel belongs to what is playing, exactly as the transcript does — and

@@ -1581,6 +1581,29 @@
     box-shadow: var(--pf-elev-1);
   }
 
+  /* Zero-size on desktop: this marker splits the button list in two (see
+     `ReaderTopActions`) so a phone can reserve the Listen orb's own footprint
+     between them — see the max-width: 1023px rule near `.pf-reader-listen`.
+     On the desktop side column there is nothing to reserve room for, so it
+     takes `display: none` rather than a width of 0 — a zero-WIDTH item is
+     still a flex item and would add one extra `gap` interval the original
+     flat list never had, nudging every button after the midpoint down by a
+     few pixels for no reason. */
+  .pf-reader-actions__gap {
+    display: none;
+  }
+
+  /* Transparent to layout everywhere except the phone bar (see the
+     max-width: 1023px rule near `.pf-reader-listen`): `display: contents`
+     drops the wrapper itself from the box tree, so its buttons behave as
+     direct children of `.pf-reader-actions` in the desktop column exactly as
+     they did before wings existed. The wings only become real boxes — with a
+     real width each — at the one width where two equal-width columns either
+     side of the orb are the point. */
+  .pf-reader-actions__wing {
+    display: contents;
+  }
+
   .pf-reader-action {
     --pf-reader-action-colour: var(--l-display);
     appearance: none;
@@ -1658,7 +1681,12 @@
   @media (max-width: 639px) {
     .pf-reader-actions {
       flex-direction: row;
-      gap: var(--pf-space-2);
+      /* 0.375rem, not the usual --pf-space-2 (0.5rem): six 3rem buttons at
+         the wider gap came to 344px against a 343px dock at 375px — one
+         pixel over (see the comment below on the wrap fallback). The
+         narrower gap alone reclaims 10px, clearing that overage with margin
+         to spare rather than leaning on the wrap it used to force. */
+      gap: 0.375rem;
       padding: var(--pf-space-2);
     }
 
@@ -1748,10 +1776,11 @@
      button: the notes are a panel on the right edge now, and the number lives on
      the tab that opens them (`.pf-edge-tab__count`). */
 
-  /* OUTSIDE the action panel and UNDER it, on the same axis (Asif, 2026-09-01).
-     It floated in the bottom-right corner until then, 8.4rem of right margin it
-     needed to itself — which is margin the sheet wanted, and a control in a
-     corner reads as belonging to the window rather than to the book.
+  /* OUTSIDE the action panel and UNDER it, on the same axis, from a landscape
+     tablet up (Asif, 2026-09-01). It floated in the bottom-right corner until
+     then, 8.4rem of right margin it needed to itself — which is margin the
+     sheet wanted, and a control in a corner reads as belonging to the window
+     rather than to the book.
 
      Not `fixed` any more, and that is the point: it is a child of
      `.pf-toolbar-rail` sitting after `.pf-reader-actions`, so the rail's own
@@ -1762,7 +1791,10 @@
 
      It is WIDER than the buttons above it — 5.9rem against the rail's 4.75rem —
      and overhangs by half a rem either side. Deliberate, and Asif's call: it is
-     not one of the panel's buttons and should not read as one. */
+     not one of the panel's buttons and should not read as one. Below the
+     tablet gate this whole design is set aside for a compact button instead —
+     see the max-width: 1023px rule below — because there is no side gutter to
+     spend a wide decorative circle in. */
   .pf-reader-listen {
     --listen-violet: #6c35bc;
     --listen-violet-deep: #351057;
@@ -1770,20 +1802,18 @@
     --listen-cyan: #75e9ff;
     --listen-paper: #fffaff;
     z-index: 23;
-    display: none;
+    display: block;
     margin-block-start: var(--pf-space-4);
     pointer-events: none;
   }
 
-  /* Shown from a landscape tablet up, which is where the rail is a side column
-     at all. Below this the rail is a bottom dock across the foot of the page and
-     there is no "under the panel" to be under — the reader reaches the same
-     audio through the ordinary episode player. The gate was 1400px and desktop
-     only until 2026-09-01; Asif widened it to iPads and tablets in landscape,
-     which is exactly the width at which the rail stands up. */
+  /* From a landscape tablet up, the rail is a side column with room for the
+     orb at full size beneath it, and it arrives with a small entrance
+     animation. The gate was 1400px and desktop only until 2026-09-01; Asif
+     widened it to iPads and tablets in landscape, which is exactly the width
+     at which the rail stands up. */
   @media (min-width: 1024px) {
     .pf-reader-listen {
-      display: block;
       animation: pf-listen-arrive 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
     }
   }
@@ -1979,6 +2009,112 @@
     text-shadow: 0 0.12rem 0.2rem rgb(12 8 14 / 36%);
   }
 
+  /* Below the tablet gate, a COMPACT BUTTON, not a scaled-down copy of the
+     orb — the first attempt scaled the whole 5.9rem design down and stacked
+     it beneath the button pill, which withdrew it entirely on phones on the
+     theory that the persistent episode player already covers them — it does
+     not cover the moment BEFORE anything is playing, so a first visit to a
+     narrated chapter on a phone had no way to start it at all (Asif,
+     2026-09-02: "I do not see the listen button"). That fix made it visible
+     but stacked it under the buttons as its own tier, tall enough to sit over
+     several lines of text the whole time the chapter was open ("this overlaps
+     a lot of reading real estate," the same day). Here it is sized and laid
+     out to match `.pf-reader-action` exactly — same circle, same row, via
+     `.pf-toolbar-rail`'s own `flex-direction: row` at this width (see the
+     max-width: 1023px rule on `.pf-toolbar-rail`) — so Listen becomes one
+     more button in the single dock rather than a second thing beneath it.
+     `margin-block-start` and `pointer-events: none` set on `.pf-reader-listen`
+     above are a desktop-only concern (positioning under the pill, letting
+     clicks fall through the gap between orb and buttons); both are cleared
+     here since the mobile layout has neither a gap to fall through nor a
+     stack to offset into. PLACED HERE, after every unconditional
+     `.pf-reader-listen*` rule above rather than back near the top of this
+     component's block: an unconditional rule and a `max-width` media rule of
+     the same selector have EQUAL specificity, so CSS falls back to source
+     order — the first version of this rule sat above those unconditional
+     declarations and lost to every one of them at every width, phone
+     included, which is why the fix visibly did nothing until this rule moved
+     below them. */
+  /* THIRD attempt, and the one Asif approved after seeing five throwaway
+     samples side by side and picking two: the FLOATING PILL layout of sample
+     2, with the full gradient orb and "Listen" wordmark of sample 4 — not the
+     icon-only compact button the second attempt shrank it to, which read as
+     just another action rather than the one thing on the page that starts
+     audio. Kept: the orb's own decoration (orbits, aura, label) entirely
+     unchanged from desktop, at `scale(0.78)` rather than resized property by
+     property — 5.9rem scaled down lands at 4.6rem, and every ring, the glow,
+     and the label shrink in proportion automatically. `transform-origin: top
+     center` anchors the shrink to the orb's OWN top edge rather than its
+     centre, so `top` below still means what it says regardless of the scale
+     factor — the two transforms are independent by construction, not tuned
+     to agree by trial and error. */
+  @media (max-width: 1023px) {
+    .pf-toolbar-rail {
+      left: 0.9rem;
+      right: 0.9rem;
+      width: auto;
+      max-width: none;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 0;
+      transform: none;
+    }
+
+    /* GRID, not flex — this is what actually keeps the gap under the orb.
+       `.pf-reader-listen` below is fixed at `left: 50%` of the rail, the
+       row's true geometric centre, but a chapter's button count is as often
+       odd as even (five is common: home, contents, reading assistant,
+       bookmark, this book — no source reference). Splitting an odd count
+       gives one wing an extra button, and a flex row spacing five buttons
+       plus one gap marker with `space-around` puts the gap wherever that
+       distribution happens to land it — not necessarily the centre, which is
+       what let the orb overlap a button the first time this shipped. Two
+       `1fr` columns are equal WIDTH by construction regardless of how many
+       buttons each one holds, so the fixed-width centre column between them
+       is always the row's true centre — matching where the orb already is. */
+    .pf-reader-actions {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      width: 100%;
+      border-radius: var(--pf-radius-pill);
+    }
+
+    .pf-reader-actions__wing {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    .pf-reader-actions__wing--start {
+      justify-self: stretch;
+    }
+
+    .pf-reader-actions__wing--end {
+      justify-self: stretch;
+    }
+
+    /* Invisible on desktop (see the unconditional rule near the top of this
+       file) — here it becomes the grid's fixed centre column, reserving the
+       orb's own footprint so the buttons make room for it rather than one of
+       them disappearing under it. */
+    .pf-reader-actions__gap {
+      display: block;
+      width: 4.2rem;
+    }
+
+    .pf-reader-listen {
+      position: absolute;
+      top: -1.85rem;
+      left: 50%;
+      margin-block-start: 0;
+      pointer-events: auto;
+      transform: translateX(-50%) scale(0.78);
+      transform-origin: top center;
+    }
+  }
+
   @keyframes pf-listen-portal-clockwise {
     to {
       transform: rotate(1turn);
@@ -2032,23 +2168,16 @@
   }
 
   /* A narrow screen cannot spare a side gutter without crushing the book. The
-     action rail becomes a compact bottom dock there, while the appearance
-     toolbar stays above the page and wraps in normal flow. */
+     action rail becomes a floating bottom bar there, while the appearance
+     toolbar stays above the page and wraps in normal flow. The bar's own
+     shape, width and Listen's position are set in the `.pf-reader-listen`
+     block below, which owns the redesign story — this rule only anchors the
+     rail to the foot of the screen; `.pf-toolbar__group` here is unrelated,
+     the appearance toolbar's own wrapping. */
   @media (max-width: 1023px) {
     .pf-toolbar-rail {
       top: auto;
       bottom: calc(var(--pf-space-3) + var(--pf-player-h, 0px));
-      left: 50%;
-      width: fit-content;
-      max-width: calc(100% - 2rem);
-      transform: translateX(-50%);
-    }
-
-    .pf-reader-actions {
-      flex-direction: row;
-      flex-wrap: nowrap;
-      width: fit-content;
-      border-radius: var(--pf-radius-pill);
     }
 
     .pf-toolbar__group {
@@ -2058,13 +2187,11 @@
     }
   }
 
-  /* Six actions do not fit one row on the narrowest phone. At 375px the dock may
-     be 343px wide and six 3rem buttons with their gaps and padding come to 344 —
-     one pixel over, and `flex-wrap: nowrap` above turns that into an overflow
-     rather than a second row. Six only happens for the administrator on a chapter
-     that has a source reference, which is precisely the case Asif asked to keep
-     working at every viewport, so the dock is allowed to wrap here and only
-     here. Above 640px there is room for all six in a line. */
+  /* A safety net: `.pf-reader-actions__gap` reserves room for the orb, but a
+     rare six-button chapter (administrator, source reference) plus that gap
+     can still run a phone this narrow out of width. `nowrap` above turns any
+     overage into a cut-off row rather than a second one, so wrap stays
+     allowed here — it only ever paints if the row is genuinely too full. */
   @media (max-width: 639px) {
     .pf-reader-actions {
       flex-wrap: wrap;
@@ -2077,12 +2204,33 @@
      the edge. That tab is gone (2026-09-01) and the rail moves into the space it
      held — 1.25rem from the edge, its right edge at 6rem, which is what the
      sheet below is widened against. The reading leaf remains physically
-     centred. */
-  @media (min-width: 768px) and (max-width: 1791px) {
+     centred.
+
+     Split into two rules 2026-09-02, and the split is the fix: an ordinary
+     laptop or monitor at 1024px+ is reliably landscape, so that half stays
+     unconditional. But 768-1023px is where an iPhone in landscape (768-926px)
+     and a tablet held in portrait genuinely overlap in width — the old single
+     rule put a PHONE's rail back into a vertical column there ("the buttons
+     are in multiple rows"), because width alone cannot tell them apart. A
+     tablet held the ordinary way is always taller than it is wide, which a
+     landscape phone by definition is not, so `orientation: portrait` is added
+     to ONLY the narrow half — a landscape phone in that width range now keeps
+     the bottom-dock row from the max-width: 1023px rule above instead. */
+  /* Both blocks below also reset `.pf-reader-actions__gap` and
+     `.pf-reader-listen` back to their unconditional (desktop) values. The
+     phone bar's `max-width: 1023px` rule near `.pf-reader-listen` sets both
+     for EVERY width up to 1023px, which is correct for a genuine phone but
+     wrong here — a side-column tablet or desktop never floats a bottom bar,
+     so it must not inherit the raised, absolutely-positioned orb or the
+     reserved gap meant only for that bar's row. Same specificity, so only
+     SOURCE ORDER decides, which is why these restatements have to exist
+     rather than being assumed to fall back on their own. */
+  @media (min-width: 1024px) and (max-width: 1791px) {
     .pf-toolbar-rail {
       top: 50%;
       bottom: auto;
       left: 1.25rem;
+      right: auto;
       width: 4.75rem;
       transform: translateY(-50%);
     }
@@ -2096,6 +2244,55 @@
       flex-wrap: nowrap;
       width: 100%;
       border-radius: var(--pf-radius-lg);
+    }
+
+    .pf-reader-actions__gap {
+      display: none;
+    }
+
+    .pf-reader-listen {
+      position: static;
+      top: auto;
+      left: auto;
+      margin-block-start: var(--pf-space-4);
+      pointer-events: none;
+      transform: none;
+    }
+  }
+
+  /* The narrow half of the split above: a tablet held in portrait at
+     768-1023px wide gets the same side rail as a full-size tablet or desktop
+     — same rules, repeated rather than shared across two separate selectors,
+     because `orientation: portrait` here is precisely what keeps a landscape
+     phone at this width out of it. */
+  @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+    .pf-toolbar-rail {
+      top: 50%;
+      bottom: auto;
+      left: 1.25rem;
+      right: auto;
+      width: 4.75rem;
+      transform: translateY(-50%);
+    }
+
+    .pf-reader-actions {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      width: 100%;
+      border-radius: var(--pf-radius-lg);
+    }
+
+    .pf-reader-actions__gap {
+      display: none;
+    }
+
+    .pf-reader-listen {
+      position: static;
+      top: auto;
+      left: auto;
+      margin-block-start: var(--pf-space-4);
+      pointer-events: none;
+      transform: none;
     }
   }
 
