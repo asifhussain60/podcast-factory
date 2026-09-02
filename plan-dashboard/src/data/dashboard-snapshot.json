@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 110.87
+    "burn_30d_usd": 110.85
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
