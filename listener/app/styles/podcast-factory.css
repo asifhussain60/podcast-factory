@@ -2679,6 +2679,64 @@
     padding-top: var(--pf-space-6);
   }
 
+  /* Title and the view switcher on one line (Asif's markup, 2026-09-01).
+     `space-between` rather than a gap, so the switcher sits at the far edge of
+     the measure and the heading keeps the left margin the lede below it shares.
+     `align-items: baseline` would hang the buttons off the cap-height of a very
+     large display face; `end` keeps them sitting on the title's own baseline
+     block, which is what reads as one row.
+
+     Wraps on a narrow screen: at a phone width the title alone fills the line,
+     and a switcher squeezed beside it would be three targets under 2rem. */
+  .pf-masthead__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--pf-space-4);
+  }
+
+  /* ---- How the shelf is drawn -------------------------------------------
+     Three icons in one segmented group. It lived in the filter rail for twenty
+     minutes and does not belong there: everything else in that panel changes
+     WHICH books are shown, and this changes how the same result looks. */
+  .pf-views {
+    display: flex;
+    gap: 2px;
+    padding: 3px;
+    background: color-mix(in srgb, var(--l-band) 7%, transparent);
+    border-radius: 12px;
+    box-shadow: inset 0 1px 2px rgb(28 36 51 / 6%);
+  }
+
+  .pf-view {
+    display: grid;
+    place-items: center;
+    /* A floor, not a width — three icons sharing a group still have to be
+       hittable one at a time, and `npm run smoke` refuses targets that shrink
+       to the glyph. The group as a whole clears the touch minimum, which is why
+       each is 2.25rem rather than the 2.75rem a standalone control takes. */
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--l-muted);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .pf-view:hover {
+    background: color-mix(in srgb, var(--l-band) 8%, transparent);
+  }
+
+  .pf-view[aria-pressed="true"] {
+    background: var(--l-elev);
+    color: var(--l-accent);
+    box-shadow: 0 1px 3px rgb(28 36 51 / 14%);
+  }
+
   /* The working surfaces — admin, a book page — open with a shorter runway
      than the library, which is the only page that gets to be a poster. */
   .pf-masthead--tight {

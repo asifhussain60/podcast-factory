@@ -152,17 +152,29 @@
   }
 
   .pf-rail-item[data-collection="books"] .pf-rail-item__icon {
-    background: color-mix(in srgb, var(--l-ribbon-theology-bg) 13%, var(--l-elev));
+    background: color-mix(
+      in srgb,
+      var(--l-ribbon-theology-bg) 13%,
+      var(--l-elev)
+    );
     color: var(--l-ribbon-theology-bg);
   }
 
   .pf-rail-item[data-collection="sessions"] .pf-rail-item__icon {
-    background: color-mix(in srgb, var(--l-ribbon-history-bg) 13%, var(--l-elev));
+    background: color-mix(
+      in srgb,
+      var(--l-ribbon-history-bg) 13%,
+      var(--l-elev)
+    );
     color: var(--l-ribbon-history-bg);
   }
 
   .pf-rail-item[data-collection="audiobooks"] .pf-rail-item__icon {
-    background: color-mix(in srgb, var(--l-ribbon-esoteric-bg) 20%, var(--l-elev));
+    background: color-mix(
+      in srgb,
+      var(--l-ribbon-esoteric-bg) 20%,
+      var(--l-elev)
+    );
     color: var(--l-warn);
   }
 
@@ -222,54 +234,13 @@
     color: var(--l-faint);
   }
 
-  .pf-rail-group--tracks .pf-track-chip[aria-pressed="true"] .pf-track-chip__count {
+  .pf-rail-group--tracks
+    .pf-track-chip[aria-pressed="true"]
+    .pf-track-chip__count {
     color: var(--l-accent);
   }
 
   /* ---- The three view icons ---------------------------------------------- */
-
-  .pf-rail-views {
-    display: flex;
-    gap: 2px;
-    margin-top: 0.45rem;
-    padding: 3px;
-    background: color-mix(in srgb, var(--l-band) 7%, transparent);
-    border-radius: 12px;
-    box-shadow: inset 0 1px 2px rgb(28 36 51 / 6%);
-  }
-
-  .pf-rail-view {
-    flex: 1;
-    display: grid;
-    place-items: center;
-    /* A floor, not a width. `flex: 1` with no basis let these shrink to the
-       glyph itself — 15px wide on the dock, which `npm run smoke` refuses and
-       is right to: three icons that share a group still have to be hittable
-       one at a time. In the desktop column the flex still spreads them across
-       the panel, so this only ever binds on the dock. */
-    min-width: 2.25rem;
-    /* 2.25rem tall rather than the 2.75rem the row's swatches use: these are
-       three equal icons inside a segmented group, not standalone targets, and
-       the group as a whole clears the touch minimum. */
-    min-height: 2.25rem;
-    border: 0;
-    border-radius: 9px;
-    background: transparent;
-    color: var(--l-muted);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: background 0.15s ease;
-  }
-
-  .pf-rail-view:hover {
-    background: color-mix(in srgb, var(--l-band) 8%, transparent);
-  }
-
-  .pf-rail-view[aria-pressed="true"] {
-    background: var(--l-elev);
-    color: var(--l-accent);
-    box-shadow: 0 1px 3px rgb(28 36 51 / 14%);
-  }
 
   /* ---- Where the panel stands -------------------------------------------
      Under 1024px there is no gutter to stand in, so it becomes a dock across
@@ -353,12 +324,6 @@
     border-radius: 9px;
   }
 
-  .pf-library-rail .pf-rail-views {
-    margin-top: 0;
-    margin-left: 0.35rem;
-    border-radius: 11px;
-  }
-
   @media (min-width: 1024px) {
     .pf-library-rail {
       top: 50%;
@@ -432,12 +397,6 @@
       width: 1.5rem;
       height: 1.5rem;
       border-radius: 8px;
-    }
-
-    .pf-library-rail .pf-rail-views {
-      margin-top: 0.45rem;
-      margin-left: 0;
-      border-radius: 12px;
     }
 
     /* The reserve. 23rem is the rail's 11rem plus its 1.5rem offset, doubled so

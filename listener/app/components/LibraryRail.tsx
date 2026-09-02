@@ -2,11 +2,8 @@ import {
   faBookOpen,
   faHeadphones,
   faLayerGroup,
-  faList,
   faMicrophoneLines,
   faSliders,
-  faTableCells,
-  faTableCellsLarge,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router";
@@ -18,7 +15,6 @@ import {
   COLLECTION_LABELS,
   type Collection,
 } from "~/lib/collection";
-import type { ViewMode } from "~/lib/shelf";
 import {
   ALL_STUDY_TRACKS,
   studyTrackLabel,
@@ -60,12 +56,6 @@ const COLLECTION_ICON: Record<Collection, IconDefinition> = {
   audiobooks: faHeadphones,
 };
 
-const VIEWS: { mode: ViewMode; icon: IconDefinition; label: string }[] = [
-  { mode: "cards", icon: faTableCellsLarge, label: "Card view" },
-  { mode: "compact", icon: faTableCells, label: "Compact tile view" },
-  { mode: "list", icon: faList, label: "List view" },
-];
-
 export function LibraryRail({
   query,
   onQuery,
@@ -76,8 +66,6 @@ export function LibraryRail({
   onTrack,
   trackCounts,
   total,
-  viewMode,
-  onViewMode,
 }: {
   query: string;
   onQuery: (value: string) => void;
@@ -89,8 +77,6 @@ export function LibraryRail({
   onTrack: (value: TrackChoice) => void;
   trackCounts: Map<StudyTrack, number>;
   total: number;
-  viewMode: ViewMode;
-  onViewMode: (value: ViewMode) => void;
 }) {
   return (
     /* A `nav` would claim this is a set of links, and all but one of them are
@@ -191,28 +177,6 @@ export function LibraryRail({
           </span>
           <span className="pf-rail-item__label">Advanced</span>
         </Link>
-
-        {/* Its own group at the foot, because it changes how the same result is
-            DRAWN rather than what the result is. */}
-        <div
-          className="pf-rail-views"
-          role="group"
-          aria-label="Book display"
-        >
-          {VIEWS.map(({ mode, icon, label }) => (
-            <button
-              key={mode}
-              type="button"
-              className="pf-rail-view"
-              aria-pressed={viewMode === mode}
-              aria-label={label}
-              title={label}
-              onClick={() => onViewMode(mode)}
-            >
-              <Icon icon={icon} title={label} />
-            </button>
-          ))}
-        </div>
       </div>
     </aside>
   );

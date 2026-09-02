@@ -38,6 +38,7 @@ import {
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits, workTitles } from "~/server/access.server";
+import { ViewSwitcher } from "~/components/ViewSwitcher";
 import {
   libraryCards,
   playableEpisodesForCards,
@@ -443,7 +444,18 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <AppShell here="library" isAdmin={viewer.isAdmin}>
       <section className="pf-masthead">
-        <h1 className="pf-title">The Shelf</h1>
+        {/* Title and the view switcher on ONE row (Asif's markup, 2026-09-01).
+            The switcher spent twenty minutes in the filter rail and does not
+            belong there: everything else in that panel changes WHICH books are
+            shown, and this changes how the same result is drawn. Beside the
+            heading it reads as a property of the view; under Advanced search it
+            read as one more filter. */}
+        <div className="pf-masthead__head">
+          <h1 className="pf-title">The Shelf</h1>
+          {units.length === 0 ? null : (
+            <ViewSwitcher viewMode={viewMode} onViewMode={setViewMode} />
+          )}
+        </div>
         <p className="pf-lede">
           {units.length === 0
             ? "Nothing has been shared with you yet. When something is, it appears here."
@@ -468,8 +480,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             onTrack={setTrack}
             trackCounts={trackCounts}
             total={units.length}
-            viewMode={viewMode}
-            onViewMode={setViewMode}
           />
         )}
       </section>
