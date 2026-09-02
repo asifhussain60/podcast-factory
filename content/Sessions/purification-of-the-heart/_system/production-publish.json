@@ -1,6 +1,55 @@
 {
-  "publishedAt": "2026-09-02T12:12:13Z",
+  "publishedAt": "2026-09-02T12:21:04Z",
   "fingerprint": "3cc11784c0d035e9",
   "verified": false,
-  "checks": []
+  "checks": [
+    {
+      "name": "the book exists (production)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "production"
+    },
+    {
+      "name": "visible (production)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "production"
+    },
+    {
+      "name": "written just now (production)",
+      "ok": true,
+      "detail": "recorded 2026-09-02T12:21:08Z",
+      "target": "production"
+    },
+    {
+      "name": "chapters (production)",
+      "ok": true,
+      "detail": "24 live",
+      "target": "production"
+    },
+    {
+      "name": "Companion cards (production)",
+      "ok": true,
+      "detail": "0 live, 0 on disk",
+      "target": "production"
+    },
+    {
+      "name": "episodes (production)",
+      "ok": true,
+      "detail": "24 live",
+      "target": "production"
+    },
+    {
+      "name": "media uploaded (production)",
+      "ok": true,
+      "detail": "28 of 28 file(s) in the bucket",
+      "target": "production"
+    },
+    {
+      "name": "episode audio linked (production)",
+      "ok": false,
+      "detail": "2 of 24 episode(s) have a linked recording — recordings likely still loose in m4a/, not m4a/Episodes/",
+      "target": "production"
+    }
+  ]
 }
