@@ -10,7 +10,10 @@ sessions and across machines.
 
 ## The profile
 
-**48 kbps, mono, 22.05 kHz, container preserved.**
+**48 kbps, mono, 22.05 kHz, container preserved. Approved by Asif on
+2026-09-02** after an A/B listening test against the current 127 kbps stereo
+encode — he could not tell the two apart, which is the only evidence that
+settles "without losing quality". The profile is fixed; do not re-open it.
 
 `scripts/podcast/downsize_audio.py` is the only tool that applies it. It never
 encodes up, never touches `Audio/` masters, never touches `source/`, promotes the
@@ -21,7 +24,8 @@ sentence). Files already at or below 64 kbps, and files under 2 MB, are left
 alone deliberately — see the module docstring for why.
 
 Measured on Ayyuhal Walad episode 1: 129 kbps stereo → 51 kbps mono,
-27.9 MB → 11.1 MB (−60%), duration drift **0.000 s**.
+27.9 MB → 11.1 MB (−60%), duration drift **0.000 s**. That episode's clip is
+what the listening test used.
 
 ## The books, smallest first
 

@@ -17,9 +17,12 @@ book. Do not batch the re-encodes and do not run ahead. Tick the boxes in
 `_workspace/plan/audio-normalisation-checklist.md` as you pass each gate and
 commit that file as you go; it is the run's memory if this session ends.
 
-## The profile, and why it is not negotiable downward
+## The profile is settled — do not re-open it
 
-48 kbps, mono, 22.05 kHz, container preserved. `scripts/podcast/downsize_audio.py`
+48 kbps, mono, 22.05 kHz, container preserved. I approved this on 2026-09-02
+after listening to it against the current 127 kbps stereo encode and being unable
+to tell them apart. That listening test is the decision; you do not need to
+re-evaluate the bitrate, propose a higher one, or ask me to confirm it again. `scripts/podcast/downsize_audio.py`
 is the only tool that applies it — do not hand-roll ffmpeg. It already refuses to
 encode up, refuses to touch the `Audio/` masters or `source/`, promotes the
 original into `Audio/` before overwriting anything, and rejects any encode whose
@@ -27,8 +30,8 @@ duration moves more than 0.25 s. That last guard matters more than it looks:
 read-along cues are absolute seconds into the episode file, so a shifted timeline
 would silently desynchronise every highlighted sentence in the book.
 
-Measured here on Ayyuhal Walad episode 1: 129 kbps stereo → 51 kbps mono,
-27.9 MB → 11.1 MB, duration drift 0.000 s.
+Measured on Ayyuhal Walad episode 1 — the same episode the listening test used:
+129 kbps stereo → 51 kbps mono, 27.9 MB → 11.1 MB, duration drift 0.000 s.
 
 ## Before you start anything
 
