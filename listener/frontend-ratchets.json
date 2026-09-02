@@ -27,7 +27,7 @@
     "break in the distribution instead of an arbitrary line through that cluster."
   ],
   "lintWarnings": {
-    "@typescript-eslint/no-unused-vars": 9,
+    "@typescript-eslint/no-unused-vars": 5,
     "react-hooks/exhaustive-deps": 3,
     "react-hooks/set-state-in-effect": 12
   },
@@ -35,10 +35,10 @@
     "ceiling": 850,
     "enforced": true,
     "grandfathered": {
-      "app/components/player/Player.tsx": 1370,
+      "app/components/player/Player.tsx": 1339,
       "app/routes/admin._index.tsx": 879,
-      "app/routes/book.$slug.read.$chapter.tsx": 1161,
-      "app/routes/book.$slug.tsx": 1280
+      "app/routes/book.$slug.read.$chapter.tsx": 1135,
+      "app/routes/book.$slug.tsx": 1202
     }
   }
 }

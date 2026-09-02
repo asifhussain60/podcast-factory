@@ -88,3 +88,33 @@ export function useMarks(slug: string): Marks {
 
   return marks;
 }
+
+/**
+ * An annotation as the form fields the marks route expects.
+ *
+ * Moved here from the reader route on 2026-09-02 (size ceiling), and it belongs
+ * with the marks rather than with the page: recolouring and re-noting both
+ * resubmit a whole annotation, so this is the shape a mark takes on its way back
+ * to the server, not something about how a chapter is drawn.
+ */
+export const toFields = (a: {
+  id: string;
+  anchorKey: string;
+  blockIndex: number;
+  startOffset: number;
+  endOffset: number;
+  quote: string;
+  prefix: string;
+  colour: string;
+  note: string | null;
+}) => ({
+  id: a.id,
+  anchorKey: a.anchorKey,
+  blockIndex: String(a.blockIndex),
+  startOffset: String(a.startOffset),
+  endOffset: String(a.endOffset),
+  quote: a.quote,
+  prefix: a.prefix,
+  colour: a.colour,
+  note: a.note ?? "",
+});

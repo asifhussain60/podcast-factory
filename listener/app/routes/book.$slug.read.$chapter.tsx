@@ -3,9 +3,6 @@ import {
   faBookOpen,
   faChevronLeft,
   faChevronRight,
-  faDownload,
-  faHeadphones,
-  faImages,
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate, useSearchParams } from "react-router";
@@ -44,7 +41,6 @@ import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 import { passageById } from "~/server/search.server";
-import { readingMinutes } from "~/lib/reading";
 import {
   bridgedEpisodeFor,
   chapterOf,
@@ -90,6 +86,9 @@ export {
 // its only caller was `centerReadAlongBlock`, which now lives beside it.
 import { readAlongBlockIndex } from "~/lib/read-along";
 import { centerReadAlongBlock } from "~/lib/read-along-scroll";
+import { Elsewhere } from "~/components/reader/Elsewhere";
+import { toFields } from "~/components/reader/useMarks";
+import { sameList, sameSet } from "~/lib/same";
 
 function readAlongTrace(label: string, detail: Record<string, unknown>) {
   if (typeof window === "undefined") return;
@@ -1132,130 +1131,4 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
       />
     </AppShell>
   );
-}
-
-/** An annotation as the form fields the marks route expects. */
-const toFields = (a: {
-  id: string;
-  anchorKey: string;
-  blockIndex: number;
-  startOffset: number;
-  endOffset: number;
-  quote: string;
-  prefix: string;
-  colour: string;
-  note: string | null;
-}) => ({
-  id: a.id,
-  anchorKey: a.anchorKey,
-  blockIndex: String(a.blockIndex),
-  startOffset: String(a.startOffset),
-  endOffset: String(a.endOffset),
-  quote: a.quote,
-  prefix: a.prefix,
-  colour: a.colour,
-  note: a.note ?? "",
-});
-
-/**
- * The other ways this book can be taken, from inside one of them.
- *
- * Availability decides it, book by book, exactly as the book page's tabs do: a
- * chip appears only when the thing is IN R2 — episodes with a recording, deck
- * pages, a print edition — and Notes only once this reader has made one. A book
- * that is a reading edition and nothing else therefore shows no chips at all,
- * which is the honest answer rather than four dead controls.
- *
- * They are LINKS, not tabs. The panels live on the book page and this is a
- * different page; each chip lands on the tab it names, which is possible because
- * that tab now has a URL. The PDF is the exception and goes straight to the
- * file, because a download is not a view to switch to.
- *
- * Access is not consulted here, and does not need to be: every one of these
- * lands on a route that runs `requireUnitAccess` on the same slug this chapter
- * already passed. When per-surface permission arrives, this list is where it
- * will show — a chip for something a reader may not take should not be drawn.
- */
-function Elsewhere({
-  slug,
-  surfaces,
-  marks,
-  episodesFolded,
-}: {
-  slug: string;
-  surfaces: { episodes: number; deckPages: number; pdfKey: string | null };
-  /** This reader's own marks in this book — highlights and bookmarks together. */
-  marks: number;
-  /** True when every episode plays a chapter's own recording — see
-   *  `episodesAreChapterNarration`. The "Podcast" chip below is the same
-   *  offer this page's own Listen control already is, so it is withdrawn
-   *  rather than pointing at a tab that no longer exists for this book. */
-  episodesFolded: boolean;
-}) {
-  const chips = [
-    surfaces.episodes > 0 && !episodesFolded
-      ? {
-          key: "listen",
-          to: `/book/${slug}?tab=listen`,
-          icon: faHeadphones,
-          label: "Podcast",
-          count: surfaces.episodes,
-        }
-      : null,
-    surfaces.deckPages > 0
-      ? {
-          key: "slides",
-          to: `/book/${slug}?tab=slides`,
-          icon: faImages,
-          label: "Slides",
-          count: surfaces.deckPages,
-        }
-      : null,
-    surfaces.pdfKey === null
-      ? null
-      : {
-          key: "pdf",
-          to: `/media/${surfaces.pdfKey}`,
-          icon: faDownload,
-          label: "PDF",
-          count: 0,
-        },
-    marks > 0
-      ? {
-          key: "notes",
-          to: `/book/${slug}?tab=notes`,
-          icon: faNoteSticky,
-          label: "Notes",
-          count: marks,
-        }
-      : null,
-  ].filter((c): c is NonNullable<typeof c> => c !== null);
-
-  if (chips.length === 0) return null;
-
-  return (
-    <nav aria-label="The rest of this book" className="pf-elsewhere">
-      {chips.map((chip) => (
-        <Link key={chip.key} to={chip.to} className="pf-elsewhere__chip">
-          <Icon icon={chip.icon} />
-          {chip.label}
-          {chip.count > 0 ? (
-            <span className="pf-elsewhere__count">{chip.count}</span>
-          ) : null}
-        </Link>
-      ))}
-    </nav>
-  );
-}
-
-/** Whether two id lists are the same, in the same order. Same purpose as below. */
-function sameList(a: string[], b: string[]): boolean {
-  return a.length === b.length && a.every((v, i) => v === b[i]);
-}
-
-/** Whether two id sets hold the same members — used to avoid a needless render. */
-function sameSet(a: Set<string>, b: Set<string>): boolean {
-  if (a.size !== b.size) return false;
-  for (const v of a) if (!b.has(v)) return false;
-  return true;
 }
