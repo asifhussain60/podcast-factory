@@ -55,7 +55,7 @@
     align-items: center;
     gap: 0.4rem;
     margin: 0;
-    padding: 0.55rem 0.4rem 0.2rem;
+    padding: 0.55rem 0.4rem 0.3rem;
     font-size: 0.6rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -72,10 +72,22 @@
     background: color-mix(in srgb, var(--l-band) 14%, transparent);
   }
 
+  /* Each section is a BOX, so "Show" and "Track" read as two things rather than
+     one long column of buttons (Asif, 2026-09-02). The label sits on the box's
+     top edge rather than above it — the rule the label already draws through
+     itself becomes the box's own division, so the border adds a boundary
+     without adding a second line to look at.
+
+     Hairline from the band, the same family as the panel's own border and the
+     cards beside it, at half its strength: the panel is the object and these are
+     its compartments, so they must not read as equals of it. */
   .pf-rail-group {
     display: flex;
     flex-direction: column;
     gap: 2px;
+    padding: 0.3rem;
+    border: 1px solid color-mix(in srgb, var(--l-band) 13%, transparent);
+    border-radius: 10px;
   }
 
   /* ---- One row ----------------------------------------------------------- */

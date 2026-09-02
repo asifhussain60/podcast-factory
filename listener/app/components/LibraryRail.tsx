@@ -10,6 +10,8 @@ import { Link } from "react-router";
 
 import { Icon } from "~/components/Icon";
 import { SearchBox } from "~/components/SearchBox";
+import { ViewSwitcher } from "~/components/ViewSwitcher";
+import type { ViewMode } from "~/lib/shelf";
 import {
   COLLECTIONS,
   COLLECTION_LABELS,
@@ -66,6 +68,8 @@ export function LibraryRail({
   onTrack,
   trackCounts,
   total,
+  viewMode,
+  onViewMode,
 }: {
   query: string;
   onQuery: (value: string) => void;
@@ -77,6 +81,8 @@ export function LibraryRail({
   onTrack: (value: TrackChoice) => void;
   trackCounts: Map<StudyTrack, number>;
   total: number;
+  viewMode: ViewMode;
+  onViewMode: (value: ViewMode) => void;
 }) {
   return (
     /* A `nav` would claim this is a set of links, and all but one of them are
@@ -91,6 +97,13 @@ export function LibraryRail({
           size="sm"
           action={{ kind: "filter", value: query, onChange: onQuery }}
         />
+
+        {/* Above "Show", one row of three (Asif's markup, 2026-09-02). It sat on
+            the shelf's heading row for an hour and comes back here — this time at
+            the TOP of the panel rather than buried at its foot, which was the
+            placement that made it read as one more filter. First in the column,
+            it reads as how the panel's results are drawn. */}
+        <ViewSwitcher viewMode={viewMode} onViewMode={onViewMode} />
 
         {mixed ? (
           <>

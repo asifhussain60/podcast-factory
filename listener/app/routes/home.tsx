@@ -38,7 +38,6 @@ import {
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { visibleUnits, workTitles } from "~/server/access.server";
-import { ViewSwitcher } from "~/components/ViewSwitcher";
 import {
   libraryCards,
   playableEpisodesForCards,
@@ -313,34 +312,41 @@ export default function Home({ loaderData }: Route.ComponentProps) {
    *
    * Split from `shown`, so it inherits every filter already applied rather than
    * re-deriving them — and by the same `collectionOf` the cards paint from, so
-   * a card can never land under the other group's heading.
+   * a card can never land under another group's heading.
+   *
+   * THREE-WAY since 2026-09-02, and it had to be: the old version asked whether
+   * a bucket was Sessions and put everything else with the books, so every
+   * audiobook sat under a "Books" heading from the day audiobooks became their
+   * own collection. The grouping now walks the collection list, which means the
+   * fourth one is a row in `nouns` rather than another branch to forget.
+   *
+   * It no longer returns null when the reader has narrowed to one collection.
+   * That used to suppress the heading on the grounds that it repeated the button
+   * just pressed — but the panel kept the room the heading would have taken, so
+   * choosing "Books" left an empty band above the cards (Asif, 2026-09-02: "the
+   * titles should always show to not show the blank empty space"). A group with
+   * one heading is also simply what the page is: one titled shelf.
    */
   const split = useMemo(() => {
-    if (collection !== "all") return null;
-    const sessions = shown.filter(
-      (unit) => collectionOf(unit.bucket) === "sessions",
-    );
-    const books = shown.filter(
-      (unit) => collectionOf(unit.bucket) !== "sessions",
-    );
-    if (books.length === 0 || sessions.length === 0) return null;
-    return [
-      {
-        key: "books" as const,
-        label: COLLECTION_LABELS.books,
-        noun: "title",
-        nounPlural: "titles",
-        units: books,
-      },
-      {
-        key: "sessions" as const,
-        label: COLLECTION_LABELS.sessions,
-        noun: "series",
-        nounPlural: "series",
-        units: sessions,
-      },
-    ];
-  }, [shown, collection]);
+    const order = ["books", "sessions", "audiobooks"] as const;
+    const nouns: Record<(typeof order)[number], [string, string]> = {
+      books: ["title", "titles"],
+      // "series" is its own plural — the default `+ "s"` would read "2 seriess".
+      sessions: ["series", "series"],
+      audiobooks: ["title", "titles"],
+    };
+    return order
+      .map((key) => ({
+        key,
+        label: COLLECTION_LABELS[key],
+        noun: nouns[key][0],
+        nounPlural: nouns[key][1],
+        units: shown.filter(
+          (unit) => (collectionOf(unit.bucket) ?? "books") === key,
+        ),
+      }))
+      .filter((group) => group.units.length > 0);
+  }, [shown]);
 
   /**
    * One group's worth of cards, in whichever view the reader has chosen.
@@ -444,18 +450,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <AppShell here="library" isAdmin={viewer.isAdmin}>
       <section className="pf-masthead">
-        {/* Title and the view switcher on ONE row (Asif's markup, 2026-09-01).
-            The switcher spent twenty minutes in the filter rail and does not
-            belong there: everything else in that panel changes WHICH books are
-            shown, and this changes how the same result is drawn. Beside the
-            heading it reads as a property of the view; under Advanced search it
-            read as one more filter. */}
-        <div className="pf-masthead__head">
-          <h1 className="pf-title">The Shelf</h1>
-          {units.length === 0 ? null : (
-            <ViewSwitcher viewMode={viewMode} onViewMode={setViewMode} />
-          )}
-        </div>
+        <h1 className="pf-title">The Shelf</h1>
         <p className="pf-lede">
           {units.length === 0
             ? "Nothing has been shared with you yet. When something is, it appears here."
@@ -480,6 +475,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             onTrack={setTrack}
             trackCounts={trackCounts}
             total={units.length}
+            viewMode={viewMode}
+            onViewMode={setViewMode}
           />
         )}
       </section>
@@ -513,13 +510,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             </>
           )}
         </EmptyState>
-      ) : split === null ? (
-        /* No heading — narrowed to one collection, or a filter left one kind
-           with nothing, so there is nothing to tell apart. The panel is drawn
-           anyway: the cards should sit on the same ground however the shelf is
-           filtered, or switching the filter would change the page's furniture
-           as well as its contents. */
-        <section className="pf-shelf-group">{renderUnits(shown)}</section>
       ) : (
         /* Books and sessions in their own titled groups rather than
            interleaved through one grid (Asif, 2026-08-29). They are read
@@ -543,9 +533,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <section
               key={group.key}
               className="pf-shelf-group"
-              data-collection={
-                group.key === "sessions" ? "sessions" : undefined
-              }
+              data-collection={group.key === "books" ? undefined : group.key}
               aria-labelledby={`shelf-${group.key}`}
             >
               <div className="pf-section__head pf-shelf-group__head">

@@ -2679,29 +2679,23 @@
     padding-top: var(--pf-space-6);
   }
 
-  /* Title and the view switcher on one line (Asif's markup, 2026-09-01).
-     `space-between` rather than a gap, so the switcher sits at the far edge of
-     the measure and the heading keeps the left margin the lede below it shares.
-     `align-items: baseline` would hang the buttons off the cap-height of a very
-     large display face; `end` keeps them sitting on the title's own baseline
-     block, which is what reads as one row.
-
-     Wraps on a narrow screen: at a phone width the title alone fills the line,
-     and a switcher squeezed beside it would be three targets under 2rem. */
-  .pf-masthead__head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--pf-space-4);
-  }
-
   /* ---- How the shelf is drawn -------------------------------------------
      Three icons in one segmented group. It lived in the filter rail for twenty
      minutes and does not belong there: everything else in that panel changes
      WHICH books are shown, and this changes how the same result looks. */
+  /* THREE ACROSS, and it must not widen the panel it stands in (Asif, 2026-09-02:
+     "in 1X3 grid without extending width of the panel"). `grid` with three equal
+     fractions does that where `flex` could not: a flex row sizes to its content
+     and the 2.25rem floor on each button made three of them push the rail wider.
+     Equal fractions divide whatever width the panel already has, so the buttons
+     shrink to fit rather than the panel growing to hold them. */
   .pf-views {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Explicit, because a grid child of a flex column does not stretch here and
+       sized itself to its glyphs — three 15px buttons in a 176px panel. 100% of
+       the panel cannot widen the panel, which is the constraint. */
+    width: 100%;
     gap: 2px;
     padding: 3px;
     background: color-mix(in srgb, var(--l-band) 7%, transparent);
@@ -2712,11 +2706,10 @@
   .pf-view {
     display: grid;
     place-items: center;
-    /* A floor, not a width — three icons sharing a group still have to be
-       hittable one at a time, and `npm run smoke` refuses targets that shrink
-       to the glyph. The group as a whole clears the touch minimum, which is why
-       each is 2.25rem rather than the 2.75rem a standalone control takes. */
-    min-width: 2.25rem;
+    /* No `min-width`. It was 2.25rem, which is what forced the panel wider once
+       the three moved into it — the grid column already gives each button a
+       third of the panel, which is well past a touch target at every width the
+       rail is drawn at. Height keeps its floor: nothing else sets it. */
     min-height: 2.25rem;
     border: 0;
     border-radius: 9px;
