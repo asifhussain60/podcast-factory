@@ -408,6 +408,134 @@ export async function episodesOf(
 }
 
 /**
+ * The one test that decides whether a book's "Listen" surface is a second
+ * thing to browse or the same thing shown twice.
+ *
+ * True only when EVERY episode with audio plays a file that some chapter also
+ * narrates — checked by the file's own key matching, not by bucket, profile,
+ * or the presence of `chapter-contracts` (a Sessions book can be authored
+ * through the same podcast pipeline as an ordinary book and still, separately,
+ * happen to narrate its chapters from the identical recording — the two facts
+ * are independent, and only this one decides anything).
+ *
+ * A book whose narration re-cuts each chapter from a longer session — one
+ * mp3 per topic, narrower than the full recording an episode plays — fails
+ * this on purpose: `purification-of-the-heart` narrates from
+ * `book/narration/envy.mp3` while its episodes play the full, uncut
+ * `m4a/Episodes/ep01.mp3`. Different files, so its Listen tab stays, and nothing
+ * here needs to know that book exists to get that right. A book with no
+ * narration at all (most of `content/Audiobook/`, today) has zero matches and
+ * so is false by construction, which is what keeps its only way to be heard —
+ * the episode list — in place until its narration is actually generated.
+ */
+export async function episodesAreChapterNarration(
+  db: D1Database,
+  slug: string,
+): Promise<boolean> {
+  const row = await db
+    .prepare(
+      `SELECT
+         (SELECT count(*) FROM episode e
+             JOIN media_asset m ON m.key = e.audio_key
+            WHERE e.slug = ?1 AND ${servable("m.uploaded_at")}) AS with_audio,
+         (SELECT count(*) FROM episode e
+             JOIN media_asset m ON m.key = e.audio_key
+             JOIN episode_chapter ec ON ec.slug = e.slug AND ec.number = e.number
+             JOIN chapter_narration cn
+               ON cn.slug = e.slug
+              AND cn.anchor_key = ec.anchor_key
+              AND cn.audio_key = e.audio_key
+            WHERE e.slug = ?1 AND ${servable("m.uploaded_at")}) AS matched`,
+    )
+    .bind(slug)
+    .first<{ with_audio: number; matched: number }>();
+  return row !== null && row.with_audio > 0 && row.with_audio === row.matched;
+}
+
+/**
+ * Where an episode's recording is also read as a chapter, keyed by episode
+ * NUMBER — the direction `BookCard`'s play button and a resumed episode note
+ * need, both of which know only the number.
+ *
+ * The same identity join as `episodesAreChapterNarration`, so a slug can never
+ * answer "hide the tab" one way and "where does play button go" a different
+ * way. Empty for a book that fails that test — which sends every caller back
+ * to `?tab=listen`, the destination that has always been correct there.
+ */
+export async function chapterKeysForEpisodes(
+  db: D1Database,
+  slug: string,
+): Promise<Map<number, string>> {
+  const { results } = await db
+    .prepare(
+      `SELECT e.number, ec.anchor_key
+         FROM episode e
+         JOIN media_asset m ON m.key = e.audio_key
+         JOIN episode_chapter ec ON ec.slug = e.slug AND ec.number = e.number
+         JOIN chapter_narration cn
+           ON cn.slug = e.slug
+          AND cn.anchor_key = ec.anchor_key
+          AND cn.audio_key = e.audio_key
+        WHERE e.slug = ?1 AND ${servable("m.uploaded_at")}`,
+    )
+    .bind(slug)
+    .all<{ number: number; anchor_key: string }>();
+  return new Map(results.map((r) => [r.number, r.anchor_key]));
+}
+
+/**
+ * The episode a chapter's own recording belongs to, for the one chapter page
+ * that needs it: the note-numbering fix (a note taken while reading must file
+ * under the episode this recording IS, not the chapter's position in the
+ * reading edition — see the read-aloud track builder), and the offline-audio
+ * button, which needs the episode's transcript key to offer the same bundle
+ * the Listen row did.
+ *
+ * Unlike the two functions above, this does NOT require the audio to match —
+ * a bridge row can exist for a chapter whose narration was cut differently
+ * (`purification-of-the-heart` has none, so this is moot there, but the shape
+ * is kept general rather than silently coupled to the identity check). The
+ * caller compares `audioKey` against the chapter's own narration itself before
+ * treating the two as interchangeable.
+ */
+export async function bridgedEpisodeFor(
+  db: D1Database,
+  slug: string,
+  anchorKey: string,
+): Promise<{
+  number: number;
+  audioKey: string | null;
+  transcriptKey: string | null;
+} | null> {
+  const row = await db
+    .prepare(
+      `SELECT e.number, e.audio_key,
+              CASE
+                WHEN e.transcript_key IS NOT NULL AND ${servable("t.uploaded_at")}
+                THEN e.transcript_key
+                ELSE NULL
+              END AS transcript_key
+         FROM episode_chapter ec
+         JOIN episode e ON e.slug = ec.slug AND e.number = ec.number
+         LEFT JOIN media_asset t ON t.key = e.transcript_key
+        WHERE ec.slug = ?1 AND ec.anchor_key = ?2
+        LIMIT 1`,
+    )
+    .bind(slug, anchorKey)
+    .first<{
+      number: number;
+      audio_key: string | null;
+      transcript_key: string | null;
+    }>();
+  if (row === null) return null;
+  return {
+    number: row.number,
+    audioKey: row.audio_key,
+    transcriptKey: row.transcript_key,
+  };
+}
+
+/**
  * Episodes arranged into their sessions.
  *
  * Every episode comes back exactly once. Ones outside any session — or all of
@@ -547,6 +675,13 @@ export interface CardPlayableEpisode {
   audioKey: string;
   durationS: number | null;
   transcriptKey: string | null;
+  /**
+   * The chapter this recording IS, when one exists — the same join
+   * `episodesAreChapterNarration` uses, so the card's play button and the
+   * book page's own tab agree about which books this is true for. Null sends
+   * the button to `?tab=listen`, exactly as it always has.
+   */
+  chapterKey: string | null;
 }
 
 /**
@@ -666,13 +801,20 @@ export async function playableEpisodesForCards(
                 WHEN e.transcript_key IS NOT NULL AND ${servable("transcript.uploaded_at")}
                 THEN e.transcript_key
                 ELSE NULL
-              END AS transcript_key
+              END AS transcript_key,
+              chapter.anchor_key AS chapter_key
          FROM episode e
          JOIN media_asset audio
            ON audio.key = e.audio_key
           AND ${servable("audio.uploaded_at")}
          LEFT JOIN media_asset transcript
            ON transcript.key = e.transcript_key
+         LEFT JOIN episode_chapter ec
+           ON ec.slug = e.slug AND ec.number = e.number
+         LEFT JOIN chapter_narration chapter
+           ON chapter.slug = e.slug
+          AND chapter.anchor_key = ec.anchor_key
+          AND chapter.audio_key = e.audio_key
         WHERE e.slug IN (${placeholders})
         ORDER BY e.slug, e.number`,
     )
@@ -684,6 +826,7 @@ export async function playableEpisodesForCards(
       audio_key: string;
       duration_s: number | null;
       transcript_key: string | null;
+      chapter_key: string | null;
     }>();
 
   for (const r of results) {
@@ -695,6 +838,7 @@ export async function playableEpisodesForCards(
       audioKey: r.audio_key,
       durationS: r.duration_s,
       transcriptKey: r.transcript_key,
+      chapterKey: r.chapter_key,
     });
     episodes.set(r.slug, slot);
   }

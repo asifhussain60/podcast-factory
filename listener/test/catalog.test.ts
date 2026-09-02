@@ -2,9 +2,12 @@ import { readFileSync } from "node:fs";
 import { beforeAll, describe, expect, it } from "vitest";
 
 import {
+  bridgedEpisodeFor,
+  chapterKeysForEpisodes,
   chapterOf,
   chaptersOf,
   deckPagesOf,
+  episodesAreChapterNarration,
   episodesOf,
   libraryCards,
   mediaByKey,
@@ -460,5 +463,131 @@ describe("the publish step's privilege discipline", () => {
     expect(PUBLISH).toMatch(
       /INSERT INTO content_unit \(slug, bucket, title, kind, sort_order\)/,
     );
+  });
+});
+
+describe("episodesAreChapterNarration, chapterKeysForEpisodes, bridgedEpisodeFor", () => {
+  /**
+   * The three functions behind removing a Listen tab that would only repeat
+   * the Read tab: one book where a chapter's own narration is literally the
+   * same file an episode plays (White Nights' actual shape), one where a
+   * chapter narrates a shorter clip cut from a longer session recording
+   * (Purification of the Heart's actual shape — proven by inspection before
+   * writing this, not assumed from either book's bucket), and one with no
+   * narration published yet (most of the Audiobook bucket, today).
+   */
+  function seedNarrated() {
+    const test = createTestDb();
+    test.exec(`
+      INSERT INTO content_unit (slug, bucket, title, kind, status) VALUES
+        ('identical', 'Audiobook', 'Identical', 'book', 'published'),
+        ('recut', 'Sessions', 'Recut', 'book', 'published'),
+        ('unnarrated', 'Audiobook', 'Unnarrated', 'book', 'published');
+
+      -- identical: the chapter's narration IS the episode's own file, exactly
+      -- the White Nights shape.
+      INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES
+        ('identical', 'first night', 1, '1. First Night', '<p>a</p>', 100);
+      INSERT INTO episode (slug, number, title, audio_key, duration_s) VALUES
+        ('identical', 3, 'Episode three', 'identical/audio/ep03.m4a', 1500);
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at) VALUES
+        ('identical/audio/ep03.m4a', 'identical', 'audio', 'audio/mp4', 100, 'a1', 'x', '2026-08-03T00:00:00Z'),
+        ('identical/transcript/ep03.vtt', 'identical', 'transcript', 'text/vtt', 10, 'a2', 'x', '2026-08-03T00:00:00Z');
+      UPDATE episode SET transcript_key = 'identical/transcript/ep03.vtt' WHERE slug = 'identical' AND number = 3;
+      INSERT INTO episode_chapter (slug, number, anchor_key) VALUES ('identical', 3, 'first night');
+      INSERT INTO chapter_narration (slug, anchor_key, audio_key, duration_s, source_hash, voice, cues_json) VALUES
+        ('identical', 'first night', 'identical/audio/ep03.m4a', 1500, 'h1', 'author', '[]');
+
+      -- recut: the bridge and the narration both exist, but the narration
+      -- points at a DIFFERENT, shorter file than the episode plays — the
+      -- Purification of the Heart shape. This must NOT count as a match.
+      INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES
+        ('recut', 'envy', 1, '1. Envy', '<p>a</p>', 100);
+      INSERT INTO episode (slug, number, title, audio_key) VALUES
+        ('recut', 1, 'Episode one', 'recut/audio/ep01.m4a');
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at) VALUES
+        ('recut/audio/ep01.m4a', 'recut', 'audio', 'audio/mp4', 100, 'b1', 'x', '2026-08-03T00:00:00Z');
+      INSERT INTO episode_chapter (slug, number, anchor_key) VALUES ('recut', 1, 'envy');
+      INSERT INTO chapter_narration (slug, anchor_key, audio_key, duration_s, source_hash, voice, cues_json) VALUES
+        ('recut', 'envy', 'recut/narration/envy.mp3', 3000, 'h2', 'author', '[]');
+
+      -- unnarrated: episode exists and is playable, no chapter_narration row
+      -- at all — the shape most of the Audiobook bucket is in right now.
+      INSERT INTO chapter (slug, anchor_key, idx, title, html, word_count) VALUES
+        ('unnarrated', 'chapter one', 1, '1. Chapter One', '<p>a</p>', 100);
+      INSERT INTO episode (slug, number, title, audio_key) VALUES
+        ('unnarrated', 1, 'Episode one', 'unnarrated/audio/ep01.m4a');
+      INSERT INTO media_asset (key, slug, kind, content_type, bytes, sha256, source_path, uploaded_at) VALUES
+        ('unnarrated/audio/ep01.m4a', 'unnarrated', 'audio', 'audio/mp4', 100, 'c1', 'x', '2026-08-03T00:00:00Z');
+      INSERT INTO episode_chapter (slug, number, anchor_key) VALUES ('unnarrated', 1, 'chapter one');
+    `);
+    return test;
+  }
+
+  it("is true only when the episode plays the identical file a chapter narrates", async () => {
+    const { db, close } = seedNarrated();
+
+    expect(await episodesAreChapterNarration(db, "identical")).toBe(true);
+    expect(await episodesAreChapterNarration(db, "recut")).toBe(false);
+    expect(await episodesAreChapterNarration(db, "unnarrated")).toBe(false);
+
+    close();
+  });
+
+  it("never fires on bucket or profile — a Sessions book with a bridge still fails when the files differ", async () => {
+    // `recut` lives in the Sessions bucket, the same bucket as books this
+    // feature is meant for, and it has a full bridge. The one thing that must
+    // decide anything is the file, and here the files differ — proving the
+    // test does not secretly key off `content_unit.bucket`.
+    const { db, close } = seedNarrated();
+
+    expect(await episodesAreChapterNarration(db, "recut")).toBe(false);
+
+    close();
+  });
+
+  it("maps only the matching episodes to their chapter", async () => {
+    const { db, close } = seedNarrated();
+
+    const identical = await chapterKeysForEpisodes(db, "identical");
+    expect(identical.get(3)).toBe("first night");
+
+    const recut = await chapterKeysForEpisodes(db, "recut");
+    expect(recut.size).toBe(0);
+
+    const unnarrated = await chapterKeysForEpisodes(db, "unnarrated");
+    expect(unnarrated.size).toBe(0);
+
+    close();
+  });
+
+  it("resolves a chapter's own bridged episode, transcript included", async () => {
+    const { db, close } = seedNarrated();
+
+    const bridged = await bridgedEpisodeFor(db, "identical", "first night");
+    expect(bridged).toEqual({
+      number: 3,
+      audioKey: "identical/audio/ep03.m4a",
+      transcriptKey: "identical/transcript/ep03.vtt",
+    });
+
+    // `recut` HAS a bridge row for envy -> episode 1 — this function does not
+    // enforce the audio match itself, by design (see its own doc); the caller
+    // compares `audioKey` before treating the two as interchangeable.
+    const mismatched = await bridgedEpisodeFor(db, "recut", "envy");
+    expect(mismatched?.number).toBe(1);
+    expect(mismatched?.audioKey).toBe("recut/audio/ep01.m4a");
+
+    expect(await bridgedEpisodeFor(db, "unnarrated", "chapter one")).toEqual({
+      number: 1,
+      audioKey: "unnarrated/audio/ep01.m4a",
+      transcriptKey: null,
+    });
+
+    expect(
+      await bridgedEpisodeFor(db, "identical", "no such chapter"),
+    ).toBeNull();
+
+    close();
   });
 });

@@ -77,6 +77,10 @@ function render(over: {
     next: null,
     surfaces: NOTHING_ELSE,
     isAdmin: over.isCompanion,
+    // An ordinary book: no bridge, no chapter narrated as an episode — the
+    // untouched case every fixture here was already exercising.
+    bridgedEpisode: null,
+    episodesFolded: false,
     ...over,
   };
 

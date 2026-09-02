@@ -466,12 +466,36 @@ function ListenAction({
       }`}
       aria-label={`${verb} ${title}, episode ${listen.episode.number}: ${listen.episode.title}`}
       onClick={() => {
-        if (isCurrent) player.toggle();
-        else
-          player.play(track, {
-            startAt:
-              listen.seconds === null ? undefined : listen.seconds - PRE_ROLL_S,
-          });
+        // Toggling what is ALREADY playing works whichever page started it —
+        // `isCurrent` compares by the audio's own URL, not by which kind of
+        // track it was opened as, and for a chapter-narrated episode those are
+        // the same file either way.
+        if (isCurrent) {
+          player.toggle();
+          player.setExpanded(true);
+          return;
+        }
+        // A chapter reads this exact recording: send the reader THERE rather
+        // than starting an "episode" track here and landing on a Listen tab
+        // that no longer exists for this book. The chapter page builds its own
+        // track — with real cues and the paragraph text this card does not
+        // have — the moment it mounts with `?listen=1`.
+        if (listen.episode.chapterKey !== null) {
+          const at =
+            listen.mode === "resume" && listen.seconds !== null
+              ? Math.max(0, listen.seconds - PRE_ROLL_S)
+              : null;
+          navigate(
+            `/book/${listen.episode.slug}/read/${encodeURIComponent(listen.episode.chapterKey)}` +
+              `?listen=1${at === null ? "" : `&at=${at}`}`,
+            { preventScrollReset: true },
+          );
+          return;
+        }
+        player.play(track, {
+          startAt:
+            listen.seconds === null ? undefined : listen.seconds - PRE_ROLL_S,
+        });
         player.setExpanded(true);
         navigate(`/book/${listen.episode.slug}?tab=listen`, {
           preventScrollReset: true,

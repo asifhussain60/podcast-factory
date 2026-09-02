@@ -8,7 +8,7 @@ import {
   faImages,
   faNoteSticky,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 
 import type { Route } from "./+types/book.$slug.read.$chapter";
 import { AppShell } from "~/components/AppShell";
@@ -21,6 +21,7 @@ import { SidePanel } from "~/components/reader/SidePanel";
 import { ReaderToolbar } from "~/components/reader/ReaderToolbar";
 import { ReaderTopActions } from "~/components/reader/ReaderToolbar";
 import { ChapterListenControl } from "~/components/reader/ChapterListenControl";
+import { DownloadButton } from "~/components/offline/DownloadButton";
 import { SelectionBar } from "~/components/reader/SelectionBar";
 import { useHighlights, type Painted } from "~/components/reader/Highlights";
 import { type Cue } from "~/components/player/Transcript";
@@ -44,7 +45,13 @@ import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
 import { passageById } from "~/server/search.server";
 import { readingMinutes } from "~/lib/reading";
-import { chapterOf, chaptersOf, surfacesOf } from "~/server/catalog.server";
+import {
+  bridgedEpisodeFor,
+  chapterOf,
+  chaptersOf,
+  episodesAreChapterNarration,
+  surfacesOf,
+} from "~/server/catalog.server";
 import { companionFor } from "~/server/companion.server";
 import { sourceReferenceFor } from "~/server/sourceReference.server";
 import {
@@ -98,11 +105,7 @@ function readAlongTrace(label: string, detail: Record<string, unknown>) {
   }
 }
 
-export async function loader({
-  params,
-  request,
-  context,
-}: Route.LoaderArgs) {
+export async function loader({ params, request, context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const slug = params.slug;
   const key = decodeURIComponent(params.chapter);
@@ -127,22 +130,40 @@ export async function loader({
       ? null
       : await passageById(env.DB, viewer?.email ?? "", wanted);
 
-  const [unit, chapter, all, surfaces, companion, sourceRef] =
-    await Promise.all([
-      unitBySlug(env.DB, slug),
-      chapterOf(env.DB, slug, key),
-      chaptersOf(env.DB, slug),
-      // What ELSE this book offers, so a chapter can say so and point at it. One
-      // query rather than the three the book page runs, because this needs only
-      // whether each thing exists.
-      surfacesOf(env.DB, slug),
-      // Empty, and un-queried, for everyone but the administrator. The gate is
-      // inside that function rather than a condition here — see the module.
-      companionFor(env.DB, viewer, slug, key),
-      // Null on the 19-of-27 books with no source-crosswalk, or on a chapter
-      // this book's crosswalk does not cover. No viewer gate — see the module.
-      sourceReferenceFor(env.DB, slug, key),
-    ]);
+  const [
+    unit,
+    chapter,
+    all,
+    surfaces,
+    companion,
+    sourceRef,
+    bridgedEpisode,
+    episodesFolded,
+  ] = await Promise.all([
+    unitBySlug(env.DB, slug),
+    chapterOf(env.DB, slug, key),
+    chaptersOf(env.DB, slug),
+    // What ELSE this book offers, so a chapter can say so and point at it. One
+    // query rather than the three the book page runs, because this needs only
+    // whether each thing exists.
+    surfacesOf(env.DB, slug),
+    // Empty, and un-queried, for everyone but the administrator. The gate is
+    // inside that function rather than a condition here — see the module.
+    companionFor(env.DB, viewer, slug, key),
+    // Null on the 19-of-27 books with no source-crosswalk, or on a chapter
+    // this book's crosswalk does not cover. No viewer gate — see the module.
+    sourceReferenceFor(env.DB, slug, key),
+    // The episode this chapter's OWN recording belongs to, when the bridge
+    // says so — the note-numbering fix reads its `number`, the offline-audio
+    // button reads its `transcriptKey`. Null for the ordinary case (no
+    // bridge, or narrated from a different file than any episode plays).
+    bridgedEpisodeFor(env.DB, slug, key),
+    // Whether the WHOLE book's episodes are folded into chapters — the same
+    // test the book page uses to decide whether Listen exists at all. Read
+    // here too so the Elsewhere drawer can stop offering a "Podcast" chip
+    // that would land on a tab this book no longer has.
+    episodesAreChapterNarration(env.DB, slug),
+  ]);
 
   // A chapter key that is not in this book is a 404 exactly like a slug that is
   // not in the library — same shape, so neither reveals what exists.
@@ -174,6 +195,8 @@ export async function loader({
     companion,
     sourceRef,
     surfaces,
+    bridgedEpisode,
+    episodesFolded,
     // Which DRAWER this reader gets, decided once for the whole book rather than
     // per chapter. Derived from `companion.length` it would have been free, but
     // then the right-hand panel would be the Companion on the two chapters that
@@ -203,9 +226,12 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     isCompanion,
     isAdmin,
     surfaces,
+    bridgedEpisode,
+    episodesFolded,
     find,
   } = loaderData;
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const [progress, setProgress] = useState(0);
   const [contentsOpen, setContentsOpen] = useState(false);
@@ -404,49 +430,89 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
     player.current.slug === slug &&
     player.current.chapterKey === chapter.anchorKey;
 
-  const playNarration = useCallback(() => {
-    if (narration === null || narrationSrc === null || player === null) return;
-    if (narrationActive) {
-      player.toggle();
-      return;
-    }
-    const blockTexts = body.current === null ? [] : blockTextsOf(body.current);
-    const cues = narrationCues.map((cue, index) => ({
-      ...cue,
-      text: cue.text || blockTexts[cue.blockIndex ?? index] || chapter.title,
-    }));
-    readAlongTrace("play", {
-      slug,
-      chapterKey: chapter.anchorKey,
-      audio: narrationSrc,
-      cueCount: cues.length,
-      blockCount: blockTexts.length,
-    });
-    const track: NowPlaying = {
-      kind: "chapter",
-      slug,
+  const playNarration = useCallback(
+    (options?: { startAt?: number }) => {
+      if (narration === null || narrationSrc === null || player === null)
+        return;
+      if (narrationActive) {
+        // Already this chapter's audio: a bare press toggles it, exactly as
+        // before. Arriving with a resume position (from a note, or the
+        // library card) seeks to it instead of restarting from wherever
+        // playback happened to be.
+        if (options?.startAt === undefined) player.toggle();
+        else player.seek(options.startAt);
+        return;
+      }
+      const blockTexts =
+        body.current === null ? [] : blockTextsOf(body.current);
+      const cues = narrationCues.map((cue, index) => ({
+        ...cue,
+        text: cue.text || blockTexts[cue.blockIndex ?? index] || chapter.title,
+      }));
+      readAlongTrace("play", {
+        slug,
+        chapterKey: chapter.anchorKey,
+        audio: narrationSrc,
+        cueCount: cues.length,
+        blockCount: blockTexts.length,
+      });
+      const track: NowPlaying = {
+        kind: "chapter",
+        slug,
+        bookTitle,
+        // The EPISODE this recording is, not this chapter's position in the
+        // reading edition. A note taken from here is filed by this number —
+        // see `episode_note` and the Notes tab's own grouping — and the two
+        // numberings genuinely diverge the moment one chapter along the way
+        // carries no audio: White Nights' "First Night" is chapter 4 but
+        // plays episode 3, because "The Book in Brief" (chapter 2) has none.
+        // A note taken here under `chapter.idx` would have been saved as
+        // episode 4 and later replayed as Second Night — the wrong recording,
+        // silently. Falling back to `chapter.idx` only when there is no
+        // bridge keeps today's behaviour for a chapter no episode claims.
+        number: bridgedEpisode?.number ?? chapter.idx,
+        title: chapter.title,
+        src: narrationSrc,
+        durationS: narration.durationS,
+        transcriptSrc: null,
+        chapterKey: chapter.anchorKey,
+        cues,
+        collection: collectionOf(bucket),
+      };
+      player.play(track, { startAt: options?.startAt });
+    },
+    [
       bookTitle,
-      number: chapter.idx,
-      title: chapter.title,
-      src: narrationSrc,
-      durationS: narration.durationS,
-      transcriptSrc: null,
-      chapterKey: chapter.anchorKey,
-      cues,
-      collection: collectionOf(bucket),
-    };
-    player.play(track);
-  }, [
-    bookTitle,
-    bucket,
-    chapter,
-    narration,
-    narrationActive,
-    narrationCues,
-    narrationSrc,
-    player,
-    slug,
-  ]);
+      bridgedEpisode,
+      bucket,
+      chapter,
+      narration,
+      narrationActive,
+      narrationCues,
+      narrationSrc,
+      player,
+      slug,
+    ],
+  );
+
+  /* Arriving already told to play — `?listen=1`, optionally `&at=<seconds>`.
+     The library card's play button and a resumed episode note both land here
+     rather than on a Listen tab that, for a chapter-narrated book, no longer
+     exists: this is the one place with the chapter's real paragraph text to
+     build cues from, which is exactly what a track built anywhere else would
+     be missing. Fires once per navigation — `armed` guards against refiring
+     when `playNarration`'s identity changes the moment playback starts. */
+  const armed = useRef(false);
+  useEffect(() => {
+    if (armed.current) return;
+    if (searchParams.get("listen") !== "1") return;
+    if (narration === null) return;
+    armed.current = true;
+    const at = searchParams.get("at");
+    const startAt =
+      at !== null && Number.isFinite(Number(at)) ? Number(at) : undefined;
+    playNarration({ startAt });
+  }, [narration, playNarration, searchParams]);
 
   const readAlongBlock = useMemo(() => {
     return readAlongBlockIndex(
@@ -900,7 +966,12 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
           <Link to={`/book/${slug}`}>{bookTitle}</Link>
         </h1>
 
-        <Elsewhere slug={slug} surfaces={surfaces} marks={markCount} />
+        <Elsewhere
+          slug={slug}
+          surfaces={surfaces}
+          marks={markCount}
+          episodesFolded={episodesFolded}
+        />
 
         <ReaderToolbar />
 
@@ -929,6 +1000,32 @@ export default function ReadChapter({ loaderData }: Route.ComponentProps) {
               active={narrationActive}
               playing={player.playing === true}
               onToggle={playNarration}
+            />
+          ) : null}
+
+          {/* Taking the recording offline, the way the episode row used to
+              offer it — withdrawn from nowhere: this control simply did not
+              exist here before, because before, this chapter's audio had no
+              row of its own to carry it. Only when the bridge's episode plays
+              the IDENTICAL file this chapter narrates — `purification-of-the-
+              heart` narrates from a different, shorter clip than its
+              episodes play, and must never be offered this as if it matched. */}
+          {narration !== null &&
+          bridgedEpisode !== null &&
+          bridgedEpisode.audioKey === narration.audioKey ? (
+            <DownloadButton
+              src={narrationSrc!}
+              slug={slug}
+              bookTitle={bookTitle}
+              number={bridgedEpisode.number}
+              title={chapter.title}
+              durationS={narration.durationS}
+              transcriptSrc={
+                bridgedEpisode.transcriptKey === null
+                  ? null
+                  : `/media/${bridgedEpisode.transcriptKey}`
+              }
+              compact
             />
           ) : null}
         </div>
@@ -1083,14 +1180,20 @@ function Elsewhere({
   slug,
   surfaces,
   marks,
+  episodesFolded,
 }: {
   slug: string;
   surfaces: { episodes: number; deckPages: number; pdfKey: string | null };
   /** This reader's own marks in this book — highlights and bookmarks together. */
   marks: number;
+  /** True when every episode plays a chapter's own recording — see
+   *  `episodesAreChapterNarration`. The "Podcast" chip below is the same
+   *  offer this page's own Listen control already is, so it is withdrawn
+   *  rather than pointing at a tab that no longer exists for this book. */
+  episodesFolded: boolean;
 }) {
   const chips = [
-    surfaces.episodes > 0
+    surfaces.episodes > 0 && !episodesFolded
       ? {
           key: "listen",
           to: `/book/${slug}?tab=listen`,

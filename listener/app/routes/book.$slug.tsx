@@ -54,9 +54,11 @@ import {
 } from "~/components/offline/DownloadButton";
 import { readingMinutes } from "~/lib/reading";
 import {
+  chapterKeysForEpisodes,
   chaptersOf,
   deckPagesOf,
   detailOf,
+  episodesAreChapterNarration,
   sessionsOf,
   type Session,
 } from "~/server/catalog.server";
@@ -85,16 +87,23 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
   const viewer = context.get(session).viewer!;
 
-  const [detail, chapters, sessions, deck, marks] = await Promise.all([
-    detailOf(env.DB, slug),
-    chaptersOf(env.DB, slug),
-    sessionsOf(env.DB, slug),
-    deckPagesOf(env.DB, slug),
-    // Loaded here, unlike the reader, which fetches its own client-side: this
-    // page has no cached copy to paint from and the Notes tab needs the whole
-    // book's marks before it can render anything at all.
-    marksFor(env.DB, viewer.email, slug),
-  ]);
+  const [detail, chapters, sessions, deck, marks, episodesFolded, chapterKeys] =
+    await Promise.all([
+      detailOf(env.DB, slug),
+      chaptersOf(env.DB, slug),
+      sessionsOf(env.DB, slug),
+      deckPagesOf(env.DB, slug),
+      // Loaded here, unlike the reader, which fetches its own client-side: this
+      // page has no cached copy to paint from and the Notes tab needs the whole
+      // book's marks before it can render anything at all.
+      marksFor(env.DB, viewer.email, slug),
+      // Whether Listen is a second thing to browse or the same thing shown
+      // twice — see the function's own doc for what settles that.
+      episodesAreChapterNarration(env.DB, slug),
+      // Where a resumed note or the Listen tab's own "which chapter is this"
+      // sentence would send a reader, when the book qualifies for either.
+      chapterKeysForEpisodes(env.DB, slug),
+    ]);
 
   return {
     unit,
@@ -116,6 +125,11 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       }))
       .filter((d) => d.pages.length > 0),
     isAdmin: viewer.isAdmin,
+    episodesFolded,
+    // A plain object, not a Map — Maps do not survive the loader/component
+    // serialization boundary (same reason `decks`/`workTitles` elsewhere on
+    // this site are built the same way).
+    chapterKeys: Object.fromEntries(chapterKeys),
   };
 }
 
@@ -162,8 +176,18 @@ export function shouldRevalidate({
 }
 
 export default function BookDetail({ loaderData }: Route.ComponentProps) {
-  const { unit, detail, chapters, sessions, marks, deckPages, decks, isAdmin } =
-    loaderData;
+  const {
+    unit,
+    detail,
+    chapters,
+    sessions,
+    marks,
+    deckPages,
+    decks,
+    isAdmin,
+    episodesFolded,
+    chapterKeys,
+  } = loaderData;
   const fetcher = useFetcher();
   const navigate = useNavigate();
   const player = usePlayer();
@@ -179,7 +203,11 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
   // the podcast means at least one episode you can actually play, and for the
   // deck at least one page actually in R2.
   const canRead = chapters.length > 0;
-  const canListen = withAudio > 0;
+  // Also withdrawn — not merely empty — when Listen would be the same
+  // recordings the Read tab already plays, shown a second time in a second
+  // idiom. `episodesFolded` is server-checked per FILE, never guessed from
+  // this book's bucket or profile; see `episodesAreChapterNarration`.
+  const canListen = withAudio > 0 && !(canRead && episodesFolded);
   const canWatch = decks.length > 0;
 
   // How many marks sit in each chapter, so a row can say so. A Map rather than a
@@ -202,6 +230,19 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     const episode = episodes.find((e) => e.number === number);
     if (episode === undefined || !episode.hasAudio || episode.audioKey === null)
       return;
+
+    // This recording IS a chapter: resume it there, on the page that can
+    // build the real track (cues, paragraph text) — the same reason the
+    // library card's play button lands here instead of starting an episode
+    // track and pointing at a Listen tab this book no longer has.
+    const chapterKey = chapterKeys[number];
+    if (chapterKey !== undefined) {
+      navigate(
+        `/book/${unit.slug}/read/${encodeURIComponent(chapterKey)}?listen=1&at=${Math.floor(seconds)}`,
+        { preventScrollReset: true },
+      );
+      return;
+    }
 
     player.play(
       {
