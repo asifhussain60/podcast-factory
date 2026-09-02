@@ -3,9 +3,26 @@
 
 WHY THIS EXISTS. `upload_listener_media.py` moves bytes verbatim — it transcodes
 nothing and enforces no size cap. NotebookLM hands back ~257 kbps m4a, and some
-books carry 192 kbps mp3, against a 10 GB R2 free tier. Re-encoding those to 128
-kbps roughly halves them; at 128 kbps spoken word is transparent enough that the
-saving is close to free.
+books carry 192 kbps mp3, against a 10 GB R2 free tier.
+
+THE TARGET IS A SPOKEN-WORD PROFILE, NOT A BITRATE. Every file this tool touches
+is speech — lectures, two-host podcasts, audiobook narration — never music. Bit
+rate alone is the wrong dial for it: a 128 kbps STEREO encode of a centred voice
+spends half its bits describing a channel difference that is not there. The
+profile is therefore 48 kbps, MONO, 22.05 kHz, and each part is load-bearing:
+
+  * mono, because both NotebookLM hosts and every lecture recording are centred;
+    downmixing frees the bits rather than discarding anything a listener hears.
+  * 22.05 kHz carries ~11 kHz of bandwidth. Speech intelligibility lives below
+    8 kHz, so nothing audible in a voice is above the ceiling.
+  * 48 kbps mono gives the encoder MORE bits per channel than the 63 kbps stereo
+    that 17 of this library's books already ship at and have shipped at for
+    months — the profile is calibrated to audio already in the reader's hands,
+    not to a number chosen in the abstract.
+
+That is why the old 128 kbps floor is gone. It was set for a stereo-shaped guess
+about quality and refused every bitrate that would actually have helped, which is
+how five books stayed at 127-256 kbps while the tool reported itself working.
 
 WHAT IT WILL NOT DO, deliberately:
 
@@ -35,7 +52,7 @@ encode leaves the original untouched.
 CLI:
     python3 scripts/podcast/downsize_audio.py                     # every book, dry run
     python3 scripts/podcast/downsize_audio.py --slug <book-slug>  # one book, dry run
-    python3 scripts/podcast/downsize_audio.py --apply             # actually re-encode
+    python3 scripts/podcast/downsize_audio.py --slug <s> --apply  # actually re-encode
 """
 
 from __future__ import annotations
@@ -52,7 +69,36 @@ from _listener_media import EPISODES_DIR, MASTERS_DIR  # noqa: E402
 from _paths import CONTENT_ROOT, REPO_ROOT  # noqa: E402
 
 AUDIO_EXT = {".mp3", ".m4a"}
-DEFAULT_FLOOR_KBPS = 128
+
+# The spoken-word profile. See the module docstring for why each part is chosen.
+DEFAULT_FLOOR_KBPS = 48
+SPOKEN_CHANNELS = 1
+SPOKEN_SAMPLE_RATE = 22050
+
+# Already-efficient files are left alone REGARDLESS of the floor. 17 of this
+# library's books ship at 63 kbps stereo; re-encoding those to 48 kbps mono
+# would save about a quarter of their bytes and cost a whole lossy generation on
+# audio that is already small. R2 pressure comes from the 127-256 kbps books, so
+# spending quality where there is no pressure is a bad trade at any ratio.
+KEEP_BELOW_KBPS = 64
+
+# Small files are left alone whatever their bitrate. Every audiobook opens with a
+# ~0.1 MB credits clip encoded at 64 kbps; re-encoding all 17 of them would save
+# under a megabyte in total while filling the plan with work no one wants to read
+# or verify. A saving worth a lossy generation is a saving worth noticing.
+MIN_SIZE_BYTES = 2 * 1024 * 1024
+
+# A floor under the floor. Below 32 kbps mono, speech starts to acquire the
+# metallic artefacts that make a long lecture tiring rather than merely thinner,
+# so the flag stops being an operator choice and becomes a mistake.
+ABSOLUTE_FLOOR_KBPS = 32
+
+# Read-along cues are ABSOLUTE SECONDS into the episode file
+# (`book/narration/manifest.json`), so an encode that shifts the timeline
+# silently desynchronises every highlighted sentence in the book. Encoder delay
+# and padding move the duration by a few milliseconds at most; a quarter second
+# is far outside that and comfortably inside a cue.
+DURATION_TOLERANCE_S = 0.25
 
 # Below this margin a re-encode is not worth the quality loss: a file at 140 kbps
 # would save ~8% and lose a generation. Only meaningfully-larger files qualify.
@@ -81,6 +127,28 @@ def probe_bitrate(path: Path) -> int | None:
     )
     raw = r.stdout.strip()
     return int(raw) if r.returncode == 0 and raw.isdigit() else None
+
+
+def probe_duration(path: Path) -> float | None:
+    """Seconds from ffprobe, or None if it cannot be read."""
+    r = subprocess.run(
+        [
+            "ffprobe",
+            "-v",
+            "error",
+            "-show_entries",
+            "format=duration",
+            "-of",
+            "default=noprint_wrappers=1:nokey=1",
+            str(path),
+        ],
+        capture_output=True,
+        text=True,
+    )
+    try:
+        return float(r.stdout.strip())
+    except ValueError:
+        return None
 
 
 def shippable_audio(book_dir: Path) -> list[Path]:
@@ -130,17 +198,33 @@ def ensure_master(path: Path) -> Path | None:
 
 
 def reencode(path: Path, floor_kbps: int) -> tuple[bool, str]:
-    """Re-encode in place via a temp file. Returns (changed, message)."""
+    """Re-encode in place via a temp file. Returns (changed, message).
+
+    The container is deliberately PRESERVED — mp3 stays mp3, m4a stays m4a.
+    An asset's R2 key and its `media_asset` primary key both carry the
+    extension, so changing the container would orphan the old object and
+    rewrite rows in a table whose contract is that a row means "this file is on
+    disk". The saving is in the profile, not in the container.
+
+    Nothing replaces the original until the result is smaller AND the same
+    length, because read-along cues index into this file by absolute second.
+    """
     tmp = path.with_name(f".{path.name}.downsize.tmp{path.suffix}")
     codec = "libmp3lame" if path.suffix.lower() == ".mp3" else "aac"
     r = subprocess.run(
         [
             "ffmpeg",
+            "-nostdin",
             "-v",
             "error",
             "-y",
             "-i",
             str(path),
+            "-vn",
+            "-ac",
+            str(SPOKEN_CHANNELS),
+            "-ar",
+            str(SPOKEN_SAMPLE_RATE),
             "-c:a",
             codec,
             "-b:a",
@@ -157,8 +241,18 @@ def reencode(path: Path, floor_kbps: int) -> tuple[bool, str]:
     if after >= before:
         tmp.unlink(missing_ok=True)
         return False, f"re-encode was not smaller ({_mb(after)} vs {_mb(before)}) — kept original"
+
+    was, now = probe_duration(path), probe_duration(tmp)
+    if was is None or now is None:
+        tmp.unlink(missing_ok=True)
+        return False, "could not read duration before/after — kept original"
+    drift = abs(now - was)
+    if drift > DURATION_TOLERANCE_S:
+        tmp.unlink(missing_ok=True)
+        return False, f"duration moved {drift:.2f}s ({was:.2f}s -> {now:.2f}s) — kept original"
+
     tmp.replace(path)
-    return True, f"{_mb(before)} -> {_mb(after)} (saved {_mb(before - after)})"
+    return True, f"{_mb(before)} -> {_mb(after)} (saved {_mb(before - after)}, drift {drift:.3f}s)"
 
 
 def book_dirs(slug: str | None) -> list[Path]:
@@ -179,15 +273,18 @@ def main() -> int:
         "--floor-kbps",
         type=int,
         default=DEFAULT_FLOOR_KBPS,
-        help=f"Target/floor bitrate in kbps (default {DEFAULT_FLOOR_KBPS}). Never encodes UP.",
+        help=(
+            f"Target/floor bitrate in kbps (default {DEFAULT_FLOOR_KBPS}, the spoken-word "
+            f"profile; hard minimum {ABSOLUTE_FLOOR_KBPS}). Never encodes UP."
+        ),
     )
     ap.add_argument("--apply", action="store_true", help="Actually re-encode. Without it, dry run.")
     args = ap.parse_args()
 
-    if args.floor_kbps < DEFAULT_FLOOR_KBPS:
+    if args.floor_kbps < ABSOLUTE_FLOOR_KBPS:
         print(
-            f"downsize_audio: --floor-kbps {args.floor_kbps} is below the {DEFAULT_FLOOR_KBPS} kbps "
-            "floor; spoken-word quality degrades audibly under it.",
+            f"downsize_audio: --floor-kbps {args.floor_kbps} is below the {ABSOLUTE_FLOOR_KBPS} kbps "
+            "absolute floor; speech acquires audible artefacts under it.",
             file=sys.stderr,
         )
         return 2
@@ -209,7 +306,10 @@ def main() -> int:
                 print(f"  ?? unreadable bitrate: {path.relative_to(REPO_ROOT)}")
                 continue
             size = path.stat().st_size
-            if bitrate <= floor_bps:
+            if size < MIN_SIZE_BYTES:
+                skipped_low += 1
+                continue
+            if bitrate <= max(floor_bps, KEEP_BELOW_KBPS * 1000):
                 skipped_low += 1
                 continue
             projected = int(size * floor_bps / bitrate)
@@ -254,7 +354,19 @@ def main() -> int:
         print(f"  [{status}] {path.relative_to(REPO_ROOT)}: {msg}")
         changed += int(ok)
     print(f"\n{changed}/{len(planned)} file(s) re-encoded.")
-    print("Re-upload with: python3 scripts/podcast/upload_listener_media.py --remote <slug>")
+    if changed:
+        slug = targets[0].name if len(targets) == 1 else "<slug>"
+        # Uploading alone would do NOTHING here. `upload_listener_media` pushes
+        # rows where `uploaded_at IS NULL`, and these rows are still stamped from
+        # the previous encode. It is `publish_to_listener` that notices the file's
+        # sha256 changed and clears the stamp, which is what makes the upload
+        # re-push the new bytes. Local and remote are separate stores and both
+        # need the pair, or the two ends hold different audio.
+        print("\nNext, so both ends hold this same audio:")
+        print(f"  python3 scripts/podcast/publish_to_listener.py {slug}")
+        print(f"  python3 scripts/podcast/upload_listener_media.py {slug}")
+        print(f"  python3 scripts/podcast/publish_to_listener.py {slug} --remote")
+        print(f"  python3 scripts/podcast/upload_listener_media.py {slug} --remote")
     return 0
 
 
