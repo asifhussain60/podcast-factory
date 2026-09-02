@@ -474,6 +474,16 @@ export interface Release {
  */
 export const RELEASES: Release[] = [
   {
+    date: "2026-09-02",
+    items: [
+      "Every book on the shelf now says who wrote it, under the title on its cover. Long traditional names are shortened to fit the line — Al-Kirmani, Qadi al-Nu'man — and the full attribution is kept underneath, so nothing is lost to make a card fit. A work whose author is not known is credited as Anonymous rather than left blank.",
+      "The three kinds are told apart at a glance: each has its own colour, its own cover painting on the opening page, and its own typeface for a book's title.",
+      "A shelf narrowed to one kind keeps its heading. Choosing Books used to leave an empty band where the title had been.",
+      "Where a book's chapters are narrated from the same recording its episodes play, the Listen tab is gone and Read plays it — one place for one recording instead of two ways of browsing it. Books whose episodes are genuinely different recordings keep both.",
+      "A note taken while a chapter is playing is now filed under the recording you were actually listening to. Where a chapter without audio sat earlier in a book, notes were being grouped under the next recording along.",
+    ],
+  },
+  {
     date: "2026-09-01",
     items: [
       "Audiobooks. Published books read aloud by a narrator, with the text beside the voice and the words lit as they are spoken. They have their own place on the shelf, so a narrated book and a talk are no longer filed together.",

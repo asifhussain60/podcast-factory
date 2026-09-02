@@ -29,7 +29,7 @@ The earlier cross-machine coordination model (operator files at `_workspace/plan
 
 Every new piece of content is processed on its own branch off `develop`. The branch is created at intake time and merged back to `develop` ONLY after the publish step completes. This isolates in-flight work from `develop`, preserves a clean per-content ledger, and lets multiple books be in flight without cross-contamination.
 
-**Branch naming** is `<Bucket>/<full-slug>` — the branch is grouped under its content **bucket** (the same top-level category folder the content lives in: `Islamic`, `Technical`, `Fiction`, `Guides`, `Supplications`, `Sessions`). The bucket is derived from the content's `content_profile`, NOT its legacy `category` tag (a `books`-category item can be Islamic OR Fiction):
+**Branch naming** is `<Bucket>/<full-slug>` — the branch is grouped under its content **bucket** (the same top-level category folder the content lives in: `Islamic`, `Technical`, `Fiction`, `Guides`, `Supplications`, `Sessions`, `Audiobook`). The bucket is derived from the content's `content_profile`, NOT its legacy `category` tag (a `books`-category item can be Islamic OR Fiction):
 
 | Bucket | Branch | Example |
 |---|---|---|
@@ -39,6 +39,7 @@ Every new piece of content is processed on its own branch off `develop`. The bra
 | Guides | `Guides/<slug>` | `Guides/healthequity` |
 | Supplications | `Supplications/<slug>` | — no content shipped yet |
 | Sessions | `Sessions/<slug>` | `Sessions/surah-al-fateha` |
+| Audiobook | `Audiobook/<slug>` | `Audiobook/white-nights`, `Audiobook/dostoyevsky-collection` |
 
 Source of truth: [scripts/podcast/_branching.py](scripts/podcast/_branching.py) — every script that computes a branch name imports `branch_name(category, slug, *, profile=None, bucket=None)` from there, which returns `<Bucket>/<slug>`. The bucket is resolved by `_paths.resolve_bucket` — the SAME resolver the content-folder layout uses — so a branch's bucket can never drift from the folder bucket. Prefer passing `profile=` (the book's `content_profile`); `category` alone falls back to a coarse map defaulting to Islamic. **History:** type prefixes (`book/`, `lecture/`…) were retired 2026-06-04 → bare slug 2026-06-04 → bucket grouping 2026-06-07 (this policy). `branch_prefix()` was removed 2026-07-16 — it had been unreferenced except by its own tests since the 2026-06-04 retirement. Never hardcode a branch name anywhere.
 

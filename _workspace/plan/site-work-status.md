@@ -1,10 +1,52 @@
 # Current work - status
 
-**Last updated:** 2026-08-16 (repo-surgeon widened to every surface, then run on
-`develop`: four size regressions cleared, one phone-overflow fixed, 2.9 GB reclaimed)
+**Last updated:** 2026-09-02 (the Library gained a third collection, author
+credits on every card, and read-along for its first audiobook — all of it
+deployed to production)
 
-**Newest — the audit layer now covers the two web apps, not just the pipeline, and
-was run end to end on `develop`. Nothing deployed to production.**
+**Newest — the Podcast Factory Library is live at `61ac0f1b`, which is `develop`.
+It had been twelve commits behind.**
+
+- **Audiobooks are their own collection.** They shipped folded in with Sessions
+  on the reasoning that both are "press play and read along"; Asif split them the
+  same day — a novel read by a hired narrator and a talk he gave himself are not
+  the same errand. Three tiles on the chooser, three accents, three cover
+  paintings, a teal palette measured against all three themes before a line of
+  CSS was written. `scripts/generate_tile_art.py` now holds the recipe for all
+  three paintings; the first two had been committed as finished files with no
+  record of how they were made.
+- **Every card credits its author.** There was no author anywhere in the Library
+  — no column, no read, no render; the name lived only in each book's `meta.yml`.
+  Two columns now: the correct attribution, and `author_short` for the name that
+  fits one line (Al-Kirmani, Dostoyevsky). Both NOT NULL defaulting to
+  `Anonymous`, so "every card shows a credit" is a schema guarantee rather than a
+  template rule. Migrations 0020 and 0021, applied to both databases.
+- **White Nights is live, with read-along.** Eight chapters timed against the
+  narrator's own recording — 2h48m, no synthetic voice. Publishing it exposed
+  that an audiobook produced ZERO episodes: the publisher derived them from the
+  podcast lane's chapter contracts, which an audiobook does not have, so the book
+  would have shipped as text with no audio and nothing would have errored.
+- **The reader has one column of controls**, the contents opens from it with the
+  chapters fanning in, and the sheet took back 9rem of gutter on Widest — the
+  prose column did not move, because every child is capped at the reader's own
+  measure.
+- **Kunooz al-Hikmah was narrated**, closing the read-aloud backfill: every book
+  in the repo with a finished reading edition now has one.
+
+## Known open
+
+- **The About page is written by hand and lags.** The deploy compares the last
+  commit touching it against the rest of `listener/app` and warns; it warned at
+  nine commits on 2026-09-02 and was brought current in the same session. It will
+  lag again — that is the design, not a bug, since a stale help page must never
+  block a finished book.
+- **Two agents share this checkout.** Codex worked the same files through
+  2026-09-01/02. Run `git status` before starting and before committing, and do
+  not stage, reformat or revert what you did not write. Work held in the git
+  index is NOT isolation: a staged change was swept into another session's commit
+  on 2026-09-01. Use a branch or a stash.
+
+## Before this (2026-08-16)
 
 - **The audit had been blind to a whole production app.** The contract's verify
   list — "what proves a change safe" — named the pipeline and the Astro Site and
