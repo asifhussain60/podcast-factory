@@ -319,7 +319,17 @@ def credit(meta: dict) -> tuple[str, str]:
     return author, (str(meta.get("author_short") or "").strip() or author)
 
 
-def load_book(slug: str) -> Book:
+def load_book(slug: str, *, normalise_audio: bool = False) -> Book:
+    """Read one book off disk.
+
+    `normalise_audio` brings the recordings to the spoken-word profile and drops
+    the masters BEFORE anything is read — see `downsize_audio.normalise`. It lives
+    here, as part of loading, because the two must not be separable: the byte
+    counts and hashes this function reads are what a publish records, so reading
+    first and normalising after would stamp the database with the sizes of files
+    that no longer exist. Defaults to off, so every read-only caller is unaffected;
+    `publish_to_listener` is what turns it on.
+    """
     found = find_content(slug)
     if found is None:
         raise SystemExit(f"no content found for slug '{slug}'")
@@ -329,6 +339,14 @@ def load_book(slug: str) -> Book:
     # column, decided in the admin screens, and letting the pipeline's state file
     # drive it would put the privilege bit back under a script's control.
     _status, bucket, directory = found
+
+    if normalise_audio:
+        from downsize_audio import normalise  # local: only the publish path needs it
+
+        done = normalise(directory, apply=True, log=lambda _m: None)
+        if done["encoded"] or done["masters"]:
+            print(f"  audio normalised: {done['encoded']} re-encoded, {done['masters']} master(s) dropped")
+
     meta = yaml.safe_load((directory / "meta.yml").read_text(encoding="utf-8")) or {}
 
     book_md_path = directory / "book" / "book.md"

@@ -30,29 +30,40 @@ WHAT IT WILL NOT DO, deliberately:
     left alone — re-encoding a 24 kbps Sessions recording to 128 kbps would make
     it bigger AND lossier, which is the exact opposite of the point. The floor is
     a floor, not a target.
-  * It never touches `m4a/Episodes/Audio/`. Those are the untouched masters, the
-    only pristine copy on disk, and `_listener_media.collect_audio` deliberately
-    ships the session-folder files instead. Re-encoding a master destroys the one
-    thing a future re-encode could start from.
   * It never touches `source/`. That is raw source audio, is not uploaded, and is
     the provenance record for a book.
   * It writes NOTHING without `--apply`. Re-encoding is lossy and irreversible, so
     a dry run that prints the whole plan is the default and the only safe habit.
 
-Before overwriting anything it PROMOTES the original into `Audio/` if no master is
-there yet. Only 26 of the library's 65 shippable files had one when this was
-written — in the other books the session-folder file is the only copy in existence.
-Local disk is not the scarce resource here (224 GB free against ~579 MB of such
-originals); the 10 GB R2 tier is, and R2 never receives the masters.
+ONE SET OF AUDIO, AND THE MASTERS GO WITH IT (Asif, 2026-09-02). This tool used
+to promote each original into `Audio/` and keep it forever, on the reasoning that
+a master is the one thing a future re-encode could start from. He has decided
+against that, and the decision is informed: he A/B-tested this profile against the
+127 kbps stereo encode, could not tell them apart, and does not want two copies of
+every recording on disk. `prune_masters` therefore DELETES `Audio/` once the
+shipping file beside it conforms — 3.74 GB across six books when this was written.
 
-Each conversion goes to a temp file and replaces the original only after ffmpeg
-exits clean and the result is actually smaller — a failed or counterproductive
-encode leaves the original untouched.
+Be clear about what that costs, because it is not recoverable. When the master is
+gone the 48 kbps file is the only copy in existence, so the profile can never be
+revised upward for that recording: re-encoding 48 kbps to anything higher only
+adds bytes to audio that has already lost what it lost, and NotebookLM cannot
+hand back the same episode twice. Choosing the profile and discarding the masters
+are one decision, and it has been made.
+
+The ORDER is what keeps that safe. Each conversion goes to a temp file and
+replaces the original only after ffmpeg exits clean, the result is actually
+smaller, and the duration still matches — so a failed encode leaves the original
+untouched. Masters are pruned only after the file beside them already conforms,
+never in the same breath as an encode that might still fail.
 
 CLI:
     python3 scripts/podcast/downsize_audio.py                     # every book, dry run
     python3 scripts/podcast/downsize_audio.py --slug <book-slug>  # one book, dry run
-    python3 scripts/podcast/downsize_audio.py --slug <s> --apply  # actually re-encode
+    python3 scripts/podcast/downsize_audio.py --slug <s> --apply  # re-encode + prune
+    python3 scripts/podcast/downsize_audio.py --keep-masters ...  # leave `Audio/` alone
+
+`publish_to_listener` calls `normalise()` on every book it publishes, so the
+profile is the pipeline's standard rather than something anyone has to remember.
 """
 
 from __future__ import annotations
@@ -107,6 +118,19 @@ MIN_SAVING_RATIO = 0.15
 
 def _mb(n: int) -> str:
     return f"{n / (1024 * 1024):.1f} MB"
+
+
+def _rel(path: Path) -> str:
+    """A readable path for a log line, and never a reason to abort.
+
+    `relative_to` RAISES for anything outside the repo. Every call here sits
+    inside a destructive routine, so a display line that can throw is a display
+    line that can leave a prune half-done — cosmetics must not be able to do that.
+    """
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path)
 
 
 def probe_bitrate(path: Path) -> int | None:
@@ -168,33 +192,40 @@ def shippable_audio(book_dir: Path) -> list[Path]:
     )
 
 
-def ensure_master(path: Path) -> Path | None:
-    """Guarantee a pristine copy in `Audio/` before anything overwrites `path`.
+def master_dirs(book_dir: Path) -> list[Path]:
+    """Every `Audio/` masters folder under this book's `m4a/`.
 
-    Only 26 of the library's 65 shippable files had a master when this was written;
-    the other 39 sit in books where the session-folder file IS the only copy, so a
-    re-encode there is unrecoverable. Rather than refuse those books or quietly
-    degrade them, the original is promoted into `Audio/` first — the folder that
-    already means "untouched master" to `_listener_media.collect_audio`, and which
-    it deliberately never uploads. Costs local disk (not scarce) to protect against
-    an irreversible loss, while R2 (which is scarce) still receives only the small
-    file. Returns the master path, or None if one already existed.
+    Two locations, both real. A book above the session threshold keeps masters at
+    `m4a/Episodes/Audio/`; a book below it is deliberately FLAT and keeps them at
+    `m4a/Audio/`. Looking in only one place is how a flat book quietly keeps a
+    gigabyte nobody accounts for.
     """
-    # Anchor to the `Episodes` root, never to path.parent — a book under the
-    # 8-episode session threshold is deliberately FLAT (files sit directly in
-    # `Episodes/`), so walking up a fixed number of levels puts the master in
-    # `m4a/Audio/` for those and `Episodes/Audio/` for the rest: two locations for
-    # one idea, and `collect_audio` only skips the second.
-    episodes_root = next((p for p in path.parents if p.name == EPISODES_DIR), None)
-    if episodes_root is None:
-        return None
-    masters = episodes_root / MASTERS_DIR
-    existing = masters / path.name
-    if existing.exists():
-        return None
-    masters.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(path, existing)
-    return existing
+    root = book_dir / "m4a"
+    if not root.is_dir():
+        return []
+    return sorted(d for d in root.rglob(MASTERS_DIR) if d.is_dir())
+
+
+def prune_masters(book_dir: Path, *, apply: bool, log=print) -> tuple[int, int]:
+    """Delete the masters this book no longer keeps. Returns (files, bytes).
+
+    Only called once the shipping files already conform, never beside an encode
+    that could still fail. `source/` is never reached: this walks `m4a/` only, and
+    matches a directory named exactly `Audio`.
+    """
+    files = 0
+    freed = 0
+    for masters in master_dirs(book_dir):
+        here = [f for f in masters.rglob("*") if f.is_file()]
+        if not here:
+            continue
+        size = sum(f.stat().st_size for f in here)
+        files += len(here)
+        freed += size
+        log(f"  [masters] {len(here)} file(s), {_mb(size)} in {_rel(masters)}")
+        if apply:
+            shutil.rmtree(masters)
+    return files, freed
 
 
 def reencode(path: Path, floor_kbps: int) -> tuple[bool, str]:
@@ -266,6 +297,85 @@ def book_dirs(slug: str | None) -> list[Path]:
     return [d for d in found if d.name == slug] if slug else found
 
 
+def plan_for(book_dir: Path, floor_bps: int, log=print) -> tuple[list[tuple[Path, int, int]], int]:
+    """Which of this book's files are worth re-encoding, and how many were not."""
+    planned: list[tuple[Path, int, int]] = []
+    skipped = 0
+    for path in shippable_audio(book_dir):
+        bitrate = probe_bitrate(path)
+        if bitrate is None:
+            log(f"  ?? unreadable bitrate: {_rel(path)}")
+            continue
+        size = path.stat().st_size
+        if size < MIN_SIZE_BYTES or bitrate <= max(floor_bps, KEEP_BELOW_KBPS * 1000):
+            skipped += 1
+            continue
+        projected = int(size * floor_bps / bitrate)
+        if (size - projected) / size < MIN_SAVING_RATIO:
+            skipped += 1
+            continue
+        planned.append((path, size, projected))
+    return planned, skipped
+
+
+def normalise(
+    book_dir: Path,
+    *,
+    floor_kbps: int = DEFAULT_FLOOR_KBPS,
+    apply: bool = False,
+    keep_masters: bool = False,
+    log=print,
+) -> dict:
+    """Bring ONE book to the profile, and drop what it no longer keeps.
+
+    The pipeline's entry point as well as the CLI's — `publish_to_listener` calls
+    this before it reads a book, so anything published is at the profile whether
+    or not a person remembered to run the tool.
+
+    Masters are pruned only when every planned encode in this book SUCCEEDED. A
+    file still above the profile means its master is the only copy of the better
+    audio, and a sweep that deleted it because it happened to reach that line
+    would throw away the one thing a retry could use.
+    """
+    planned, skipped = plan_for(book_dir, floor_kbps * 1000, log=log)
+    report = {
+        "slug": book_dir.name,
+        "planned": len(planned),
+        "skipped": skipped,
+        "encoded": 0,
+        "before": sum(size for _p, size, _j in planned),
+        "projected": sum(j for _p, _s, j in planned),
+        "masters": 0,
+        "freed": 0,
+    }
+
+    for path, size, projected in planned:
+        log(f"  {_rel(path)}")
+        log(f"      {_mb(size)} -> ~{_mb(projected)}")
+
+    if apply and planned:
+        for path, _size, _projected in planned:
+            ok, msg = reencode(path, floor_kbps)
+            log(f"  [{'ok' if ok else 'SKIPPED'}] {_rel(path)}: {msg}")
+            report["encoded"] += int(ok)
+
+    if keep_masters:
+        return report
+    # A DRY RUN must show every deletion it would make. Judging the hold on
+    # `encoded`, which is always zero when nothing ran, made the preview claim
+    # five books would keep masters that `--apply` then deleted — understating a
+    # destructive step, which is the one direction a preview must never err in.
+    if apply and report["encoded"] < report["planned"]:
+        if master_dirs(book_dir):
+            log(f"  [held] {book_dir.name}: not every file reached the profile, masters kept")
+        return report
+
+    files, freed = prune_masters(book_dir, apply=apply, log=log)
+    report["masters"] = files
+    report["freed"] = freed
+    return report
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--slug", help="Only this book (default: every book).")
@@ -279,6 +389,11 @@ def main() -> int:
         ),
     )
     ap.add_argument("--apply", action="store_true", help="Actually re-encode. Without it, dry run.")
+    ap.add_argument(
+        "--keep-masters",
+        action="store_true",
+        help="Leave `Audio/` in place. The library keeps ONE set of audio by default.",
+    )
     args = ap.parse_args()
 
     if args.floor_kbps < ABSOLUTE_FLOOR_KBPS:
@@ -294,67 +409,45 @@ def main() -> int:
         print(f"downsize_audio: no book found for slug {args.slug!r}", file=sys.stderr)
         return 2
 
-    floor_bps = args.floor_kbps * 1000
-    total_before = total_projected = 0
-    planned: list[tuple[Path, int, int]] = []
-    skipped_low = 0
-
+    totals = {"planned": 0, "encoded": 0, "skipped": 0, "before": 0, "projected": 0, "masters": 0, "freed": 0}
     for book_dir in targets:
-        for path in shippable_audio(book_dir):
-            bitrate = probe_bitrate(path)
-            if bitrate is None:
-                print(f"  ?? unreadable bitrate: {path.relative_to(REPO_ROOT)}")
-                continue
-            size = path.stat().st_size
-            if size < MIN_SIZE_BYTES:
-                skipped_low += 1
-                continue
-            if bitrate <= max(floor_bps, KEEP_BELOW_KBPS * 1000):
-                skipped_low += 1
-                continue
-            projected = int(size * floor_bps / bitrate)
-            if (size - projected) / size < MIN_SAVING_RATIO:
-                skipped_low += 1
-                continue
-            planned.append((path, size, projected))
-            total_before += size
-            total_projected += projected
+        head_shown = False
 
-    if not planned:
-        print(
-            f"Nothing to downsize — every shippable file is already at or near "
-            f"{args.floor_kbps} kbps ({skipped_low} file(s) checked and left alone)."
+        def log(message: str, _book=book_dir) -> None:
+            nonlocal head_shown
+            if not head_shown:
+                print(f"\n{_book.name}")
+                head_shown = True
+            print(message)
+
+        report = normalise(
+            book_dir,
+            floor_kbps=args.floor_kbps,
+            apply=args.apply,
+            keep_masters=args.keep_masters,
+            log=log,
         )
-        return 0
+        for field in totals:
+            totals[field] += report[field]
 
     print(
-        f"{len(planned)} file(s) above {args.floor_kbps} kbps; "
-        f"{skipped_low} already at/near the floor and left alone.\n"
+        f"\n{totals['planned']} file(s) above {args.floor_kbps} kbps, "
+        f"{totals['skipped']} already at/near the floor and left alone."
     )
-    for path, size, projected in planned:
-        print(f"  {path.relative_to(REPO_ROOT)}")
-        print(f"      {_mb(size)} -> ~{_mb(projected)}")
-    print(
-        f"\nTotal: {_mb(total_before)} -> ~{_mb(total_projected)} "
-        f"(projected saving ~{_mb(total_before - total_projected)})"
-    )
+    if totals["planned"]:
+        print(
+            f"Audio: {_mb(totals['before'])} -> ~{_mb(totals['projected'])} "
+            f"(saving ~{_mb(totals['before'] - totals['projected'])})"
+        )
+    if totals["masters"]:
+        verb = "deleted" if args.apply else "would be deleted"
+        print(f"Masters: {totals['masters']} file(s) {verb}, {_mb(totals['freed'])} freed")
 
     if not args.apply:
-        print("\nDRY RUN — nothing was written. Re-run with --apply to re-encode.")
+        print("\nDRY RUN — nothing was written. Re-run with --apply.")
         return 0
 
-    print("\nRe-encoding...")
-    changed = 0
-    for path, _size, _projected in planned:
-        master = ensure_master(path)
-        if master is not None:
-            print(f"  [master] kept the original at {master.relative_to(REPO_ROOT)}")
-        ok, msg = reencode(path, args.floor_kbps)
-        status = "ok" if ok else "SKIPPED"
-        print(f"  [{status}] {path.relative_to(REPO_ROOT)}: {msg}")
-        changed += int(ok)
-    print(f"\n{changed}/{len(planned)} file(s) re-encoded.")
-    if changed:
+    if totals["encoded"]:
         slug = targets[0].name if len(targets) == 1 else "<slug>"
         # Uploading alone would do NOTHING here. `upload_listener_media` pushes
         # rows where `uploaded_at IS NULL`, and these rows are still stamped from

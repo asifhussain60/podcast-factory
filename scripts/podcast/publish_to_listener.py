@@ -525,7 +525,7 @@ def main(argv: list[str] | None = None) -> int:
     # under it and cost nothing; they also mean a book that fails does not
     # strand the ones after it.
     for slug in args.slugs:
-        book = load_book(slug)
+        book = load_book(slug, normalise_audio=not args.dry_run)
         render(book)
         summary = describe(book)
         summaries.append(summary)

@@ -15,9 +15,21 @@ sessions and across machines.
 encode — he could not tell the two apart, which is the only evidence that
 settles "without losing quality". The profile is fixed; do not re-open it.
 
+**One set of audio, and the masters go with it (Asif, 2026-09-02).** A book keeps
+exactly ONE copy of each recording, at the profile. The `Audio/` masters — 3.74 GB
+across six books — are deleted once the file beside them conforms. This is
+irreversible by design: when the master is gone the 48 kbps file is the only copy
+in existence, so the profile can never be revised upward for that recording.
+Choosing the profile and discarding the masters were one decision, and it is made.
+
+**It is now automatic.** `publish_to_listener` calls `normalise()` on every book it
+publishes, so the profile is the pipeline's standard rather than an errand. Running
+the tool by hand is still how this backlog gets cleared, but new books need nobody
+to remember.
+
 `scripts/podcast/downsize_audio.py` is the only tool that applies it. It never
-encodes up, never touches `Audio/` masters, never touches `source/`, promotes the
-original into `Audio/` before overwriting anything, and refuses any encode whose
+encodes up, never touches `source/`, prunes masters only after every planned
+encode in that book SUCCEEDED, and refuses any encode whose
 duration moves more than 0.25 s (read-along cues are absolute seconds into the
 file, so a shifted timeline would silently desynchronise every highlighted
 sentence). Files already at or below 64 kbps, and files under 2 MB, are left
@@ -38,6 +50,10 @@ what the listening test used.
 | 5 | `spiritual-ethos` | 13 | 325 MB | 121 MB | 204 MB | yes |
 | | **Total** | **48** | **1,012 MB** | **378 MB** | **634 MB** | |
 
+Plus **3,834 MB of masters** across six books (the five above and
+`purification-of-the-heart`), deleted as each book passes. **Total reclaimed:
+about 4.4 GB.**
+
 Smallest first is deliberate: book 1 is five files, so the first pass through the
 whole gate sequence costs little and proves the loop before the twenty-file book.
 
@@ -56,9 +72,10 @@ a zero exit code is not evidence.
       A mismatch means this machine's copy is not the audio the site is serving;
       resolve that deliberately before re-encoding, or you will replace the live
       recording with a different one.
-- [ ] **G2 — a master exists.** The tool prints `[master] kept the original at …`
-      for any file that had none. `m4a/Episodes/Audio/` is never uploaded and is
-      the only thing a future re-encode can start from.
+- [ ] **G2 — the masters are gone, and only because the encode worked.** A book
+      that did not reach the profile on every file reports `[held]` and keeps its
+      masters — that is correct, and it means the book is not done. Never delete a
+      held master by hand to make the line go away.
 - [ ] **G3 — every file re-encoded.** No line reports `SKIPPED`. Any skip names
       its reason: not smaller, or duration moved. Both keep the original, so a
       skip is safe — but it means that file is still at the old profile.

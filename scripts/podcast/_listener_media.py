@@ -58,8 +58,14 @@ AUDIO_NUMBER_RE = re.compile(r"^(?:ep|ch)?[\s_-]*0*(\d{1,3})\b", re.IGNORECASE)
 SESSION_DIR_RE = re.compile(r"^Session\s+(\d{1,2})\s*[—–-]\s*(.+)$")
 
 # Where a book's episode recordings live when they have been grouped. `Audio/`
-# holds the untouched masters and is deliberately NOT uploaded — the mp3s in the
-# session folders are what ship.
+# holds masters and is deliberately NOT uploaded — the files in the session
+# folders are what ship.
+#
+# Masters are now TRANSIENT (Asif, 2026-09-02): the library keeps one copy of each
+# recording, and `downsize_audio.prune_masters` deletes `Audio/` once the file
+# beside it is at the spoken-word profile. The skip below stays regardless — it is
+# what keeps a master out of the bucket during the window when one does exist, and
+# a book held back by a failed encode still has one.
 EPISODES_DIR = "Episodes"
 MASTERS_DIR = "Audio"
 

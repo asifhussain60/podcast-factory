@@ -19,14 +19,17 @@ commit that file as you go; it is the run's memory if this session ends.
 
 ## The profile is settled — do not re-open it
 
-48 kbps, mono, 22.05 kHz, container preserved. I approved this on 2026-09-02
+48 kbps, mono, 22.05 kHz, container preserved, and **one copy of each recording
+— the `Audio/` masters are deleted as each book passes**. I approved this on 2026-09-02
 after listening to it against the current 127 kbps stereo encode and being unable
 to tell them apart. That listening test is the decision; you do not need to
 re-evaluate the bitrate, propose a higher one, or ask me to confirm it again. `scripts/podcast/downsize_audio.py`
-is the only tool that applies it — do not hand-roll ffmpeg. It already refuses to
-encode up, refuses to touch the `Audio/` masters or `source/`, promotes the
-original into `Audio/` before overwriting anything, and rejects any encode whose
-duration moves more than 0.25 s. That last guard matters more than it looks:
+is the only tool that applies it — do not hand-roll ffmpeg. It refuses to encode
+up, never touches `source/`, and rejects any encode whose duration moves more
+than 0.25 s. It deletes a book's masters only after every planned encode in that
+book succeeded; a book reporting `[held]` kept its masters because it did not
+reach the profile, which means it is not done — never delete a held master by
+hand to clear the message. That last guard matters more than it looks:
 read-along cues are absolute seconds into the episode file, so a shifted timeline
 would silently desynchronise every highlighted sentence in the book.
 
@@ -68,11 +71,14 @@ book.
 **1. Confirm the starting state.**
 `python3 scripts/podcast/audio_parity.py --slug <slug>` — every file `same`.
 
-**2. Re-encode.**
+**2. Re-encode, and drop the masters.**
 `python3 scripts/podcast/downsize_audio.py --slug <slug>` first, read the plan,
 then `--apply`. Read every line of the output. A file that reports `SKIPPED` was
 left at its original encoding and names why; that is safe but it is not done, so
-report it rather than moving on.
+report it rather than moving on. The run also deletes that book's `Audio/`
+masters — that is deliberate and approved, and it is where most of the space
+comes back: 634 MB from re-encoding across the five books, and 3.74 GB from
+masters, about 4.4 GB in total.
 
 **3. Check read-along survived.** All five books have
 `book/narration/manifest.json`, whose cues index into these files by absolute
