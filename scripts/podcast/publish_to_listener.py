@@ -589,6 +589,7 @@ def main(argv: list[str] | None = None) -> int:
             done = len(args.slugs) - len(failed)
             print(f"\n{done} of {len(args.slugs)} written to {target}")
 
+    __import__("audio_parity").check_after_publish(args.slugs, failed, dry_run=args.dry_run, json_mode=args.json)
     if args.json:
         print(json.dumps({"books": summaries, "failed": failed}, indent=2))
 

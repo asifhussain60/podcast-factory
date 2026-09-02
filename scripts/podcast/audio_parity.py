@@ -133,19 +133,19 @@ def verdict(disk: str | None, loc: dict | None, rem: dict | None) -> str:
     return "same"
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--slug", help="Only this book (default: every book).")
-    ap.add_argument("--problems", action="store_true", help="Only print rows that disagree.")
-    args = ap.parse_args()
+def report(targets: list[Path], *, problems: bool = False, quiet_if_clean: bool = False) -> int:
+    """Run the disk/local/remote comparison over `targets` and print it.
 
-    targets = book_dirs(args.slug)
-    if not targets:
-        print(f"audio_parity: no book found for slug {args.slug!r}", file=sys.stderr)
-        return 2
-
+    Shared by the CLI and by `publish_to_listener`, which calls this on the
+    books it just published so a drift is caught the moment it happens rather
+    than the next time someone remembers to run the CLI by hand — which is how
+    the `purification-of-the-heart` mismatch sat unnoticed for a session.
+    `quiet_if_clean` is what `publish_to_listener` wants: silence when every
+    file agrees, since that publish output is not the place to restate five
+    lines of "same" on a book that always ships fine.
+    """
     loc, rem = local_rows(), remote_rows()
-    if not loc:
+    if not loc and not quiet_if_clean:
         print("audio_parity: no local D1 on this machine — comparing disk against production only.\n")
 
     counts: dict[str, int] = {}
@@ -162,7 +162,7 @@ def main() -> int:
             counts[v] = counts.get(v, 0) + 1
             if v not in ("same", "unpublished"):
                 bad += 1
-            if not args.problems or v not in ("same", "unpublished"):
+            if not problems or v not in ("same", "unpublished"):
                 lines.append(f"    {v:<11} {path.name}  ({path.stat().st_size / 2**20:.1f} MB)")
         if lines:
             print(f"  {book_dir.name}")
@@ -181,10 +181,49 @@ def main() -> int:
             print(f"    {r['key']}  (published from {r['source_path']})")
         counts["ORPHAN"] = len(orphans)
 
-    print("\n  " + "  ".join(f"{k}={v}" for k, v in sorted(counts.items())))
+    if bad or not quiet_if_clean:
+        print("\n  " + "  ".join(f"{k}={v}" for k, v in sorted(counts.items())))
     if bad:
         print(f"\n  {bad} file(s) disagree — resolve before re-encoding or uploading.")
+    elif quiet_if_clean:
+        print("  audio parity: clean — disk, local and production agree")
     return 1 if bad else 0
+
+
+def check_after_publish(slugs: list[str], failed: list[str], *, dry_run: bool, json_mode: bool) -> int:
+    """`publish_to_listener` calls this on every run, after writing the SQL.
+
+    Scoped to only the slugs THIS run actually published (`failed` drops out,
+    so a book that never wrote is never checked against audio it may not even
+    have), never the whole library — publishing one book must not pay to
+    re-hash every other book's audio. Checked here rather than left for
+    someone to remember to run the CLI by hand — that gap is exactly how the
+    purification-of-the-heart mismatch (Asif, 2026-09-02) sat unnoticed for a
+    whole session. A dry run wrote nothing to check; `--json` output is
+    machine-read and gets no prose appended to it.
+    """
+    if dry_run or json_mode:
+        return 0
+    published = [s for s in slugs if s not in failed]
+    if not published:
+        return 0
+    targets = [d for d in book_dirs(None) if d.name in set(published)]
+    print()
+    return report(targets, problems=True, quiet_if_clean=True)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--slug", help="Only this book (default: every book).")
+    ap.add_argument("--problems", action="store_true", help="Only print rows that disagree.")
+    args = ap.parse_args()
+
+    targets = book_dirs(args.slug)
+    if not targets:
+        print(f"audio_parity: no book found for slug {args.slug!r}", file=sys.stderr)
+        return 2
+
+    return report(targets, problems=args.problems)
 
 
 if __name__ == "__main__":
