@@ -33,7 +33,18 @@ DRIVE_ROOT = Path(
     )
 )
 AUDIO_ROOT = DRIVE_ROOT / "Quran Studies"
-IMAGE_ROOT = DRIVE_ROOT / "Resources Images"
+
+# A DIFFERENT Drive tree than the recordings, and no longer at the path this
+# constant used to name. Confirmed with Asif 2026-09-03: `Resources Images`
+# under SESSIONS/ is gone; the corpus now lives under the KSESSIONS app's own
+# resource tree, still keyed by the same numeric image-set ids (e.g. `87/`).
+IMAGE_ROOT = Path(
+    os.environ.get(
+        "PODCAST_FACTORY_IMAGES_ROOT",
+        Path.home()
+        / "Library/CloudStorage/GoogleDrive-asifhussain60@gmail.com/My Drive/PROJECTS/KSESSIONS/APP/Resources/IMAGES",
+    )
+)
 
 PROFILE = "islamic_session"
 
@@ -167,6 +178,25 @@ SERIES: dict[str, Series] = {
             "012 Worship and assistance.mp3": 21,
             "013 - Seeking Guidance Part 1.mp3": 22,
             "014 Resiliance.mp3": 23,
+            # Sessions 1-3 and 5-12 were never recorded as part of THIS series —
+            # Asif taught the same material twice, once here and once in the more
+            # detailed "Quran Comprehension" series, and confirmed (2026-09-03)
+            # that "Wise Reminder" is the matching set: eleven files, one per
+            # missing session, titles matching one-to-one. Two of the eleven
+            # ("Linguistic meaning of Allah", "Linguistic Meaning Of RABB") are
+            # 2025 re-deliveries of the same topic rather than 2018 originals —
+            # his call to use them, made explicitly rather than assumed.
+            "020 Friendship.mp3": 1,
+            "021 - Love.mp3": 2,
+            "022 Linguistic meaning of Allah.mp3": 3,
+            "025 REHMAN RAHEEM.mp3": 5,
+            "026 REHAM (Womb).mp3": 6,
+            "027 Manifestations Of REHMA.mp3": 7,
+            "023 Linguistic Meaning Of RABB.mp3": 8,
+            "024 Relationship of RAB and ABD.mp3": 9,
+            "028 RAB Al-ALAMEEN.mp3": 10,
+            "029 Recognizing Allah.mp3": 11,
+            "030 Horizons and Soul.mp3": 12,
         },
         # NO SPOKEN OPENING, and that is a reading of the text rather than an
         # omission. Session 1 opens "In the flow of our conversation, we've
@@ -189,6 +219,61 @@ SERIES: dict[str, Series] = {
         # measurement was written, so all twelve of this book's lecture chapters
         # went through the literary-rewrite pass meant only for chapters with no
         # recording — read-along backfilled and correcting them 2026-08-15.
-        transcript_from_audio=frozenset({4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23}),
+        #
+        # Now ALL 23, because all 23 have a recording as of 2026-09-03.
+        transcript_from_audio=frozenset(range(1, 24)),
     ),
+}
+
+# THE EPISODE NUMBERS ON DISK DO NOT MATCH WHAT `ingest.py` WOULD COMPUTE, and a
+# run of it against surah-al-fateha would silently corrupt the book. Read this
+# before touching that book or this map (2026-09-03).
+#
+# `ingest.py` numbers episodes by POSITION in the sorted audio map
+# (`enumerate(sorted(audio_map…), start=1)`), so the number a session gets
+# depends on how many earlier-sequenced sessions have recordings. When the eleven
+# recordings above were found, that rule would have renumbered all twelve
+# EXISTING episodes — ep01 (session 4) becoming ep04, and so on down — while
+# `transcripts/ep01.vtt`, the narration cues, the R2 objects and the published D1
+# rows all stay filed under the OLD numbers. A dry run proved the consequence:
+# eleven of the twelve already-published chapters came back with "NO reading text
+# at all", because their transcripts were looked for under numbers nothing had
+# ever written.
+#
+# So the eleven were APPENDED as ep13-ep23 in session order, by hand, leaving
+# every published number where it was:
+#
+#     ep01-ep12   sessions 4, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+#     ep13-ep23   sessions 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12
+#
+# The fix that would make ingest safe here is to number by something stable
+# (the session sequence itself) rather than by position, at which point every
+# Sessions-lane book renumbers once and never again. That was deliberately NOT
+# done as part of adding these recordings — it changes every book in the lane,
+# and Asif chose the targeted route (2026-09-03).
+SURAH_AL_FATEHA_EPISODES_ON_DISK: dict[int, int] = {
+    # session sequence -> episode number actually present in m4a/Episodes/
+    4: 1,
+    13: 2,
+    14: 3,
+    15: 4,
+    16: 5,
+    17: 6,
+    18: 7,
+    19: 8,
+    20: 9,
+    21: 10,
+    22: 11,
+    23: 12,
+    1: 13,
+    2: 14,
+    3: 15,
+    5: 16,
+    6: 17,
+    7: 18,
+    8: 19,
+    9: 20,
+    10: 21,
+    11: 22,
+    12: 23,
 }

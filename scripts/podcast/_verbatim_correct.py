@@ -41,7 +41,9 @@ chapter authoring — rather than silently mislabeling one as the other.
 from __future__ import annotations
 
 import json
+import os
 import re
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from _arabic_emphasis import repair as _deitalicise
@@ -64,6 +66,52 @@ _DETECT_TIMEOUT = 240
 #: start improving instead — the same reason the articulation pass windows, at
 #: the opposite end of the scale.
 _WINDOW_WORDS = 700
+
+#: How many windows (and how many Arabic runs) are asked for at once.
+#:
+#: EVERY CALL HERE IS INDEPENDENT, which is what makes this safe: a window is
+#: proofread from its own text alone and reassembled by index, and a run is
+#: resolved from the run itself, never from the partly-substituted chapter. The
+#: gates, the revert-on-drift rule and the order of the output are identical
+#: either way — `test_verbatim_correct_parallel.py` pins exactly that.
+#:
+#: Why it matters: at one-at-a-time this cost ~52 minutes for a single 10,700-word
+#: lecture chapter (measured on surah-al-fateha, 2026-09-03) because a `claude -p`
+#: call is ~110s of mostly-waiting and a chapter is ~15 windows twice over, plus a
+#: resolution per Arabic run. Eleven chapters came to ~10 hours of wall clock for
+#: perhaps twenty minutes of actual thinking.
+#:
+#: 8 matches the rest of the repo (`align_arabic_paragraphs.REPAIR_WORKERS`,
+#: `vowel_book.DEFAULT_WORKERS`). `_cost_ledger` already takes an exclusive lock
+#: per append for precisely this case. Set PODCAST_FACTORY_CORRECT_WORKERS=1 to
+#: get the old strictly-sequential behaviour back.
+_WINDOW_WORKERS = max(1, int(os.environ.get("PODCAST_FACTORY_CORRECT_WORKERS", "8")))
+
+
+def _in_parallel(jobs: list, work, *, workers: int = _WINDOW_WORKERS) -> list:
+    """Run `work(index, item)` over `jobs`, returning results in INPUT order.
+
+    Ordered on purpose. Two of the three callers assemble a chapter out of what
+    comes back, so completion order reaching the page would shuffle the lecture.
+
+    An exception is returned rather than raised, as `(index, exc)`, because one
+    bad window must never cost the whole chapter — the same rule `vowel_book`
+    applies to one bad run. Each caller decides what its own failure means.
+    """
+    if workers <= 1 or len(jobs) <= 1:
+        return [work(index, item) for index, item in enumerate(jobs, start=1)]
+
+    out: dict[int, object] = {}
+    with ThreadPoolExecutor(max_workers=min(workers, len(jobs))) as pool:
+        futures = {pool.submit(work, index, item): index for index, item in enumerate(jobs, start=1)}
+        for future in as_completed(futures):
+            index = futures[future]
+            try:
+                out[index] = future.result()
+            except Exception as exc:  # noqa: BLE001 — surfaced to the caller, never swallowed
+                out[index] = exc
+    return [out[index] for index in sorted(out)]
+
 
 _WORD_RE = re.compile(r"[a-z0-9']+")
 
@@ -150,41 +198,61 @@ def _windows(paragraphs: list[str]) -> list[list[str]]:
     return out
 
 
+def _correct_window(book_dir: Path, window: list[str], *, phase: str, step: str, log) -> tuple[str, str | None]:
+    """Proofread ONE window. Returns the text to keep and a warning, if any.
+
+    Every refusal path returns the window's own transcription, so the worst case
+    is a no-op rather than a loss — which is what lets this be run concurrently
+    without the gates becoming order-dependent.
+    """
+    source = "\n\n".join(window)
+    rc, out, _err = _run_claude_p_with_retry(
+        _CORRECT_PROMPT.format(window=source),
+        timeout=_CORRECT_TIMEOUT,
+        book_dir=book_dir,
+        phase=phase,
+        step=step,
+        log=log,
+        **pure_text_call_options(),
+    )
+    candidate = (out or "").strip()
+    if rc != 0 or not candidate:
+        return source, f"{step}: no usable reply, kept the transcription"
+
+    kept = retention(source, candidate)
+    ratio = len(candidate.split()) / max(1, len(source.split()))
+    if kept < _RETENTION_FLOOR:
+        return source, f"{step}: reverted, only {kept:.0%} of the spoken words survived"
+    if not (_LENGTH_BAND[0] <= ratio <= _LENGTH_BAND[1]):
+        return source, f"{step}: reverted, length moved to {ratio:.0%} of the transcription"
+    return candidate, None
+
+
 def correct(book_dir: Path, base: str, *, phase: str, label: str, log=print) -> tuple[str, list[str]]:
     """Proofread the transcription. Returns the text and what was refused."""
     warnings: list[str] = []
     paragraphs = [p.strip() for p in base.split("\n\n") if p.strip()]
+    windows = _windows(paragraphs)
+
+    results = _in_parallel(
+        windows,
+        lambda index, window: _correct_window(
+            book_dir, window, phase=phase, step=f"{label}-window-{index:02d}", log=log
+        ),
+    )
+
     corrected: list[str] = []
-
-    for index, window in enumerate(_windows(paragraphs), start=1):
-        source = "\n\n".join(window)
+    for index, (window, result) in enumerate(zip(windows, results), start=1):
         step = f"{label}-window-{index:02d}"
-        rc, out, err = _run_claude_p_with_retry(
-            _CORRECT_PROMPT.format(window=source),
-            timeout=_CORRECT_TIMEOUT,
-            book_dir=book_dir,
-            phase=phase,
-            step=step,
-            log=log,
-            **pure_text_call_options(),
-        )
-        candidate = (out or "").strip()
-        if rc != 0 or not candidate:
-            warnings.append(f"{step}: no usable reply, kept the transcription")
-            corrected.append(source)
+        if isinstance(result, Exception):
+            # The window's own words, exactly as the refusal paths above do.
+            corrected.append("\n\n".join(window))
+            warnings.append(f"{step}: {type(result).__name__}, kept the transcription")
             continue
-
-        kept = retention(source, candidate)
-        ratio = len(candidate.split()) / max(1, len(source.split()))
-        if kept < _RETENTION_FLOOR:
-            warnings.append(f"{step}: reverted, only {kept:.0%} of the spoken words survived")
-            corrected.append(source)
-            continue
-        if not (_LENGTH_BAND[0] <= ratio <= _LENGTH_BAND[1]):
-            warnings.append(f"{step}: reverted, length moved to {ratio:.0%} of the transcription")
-            corrected.append(source)
-            continue
-        corrected.append(candidate)
+        text, warning = result
+        corrected.append(text)
+        if warning:
+            warnings.append(warning)
 
     return "\n\n".join(corrected), warnings
 
@@ -196,9 +264,10 @@ def detect_runs(book_dir: Path, text: str, *, phase: str, label: str, log=print)
     part of — replacing `Bismillah` before `Bismillahir Rahmanir Rahim` would
     leave the tail of the longer run stranded in English letters.
     """
-    found: list[str] = []
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
-    for index, window in enumerate(_windows(paragraphs), start=1):
+    windows = _windows(paragraphs)
+
+    def _detect(index: int, window: list[str]) -> list[str]:
         source = "\n\n".join(window)
         rc, out, _ = _run_claude_p_with_retry(
             _DETECT_PROMPT.format(window=source),
@@ -210,17 +279,25 @@ def detect_runs(book_dir: Path, text: str, *, phase: str, label: str, log=print)
             **pure_json_call_options(),
         )
         if rc != 0 or not out:
-            continue
+            return []
         try:
             payload = json.loads(re.sub(r"^```(?:json)?|```$", "", out.strip(), flags=re.M).strip())
         except ValueError:
-            continue
-        for run in payload.get("runs") or []:
-            run = str(run).strip()
-            # Only a run the passage actually contains: a model paraphrase of one
-            # cannot be substituted, and pretending otherwise would edit text
-            # that is not there.
-            if run and run in source and run not in found:
+            return []
+        # Only a run the passage actually contains: a model paraphrase of one
+        # cannot be substituted, and pretending otherwise would edit text that is
+        # not there.
+        return [r for r in (str(x).strip() for x in payload.get("runs") or []) if r and r in source]
+
+    # Deduped in WINDOW order, not completion order, so the same chapter yields
+    # the same list every run — `sorted(key=len)` alone would leave equal-length
+    # runs free to swap places between runs of the pipeline.
+    found: list[str] = []
+    for result in _in_parallel(windows, _detect):
+        if isinstance(result, Exception):
+            continue  # a window that could not be read names no runs; the rest still do
+        for run in result:
+            if run not in found:
                 found.append(run)
     return sorted(found, key=len, reverse=True)
 
@@ -265,12 +342,19 @@ def restore_script(book_dir: Path, text: str, *, phase: str, label: str, book_ti
     """
     from _book_romanization import LIBRARY, resolve
 
-    resolutions = []
+    runs: list[str] = []
     seen: set[str] = set()
     for run in detect_runs(book_dir, text, phase=phase, label=label, log=log):
-        if run in seen:
-            continue
-        seen.add(run)
+        if run not in seen:
+            seen.add(run)
+            runs.append(run)
+
+    def _resolve(_index: int, run: str):
+        # Resolution reads the RUN, never the chapter, so asking for all of them
+        # at once cannot see a half-substituted text. The substitutions below are
+        # still applied one at a time, in the longest-first order `detect_runs`
+        # returned, because THAT order is load-bearing: replacing `Bismillah`
+        # before `Bismillahir Rahmanir Rahim` strands the tail of the longer run.
         resolution = resolve(
             run,
             book_dir=book_dir,
@@ -285,6 +369,15 @@ def restore_script(book_dir: Path, text: str, *, phase: str, label: str, book_ti
                 resolution.arabic = canonical
                 resolution.provenance = LIBRARY
                 resolution.detail = "canonical mushaf"
+        return resolution
+
+    resolutions = []
+    for run, resolution in zip(runs, _in_parallel(runs, _resolve)):
+        if isinstance(resolution, Exception):
+            # One unresolvable run leaves its transliteration standing, which is
+            # the same outcome the ladder's own failure produces.
+            log(f"      {run[:40]}: {type(resolution).__name__}, left as spoken")
+            continue
         resolutions.append(resolution)
         if resolution.ok:
             text = text.replace(run, resolution.arabic)

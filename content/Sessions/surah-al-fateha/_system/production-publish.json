@@ -1,8 +1,50 @@
 {
-  "publishedAt": "2026-08-13T16:45:51Z",
-  "fingerprint": "31fbb5dc90abcaff",
+  "publishedAt": "2026-09-03T16:56:01Z",
+  "fingerprint": "8cfa7fb17dce818c",
   "verified": true,
   "checks": [
+    {
+      "name": "the book exists (localhost)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "localhost"
+    },
+    {
+      "name": "visible (localhost)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "localhost"
+    },
+    {
+      "name": "written just now (localhost)",
+      "ok": true,
+      "detail": "recorded 2026-09-03T16:56:03Z",
+      "target": "localhost"
+    },
+    {
+      "name": "chapters (localhost)",
+      "ok": true,
+      "detail": "24 live",
+      "target": "localhost"
+    },
+    {
+      "name": "Companion cards (localhost)",
+      "ok": true,
+      "detail": "15 live, 15 on disk",
+      "target": "localhost"
+    },
+    {
+      "name": "episodes (localhost)",
+      "ok": true,
+      "detail": "23 live",
+      "target": "localhost"
+    },
+    {
+      "name": "episode audio linked (localhost)",
+      "ok": true,
+      "detail": "23 of 23 episode(s) have a linked recording",
+      "target": "localhost"
+    },
     {
       "name": "the book exists (production)",
       "ok": true,
@@ -18,7 +60,7 @@
     {
       "name": "written just now (production)",
       "ok": true,
-      "detail": "recorded 2026-08-13T16:45:59Z",
+      "detail": "recorded 2026-09-03T16:57:29Z",
       "target": "production"
     },
     {
@@ -36,13 +78,19 @@
     {
       "name": "episodes (production)",
       "ok": true,
-      "detail": "12 live",
+      "detail": "23 live",
       "target": "production"
     },
     {
       "name": "media uploaded (production)",
       "ok": true,
-      "detail": "89 of 89 file(s) in the bucket",
+      "detail": "111 of 111 file(s) in the bucket",
+      "target": "production"
+    },
+    {
+      "name": "episode audio linked (production)",
+      "ok": true,
+      "detail": "23 of 23 episode(s) have a linked recording",
       "target": "production"
     }
   ]

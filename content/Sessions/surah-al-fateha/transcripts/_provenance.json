@@ -1,0 +1,93 @@
+{
+  "schema": "podcast.transcript-provenance/v1",
+  "episodes": {
+    "13": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 453,
+      "corrections": 1,
+      "generated_at": "2026-09-03T10:25:22-04:00",
+      "cost_usd": 0.35125
+    },
+    "14": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 608,
+      "corrections": 1,
+      "generated_at": "2026-09-03T10:26:00-04:00",
+      "cost_usd": 0.3425
+    },
+    "15": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 608,
+      "corrections": 5,
+      "generated_at": "2026-09-03T10:26:37-04:00",
+      "cost_usd": 0.323667
+    },
+    "16": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 459,
+      "corrections": 2,
+      "generated_at": "2026-09-03T10:27:13-04:00",
+      "cost_usd": 0.284917
+    },
+    "17": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 506,
+      "corrections": 0,
+      "generated_at": "2026-09-03T10:27:49-04:00",
+      "cost_usd": 0.290917
+    },
+    "18": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 356,
+      "corrections": 0,
+      "generated_at": "2026-09-03T10:28:18-04:00",
+      "cost_usd": 0.23025
+    },
+    "19": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 531,
+      "corrections": 1,
+      "generated_at": "2026-09-03T10:28:51-04:00",
+      "cost_usd": 0.27425
+    },
+    "20": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 586,
+      "corrections": 1,
+      "generated_at": "2026-09-03T10:29:26-04:00",
+      "cost_usd": 0.326083
+    },
+    "21": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 330,
+      "corrections": 1,
+      "generated_at": "2026-09-03T10:29:55-04:00",
+      "cost_usd": 0.2375
+    },
+    "22": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 639,
+      "corrections": 3,
+      "generated_at": "2026-09-03T10:30:33-04:00",
+      "cost_usd": 0.316
+    },
+    "23": {
+      "source": "azure",
+      "detail": "en-US fast-transcription",
+      "cues": 465,
+      "corrections": 4,
+      "generated_at": "2026-09-03T10:31:03-04:00",
+      "cost_usd": 0.267167
+    }
+  }
+}
