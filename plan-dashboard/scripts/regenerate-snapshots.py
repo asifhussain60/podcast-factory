@@ -148,7 +148,7 @@ def burn_30d_usd():
     try:
         end = datetime.fromisoformat(head_commit_iso().replace("Z", "+00:00"))
     except Exception:
-        return 0.0
+        return 0
     start = end - timedelta(days=30)
     cents = 0
     for slug in list_books():
@@ -180,7 +180,17 @@ def burn_30d_usd():
             if t < start or t > end:
                 continue
             cents += round(usd * 100)
-    return cents / 100
+    return js_number(cents / 100)
+
+
+def js_number(value):
+    """Render a rounded float the way JSON.stringify renders a JS number.
+
+    JS has one number type, so a whole-dollar burn serialises as ``111``; Python's
+    ``cents / 100`` is always a float and ``json.dumps`` writes ``111.0``. Every
+    rounded money field passes through here so the two generators stay byte-equal.
+    """
+    return int(value) if float(value).is_integer() else value
 
 
 def recent_wave_events(limit=15):

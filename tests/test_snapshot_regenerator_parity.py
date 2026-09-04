@@ -366,5 +366,51 @@ class TestBucketListsTrackTheAuthority(unittest.TestCase):
                 )
 
 
+class TestBurnRendersLikeJavaScript(unittest.TestCase):
+    """The 30-day burn must serialise identically from both generators.
+
+    JS has one number type, so ``JSON.stringify(111)`` is ``111`` whether the value
+    came from ``11100 / 100`` or not. Python's ``cents / 100`` is always a float and
+    ``json.dumps(111.0)`` is ``111.0`` -- one byte of drift the moment the ledgers
+    sum to a whole dollar, which they did on develop on 2026-09-03 (exactly 111).
+    """
+
+    @staticmethod
+    def _load_py_generator():
+        import importlib.util
+
+        spec = importlib.util.spec_from_file_location("regenerate_snapshots_py", PY)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
+
+    def test_js_number_drops_a_zero_fraction_and_keeps_a_real_one(self):
+        mod = self._load_py_generator()
+        self.assertEqual(json.dumps(mod.js_number(111.0)), "111")
+        self.assertEqual(json.dumps(mod.js_number(114.09)), "114.09")
+        self.assertEqual(json.dumps(mod.js_number(0.0)), "0")
+
+    def test_whole_dollar_burn_serialises_without_a_fraction(self):
+        import tempfile
+        from unittest import mock
+
+        mod = self._load_py_generator()
+        with tempfile.TemporaryDirectory() as tmp:
+            book = Path(tmp) / "stub-book"
+            (book / "_system").mkdir(parents=True)
+            rows = [
+                {"ts": "2026-09-01T00:00:00+00:00", "cost_usd": 100.5},
+                {"ts": "2026-09-02T00:00:00+00:00", "cost_usd": 10.5},
+            ]
+            (book / "_system" / "cost-ledger.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+            with (
+                mock.patch.object(mod, "head_commit_iso", lambda: "2026-09-03T00:00:00Z"),
+                mock.patch.object(mod, "list_books", lambda: ["stub-book"]),
+                mock.patch.object(mod, "book_dir", lambda slug: book),
+            ):
+                burn = mod.burn_30d_usd()
+        self.assertEqual(json.dumps(burn), "111", "Node emits 111 for the same ledger")
+
+
 if __name__ == "__main__":
     unittest.main()
