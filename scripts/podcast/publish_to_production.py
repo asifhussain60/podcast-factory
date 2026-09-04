@@ -74,6 +74,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _listener_book import read_episodes, split_chapters  # noqa: E402
 from _narration_plan import narrate  # noqa: E402
 from _paths import REPO_ROOT, find_content  # noqa: E402
 from _production_publish import (  # noqa: E402
@@ -190,6 +191,20 @@ TARGETS = (
 )
 
 
+def expected_counts(book_dir: Path) -> dict[str, int]:
+    """How many chapters and episodes the publisher will write, read off disk.
+
+    The same two readers `publish_to_listener.py` builds its rows from, so the
+    number handed to `verify` is the number the INSERTs carried. The remote push
+    is one wrangler call per batch with no transaction around them; without
+    these, the read-back accepted any chapter count above zero and a run that
+    failed between two batches left a half-empty book reported as fine.
+    """
+    book_md = Path(book_dir) / "book" / "book.md"
+    chapters = split_chapters(book_md.read_text(encoding="utf-8")) if book_md.exists() else []
+    return {"chapters": len(chapters), "episodes": len(read_episodes(Path(book_dir)))}
+
+
 def selected_targets(args: argparse.Namespace) -> list[dict]:
     """The destination set for this run, preserving the old CLI spelling."""
     target = "production" if args.skip_local else args.target
@@ -253,7 +268,7 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
             report.log("not open to everyone — only people you have granted it can read it")
 
     report.step(f"Verifying · {label}")
-    expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now}
+    expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now, **expected_counts(book_dir)}
     # The media check asks whether every inventoried file is in the bucket. On
     # localhost the recordings deliberately are not, so asking would fail a
     # correct run — and a check that fails when nothing is wrong is how a

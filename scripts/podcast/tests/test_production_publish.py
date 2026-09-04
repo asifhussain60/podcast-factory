@@ -335,3 +335,65 @@ def test_cloudflare_token_whitespace_is_removed(monkeypatch: pytest.MonkeyPatch)
 
     assert env["CLOUDFLARE_API_TOKEN"] == "abc123"
     assert env["CLOUDFLARE_ACCOUNT_ID"] == ACCOUNT_ID
+
+
+# ── the read-back compares COUNTS, not just presence ─────────────────────────
+#
+# The remote publish is one wrangler call per <=80KB batch with no transaction
+# around them: the DELETE and the INSERTs replacing it span batches, so a failure
+# midway leaves a book that is live and half-empty. `chapters > 0` cannot see
+# that. The counts on disk can, and the driver must hand them over.
+
+
+def fake_d1(live: dict[str, int]):
+    def d1(sql: str, *, remote: bool) -> list[dict]:
+        if "FROM content_unit" in sql:
+            return [{"slug": "the-book", "status": "published", "open_to_all": 0}]
+        if "FROM unit_detail" in sql:
+            return [{"published_at": NOW}]
+        for table, n in live.items():
+            if f"FROM {table} " in sql:
+                return [{"n": n}]
+        return [{"n": 0}]
+
+    return d1
+
+
+def test_fewer_chapters_live_than_on_disk_fails_verification(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    import upload_listener_media
+    from _production_publish import verify
+
+    monkeypatch.setattr(upload_listener_media, "d1", fake_d1({"chapter": 2, "episode": 4}))
+    checks = {c["name"]: c for c in verify("the-book", tmp_path, remote=True, expected={"chapters": 3, "episodes": 4})}
+    assert checks["chapters"]["ok"] is False
+    assert checks["chapters"]["detail"] == "2 live, 3 on disk"
+    assert checks["episodes"]["ok"] is True
+
+
+def test_without_expected_counts_a_half_empty_book_still_passes(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    """The fallback the driver used to rely on — pinned so the gap stays visible."""
+    import upload_listener_media
+    from _production_publish import verify
+
+    monkeypatch.setattr(upload_listener_media, "d1", fake_d1({"chapter": 2}))
+    checks = {c["name"]: c for c in verify("the-book", tmp_path, remote=True, expected={"cards": 0})}
+    assert checks["chapters"]["ok"] is True
+
+
+def test_expected_counts_come_from_the_same_readers_the_publisher_uses(tmp_path: Path) -> None:
+    import publish_to_production as P
+
+    directory = book(tmp_path, prose="# T\n\n## 1. One\n\na\n\n## 2. Two\n\nb\n\n## 3. Three\n\nc\n")
+    contracts = directory / "chapter-contracts"
+    contracts.mkdir()
+    for n in (1, 2):
+        (contracts / f"ch0{n}.yml").write_text(f"episode_number: {n}\ntitle: Ep {n}\n", encoding="utf-8")
+    assert P.expected_counts(directory) == {"chapters": 3, "episodes": 2}
+
+
+def test_a_book_without_a_reading_edition_expects_no_chapters(tmp_path: Path) -> None:
+    import publish_to_production as P
+
+    assert P.expected_counts(tmp_path) == {"chapters": 0, "episodes": 0}

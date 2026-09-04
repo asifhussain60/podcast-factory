@@ -270,3 +270,24 @@ def test_production_is_still_failed_for_media_that_did_not_arrive(monkeypatch, t
     ok, checks = P.push(P.TARGETS[1], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
     assert ok is False
     assert checks[0]["name"] == "media uploaded (production)"
+
+
+# ── the read-back is told how much SHOULD be there ───────────────────────────
+
+
+def test_push_hands_verify_the_chapter_and_episode_counts_from_disk(monkeypatch, tmp_path):
+    """Without them `verify` accepts any chapter count above zero, and a batch that
+    failed halfway through the INSERTs leaves a half-empty book reported as fine."""
+    seen: list[dict] = []
+    monkeypatch.setattr(P, "run", lambda argv, report, cwd=None: 0)
+    monkeypatch.setattr(P, "d1_execute", lambda sql, report, *, remote: 0)
+    monkeypatch.setattr(P, "visibility", lambda slug, *, remote: {"status": "published", "open_to_all": 0})
+    monkeypatch.setattr(P, "count_cards", lambda book_dir: 0)
+    monkeypatch.setattr(P, "expected_counts", lambda book_dir: {"chapters": 16, "episodes": 5})
+    monkeypatch.setattr(
+        P,
+        "verify",
+        lambda slug, book_dir, *, remote, expected: seen.append(expected) or [{"name": "x", "ok": True, "detail": ""}],
+    )
+    P.push(P.TARGETS[1], "a-book", tmp_path, ARGS, Recorder(), now="2026-08-10T00:00:00Z")
+    assert seen[0]["chapters"] == 16 and seen[0]["episodes"] == 5
