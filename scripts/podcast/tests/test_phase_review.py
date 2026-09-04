@@ -462,5 +462,56 @@ class RobustnessTests(_BookFixture):
         pr.review_and_record(self.book, "0b")
 
 
+class BlockingReviewKeepsTheBudgetAndHalts(_BookFixture):
+    """A phase the review FAILS is a failure the watchdog must not pay for again.
+
+    `_update_phase_locked` cleared the phase's relaunch budget on the `completed` it was
+    called with, BEFORE the review flipped that same call to `failed`, and stamped no
+    `manual_fallback`. So a gate blocking by default refunded every attempt (the budget
+    restarted at 1 on each relaunch) and left nothing for `_needs_human_fix` to halt on:
+    the watchdog re-ran the phase, re-paid its model calls, and reached the same
+    deterministic gate failure, up to its ceiling, every time.
+    """
+
+    def test_attempts_survive_and_a_manual_fallback_is_stamped(self):
+        import os
+
+        from _progress import attempts_for, initial_state, read_state, record_attempt, update_phase, write_state
+
+        write_state(self.book, initial_state("test-book", "books"))
+        for _ in range(7):
+            record_attempt(self.book, "0b")
+        forced = [("PC3", "forced", lambda _bd: (False, "forced failure"))]
+        with (
+            mock.patch.dict(os.environ, {pr.BLOCKING_ENV: "on"}),
+            mock.patch.dict(pr.OWN_GATES, {"0b": forced}),
+        ):
+            update_phase(self.book, phase="0b", status="completed")
+        state = read_state(self.book)
+        self.assertEqual(state["phase_status"], "failed", "the blocking review must fail the phase")
+        self.assertEqual(
+            attempts_for(state, "0b"),
+            7,
+            "a phase its own review failed made no progress — the attempt budget must not be refunded",
+        )
+        fallback = state["phases"]["0b"].get("manual_fallback") or ""
+        self.assertIn("forced failure", fallback, "the gate's note is what a person needs to fix — stamp it")
+        self.assertIn("--retry-phase 0b", fallback)
+
+    def test_a_review_that_passes_still_clears_the_budget(self):
+        import os
+
+        from _progress import attempts_for, initial_state, read_state, record_attempt, update_phase, write_state
+
+        write_state(self.book, initial_state("test-book", "books"))
+        record_attempt(self.book, "0b")
+        with mock.patch.dict(os.environ, {pr.BLOCKING_ENV: "on"}):
+            update_phase(self.book, phase="0b", status="completed")
+        state = read_state(self.book)
+        self.assertEqual(state["phase_status"], "completed")
+        self.assertEqual(attempts_for(state, "0b"), 0)
+        self.assertNotIn("manual_fallback", state["phases"]["0b"])
+
+
 if __name__ == "__main__":
     unittest.main()

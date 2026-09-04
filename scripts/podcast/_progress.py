@@ -448,13 +448,6 @@ def _update_phase_locked(
             state["next_phase"] = PHASES[idx + 1] if idx + 1 < len(PHASES) else None
         except (ValueError, IndexError):
             state["next_phase"] = None
-        # The phase made real progress, so its relaunch budget resets — the
-        # ceiling bounds failure-to-progress, not total work (see ATTEMPTS_KEY).
-        # Mutated in place rather than via `clear_attempts` so this shares the
-        # single `write_state` below instead of writing the file twice.
-        _counts = state.get(ATTEMPTS_KEY)
-        if isinstance(_counts, dict) and phase in _counts:
-            _counts.pop(phase, None)
 
     if error is not None:
         state["last_error"] = {"phase": phase, "message": error, "ts": now}
@@ -502,6 +495,14 @@ def _update_phase_locked(
             # the next one, or a resume walks straight past the problem.
             state["last_completed_phase"] = _previous_completed(state, phase)
             state["next_phase"] = phase
+            # A gate that failed is deterministic: relaunching re-pays the phase to
+            # reach the same verdict. The gate's own note is the instruction a person
+            # needs, and `manual_fallback` is what the watchdog halts on
+            # (`_needs_human_fix`) — without it the failure read as transient.
+            phase_block["manual_fallback"] = (
+                f"Phase review failed: {_blocking}. Fix the cause, then: "
+                f"python3 scripts/podcast/orchestrate_book.py --resume {state.get('book_slug')} --retry-phase {phase}"
+            )
         phase_block["review"] = {
             "verdict": _review["verdict"],
             "failed": _review["counts"]["failed"],
@@ -510,6 +511,17 @@ def _update_phase_locked(
             "blocking_fail": _review.get("blocking_fail"),
         }
         write_state(book_dir, state)
+
+    if status == "completed":
+        # The phase made real progress, so its relaunch budget resets — the
+        # ceiling bounds failure-to-progress, not total work (see ATTEMPTS_KEY).
+        # Decided on the FINAL status, after the review above: clearing on the
+        # `completed` this call was made with refunded every attempt of a phase
+        # the review then failed, so the budget restarted at 1 on each relaunch.
+        _counts = state.get(ATTEMPTS_KEY)
+        if isinstance(_counts, dict) and phase in _counts:
+            _counts.pop(phase, None)
+            write_state(book_dir, state)
 
     # Timeline + failure dump. Both are internally guarded: observability must
     # never turn a working phase into a failed one.
