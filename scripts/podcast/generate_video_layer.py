@@ -49,8 +49,8 @@ from typing import Any
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
 
-from _cost_ledger import append_gemini_cost
 from _paths import content_dir
+from _tool_cost import append_precomputed_cost
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -514,16 +514,11 @@ def _generate_background_images(
             print(f"saved ({len(image_bytes) // 1024}KB)")
             generated += 1
             try:
-                append_gemini_cost(
-                    book_dir=book_dir,
-                    phase="video",
-                    step=f"bg/{ep_id}/{bg_id}",
-                    input_tokens=0,
-                    output_tokens=0,
-                    cost_usd=IMAGE_COST_ESTIMATE,
+                append_precomputed_cost(
+                    book_dir, phase="video", step=f"bg/{ep_id}/{bg_id}", model=IMAGE_MODEL, cost_usd=IMAGE_COST_ESTIMATE
                 )
-            except Exception:
-                pass
+            except Exception as exc:
+                print(f"    WARN: cost-ledger append failed for {filename}: {exc}", file=sys.stderr)
         except Exception as exc:
             print(f"FAILED: {exc}")
 
@@ -589,16 +584,15 @@ def _generate_images(
             print(f"saved ({len(image_bytes) // 1024}KB)")
             generated += 1
             try:
-                append_gemini_cost(
-                    book_dir=book_dir,
+                append_precomputed_cost(
+                    book_dir,
                     phase="video",
                     step=f"image/{ep_id}/{seg_id}",
-                    input_tokens=0,
-                    output_tokens=0,
+                    model=IMAGE_MODEL,
                     cost_usd=IMAGE_COST_ESTIMATE,
                 )
-            except Exception:
-                pass
+            except Exception as exc:
+                print(f"    WARN: cost-ledger append failed for {filename}: {exc}", file=sys.stderr)
         except Exception as exc:
             print(f"FAILED: {exc}")
 
