@@ -53,6 +53,7 @@ from _narration_plan import (  # noqa: F401
     plan_chapter,
     speech_text,
 )
+from cost_guard import refuse_if_over_ceiling
 
 OUTPUT_FORMAT = "audio-24khz-96kbitrate-mono-mp3"
 MAX_SEGMENT_ATTEMPTS = 3
@@ -452,6 +453,13 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
         # on disk with their manifest entries written, and the next run picks up
         # exactly the ones that did not finish. The caller decides whether a
         # failure is fatal; the renderer's job is to leave a resumable state.
+        # OUTSIDE the per-chapter try, so a book that has reached its real-money
+        # cap stops the whole render rather than failing one chapter at a time
+        # through the handler below. A book is narrated inside ONE phase, a clip
+        # per paragraph, so the between-phases ceiling check never sees any of
+        # this spend while it is happening.
+        refuse_if_over_ceiling(book_dir, lane="reader-narration")
+
         # OUTSIDE the try, because the `finally` below bills whatever they hold
         # however this chapter ends. Declared inside, a failure before the first
         # paragraph would make the billing raise NameError inside the handler for

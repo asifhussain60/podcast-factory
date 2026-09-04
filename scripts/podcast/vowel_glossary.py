@@ -56,7 +56,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import content_dir  # noqa: E402
 from _vowelling import ARABIC_RE, VOWELLED_DENSITY, mark_count, mark_density, rejection_reason  # noqa: E402
-from vowel_book import CITATION_SYSTEM, _bill_since, _clean, _gemini, meter_reading, record_spend  # noqa: E402
+from vowel_book import (  # noqa: E402
+    CITATION_SYSTEM,
+    _bill_since,
+    _ceiling,
+    _clean,
+    _gemini,
+    meter_reading,
+    record_spend,
+)
 
 # The prompt lives in vowel_book.py, shared with the lexical-token sweep there:
 # both jobs ask for the same thing (a citation form for one term), and two copies
@@ -165,6 +173,9 @@ def vowel_glossary(
         path.write_text("\n".join(out), encoding="utf-8")
 
     if todo:
+        # One paid call per bare term, sixty-odd of them, all inside one phase —
+        # so the between-phases ceiling check never sees a single one of them.
+        _ceiling(book_dir, "glossary vowelling")
         done = 0
         with ThreadPoolExecutor(max_workers=8) as pool:
             for term, candidate, refusal in pool.map(one, todo):

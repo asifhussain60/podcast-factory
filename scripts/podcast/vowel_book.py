@@ -106,6 +106,22 @@ from _vowelling_prompts import CITATION_SYSTEM, SYSTEM  # noqa: E402
 # `vowel_glossary` already uses against the same endpoint.
 DEFAULT_WORKERS = 8
 
+
+def _ceiling(book_dir: Path | None, lane: str) -> None:
+    """Refuse another batch of paid calls once this book's hard cap is reached.
+
+    Imported here rather than at module scope because `cost_guard` reaches back
+    into the pipeline's own modules; a top-level import makes this file
+    unimportable from a bare script. A caller with no book — a test, a one-off
+    passage — is not governed by a per-book cap and passes None.
+    """
+    if book_dir is None:
+        return
+    from cost_guard import refuse_if_over_ceiling
+
+    refuse_if_over_ceiling(book_dir, lane=lane)
+
+
 # Arabic letters, excluding the combining marks themselves — for the length floor
 # the lexical sweep in vowel_text applies to a token.
 ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
@@ -132,8 +148,13 @@ def vowel_runs(
     dry_run: bool = False,
     call: Callable[[str], str] | None = None,
     workers: int = DEFAULT_WORKERS,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """Return ``text`` with every bare non-Qur'anic Arabic RUN vowelled.
+
+    ``book_dir`` is the book whose real-money ceiling governs this sweep. It is
+    optional because this function takes TEXT, not a book — a caller that has no
+    book (a test, a one-off passage) simply is not covered by a per-book cap.
 
     Layers one and two only — the run sweep and the mushaf. The third layer, the
     lexical sweep in `vowel_lexical`, is deliberately NOT here: it looks for bare
@@ -220,6 +241,7 @@ def vowel_runs(
         from _engine import ENGINE_GEMINI, TASK_VOWEL, engine_guard
 
         engine_guard(TASK_VOWEL, ENGINE_GEMINI)
+        _ceiling(book_dir, "vowelling")
         with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
             futures = {pool.submit(ask, run): run for run in pending}
             for future in as_completed(futures):
@@ -288,6 +310,7 @@ def vowel_runs(
             jobs += [(idx, i, part) for i, part in enumerate(parts) if segment_askable(part)]
         answers: dict[int, dict[int, str]] = {}
         if jobs:
+            _ceiling(book_dir, "vowelling salvage")
             log(f"vowelling: retrying {len(plans)} refused run(s) as {len(jobs)} fragment(s)")
             with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
                 futures = {pool.submit(ask, part): (idx, i, part) for idx, i, part in jobs}
@@ -354,6 +377,7 @@ def vowel_lexical(
     *,
     dry_run: bool = False,
     stats: dict | None = None,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """The third layer: bare Arabic words that ENGLISH prose discusses AS words.
 
@@ -394,6 +418,7 @@ def vowel_lexical(
         # follows the word to be in it, which is what disambiguates the reading.
         at = out.find(token)
         context = out[max(0, at - 90) : at + len(token) + 90].replace("\n", " ")
+        _ceiling(book_dir, "lexical vowelling")
         try:
             candidate = _clean(_gemini(CITATION_SYSTEM, f"{token}\n\ncontext: {context}"))
         except Exception as e:
@@ -428,6 +453,7 @@ def vowel_text(
     dry_run: bool = False,
     call: Callable[[str], str] | None = None,
     workers: int = DEFAULT_WORKERS,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """All three layers, for text that is ENGLISH prose carrying Arabic.
 
@@ -435,10 +461,10 @@ def vowel_text(
     scripture; `vowel_lexical` then handles the individual words the prose
     discusses AS words, which fall below the run floor by design.
     """
-    out, stats = vowel_runs(text, log=log, dry_run=dry_run, call=call, workers=workers)
+    out, stats = vowel_runs(text, log=log, dry_run=dry_run, call=call, workers=workers, book_dir=book_dir)
     if stats.get("skipped"):  # no mushaf — vowel_runs already said so
         return out, stats
-    return vowel_lexical(out, dry_run=dry_run, stats=stats)
+    return vowel_lexical(out, dry_run=dry_run, stats=stats, book_dir=book_dir)
 
 
 def record_spend(book_dir: Path, *, phase: str, step: str, stats: dict) -> None:
@@ -479,7 +505,7 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
         log("vowelling: no book.md - skipped")
         return {"vowelled": 0}
     before = md.read_text(encoding="utf-8")
-    after, stats = vowel_text(before, log=log, dry_run=dry_run)
+    after, stats = vowel_text(before, log=log, dry_run=dry_run, book_dir=book_dir)
     # WHOLE-FILE SAFETY NET (2026-08-16). `rejection_reason` only judges what
     # THIS pass proposes -- compose/rearticulation/voice also touch book.md and
     # one printed "Rahat al-Aqlِ," (a kasra glued onto Latin "Aql"). Last

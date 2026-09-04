@@ -51,6 +51,7 @@ sys.path.insert(0, str(SCRIPT_DIR))
 
 from _paths import content_dir
 from _tool_cost import append_precomputed_cost
+from cost_guard import refuse_if_over_ceiling
 
 # ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -493,6 +494,9 @@ def _generate_background_images(
             "No text or lettering. 1920x1080 landscape."
         )
 
+        # Per image, not per phase: an episode's worth of paid images is generated
+        # inside one run, so a between-phases check never sees any of this spend.
+        refuse_if_over_ceiling(book_dir, lane="video backgrounds")
         print(f"    Generating background {filename}…", end=" ", flush=True)
         try:
             resp = client.models.generate_content(
@@ -563,6 +567,7 @@ def _generate_images(
         if overlay:
             prompt += f' Text overlay reads: "{overlay}".'
 
+        refuse_if_over_ceiling(book_dir, lane="video images")
         print(f"    Generating {filename}…", end=" ", flush=True)
         try:
             resp = client.models.generate_content(

@@ -101,7 +101,7 @@ def vowel_chapters(
     for chapter in selection:
         start, end = section_text(md, chapter["heading"])
         section = md[start:end]
-        marked, stats = vowel_text(section, log=lambda *_: None)
+        marked, stats = vowel_text(section, log=lambda *_: None, book_dir=book_dir)
 
         # The ledgers first, and UNCONDITIONALLY — before the no-change check
         # below. The model has already answered by this point, so the spend is
