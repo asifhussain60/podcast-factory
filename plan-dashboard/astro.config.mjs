@@ -133,6 +133,12 @@ export default defineConfig({
     server: {
       fs: {
         allow: ['..', '../..'],
+        // The allow above opens the repo to Vite's /@fs/ handler, and Vite's
+        // default deny covers .env* but not Wrangler's secrets file — so
+        // GET /@fs/<repo>/listener/.dev.vars served the Podcast Factory
+        // Library's local secrets (2026-09-03). Pinned by
+        // scripts/astro-config-fs-deny.test.mjs.
+        deny: ['**/.dev.vars', '**/.dev.vars.*', '**/.wrangler/**'],
       },
     },
     ssr: {
