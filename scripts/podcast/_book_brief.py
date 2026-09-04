@@ -389,7 +389,10 @@ def analyse_sections(book_dir: Path, *, log=print, force: bool = False, author=N
             data = {"title": sec["title"], "purpose": "", "points": []}
         data["title"] = sec["title"]
         data["fingerprint"] = fp
-        path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        if raw:
+            path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+        else:  # a failed call is not an analysis: cache nothing, so the next run asks again
+            log(f"    brief: section {i} not cached — the model returned nothing")
         analyses.append(data)
         prior_ids += [f"S{i:02d}-P{j:02d}" for j in range(1, len(data["points"]) + 1)]
 

@@ -566,3 +566,24 @@ def test_analyses_of_sections_that_no_longer_exist_are_pruned(tmp_path):
     B.analyse_sections(book, author=stub, log=lambda *_: None)
     assert not (stale / "S09.json").exists()
     assert sorted(p.name for p in stale.glob("*.json")) == ["S01.json", "S02.json"]
+
+
+def test_a_failed_analysis_is_not_cached_so_the_next_run_asks_again(tmp_path):
+    """`_ask` returns "" when the model call fails. That empty analysis used to be
+    written to the cache WITH the prose fingerprint, so every later run trusted it
+    and the section was missing from the Brief for good, with nothing recorded."""
+    book = _stub_book(tmp_path)
+    analysis = book / "_system" / "brief" / "analysis"
+
+    B.analyse_sections(book, author=lambda _prompt: "", log=lambda *_: None)
+    cached = [json.loads(p.read_text(encoding="utf-8")) for p in analysis.glob("S*.json")]
+    assert not any("fingerprint" in c for c in cached), "a failed analysis must not be cached as current"
+
+    calls: list[str] = []
+
+    def stub(prompt: str) -> str:
+        calls.append(prompt)
+        return json.dumps({"title": "x", "points": [{"text": "A.", "kind": "turn", "weight": 5}]})
+
+    B.analyse_sections(book, author=stub, log=lambda *_: None)
+    assert len(calls) == 2, "both sections must be asked again after a failed run"
