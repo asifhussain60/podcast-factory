@@ -69,11 +69,13 @@ import json
 import os
 import subprocess
 import sys
+import threading
 from datetime import datetime, timezone
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import _wrangler  # noqa: E402
 from _listener_book import read_episodes, split_chapters  # noqa: E402
 from _narration_plan import narrate  # noqa: E402
 from _paths import REPO_ROOT, find_content  # noqa: E402
@@ -132,13 +134,28 @@ class Reporter:
         self.emit("error", text=text)
 
 
-def run(argv: list[str], report: Reporter, *, cwd: Path = REPO_ROOT) -> int:
+def run(
+    argv: list[str],
+    report: Reporter,
+    *,
+    cwd: Path = REPO_ROOT,
+    timeout: float | None = None,
+) -> int:
     """Run a child and forward its output line by line as it arrives.
 
     Line-buffered and merged (stderr into stdout) on purpose: the caller is a
     person watching a progress panel, and a failure that arrives after the
     success it contradicts is worse than no output at all.
+
+    Bounded, like every other wrangler call in the repo. It cannot use
+    `_wrangler.run`, which captures output and so cannot stream — but an
+    unbounded child here would be the one wrangler invocation that can still
+    hang forever, and it is the one a person is watching. The deadline is a
+    timer that kills the child, not a `wait(timeout=)`: the read loop blocks on
+    the pipe, so a child that produces NO output is exactly the case a bound on
+    `wait` would miss. Resolved at call time for the reason `_wrangler` gives.
     """
+    limit = _wrangler.DEFAULT_TIMEOUT if timeout is None else timeout
     proc = subprocess.Popen(
         argv,
         cwd=str(cwd),
@@ -148,11 +165,25 @@ def run(argv: list[str], report: Reporter, *, cwd: Path = REPO_ROOT) -> int:
         bufsize=1,
     )
     assert proc.stdout is not None
-    for line in proc.stdout:
-        line = line.rstrip()
-        if line:
-            report.log(line)
-    return proc.wait()
+    expired = threading.Event()
+
+    def _expire() -> None:
+        expired.set()
+        proc.kill()
+
+    alarm = threading.Timer(limit, _expire)
+    alarm.start()
+    try:
+        for line in proc.stdout:
+            line = line.rstrip()
+            if line:
+                report.log(line)
+        rc = proc.wait()
+    finally:
+        alarm.cancel()
+    if expired.is_set():
+        raise _wrangler.WranglerTimeout(f"{' '.join(argv[:4])} did not finish inside {limit:.0f}s")
+    return rc
 
 
 def d1_execute(sql: str, report: Reporter, *, remote: bool) -> int:

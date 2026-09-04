@@ -100,3 +100,29 @@ def test_no_wrangler_call_bypasses_the_helper(name):
         re.DOTALL,
     )
     assert bare == [], f"{name} still calls wrangler without the shared deadline"
+
+
+class TheComposerPublishStreamIsBoundedToo:
+    """`publish_to_production.run` cannot use `_wrangler.run` — it streams output
+    to a progress panel a person is watching, and `_wrangler.run` captures. It is
+    still a wrangler call, so the wrapper's claim that EVERY invocation is bounded
+    has to hold here too, or the claim is worse than no claim.
+    """
+
+    def test_a_silent_child_is_killed_at_the_deadline(self) -> None:
+        import publish_to_production as P
+
+        start = time.monotonic()
+        with pytest.raises(_wrangler.WranglerTimeout):
+            P.run([sys.executable, "-c", "import time; time.sleep(30)"], _Silent(), timeout=1.0)
+        assert time.monotonic() - start < 10, "the deadline did not end it"
+
+    def test_a_child_that_finishes_is_untouched(self) -> None:
+        import publish_to_production as P
+
+        assert P.run([sys.executable, "-c", "print('hi')"], _Silent(), timeout=30) == 0
+
+
+class _Silent:
+    def log(self, line: str) -> None:  # pragma: no cover - a sink
+        pass
