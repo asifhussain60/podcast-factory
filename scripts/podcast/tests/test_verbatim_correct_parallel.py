@@ -25,6 +25,8 @@ import sys
 import time
 from pathlib import Path
 
+import pytest
+
 SCRIPTS_PODCAST = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(SCRIPTS_PODCAST))
 
@@ -124,7 +126,10 @@ def test_an_empty_reply_keeps_the_transcription(monkeypatch):
 # ── one bad window never costs the chapter ───────────────────────────────────
 
 
-def test_an_exception_in_one_window_keeps_that_window_and_the_rest(monkeypatch):
+@pytest.mark.parametrize("workers", [1, 8])
+def test_an_exception_in_one_window_keeps_that_window_and_the_rest(monkeypatch, workers):
+    """Both branches: the sequential path used to let one window's exception abort
+    the whole chapter, so the escape hatch (workers=1) lost what the pool kept."""
     text = _chapter(3)
 
     def explode_on_second(prompt: str):
@@ -132,9 +137,31 @@ def test_an_exception_in_one_window_keeps_that_window_and_the_rest(monkeypatch):
             raise RuntimeError("network gone")
         return _echo(prompt)
 
-    out, warnings, _ = _run(monkeypatch, text, reply=explode_on_second)
+    out, warnings, _ = _run(monkeypatch, text, reply=explode_on_second, workers=workers)
     assert out == text, "the failed window must fall back to its own transcription"
     assert len(warnings) == 1 and "RuntimeError" in warnings[0]
+
+
+def test_a_single_window_chapter_survives_its_one_window_exploding(monkeypatch):
+    """One window is always run sequentially, whatever the worker count."""
+    text = _chapter(1)
+
+    def explode(_prompt: str):
+        raise RuntimeError("network gone")
+
+    out, warnings, _ = _run(monkeypatch, text, reply=explode, workers=8)
+    assert out == text
+    assert len(warnings) == 1 and "RuntimeError" in warnings[0]
+
+
+def test_the_worker_count_is_read_when_called_not_when_imported(monkeypatch):
+    """`workers=_WINDOW_WORKERS` as a default bound 8 at import, so setting the
+    module value to 1 (the env escape hatch, and every test above) changed nothing."""
+    import threading
+
+    monkeypatch.setattr(vc, "_WINDOW_WORKERS", 1)
+    threads = vc._in_parallel([1, 2, 3], lambda _i, _item: threading.current_thread().name)
+    assert threads == [threading.main_thread().name] * 3, "workers=1 must run on the calling thread"
 
 
 # ── it is actually concurrent ────────────────────────────────────────────────

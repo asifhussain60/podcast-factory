@@ -88,7 +88,7 @@ _WINDOW_WORDS = 700
 _WINDOW_WORKERS = max(1, int(os.environ.get("PODCAST_FACTORY_CORRECT_WORKERS", "8")))
 
 
-def _in_parallel(jobs: list, work, *, workers: int = _WINDOW_WORKERS) -> list:
+def _in_parallel(jobs: list, work, *, workers: int | None = None) -> list:
     """Run `work(index, item)` over `jobs`, returning results in INPUT order.
 
     Ordered on purpose. Two of the three callers assemble a chapter out of what
@@ -96,10 +96,26 @@ def _in_parallel(jobs: list, work, *, workers: int = _WINDOW_WORKERS) -> list:
 
     An exception is returned rather than raised, as `(index, exc)`, because one
     bad window must never cost the whole chapter — the same rule `vowel_book`
-    applies to one bad run. Each caller decides what its own failure means.
+    applies to one bad run. Each caller decides what its own failure means. That
+    holds on BOTH paths: the sequential one used to let the exception escape, so
+    the escape hatch (`workers=1`) and every single-window chapter lost what the
+    pool would have kept.
+
+    `workers` is resolved from `_WINDOW_WORKERS` at CALL time. As a parameter
+    default it was bound once, at import, so the env escape hatch and any later
+    override of the module value changed nothing.
     """
+    if workers is None:
+        workers = _WINDOW_WORKERS
+
+    def guarded(index: int, item):
+        try:
+            return work(index, item)
+        except Exception as exc:  # noqa: BLE001 — surfaced to the caller, never swallowed
+            return exc
+
     if workers <= 1 or len(jobs) <= 1:
-        return [work(index, item) for index, item in enumerate(jobs, start=1)]
+        return [guarded(index, item) for index, item in enumerate(jobs, start=1)]
 
     out: dict[int, object] = {}
     with ThreadPoolExecutor(max_workers=min(workers, len(jobs))) as pool:
