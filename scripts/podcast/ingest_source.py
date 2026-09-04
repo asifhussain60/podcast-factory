@@ -34,7 +34,8 @@ PIPELINE
 OUTPUTS
 
     raw-extract.md       — the canonical English Phase 0a artifact named in SKILL.md §1.5
-    ../ocr/raw-extract.md — original-language OCR, when Translator runs
+    ../ocr/raw-extract.md — original-language OCR, written the moment OCR succeeds
+                            (the checkpoint a re-run reuses instead of re-submitting)
     _provenance.json     — sidecar with timestamps, char counts, doc IDs (audit trail)
     _extraction-notes.md — created empty if missing; Phase 0b/0c append to it
 
@@ -182,36 +183,55 @@ def main() -> int:
     print(f"==> Book:   {book_dir.relative_to(REPO_ROOT)}")
 
     # ── Doc Intelligence ─────────────────────────────────────────────────
-    print("==> Doc Intelligence: submitting prebuilt-read …")
-    try:
-        docintel = _azure.load_docintel_creds()
-    except _azure.AzureCredsError as e:
-        print(f"FATAL: {e}", file=sys.stderr)
-        return 3
-
-    from _engine import ENGINE_AZURE, TASK_OCR, engine_guard
-
-    engine_guard(TASK_OCR, ENGINE_AZURE)
-    t0 = time.monotonic()
-    result = _azure.docintel_analyze_pdf(docintel, pdf_bytes)
-    di_elapsed = time.monotonic() - t0
-    analyze = result.get("analyzeResult") or {}
-    page_count = len(analyze.get("pages") or [])
-    ocr_text = _azure.docintel_pages_to_markdown(result)
-    print(f"    OCR done: {page_count} pages, {len(ocr_text):,} chars, {di_elapsed:.1f}s")
-    # F36 (2026-05-25): record Azure Doc Intelligence spend in cost-ledger.jsonl.
-    try:
-        from _cost_ledger import append_azure_docintel_cost
-
-        cost_row = append_azure_docintel_cost(
-            book_dir=book_dir,
-            phase="0a",
-            step="ingest/docintel",
-            pages=page_count,
+    # The OCR text is CHECKPOINTED to ocr/raw-extract.md the moment OCR succeeds,
+    # before the translator runs, and a re-run reuses it (2026-09-03). Until then it
+    # was written only after translation had also succeeded, so one throttled
+    # translator chunk threw away a paid, finished OCR and the watchdog's retry
+    # re-submitted the whole PDF. --force re-submits regardless.
+    docintel_endpoint: str | None = None
+    operation_id = None
+    reused_checkpoint = ocr_raw_path.exists() and not args.force
+    if reused_checkpoint:
+        ocr_text = ocr_raw_path.read_text(encoding="utf-8")
+        page_count = ocr_text.count("<!-- page ")
+        di_elapsed = 0.0
+        print(
+            f"==> Doc Intelligence: reusing {ocr_raw_path.relative_to(REPO_ROOT)} ({page_count} pages) — not re-submitting"
         )
-        print(f"    Azure cost (docintel): ${cost_row.cost_usd:.4f} for {page_count} pages")
-    except Exception as _e:  # never fail intake on cost-ledger trouble
-        print(f"    WARN: cost-ledger append failed: {_e}", file=sys.stderr)
+    else:
+        print("==> Doc Intelligence: submitting prebuilt-read …")
+        try:
+            docintel = _azure.load_docintel_creds()
+        except _azure.AzureCredsError as e:
+            print(f"FATAL: {e}", file=sys.stderr)
+            return 3
+        docintel_endpoint = docintel.endpoint
+
+        from _engine import ENGINE_AZURE, TASK_OCR, engine_guard
+
+        engine_guard(TASK_OCR, ENGINE_AZURE)
+        t0 = time.monotonic()
+        result = _azure.docintel_analyze_pdf(docintel, pdf_bytes)
+        di_elapsed = time.monotonic() - t0
+        analyze = result.get("analyzeResult") or {}
+        page_count = len(analyze.get("pages") or [])
+        operation_id = (analyze.get("apiVersion") or "") and result.get("status")
+        ocr_text = _azure.docintel_pages_to_markdown(result)
+        ocr_raw_path.write_text(ocr_text, encoding="utf-8")
+        print(f"    OCR done: {page_count} pages, {len(ocr_text):,} chars, {di_elapsed:.1f}s")
+        # F36 (2026-05-25): record Azure Doc Intelligence spend in cost-ledger.jsonl.
+        try:
+            from _cost_ledger import append_azure_docintel_cost
+
+            cost_row = append_azure_docintel_cost(
+                book_dir=book_dir,
+                phase="0a",
+                step="ingest/docintel",
+                pages=page_count,
+            )
+            print(f"    Azure cost (docintel): ${cost_row.cost_usd:.4f} for {page_count} pages")
+        except Exception as _e:  # never fail intake on cost-ledger trouble
+            print(f"    WARN: cost-ledger append failed: {_e}", file=sys.stderr)
 
     # ── Translator (optional) ────────────────────────────────────────────
     if args.no_translate:
@@ -250,8 +270,6 @@ def main() -> int:
 
     # ── Persist ──────────────────────────────────────────────────────────
     raw_path.write_text(final_text, encoding="utf-8")
-    if not args.no_translate:
-        ocr_raw_path.write_text(ocr_text, encoding="utf-8")
     if not notes_path.exists():
         notes_path.write_text(
             "# Extraction notes\n\n"
@@ -271,13 +289,14 @@ def main() -> int:
         "book_slug": args.book_slug,
         "book_dir": str(book_dir.relative_to(REPO_ROOT)),
         "doc_intelligence": {
-            "endpoint": docintel.endpoint,
+            "endpoint": docintel_endpoint,
             "api_version": _azure.DOCINTEL_API_VERSION,
             "model": _azure.DOCINTEL_MODEL,
             "page_count": page_count,
             "ocr_char_count": len(ocr_text),
             "elapsed_seconds": round(di_elapsed, 2),
-            "operation_id": (analyze.get("apiVersion") or "") and result.get("status"),
+            "operation_id": operation_id,
+            "reused_checkpoint": reused_checkpoint,
         },
         "translator": (
             None
@@ -293,7 +312,7 @@ def main() -> int:
         ),
         "outputs": {
             "raw_extract": str(raw_path.relative_to(REPO_ROOT)),
-            "ocr_raw_extract": (str(ocr_raw_path.relative_to(REPO_ROOT)) if not args.no_translate else None),
+            "ocr_raw_extract": str(ocr_raw_path.relative_to(REPO_ROOT)),
             "extraction_notes": str(notes_path.relative_to(REPO_ROOT)),
         },
     }
@@ -301,8 +320,7 @@ def main() -> int:
 
     print()
     print(f"OK: wrote {raw_path.relative_to(REPO_ROOT)}")
-    if not args.no_translate:
-        print(f"OK: wrote {ocr_raw_path.relative_to(REPO_ROOT)}")
+    print(f"OK: wrote {ocr_raw_path.relative_to(REPO_ROOT)}")
     print(f"OK: wrote {prov_path.relative_to(REPO_ROOT)}")
     print()
     print("Next: Phase 0b (English refinement) — see SKILL.md §1.5.")

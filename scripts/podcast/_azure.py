@@ -78,6 +78,7 @@ from _azure_creds import (
     load_translator_creds as load_translator_creds,
 )
 from _azure_http import _http as _http
+from _azure_http import _http_retry as _http_retry
 from _azure_language import (
     LANGUAGE_API_VERSION as LANGUAGE_API_VERSION,
 )
@@ -167,7 +168,7 @@ def docintel_analyze_pdf(
     deadline = time.monotonic() + poll_timeout_s
     while True:
         time.sleep(poll_interval_s)
-        status, _, body = _http(
+        status, _, body = _http_retry(
             "GET",
             op_url,
             headers={"Ocp-Apim-Subscription-Key": creds.key},
@@ -285,7 +286,7 @@ def translate_text(
     translated: list[str] = []
     for chunk in chunks:
         payload = json.dumps([{"text": chunk}]).encode("utf-8")
-        status, _, body = _http("POST", url, headers=headers, body=payload)
+        status, _, body = _http_retry("POST", url, headers=headers, body=payload)
         if status != 200:
             raise RuntimeError(f"Translator failed: HTTP {status}\n{body.decode('utf-8', errors='replace')[:600]}")
         data = json.loads(body)
