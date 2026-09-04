@@ -16,6 +16,7 @@
 import type { APIRoute } from "astro";
 import { claudeComplete } from "../../../lib/ai/claude-client";
 import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
+import { rateLimitCheck } from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
@@ -58,6 +59,21 @@ function stripFences(s: string): string {
 }
 
 export const POST: APIRoute = async ({ request }) => {
+  const limit = rateLimitCheck();
+  if (!limit.ok) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
+  }
+
   let body: Record<string, unknown>;
   try {
     body = await request.json();
