@@ -1,6 +1,11 @@
 # Current work - status
 
-**Last updated:** 2026-09-02 (the Library gained a third collection, author
+**Last updated:** 2026-09-03 (review-and-fix pass: two admin-site path escapes and the dev
+server's exposure of the Library's secrets file are fixed on `review/fixes-2026-09-03`, not
+yet merged; the site's size ratchets are red on `develop` and were not touched — see the
+2026-09-03 entry in copilot-handoff.md)
+
+**Previous — 2026-09-02** (the Library gained a third collection, author
 credits on every card, and read-along for its first audiobook — all of it
 deployed to production)
 

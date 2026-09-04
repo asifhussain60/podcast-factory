@@ -997,3 +997,51 @@ ratchet rather than carried across.
   HTTP call and ffmpeg were faked; everything else (planning, caching, manifest,
   ledger, run log, pruning) ran as production code. **Needs Asif's local run
   before any deploy.**
+
+## 2026-09-03 — Full review-and-fix pass: 15 verified defects, one commit each (Claude Code)
+
+Three gated phases on Asif's instruction: a read-only map, a read-only audit fanned out by
+dimension with an independent adversarial verification of every candidate, then fixes. Of 47
+candidates, 2 were refuted, 12 narrowed, and the 15 P1s Asif approved were fixed on
+`review/fixes-2026-09-03` — NOT merged to `develop`, NOT pushed; the merge is his call.
+
+**What was wrong, in three groups.** The publish chain could report success while the live
+site was wrong (a mid-batch D1 failure leaves a half-book visible and verification accepted
+"more than zero chapters"; the orchestrator's publish phase ran `deploy_listener.sh`, which
+checks out `develop` on a dirty book branch; a failed deploy was swallowed). The watchdog
+treated the audio-drop halt as twenty crashes and then refused to resume on the exhausted
+budget, and a review-failed phase reset its attempt counter so paid retries were unbounded;
+ingest re-billed OCR and translation on every transient Azure error. Quiet omissions: an
+empty Brief analysis was cached as final, a failed diagram was never retried, Imagen spend
+never reached the ledger. Tests: two tests spent six real `claude -p` calls per run; the red
+`test_workers_of_one_is_still_supported` was a flake hiding an unguarded sequential path;
+the e2e workflow never ran the Python half of a mirror pin on a fixture-only commit. Admin
+site: two routes joined a request field straight into a filesystem path (demonstrated
+overwrite of `orchestrator-state.json`); the dev server served `listener/.dev.vars`.
+
+**Fixed, one commit per finding, each with a failing-then-passing test** (15 commits,
+`fda0c9ac`..`6f3d094f`). New: `scripts/podcast/conftest.py` raises a BaseException if any
+test reaches the real `claude` binary (opt out with the `real_claude` marker);
+`_illustrate_resume.py` (illustrate was at its DR-005 ceiling); `_azure_http._http_retry`
+(429/5xx with Retry-After, shared by the translator loop and the Doc Intelligence poll).
+
+- Gates on the branch: Python 5,206 passed / 11 skipped with ZERO shim hits; ruff, DR-005,
+  probe (22 standing AU-V7 P2s), doc links, all mirrors clean. Astro site: lint 0 errors,
+  check clean, 720/723 tests, lint:views 0 errors, build ok, smoke 40 clean. Library:
+  typecheck, lint, ratchets, 902 tests, build, security (all checks passed), smoke 43 routes
+  x 4 widths, controls 112 pressed all did something.
+- **Pre-existing red on `develop`, deliberately NOT touched (out of approved scope):**
+  `plan-dashboard npm run ratchets` (book-composer.ts 4641 lines vs 4341 pin, compose.astro
+  1081 vs 1071, `react-hooks/set-state-in-effect` 21 vs 20); the snapshot parity test fails
+  whenever the 30-day burn is an exact integer (Python emits `111.0`, Node `111` — today it is
+  exactly $111); `mypy scripts tools` dies on the venv's numpy stubs before checking anything.
+- **Unfixed findings Asif has not ruled on** (full list in the Phase 2 report handed to him):
+  the D1 batch publish itself is still non-atomic (only verification was fixed); visibility
+  is flipped before verify in `publish_to_production.py`; the lock's stale-PID branch can
+  steal a live flock; recovery after a publish-phase crash re-runs the whole publish;
+  vowelling turns 429s into refusals the salvage pass skips; the cost cap is checked only
+  between phases; `infra/wisdom-db/setup-wisdom-db.sh` carries a literal sa password and
+  binds 1433 on every interface; two paid `api/ai` routes have no rate limit.
+- Cleanup: OS debris, caches, build outputs and five stale worktrees removed; the tracked
+  `content/**/book/*.bak` files are protected and were left; `git gc` and the local R2 state
+  dir need Asif's explicit yes per the audit contract and were not touched.
