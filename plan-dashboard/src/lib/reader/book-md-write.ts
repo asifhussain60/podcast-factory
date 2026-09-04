@@ -7,12 +7,13 @@
  * Book Composer is the singular path for PDF-bound chapter changes — a rule that
  * only means anything if there is literally one function doing the writing.
  *
- * Everything the route used to do inline happens here, in the same order and for
- * the same reasons: locate the chapter by its heading key, take a one-time
- * `book.md.bak`, carry the pipeline's machine fences across the edit, rewrite the
- * file, and record the durable sidecar entry that `scripts/podcast/_book_edits.py`
- * replays as the final step of every compose. Skip any one of those and an edit
- * survives only until the next pipeline run.
+ * Everything the route used to do inline happens here: locate the chapter by its
+ * heading key, take a one-time `book.md.bak`, carry the pipeline's machine fences
+ * across the edit, record the durable sidecar entry that
+ * `scripts/podcast/_book_edits.py` replays as the final step of every compose, and
+ * rewrite the file. Skip any one of those and an edit survives only until the next
+ * pipeline run. The last two are in that order deliberately — see the note at the
+ * sidecar write.
  */
 import { readFileSync, writeFileSync, existsSync, copyFileSync } from "node:fs";
 import { join } from "node:path";
@@ -27,9 +28,9 @@ export interface ChapterWriteResult {
   path?: string;
   /** What preserveFences() carried across, for the caller's response envelope. */
   fences?: ReturnType<typeof preserveFences>;
-  /** Sidecar outcome. A sidecar failure never fails the write — book.md is
-   *  already saved and is what the Composer previews — but it IS reported, because
-   *  an edit that did not reach the sidecar will not survive the next compose. */
+  /** Sidecar outcome. A sidecar failure never fails the write — book.md is still
+   *  saved and is what the Composer previews — but it IS reported, because an edit
+   *  that did not reach the sidecar will not survive the next compose. */
   sidecar?: { ok: boolean; error?: string };
   /** The body as it stood before this write. Callers that need to reason about
    *  what changed (the vowelling review does) get it without re-reading the file. */
@@ -85,12 +86,7 @@ export function writeChapterBody(
   const previousBody = lines.slice(start + 1, end).join("\n");
   const fences = preserveFences(previousBody, markdown);
 
-  const rebuilt = [...head, "", fences.body, "", ...tail]
-    .join("\n")
-    .replace(/\n{3,}/g, "\n\n");
-  writeFileSync(bookMd, rebuilt.endsWith("\n") ? rebuilt : `${rebuilt}\n`);
-
-  // DURABILITY — the sidecar, written alongside book.md. book.md alone is not
+  // DURABILITY — the sidecar, written BEFORE book.md. book.md alone is not
   // durable: compose_book_v2 regenerates its layers (base -> augment -> voice) on
   // every run, so an edit here survives only until anything upstream re-runs, and
   // vanishes with no report. `baseFingerprint` identifies the COMPOSE this edit
@@ -102,6 +98,14 @@ export function writeChapterBody(
   // introduction and comprehension bridges included, and the replay compares
   // against the composed body from before either is injected — so the numbers
   // could never match and the conflict warning was permanently on.
+  //
+  // ORDER: the sidecar first, book.md second. These are two writes, not one
+  // operation, and a crash between them leaves the author in one of two states.
+  // A sidecar entry not yet spliced into book.md is replayed into place by the
+  // next compose — nothing is lost. An edit in book.md that no sidecar records is
+  // DISCARDED by that same compose, silently, because compose regenerates the
+  // layers book.md is built from. Only one of those two is recoverable, so it is
+  // the one a crash is allowed to produce.
   let sidecar: { ok: boolean; error?: string };
   try {
     recordComposerEdit(bookDir, {
@@ -112,8 +116,16 @@ export function writeChapterBody(
     });
     sidecar = { ok: true };
   } catch (e) {
+    // A sidecar failure still lets book.md be written — it is what the Composer
+    // previews, and refusing the save would lose the author's text outright — but
+    // the caller is told the edit will not survive the next compose.
     sidecar = { ok: false, error: String(e) };
   }
+
+  const rebuilt = [...head, "", fences.body, "", ...tail]
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n");
+  writeFileSync(bookMd, rebuilt.endsWith("\n") ? rebuilt : `${rebuilt}\n`);
 
   return { ok: true, path: bookMd, fences, sidecar, previousBody };
 }

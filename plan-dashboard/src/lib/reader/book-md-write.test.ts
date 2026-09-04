@@ -8,7 +8,13 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -92,6 +98,23 @@ test("an unreadable sidecar is refused, not silently replaced", () => {
     readFileSync(join(dir, "_system", "composer-edits.json"), "utf8"),
     '{"edits": [{"chap',
   );
+});
+
+test("the sidecar is recorded BEFORE book.md, so a failed write loses nothing", () => {
+  // The two writes are not one operation. Whichever runs second, a crash between
+  // them leaves the book in one of two states, and only one of them is
+  // recoverable: a sidecar entry not yet in book.md is replayed into place by the
+  // next compose, while an edit in book.md that no sidecar records is discarded by
+  // that same compose, silently. So the sidecar goes first.
+  const dir = makeBook();
+  chmodSync(join(dir, "book", "book.md"), 0o444); // book.md write will fail
+  assert.throws(() =>
+    writeChapterBody(dir, "on knowledge", "The author's own sentence."),
+  );
+  chmodSync(join(dir, "book", "book.md"), 0o644);
+  const data = sidecar(dir);
+  assert.equal(data.edits.length, 1);
+  assert.equal(data.edits[0].body_md, "The author's own sentence.");
 });
 
 test("an unknown chapter key is refused rather than written somewhere", () => {

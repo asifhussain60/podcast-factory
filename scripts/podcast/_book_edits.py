@@ -29,12 +29,17 @@ Not an LLM step. Pure file I/O over two files.
 
 from __future__ import annotations
 
+import fcntl
 import hashlib
 import json
+import os
 import re
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from uuid import uuid4
 
 SIDECAR_NAME = "composer-edits.json"
 SCHEMA = "podcast.composer-edits/v1"
@@ -151,11 +156,53 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
     This matters more here than anywhere else in the pipeline: a truncated sidecar
     is exactly the input that used to make the next save discard every prior edit,
     and a non-atomic write is what manufactures one.
+
+    The temp name carries this process's pid and a random suffix. It used to be a
+    fixed ``<name>.tmp``, which the TypeScript writer in `composer-edits.ts` also
+    used — so a Composer save and a pipeline write landing together wrote the same
+    temp path, and whichever renamed second published a file the other had already
+    half-overwritten. Atomicity of the rename means nothing when two writers share
+    the thing being renamed.
     """
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_name(path.name + ".tmp")
-    tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    tmp.replace(path)
+    tmp = path.with_name(f"{path.name}.{os.getpid()}.{uuid4().hex[:8]}.tmp")
+    try:
+        tmp.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        tmp.replace(path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+@contextmanager
+def _sidecar_lock(path: Path) -> Iterator[None]:
+    """Hold an exclusive advisory lock across a sidecar read-modify-write.
+
+    `record_edit` reads the whole file, drops one chapter, appends its own and
+    writes the lot back. Two writers interleaving on that sequence do not corrupt
+    the file — they silently drop whichever chapter the loser had loaded before
+    the winner's write landed. The Composer's save and `rearticulate_chapter.py`
+    are exactly two such writers, and they are routinely run at the same time.
+
+    `fcntl.flock` on a sibling lock file, the same idiom `_cost_ledger.py` uses to
+    serialise its appends across parallel workers. A separate file rather than the
+    sidecar itself, because the sidecar is replaced by rename on every write and a
+    lock held on the replaced inode guards nothing.
+
+    NOT held by the TypeScript writer: Node has no flock binding, and adding a
+    dependency or a hand-rolled lock-file protocol to get one would be a bigger
+    change than the race warrants. What that side does instead is write through a
+    uniquely-named temp file and rename, so it can never publish a torn file, and
+    it re-reads the sidecar immediately before writing so its window is a few
+    microseconds of synchronous I/O rather than the whole request.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock = path.with_name(path.name + ".lock")
+    with lock.open("a", encoding="utf-8") as fh:
+        fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(fh.fileno(), fcntl.LOCK_UN)
 
 
 def record_edit(
@@ -172,20 +219,21 @@ def record_edit(
     existing sidecar cannot be parsed — see that exception's docstring.
     """
     book_dir = Path(book_dir)
-    data = load_edits(book_dir, strict=True)
-    edits = [e for e in data["edits"] if e.get("chapter_key") != chapter_key]
-    edits.append(
-        {
-            "chapter_key": chapter_key,
-            "body_md": body_md,
-            "base_fingerprint": base_fingerprint,
-            "saved_at": saved_at,
-        }
-    )
-    data["schema"] = SCHEMA
-    data["edits"] = edits
     path = sidecar_path(book_dir)
-    _write_json_atomic(path, data)
+    with _sidecar_lock(path):
+        data = load_edits(book_dir, strict=True)
+        edits = [e for e in data["edits"] if e.get("chapter_key") != chapter_key]
+        edits.append(
+            {
+                "chapter_key": chapter_key,
+                "body_md": body_md,
+                "base_fingerprint": base_fingerprint,
+                "saved_at": saved_at,
+            }
+        )
+        data["schema"] = SCHEMA
+        data["edits"] = edits
+        _write_json_atomic(path, data)
     return path
 
 

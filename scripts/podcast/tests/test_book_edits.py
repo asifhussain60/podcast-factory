@@ -215,6 +215,50 @@ def test_sidecar_writes_are_atomic(tmp_path: Path) -> None:
     assert not list((bd / "_system").glob("*.tmp"))
 
 
+def test_interleaved_edits_to_different_chapters_both_survive(tmp_path: Path) -> None:
+    """Two writers, two chapters, one file — and neither may lose the other.
+
+    ``record_edit`` is a whole-file read-modify-write, so a Composer save landing
+    while ``rearticulate_chapter.py`` or ``compose_fix.py`` is writing the same
+    sidecar computes its new list from a snapshot taken before the other's write
+    landed, and the later write drops the earlier chapter entirely. The file is
+    never corrupt — it is just missing an author's chapter, which is worse,
+    because nothing reports it.
+
+    The delay below is injected INSIDE the load-modify-write window on purpose:
+    it is the interleaving the lock has to make impossible, not a timing
+    coincidence to hope against.
+    """
+    import threading
+    import time
+
+    import _book_edits
+
+    bd = _book(tmp_path)
+    real_load = _book_edits.load_edits
+
+    def slow_load(book_dir: Path, **kwargs: object) -> dict[str, object]:
+        data = real_load(book_dir, **kwargs)  # type: ignore[arg-type]
+        time.sleep(0.2)
+        return data
+
+    _book_edits.load_edits = slow_load  # type: ignore[assignment]
+    try:
+        threads = [
+            threading.Thread(target=record_edit, args=(bd,), kwargs={"chapter_key": key, "body_md": key})
+            for key in ("on knowledge", "on patience")
+        ]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+    finally:
+        _book_edits.load_edits = real_load  # type: ignore[assignment]
+
+    keys = {e["chapter_key"] for e in load_edits(bd)["edits"]}
+    assert keys == {"on knowledge", "on patience"}
+
+
 # ─── what the compose stages ask before spending a model call ────────────────
 def test_edited_chapters_are_discoverable_by_the_compose_stages(tmp_path: Path) -> None:
     bd = _book(tmp_path)
