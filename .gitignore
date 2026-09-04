@@ -395,6 +395,11 @@ content/**/_system/translation-run.log
 # the tree dirty. Observed the first time the heartbeat ran.
 content/**/_system/status-card.txt
 
+# Advisory lock file for the Composer sidecar read-modify-write (_book_edits.py).
+# An empty file whose only content is the flock the kernel holds on it — state
+# that exists for the duration of one write, never something to track.
+content/**/_system/composer-edits.json.lock
+
 # Intake commission briefs: the written commission is tracked history; the copied
 # source files beside it are not (same reason content/**/_source/ is ignored).
 content/_system/briefs/*/source/

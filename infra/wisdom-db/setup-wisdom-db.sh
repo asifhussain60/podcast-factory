@@ -10,6 +10,8 @@
 #
 # Prerequisites:
 #   - Docker (OrbStack or Docker Desktop) installed and running
+#   - MSSQL_SA_PASSWORD exported (the local container's sa password; see
+#     .env.example) — the same variable tools/source_extractor/db.py reads
 #   - SQL dump files present at CONTENT/_shared/source-library/
 #     (KQur.sql 15 MB, KSessions.sql 29 MB, Kashkole.sql 724 MB)
 #
@@ -20,7 +22,9 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SQL_DIR="$REPO_ROOT/CONTENT/_shared/source-library"
 CONTAINER="wisdom-mssql"
-PASSWORD="Kashkole_Local_2026!"
+# The sa password is supplied by the environment, never committed. `:?` makes
+# an unset variable abort the run rather than fall back to a readable default.
+PASSWORD="${MSSQL_SA_PASSWORD:?MSSQL_SA_PASSWORD is not set. Export the local SQL Server container sa password first, e.g. \`export MSSQL_SA_PASSWORD=...\` (see .env.example).}"
 IMAGE="mcr.microsoft.com/mssql/server:2022-latest"
 
 # ── colours ──────────────────────────────────────────────────────────────────
@@ -52,7 +56,7 @@ else
         -e "ACCEPT_EULA=Y" \
         -e "SA_PASSWORD=$PASSWORD" \
         -e "MSSQL_PID=Developer" \
-        -p 1433:1433 \
+        -p 127.0.0.1:1433:1433 \
         "$IMAGE" &>/dev/null
     ok "Container created"
 fi

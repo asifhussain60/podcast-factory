@@ -13,11 +13,13 @@
  * The route writes; nothing here reads it back at request time. Reading is the
  * pipeline's job.
  */
+import { randomBytes } from "node:crypto";
 import {
   existsSync,
   mkdirSync,
   readFileSync,
   renameSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
 import { join } from "node:path";
@@ -105,11 +107,24 @@ function loadSidecar(bookDir: string): Sidecar {
   return { schema: SCHEMA, edits: parsed.edits as ComposerEdit[] };
 }
 
-/** Write via temp file + rename, so a crash cannot leave a half-written sidecar. */
+/**
+ * Write via temp file + rename, so a crash cannot leave a half-written sidecar.
+ *
+ * The temp name carries this process's pid and a random suffix. It used to be a
+ * fixed `<name>.tmp` — the SAME name `scripts/podcast/_book_edits.py` used — so a
+ * Composer save and a pipeline write landing together wrote one temp file between
+ * them, and whichever renamed second published bytes the other had already
+ * half-overwritten. An atomic rename guarantees nothing when both writers are
+ * renaming the same source.
+ */
 function writeAtomic(path: string, payload: Sidecar): void {
-  const tmp = `${path}.tmp`;
-  writeFileSync(tmp, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
-  renameSync(tmp, path);
+  const tmp = `${path}.${process.pid}.${randomBytes(4).toString("hex")}.tmp`;
+  try {
+    writeFileSync(tmp, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+    renameSync(tmp, path);
+  } finally {
+    rmSync(tmp, { force: true });
+  }
 }
 
 /** Persist one chapter edit. Last write per chapter wins. */

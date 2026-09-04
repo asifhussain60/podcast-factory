@@ -36,6 +36,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _production_publish import ACCOUNT_ID, cloudflare_env  # noqa: E402
+from _wrangler import run as wrangler  # noqa: E402
 from upload_listener_media import BUCKET, LISTENER  # noqa: E402
 
 API_ROOT = f"https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/r2/buckets/{BUCKET}/objects"
@@ -90,7 +91,7 @@ def db_keys(*, remote: bool, env: dict[str, str]) -> set[str]:
             return set()
         return {r[0] for r in rows}
 
-    r = subprocess.run(
+    r = wrangler(
         [
             "npx",
             "wrangler",
@@ -104,8 +105,6 @@ def db_keys(*, remote: bool, env: dict[str, str]) -> set[str]:
         ],
         cwd=LISTENER,
         env={**os.environ, **env},
-        capture_output=True,
-        text=True,
     )
     start = r.stdout.find("[")
     if r.returncode != 0 or start < 0:

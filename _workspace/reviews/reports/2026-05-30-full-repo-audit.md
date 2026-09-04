@@ -10,7 +10,7 @@
 **File**: `tools/source_extractor/db.py` lines 10–11
 ```python
 CONTAINER = "wisdom-mssql"
-PASSWORD = "Kashkole_Local_2026!"
+PASSWORD = "[redacted 2026-09-04 - value scrubbed; it survives in the repo history and the container password should be rotated]"
 ```
 **Impact**: Credential in git history; rotation breaks all three remote DB queries.
 **Fix**: Move to Mac Keychain (`security find-generic-password -s wisdom-mssql -w`). Same pattern as `gemini_api_key`. Update `db.py` to call `keychain_get("wisdom-mssql")`.

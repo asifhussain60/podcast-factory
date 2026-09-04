@@ -34,8 +34,7 @@ function walk(dir: string): string[] {
 
 test("a valid chapter scope writes under _system/editorial/", () => {
   const root = makeRoot();
-  const doc = setEditorialCard(SLUG, "ch-01", "audience", {
-    kind: "choice",
+  const doc = setEditorialCard(SLUG, "ch-01", "key_focus", {
     preset: "general",
   });
   assert.equal(doc.scope, "ch-01");
@@ -61,8 +60,7 @@ for (const scope of ["../x", "../../../../escaped", "a/b", "..", "Ch 1", ""]) {
     const before = walk(root);
     assert.throws(
       () =>
-        setEditorialCard(SLUG, scope, "audience", {
-          kind: "choice",
+        setEditorialCard(SLUG, scope, "key_focus", {
           preset: "general",
         }),
       /scope/,

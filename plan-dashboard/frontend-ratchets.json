@@ -35,8 +35,8 @@
       "src/components/studio/editor/StudioEditor.tsx": 2315,
       "src/pages/intelligence.astro": 1271,
       "src/pages/pipeline-paths.astro": 2684,
-      "src/pages/studio/[slug]/compose.astro": 1071,
-      "src/scripts/book-composer.ts": 4341
+      "src/pages/studio/[slug]/compose.astro": 1020,
+      "src/scripts/book-composer.ts": 4271
     }
   }
 }

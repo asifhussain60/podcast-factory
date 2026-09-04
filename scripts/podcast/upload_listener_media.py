@@ -49,6 +49,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _listener_book import LISTENER  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 from _production_publish import account_ok, cloudflare_env  # noqa: E402
+from _wrangler import TRANSFER_TIMEOUT  # noqa: E402
+from _wrangler import run as wrangler  # noqa: E402
 
 BUCKET = "podcast-listener-media"
 DATABASE = "podcast-listener"
@@ -56,7 +58,7 @@ DATABASE = "podcast-listener"
 
 def d1(sql: str, *, remote: bool) -> list[dict]:
     """Run one statement and return its rows."""
-    out = subprocess.run(
+    out = wrangler(
         [
             "npx",
             "wrangler",
@@ -69,8 +71,6 @@ def d1(sql: str, *, remote: bool) -> list[dict]:
             sql,
         ],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
         check=True,
     ).stdout
 
@@ -118,11 +118,9 @@ def bucket_exists(*, remote: bool) -> bool:
     if not remote:
         return True
 
-    result = subprocess.run(
+    result = wrangler(
         ["npx", "wrangler", "r2", "bucket", "info", BUCKET],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
     )
     return result.returncode == 0
 
@@ -132,7 +130,9 @@ def upload(row: dict, *, remote: bool) -> None:
     if not path.exists():
         raise FileNotFoundError(row["source_path"])
 
-    subprocess.run(
+    # A whole recording moves here — the largest is ~300 MB — so this call takes
+    # the longer transfer deadline rather than the default one.
+    wrangler(
         [
             "npx",
             "wrangler",
@@ -147,15 +147,14 @@ def upload(row: dict, *, remote: bool) -> None:
             "--remote" if remote else "--local",
         ],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
         check=True,
+        timeout=TRANSFER_TIMEOUT,
     )
 
 
 def object_exists(key: str, *, remote: bool) -> bool:
     with tempfile.TemporaryDirectory(prefix="pf-r2-check-") as tmp:
-        result = subprocess.run(
+        result = wrangler(
             [
                 "npx",
                 "wrangler",
@@ -168,8 +167,7 @@ def object_exists(key: str, *, remote: bool) -> bool:
                 "--remote" if remote else "--local",
             ],
             cwd=LISTENER,
-            capture_output=True,
-            text=True,
+            timeout=TRANSFER_TIMEOUT,
         )
     return result.returncode == 0
 
@@ -183,7 +181,7 @@ def delete_object(key: str, *, remote: bool) -> bool:
     stopped being wanted. That is the publish step, which is the only thing that
     ever removes a `media_asset` row.
     """
-    result = subprocess.run(
+    result = wrangler(
         [
             "npx",
             "wrangler",
@@ -194,8 +192,6 @@ def delete_object(key: str, *, remote: bool) -> bool:
             "--remote" if remote else "--local",
         ],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
     )
     return result.returncode == 0
 

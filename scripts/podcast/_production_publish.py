@@ -529,12 +529,12 @@ def account_ok(env: dict[str, str], listener_dir: Path) -> tuple[bool, str]:
     """
     import subprocess
 
+    from _wrangler import run as wrangler
+
     try:
-        out = subprocess.run(
+        out = wrangler(
             ["npx", "wrangler", "whoami"],
             cwd=str(listener_dir),
-            capture_output=True,
-            text=True,
             env=env,
             timeout=120,
         ).stdout

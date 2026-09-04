@@ -44,6 +44,37 @@ def real_spend_usd(book_dir: Path) -> float:
     return float(summarize(load_ledger(ledger)).get("real_spend_usd", 0.0))
 
 
+class CostCeilingReached(RuntimeError):
+    """This book's real-money hard cap was reached in the MIDDLE of a phase."""
+
+
+def refuse_if_over_ceiling(book_dir: Path, *, lane: str) -> None:
+    """Refuse to start another batch of PAID calls once the hard cap is reached.
+
+    `cost_ceiling_check` was called in exactly three places — the resume
+    dispatcher, the run supervisor, and each convergence iteration — all of them
+    phase or iteration boundaries. So a lane that fans out hundreds of paid calls
+    INSIDE one phase could run the cap into the ground and only be noticed when
+    the phase ended: the vowelling sweep at eight concurrent threads over every
+    Arabic run in a book, narration buying a clip per paragraph, the video layer
+    generating an image per slide.
+
+    This is the SAME check, nothing new — it reads the same ledger and applies the
+    same thresholds. Inventing a second cap mechanism would give the two answers
+    a way to disagree. One pass over one JSONL file is nothing beside the calls it
+    guards, so it is cheap enough to run per batch.
+
+    Only "halt" refuses. "warn" is the soft cap, whose whole point is that the run
+    continues.
+    """
+    check = cost_ceiling_check(Path(book_dir))
+    if check["action"] == "halt":
+        raise CostCeilingReached(
+            f"{lane}: this book has spent ${check['real_spend_usd']:.2f} of real money, "
+            f"at or past its ${check['hard']:.2f} hard cap — refusing further paid calls"
+        )
+
+
 def cost_ceiling_check(book_dir: Path) -> dict:
     """Return {action, real_spend_usd, soft, hard}.
 

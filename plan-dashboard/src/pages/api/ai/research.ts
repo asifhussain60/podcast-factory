@@ -17,7 +17,10 @@
  */
 
 import type { APIRoute } from "astro";
-import { generateWithGrounding } from "../../../lib/reader/gemini-server";
+import {
+  generateWithGrounding,
+  rateLimitCheck,
+} from "../../../lib/reader/gemini-server";
 
 export const prerender = false;
 
@@ -33,6 +36,21 @@ const ACTION_INTROS: Record<string, string> = {
 };
 
 export const POST: APIRoute = async ({ request }) => {
+  const limit = rateLimitCheck();
+  if (!limit.ok) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        error: "rate_limited",
+        retryMs: limit.retryMs,
+      }),
+      {
+        status: 429,
+        headers: { "content-type": "application/json" },
+      },
+    );
+  }
+
   let body: {
     paragraphText: string;
     instruction: string;

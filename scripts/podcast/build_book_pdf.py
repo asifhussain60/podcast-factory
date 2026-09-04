@@ -32,7 +32,9 @@ Standalone:
 from __future__ import annotations
 
 import json
+import os
 import shutil
+import signal
 import subprocess
 import sys
 from pathlib import Path
@@ -97,6 +99,57 @@ def _book_title(book_dir: Path) -> str:
     return _edition_title(book_dir)
 
 
+#: How long one book may take to render before the run is treated as stuck.
+#: Generous — the longest edition in the repo takes a couple of minutes — but
+#: finite, because an unbounded render is a phase that neither finishes nor
+#: fails, which is the one outcome the watchdog cannot act on.
+RENDER_TIMEOUT = 900.0
+
+
+def _run_renderer(
+    argv: list[str], *, cwd: "Path | str | None" = None, timeout: "float | None" = None
+) -> "subprocess.CompletedProcess[str]":
+    """Run the Playwright renderer under a deadline, and take its tree with it.
+
+    `start_new_session=True` puts the renderer in its OWN process group. That is
+    the half a plain timeout misses: Chromium spawns helper processes, and
+    killing only the command we launched leaves them running with their profile
+    directories behind — five of those in temp were the evidence this had already
+    happened. On a timeout the whole group is signalled, so nothing outlives the
+    render that started it.
+
+    A non-zero exit is RETURNED, not raised: the caller distinguishes rc 3 (no
+    Chromium installed) from every other failure and writes a different fallback
+    for each.
+    """
+    limit = RENDER_TIMEOUT if timeout is None else timeout
+    proc = subprocess.Popen(
+        argv,
+        cwd=cwd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        start_new_session=True,
+    )
+    try:
+        stdout, stderr = proc.communicate(timeout=limit)
+    except subprocess.TimeoutExpired as error:
+        try:
+            os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+        except (ProcessLookupError, PermissionError, OSError):
+            proc.kill()
+        proc.communicate()
+        # No manual_fallback on purpose: a hung browser is a thing to try again,
+        # not a thing for a person to go and fix by hand, and `manual_fallback`
+        # is what tells the watchdog to stop rather than retry.
+        raise AuthoringError(
+            phase="0book-render",
+            message=f"the renderer did not finish within {limit:.0f}s and was stopped.",
+        ) from error
+
+    return subprocess.CompletedProcess(argv, proc.returncode, stdout, stderr)
+
+
 def _pick_book_md(book_dir: Path) -> Path:
     """The render input is always the diagram-free book.md.
 
@@ -138,7 +191,7 @@ def build_book(
     # The renderer honors book/visual-layout.json + the unified pagination CSS,
     # plus (when self_study) the opt-in self-study aside/list layer.
     log(f"    0book-render: {book_dir.name}: {src_label} -> {out_pdf.name} (Playwright)")
-    proc = subprocess.run(
+    proc = _run_renderer(
         [
             "node",
             str(_RENDER_SCRIPT),
@@ -149,8 +202,6 @@ def build_book(
             "1" if self_study else "0",
         ],
         cwd=_DASHBOARD,
-        capture_output=True,
-        text=True,
     )
     if proc.returncode == 3:
         raise AuthoringError(

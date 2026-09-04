@@ -108,6 +108,13 @@ import ComposeDetailsTab from "../components/studio/compose/ComposeDetailsTab";
 import { createChapterToolsController } from "./book-composer-chapter-tools";
 import { createPasteFixController } from "./book-composer-paste-fix";
 import {
+  applyEditorReadingAssistant,
+  applyReadingAssistant,
+  clearEditorReadingAssistant,
+  clearReadingAssistant,
+} from "./compose-reading-assistant";
+import { createPlacementFields } from "./compose-placement-fields";
+import {
   REWRITE_MODES,
   ETYMOLOGY_ACTION,
   DIACRITICS_ACTION,
@@ -239,264 +246,6 @@ export const COMPOSE_TOOLBAR_ICONS = TOOLBAR_ICONS;
  *  open the new chapter at its beginning rather than where the last one ended. */
 const SCROLL_TOP_ON_BOOT = "cx-scroll-top-on-boot";
 
-const READING_ASSISTANT_SENTENCE_CLASS = "cx-reading-assistant-sentence";
-const READING_ASSISTANT_FOCUS_CLASS = "cx-reading-assistant-sentence--focus";
-const READING_ASSISTANT_EDITOR_HIGHLIGHT = "cx-reading-assistant-focus";
-
-type ReadingHighlightRegistry = {
-  delete(name: string): void;
-  set(name: string, highlight: object): void;
-};
-
-function readingHighlightRegistry(): ReadingHighlightRegistry | null {
-  return (
-    (CSS as typeof CSS & { highlights?: ReadingHighlightRegistry })
-      .highlights ?? null
-  );
-}
-
-function clearEditorReadingAssistant(): void {
-  readingHighlightRegistry()?.delete(READING_ASSISTANT_EDITOR_HIGHLIGHT);
-}
-
-function splitReadingAssistantSentences(text: string): string[] {
-  return (
-    text.match(
-      /[^.!?\u061f\u06d4]+(?:[.!?\u061f\u06d4]+["'\u2019\u201d)]*|$)\s*/gu,
-    ) ?? [text]
-  );
-}
-
-function clearReadingAssistant(root: ParentNode): void {
-  root
-    .querySelectorAll<HTMLElement>(`.${READING_ASSISTANT_SENTENCE_CLASS}`)
-    .forEach((sentence) => {
-      sentence.replaceWith(...sentence.childNodes);
-    });
-}
-
-function readingAssistantWordSet(text: string): Set<string> {
-  const stopWords = new Set([
-    "a",
-    "an",
-    "and",
-    "are",
-    "as",
-    "at",
-    "be",
-    "been",
-    "but",
-    "by",
-    "for",
-    "from",
-    "had",
-    "has",
-    "have",
-    "he",
-    "her",
-    "his",
-    "i",
-    "in",
-    "is",
-    "it",
-    "its",
-    "not",
-    "of",
-    "on",
-    "or",
-    "our",
-    "she",
-    "that",
-    "the",
-    "their",
-    "them",
-    "there",
-    "they",
-    "this",
-    "to",
-    "was",
-    "we",
-    "were",
-    "which",
-    "who",
-    "will",
-    "with",
-    "you",
-    "your",
-  ]);
-  return new Set(
-    (text.toLocaleLowerCase().match(/[\p{L}\p{N}]{3,}/gu) ?? []).filter(
-      (word) => !stopWords.has(word),
-    ),
-  );
-}
-
-function applyReadingAssistant(root: ParentNode): void {
-  clearReadingAssistant(root);
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      const parent = node.parentElement;
-      if (!parent || !node.textContent?.trim()) return NodeFilter.FILTER_REJECT;
-      if (
-        parent.closest(
-          "script, style, h1, h2, h3, h4, h5, h6, audio, video, button, .cx-note-hl",
-        )
-      ) {
-        return NodeFilter.FILTER_REJECT;
-      }
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  });
-  const textNodes: Text[] = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode as Text);
-
-  const sentences: HTMLElement[] = [];
-  for (const textNode of textNodes) {
-    const fragment = document.createDocumentFragment();
-    for (const part of splitReadingAssistantSentences(textNode.data)) {
-      if (!part.trim()) {
-        fragment.append(part);
-        continue;
-      }
-      const sentence = document.createElement("span");
-      sentence.className = READING_ASSISTANT_SENTENCE_CLASS;
-      sentence.textContent = part;
-      sentences.push(sentence);
-      fragment.append(sentence);
-    }
-    textNode.replaceWith(fragment);
-  }
-
-  const groups = new Map<Element, HTMLElement[]>();
-  for (const sentence of sentences) {
-    const block = sentence.closest("p, li, blockquote, figcaption, dd, dt");
-    if (!block) continue;
-    const group = groups.get(block) ?? [];
-    group.push(sentence);
-    groups.set(block, group);
-  }
-
-  for (const candidates of groups.values()) {
-    const wordSets = candidates.map((candidate) =>
-      readingAssistantWordSet(candidate.textContent ?? ""),
-    );
-    let bestIndex = 0;
-    let bestScore = Number.NEGATIVE_INFINITY;
-    candidates.forEach((candidate, index) => {
-      let sharedWords = 0;
-      for (const word of wordSets[index]) {
-        for (
-          let otherIndex = 0;
-          otherIndex < wordSets.length;
-          otherIndex += 1
-        ) {
-          if (otherIndex !== index && wordSets[otherIndex].has(word))
-            sharedWords += 1;
-        }
-      }
-      const textLength = (candidate.textContent ?? "").trim().length;
-      const score =
-        sharedWords * 4 +
-        Math.min(wordSets[index].size, 18) +
-        (index === 0 ? 3 : 0) -
-        (textLength < 24 ? 8 : 0);
-      if (score > bestScore) {
-        bestScore = score;
-        bestIndex = index;
-      }
-    });
-    candidates[bestIndex]?.classList.add(READING_ASSISTANT_FOCUS_CLASS);
-  }
-}
-
-function applyEditorReadingAssistant(editor: HTMLElement): boolean {
-  clearEditorReadingAssistant();
-  const registry = readingHighlightRegistry();
-  const HighlightConstructor = (
-    globalThis as typeof globalThis & {
-      Highlight?: new (...ranges: Range[]) => object;
-    }
-  ).Highlight;
-  if (!registry || !HighlightConstructor) return false;
-
-  const groups = new Map<Element, Array<{ range: Range; text: string }>>();
-  const walker = document.createTreeWalker(editor, NodeFilter.SHOW_TEXT, {
-    acceptNode(node) {
-      const parent = node.parentElement;
-      if (!parent || !node.textContent?.trim()) return NodeFilter.FILTER_REJECT;
-      if (parent.closest("script, style, button, [contenteditable='false']")) {
-        return NodeFilter.FILTER_REJECT;
-      }
-      return parent.closest("p, li, blockquote, figcaption, dd, dt")
-        ? NodeFilter.FILTER_ACCEPT
-        : NodeFilter.FILTER_REJECT;
-    },
-  });
-
-  const textNodes: Text[] = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode as Text);
-  for (const textNode of textNodes) {
-    const block = textNode.parentElement?.closest(
-      "p, li, blockquote, figcaption, dd, dt",
-    );
-    if (!block) continue;
-    let offset = 0;
-    for (const part of splitReadingAssistantSentences(textNode.data)) {
-      const leadingLength = part.match(/^\s*/u)?.[0].length ?? 0;
-      const trailingLength = part.match(/\s*$/u)?.[0].length ?? 0;
-      const start = offset + leadingLength;
-      const end = offset + part.length - trailingLength;
-      offset += part.length;
-      if (end <= start) continue;
-      const range = document.createRange();
-      range.setStart(textNode, start);
-      range.setEnd(textNode, end);
-      const group = groups.get(block) ?? [];
-      group.push({ range, text: textNode.data.slice(start, end) });
-      groups.set(block, group);
-    }
-  }
-
-  const focusRanges: Range[] = [];
-  for (const candidates of groups.values()) {
-    const wordSets = candidates.map((candidate) =>
-      readingAssistantWordSet(candidate.text),
-    );
-    let bestIndex = 0;
-    let bestScore = Number.NEGATIVE_INFINITY;
-    candidates.forEach((candidate, index) => {
-      let sharedWords = 0;
-      for (const word of wordSets[index]) {
-        for (
-          let otherIndex = 0;
-          otherIndex < wordSets.length;
-          otherIndex += 1
-        ) {
-          if (otherIndex !== index && wordSets[otherIndex].has(word))
-            sharedWords += 1;
-        }
-      }
-      const score =
-        sharedWords * 4 +
-        Math.min(wordSets[index].size, 18) +
-        (index === 0 ? 3 : 0) -
-        (candidate.text.length < 24 ? 8 : 0);
-      if (score > bestScore) {
-        bestScore = score;
-        bestIndex = index;
-      }
-    });
-    if (candidates[bestIndex]) focusRanges.push(candidates[bestIndex].range);
-  }
-
-  if (focusRanges.length === 0) return false;
-  registry.set(
-    READING_ASSISTANT_EDITOR_HIGHLIGHT,
-    new HighlightConstructor(...focusRanges),
-  );
-  return true;
-}
-
 function boot(): void {
   // A chapter switch that had to save first reloads the page, and the browser
   // RESTORES scroll across a reload — so the new chapter opened at the foot of
@@ -534,6 +283,22 @@ function boot(): void {
   const sessionsLane = !!data.sessionsLane;
   const visualsById = new Map(data.visuals.map((v) => [v.id, v]));
   const chapterByKey = new Map(data.chapters.map((c) => [c.key, c]));
+
+  // The floating figure card's seven controls. Built here rather than beside
+  // their one caller so the binding exists before the first render() runs.
+  const {
+    alignField,
+    flowField,
+    widthField,
+    anchorField,
+    positionField,
+    captionField,
+    pageFitField,
+  } = createPlacementFields({
+    chapters: data.chapters,
+    chapterByKey,
+    update: (visualId, patch) => update(visualId, patch),
+  });
 
   // Cache each chapter's pristine prose body so every re-render re-inserts the
   // placed figures inline (at the exact paragraph the PDF would use) without
@@ -4123,142 +3888,6 @@ function boot(): void {
     setAiStatus(
       "Etymology inserted into the prose and filed to the Companion Panel.",
     );
-  }
-
-  function field(label: string, control: HTMLElement): HTMLElement {
-    const wrap = document.createElement("div");
-    wrap.className = "cx-field";
-    const l = document.createElement("label");
-    l.textContent = label;
-    wrap.append(l, control);
-    return wrap;
-  }
-
-  function alignField(p: Placement): HTMLElement {
-    const row = document.createElement("div");
-    row.className = "cx-btn-row";
-    (["left", "center", "right"] as Align[]).forEach((a) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "cx-toggle";
-      b.textContent = a;
-      b.setAttribute("aria-pressed", String(p.align === a));
-      b.addEventListener("click", () => update(p.visual_id, { align: a }));
-      row.appendChild(b);
-    });
-    return field("Alignment", row);
-  }
-
-  function flowField(p: Placement): HTMLElement {
-    const row = document.createElement("div");
-    row.className = "cx-btn-row";
-    (["standalone", "wrap"] as Flow[]).forEach((f) => {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "cx-toggle";
-      b.textContent = f === "wrap" ? "wrap text" : "standalone";
-      b.setAttribute("aria-pressed", String(p.flow === f));
-      b.disabled = f === "wrap" && p.align === "center";
-      // Choosing wrap clamps width into the contract (<=50%) so the user's intent
-      // is honored rather than silently reverted to standalone.
-      b.addEventListener("click", () =>
-        update(
-          p.visual_id,
-          f === "wrap"
-            ? { flow: f, width_pct: Math.min(p.width_pct, WRAP_MAX) }
-            : { flow: f },
-        ),
-      );
-      row.appendChild(b);
-    });
-    return field("Flow", row);
-  }
-
-  function widthField(p: Placement): HTMLElement {
-    const input = document.createElement("input");
-    input.type = "range";
-    input.min = "10";
-    input.max = String(p.flow === "wrap" ? WRAP_MAX : 100);
-    input.step = "5";
-    input.value = String(p.width_pct);
-    input.setAttribute("aria-label", "Width percent");
-    input.addEventListener("input", () =>
-      update(p.visual_id, { width_pct: Number(input.value) }),
-    );
-    return field(`Width — ${p.width_pct}%`, input);
-  }
-
-  function anchorField(p: Placement): HTMLElement {
-    const sel = document.createElement("select");
-    sel.setAttribute("aria-label", "Anchor chapter");
-    data.chapters.forEach((c) => {
-      const o = document.createElement("option");
-      o.value = c.anchor;
-      o.textContent = c.title;
-      o.selected = anchorKey(c.anchor) === anchorKey(p.anchor);
-      sel.appendChild(o);
-    });
-    // Moving to a different chapter resets the paragraph position to the default.
-    sel.addEventListener("change", () =>
-      update(p.visual_id, { anchor: sel.value, anchor_para: null }),
-    );
-    return field("Anchor chapter", sel);
-  }
-
-  function positionField(p: Placement): HTMLElement {
-    const paras = chapterByKey.get(anchorKey(p.anchor))?.paras ?? 0;
-    const sel = document.createElement("select");
-    const opt = (value: string, label: string, selected: boolean) => {
-      const o = document.createElement("option");
-      o.value = value;
-      o.textContent = label;
-      o.selected = selected;
-      sel.appendChild(o);
-    };
-    sel.setAttribute("aria-label", "Position in chapter");
-    opt("", "After intro (default)", p.anchor_para == null);
-    opt("0", "Chapter top", p.anchor_para === 0);
-    for (let i = 1; i <= paras; i += 1)
-      opt(String(i), `After paragraph ${i}`, p.anchor_para === i);
-    sel.addEventListener("change", () =>
-      update(p.visual_id, {
-        anchor_para: sel.value === "" ? null : Number(sel.value),
-      }),
-    );
-    return field("Position in chapter", sel);
-  }
-
-  function captionField(p: Placement): HTMLElement {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = p.caption;
-    input.placeholder = "Caption (optional)";
-    input.setAttribute("aria-label", "Caption");
-    input.addEventListener("change", () =>
-      update(p.visual_id, { caption: input.value }),
-    );
-    return field("Caption", input);
-  }
-
-  function pageFitField(p: Placement): HTMLElement {
-    const sel = document.createElement("select");
-    sel.setAttribute("aria-label", "Page fit");
-    (["avoid", "before", "isolate-plate"] as PageFit[]).forEach((f) => {
-      const o = document.createElement("option");
-      o.value = f;
-      o.textContent =
-        f === "avoid"
-          ? "keep together"
-          : f === "before"
-            ? "start on new page"
-            : "own page";
-      o.selected = p.page_fit === f;
-      sel.appendChild(o);
-    });
-    sel.addEventListener("change", () =>
-      update(p.visual_id, { page_fit: sel.value as PageFit }),
-    );
-    return field("Page fit", sel);
   }
 
   // ── drag targets: drop a visual onto a specific paragraph, not just a chapter ─

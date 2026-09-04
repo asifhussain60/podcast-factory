@@ -12,6 +12,7 @@
 import { readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import Base from "../../../layouts/Base.astro";
+import ComposeHeader from "../../../components/studio/compose/ComposeHeader.astro";
 import { loadComposer } from "../../../lib/reader/composer";
 import { findContentDirSync, slugToTitle } from "../../../lib/content-paths";
 // The book's Arabic face / size / ink options. Shared with the editor toolbar
@@ -165,73 +166,11 @@ const TRANSLATION_FONTS = [
   {
     view?.hasBook ? (
       <div class:list={composerClass} data-slug={slug}>
-        <header class="cx-composer-header">
-          <div class="lib-hero-main">
-            <div class="lib-breadcrumb">
-              <a href="/studio">Studio</a>
-              <span class="lib-sep">›</span>
-              <span>Book Composer</span>
-            </div>
-            <div class="lib-title-row">
-              <h1>{bookTitle}</h1>
-            </div>
-            <p class="composer-sub">
-              Work one chapter at a time. The chapter opens in the editor —
-              reshape prose with the AI actions in Refinement, and set citation
-              styles in Citations.
-            </p>
-          </div>
-          {/* The book's two PDF actions, and nothing else. They sit AFTER the
-              identity block in the DOM and bottom-right in the layout (Asif,
-              2026-08-02) — the row above the title used to carry Preview and
-              Edit & Enrich too, which read as page navigation and pushed the
-              title down; those entries are gone and the pair now sits in the
-              header's own empty right-hand space, beside the description. */}
-          <div class="cx-header-actions" role="group" aria-label="Book PDF">
-            {/* A button, not a link: it acts in place (flush edits → confirm →
-                render book/book.pdf via /api/studio/generate-book-pdf). Wired in
-                book-composer.ts. */}
-            <button type="button" class="cx-hdr-btn" id="cx-generate-pdf">
-              <i class="fa-solid fa-file-pdf" aria-hidden="true" /> Generate PDF
-            </button>
-            {/* Always present so the header never reflows — but DISABLED
-                (aria-disabled, no href, no tab stop) until a rendered PDF
-                actually exists on disk. Pre-filled server-side from the newest
-                book/*.pdf; book-composer.ts locks it during a render and
-                refreshes it after each success. */}
-            <a
-              class="cx-hdr-btn cx-pdf-link"
-              id="cx-pdf-link"
-              aria-disabled={existingPdf ? "false" : "true"}
-              tabindex={existingPdf ? undefined : -1}
-              href={
-                existingPdf
-                  ? `/api/library/file?slug=${slug}&path=${encodeURIComponent(existingPdf.rel)}`
-                  : undefined
-              }
-              download={existingPdf?.name}
-            >
-              <i class="fa-solid fa-download" aria-hidden="true" /> Download PDF
-              {existingPdf ? ` (${existingPdf.kb} KB)` : ""}
-            </a>
-            {/* Publish to BOTH libraries — localhost first, then the live site
-                (Asif, 2026-08-10). Starts unlit and un-promising: its real state
-                is fetched on load by publish-to-production.ts, which also
-                re-lights it whenever a chapter is saved. Rendering it "up to
-                date" server-side would flash a claim about the live site that
-                nothing has yet checked. The label lives in its own span so the
-                script can swap Publish/Published without touching the icon. */}
-            <button
-              type="button"
-              class="cx-hdr-btn cx-hdr-btn--publish"
-              id="cx-publish-prod"
-              title="Publish to localhost and the live site"
-            >
-              <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true" />
-              <span class="cx-hdr-btn-label">Publish</span>
-            </button>
-          </div>
-        </header>
+        <ComposeHeader
+          bookTitle={bookTitle}
+          slug={slug}
+          existingPdf={existingPdf}
+        />
 
         {/* data-panel drives the layout: "closed" gives the chapter the full
             width; "scholar" and "tools" each open the SAME drawer on a different

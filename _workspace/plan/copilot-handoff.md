@@ -1074,3 +1074,41 @@ sweep.
 - Gates: full Python suite green with zero model calls; Astro site 721/723 (2 skips);
   ruff, DR-005, probe, mirrors clean. Still red on `develop` and untouched: the Astro size
   ratchets and mypy on the venv's numpy stubs.
+
+## 2026-09-04 (morning) — Third review pass: the site's gates go green, and eight hygiene fixes (Claude Code)
+
+Asif approved both remaining options. Branch `review/fixes-2026-09-04-c`, one commit per
+fix, merged to `develop` after the post-merge sweep.
+
+**The Astro Site's ratchets are clean for the first time since they were set.** All three
+breaches were cured by shrinking, never by raising a pin: the reading-assistant helpers and
+the figure-placement fields moved out of the Book Composer script (4641 to 4270 lines), the
+page header moved into its own component beside the two that page already keeps there (1080
+to 1019), and the twenty-first hook warning — introduced with the Media tab's playback
+speeds — was fixed properly by reading the stored speed through an external store instead of
+a mount effect that set state. No visual, CSS or theme change anywhere; the pins were lowered
+to the new numbers by hand rather than by `ratchets:update`.
+
+**A correction to the 2026-09-03 entry.** That pass reported the site's type check as clean.
+It was not: the editorial-scope test it added used a card id and a value property that the
+module's own types do not declare, so `astro check` had two errors on `develop` for a day.
+The output had been read only as far as its warning count. Fixed here; the check now reports
+zero errors, and the lesson is that a gate's summary is not its verdict.
+
+**Eight hygiene fixes.** The local SQL Server takes its password from the environment and
+listens on loopback only (**the container's password should be rotated by hand — the old
+value is in git history, which was deliberately not rewritten**). The two paid AI routes that
+had no rate limit now pay the same toll as the other nine. Every Cloudflare call and the book
+render have timeouts, and a stuck render takes its browser tree with it. A Composer edit is
+recorded in the sidecar before `book.md`, the two writers no longer share one temp filename,
+and the Python side takes an advisory lock; Node has no equivalent, and that asymmetry is
+written into both modules rather than papered over. A throttled vowelling call is retried
+rather than recorded as a refusal on the Arabic. Narration bills the clips it actually bought
+and no longer retries a wrong key three times. The real-money ceiling is checked inside the
+metered lanes, not only between phases.
+
+- Gates: Python 5,249 passed / 11 skipped with zero model calls; Astro Site 724 of 726, type
+  check 0 errors, views 0 errors, ratchets clean, build ok, smoke 40 clean; ruff, DR-005,
+  probe, mirrors, boundary, doc links all clean.
+- Deliberately not done: `vowel_source.py` gets no ceiling guard (its entry points hold a
+  stream path, not a book, so reaching a book directory there is wider than the finding).

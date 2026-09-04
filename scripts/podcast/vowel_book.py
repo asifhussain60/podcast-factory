@@ -52,7 +52,6 @@ import argparse
 import json
 import re
 import sys
-import urllib.request
 from pathlib import Path
 from typing import Callable
 
@@ -62,6 +61,21 @@ from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
 
 from _arabic_coverage import ARABIC_BODY, arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
+
+# The metered Gemini transport, split out under DR-005 when the retry and the
+# character meter took this file past its size ceiling. Re-exported here because
+# `align_arabic_paragraphs`, `vowel_glossary` and the tests all reach for these
+# names through `vowel_book` — moving the code should not move the address.
+from _vowel_gemini import (  # noqa: E402,F401
+    MODEL,
+    MODEL_ERROR_PREFIX,
+    GeminiCallFailed,
+    _ask_with_headroom,
+    _bill_since,
+    _clean,
+    _gemini,
+    meter_reading,
+)
 from _vowel_recovery import (  # noqa: E402
     askable as segment_askable,
 )
@@ -92,9 +106,21 @@ from _vowelling_prompts import CITATION_SYSTEM, SYSTEM  # noqa: E402
 # `vowel_glossary` already uses against the same endpoint.
 DEFAULT_WORKERS = 8
 
-MODEL = "gemini-2.5-pro"
-"""Vocalisation is a reasoning task, not a lookup: the reading of an ambiguous
-verb comes from the surrounding sense. Flash guesses; Pro deliberates."""
+
+def _ceiling(book_dir: Path | None, lane: str) -> None:
+    """Refuse another batch of paid calls once this book's hard cap is reached.
+
+    Imported here rather than at module scope because `cost_guard` reaches back
+    into the pipeline's own modules; a top-level import makes this file
+    unimportable from a bare script. A caller with no book — a test, a one-off
+    passage — is not governed by a per-book cap and passes None.
+    """
+    if book_dir is None:
+        return
+    from cost_guard import refuse_if_over_ceiling
+
+    refuse_if_over_ceiling(book_dir, lane=lane)
+
 
 # Arabic letters, excluding the combining marks themselves — for the length floor
 # the lexical sweep in vowel_text applies to a token.
@@ -115,65 +141,6 @@ _LEXICAL_TOKEN_RE = re.compile(
 )
 
 
-def _gemini(system: str, user: str, *, model: str = MODEL, max_output_tokens: int = 4000) -> str:
-    """One vocalisation call. Same transport as gemini_refine.py."""
-    from _secrets import get_gemini_key
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={get_gemini_key()}"
-    body = json.dumps(
-        {
-            "system_instruction": {"parts": [{"text": system}]},
-            "contents": [{"parts": [{"text": user}]}],
-            # Temperature near zero: vocalising a fixed text is not a creative
-            # task, and the same passage should come back the same way twice.
-            # The token budget is headroom for 2.5 Pro's thinking, which is drawn
-            # from this same allowance -- a tight budget returns an empty answer.
-            "generationConfig": {"temperature": 0.1, "maxOutputTokens": max_output_tokens},
-        }
-    ).encode()
-    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req, timeout=300) as r:
-        data = json.loads(r.read())
-    # 2.5 Pro draws its thinking from the SAME token allowance as the answer, so a
-    # long run can return a candidate carrying only thought parts, or no `parts`
-    # key at all. Indexing straight into `parts[0]["text"]` raised KeyError on
-    # those and they were recorded as "model error: 'parts'" — a spurious refusal
-    # of a passage nothing was actually wrong with. Read the first non-thought
-    # part instead, and treat an answerless response as empty so the caller can
-    # retry it with more room.
-    for candidate in data.get("candidates") or []:
-        for part in (candidate.get("content") or {}).get("parts") or []:
-            if part.get("thought"):
-                continue
-            text = part.get("text", "")
-            if text.strip():
-                return text
-    return ""
-
-
-def _ask_with_headroom(system: str, run: str) -> str:
-    """One vocalisation, retried once with a bigger budget if it came back empty.
-
-    An empty answer from 2.5 Pro nearly always means thinking consumed the token
-    allowance rather than that the passage is unvowellable, and the runs it
-    happens on are the long ones — exactly the passages worth having.
-    """
-    out = _clean(_gemini(system, run))
-    if out:
-        return out
-    return _clean(_gemini(system, run, max_output_tokens=12000))
-
-
-def _clean(raw: str) -> str:
-    """Models like to wrap a one-line answer in a fence or quotes."""
-    text = raw.strip().removeprefix("```").removesuffix("```").strip()
-    for line in text.splitlines():
-        stripped = line.strip().strip("\"'«»")
-        if stripped and any("؀" <= c <= "ۿ" for c in stripped):
-            return stripped
-    return ""
-
-
 def vowel_runs(
     text: str,
     *,
@@ -181,8 +148,13 @@ def vowel_runs(
     dry_run: bool = False,
     call: Callable[[str], str] | None = None,
     workers: int = DEFAULT_WORKERS,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """Return ``text`` with every bare non-Qur'anic Arabic RUN vowelled.
+
+    ``book_dir`` is the book whose real-money ceiling governs this sweep. It is
+    optional because this function takes TEXT, not a book — a caller that has no
+    book (a test, a one-off passage) simply is not covered by a per-book cap.
 
     Layers one and two only — the run sweep and the mushaf. The third layer, the
     lexical sweep in `vowel_lexical`, is deliberately NOT here: it looks for bare
@@ -226,6 +198,7 @@ def vowel_runs(
     }
     refusals: list[dict] = []
     refused_runs: list[tuple[str, str]] = []
+    billed_from = meter_reading()
 
     # ── Sort each distinct run into what will answer for it ───────────────────
     pending: list[str] = []
@@ -268,6 +241,7 @@ def vowel_runs(
         from _engine import ENGINE_GEMINI, TASK_VOWEL, engine_guard
 
         engine_guard(TASK_VOWEL, ENGINE_GEMINI)
+        _ceiling(book_dir, "vowelling")
         with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
             futures = {pool.submit(ask, run): run for run in pending}
             for future in as_completed(futures):
@@ -275,11 +249,13 @@ def vowel_runs(
                 try:
                     candidate = future.result()
                 except Exception as e:  # one bad run must never cost the whole book
-                    stats["refused"] += 1
-                    refusals.append({"run": run[:60], "reason": f"model error: {e}"})
+                    # A MODEL ERROR, not a gate refusal. It says the call did not
+                    # happen — nothing about this Arabic. Writing it straight into
+                    # `refusals` put it past the salvage pass, which reads only
+                    # `refused_runs`, so a throttled or 5xx'd run was never asked
+                    # again and shipped bare with its report blaming the passage.
+                    refused_runs.append((run, f"{MODEL_ERROR_PREFIX}{e}"))
                     continue
-                stats["in_chars"] += len(run)
-                stats["out_chars"] += len(candidate or "")
                 # The model answers on one line however many the run occupied, and
                 # `skeleton` normalises whitespace, so the collapse would sail
                 # through the gate. Put the source's own whitespace back first.
@@ -317,7 +293,16 @@ def vowel_runs(
     if refused_runs and not dry_run:
         jobs: list[tuple[int, int, str]] = []
         plans: dict[int, list[str]] = {}
-        for idx, (run, _reason) in enumerate(refused_runs):
+        for idx, (run, reason) in enumerate(refused_runs):
+            if reason.startswith(MODEL_ERROR_PREFIX):
+                # The call did not happen, so no part of this run is in question:
+                # ask it again, whole. `segment_askable`'s length floor is there to
+                # stop the pass paying for slivers a CUT produced — this run
+                # already cleared the sweep's own bar or it would never have been
+                # asked — so it does not apply here.
+                plans[idx] = [run]
+                jobs.append((idx, 0, run))
+                continue
             parts = recovery_plan(run)
             if parts is None:
                 continue
@@ -325,6 +310,7 @@ def vowel_runs(
             jobs += [(idx, i, part) for i, part in enumerate(parts) if segment_askable(part)]
         answers: dict[int, dict[int, str]] = {}
         if jobs:
+            _ceiling(book_dir, "vowelling salvage")
             log(f"vowelling: retrying {len(plans)} refused run(s) as {len(jobs)} fragment(s)")
             with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
                 futures = {pool.submit(ask, part): (idx, i, part) for idx, i, part in jobs}
@@ -382,6 +368,7 @@ def vowel_runs(
     # verse replacement as the file having been corrupted.
     stats["mushaf_pairs"] = [[run, rep] for run, rep in replacements if run in from_mushaf]
     stats["refusals"] = refusals
+    _bill_since(billed_from, stats)
     return text, stats
 
 
@@ -390,6 +377,7 @@ def vowel_lexical(
     *,
     dry_run: bool = False,
     stats: dict | None = None,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """The third layer: bare Arabic words that ENGLISH prose discusses AS words.
 
@@ -402,6 +390,7 @@ def vowel_lexical(
     stats = stats if stats is not None else {"marks_added": 0, "refused": 0}
     stats.setdefault("marks_added", 0)
     stats.setdefault("refused", 0)
+    billed_from = meter_reading()
     refusals: list[dict] = stats.setdefault("refusals", [])
     # `"باطن," "an inward"` — the book arguing about what a word means, with the
     # word set in quotes. Below the run floor, so the sweep above skipped every
@@ -429,6 +418,7 @@ def vowel_lexical(
         # follows the word to be in it, which is what disambiguates the reading.
         at = out.find(token)
         context = out[max(0, at - 90) : at + len(token) + 90].replace("\n", " ")
+        _ceiling(book_dir, "lexical vowelling")
         try:
             candidate = _clean(_gemini(CITATION_SYSTEM, f"{token}\n\ncontext: {context}"))
         except Exception as e:
@@ -452,6 +442,7 @@ def vowel_lexical(
         out = _LEXICAL_TOKEN_RE.sub(lambda m: lexical.get(m.group(1).strip(), m.group(1)), out)
 
     stats["refusals"] = refusals
+    _bill_since(billed_from, stats)
     return out, stats
 
 
@@ -462,6 +453,7 @@ def vowel_text(
     dry_run: bool = False,
     call: Callable[[str], str] | None = None,
     workers: int = DEFAULT_WORKERS,
+    book_dir: Path | None = None,
 ) -> tuple[str, dict]:
     """All three layers, for text that is ENGLISH prose carrying Arabic.
 
@@ -469,10 +461,10 @@ def vowel_text(
     scripture; `vowel_lexical` then handles the individual words the prose
     discusses AS words, which fall below the run floor by design.
     """
-    out, stats = vowel_runs(text, log=log, dry_run=dry_run, call=call, workers=workers)
+    out, stats = vowel_runs(text, log=log, dry_run=dry_run, call=call, workers=workers, book_dir=book_dir)
     if stats.get("skipped"):  # no mushaf — vowel_runs already said so
         return out, stats
-    return vowel_lexical(out, dry_run=dry_run, stats=stats)
+    return vowel_lexical(out, dry_run=dry_run, stats=stats, book_dir=book_dir)
 
 
 def record_spend(book_dir: Path, *, phase: str, step: str, stats: dict) -> None:
@@ -513,7 +505,7 @@ def vowel_book(book_dir: Path, *, log: Callable[[str], None] = print, dry_run: b
         log("vowelling: no book.md - skipped")
         return {"vowelled": 0}
     before = md.read_text(encoding="utf-8")
-    after, stats = vowel_text(before, log=log, dry_run=dry_run)
+    after, stats = vowel_text(before, log=log, dry_run=dry_run, book_dir=book_dir)
     # WHOLE-FILE SAFETY NET (2026-08-16). `rejection_reason` only judges what
     # THIS pass proposes -- compose/rearticulation/voice also touch book.md and
     # one printed "Rahat al-Aqlِ," (a kasra glued onto Latin "Aql"). Last
