@@ -56,7 +56,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import content_dir  # noqa: E402
 from _vowelling import ARABIC_RE, VOWELLED_DENSITY, mark_count, mark_density, rejection_reason  # noqa: E402
-from vowel_book import CITATION_SYSTEM, _clean, _gemini  # noqa: E402
+from vowel_book import CITATION_SYSTEM, _bill_since, _clean, _gemini, meter_reading, record_spend  # noqa: E402
 
 # The prompt lives in vowel_book.py, shared with the lexical-token sweep there:
 # both jobs ask for the same thing (a citation form for one term), and two copies
@@ -115,6 +115,7 @@ def vowel_glossary(
 
     ask = call or (lambda term, translit: _clean(_gemini(SYSTEM, f"{term}\n\nromanisation: {translit}")))
     stats = {"vowelled": 0, "marks_added": 0, "already": 0, "refused": 0}
+    billed_from = meter_reading()
     refusals: list[dict] = []
     resolved: dict[str, str] = {}
 
@@ -182,6 +183,13 @@ def vowel_glossary(
     flush()
 
     stats["refusals"] = refusals
+    # This pass makes one metered Gemini call per bare term — sixty-odd on a real
+    # book — and recorded none of them, so its spend was absent from
+    # `cost-ledger.jsonl` and its model absent from `model-provenance.jsonl`, the
+    # two files the cost policy and the provenance audit read. Same omission, same
+    # fix, as the whole-book pass: `record_spend` sits one import away.
+    _bill_since(billed_from, stats)
+    record_spend(book_dir, phase="0book-compose", step="5a-glossary-vowel", stats=stats)
     report = book_dir / "_system" / "glossary-vowelling.json"
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text(json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

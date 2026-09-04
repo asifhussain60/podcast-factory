@@ -52,7 +52,6 @@ import argparse
 import json
 import re
 import sys
-import urllib.request
 from pathlib import Path
 from typing import Callable
 
@@ -62,6 +61,21 @@ from concurrent.futures import ThreadPoolExecutor, as_completed  # noqa: E402
 
 from _arabic_coverage import ARABIC_BODY, arabic_run_spans  # noqa: E402
 from _paths import content_dir  # noqa: E402
+
+# The metered Gemini transport, split out under DR-005 when the retry and the
+# character meter took this file past its size ceiling. Re-exported here because
+# `align_arabic_paragraphs`, `vowel_glossary` and the tests all reach for these
+# names through `vowel_book` — moving the code should not move the address.
+from _vowel_gemini import (  # noqa: E402,F401
+    MODEL,
+    MODEL_ERROR_PREFIX,
+    GeminiCallFailed,
+    _ask_with_headroom,
+    _bill_since,
+    _clean,
+    _gemini,
+    meter_reading,
+)
 from _vowel_recovery import (  # noqa: E402
     askable as segment_askable,
 )
@@ -92,10 +106,6 @@ from _vowelling_prompts import CITATION_SYSTEM, SYSTEM  # noqa: E402
 # `vowel_glossary` already uses against the same endpoint.
 DEFAULT_WORKERS = 8
 
-MODEL = "gemini-2.5-pro"
-"""Vocalisation is a reasoning task, not a lookup: the reading of an ambiguous
-verb comes from the surrounding sense. Flash guesses; Pro deliberates."""
-
 # Arabic letters, excluding the combining marks themselves — for the length floor
 # the lexical sweep in vowel_text applies to a token.
 ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
@@ -113,65 +123,6 @@ ARABIC_LETTER_RE = re.compile("[\u0620-\u064a\u0660-\u066f\u0671-\u06d3]")
 _LEXICAL_TOKEN_RE = re.compile(
     r'(?<=[("\u00ab\u201c])([' + ARABIC_BODY + r"][" + ARABIC_BODY + r'\s]*?)(?=[)"\u00bb\u201d,.:;])'
 )
-
-
-def _gemini(system: str, user: str, *, model: str = MODEL, max_output_tokens: int = 4000) -> str:
-    """One vocalisation call. Same transport as gemini_refine.py."""
-    from _secrets import get_gemini_key
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={get_gemini_key()}"
-    body = json.dumps(
-        {
-            "system_instruction": {"parts": [{"text": system}]},
-            "contents": [{"parts": [{"text": user}]}],
-            # Temperature near zero: vocalising a fixed text is not a creative
-            # task, and the same passage should come back the same way twice.
-            # The token budget is headroom for 2.5 Pro's thinking, which is drawn
-            # from this same allowance -- a tight budget returns an empty answer.
-            "generationConfig": {"temperature": 0.1, "maxOutputTokens": max_output_tokens},
-        }
-    ).encode()
-    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req, timeout=300) as r:
-        data = json.loads(r.read())
-    # 2.5 Pro draws its thinking from the SAME token allowance as the answer, so a
-    # long run can return a candidate carrying only thought parts, or no `parts`
-    # key at all. Indexing straight into `parts[0]["text"]` raised KeyError on
-    # those and they were recorded as "model error: 'parts'" — a spurious refusal
-    # of a passage nothing was actually wrong with. Read the first non-thought
-    # part instead, and treat an answerless response as empty so the caller can
-    # retry it with more room.
-    for candidate in data.get("candidates") or []:
-        for part in (candidate.get("content") or {}).get("parts") or []:
-            if part.get("thought"):
-                continue
-            text = part.get("text", "")
-            if text.strip():
-                return text
-    return ""
-
-
-def _ask_with_headroom(system: str, run: str) -> str:
-    """One vocalisation, retried once with a bigger budget if it came back empty.
-
-    An empty answer from 2.5 Pro nearly always means thinking consumed the token
-    allowance rather than that the passage is unvowellable, and the runs it
-    happens on are the long ones — exactly the passages worth having.
-    """
-    out = _clean(_gemini(system, run))
-    if out:
-        return out
-    return _clean(_gemini(system, run, max_output_tokens=12000))
-
-
-def _clean(raw: str) -> str:
-    """Models like to wrap a one-line answer in a fence or quotes."""
-    text = raw.strip().removeprefix("```").removesuffix("```").strip()
-    for line in text.splitlines():
-        stripped = line.strip().strip("\"'«»")
-        if stripped and any("؀" <= c <= "ۿ" for c in stripped):
-            return stripped
-    return ""
 
 
 def vowel_runs(
@@ -226,6 +177,7 @@ def vowel_runs(
     }
     refusals: list[dict] = []
     refused_runs: list[tuple[str, str]] = []
+    billed_from = meter_reading()
 
     # ── Sort each distinct run into what will answer for it ───────────────────
     pending: list[str] = []
@@ -275,11 +227,13 @@ def vowel_runs(
                 try:
                     candidate = future.result()
                 except Exception as e:  # one bad run must never cost the whole book
-                    stats["refused"] += 1
-                    refusals.append({"run": run[:60], "reason": f"model error: {e}"})
+                    # A MODEL ERROR, not a gate refusal. It says the call did not
+                    # happen — nothing about this Arabic. Writing it straight into
+                    # `refusals` put it past the salvage pass, which reads only
+                    # `refused_runs`, so a throttled or 5xx'd run was never asked
+                    # again and shipped bare with its report blaming the passage.
+                    refused_runs.append((run, f"{MODEL_ERROR_PREFIX}{e}"))
                     continue
-                stats["in_chars"] += len(run)
-                stats["out_chars"] += len(candidate or "")
                 # The model answers on one line however many the run occupied, and
                 # `skeleton` normalises whitespace, so the collapse would sail
                 # through the gate. Put the source's own whitespace back first.
@@ -317,7 +271,16 @@ def vowel_runs(
     if refused_runs and not dry_run:
         jobs: list[tuple[int, int, str]] = []
         plans: dict[int, list[str]] = {}
-        for idx, (run, _reason) in enumerate(refused_runs):
+        for idx, (run, reason) in enumerate(refused_runs):
+            if reason.startswith(MODEL_ERROR_PREFIX):
+                # The call did not happen, so no part of this run is in question:
+                # ask it again, whole. `segment_askable`'s length floor is there to
+                # stop the pass paying for slivers a CUT produced — this run
+                # already cleared the sweep's own bar or it would never have been
+                # asked — so it does not apply here.
+                plans[idx] = [run]
+                jobs.append((idx, 0, run))
+                continue
             parts = recovery_plan(run)
             if parts is None:
                 continue
@@ -382,6 +345,7 @@ def vowel_runs(
     # verse replacement as the file having been corrupted.
     stats["mushaf_pairs"] = [[run, rep] for run, rep in replacements if run in from_mushaf]
     stats["refusals"] = refusals
+    _bill_since(billed_from, stats)
     return text, stats
 
 
@@ -402,6 +366,7 @@ def vowel_lexical(
     stats = stats if stats is not None else {"marks_added": 0, "refused": 0}
     stats.setdefault("marks_added", 0)
     stats.setdefault("refused", 0)
+    billed_from = meter_reading()
     refusals: list[dict] = stats.setdefault("refusals", [])
     # `"باطن," "an inward"` — the book arguing about what a word means, with the
     # word set in quotes. Below the run floor, so the sweep above skipped every
@@ -452,6 +417,7 @@ def vowel_lexical(
         out = _LEXICAL_TOKEN_RE.sub(lambda m: lexical.get(m.group(1).strip(), m.group(1)), out)
 
     stats["refusals"] = refusals
+    _bill_since(billed_from, stats)
     return out, stats
 
 
