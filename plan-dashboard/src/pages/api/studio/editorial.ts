@@ -14,6 +14,7 @@ import {
   resolveEffective,
   chaptersWithOverrides,
   CARD_IDS,
+  isValidScope,
   type CardId,
   type CardValue,
 } from "../../../lib/reader/editorial";
@@ -30,6 +31,7 @@ export const GET: APIRoute = ({ request }) => {
   try {
     const chapter = url.searchParams.get("chapter");
     if (url.searchParams.get("resolve") === "1" && chapter) {
+      if (!isValidScope(chapter)) return apiError("Missing or invalid chapter");
       return apiOk({
         slug,
         chapter,
@@ -37,6 +39,7 @@ export const GET: APIRoute = ({ request }) => {
       });
     }
     const scope = url.searchParams.get("scope") ?? "book";
+    if (!isValidScope(scope)) return apiError("Missing or invalid slug/scope");
     return apiOk({
       ...readEditorial(slug, scope),
       overriddenChapters: chaptersWithOverrides(slug),
@@ -59,7 +62,7 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError("Invalid JSON");
   }
   const { slug, scope, card } = body;
-  if (!slug || !SLUG_RE.test(slug) || !scope)
+  if (!slug || !SLUG_RE.test(slug) || !scope || !isValidScope(scope))
     return apiError("Missing or invalid slug/scope");
   if (!card || !CARD_IDS.includes(card as CardId))
     return apiError("Missing or invalid card");

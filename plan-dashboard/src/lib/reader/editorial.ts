@@ -26,6 +26,7 @@ import {
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { findContentDirSync, contentDir } from "../content-paths";
+import { CHAPTER_KEY_RE } from "./companion/keys";
 
 /**
  * Resolve a book's editorial dir base through the canonical resolver (bucket-first
@@ -180,7 +181,20 @@ export interface EditorialDoc {
   updated_at: string | null;
 }
 
+/**
+ * A scope is `book` or a chapter key — nothing else, because it is joined into a
+ * path under `_system/editorial/`. Unchecked, `../orchestrator-state` overwrote
+ * the pipeline's state file. The route rejects the same shape with a 400; this
+ * check is what makes the module safe from every other caller.
+ */
+export function isValidScope(scope: string): boolean {
+  return scope === "book" || CHAPTER_KEY_RE.test(scope);
+}
+
 function editorialPath(slug: string, scope: Scope): string {
+  if (!isValidScope(scope)) {
+    throw new Error(`editorial: invalid scope ${JSON.stringify(scope)}`);
+  }
   const file = scope === "book" ? "book.json" : `${scope}.json`;
   return join(bookBaseDir(slug), "_system", "editorial", file);
 }
