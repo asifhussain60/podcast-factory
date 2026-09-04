@@ -39,6 +39,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _authoring._core import AuthoringError, _run_claude_p, pure_json_call_options
+from _illustrate_resume import failed_entry, resume_state
 from _paths import REPO_ROOT
 
 # Per-section classifier budget. 180s proved too tight under real Opus
@@ -563,14 +564,12 @@ def author_phase_book_illustrate(
 
     # Idempotency: keyed on the manifest + its SVGs, the real outputs. Keying it
     # on book-illustrated.md (no longer written) would re-pay for every diagram.
+    done: list[dict] = []  # drawn by an earlier run and still on disk: carried, never re-bought
     if not force and manifest_path.exists():
-        try:
-            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            if all((diagram_dir / Path(e["svg_path"]).name).exists() for e in manifest if e.get("svg_path")):
-                log(f"    0book-illustrate: {book_dir.name}: already complete ({len(manifest)} diagrams) — skipping")
-                return book_md_path
-        except Exception:
-            pass  # fall through to re-run
+        done, complete = resume_state(manifest_path, diagram_dir)
+        if complete:
+            log(f"    0book-illustrate: {book_dir.name}: already complete ({len(done)} diagrams) — skipping")
+            return book_md_path
 
     diagram_dir.mkdir(parents=True, exist_ok=True)
 
@@ -581,13 +580,15 @@ def author_phase_book_illustrate(
         f"analysing {len(sections)} sections for diagram opportunities"
     )
 
-    manifest: list[dict] = []
+    manifest, kept = list(done), {e.get("section") for e in done}
 
     for heading, body in sections:
         word_count = len(body.split())
         if word_count < _MIN_SECTION_WORDS:
             log(f"    0book-illustrate: skip short section ({word_count}w): {heading[:50]!r}")
             continue
+        if heading in kept:
+            continue  # its diagram is on disk from an earlier run; only what is missing is asked for
 
         try:
             log(f"    0book-illustrate: {heading[:60]!r} — classifying structure")
@@ -655,9 +656,7 @@ def author_phase_book_illustrate(
                     )
 
         except Exception as exc:
-            sys.stderr.write(
-                f"  [illustrate] section {heading[:50]!r} failed ({type(exc).__name__}: {exc}), skipping\n"
-            )
+            manifest.append(failed_entry(heading, exc))  # unfinished, so the next run redraws this one
 
     manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
     log(f"    0book-illustrate: manifest written — {len(manifest)} total diagram(s)")
@@ -670,7 +669,8 @@ def author_phase_book_illustrate(
     # render input is book.md (see build_book_pdf._pick_book_md).
     from _visual_candidates import emit_diagram_candidates, merge_entries
 
-    merge_entries(book_dir, emit_diagram_candidates(book_dir, manifest, log=log), log=log)
+    drawn = [e for e in manifest if not e.get("failed")]
+    merge_entries(book_dir, emit_diagram_candidates(book_dir, drawn, log=log), log=log)
     log(f"    0book-illustrate: {len(manifest)} diagram candidate(s) offered, book.md left diagram-free")
     return book_md_path
 
