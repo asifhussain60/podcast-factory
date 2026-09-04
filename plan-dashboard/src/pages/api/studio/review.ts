@@ -13,7 +13,14 @@ import {
   setStageReview,
   setChapterFinalized,
 } from "../../../lib/reader/stage-review";
-import { apiOk, apiError, apiServerError } from "../../../lib/api-responses";
+import {
+  apiOk,
+  apiError,
+  apiNotFound,
+  apiServerError,
+} from "../../../lib/api-responses";
+import { findContentDirSync } from "../../../lib/content-paths";
+import { CHAPTER_KEY_RE } from "../../../lib/reader/companion/keys";
 
 export const prerender = false;
 
@@ -23,8 +30,9 @@ export const GET: APIRoute = ({ request }) => {
   const url = new URL(request.url);
   const slug = url.searchParams.get("slug");
   const chapter = url.searchParams.get("chapter");
-  if (!slug || !chapter || !SLUG_RE.test(slug))
+  if (!slug || !chapter || !SLUG_RE.test(slug) || !CHAPTER_KEY_RE.test(chapter))
     return apiError("Missing or invalid slug/chapter");
+  if (!findContentDirSync(slug)) return apiNotFound(`No book: ${slug}`);
   try {
     return apiOk(readReview(slug, chapter));
   } catch (e) {
@@ -47,9 +55,15 @@ export const POST: APIRoute = async ({ request }) => {
     return apiError("Invalid JSON");
   }
   const { slug, chapter, stage, approved, notes, finalize } = body;
-  if (!slug || !chapter || !SLUG_RE.test(slug)) {
+  if (
+    !slug ||
+    !chapter ||
+    !SLUG_RE.test(slug) ||
+    !CHAPTER_KEY_RE.test(chapter)
+  ) {
     return apiError("Missing or invalid slug/chapter");
   }
+  if (!findContentDirSync(slug)) return apiNotFound(`No book: ${slug}`);
   try {
     // Chapter-level finalize (Publish button): {finalize:boolean}, no stage required.
     if (typeof finalize === "boolean") {

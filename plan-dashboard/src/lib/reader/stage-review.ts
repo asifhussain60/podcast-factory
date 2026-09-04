@@ -11,12 +11,19 @@
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
-import { findContentDirSync, getRepoRoot } from "../content-paths";
+import { findContentDirSync } from "../content-paths";
+import { CHAPTER_KEY_RE } from "./companion/keys";
 
 function reviewPath(slug: string, chapter: string): string {
-  // Resolve via the type-first resolver; fall back to the canonical Islamic path.
-  const dir =
-    findContentDirSync(slug) ?? join(getRepoRoot(), "content", "Islamic", slug);
+  // The chapter is joined into a path under _system/review/, so it must be a
+  // chapter key and nothing else; the route refuses the same shape with a 400.
+  if (!CHAPTER_KEY_RE.test(chapter)) {
+    throw new Error(`stage-review: invalid chapter ${JSON.stringify(chapter)}`);
+  }
+  // A slug the resolver cannot find is an error, never a fallback: the old
+  // content/Islamic/<slug> default minted a phantom book directory on write.
+  const dir = findContentDirSync(slug);
+  if (!dir) throw new Error(`stage-review: no content dir for ${slug}`);
   return join(dir, "_system", "review", `${chapter}.json`);
 }
 
