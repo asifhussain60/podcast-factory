@@ -457,9 +457,25 @@ def publish(slug: str, args: argparse.Namespace) -> int:
     # non-fatal — see _publish_downstream.py.
     from _publish_downstream import deliver
 
-    deliver(slug, args, info=_info, warn=_warn)
+    outcome = deliver(slug, args, info=_info, warn=_warn)
+    _record_listener_deploy(workspace, outcome.get("listener_deploy") or {"status": "skipped"})
 
     return 0
+
+
+def _record_listener_deploy(workspace: Path, result: dict) -> None:
+    """Write the site push's outcome into the publish phase's block of the state.
+
+    The deploy is non-fatal, so this is the only durable record that it ran, or
+    did not: the orchestrator marks the phase completed on this script's zero
+    exit and reads this back to warn. Written under `phases.publish` directly
+    (not via update_phase) so a hand-run publish never moves the book's phase.
+    """
+    from _progress import read_state, write_state
+
+    state = read_state(workspace) or {}
+    state.setdefault("phases", {}).setdefault("publish", {"status": "pending"})["listener_deploy"] = result
+    write_state(workspace, state)
 
 
 def _mark_published_status(workspace: Path) -> None:

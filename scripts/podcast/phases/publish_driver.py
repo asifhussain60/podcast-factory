@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _authoring import AuthoringError, invoke_trainer
-from _progress import update_phase
+from _progress import read_state, update_phase
 from _subprocess import err as _err
 from _subprocess import info as _info
 from _subprocess import run as _run
@@ -27,6 +27,26 @@ from _subprocess import run as _run
 from phases.book_driver import _drive_book_branch
 from phases.merge import phase_merge_to_develop
 from phases.scaffold import phase_git_commit
+
+
+def listener_deploy_warning(book_dir: Path) -> str | None:
+    """The warning to print when the publish's site push failed, else None.
+
+    `publish_to_library.py` exits 0 when the Podcast Factory Library deploy fails
+    — the book IS published in the repo — and records the failure under
+    `phases.publish.listener_deploy`. Without this the driver marked the phase
+    completed, committed, trained and merged, and nothing said the site never
+    got the book.
+    """
+    state = read_state(book_dir) or {}
+    result = ((state.get("phases") or {}).get("publish") or {}).get("listener_deploy") or {}
+    if result.get("status") != "failed":
+        return None
+    return (
+        "published in the repo, but the Podcast Factory Library deploy FAILED "
+        f"({result.get('reason') or 'no reason recorded'}). "
+        f"Retry on its own with: {result.get('retry') or 'scripts/podcast/deploy_listener.sh <slug>'}"
+    )
 
 
 def _drive_publish_through_done(book_dir: Path) -> int:
@@ -114,6 +134,9 @@ def _drive_publish_through_done(book_dir: Path) -> int:
         )
         return 2
     update_phase(book_dir, phase="publish", status="completed")
+    _deploy_warning = listener_deploy_warning(book_dir)
+    if _deploy_warning:
+        _err(f"publish: {_deploy_warning}")
     phase_git_commit(book_dir, f"podcast({book_slug}): published to library")
 
     _info("phase: trainer · invoke podcast-trainer on the book branch")
