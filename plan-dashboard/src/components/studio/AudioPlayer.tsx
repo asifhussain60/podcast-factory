@@ -6,7 +6,7 @@
  * navigation, no download redirect). Streams via the existing /api/library/file
  * endpoint. No new dependency — native HTML5 <audio>. Classes in library.css.
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 /**
  * The listening speeds, matching the Podcast Factory Library exactly (Asif,
@@ -22,7 +22,7 @@ import { useEffect, useRef, useState } from "react";
 const RATES = [1, 1.5, 2, 2.5, 3] as const;
 const RATE_KEY = "cx-audio-rate";
 
-function loadRate(): number {
+function readStoredRate(): number {
   try {
     const stored = Number(localStorage.getItem(RATE_KEY));
     // Validated against the list the control OFFERS, not merely against "is a
@@ -34,6 +34,51 @@ function loadRate(): number {
   }
 }
 
+/**
+ * The chosen speed, kept OUTSIDE React as a tiny external store.
+ *
+ * The speed has to come from localStorage, which the server does not have — so
+ * seeding it with `useState(readStoredRate())` would make the first client
+ * render disagree with the server's. Reading it in an effect and calling
+ * setState fixed that by rendering once at 1x and immediately again at the
+ * stored speed, which is the cascading re-render `react-hooks/set-state-in-effect`
+ * exists to flag.
+ *
+ * `useSyncExternalStore` is the shape React provides for exactly this: it hands
+ * the server (and the hydrating client) `serverRate`, then re-reads the real
+ * value once hydration is done — no effect, no second state write, and no
+ * mismatch. The value is CACHED in `rate` because a snapshot must be referentially
+ * stable between changes, and caching is also what keeps the speed applying for
+ * the session when storage is disabled and the write below throws.
+ */
+let rate: number | null = null;
+const rateListeners = new Set<() => void>();
+
+function subscribeRate(onChange: () => void): () => void {
+  rateListeners.add(onChange);
+  return () => rateListeners.delete(onChange);
+}
+
+function currentRate(): number {
+  if (rate === null) rate = readStoredRate();
+  return rate;
+}
+
+/** What the server renders, and what the client hydrates against: the default. */
+function serverRate(): number {
+  return 1;
+}
+
+function storeRate(next: number): void {
+  rate = next;
+  try {
+    localStorage.setItem(RATE_KEY, String(next));
+  } catch {
+    // Storage disabled. The speed still applies to this session.
+  }
+  for (const listener of rateListeners) listener();
+}
+
 export interface Track {
   label: string;
   src: string;
@@ -42,13 +87,8 @@ export interface Track {
 
 export default function AudioPlayer({ tracks }: { tracks: Track[] }) {
   const [current, setCurrent] = useState<number | null>(null);
-  const [rate, setRate] = useState(1);
+  const rate = useSyncExternalStore(subscribeRate, currentRate, serverRate);
   const audioRef = useRef<HTMLAudioElement>(null);
-
-  // Read after mount, never in `useState(loadRate())`: the server has no
-  // localStorage, so seeding initial state from it makes the first client render
-  // differ from the server's.
-  useEffect(() => setRate(loadRate()), []);
 
   // Re-applied whenever the element or the track changes, because setting a new
   // `src` resets `playbackRate` to 1 — without this the control would read 2x
@@ -63,12 +103,7 @@ export default function AudioPlayer({ tracks }: { tracks: Track[] }) {
   }, [rate, current]);
 
   function chooseRate(next: number) {
-    setRate(next);
-    try {
-      localStorage.setItem(RATE_KEY, String(next));
-    } catch {
-      // Storage disabled. The speed still applies to this session.
-    }
+    storeRate(next);
   }
 
   function play(i: number) {
