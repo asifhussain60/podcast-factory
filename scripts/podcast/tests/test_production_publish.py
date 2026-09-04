@@ -339,10 +339,11 @@ def test_cloudflare_token_whitespace_is_removed(monkeypatch: pytest.MonkeyPatch)
 
 # ── the read-back compares COUNTS, not just presence ─────────────────────────
 #
-# The remote publish is one wrangler call per <=80KB batch with no transaction
-# around them: the DELETE and the INSERTs replacing it span batches, so a failure
-# midway leaves a book that is live and half-empty. `chapters > 0` cannot see
-# that. The counts on disk can, and the driver must hand them over.
+# Until 2026-09-04 the remote publish was one wrangler call per <=80KB batch with
+# no transaction around them: the DELETE and the INSERTs replacing it spanned
+# batches, so a failure midway left a book that was live and half-empty.
+# `chapters > 0` cannot see that. The counts on disk can, and the driver must
+# hand them over — the book now goes as one file, and this stays as the proof.
 
 
 def fake_d1(live: dict[str, int]):

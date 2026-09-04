@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import publish_to_listener as ptl  # noqa: E402
 from _listener_book import Asset, Book, Chapter, ChapterNarration, Episode, Session  # noqa: E402
 from _listener_media import collect_reader_narration  # noqa: E402
-from publish_to_listener import build_sql, remote_batches, session_concerns  # noqa: E402
+from publish_to_listener import build_sql, session_concerns  # noqa: E402
 
 MIGRATIONS = Path(__file__).resolve().parents[3] / "listener" / "migrations"
 
@@ -310,25 +310,6 @@ def test_the_report_never_blocks_a_book_from_shipping(tmp_path):
     assert conn.execute("SELECT count(*) FROM book_session").fetchone()[0] == 1
 
 
-def test_remote_batches_preserve_order_and_stay_bounded():
-    statements = ["SELECT 1;", "SELECT '" + ("x" * 20) + "';", "SELECT 3;"]
-
-    batches = remote_batches(statements, max_bytes=25)
-
-    assert "\n".join(batches).split("\n") == statements
-    assert all(len(batch.encode("utf-8")) <= 45 for batch in batches)
-
-
-def test_execute_batches_local_statements_instead_of_importing_file(tmp_path):
-    with mock.patch.object(ptl.subprocess, "run") as run:
-        ptl.execute(tmp_path / "book.sql", remote=False, statements=["SELECT 1;"])
-
-    command = run.call_args.args[0]
-    assert "--local" in command
-    assert "--command" in command
-    assert all(not str(part).startswith("--file=") for part in command)
-
-
 def test_an_author_recording_in_m4a_is_collected_not_silently_dropped(tmp_path):
     """The gate here accepted `.mp3` only, which held for as long as every
     narration was Azure-synthesised. An `author-recording` book is timed against
@@ -421,3 +402,108 @@ def test_every_study_track_python_allows_is_a_value_the_schema_accepts():
             rejected.append(track)
 
     assert rejected == [], f"schema rejects study_track values Python allows: {rejected}"
+
+
+# ── a book is written as ONE unit, or not at all ─────────────────────────────
+#
+# `build_statements` clears every table for the slug and rewrites it. Split
+# across several wrangler calls, the DELETE and the INSERTs replacing it can land
+# in different calls, and a failure between them leaves a book that is live and
+# half-empty. So every book goes to D1 as one `--file`, which wrangler applies as
+# a single batch locally and through the import path remotely — the one path that
+# returns the database to its original state when it fails part-way.
+
+
+def a_big_book(tmp_path: Path, *, slug: str = "test-book") -> Book:
+    """Three chapters of 120 KB each: larger than any single D1 request."""
+    book = a_book(tmp_path)
+    book.slug = slug
+    book.chapters.clear()
+    for n, anchor in enumerate(("one", "two", "three"), 1):
+        html = "<p>" + ("word " * 24_000) + "</p>"
+        assert len(html.encode("utf-8")) >= 120_000
+        book.chapters.append(Chapter(anchor=anchor, idx=n, title=f"{n}. {anchor}", markdown="w", html=html))
+    return book
+
+
+def table_of(statement: str) -> str:
+    head = statement.split(None, 3)
+    return head[2] if head[0] in ("DELETE", "INSERT") else head[1]
+
+
+def sql_sent(argv: list[str]) -> str:
+    """What one wrangler call carried, whether inline or as a file."""
+    argv = [str(part) for part in argv]
+    if "--command" in argv:
+        return argv[argv.index("--command") + 1]
+    flag = next(part for part in argv if part.startswith("--file="))
+    return Path(flag[len("--file=") :]).read_text(encoding="utf-8")
+
+
+def publish_with_stub_wrangler(monkeypatch, tmp_path: Path, books: dict[str, Book], *, fail_call: int = 0):
+    """Run `main` for the given slugs against a recording wrangler.
+
+    Everything that reads the repo or the network is stubbed; the SQL, the file
+    it is written to and the wrangler argv are real. `fail_call` makes the Nth
+    wrangler call raise, as a failed D1 write does.
+    """
+    import audio_parity
+
+    calls: list[list[str]] = []
+
+    def run(argv, **kw):
+        if argv[0] != "npx":
+            return mock.Mock(stdout="abc\n", returncode=0)
+        calls.append(argv)
+        if len(calls) == fail_call:
+            raise ptl.subprocess.CalledProcessError(1, argv, output="", stderr="boom")
+        return mock.Mock(stdout="", stderr="", returncode=0)
+
+    monkeypatch.setattr(ptl, "LISTENER", tmp_path)
+    monkeypatch.setattr(ptl, "load_book", lambda slug, **kw: books[slug])
+    monkeypatch.setattr(ptl, "render", lambda book: None)
+    monkeypatch.setattr(ptl, "keys_in_bucket", lambda slug, *, remote: set())
+    monkeypatch.setattr(ptl, "cloudflare_env", dict)
+    monkeypatch.setattr(ptl, "account_ok", lambda env, listener: (True, "ok"))
+    monkeypatch.setattr(audio_parity, "check_after_publish", lambda *a, **kw: 0)
+    monkeypatch.setattr(ptl.subprocess, "run", run)
+    rc = ptl.main([*books, "--remote"])
+    return rc, calls
+
+
+def test_every_table_is_replaced_within_one_execute_call(monkeypatch, tmp_path):
+    book = a_big_book(tmp_path)
+    statements = ptl.build_statements(book, published_at="x", commit=None)
+    assert sum(len(s.encode("utf-8")) for s in statements) > 3 * 120_000  # bigger than any per-request cap
+
+    rc, calls = publish_with_stub_wrangler(monkeypatch, tmp_path, {"test-book": book})
+    assert rc == 0
+
+    placed: dict[str, set[int]] = {}
+    for i, argv in enumerate(calls):
+        text = sql_sent(argv)
+        for statement in statements:
+            if statement in text:
+                placed.setdefault(table_of(statement), set()).add(i)
+    assert set(placed) == {table_of(s) for s in statements}
+    assert all(len(calls_for_table) == 1 for calls_for_table in placed.values()), placed
+    assert "--remote" in calls[0]
+
+
+def test_a_failed_write_never_separates_a_delete_from_its_inserts(monkeypatch, tmp_path):
+    """wrangler stub: the second call fails. Nothing of the book it was writing
+    may have gone out in an earlier call, and the failing call must carry the
+    DELETE and the rows replacing it together — so the unit D1 rolls back is the
+    whole book, and the book before it is complete."""
+    books = {"other-book": a_big_book(tmp_path, slug="other-book"), "test-book": a_big_book(tmp_path)}
+
+    rc, calls = publish_with_stub_wrangler(monkeypatch, tmp_path, books, fail_call=2)
+    assert rc == 1
+
+    before, failed = sql_sent(calls[0]), sql_sent(calls[1])
+    assert "'test-book'" not in before
+    for table in ("chapter", "episode", "unit_detail"):
+        assert f"DELETE FROM {table} WHERE slug = 'other-book'" in before
+        assert f"DELETE FROM {table} WHERE slug = 'test-book'" in failed
+        assert f"INSERT INTO {table} " in failed
+    assert failed.count("INSERT INTO chapter ") == 3
