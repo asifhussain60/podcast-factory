@@ -23,6 +23,7 @@ from typing import Any
 
 import _azure
 import yaml
+from _azure_http import RETRYABLE_STATUSES
 from _content_profile import is_islamic_scholarly
 from _cost_ledger import append_azure_speech_cost
 from _engine import ENGINE_AZURE, TASK_TTS, engine_guard
@@ -170,6 +171,15 @@ def _ssml(text: str, preset: dict[str, str]) -> bytes:
 
 
 def synthesize_text(text: str, preset: dict[str, str], *, retries: int = 3) -> bytes:
+    """One paragraph of speech, re-sent only when a re-send can change the answer.
+
+    Every HTTPError used to be retried, which meant a wrong or expired Speech key
+    was sent three times with 2s then 4s of sleep between — per paragraph, across
+    every chapter of the book — for a 401 that was never going to become a 200.
+    Throttling and the server-error family are re-sent; a transport failure with
+    no reply at all (URLError, TimeoutError) is too, because that is the classic
+    transient. A 4xx that is not 429 fails at once: it says the request is wrong.
+    """
     engine_guard(TASK_TTS, ENGINE_AZURE)
     creds = _azure.load_speech_creds()
     for attempt in range(1, retries + 1):
@@ -186,7 +196,11 @@ def synthesize_text(text: str, preset: dict[str, str], *, retries: int = 3) -> b
         try:
             with urllib.request.urlopen(req, timeout=60) as response:
                 return response.read()
-        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+        except urllib.error.HTTPError as e:
+            if e.code not in RETRYABLE_STATUSES or attempt == retries:
+                raise
+            time.sleep(2**attempt)
+        except (urllib.error.URLError, TimeoutError):
             if attempt == retries:
                 raise
             time.sleep(2**attempt)
@@ -438,13 +452,17 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
         # on disk with their manifest entries written, and the next run picks up
         # exactly the ones that did not finish. The caller decides whether a
         # failure is fatal; the renderer's job is to leave a resumable state.
+        # OUTSIDE the try, because the `finally` below bills whatever they hold
+        # however this chapter ends. Declared inside, a failure before the first
+        # paragraph would make the billing raise NameError inside the handler for
+        # the real error and lose it.
+        clips: list[Path] = []
+        cues: list[Cue] = []
+        bought = 0
+        spoken = 0
         try:
             block_cache_dir(out_dir).mkdir(parents=True, exist_ok=True)
-            clips: list[Path] = []
-            cues: list[Cue] = []
             cursor = 0.0
-            bought = 0
-            spoken = 0
             for idx, (block_index, text) in enumerate(blocks):
                 # PARAGRAPH-LEVEL REUSE. The clip's name is the hash of its text
                 # in this voice, so a paragraph nobody touched is already on disk
@@ -499,6 +517,17 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
                 error=str(exc),
             )
             continue
+        finally:
+            # Bill what was actually SYNTHESISED, whether or not the chapter
+            # finished. This used to sit on the success path only, so a chapter
+            # that bought twenty-nine paragraphs and failed on the thirtieth
+            # recorded no spend at all — while those twenty-nine clips stayed in
+            # the block cache and were reused, free, by the next run. Real money
+            # left the account and no ledger, including the one the cost ceiling
+            # reads, ever saw it. Zero is still not written: a chapter that reused
+            # every clip spent nothing, and a nil row is noise.
+            if spoken:
+                append_azure_speech_cost(book_dir, phase=PHASE, step=chapter.anchor, char_count=spoken)
 
         manifest["chapters"][chapter.anchor] = {
             "title": chapter.title,
@@ -513,10 +542,6 @@ def render_reader_narration(book_dir: Path, *, log: Any = None) -> RenderSummary
             "cues": [asdict(c) for c in cues],
         }
         _write_manifest(book_dir, manifest)
-        # Bill ONLY what was synthesised. Charging for the whole chapter here
-        # would report a paragraph edit at the price of a full re-record and
-        # make the ledger disagree with the invoice.
-        append_azure_speech_cost(book_dir, phase=PHASE, step=chapter.anchor, char_count=spoken)
         rendered.append(chapter.anchor)
         reused = len(blocks) - bought
         _trace(
