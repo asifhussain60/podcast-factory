@@ -19,7 +19,7 @@ set -uo pipefail
 # ── Args ─────────────────────────────────────────────────────────────────────
 SLUG="${1:?Usage: watch_orchestrator.sh <slug> [--max-retries N]}"
 MAX_RETRIES=20          # each retry = one orchestrator launch; 20 × ~30s backoff = ~10 min overhead max
-RETRY_DELAY_S=30        # seconds to wait between a crash and the next attempt
+RETRY_DELAY_S="${RETRY_DELAY_S:-30}"   # seconds between a crash and the next attempt (env override for tests)
 
 shift
 while [[ $# -gt 0 ]]; do
@@ -212,6 +212,36 @@ _log_human_fix() {
     _log "Fix:    $(_state ".phases[\"$phase\"].manual_fallback")"
 }
 
+_is_halted() {
+    # ANY phase that halted is a clean stop (2026-09-03). A halt is the phase's
+    # own statement that it is waiting on a human — dropped audio for
+    # audio-ingest, deck PDFs for 0book-slide-import — and no relaunch can
+    # supply that. Only finalize/halted and 0ci/halted were recognised before,
+    # so every other halt was relaunched until the attempt budget went FATAL,
+    # and the count it left behind made the next --resume after the human acted
+    # exit BUDGET EXHAUSTED before running anything.
+    #
+    # Checked AFTER a launch only, never as a pre-loop short-circuit: a bare
+    # --resume spawns a fresh watchdog that sees the halt the human is resuming
+    # PAST, and stopping there deadlocked --resume once already (see the 0f note
+    # in _is_human_review_gate).
+    [[ "$(_state '.phase_status')" == "halted" ]]
+}
+
+_log_halt() {
+    local phase reason missing
+    phase="$(_state '.phase')"
+    reason="$(_state ".phases[\"$phase\"].reason // empty")"
+    missing="$(_state ".phases[\"$phase\"].missing // empty | if type == \"array\" then join(\", \") else . end")"
+    _log "=== HALTED: $SLUG stopped cleanly at phase $phase — waiting on a human. Watchdog will NOT retry. ==="
+    [[ -n "$reason" ]] && _log "Reason:  $reason"
+    [[ -n "$missing" ]] && _log "Missing: $missing"
+    _log "Supply what the phase is waiting for, then: python3 scripts/podcast/orchestrate_book.py --resume $SLUG"
+    # A halt is progress to a gate, not a failed attempt — do not carry the count
+    # forward into the human's next --resume.
+    "$PYTHON" "$REPO_ROOT/scripts/podcast/watchdog_budget.py" "$SLUG" --clear 2>&1 | tee -a "$LOG" >/dev/null
+}
+
 # ── Short-circuit if already done, at a human-review gate, or at iter-cap halt ─
 if _is_done; then
     _log "Already complete (phase=$(_state '.phase') status=$(_state '.phase_status')) — nothing to do."
@@ -314,6 +344,12 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         _log_human_fix
         rm -f "$SENTINEL"
         exit 2
+    fi
+
+    if _is_halted; then
+        _log_halt
+        rm -f "$SENTINEL"
+        exit 0
     fi
 
     if [[ "$RC" -eq 1 ]]; then

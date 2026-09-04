@@ -12,6 +12,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from _paths import REPO_ROOT
 from _progress import (
+    ATTEMPTS_KEY,
     PHASES,
     STALE_RUNNING_SEC,
     UNATTENDED_KEY,
@@ -67,6 +68,13 @@ def _clear_downstream_phases(state: dict, retry_phase: str, log=_info) -> None:
     block.pop("manual_fallback", None)
     state["phase"] = retry_phase
     state["phase_status"] = "pending"
+    # A retry is the operator's fresh start on this phase, so its relaunch
+    # budget starts fresh too. Without this the remedy the watchdog prints on
+    # BUDGET EXHAUSTED ("--retry-phase <phase>") was refused by the same
+    # exhausted count the moment the relaunched watchdog checked it.
+    _counts = state.get(ATTEMPTS_KEY)
+    if isinstance(_counts, dict):
+        _counts.pop(retry_phase, None)
     if retry_phase == "per-chapter":
         # Self-retry (--retry-phase per-chapter after a chapter failed): the
         # downstream loop below never revisits per-chapter's OWN block (it

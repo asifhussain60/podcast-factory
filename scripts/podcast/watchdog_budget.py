@@ -27,6 +27,10 @@ USAGE
     2  — could not resolve the book or its state (advisory; caller proceeds)
 
   `--peek` reports without incrementing, for a status read.
+  `--clear` forgets the current phase's count, for a phase that HALTED cleanly:
+  a halt is progress to a human gate, not a failed attempt, and carrying the
+  count forward made the next `--resume` after the human acted exit BUDGET
+  EXHAUSTED before running anything.
 
 The budget is PER PHASE and is cleared automatically the moment that phase
 reaches `completed` (see `_progress._update_phase_locked`), so a book that
@@ -42,7 +46,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import find_content
-from _progress import attempts_for, read_state, record_attempt
+from _progress import attempts_for, clear_attempts, read_state, record_attempt
 
 EXIT_OK = 0
 EXIT_UNRESOLVED = 2
@@ -54,6 +58,7 @@ def main() -> int:
     ap.add_argument("slug")
     ap.add_argument("--max", type=int, default=20, help="attempts allowed per phase (0 disables the ceiling)")
     ap.add_argument("--peek", action="store_true", help="report without incrementing")
+    ap.add_argument("--clear", action="store_true", help="forget the current phase's count (a clean halt)")
     args = ap.parse_args()
 
     found = find_content(args.slug)
@@ -68,6 +73,11 @@ def main() -> int:
         return EXIT_UNRESOLVED
 
     phase = state.get("phase") or "(unknown)"
+
+    if args.clear:
+        clear_attempts(book_dir, phase)
+        print(f"attempt count cleared on phase {phase} (halted cleanly)")
+        return EXIT_OK
 
     if args.peek:
         n = attempts_for(state, phase)
