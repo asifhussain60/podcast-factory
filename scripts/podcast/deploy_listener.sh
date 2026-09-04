@@ -110,11 +110,38 @@ die()  { printf '\n\033[31mstopped: %s\033[0m\n' "$1" >&2; exit 1; }
 
 step "Branch sweep"
 
+# The orchestrator's publish phase runs this from a BOOK branch, with the state
+# file and meta.yml just rewritten and not yet committed. A checkout from that
+# tree either refuses (and the deploy dies for a reason unrelated to deploying)
+# or carries the dirty files across to develop — and every `die` below then
+# leaves the caller on develop, where the next phase commit lands. So: refuse a
+# dirty tree before touching anything, and put the starting branch back on
+# every exit path, whichever line exits.
+START_BRANCH="$(git -C "$REPO_ROOT" branch --show-current)"
+readonly START_BRANCH
+
+if [[ -n "$(git -C "$REPO_ROOT" status --porcelain --untracked-files=no)" ]]; then
+  die "the working tree on $START_BRANCH has uncommitted changes to tracked files.
+The deploy switches branches and would carry them along. Commit or stash them,
+then re-run."
+fi
+
+restore_branch() {
+  local rc=$? now
+  now="$(git -C "$REPO_ROOT" branch --show-current 2>/dev/null)"
+  if [[ -n "$START_BRANCH" && "$now" != "$START_BRANCH" ]]; then
+    git -C "$REPO_ROOT" checkout --quiet "$START_BRANCH" \
+      && echo "  back on $START_BRANCH" \
+      || echo "  ! could not return to $START_BRANCH — now on ${now:-a detached HEAD}" >&2
+  fi
+  exit "$rc"
+}
+trap restore_branch EXIT
+
 git -C "$REPO_ROOT" fetch origin --quiet 2>&1 || echo "  ! fetch failed — sweeping local refs only" >&2
 
-current_branch="$(git -C "$REPO_ROOT" branch --show-current)"
-if [[ "$current_branch" != "develop" ]]; then
-  echo "  on $current_branch — switching to develop for the deploy"
+if [[ "$START_BRANCH" != "develop" ]]; then
+  echo "  on $START_BRANCH — switching to develop for the deploy"
   git -C "$REPO_ROOT" checkout develop || die "could not switch to develop"
 fi
 git -C "$REPO_ROOT" pull --ff-only origin develop \
