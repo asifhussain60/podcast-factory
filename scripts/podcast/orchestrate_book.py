@@ -228,71 +228,42 @@ def derive_slug(pdf_path: Path) -> str:
 # ─── Lock management (G3 cohesion fix 2026-05-23) ────────────────────────────
 
 
-def _is_pid_alive(pid: int) -> bool:
-    """Probe whether `pid` is a live process via signal-0."""
-    try:
-        os.kill(pid, 0)
-    except (ProcessLookupError, PermissionError, OSError):
-        return False
-    return True
-
-
 def _acquire_book_lock(book_slug: str) -> tuple[int, Path] | None:
-    """Acquire an exclusive fcntl lock for this book. Returns (fd, path) or None."""
+    """Acquire an exclusive fcntl lock for this book. Returns (fd, path) or None.
+
+    The flock is the liveness authority: the kernel releases a dead holder's
+    lock, so a failed acquire means a LIVE orchestrator holds it. The lock file
+    is therefore never unlinked here -- unlinking it (which the old stale-PID
+    branch did whenever the pid line was empty or unparseable) let a second
+    orchestrator acquire a fresh inode while the first still held the old one.
+    """
     LOCKS_DIR.mkdir(parents=True, exist_ok=True)
     lock_path = LOCKS_DIR / f"{book_slug}.lock"
 
-    def _try_acquire() -> int | None:
-        fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
-        try:
-            fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        except (OSError, BlockingIOError):
-            os.close(fd)
-            return None
-        os.ftruncate(fd, 0)
-        body = (
-            f"pid: {os.getpid()}\n"
-            f"started_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
-            f"book_slug: {book_slug}\n"
-        )
-        os.write(fd, body.encode("utf-8"))
-        os.fsync(fd)
-        return fd
-
-    fd = _try_acquire()
-    if fd is not None:
-        return fd, lock_path
-
+    fd = os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o644)
     try:
-        existing = lock_path.read_text(encoding="utf-8")
-    except OSError:
-        existing = ""
-    existing_pid: int | None = None
-    for ln in existing.splitlines():
-        if ln.startswith("pid:"):
-            try:
-                existing_pid = int(ln.split(":", 1)[1].strip())
-            except ValueError:
-                existing_pid = None
-            break
-
-    if existing_pid and _is_pid_alive(existing_pid):
+        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except (OSError, BlockingIOError):
+        os.close(fd)
+        try:
+            existing = lock_path.read_text(encoding="utf-8").strip()
+        except OSError:
+            existing = ""
         _err(f"book {book_slug!r} is already locked by another orchestrator process:")
-        for ln in existing.splitlines():
+        for ln in existing.splitlines() or ["(held by another orchestrator; no pid recorded)"]:
             _err(f"  {ln}")
         _err(f"  lockfile: {lock_path}")
-        _err("  if you're sure the other process is dead, delete the lockfile and re-run.")
+        _err("  the lock is released automatically when that process exits.")
         return None
 
-    _info(f"  · cleaning up stale lockfile (PID {existing_pid} not alive): {lock_path.name}")
-    try:
-        lock_path.unlink()
-    except OSError:
-        pass
-    fd = _try_acquire()
-    if fd is None:
-        _err(f"failed to acquire lock for {book_slug!r} after stale-cleanup")
-        return None
+    os.ftruncate(fd, 0)
+    body = (
+        f"pid: {os.getpid()}\n"
+        f"started_at: {datetime.now(timezone.utc).isoformat(timespec='seconds')}\n"
+        f"book_slug: {book_slug}\n"
+    )
+    os.write(fd, body.encode("utf-8"))
+    os.fsync(fd)
     return fd, lock_path
 
 
