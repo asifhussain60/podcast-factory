@@ -398,3 +398,76 @@ def test_a_book_without_a_reading_edition_expects_no_chapters(tmp_path: Path) ->
     import publish_to_production as P
 
     assert P.expected_counts(tmp_path) == {"chapters": 0, "episodes": 0}
+
+
+# ── the read-back comes BEFORE the flip, and decides it ──────────────────────
+#
+# Until 2026-09-04 `push` flipped visibility and then verified. A read-back that
+# failed left the book readable in exactly the state the check had just called
+# wrong. Now every check except "visible" runs first, with the full counts from
+# disk; the flip is issued only if all of them pass, and "visible" is then
+# re-read after it.
+
+
+def drive_publish(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, *, pre_checks: list[dict]) -> tuple[int, list, Path]:
+    """Run `main` against production with every remote call stubbed and recorded."""
+    import publish_to_production as P
+
+    directory = book(tmp_path, {"one": [note("student:a", review="accepted")]}, prose="# T\n\n## 1. One\n\na\n")
+    events: list = []
+    state = {"status": "draft"}
+
+    def d1_execute(sql: str, report, *, remote: bool) -> int:
+        events.append(("flip", sql, remote))
+        state["status"] = "published"
+        return 0
+
+    def visibility(slug: str, *, remote: bool):
+        events.append(("visibility", state["status"]))
+        return {"slug": slug, "status": state["status"], "open_to_all": 0}
+
+    def verify(slug: str, book_dir: Path, *, remote: bool = True, expected=None) -> list[dict]:
+        events.append(("verify", dict(expected or {})))
+        live = state["status"]
+        return [{"name": "visible", "ok": live == "published", "detail": f"status is '{live}'"}, *pre_checks]
+
+    monkeypatch.setattr(P, "find_content", lambda slug: ("Islamic", slug, directory))
+    monkeypatch.setattr(P, "cloudflare_env", dict)
+    monkeypatch.setattr(P, "account_ok", lambda env, listener: (True, "ok"))
+    monkeypatch.setattr(P, "run", lambda argv, report, **kw: 0)
+    monkeypatch.setattr(P, "narrate", lambda book_dir, args, report: {})
+    monkeypatch.setattr(P, "code_behind", lambda root: {"known": True, "behind": 0, "deployed": "abc"})
+    monkeypatch.setattr(P, "d1_execute", d1_execute)
+    monkeypatch.setattr(P, "visibility", visibility)
+    monkeypatch.setattr(P, "verify", verify)
+    argv = ["the-book", "--target", "production", "--skip-transcripts", "--skip-narration", "--skip-media", "--json"]
+    return P.main(argv), events, directory
+
+
+def test_a_failed_read_back_never_flips_visibility(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    rc, events, directory = drive_publish(
+        monkeypatch, tmp_path, pre_checks=[{"name": "chapters", "ok": False, "detail": "2 live, 3 on disk"}]
+    )
+
+    assert rc == 1
+    assert [e[0] for e in events] == ["verify"]
+    stamp = json.loads((directory / "_system" / "production-publish.json").read_text(encoding="utf-8"))
+    assert stamp["verified"] is False
+    failing = {c["name"]: c["detail"] for c in stamp["checks"] if not c["ok"]}
+    assert failing["chapters (production)"] == "2 live, 3 on disk"
+    assert failing["visible (production)"] == "status is 'draft'"  # it stayed a draft, and the stamp says so
+
+
+def test_a_clean_read_back_flips_once_and_rereads_visibility(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    rc, events, directory = drive_publish(
+        monkeypatch, tmp_path, pre_checks=[{"name": "chapters", "ok": True, "detail": "3 live, 3 on disk"}]
+    )
+
+    assert rc == 0
+    assert [e[0] for e in events] == ["verify", "flip", "visibility"]
+    assert events[1][1] == publish_sql("the-book") and events[1][2] is True
+    assert events[0][1]["chapters"] == 1  # the full counts from disk, handed over BEFORE the flip
+    stamp = json.loads((directory / "_system" / "production-publish.json").read_text(encoding="utf-8"))
+    assert stamp["verified"] is True
+    visible = next(c for c in stamp["checks"] if c["name"] == "visible (production)")
+    assert visible["ok"] is True and visible["detail"] == "status is 'published'"
