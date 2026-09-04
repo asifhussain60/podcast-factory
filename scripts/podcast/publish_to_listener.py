@@ -83,8 +83,8 @@ def sql_str(value: object) -> str:
 
 
 # D1 rejects any single SQL statement around ~100,000 bytes with "statement too
-# long: SQLITE_TOOBIG" — a per-statement limit, not the per-batch one
-# REMOTE_BATCH_BYTES guards. A reading-edition chapter (a whole book chapter,
+# long: SQLITE_TOOBIG" — a per-statement limit, and it applies to each
+# statement inside a `--file` too. A reading-edition chapter (a whole book chapter,
 # not a short podcast-episode chapter) can render to 100-180KB of HTML on its
 # own, so a single INSERT carrying it as one string literal can exceed that
 # limit even alone in its own batch — no amount of batching fixes an
@@ -330,52 +330,24 @@ def keys_in_bucket(slug: str, *, remote: bool) -> set[str]:
     return {r["key"] for r in rows}
 
 
-REMOTE_BATCH_BYTES = 80_000
+def execute(sql_path: Path, *, remote: bool) -> None:
+    """One wrangler call per book, so the book lands whole or not at all.
 
+    `build_statements` clears each table for the slug and rewrites it. Sent as
+    several `--command` batches (how this ran from 2026-08-13), the DELETE and
+    the INSERTs replacing it could sit in different calls, and a failure between
+    them left a book live and half-empty — with nothing to say so, because the
+    visibility flag is never touched here. As ONE `--file`, wrangler applies the
+    statements as a single batch locally (miniflare's `db.batch`) and, remotely,
+    takes D1's import path, whose contract wrangler prints on every run: "if the
+    execution fails to complete, your DB will return to its original state".
 
-def remote_batches(statements: list[str], *, max_bytes: int = REMOTE_BATCH_BYTES) -> list[str]:
-    """Group statements for D1's query endpoint without using the import path."""
-    batches: list[str] = []
-    current: list[str] = []
-    size = 0
-    for statement in statements:
-        statement_size = len(statement.encode("utf-8")) + 1
-        if current and size + statement_size > max_bytes:
-            batches.append("\n".join(current))
-            current = []
-            size = 0
-        current.append(statement)
-        size += statement_size
-    if current:
-        batches.append("\n".join(current))
-    return batches
-
-
-def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None) -> None:
-    if statements is not None:
-        batches = remote_batches(statements)
-        location = "remote" if remote else "local"
-        for i, command in enumerate(batches, 1):
-            print(f"  {location} SQL batch {i}/{len(batches)}")
-            subprocess.run(
-                [
-                    "npx",
-                    "wrangler",
-                    "d1",
-                    "execute",
-                    "podcast-listener",
-                    "--remote" if remote else "--local",
-                    "--command",
-                    command,
-                    "--yes",
-                ],
-                cwd=LISTENER,
-                capture_output=True,
-                text=True,
-                check=True,
-            )
-        return
-
+    The import path is used ONLY for this write. It makes the database briefly
+    unavailable while the file is ingested — seconds for a book — which is why
+    the read-back and the visibility flip in `publish_to_production.py` stay on
+    `--command`. The per-statement limit still applies inside the file; see
+    CHAPTER_HTML_CHUNK_BYTES.
+    """
     subprocess.run(
         [
             "npx",
@@ -388,6 +360,8 @@ def execute(sql_path: Path, *, remote: bool, statements: list[str] | None = None
             "--yes",
         ],
         cwd=LISTENER,
+        capture_output=True,
+        text=True,
         check=True,
     )
 
@@ -562,7 +536,7 @@ def main(argv: list[str] | None = None) -> int:
         before = set() if args.dry_run else keys_in_bucket(slug, remote=args.remote)
 
         try:
-            execute(sql_path, remote=args.remote, statements=statements)
+            execute(sql_path, remote=args.remote)
         except subprocess.CalledProcessError as error:
             failed.append(slug)
             for stream in (error.stdout, error.stderr):

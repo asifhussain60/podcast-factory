@@ -4,9 +4,9 @@
 This is what the Publish button on the Book Composer runs. It carries a finished
 book the whole way — accepts its Companion cards, transcribes any new episode,
 re-records the read-aloud narration for any chapter whose text changed, pushes
-its text and recordings to a database and bucket, turns the book's visibility on,
-and then reads that database back to confirm every one of those things actually
-happened.
+its text and recordings to a database and bucket, reads that database back to
+confirm every one of those things actually happened, and only then turns the
+book's visibility on.
 
 By default it does that twice (Asif, 2026-08-10): once against localhost and once
 against the deployed site, so the copy he reviews on `localhost:5273` and the
@@ -216,15 +216,17 @@ def selected_targets(args: argparse.Namespace) -> list[dict]:
 def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now: str) -> tuple[bool, list[dict]]:
     """Put the book into ONE of the two databases and prove it landed there.
 
-    Content, then recordings, then visibility, then the read-back — the same four
+    Content, then recordings, then the read-back, then visibility — the same four
     steps against either site, because a difference between them is a difference
     nobody would find until a reader did. `--remote` is the only thing that
     changes, and the checks are the same checks.
 
-    Visibility is written LAST and only if everything above it succeeded, so a
+    Visibility is written LAST and only if every check before it passed, so a
     failed run leaves a book that is incomplete AND invisible rather than
     incomplete and readable. That is what makes a failed run safe to simply run
-    again.
+    again. Until 2026-09-04 the flip came before the read-back, which meant a
+    read-back that failed had just described a book readers could already open;
+    the checks decide the flip now, and "visible" is re-read after it.
     """
     remote, label = target["remote"], target["label"]
     flag = ["--remote"] if remote else []
@@ -253,19 +255,10 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
             report.error(f"uploading to {label} failed — the book is there but incomplete, and still not visible")
             return False, []
 
-    report.step(f"Visibility · {label}")
     if args.dry_run:
+        report.step(f"Visibility · {label}")
         report.log(f"would run: {publish_sql(slug)}")
         return True, []
-
-    if d1_execute(publish_sql(slug), report, remote=remote) != 0:
-        report.error(f"the book reached {label} but could not be made visible there")
-        return False, []
-    state = visibility(slug, remote=remote)
-    if state is not None:
-        report.log(f"status is now '{state.get('status')}'")
-        if not state.get("open_to_all"):
-            report.log("not open to everyone — only people you have granted it can read it")
 
     report.step(f"Verifying · {label}")
     expected: dict[str, object] = {"cards": count_cards(book_dir), "since": now, **expected_counts(book_dir)}
@@ -280,10 +273,32 @@ def push(target: dict, slug: str, book_dir: Path, args, report: Reporter, *, now
     checks = verify(slug, book_dir, remote=remote, expected=expected)
     if skip_media_check:
         checks = [c for c in checks if c["name"] != "media uploaded"]
+
     # The site's name travels WITH the check, because both sites report the same
     # check names and a merged list that did not say which one failed would be
     # unreadable in the stamp and in the panel.
-    checks = [{**c, "name": f"{c['name']} ({label})", "target": label} for c in checks]
+    def labelled(found: list[dict]) -> list[dict]:
+        return [{**c, "name": f"{c['name']} ({label})", "target": label} for c in found]
+
+    # "visible" is the one check that cannot pass yet on a first publish — it is
+    # what the flip below produces — so it does not vote on whether to flip.
+    gate = [c for c in checks if c["name"] != "visible"]
+    if not gate or not all(c["ok"] for c in gate):
+        for c in labelled(checks):
+            report.emit("check", name=c["name"], ok=c["ok"], detail=c["detail"])
+        report.error(f"the book reached {label} but the read-back does not match the book on disk — not made visible")
+        return False, labelled(checks)
+
+    report.step(f"Visibility · {label}")
+    if d1_execute(publish_sql(slug), report, remote=remote) != 0:
+        report.error(f"the book reached {label} but could not be made visible there")
+        return False, labelled(checks)
+    state = visibility(slug, remote=remote)
+    status = str((state or {}).get("status") or "")
+    if state is not None and not state.get("open_to_all"):
+        report.log("not open to everyone — only people you have granted it can read it")
+    visible = {"name": "visible", "ok": status == "published", "detail": f"status is '{status}'"}
+    checks = labelled([*gate, visible])
     for c in checks:
         report.emit("check", name=c["name"], ok=c["ok"], detail=c["detail"])
     return bool(checks) and all(c["ok"] for c in checks), checks

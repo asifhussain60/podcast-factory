@@ -1045,3 +1045,32 @@ test reaches the real `claude` binary (opt out with the `real_claude` marker);
 - Cleanup: OS debris, caches, build outputs and five stale worktrees removed; the tracked
   `content/**/book/*.bak` files are protected and were left; `git gc` and the local R2 state
   dir need Asif's explicit yes per the audit contract and were not touched.
+
+## 2026-09-04 (early) — Second pass on the review's P2 list: four fixes (Claude Code)
+
+Asif approved pass A of the follow-ups the same night. Branch
+`review/fixes-2026-09-03-b`, one commit per fix, merged to `develop` after the post-merge
+sweep.
+
+- **Each book now reaches D1 whole or not at all.** `publish_to_listener.py` wrote a book
+  as a series of ≤80 KB `--command` calls with no transaction across them, so a failure at
+  call three left a half-book live. It now writes the whole per-book statement block to a
+  file and runs ONE `wrangler d1 execute --file` per book, local and remote — the import
+  path D1 documents as all-or-nothing. **Watch the first real remote publish:** the import
+  makes the database briefly unavailable during ingest, and one 566 KB import failed on
+  2026-08-03 before HTML chunking existed. That behaviour could not be verified here; only
+  the atomicity contract is test-pinned (a recording wrangler stub).
+- **The Composer's publish reads the book back BEFORE making it visible.** Content, media,
+  verify against on-disk counts, and only if every check passes the visibility flip, then
+  "visible" is re-read. A failed read-back records `verified:false`, exits 1, and flips
+  nothing. Two older tests that pinned the previous order were updated to the new one.
+- **A book lock that fails to flock is refused, never unlinked.** The stale-PID cleanup
+  branch could only ever run against a live holder (the kernel releases a dead holder's
+  flock), and with an empty PID line it unlinked the locked file so a second orchestrator
+  acquired a fresh inode. Branch deleted; `orchestrate_book.py` shrank 600 → 571.
+- **The snapshot parity test is green again.** The Python generator now renders a
+  whole-dollar burn as an int like JavaScript does (`111`, not `111.0`); pinned by a
+  stubbed-ledger test so it no longer depends on what today's spend happens to be.
+- Gates: full Python suite green with zero model calls; Astro site 721/723 (2 skips);
+  ruff, DR-005, probe, mirrors clean. Still red on `develop` and untouched: the Astro size
+  ratchets and mypy on the venv's numpy stubs.

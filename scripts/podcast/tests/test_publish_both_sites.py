@@ -136,8 +136,8 @@ def test_the_steps_say_which_site_they_are_working_on(spies, tmp_path):
     assert report.steps == [
         "Content · production",
         "Media · production",
-        "Visibility · production",
         "Verifying · production",
+        "Visibility · production",
     ]
 
 
@@ -239,7 +239,7 @@ def test_localhost_is_not_failed_for_the_recordings_it_was_told_to_skip(monkeypa
     seen: dict = {}
     monkeypatch.setattr(P, "run", lambda argv, report, cwd=None: 0)
     monkeypatch.setattr(P, "d1_execute", lambda sql, report, *, remote: 0)
-    monkeypatch.setattr(P, "visibility", lambda slug, *, remote: None)
+    monkeypatch.setattr(P, "visibility", lambda slug, *, remote: {"status": "published", "open_to_all": True})
     monkeypatch.setattr(P, "count_cards", lambda book_dir: 0)
 
     def fake_verify(slug, book_dir, *, remote, expected):
@@ -252,7 +252,8 @@ def test_localhost_is_not_failed_for_the_recordings_it_was_told_to_skip(monkeypa
     monkeypatch.setattr(P, "verify", fake_verify)
     ok, checks = P.push(P.TARGETS[0], "a-book", tmp_path, ARGS_MEDIA, Recorder(), now="2026-08-10T00:00:00Z")
     assert seen["expected"]["skip_media"] is True
-    assert [c["name"] for c in checks] == ["chapters (localhost)"]
+    # The dropped media check never reaches the gate; "visible" is re-read after the flip.
+    assert [c["name"] for c in checks] == ["chapters (localhost)", "visible (localhost)"]
     assert ok is True
 
 
