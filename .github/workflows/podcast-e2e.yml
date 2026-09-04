@@ -33,6 +33,12 @@ on:
       # are what prove the probe reads it correctly. lint.yml runs the probe on a
       # contract edit; without this the TESTS did not run on one.
       - ".repo-audit/**"
+      # Shared TS<->Python fixture files: every mirror-pin test under tests/ and
+      # scripts/podcast/tests/ reads one of these. Without them a fixture-only
+      # commit ran the TS half (lint.yml) and never the Python half.
+      # tests/test_workflow_fixture_paths.py derives the set from the tests.
+      - "plan-dashboard/scripts/lib/**"
+      - "listener/test/fixtures/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"
@@ -47,6 +53,12 @@ on:
       # are what prove the probe reads it correctly. lint.yml runs the probe on a
       # contract edit; without this the TESTS did not run on one.
       - ".repo-audit/**"
+      # Shared TS<->Python fixture files: every mirror-pin test under tests/ and
+      # scripts/podcast/tests/ reads one of these. Without them a fixture-only
+      # commit ran the TS half (lint.yml) and never the Python half.
+      # tests/test_workflow_fixture_paths.py derives the set from the tests.
+      - "plan-dashboard/scripts/lib/**"
+      - "listener/test/fixtures/**"
       - "pytest.ini"
       - "requirements.txt"
       - ".github/agents/podcast-*.agent.md"
