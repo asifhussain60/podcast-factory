@@ -586,6 +586,7 @@ def test_merge_cannot_resurrect_stale_adapted_for_an_edited_chapter(tmp_path: Pa
 
 
 def test_compose_v2_warns_loudly_when_replay_discards_adapted(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import _book_brief
     import _book_frontmatter
     import _book_pipeline_v2
     import _book_voice as voice
@@ -602,6 +603,9 @@ def test_compose_v2_warns_loudly_when_replay_discards_adapted(tmp_path: Path, mo
     )
     monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
     monkeypatch.setattr(_book_frontmatter, "clear_introduction", lambda bd_, **k: {"removed": False})
+    # --force also re-authors the apparatus; neither author may reach a model here.
+    monkeypatch.setattr(_book_frontmatter, "author_introduction", lambda bd_, **k: "")
+    monkeypatch.setattr(_book_brief, "author_brief", lambda bd_, **k: {"text": "", "reason": "stubbed"})
     record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
 
     logs: list[str] = []
@@ -620,6 +624,7 @@ def test_reconcile_failure_does_not_relabel_the_replay(tmp_path: Path, monkeypat
     telling the operator their edits were dropped when the replay had applied
     them, while silently keeping the stale "adapted" the reconcile exists to end.
     """
+    import _book_brief
     import _book_frontmatter
     import _book_pass_reports
     import _book_pipeline_v2
@@ -637,6 +642,8 @@ def test_reconcile_failure_does_not_relabel_the_replay(tmp_path: Path, monkeypat
     )
     monkeypatch.setattr(voice, "_fluency_chapter", _GOOD)
     monkeypatch.setattr(_book_frontmatter, "clear_introduction", lambda bd_, **k: {"removed": False})
+    monkeypatch.setattr(_book_frontmatter, "author_introduction", lambda bd_, **k: "")
+    monkeypatch.setattr(_book_brief, "author_brief", lambda bd_, **k: {"text": "", "reason": "stubbed"})
     record_edit(bd, chapter_key="on knowledge", body_md="The author's own paragraph.")
 
     def boom(*a, **k):
