@@ -49,13 +49,13 @@ import hashlib
 import json
 import os
 import sqlite3
-import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _paths import REPO_ROOT  # noqa: E402
+from _wrangler import run as wrangler  # noqa: E402
 from downsize_audio import book_dirs, shippable_audio  # noqa: E402
 
 LISTENER = REPO_ROOT / "listener"
@@ -94,7 +94,7 @@ def remote_rows() -> dict[str, dict]:
     """media_asset from the deployed D1."""
     from _production_publish import cloudflare_env
 
-    r = subprocess.run(
+    r = wrangler(
         [
             "npx",
             "wrangler",
@@ -109,8 +109,6 @@ def remote_rows() -> dict[str, dict]:
         ],
         cwd=LISTENER,
         env={**os.environ, **cloudflare_env()},
-        capture_output=True,
-        text=True,
     )
     start = r.stdout.find("[")
     if r.returncode != 0 or start < 0:

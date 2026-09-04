@@ -105,6 +105,7 @@ import yaml  # noqa: E402
 from _listener_book import LISTENER  # noqa: E402
 from _paths import BUCKETS, CONTENT_ROOT, REPO_ROOT  # noqa: E402
 from _production_publish import account_ok, cloudflare_env  # noqa: E402
+from _wrangler import run as wrangler  # noqa: E402
 from publish_to_listener import sql_str  # noqa: E402
 from upload_listener_media import DATABASE, d1  # noqa: E402
 
@@ -254,7 +255,7 @@ def execute(statements: list[str], *, remote: bool) -> None:
     if not statements:
         return
     command = "\n".join(statements)
-    subprocess.run(
+    wrangler(
         [
             "npx",
             "wrangler",
@@ -267,8 +268,6 @@ def execute(statements: list[str], *, remote: bool) -> None:
             "--yes",
         ],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
         check=True,
     )
 

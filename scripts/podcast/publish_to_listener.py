@@ -62,6 +62,7 @@ from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
 from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 from _production_publish import account_ok, cloudflare_env  # noqa: E402
+from _wrangler import run as wrangler  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
 # functions rather than growing a second way to talk to R2.
@@ -348,7 +349,7 @@ def execute(sql_path: Path, *, remote: bool) -> None:
     `--command`. The per-statement limit still applies inside the file; see
     CHAPTER_HTML_CHUNK_BYTES.
     """
-    subprocess.run(
+    wrangler(
         [
             "npx",
             "wrangler",
@@ -360,8 +361,6 @@ def execute(sql_path: Path, *, remote: bool) -> None:
             "--yes",
         ],
         cwd=LISTENER,
-        capture_output=True,
-        text=True,
         check=True,
     )
 
