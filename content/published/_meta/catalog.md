@@ -13,3 +13,4 @@ tracks one published book. Republish a book to refresh its row.
 | [degrees-of-excellence](../books/degrees-of-excellence/README.md) | 6 | 2026-09-12 | `8dbfb38f8a1c` |
 | [love-of-the-prophet](../books/love-of-the-prophet/README.md) | 5 | 2026-09-12 | `8dbfb38f8a1c` |
 | [surah-al-fateha](../books/surah-al-fateha/README.md) | 23 | 2026-09-12 | `8dbfb38f8a1c` |
+| [purification-of-the-heart](../books/purification-of-the-heart/README.md) | 24 | 2026-09-12 | `4abb594f8003` |

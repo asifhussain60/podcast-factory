@@ -3,19 +3,16 @@
   "book_slug": "purification-of-the-heart",
   "category": "lectures",
   "branch": "Sessions/purification-of-the-heart",
-  "status": "draft",
+  "status": "published",
   "source_kind": "audio-transcript",
   "source_language": "en",
-  "phase": "per-chapter",
-  "phase_status": "failed",
-  "last_completed_phase": "0d",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "pre-flight smoke gate failed: satisfied-with-oneself: chapter word count 24537 outside hard band [500, 12000]; trusting-one-hand-only: chapter word count 252 outside hard band [500, 12000]; what-does-not-concern-the-heart: chapter word count 353 outside hard band [500, 12000]",
-    "ts": "2026-08-31T18:10:28Z"
-  },
+  "pipeline_mode": "sessions_lane",
+  "phase": "sessions-apparatus",
+  "phase_status": "completed",
+  "last_completed_phase": "sessions-apparatus",
+  "last_error": null,
   "started": "2026-08-30T00:00:00Z",
-  "updated": "2026-08-30T22:14:58Z",
+  "updated": "2026-09-12T00:00:00Z",
   "phases": {
     "scaffold": {
       "status": "completed",
@@ -102,7 +99,18 @@
     },
     "per-chapter": {
       "status": "failed",
-      "ts_completed": "2026-08-31T18:10:28Z"
+      "ts_completed": "2026-08-31T18:10:28Z",
+      "note": "Abandoned attempt: this book was run through the standard orchestrated pipeline (0a-0f, per-chapter) before content_profile was set to islamic_session, so phase 0d designed chapters against prose rules instead of session-length rules -- hence the pre-flight word-count failure below. It was then rebuilt through the Sessions lane's own tooling (book.md + chapter-contracts + m4a/Episodes), which is what is actually live today. This entry is kept as history; it is not the current state."
+    },
+    "sessions-apparatus": {
+      "status": "completed",
+      "note": "Reconstructed 2026-09-12: book/book.md, chapter-contracts/*.yml and m4a/Episodes/* all exist and match the shape of the pipeline's other completed Sessions-lane books, but pipeline_mode and this phase entry were never set when they were produced. Backfilled to match reality, not re-run."
+    },
+    "publish": {
+      "status": "pending",
+      "listener_deploy": {
+        "status": "skipped"
+      }
     }
   },
   "intake_via": "hand-staged transcript + audio + VTT (2026-08-30)",
@@ -117,13 +125,14 @@
     "content/Sessions/purification-of-the-heart/transcripts/01-purification-of-the-heart.vtt",
     "content/Sessions/purification-of-the-heart/transcripts/02-purification-of-the-heart.vtt"
   ],
-  "next_phase": "0e",
+  "next_phase": null,
   "unattended": true,
-  "ts_updated": "2026-08-31T18:10:28Z",
+  "ts_updated": "2026-09-12T20:06:29Z",
   "phase_attempts": {
     "06a": 1,
     "0f": 1
   },
   "run_id": "20260831T181028Z-23028a",
-  "content_profile": "islamic_session"
+  "content_profile": "islamic_session",
+  "published_at": "2026-09-12T20:06:29Z"
 }

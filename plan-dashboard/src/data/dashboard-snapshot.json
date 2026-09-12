@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 111
+    "burn_30d_usd": 93.62
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -2145,6 +2145,24 @@
       "episodes": 4
     },
     {
+      "slug": "degrees-of-excellence",
+      "title": "Degrees of Excellence",
+      "shipped": "2026-09-12T19:52:58Z",
+      "episodes": 6
+    },
+    {
+      "slug": "kitab-al-riyad",
+      "title": "Kitab al-Riyad",
+      "shipped": "2026-09-12T19:52:54Z",
+      "episodes": 15
+    },
+    {
+      "slug": "love-of-the-prophet",
+      "title": "Love Of The Prophet",
+      "shipped": "2026-09-12T19:53:02Z",
+      "episodes": 0
+    },
+    {
       "slug": "mukhtasar-ul-asar-1",
       "title": "Mukhtasar-ul-Asaar 1",
       "shipped": "2026-08-15T19:47:28Z",
@@ -2161,6 +2179,12 @@
       "title": "Sharh al-Masa'il",
       "shipped": "2026-08-29T16:41:49Z",
       "episodes": 5
+    },
+    {
+      "slug": "surah-al-fateha",
+      "title": "Surah Al-Fateha",
+      "shipped": "2026-09-12T19:53:02Z",
+      "episodes": 0
     },
     {
       "slug": "the-master-and-the-disciple",

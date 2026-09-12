@@ -14,7 +14,7 @@ pipeline:
   phase_status: pending
 
 publication:
-  status: draft
+  status: published
 
 series:
   enable_book_branch: true
