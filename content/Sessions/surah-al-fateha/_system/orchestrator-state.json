@@ -27,7 +27,15 @@
     },
     "sessions-apparatus": {
       "status": "pending"
+    },
+    "publish": {
+      "status": "pending",
+      "listener_deploy": {
+        "status": "skipped"
+      }
     }
   },
-  "status": "draft"
+  "status": "published",
+  "published_at": "2026-09-12T19:53:02Z",
+  "ts_updated": "2026-09-12T19:53:03Z"
 }

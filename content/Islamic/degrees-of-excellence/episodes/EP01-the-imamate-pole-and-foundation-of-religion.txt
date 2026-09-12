@@ -11,16 +11,13 @@ Fixed English label per figure, every time — never speak Arabic names or book 
 - Reigning imam → "the imam of the age," unnamed. Abraham → "Abraham"; Ismail → "Ishmael." Ja'far al-Sadiq → "the sixth imam." Rumi → "a poet."
 
 ## Pronunciation
-Say each term ONCE using its phonetic form. Never say the original spelling and the phonetic form back-to-back.
-- imamate: IM-uh-mayt — the office; three syllables
-- imam: i-MAAM
-- al-Naysaburi: an-nay-saa-BOO-ree — the author
-- qutb: KOOTB — the pole
-- asas al-din: ah-SAAS ad-DEEN — the foundation of religion
+Say each term ONCE, using the form given here and nothing else. Never say the original spelling and the form given here back-to-back.
+- al-Naysaburi: the author
+- imamate: the office of the imam
+- qutb: the pole
 - tawhid: tow-HEED
-- ta'wil: taa-WEEL
+- ta'wil: the inner interpretation
 - tashbih: tash-BEEH
-
 ## Central tensions to reach
 Arc: crisis / failed answer / pivot / stakes. The hosts MUST surface every one of these, by name:
 - The imam before the messenger — affirming the imamate already affirms the messengership, because whoever knows the imam knows the messenger, but not the reverse.

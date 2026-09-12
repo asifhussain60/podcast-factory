@@ -1,9 +1,15 @@
 # Current work - status
 
-**Last updated:** 2026-09-03 (review-and-fix pass: two admin-site path escapes and the dev
+**Last updated:** 2026-09-12 (verified both frontend ratchet gates are green on `develop` —
+`plan-dashboard`: 96 lint warnings within budget, 8 pinned files within their size ceiling;
+`listener`: 20 lint warnings within budget, 4 pinned files within their size ceiling. Fixed as
+part of the `review/fixes-2026-09-04-c` merge; the 2026-09-03 note below calling them red is
+stale.)
+
+**2026-09-03** (review-and-fix pass: two admin-site path escapes and the dev
 server's exposure of the Library's secrets file are fixed on `review/fixes-2026-09-03`, not
-yet merged; the site's size ratchets are red on `develop` and were not touched — see the
-2026-09-03 entry in copilot-handoff.md)
+yet merged; the site's size ratchets were red on `develop` at the time and were not touched in
+that pass — see the 2026-09-03 entry in copilot-handoff.md)
 
 **Previous — 2026-09-02** (the Library gained a third collection, author
 credits on every card, and read-along for its first audiobook — all of it

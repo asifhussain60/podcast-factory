@@ -16,3 +16,5 @@ pipeline:
   # 5 chapters, one per delivered session. orchestrator-state.json
   # is authoritative; this block is a human-readable mirror.
   lane: sessions
+publication:
+  status: published
