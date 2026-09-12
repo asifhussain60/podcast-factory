@@ -12,6 +12,18 @@ are reported n/a by the caller; this module supplies the two that need a real
 Sessions-lane equivalent: G1 (does this book actually have finished content
 to publish) and G5 (has the lane's own pipeline actually finished).
 
+An audiobook (content/Audiobook/<slug>/) runs through this SAME lane — same
+pipeline_mode, same phase names (sessions-apparatus, sessions-read-along, ...)
+— because it is built by the same scripts/podcast/sessions/*.py tooling. It
+diverges at exactly one place: a recorded lecture is naturally cut into
+topic-sized chapter-contracts, but a narrated novel is one continuous reading
+with no topic boundaries to contract, so it never has a chapter-contracts/
+directory. Its finished chapter set is recorded instead in the schema-versioned
+`_system/audiobook-chapters.json` (episode number, audio file, timestamps).
+Before this file recognised that manifest, G1 saw zero chapter-contracts and
+refused to publish every audiobook outright — see White Nights, the case that
+surfaced it (2026-09-12).
+
 Split out of publish_to_library.py rather than inlined there, the same seam
 that produced _publish_downstream.py: this file was already at the DR-005
 600-line cap, and Sessions-lane structure/state checks are a self-contained
@@ -38,10 +50,29 @@ def is_sessions_lane(workspace: Path) -> bool:
         return False
 
 
+def _audiobook_chapter_count(workspace: Path) -> int | None:
+    """The chapter count from `_system/audiobook-chapters.json`, or None if
+    the file is absent, unparseable, or carries no chapters. An audiobook has
+    no chapter-contracts (see module docstring), so this is its equivalent
+    proof of a finished chapter set. Unusable is treated the same as absent —
+    G1 falls through to its normal "nothing to publish" failure rather than
+    reporting a count that was never real.
+    """
+    manifest_path = workspace / "_system" / "audiobook-chapters.json"
+    if not manifest_path.is_file():
+        return None
+    try:
+        chapters = json.loads(manifest_path.read_text(encoding="utf-8")).get("chapters")
+    except (OSError, ValueError):
+        return None
+    return len(chapters) if isinstance(chapters, list) and chapters else None
+
+
 def gate_g1_sessions_structure(workspace: Path, *, fail, ok) -> tuple[bool, int]:
     """The Sessions lane's own proof of real, finished structure: a composed
-    book/book.md, at least one chapter-contracts/*.yml (what the Listener
-    ingests as episodes), and at least one recorded episode under
+    book/book.md, a finished chapter set — chapter-contracts/*.yml for a
+    lecture, or `_system/audiobook-chapters.json` for an audiobook (see
+    `_audiobook_chapter_count`) — and at least one recorded episode under
     m4a/Episodes/. Returns (passed, episode_count) — episode_count substitutes
     for G1's normal `len(episodes)` in the caller's catalog/log lines.
     """
@@ -52,17 +83,30 @@ def gate_g1_sessions_structure(workspace: Path, *, fail, ok) -> tuple[bool, int]
     if not book_md.is_file() or not book_md.read_text(encoding="utf-8").strip():
         fail("G1", f"missing or empty book/book.md under {workspace}")
         return False, 0
+
     contracts = sorted(contracts_dir.glob("*.yml")) if contracts_dir.is_dir() else []
-    if not contracts:
-        fail("G1", f"no chapter-contracts/*.yml under {workspace}")
+    audiobook_count = None if contracts else _audiobook_chapter_count(workspace)
+    if not contracts and audiobook_count is None:
+        fail(
+            "G1",
+            f"no chapter-contracts/*.yml and no usable _system/audiobook-chapters.json under {workspace}",
+        )
         return False, 0
+
     audio = sorted(p for p in audio_dir.glob("*") if p.is_file()) if audio_dir.is_dir() else []
     if not audio:
         fail("G1", f"no m4a/Episodes/* audio under {workspace}")
         return False, 0
 
-    ok("G1", f"sessions lane: book.md + {len(contracts)} chapter-contract(s) + {len(audio)} episode audio file(s)")
-    return True, len(contracts)
+    if contracts:
+        ok("G1", f"sessions lane: book.md + {len(contracts)} chapter-contract(s) + {len(audio)} episode audio file(s)")
+        return True, len(contracts)
+    ok(
+        "G1",
+        f"sessions lane (audiobook): book.md + {audiobook_count} chapter(s) via "
+        f"audiobook-chapters.json + {len(audio)} episode audio file(s)",
+    )
+    return True, audiobook_count
 
 
 def gate_g5_sessions_state(workspace: Path, force: bool, *, fail, ok) -> bool:

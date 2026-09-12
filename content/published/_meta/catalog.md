@@ -14,3 +14,4 @@ tracks one published book. Republish a book to refresh its row.
 | [love-of-the-prophet](../books/love-of-the-prophet/README.md) | 5 | 2026-09-12 | `8dbfb38f8a1c` |
 | [surah-al-fateha](../books/surah-al-fateha/README.md) | 23 | 2026-09-12 | `8dbfb38f8a1c` |
 | [purification-of-the-heart](../books/purification-of-the-heart/README.md) | 24 | 2026-09-12 | `4abb594f8003` |
+| [white-nights](../books/white-nights/README.md) | 8 | 2026-09-12 | `b7f6d6a9aa3c` |

@@ -14,3 +14,5 @@ series:
 pipeline:
   # orchestrator-state.json is authoritative; this is a readable mirror.
   lane: spoken
+publication:
+  status: published

@@ -2010,8 +2010,8 @@
     {
       "slug": "purification-of-the-heart",
       "title": "Purification of the Heart",
-      "phase": "per-chapter",
-      "phase_status": "failed",
+      "phase": "sessions-apparatus",
+      "phase_status": "completed",
       "cost_to_date_usd": 0,
       "kind": "islamic_session"
     },
@@ -2172,6 +2172,12 @@
       "slug": "mukhtasar-ul-asar-2",
       "title": "Mukhtasar-ul-Asaar 2",
       "shipped": "2026-08-15T19:47:41Z",
+      "episodes": 0
+    },
+    {
+      "slug": "purification-of-the-heart",
+      "title": "Purification of the Heart",
+      "shipped": "2026-09-12T20:06:29Z",
       "episodes": 0
     },
     {

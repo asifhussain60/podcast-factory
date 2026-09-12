@@ -26,6 +26,24 @@ from _publish_sessions_gates import (  # noqa: E402
 )
 
 
+def _audiobook_structure(tmp_path: Path, *, num_chapters: int = 2) -> None:
+    """book.md + m4a/Episodes/, but NO chapter-contracts — an audiobook has
+    no topic-sized chapters to contract (see _publish_sessions_gates docstring).
+    Its finished chapter set lives in _system/audiobook-chapters.json instead."""
+    (tmp_path / "book").mkdir()
+    (tmp_path / "book" / "book.md").write_text("## A Chapter\n\nSome prose.\n", encoding="utf-8")
+    (tmp_path / "m4a" / "Episodes").mkdir(parents=True)
+    system = tmp_path / "_system"
+    system.mkdir(exist_ok=True)
+    chapters = []
+    for i in range(1, num_chapters + 1):
+        (tmp_path / "m4a" / "Episodes" / f"ep{i:02d}.m4a").write_bytes(b"\x00")
+        chapters.append({"episode": i, "file": f"m4a/Episodes/ep{i:02d}.m4a", "title": f"Chapter {i}"})
+    (system / "audiobook-chapters.json").write_text(
+        json.dumps({"schema": "podcast.audiobook-chapters/v1", "chapters": chapters}), encoding="utf-8"
+    )
+
+
 def _state(tmp_path: Path, **overrides) -> None:
     system = tmp_path / "_system"
     system.mkdir(exist_ok=True)
@@ -96,6 +114,45 @@ def test_g1_fails_with_no_episode_audio(tmp_path: Path) -> None:
     (tmp_path / "chapter-contracts" / "ep01-book.yml").write_text("x", encoding="utf-8")
     ok, count = gate_g1_sessions_structure(tmp_path, fail=lambda *_: None, ok=lambda *_: None)
     assert (ok, count) == (False, 0)
+
+
+# ─── gate_g1_sessions_structure — audiobook variant (no chapter-contracts) ──
+
+
+def test_g1_passes_for_an_audiobook_via_its_own_manifest(tmp_path: Path) -> None:
+    """No chapter-contracts/ at all — proof comes from audiobook-chapters.json
+    instead, exactly White Nights' real shape."""
+    _audiobook_structure(tmp_path, num_chapters=8)
+    ok, count = gate_g1_sessions_structure(tmp_path, fail=lambda *_: None, ok=lambda *_: None)
+    assert (ok, count) == (True, 8)
+
+
+def test_g1_fails_when_audiobook_manifest_has_no_chapters(tmp_path: Path) -> None:
+    _audiobook_structure(tmp_path, num_chapters=0)
+    ok, count = gate_g1_sessions_structure(tmp_path, fail=lambda *_: None, ok=lambda *_: None)
+    assert (ok, count) == (False, 0)
+
+
+def test_g1_fails_when_audiobook_manifest_missing_and_no_contracts(tmp_path: Path) -> None:
+    (tmp_path / "book").mkdir()
+    (tmp_path / "book" / "book.md").write_text("## A Chapter\n\nProse.\n", encoding="utf-8")
+    (tmp_path / "m4a" / "Episodes").mkdir(parents=True)
+    (tmp_path / "m4a" / "Episodes" / "ep01.m4a").write_bytes(b"\x00")
+    ok, count = gate_g1_sessions_structure(tmp_path, fail=lambda *_: None, ok=lambda *_: None)
+    assert (ok, count) == (False, 0)
+
+
+def test_g1_prefers_chapter_contracts_when_both_exist(tmp_path: Path) -> None:
+    """A book carrying both is the lecture shape by construction — the
+    manifest is never consulted, so a leftover/stray audiobook-chapters.json
+    can't silently change the reported count."""
+    _real_structure(tmp_path)
+    (tmp_path / "_system").mkdir(exist_ok=True)
+    (tmp_path / "_system" / "audiobook-chapters.json").write_text(
+        json.dumps({"chapters": [{"episode": 1}, {"episode": 2}, {"episode": 3}]}), encoding="utf-8"
+    )
+    ok, count = gate_g1_sessions_structure(tmp_path, fail=lambda *_: None, ok=lambda *_: None)
+    assert (ok, count) == (True, 1)
 
 
 # ─── gate_g5_sessions_state ─────────────────────────────────────────────────
