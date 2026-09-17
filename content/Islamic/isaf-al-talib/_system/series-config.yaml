@@ -34,15 +34,12 @@ enable_video: false
 video_style: none
 book_pipeline_v2: true
 
-# ── OPEN QUESTION — not yet resolvable by config alone ──────────────────────
-# Asif asked for chapters + read-aloud narration + slide-decks, with NO
-# NotebookLM two-host podcast episodes for this book. The pipeline's only
-# existing switch for that (`skip_per_chapter`) is a property of the
-# CONTENT-TYPE REGISTRY (scripts/podcast/_content_types.py), not a per-book
-# field here — and every profile that currently sets it (islamic_session,
-# audiobook) does so because the audio ALREADY EXISTS as a human recording,
-# which skips OCR/phonetics too. This book needs OCR + phonetics (for
-# read-aloud pronunciation) but has no existing audio and no podcast wanted.
-# That combination has no registry entry yet. Resolve this — either a new
-# content_profile variant or a genuine per-book override — before running
-# Phase 0a/orchestration, so the podcast lane isn't built and then thrown away.
+# Chapters + read-aloud narration + slide-decks only — no NotebookLM two-host
+# podcast episodes for this book (Asif, 2026-09-17). Per-book override, added
+# specifically because this need was expected to recur: docs/standards/
+# book-series-setup.md, scripts/podcast/_content_profile.py::skip_podcast.
+# Unlike the content-type registry's skip_per_chapter (islamic_session,
+# audiobook — audio already exists, so OCR/phonetics are skipped too), this
+# book still runs Phase 0a OCR and 0c phonetics as normal; only the episode
+# loop is skipped.
+skip_podcast: true
