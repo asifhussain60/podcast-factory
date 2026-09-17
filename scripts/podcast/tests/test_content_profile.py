@@ -15,7 +15,7 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from _content_profile import is_islamic_scholarly, resolve_content_profile
+from _content_profile import is_islamic_scholarly, resolve_content_profile, skip_podcast
 from _rules import (
     BUCKETS,
     CONTENT_PROFILES,
@@ -134,6 +134,47 @@ class TestContentTypeRegistry(unittest.TestCase):
     def test_registry_keys_match_profile_field(self):
         for key, ct in CONTENT_TYPE_REGISTRY.items():
             self.assertEqual(key, ct.profile)
+
+
+class TestSkipPodcast(unittest.TestCase):
+    """Per-book override — independent of the content-type registry's
+    skip_per_chapter (see _content_profile.skip_podcast docstring)."""
+
+    def _make_book(self, tmp: Path, **cfg_fields) -> Path:
+        book = tmp / "book"
+        sys_dir = book / "_system"
+        sys_dir.mkdir(parents=True)
+        (sys_dir / "series-config.yaml").write_text(yaml.dump(cfg_fields))
+        return book
+
+    def test_defaults_false_when_no_config_file(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            book = Path(tmp) / "book"
+            book.mkdir()
+            (book / "_system").mkdir()
+            self.assertFalse(skip_podcast(book))
+
+    def test_defaults_false_when_field_absent(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            book = self._make_book(Path(tmp), content_profile="islamic_scholarly")
+            self.assertFalse(skip_podcast(book))
+
+    def test_true_when_explicitly_set(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            book = self._make_book(Path(tmp), content_profile="islamic_scholarly", skip_podcast=True)
+            self.assertTrue(skip_podcast(book))
+
+    def test_false_when_explicitly_set_false(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            book = self._make_book(Path(tmp), content_profile="islamic_scholarly", skip_podcast=False)
+            self.assertFalse(skip_podcast(book))
+
+    def test_works_on_a_profile_the_registry_never_skips(self):
+        """The whole point: a fiction book (registry skip_per_chapter=False)
+        can still opt out per-book."""
+        with tempfile.TemporaryDirectory() as tmp:
+            book = self._make_book(Path(tmp), content_profile="fiction", skip_podcast=True)
+            self.assertTrue(skip_podcast(book))
 
 
 if __name__ == "__main__":
