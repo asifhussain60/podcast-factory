@@ -1,0 +1,48 @@
+slug: isaf-al-talib
+# Provisional transliteration of the source filenames ("Isafut Talib 1 A").
+# Confirm the exact title (and author, if named) against the source's own
+# title page once Phase 0a OCR runs, then correct this + meta.yml + _README.md
+# together.
+title: "Is'af al-Talib"
+author: null
+
+content_profile: islamic_scholarly
+
+# Primary source is the handwritten ARABIC scan; Urdu is consulted only to
+# fill gaps / resolve uncertain readings where the Arabic OCR is unclear —
+# see _source/SOURCES.md. Neither is English, so this is a translation, not
+# a re-voicing of an already-English source.
+source_language: ar
+
+# Translated FROM the Arabic original INTO English, adding nothing beyond
+# the source — mirrors content/Islamic/the-master-and-the-disciple (the
+# gold-standard reference, docs/standards/book-series-setup.md).
+deliverable_mode: translation_edition
+book_augmentation: none
+book_voice: faithful
+
+# narrative_frame is a property of the SOURCE (who narrates, and whether the
+# narration addresses a reader) and must never be guessed from a template —
+# docs/standards/book-series-setup.md. Neither source has been OCR'd yet, so
+# this cannot be set responsibly. Read how the book opens once Phase 0a/0b
+# text exists, then set one of: first_person_author, first_person_expository,
+# transmitted_report, external_narrator. Compose will not run correctly
+# without this.
+# narrative_frame: TBD
+
+enable_video: false
+video_style: none
+book_pipeline_v2: true
+
+# ── OPEN QUESTION — not yet resolvable by config alone ──────────────────────
+# Asif asked for chapters + read-aloud narration + slide-decks, with NO
+# NotebookLM two-host podcast episodes for this book. The pipeline's only
+# existing switch for that (`skip_per_chapter`) is a property of the
+# CONTENT-TYPE REGISTRY (scripts/podcast/_content_types.py), not a per-book
+# field here — and every profile that currently sets it (islamic_session,
+# audiobook) does so because the audio ALREADY EXISTS as a human recording,
+# which skips OCR/phonetics too. This book needs OCR + phonetics (for
+# read-aloud pronunciation) but has no existing audio and no podcast wanted.
+# That combination has no registry entry yet. Resolve this — either a new
+# content_profile variant or a genuine per-book override — before running
+# Phase 0a/orchestration, so the podcast lane isn't built and then thrown away.
