@@ -128,3 +128,34 @@ def density_standard_active(book_dir: Path) -> bool:
         return int(cfg.get("density_standard") or 0) >= 2
     except (TypeError, ValueError):
         return False
+
+
+def skip_podcast(book_dir: Path) -> bool:
+    """True when THIS book's own series-config.yaml opts out of the podcast lane.
+
+    `skip_podcast: true` is a PER-BOOK override, independent of the content-type
+    registry's `ContentType.skip_per_chapter` (`_content_types.py`). The registry
+    flag is keyed to profiles whose audio already exists and IS the deliverable
+    (`islamic_session`, `audiobook`) — those also skip OCR and phonetics, because
+    there is nothing to transcribe or predict the pronunciation of. This flag is
+    for the opposite case: a book that still needs OCR + phonetics (the read-aloud
+    narration still has to say Arabic terms correctly) but whose deliverable is
+    chapters + read-aloud + slide-decks, never a two-host NotebookLM conversation.
+    Deliberately does NOT touch `book_augmentation`/`book_voice` defaults in
+    `_pipeline_flags.py` — those are keyed to "audio already exists", which is not
+    true here; a `skip_podcast` book still gets the normal articulation/augmentation
+    treatment for its reading edition.
+
+    Asif, 2026-09-17 (isaf-al-talib): "I can see this happening again. Not all
+    books should have to go down the podcast route." Defaults False — every
+    existing book, with no field or an absent/falsy one, is unaffected.
+    """
+    cfg_path = book_dir / "_system" / "series-config.yaml"
+    if not cfg_path.exists():
+        return False
+    try:
+        with cfg_path.open() as f:
+            cfg = yaml.safe_load(f) or {}
+    except Exception:
+        return False
+    return bool(cfg.get("skip_podcast", False))

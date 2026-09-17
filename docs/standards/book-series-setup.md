@@ -23,6 +23,27 @@ rather than re-deriving each knob from first principles.
   declared video style already in play.
 - `book_pipeline_v2: true`.
 
+## `skip_podcast` — opt a single book out of the episode lane
+
+`skip_podcast: true` skips the per-chapter NotebookLM podcast episode loop
+for THIS book only (`_content_profile.skip_podcast`, checked by
+`phases/chapter_driver.py`) — no episodes, no upload bundle, no audio
+render. Chapters, slide decks, the reading edition, and the read-aloud
+narration are unaffected; only the two-host conversation is skipped.
+
+This is a genuinely different switch from `skip_per_chapter` in the
+content-type registry (`_content_types.py`), which already exists for
+`islamic_session`/`audiobook` — those skip OCR and phonetics too, because
+the audio already exists and IS the deliverable. `skip_podcast` is for a
+book that still needs OCR + phonetics (read-aloud narration still has to
+pronounce Arabic terms correctly) but was never going to be a podcast in
+the first place — an editorial choice, not a property of the source medium.
+Setting it does NOT change the book's augmentation/voice defaults; it still
+gets the normal reading-edition treatment for its profile.
+
+Asif, 2026-09-17 (`isaf-al-talib`): "Not all books should have to go down
+the podcast route." Defaults `false` — every existing book is unaffected.
+
 ## Never copy verbatim — these are properties of THIS book
 
 - **`narrative_frame`** — a property of the SOURCE, never the template. See

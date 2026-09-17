@@ -87,19 +87,31 @@ def _drive_per_chapter_and_after(book_dir: Path, *, approve_audio_render: bool =
     # skips, so "does this kind of content have episodes?" is answered in one
     # place rather than tested for here.
     #
+    # A book can also skip the podcast for the opposite reason: no recording
+    # exists yet, but the operator has decided this one is never going to be a
+    # two-host conversation — `skip_podcast: true`, a PER-BOOK override in the
+    # book's own series-config.yaml (`_content_profile.skip_podcast`), separate
+    # from the content-type registry flag above. See that function's docstring.
+    #
     # It skips the EPISODE LOOP ONLY. Everything after it still runs — slide
     # decks (the brief asks for one per chapter), the reading edition, the
     # finalize halt — which is why this hands the full chapter set to
     # `drive_post_chapter` rather than returning.
     from _content_profile import resolve_content_profile
+    from _content_profile import skip_podcast as _skip_podcast_override
     from _content_types import phase_capabilities
 
-    if phase_capabilities(resolve_content_profile(book_dir)).skip_per_chapter:
+    _audio_already_exists = phase_capabilities(resolve_content_profile(book_dir)).skip_per_chapter
+    _podcast_declined = _skip_podcast_override(book_dir)
+    if _audio_already_exists or _podcast_declined:
         _info(f"per-chapter: skipped for this content type — {len(chapter_slugs)} chapter(s) are the deliverable.")
-        _info("  The recording already exists and is the lecture: no episodes, no upload bundle, no audio render.")
-        update_phase(
-            book_dir, phase="per-chapter", status="completed", extras={"skipped_reason": "audio already exists"}
-        )
+        if _audio_already_exists:
+            _reason = "audio already exists"
+            _info("  The recording already exists and is the lecture: no episodes, no upload bundle, no audio render.")
+        else:
+            _reason = "skip_podcast set in series-config.yaml"
+            _info("  skip_podcast is set for this book: no episodes, no upload bundle, no audio render.")
+        update_phase(book_dir, phase="per-chapter", status="completed", extras={"skipped_reason": _reason})
         from phases.post_chapter_driver import drive_post_chapter
 
         return drive_post_chapter(

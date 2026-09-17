@@ -235,6 +235,39 @@ def test_skipping_the_lane_still_runs_slides_and_finalize():
     assert "drive_post_chapter" in skip_block[:1200]
 
 
+# ── A book can also skip the podcast with no recording at all ────────────────
+# Asif, 2026-09-17 (isaf-al-talib): "Model it as a per-book override, add a
+# skip_podcast flag. I can see this happening again. Not all books should have
+# to go down the podcast route." Unlike SPOKEN_LANE_PROFILES above, this is not
+# a property of the content type — it's a choice made in ONE book's own
+# series-config.yaml, and it must not change the registry default for every
+# other book of the same profile.
+
+
+def test_the_driver_also_checks_the_per_book_override():
+    import inspect
+
+    from phases import chapter_driver
+
+    src = inspect.getsource(chapter_driver._drive_per_chapter_and_after)
+    assert "skip_podcast" in src
+
+
+def test_the_per_book_override_does_not_change_augmentation_defaults():
+    """skip_podcast means 'no episodes', not 'audio already exists'. A book
+    that opts out of the podcast lane still gets the normal reading-edition
+    augmentation/voice treatment — it is not routed through the spoken-lane
+    defaults meant for a recording that already exists."""
+    from _pipeline_flags import BOOK_AUGMENTATION_SOURCE_ONLY, BOOK_VOICE_FAITHFUL, _default_knobs
+
+    aug, voice = _default_knobs(
+        Path("/nonexistent"),
+        {"content_profile": "islamic_scholarly", "skip_podcast": True},
+    )
+    assert aug == BOOK_AUGMENTATION_SOURCE_ONLY
+    assert voice == BOOK_VOICE_FAITHFUL
+
+
 def _chapter(tmp_path, words: int, *, verbatim: bool):
     import yaml
 
