@@ -27,6 +27,26 @@ const MERMAID_JS = path.join(
   "dist",
   "mermaid.min.js",
 );
+// THEME_VARIABLES.fontFamily below names "Lato" but the loader page never said
+// where to find it, so text metrics came from whatever the OS happened to
+// resolve as a fallback -- macOS and the Linux CI runner disagree, so the SAME
+// committed SVG read clean locally and STALE in CI on every run. Serving the
+// exact woff2 the live site already ships (public/fonts/lato/) makes every
+// renderer, on any OS, measure text against the same glyphs.
+const LATO_400 = path.join(
+  ROOT,
+  "public",
+  "fonts",
+  "lato",
+  "lato-latin-400-normal.woff2",
+);
+const LATO_700 = path.join(
+  ROOT,
+  "public",
+  "fonts",
+  "lato",
+  "lato-latin-700-normal.woff2",
+);
 
 // --book-dir=<path>: render book/_diagrams/*.mmd in place (SVG alongside .mmd).
 const _bookDirArg = process.argv.find((a) => a.startsWith("--book-dir="));
@@ -93,9 +113,20 @@ async function main() {
   // file:// module imports are CORS-blocked (origin "null"). Serve the mermaid
   // bundle + a loader page over http://localhost so the ESM import is allowed.
   const mermaidJs = readFileSync(MERMAID_JS);
+  const lato400 = readFileSync(LATO_400);
+  const lato700 = readFileSync(LATO_700);
   // mermaid.min.js is an IIFE bundle that assigns globalThis.mermaid — load it
   // as a classic script (not a module), then drive it from window.mermaid.
-  const loaderHtml = `<!doctype html><html><head><meta charset="utf-8"></head><body>
+  // The @font-face + document.fonts.ready gate is the fix for the cross-OS
+  // drift above: without it, mermaid measures text on whatever fallback font
+  // was already resolved by the time this script ran, which can race the
+  // face finishing its own async load even ON a machine that has it.
+  const loaderHtml = `<!doctype html><html><head><meta charset="utf-8">
+    <style>
+      @font-face { font-family: "Lato"; src: url("/fonts/lato-400.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Lato"; src: url("/fonts/lato-700.woff2") format("woff2"); font-weight: 700; }
+    </style>
+  </head><body>
     <script src="/mermaid.min.js"></script>
     <script>
       mermaid.initialize({
@@ -107,7 +138,8 @@ async function main() {
         sequence:  { useMaxWidth: true },
       });
       window.__renderMermaid = async (id, def) => (await mermaid.render(id, def)).svg;
-      window.__ready = true;
+      Promise.all([document.fonts.load('400 16px Lato'), document.fonts.load('700 16px Lato')])
+        .then(() => { window.__ready = true; });
     </script>
   </body></html>`;
 
@@ -115,6 +147,12 @@ async function main() {
     if (req.url === "/mermaid.min.js") {
       res.writeHead(200, { "Content-Type": "text/javascript" });
       res.end(mermaidJs);
+    } else if (req.url === "/fonts/lato-400.woff2") {
+      res.writeHead(200, { "Content-Type": "font/woff2" });
+      res.end(lato400);
+    } else if (req.url === "/fonts/lato-700.woff2") {
+      res.writeHead(200, { "Content-Type": "font/woff2" });
+      res.end(lato700);
     } else {
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(loaderHtml);
