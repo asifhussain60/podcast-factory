@@ -1,10 +1,14 @@
 slug: isaf-al-talib
-# Provisional transliteration of the source filenames ("Isafut Talib 1 A").
-# Confirm the exact title (and author, if named) against the source's own
-# title page once Phase 0a OCR runs, then correct this + meta.yml + _README.md
-# together.
-title: "Is'af al-Talib"
-author: null
+# Read directly off the source's own title page (2026-09-17), not a guess:
+# كتاب إسعاف الطالب في جميع المطالب — "Kitab Is'af al-Talib fi Jami'
+# al-Matalib" ("The Book of Aiding the Seeker in All Requests/Demands"),
+# Part One (الجزء الأول (أ)). The title page states it gathers Shar'i
+# (jurisprudential) matters, arranged following the order of Da'a'im
+# al-Islam — Qadi al-Nu'man's foundational Ismaili fiqh text.
+title: "Is'af al-Talib fi Jami' al-Matalib"
+# Sayyidna wa Mawlana Shams al-Kiyan, Hujjat Imam 'Asrihi wal-Zaman, Faidh
+# Ali bin Sayyidna Sulaiman — as named on the title page.
+author: "Faidh Ali bin Sayyidna Sulaiman (Shams al-Kiyan)"
 
 content_profile: islamic_scholarly
 
@@ -21,14 +25,14 @@ deliverable_mode: translation_edition
 book_augmentation: none
 book_voice: faithful
 
-# narrative_frame is a property of the SOURCE (who narrates, and whether the
-# narration addresses a reader) and must never be guessed from a template —
-# docs/standards/book-series-setup.md. Neither source has been OCR'd yet, so
-# this cannot be set responsibly. Read how the book opens once Phase 0a/0b
-# text exists, then set one of: first_person_author, first_person_expository,
-# transmitted_report, external_narrator. Compose will not run correctly
-# without this.
-# narrative_frame: TBD
+# The source's first page (2026-09-17) opens with the author's own doxology
+# in first person — "أحمده ... وأشهد أن محمدا عبده ورسوله" ("I praise Him
+# ... and I bear witness that Muhammad is His servant and messenger") —
+# then states he compiled Shar'i matters into this arrangement. Same shape
+# as content/Islamic/kitab-al-riyad's opening (docs/standards/
+# book-series-setup.md's worked example for this frame): the author's own
+# prayer, then first-person statement of method. -> first_person_author.
+narrative_frame: first_person_author
 
 enable_video: false
 video_style: none
