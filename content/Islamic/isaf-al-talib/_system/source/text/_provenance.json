@@ -1,0 +1,33 @@
+{
+  "schema": "podcast.ingest-source/v1",
+  "generated_at": "2026-09-18T00:06:52.722475+00:00",
+  "source": {
+    "path": "/Users/ahmac/Code/podcast-factory/content/Islamic/isaf-al-talib/_system/source/Isaf-al-Talib-Vol1A-Arabic.pdf",
+    "byte_size": 31434044
+  },
+  "book_slug": "isaf-al-talib",
+  "book_dir": "content/Islamic/isaf-al-talib",
+  "doc_intelligence": {
+    "endpoint": "https://journal-docintel.cognitiveservices.azure.com",
+    "api_version": "2023-07-31",
+    "model": "prebuilt-read",
+    "page_count": 293,
+    "ocr_char_count": 321704,
+    "elapsed_seconds": 26.3,
+    "operation_id": "succeeded",
+    "reused_checkpoint": false
+  },
+  "translator": {
+    "api_version": "3.0",
+    "src_lang": "ar",
+    "tgt_lang": "en",
+    "region": "eastus",
+    "output_char_count": 521247,
+    "elapsed_seconds": 21.43
+  },
+  "outputs": {
+    "raw_extract": "content/Islamic/isaf-al-talib/_system/source/text/raw-extract.md",
+    "ocr_raw_extract": "content/Islamic/isaf-al-talib/_system/source/ocr/raw-extract.md",
+    "extraction_notes": "content/Islamic/isaf-al-talib/_system/source/text/_extraction-notes.md"
+  }
+}
