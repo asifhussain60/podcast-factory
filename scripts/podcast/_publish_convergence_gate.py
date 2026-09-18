@@ -97,8 +97,23 @@ def gate_g7_challenger_convergence(workspace: Path, allow_mode_2: bool, *, fail,
     state = {}
     if state_path.exists():
         state = json.loads(state_path.read_text())
+    # A skip_podcast book (per-book override, series-config.yaml) never runs the
+    # podcast convergence loop by design — there is no episode bundle for a
+    # challenger to converge on. Unlike the other NON_CONVERGED_PIPELINE_MODES
+    # entries, which require a human to explicitly opt in with --allow-mode-2,
+    # this book's operator already made that call up front by setting the
+    # override, so this auto-passes rather than blocking on a flag nobody would
+    # think to pass for a book that was never going to have a convergence report.
+    # Chapter-level quality for this lane is gated separately, by the 0g bundle
+    # audit and the per-chapter slide-deck-challenger sweep.
+    from _publish_skip_podcast_gates import is_skip_podcast_lane
+
+    if is_skip_podcast_lane(workspace):
+        ok("G7", "skip_podcast lane: no podcast episodes, so no challenger convergence loop applies")
+        return True
+
     pipeline_mode = state.get("pipeline_mode")
-    convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES
+    convergence_skipped = pipeline_mode in NON_CONVERGED_PIPELINE_MODES or is_skip_podcast_lane(workspace)
 
     if not convergence_skipped:
         per_chapter_result = _chapter_timings_verdict(state)

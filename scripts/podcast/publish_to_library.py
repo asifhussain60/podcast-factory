@@ -73,6 +73,7 @@ from _publish_reading_edition_gates import (
     is_reading_edition_only,
 )
 from _publish_sessions_gates import gate_g1_sessions_structure, gate_g5_sessions_state, is_sessions_lane
+from _publish_skip_podcast_gates import gate_g1_skip_podcast_structure, is_skip_podcast_lane
 
 # Type-first layout (2026-06-04): books live at content/<Bucket>/<slug>/ and
 # draft/published is a STATUS FIELD, not a folder. WORKSPACE is only the legacy
@@ -371,6 +372,7 @@ def publish(slug: str, args: argparse.Namespace) -> int:
 
     sessions_lane = is_sessions_lane(workspace)
     reading_edition_only = is_reading_edition_only(workspace)
+    skip_podcast_lane = is_skip_podcast_lane(workspace)
 
     _info(f"==> publish_to_library: {slug}")
     _info(f"    workspace: {workspace.relative_to(REPO_ROOT)}")
@@ -397,6 +399,13 @@ def publish(slug: str, args: argparse.Namespace) -> int:
             return 1
         _info("[G2-G4] n/a — reading-edition-only lane has no chapters/episodes txt upload bundle to check")
         if not gate_g5_reading_edition_state(workspace, args.force, fail=_fail, ok=_ok):
+            return 1
+    elif skip_podcast_lane:
+        ok1, episode_count = gate_g1_skip_podcast_structure(workspace, fail=_fail, ok=_ok)
+        if not ok1:
+            return 1
+        _info("[G2-G4] n/a — skip_podcast lane has no episodes/ upload bundle to check")
+        if not gate_g5_state(workspace, args.force):
             return 1
     else:
         ok1, chapters, episodes = gate_g1_structure(workspace)
