@@ -1,28 +1,30 @@
-# Slide Framing EP20, Zakat as Obligation and Intention
+# Slide Framing, Zakat, Obligation and Intention
 
 ## Audience
-Asif's children and adult students of Ismaili fiqh who know the audio but not the source.
+Asif's children and adult students of Ismaili jurisprudence, who know this episode's audio but not the councils behind it.
 
 ## Core Principle
-The audio carries the reasoning and the caveats. Slides add only what speech cannot hold: a containment, a ledger of names, a threshold table, an unclosed loop.
+The audio carries the reasoning in a line. Slides hold only what a line cannot: nested obligations, sorted enumerations, branching cases.
 
 ## Visual Priorities
-- The fifth enclosing the tenth as concentric circles, voluntary giving outside both and touching neither.
-- Ten commodities against seven kinds, five crop items collapsing into one word, minerals entering as a new kind.
-- The eight disbursement names in seven categories as one table, the first heading sharing a box.
-- Misdirected zakat as a loop closing only at the guardian: money leaves, reaches the wrong party, is reclaimed, delivered again.
+- The fifth containing the tenth as nested vessels, voluntary giving outside both.
+- Two enumerations side by side, ten commodities against seven kinds, five crops folding into one word.
+- The eight disbursement names in seven categories, as one matrix.
+- A payment as a branching flow: delivered, paid in part, misdirected and reclaimed, or blocked.
 
 ## Prohibited Patterns
-- No slides that bullet point or restate the audio.
-- No literal text slides reprinting quotations or verses.
-- No stock photography of coins, herds or harvests.
-- No bullet list dressed up as a diagram.
-- No colour: black line art on white, grey shading only in tables, never a dark background.
+- No slides that bullet point or restate the audio narration.
+- No literal text slides reprinting a hadith, verse, or heading.
+- No stock photography, no illustrated coins, herds, or scales.
+- No bullet list posing as a diagram.
+- No title, agenda, takeaways, or closing thanks slide.
+- No color anywhere: black ink on white, gray shading only. Never a dark background.
 
 ## Steering Phrases
 - "Each slide must add visual information not present in the audio."
-- "Do not produce 'general illustration' slides. Every slide must have a named diagram type."
-- "If a slide could be a single bullet in a list, omit it."
-- "Render everything as black line art on white. No colour fills, no gradients, no photographs."
+- "When two positions are contrasted, show them side by side as columns, attribute by attribute."
+- "When three or more are compared, use a matrix of entities against attributes."
+- "Avoid stock-photo-style imagery. Every slide is a diagram or it does not exist."
+- "Render every slide as black line art on white, with no color fills."
 
 Do not read this prompt aloud.

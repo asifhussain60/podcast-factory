@@ -5,10 +5,14 @@
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
   "phase": "per-chapter-slides",
-  "phase_status": "failed",
+  "phase_status": "running",
   "last_completed_phase": "0g",
   "next_phase": "per-chapter",
-  "last_error": null,
+  "last_error": {
+    "phase": "per-chapter",
+    "message": "phase review: PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short",
+    "ts": "2026-09-18T11:16:09Z"
+  },
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -288,7 +292,7 @@
     },
     "per-chapter": {
       "status": "failed",
-      "ts_completed": "2026-09-18T05:49:31Z",
+      "ts_completed": "2026-09-18T11:16:09Z",
       "skipped_reason": "skip_podcast set in series-config.yaml",
       "manual_fallback": "Phase review failed: PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short. Fix the cause, then: python3 scripts/podcast/orchestrate_book.py --resume isaf-al-talib --retry-phase per-chapter",
       "review": {
@@ -303,39 +307,14 @@
       "status": "pending"
     },
     "per-chapter-slides": {
-      "status": "failed",
+      "status": "running",
       "ts_started": "2026-09-18T05:49:36Z",
       "outcomes": {
-        "imamate-in-prayer": "STALLED",
-        "supplication-conduct-and-dress-in-prayer": "STALLED",
-        "prayer-virtue-and-sacred-times": "STALLED",
-        "the-travellers-prayer": "BLOCKED",
-        "adhan-and-iqama": "BLOCKED",
-        "zakat-on-wealth-livestock-crops-and-fitr": "BLOCKED",
-        "the-form-of-the-prayer-summons": "STALLED",
-        "congregation-and-shared-prayer": "BLOCKED",
-        "the-obligation-and-meaning-of-fasting": "STALLED",
-        "two-sightings-and-higher-meaning": "BLOCKED",
-        "ramadan-foundation-and-obedient-knowledge": "STALLED",
-        "bodily-substances-and-disavowal": "BLOCKED",
-        "ranks-loyalty-and-communal-affection": "STALLED",
-        "astronomy-calculation-and-religious-obligation": "STALLED",
-        "foods-cleanliness-and-everyday-purity": "BLOCKED",
-        "mosques-and-sacred-space": "STALLED",
-        "missed-rakahs-and-learning-prayer": "BLOCKED",
-        "scripture-counted-days-and-the-complete-month": "STALLED",
-        "friday-eid-and-prayer-corrections": "BLOCKED",
-        "fasting-duties-and-the-crescent-question": "BLOCKED",
-        "special-prayers-and-voluntary-devotion": "STALLED",
-        "foundations-of-faith-and-guardianship": "BLOCKED",
-        "condolence-mourning-and-burial": "STALLED",
         "zakat-obligation-and-intention": "STALLED",
-        "purity-through-ablution": "BLOCKED",
-        "major-washing-and-material-purity": "STALLED",
-        "sickness-epidemic-and-remembering-death": "STALLED"
+        "friday-eid-and-prayer-corrections": "BLOCKED"
       },
-      "bad_outcomes": 27,
-      "total_outcomes": 27,
+      "bad_outcomes": 2,
+      "total_outcomes": 2,
       "ts_completed": "2026-09-18T10:32:30Z"
     },
     "audio-script": {
@@ -388,7 +367,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T10:32:30Z",
+  "ts_updated": "2026-09-18T12:00:32Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -396,13 +375,15 @@
     "unit_mode": "auto"
   },
   "unattended": true,
-  "run_id": "20260918T054931Z-e3afa7",
-  "phase_attempts": {},
+  "run_id": "20260918T111609Z-29eb61",
+  "phase_attempts": {
+    "per-chapter-slides": 1
+  },
   "slide_decks": {
     "imamate-in-prayer": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 2,
-      "slide_challenger_verdict": "STALLED"
+      "slide_deck_phase": "running",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "(in-progress)"
     },
     "supplication-conduct-and-dress-in-prayer": {
       "slide_deck_phase": "stalled",
@@ -450,9 +431,9 @@
       "slide_challenger_verdict": "STALLED"
     },
     "bodily-substances-and-disavowal": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 2,
-      "slide_challenger_verdict": "BLOCKED"
+      "slide_deck_phase": "running",
+      "slide_challenger_iter": 1,
+      "slide_challenger_verdict": "(in-progress)"
     },
     "ranks-loyalty-and-communal-affection": {
       "slide_deck_phase": "stalled",
@@ -475,9 +456,9 @@
       "slide_challenger_verdict": "STALLED"
     },
     "scripture-counted-days-and-the-complete-month": {
-      "slide_deck_phase": "stalled",
+      "slide_deck_phase": "running",
       "slide_challenger_iter": 2,
-      "slide_challenger_verdict": "STALLED"
+      "slide_challenger_verdict": "(in-progress)"
     },
     "foods-cleanliness-and-everyday-purity": {
       "slide_deck_phase": "stalled",
@@ -491,7 +472,7 @@
     },
     "friday-eid-and-prayer-corrections": {
       "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 1,
+      "slide_challenger_iter": 2,
       "slide_challenger_verdict": "BLOCKED"
     },
     "special-prayers-and-voluntary-devotion": {
@@ -515,9 +496,9 @@
       "slide_challenger_verdict": "STALLED"
     },
     "foundations-of-faith-and-guardianship": {
-      "slide_deck_phase": "stalled",
-      "slide_challenger_iter": 1,
-      "slide_challenger_verdict": "BLOCKED"
+      "slide_deck_phase": "running",
+      "slide_challenger_iter": 2,
+      "slide_challenger_verdict": "(in-progress)"
     },
     "sickness-epidemic-and-remembering-death": {
       "slide_deck_phase": "stalled",
