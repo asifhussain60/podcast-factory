@@ -79,7 +79,15 @@ def drive_post_chapter(
         )
 
     # Phase 11b — slide-deck cohort.
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
+    # Either place can opt a book out: series-plan.md (`**Enable Slide Decks:** false`) or the
+    # per-book series-config.yaml (`enable_slide_decks: false`) — the latter was documented in
+    # isaf-al-talib's config but never read here, so slide decks ran anyway (2026-09-18).
+    from _pipeline_flags import _read_series_config
+
+    enable_slide_decks = (
+        _series_flag(book_dir, "enable_slide_decks", default=True)
+        and _read_series_config(book_dir).get("enable_slide_decks", True) is not False
+    )
     _slides_already_done = (read_state(book_dir) or {}).get("phases", {}).get("per-chapter-slides", {}).get(
         "status"
     ) in ("completed", "skipped")
