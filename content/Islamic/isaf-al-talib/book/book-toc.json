@@ -1,0 +1,412 @@
+{
+  "book_title": "Iṣāf al-Ṭālib fī Jamīʿ al-Maṭālib (The Student's Aid in All Demands)",
+  "voice": "modern author first-person",
+  "preface": {
+    "include": true,
+    "title": "A Compiler's World: How to Read This Book",
+    "source_line_ranges": [
+      [
+        37,
+        58
+      ]
+    ]
+  },
+  "chapters": [
+    {
+      "bk_index": 1,
+      "title": "The Eight Levels of Faith",
+      "source_line_ranges": [
+        [
+          59,
+          79
+        ]
+      ],
+      "theme": "faith and Islam",
+      "rationale": "Opens the compiler's first book with the distinction between faith and Islam and the enumerated seven duties and twelve obligations."
+    },
+    {
+      "bk_index": 2,
+      "title": "Three Questions from the King of Rūm",
+      "source_line_ranges": [
+        [
+          80,
+          133
+        ]
+      ],
+      "theme": "ʿAlī's answers",
+      "rationale": "Gathers the narrative set-pieces in which ʿAlī and al-Ḥasan answer the riddles that defeated others, establishing the Imams' inherited knowledge."
+    },
+    {
+      "bk_index": 3,
+      "title": "The Grammar of Peace",
+      "source_line_ranges": [
+        [
+          134,
+          162
+        ]
+      ],
+      "theme": "greetings and salutation",
+      "rationale": "A self-contained unit on the seven divine and twelve human forms of the greeting of peace and how it must be returned."
+    },
+    {
+      "bk_index": 4,
+      "title": "Guardians, Proofs, and the Limits of Praise",
+      "source_line_ranges": [
+        [
+          163,
+          194
+        ]
+      ],
+      "theme": "Imams' ranks",
+      "rationale": "Covers the houses and ranks of the Imams, their proofs and preachers, the ban on exaggeration, and their commandments to followers."
+    },
+    {
+      "bk_index": 5,
+      "title": "Parents, Kin, and the Neighbor at Your Side",
+      "source_line_ranges": [
+        [
+          195,
+          234
+        ]
+      ],
+      "theme": "social obligations",
+      "rationale": "The linked councils on love among believers, righteousness to spiritual and bodily parents, the twelve classes of kin, and the rights of neighbors."
+    },
+    {
+      "bk_index": 6,
+      "title": "What Must Be Learned, What Must Be Concealed",
+      "source_line_ranges": [
+        [
+          235,
+          284
+        ]
+      ],
+      "theme": "knowledge and secrecy",
+      "rationale": "Runs from the duty to seek knowledge and the obligatory articles of belief to the ban on analogy and the command to guard the secret."
+    },
+    {
+      "bk_index": 7,
+      "title": "Water and Intention: The Anatomy of Ablution",
+      "source_line_ranges": [
+        [
+          286,
+          334
+        ]
+      ],
+      "theme": "wudūʾ basics",
+      "rationale": "Opens the Book of Purity with what nullifies ablution and the seven obligations and twelve Sunnahs of the lesser and greater purity."
+    },
+    {
+      "bk_index": 8,
+      "title": "The Manners of the Washing Place",
+      "source_line_ranges": [
+        [
+          335,
+          410
+        ]
+      ],
+      "theme": "etiquette of wudūʾ",
+      "rationale": "Gathers the etiquette and detailed characteristics of ablution, including wounds, dried limbs, disputed water, and the inner meaning of the seven limbs."
+    },
+    {
+      "bk_index": 9,
+      "title": "Major Impurity and the Cleanliness of Things",
+      "source_line_ranges": [
+        [
+          411,
+          468
+        ]
+      ],
+      "theme": "ghusl and objects",
+      "rationale": "Moves from ghusl for janābah to the purity of bodies, garments, ground, carpets, vessels, and the clothing of non-Muslims."
+    },
+    {
+      "bk_index": 10,
+      "title": "Tooth-Stick, Dust, and the Purity of Food",
+      "source_line_ranges": [
+        [
+          469,
+          516
+        ]
+      ],
+      "theme": "siwāk, tayammum, food",
+      "rationale": "Covers the siwāk, the law of purification by earth when water fails, and the purity of foods and drinks in the marketplace."
+    },
+    {
+      "bk_index": 11,
+      "title": "Bodies, Hair, and the Reform of Custom",
+      "source_line_ranges": [
+        [
+          517,
+          595
+        ]
+      ],
+      "theme": "fiṭrah and innovation",
+      "rationale": "Joins the rulings on circumcision, hair, and adornment with Jaʿfar ibn Sulaymān's letter rebuking the Indian and Yemeni innovations in these very practices."
+    },
+    {
+      "bk_index": 12,
+      "title": "Skins, Blood, and Waiting Periods",
+      "source_line_ranges": [
+        [
+          596,
+          663
+        ]
+      ],
+      "theme": "hides, menstruation",
+      "rationale": "Covers the purity of skin, bone, hair, and wool, then menstruation and postpartum bleeding, closing the Book of Purity with istibrāʾ."
+    },
+    {
+      "bk_index": 13,
+      "title": "The Pillar of Religion and Its Appointed Hours",
+      "source_line_ranges": [
+        [
+          664,
+          778
+        ]
+      ],
+      "theme": "prayer times",
+      "rationale": "Opens the Book of Prayer with the virtues and neglect of prayer and the long treatment of prayer times, missed prayers, and repentance."
+    },
+    {
+      "bk_index": 14,
+      "title": "The Disputed Words of the Call",
+      "source_line_ranges": [
+        [
+          779,
+          826
+        ]
+      ],
+      "theme": "adhān and its addition",
+      "rationale": "The call to prayer and the iqāma, leading into the historical episode of al-Ḥākim and the contested phrase added to the adhān."
+    },
+    {
+      "bk_index": 15,
+      "title": "Eight Proofs for the Best of Human Beings",
+      "source_line_ranges": [
+        [
+          827,
+          911
+        ]
+      ],
+      "theme": "defense of the adhān",
+      "rationale": "The complete epistolary debate defending the adhān formula through eight Qurʾanic proofs and rebutting objections."
+    },
+    {
+      "bk_index": 16,
+      "title": "Where a Muslim Stands to Pray",
+      "source_line_ranges": [
+        [
+          912,
+          976
+        ]
+      ],
+      "theme": "mosques",
+      "rationale": "A single thematic unit on mosques: their building, their graves, their greeting prayer, and the ranked merit of praying in each."
+    },
+    {
+      "bk_index": 17,
+      "title": "Who May Lead, and Who May Not",
+      "source_line_ranges": [
+        [
+          977,
+          1064
+        ]
+      ],
+      "theme": "imamate and congregation",
+      "rationale": "The conditions and disqualifications for leading prayer, followed by the rules of the congregation, its rows, and women's participation."
+    },
+    {
+      "bk_index": 18,
+      "title": "The Shape of the Prayer Itself",
+      "source_line_ranges": [
+        [
+          1065,
+          1103
+        ]
+      ],
+      "theme": "prayer's obligations",
+      "rationale": "The obligatory acts and Sunnahs of prayer, including Jaʿfar ibn Sulaymān's rebuke of those who claim loyalty yet never prostrate."
+    },
+    {
+      "bk_index": 19,
+      "title": "Supplication, Speech, and Silence",
+      "source_line_ranges": [
+        [
+          1104,
+          1143
+        ]
+      ],
+      "theme": "duʿāʾ and conduct",
+      "rationale": "The seven postures of supplication after prayer and the rulings on words, gestures, and bodily conduct within the prayer."
+    },
+    {
+      "bk_index": 20,
+      "title": "What the Worshipper Wears and Stands Upon",
+      "source_line_ranges": [
+        [
+          1144,
+          1201
+        ]
+      ],
+      "theme": "dress and ground",
+      "rationale": "Garments, silk, figured carpets, covering of the ʿawrah, and what surfaces may lawfully receive a prostration."
+    },
+    {
+      "bk_index": 21,
+      "title": "Friday and the Two Festivals",
+      "source_line_ranges": [
+        [
+          1202,
+          1248
+        ]
+      ],
+      "theme": "assembly prayers",
+      "rationale": "The Friday sermon and assembly together with the two Eid prayers, their takbīrs, and the inner meaning of al-Fiṭr."
+    },
+    {
+      "bk_index": 22,
+      "title": "Forgetting, Doubting, and Beginning Again",
+      "source_line_ranges": [
+        [
+          1249,
+          1306
+        ]
+      ],
+      "theme": "omission and doubt",
+      "rationale": "The prostration of omission, the twelve cases of doubt, what interrupts prayer, and the prayer of the latecomer."
+    },
+    {
+      "bk_index": 23,
+      "title": "Children, Travelers, and the Sick",
+      "source_line_ranges": [
+        [
+          1307,
+          1424
+        ]
+      ],
+      "theme": "dispensations",
+      "rationale": "When boys are commanded to pray, the long law of the traveler's shortening and its exceptions, and the prayer of the incapacitated."
+    },
+    {
+      "bk_index": 24,
+      "title": "Eclipse, Fear, Rain, and the Night Vigil",
+      "source_line_ranges": [
+        [
+          1425,
+          1513
+        ]
+      ],
+      "theme": "occasional prayers",
+      "rationale": "The occasional and supererogatory prayers — eclipse, fear, istisqāʾ, witr and qunūt, Sunnah and nafl — closing with the prostration of Qurʾanic recitation."
+    },
+    {
+      "bk_index": 25,
+      "title": "The Sickbed and the Sound of Mourning",
+      "source_line_ranges": [
+        [
+          1514,
+          1553
+        ]
+      ],
+      "theme": "dying and grief",
+      "rationale": "Opens the Book of Funerals with visiting the sick, the remembrance of death, and the sharp condemnation of wailing over the dead."
+    },
+    {
+      "bk_index": 26,
+      "title": "Washing, Shrouding, Carrying, Burying",
+      "source_line_ranges": [
+        [
+          1554,
+          1625
+        ]
+      ],
+      "theme": "funeral rites",
+      "rationale": "The sequence of rites for the corpse: washing, embalming and shroud, the procession, the funeral prayer, and the grave."
+    },
+    {
+      "bk_index": 27,
+      "title": "The Wealth That Is Not Yours",
+      "source_line_ranges": [
+        [
+          1626,
+          1649
+        ]
+      ],
+      "theme": "zakāt's obligation",
+      "rationale": "Opens the Book of Zakāt with its intention, its seven sources and eight recipients, and the sin of withholding it from the Imam."
+    },
+    {
+      "bk_index": 28,
+      "title": "Gold, Herds, and Harvest",
+      "source_line_ranges": [
+        [
+          1650,
+          1696
+        ]
+      ],
+      "theme": "zakāt thresholds",
+      "rationale": "The detailed thresholds of zakāt on gold and silver, on camels, cattle and sheep, and on grains, fruits, and mined wealth."
+    },
+    {
+      "bk_index": 29,
+      "title": "The Charity of the Head",
+      "source_line_ranges": [
+        [
+          1697,
+          1714
+        ]
+      ],
+      "theme": "zakāt al-fiṭr",
+      "rationale": "Zakāt al-fiṭr — its measure, its timing before the Eid prayer, and the residual cases of who owes nothing."
+    },
+    {
+      "bk_index": 30,
+      "title": "A Shield Against the Fire",
+      "source_line_ranges": [
+        [
+          1715,
+          1734
+        ]
+      ],
+      "theme": "fasting obligation",
+      "rationale": "Opens the Book of Fasting with the obligation of Ramadan and the seven obligatory and twelve recommended fasts."
+    },
+    {
+      "bk_index": 31,
+      "title": "The Quarrel Over the Crescent",
+      "source_line_ranges": [
+        [
+          1735,
+          1825
+        ]
+      ],
+      "theme": "sighting dispute",
+      "rationale": "The polemic arguing that Ramadan is never deficient and that fasting must not hang on the naked-eye sighting of the moon."
+    },
+    {
+      "bk_index": 32,
+      "title": "Two Kinds of Sight",
+      "source_line_ranges": [
+        [
+          1826,
+          1955
+        ]
+      ],
+      "theme": "vision of the soul",
+      "rationale": "Al-Kirmānī's epistle distinguishing sensory sight from the vision of knowledge and grounding the fast in calculated conjunction."
+    },
+    {
+      "bk_index": 33,
+      "title": "The Sun, the Moon, and the Order of Obedience",
+      "source_line_ranges": [
+        [
+          1956,
+          2069
+        ]
+      ],
+      "theme": "interpretation of fasting",
+      "rationale": "Concludes the epistle by answering the 'count thirty days' objection and reading the sun and moon as figures of the Prophet and his Foundation."
+    }
+  ]
+}

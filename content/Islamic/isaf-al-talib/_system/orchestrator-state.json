@@ -4,15 +4,11 @@
   "category": "books",
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
-  "phase": "per-chapter-slides",
-  "phase_status": "running",
-  "last_completed_phase": "0g",
-  "next_phase": "per-chapter",
-  "last_error": {
-    "phase": "per-chapter",
-    "message": "phase review: PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short",
-    "ts": "2026-09-18T13:00:52Z"
-  },
+  "phase": "0book-design",
+  "phase_status": "completed",
+  "last_completed_phase": "0book-design",
+  "next_phase": "0book-compose",
+  "last_error": null,
   "phases": {
     "pre-flight": {
       "status": "completed",
@@ -292,7 +288,7 @@
     },
     "per-chapter": {
       "status": "failed",
-      "ts_completed": "2026-09-18T13:00:52Z",
+      "ts_completed": "2026-09-18T16:05:40Z",
       "skipped_reason": "skip_podcast set in series-config.yaml",
       "manual_fallback": "Phase review failed: PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short. Fix the cause, then: python3 scripts/podcast/orchestrate_book.py --resume isaf-al-talib --retry-phase per-chapter",
       "review": {
@@ -307,29 +303,49 @@
       "status": "pending"
     },
     "per-chapter-slides": {
-      "status": "running",
+      "status": "skipped",
       "ts_started": "2026-09-18T05:49:36Z",
       "outcomes": {
         "two-sightings-and-higher-meaning": "BLOCKED",
         "supplication-conduct-and-dress-in-prayer": "STALLED"
       },
       "bad_outcomes": 2,
-      "total_outcomes": 2
+      "total_outcomes": 2,
+      "ts_completed": "2026-09-18T15:58:18Z",
+      "reason": "enable_slide_decks=false"
     },
     "audio-script": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-09-18T15:58:18Z",
+      "reason": "audio_engine=notebooklm (manual)"
     },
     "audio-render": {
-      "status": "pending"
+      "status": "skipped",
+      "ts_completed": "2026-09-18T15:58:18Z",
+      "reason": "audio_engine=notebooklm (manual)"
     },
     "finalize": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-09-18T15:58:18Z",
+      "ts_completed": "2026-09-18T16:05:41Z",
+      "validator_stdout": "==> validate_ship_ready: isaf-al-talib\n    workspace: content/Islamic/isaf-al-talib\n    publish:   sets status=published in place (nothing is copied)\n\n=== Gates ===\nOK    [G1] skip_podcast lane: 27 chapters present (no podcast episodes by design)\nn/a   [G2-G4] skip_podcast lane has no episodes/ upload bundle to check\nOK    [G5] state.json phase=finalize phase_status=running\nn/a   [G6] status-flag model writes no published/ tree\nOK    [G7] skip_podcast lane: no podcast episodes, so no challenger convergence loop applies\n\n--- Advisories (non-blocking) ---\n  · G13 arabic-script-in-chapters: n/a (skip_podcast: Arabic coverage is enforced on the rendered book by B3)\n\n✗ BLOCKED — G14 arabic-integrity failed — forbidden Arabic mutation(s) — see _system/arabic-integrity-report.md\n  Remediation: see the failing gate's reason above.\n",
+      "validator_stderr": "arabic_integrity: ✗ 2 forbidden Arabic change(s) in phase all — see _system/arabic-integrity-report.md\n",
+      "verdict": "SHIP-READY"
     },
     "audio-ingest": {
       "status": "pending"
     },
     "0book-design": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-09-18T16:05:41Z",
+      "ts_completed": "2026-09-18T16:06:31Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     },
     "0book-compose": {
       "status": "pending"
@@ -366,7 +382,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T13:32:08Z",
+  "ts_updated": "2026-09-18T16:06:31Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -374,8 +390,10 @@
     "unit_mode": "auto"
   },
   "unattended": true,
-  "run_id": "20260918T130052Z-d7d758",
-  "phase_attempts": {},
+  "run_id": "20260918T160540Z-f336fe",
+  "phase_attempts": {
+    "finalize": 4
+  },
   "slide_decks": {
     "imamate-in-prayer": {
       "slide_deck_phase": "running",
