@@ -38,3 +38,4 @@
 {"ts": "2026-09-18T00:44:12Z", "phase": "0b", "step": "win-034", "model": "claude-sonnet-4-6", "input_tokens": 4783, "output_tokens": 3268, "cache_read": 0, "cache_create": 0, "cost_usd": 0.063369, "engine": "api"}
 {"ts": "2026-09-18T00:44:15Z", "phase": "0b", "step": "win-036", "model": "claude-sonnet-4-6", "input_tokens": 3616, "output_tokens": 2635, "cache_read": 0, "cache_create": 0, "cost_usd": 0.050373, "engine": "api"}
 {"ts": "2026-09-18T00:44:35Z", "phase": "0b", "step": "win-035", "model": "claude-sonnet-4-6", "input_tokens": 4677, "output_tokens": 3467, "cache_read": 0, "cache_create": 0, "cost_usd": 0.066036, "engine": "api"}
+{"ts": "2026-09-18T00:44:48Z", "phase": "0d", "step": "toc", "model": "claude-opus-4-8", "input_tokens": 0, "output_tokens": 0, "cache_read": 0, "cache_create": 0, "cost_usd": 0.0, "engine": "max"}

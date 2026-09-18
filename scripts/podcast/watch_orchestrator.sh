@@ -17,14 +17,24 @@
 set -uo pipefail
 
 # ── Args ─────────────────────────────────────────────────────────────────────
-SLUG="${1:?Usage: watch_orchestrator.sh <slug> [--max-retries N]}"
+SLUG="${1:?Usage: watch_orchestrator.sh <slug> [--max-retries N] [--authoring-engine auto|claude|codex]}"
 MAX_RETRIES=20          # each retry = one orchestrator launch; 20 × ~30s backoff = ~10 min overhead max
 RETRY_DELAY_S="${RETRY_DELAY_S:-30}"   # seconds between a crash and the next attempt (env override for tests)
+# Forwarded to every orchestrate_book.py invocation this watchdog makes. Unset
+# (the default) reproduces the prior behavior byte-for-byte — orchestrate_book.py
+# itself defaults to "auto". Exists because the watchdog's own retries hardcode
+# their invocation and previously had no way to carry an engine override across
+# a crash/retry cycle: a book force-switched to `codex` (e.g., the local `claude`
+# CLI's OAuth session expired mid-run — asif-al-talib, 2026-09-17) fell back to
+# `auto` on every subsequent watchdog-driven retry and re-hit the same wall on
+# the next Claude-authored phase.
+AUTHORING_ENGINE="${AUTHORING_ENGINE:-}"
 
 shift
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --max-retries) MAX_RETRIES="$2"; shift 2 ;;
+        --authoring-engine) AUTHORING_ENGINE="$2"; shift 2 ;;
         *) echo "Unknown flag: $1" >&2; exit 2 ;;
     esac
 done
@@ -301,11 +311,15 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
 
     # Stale-running guard: orchestrator crashed while phase_status was "running".
     # --retry-phase clears the stale flag so --resume can proceed.
+    ENGINE_ARGS=()
+    if [[ -n "$AUTHORING_ENGINE" ]]; then
+        ENGINE_ARGS=(--authoring-engine "$AUTHORING_ENGINE")
+    fi
     if [[ "$STATUS" == "running" ]]; then
         _log "Stale running state detected — using --retry-phase $PHASE"
-        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor "${ENGINE_ARGS[@]}" 2>&1 | tee -a "$LOG"
     else
-        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor "${ENGINE_ARGS[@]}" 2>&1 | tee -a "$LOG"
     fi
 
     RC=${PIPESTATUS[0]}
