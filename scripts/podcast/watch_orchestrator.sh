@@ -311,15 +311,26 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
 
     # Stale-running guard: orchestrator crashed while phase_status was "running".
     # --retry-phase clears the stale flag so --resume can proceed.
+    #
+    # Empty-array expansion, not "${ENGINE_ARGS[@]}" directly: under `set -u`,
+    # bash 3.2 (macOS's shipped /bin/bash — `bash --version` here is
+    # 3.2.57) treats expanding an EMPTY array as an unbound-variable error,
+    # even though the array itself was declared. `${arr[@]+"${arr[@]}"}` is
+    # the portable guard (only expands when the array has at least one
+    # element). Caught 2026-09-17 mid-run: the first relaunch after adding
+    # --authoring-engine passthrough died on this before ever reaching
+    # orchestrate_book.py.
     ENGINE_ARGS=()
     if [[ -n "$AUTHORING_ENGINE" ]]; then
         ENGINE_ARGS=(--authoring-engine "$AUTHORING_ENGINE")
     fi
     if [[ "$STATUS" == "running" ]]; then
         _log "Stale running state detected — using --retry-phase $PHASE"
-        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor "${ENGINE_ARGS[@]}" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor \
+            ${ENGINE_ARGS[@]+"${ENGINE_ARGS[@]}"} 2>&1 | tee -a "$LOG"
     else
-        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor "${ENGINE_ARGS[@]}" 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor \
+            ${ENGINE_ARGS[@]+"${ENGINE_ARGS[@]}"} 2>&1 | tee -a "$LOG"
     fi
 
     RC=${PIPESTATUS[0]}
