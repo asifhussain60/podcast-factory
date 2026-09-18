@@ -338,7 +338,7 @@
     "0book-design": {
       "status": "completed",
       "ts_started": "2026-09-18T16:05:41Z",
-      "ts_completed": "2026-09-18T16:06:31Z",
+      "ts_completed": "2026-09-18T19:22:24Z",
       "review": {
         "verdict": "PHASE-SOUND",
         "failed": 0,
@@ -348,7 +348,8 @@
       }
     },
     "0book-compose": {
-      "status": "pending"
+      "status": "pending",
+      "ts_started": "2026-09-18T16:06:35Z"
     },
     "0book-illustrate": {
       "status": "pending"
@@ -382,7 +383,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T16:06:31Z",
+  "ts_updated": "2026-09-18T19:22:24Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -390,9 +391,10 @@
     "unit_mode": "auto"
   },
   "unattended": true,
-  "run_id": "20260918T160540Z-f336fe",
+  "run_id": "20260918T192224Z-3ac971",
   "phase_attempts": {
-    "finalize": 4
+    "finalize": 4,
+    "0book-compose": 2
   },
   "slide_decks": {
     "imamate-in-prayer": {
