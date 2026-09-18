@@ -1,0 +1,538 @@
+# The Obligation and Meaning of Fasting
+
+## Where this episode picks up
+
+Annotated structure. Whole: the opening case, put before any definition.
+
+- Part 1, the day: a man takes no food and no water from dawn to sunset.
+- Part 2, the tongue: he spends that whole day tearing a neighbour's reputation apart.
+- Part 3, the question: has he fasted?
+- Part 4, the answer: he fasted with one part of himself and broke the fast with several others.
+- Annotation: the arithmetic of the day is not a yes or a no. It is a proportion.
+
+Cross-axis: outward abstention along the top, inward restraint down the side. The case sits where the first is complete and the second is absent.
+
+Governing conviction, stated at the start rather than argued toward: a fast is not a subtraction of food from a day but a restraint laid across every gate through which a person meets the world. Because the mouth is only one gate, two men can pass the same day in identical outward abstention and have performed two different acts, or, in the limiting case the source names without softening, one act and no act at all.
+
+Annotated structure. Whole: the two source headings carrying this chapter.
+
+- Heading 1: the mention of the obligation of fasting in the month of Ramadan.
+  - Callout: it defines what a fast is, says who owes one, and says whose fast does not count at all.
+- Heading 2: a Shari'ah ruling that fasting becomes obligatory for a boy once he can distinguish right from left.
+  - Callout: it then supplies something much larger and only glancingly about boys, the division of fasting into categories, seven obligatory and twelve recommended, from the fourteenth council of al-Mustansiriyya.
+
+Cross-axis: what a fast is, along the first heading. Why there is one to keep, along the second.
+
+Entry point: the previous chapter closed on the last levy of the Book of Zakat, counted by head rather than by wealth and owed at the close of the fast.
+
+Comparison matrix. The authorities, fewer than in the zakat chapters and more varied in kind.
+
+| Authority | Work cited | What it supplies |
+|---|---|---|
+| Mukhtasar al-Musannaf | named directly | The definition, and the scope |
+| Our master Ja'far ibn Sayyidina Sulayman, may God bless him | his noble epistle entitled the Sharpest Sword in Nullifying Innovations, to the people of Yemen | A rebuke on how the month is named |
+| Our master al-Qadi al-Nu'man ibn Muhammad, may God sanctify him | Mukhtasar al-Athar al-Sharifa | A report from our master the Imam al-Baqir Abu Ja'far Muhammad ibn Ali, peace be upon him |
+| The fourteenth majlis of the Mustansiriyya councils, may God's peace be upon its author | the councils | The catalogue of seven and twelve |
+| Our master Zayd ibn Muhammad, may God sanctify his soul | the hidden message | The ordering, and the length of the month |
+| Mawlana Amir al-Mu'minin Ali ibn Abi Talib, may Allah's peace be upon him | his four hundred manners | What a fast does to the one keeping it |
+
+Comparison matrix. The damage register, reported once and not repaired.
+
+| Damaged element | What the source gives | Handling |
+|---|---|---|
+| The chapter heading | the Book of Lent, the Christian fast | Reported. Everything under it concerns Ramadan |
+| A clause after the epistle | "as for what has been stated, and to Allah all things return" | Reproduced. Its lead-in is gone |
+| A parenthetical on permission | "and His permission is in that saying" | Left obscure |
+| The third obligatory fast | "and likewise in expiation, until resurrection" | Does not resolve. Left standing |
+| The third recommended fast | "every Thursday on the first day of each month" | Kept damaged |
+| The recommended category's own name | "recommended or delegated" first, "recommended and mourning" second | Variance reproduced, not settled |
+| The title of Ali's collection | four hundred manners here, four hundred counsels and four hundred points of conduct earlier in the series | Each form left as it comes |
+
+Rule applied: a repair would read better and would not be the book's own.
+
+Genealogy chain. The transmission of the naming rule, direction of authority marked.
+
+Wording of revelation, chapter 2 verse 185 → the Imam al-Baqir, peace be upon him, who declines to improve on it → our master al-Qadi al-Nu'man ibn Muhammad, recording it in Mukhtasar al-Athar al-Sharifa → our master Ja'far ibn Sayyidina Sulayman, pressing it on the people of Yemen → this chapter, reporting the pressing
+
+Visual metaphor. Relation: how far this chapter's estimate of a fast expands. Metaphor: three widening rings around one person.
+
+- Innermost: the stomach.
+- Middle: the senses, tongue first.
+- Outermost: the words a community uses about the season it keeps.
+Reading: each ring contains the last.
+
+## The Shield of Every Sense
+
+Blockquote, from the book Mukhtasar al-Musannaf.
+
+> Fasting is a shield from the Fire.
+
+Annotated structure. Whole: the shield.
+
+- Part, the thing held: the fast. Held by the person keeping it.
+- Part, the thing incoming: the Fire.
+- Part, the surface area: how much of the person it covers.
+- Annotation: a shield is not a payment and not a merit badge. Its function is defensive, its value measured by coverage.
+
+Hierarchy tree. The gates the shield is laid across, in the source's own order.
+
+- Level 1: The senses the fast shields
+  - Level 2: The tongue, named first, ahead of the ears and the eyes.
+  - Level 2: The ears.
+  - Level 2: The eyes.
+  - Level 2: All the other senses. An open clause, so the definition cannot become a checklist a person completes and sets down.
+- Level 1: Abstaining from food and drink
+  - Level 2: Mentioned only afterward, and only to be demoted. Not simply a matter of abstaining from food and drink.
+
+Annotation on the order: taking food in is not in the list at all. The thing everyone means by fasting arrives late and diminished, one item in a set rather than the set itself.
+
+Annotation on the entries: the source names organs, not offences. A restrained tongue is not saying what it could say, a restrained eye not looking where it could look. Each is a refusal rather than an action, which is why all can run at once across one day.
+
+Process flow. The accounting system the definition becomes.
+
+Start: a person enters the day with every gate open.
+- Step: a sense is restrained.
+- Transition: for every sense that is restrained, there is a reward.
+- Branch A, all upheld: whoever upholds that is truly fasting.
+- Branch B, some released: whoever abandons any of it diminishes the virtue of his fast proportionally to what he has left.
+- Condition on Branch B: the fast does not shatter. It shrinks.
+- Floor beneath both branches: there is no fasting for one who is a hypocrite and disobeys.
+End states: a full fast, a fast of some smaller size, or no fast at all.
+
+Annotation on reward: it accrues per sense, so the fast is several acts running in parallel through one day.
+
+Annotation on "truly fasting": the phrase only makes sense if there is a way of fasting that is not true. Not fraudulent, necessarily, but partial and thinned. A man who guards his mouth and his eyes but not his tongue keeps a fast of some size, and the size is set by how much he released.
+
+Contrast pair. Two mechanisms this book uses.
+
+Column A: The prayer, as the chapter on the corrections of the prayer handled it
+- A bounded performance, with a beginning, a fixed sequence, an end
+- Question asked: which interruptions void a prayer, which leave it standing, which require a compensating prostration
+- Answer: a line with two sides, binary. It fails the way a sequence is broken
+
+Column B: The fast, as this heading handles it
+- A condition held across a whole day in every direction at once
+- Question asked: how much of the person was covered
+- Answer: a scale, and a person can stand anywhere on it. It fails by being held less well, and at the floor, not at all
+
+Shared row: the shield image says spatially what the scale says numerically. A shield can be raised, lowered, or half dropped, and remains the same shield throughout.
+
+## Who Owes It, and the Floor Beneath the Scale
+
+Blockquote, the scope, stated with unusual economy.
+
+> Fasting the month of Ramadan is obligatory upon every adult and sound Muslim, male and female.
+
+Annotated structure. Whole: the scope, three conditions and one explicit inclusion.
+
+- Adulthood. Soundness of mind and body. Islam.
+- Male and female, said plainly rather than left to inference. The obligation is not differentiated by sex anywhere in the sentence.
+
+Comparison matrix. What the sentence does not contain, against what this book supplied elsewhere.
+
+| Expected exemption | Treated before as | Supplied here |
+|---|---|---|
+| The traveller | a worked out licence, with distances and conditions | Nothing |
+| The sick, and the frightened | settled, alongside the community under drought | Nothing |
+| The pregnant or nursing woman | not reached | Nothing |
+| The aged person past the obligation | not reached | Nothing |
+
+Rule applied: the scope arrives as a single clause, and the qualifications a reader of the earlier chapters expects do not come. That silence is reported as silence, not filled in from what other books on fasting say.
+
+Blockquote, the chapter's hardest sentence, placed immediately afterward and joined to nothing.
+
+> He also stated, there is no fasting for one who is a hypocrite and disobeys.
+
+Contrast pair. The two disqualifiers, which are of different kinds.
+
+Column A: Disobedience
+- What it is: a matter of what a person does
+- Located in: action, and an act can be observed
+- Relation to the scale: an act that releases a gate
+
+Column B: Hypocrisy
+- What it is: the distance between what a person is and what he presents
+- Located in: a relation between two things, not an action at all, and not visible
+- Relation to the scale: not a point on it. It closes the account beneath it
+
+Shared row: not diminished, not thinned in proportion. There is no fasting. The scale has a floor, and beneath the floor the account is closed.
+
+Comparison matrix. Why the fast, of all the obligations in this book, draws this warning.
+
+| Obligation | Outward form | Who can witness it | A claim without the act |
+|---|---|---|---|
+| Prayer | posture and motion | anyone present | looks different |
+| Ablution | a visible washing | anyone present | looks different |
+| Zakat | a payment that arrives | the recipient, who can testify it arrived. The earlier chapters laboured over who receives, in what order, and whether a partial payment performs a concealment | looks different |
+| Fasting | none whatsoever | nobody can watch a man not eat | identical from every angle available to anyone else |
+
+Annotation: a fast is invisible when kept and invisible when merely claimed. If it were only abstention from food, hypocrisy would have almost nothing to work with. But the fast has just been defined as the restraint of every sense, which is precisely the portion nobody audits, including, much of the time, the one performing it.
+
+Annotation: the heading stacks definition, measure and floor in about a hundred words, and puts the tongue at the head of the list, first among the senses shielded and first among the ways a fast is lost.
+
+## The Crescent and the Name
+
+Annotated structure. Whole: the clarification made in one sentence and then dropped. The largest claim in the chapter.
+
+- Part 1, what is scoped: what has been transmitted concerning fasting upon sighting the crescent moon.
+- Part 2, whom it addresses: those distant from the Imam, who do not know the determination of the crescents by our master and Mawlana.
+- Part 3, the handling: not abolished, not corrected, not argued with, but scoped, declared to address a particular condition rather than everyone.
+- Part 4, the reach, easy to read past: backward over this chapter and the two before it.
+
+Contrast pair. Two conditions, and the method each uses.
+
+Column A: The one with access to the Imam
+- Condition: near, and knowing the determination
+- The month begins: as a determination, settled and announced
+- For the calendar: a length can be stated in advance
+- The reports on sighting: not addressed to him
+
+Column B: The one distant from the Imam
+- Condition: far, not knowing the determination
+- The month begins: by sighting the crescent moon
+- For the calendar: the frame waits on a single observation
+- The reports on sighting: transmitted for his case
+
+Shared row: sighting is the method of the person who cannot reach the determination. The teaching about where knowledge sits was laid down at the beginning of this book, in the movement on guardianship and knowledge, and is spent. What is new is its application to the calendar.
+
+Comparison matrix. What the scoping reaches backward over, the calendrical machinery the series has just worked through.
+
+| Slice reached | Machinery it contains |
+|---|---|
+| Two chapters back | the year that must pass over wealth |
+| One chapter back | the dawn boundary on the day of al-Fitr |
+| This chapter | the beginning and end of Ramadan |
+
+All three assume somebody knows the day.
+
+Contrast pair. Why the fast is where the distinction bites hardest, for a reason peculiar to it among the pillars.
+
+Column A: Prayer times
+- Read from: the sun, every day, and the book has walked through them
+- Judgement: renewed daily
+- Cost of an error: a few hours
+- Recovery: the next prayer arrives, and can be found
+
+Column B: The beginning of a month
+- Read from: a crescent, or a determination
+- Judgement: one, governing thirty consecutive days at once
+- Cost of an error: the fast begins on a day that is not the first and ends on a day that is not the last
+- Recovery: none. No scrupulousness inside the thirty repairs the frame around them
+
+Shared row: a crescent is a thin thread on which to hang a month, which is why a determination, where it can be had, is what sighting substitutes for.
+
+Annotated structure. Whole: the charge brought by our master Ja'far ibn Sayyidina Sulayman, may God bless him, in his noble epistle entitled the Sharpest Sword in Nullifying Innovations.
+
+- Part 1, the addressees: those of the people of Yemen who had fallen into deep slumber.
+- Part 2, the two named components of the charge: they had gone along with it, and they had been complacent.
+- Part 3, the instruction to the others: he urged those who were awake to wake others.
+- Annotation: the sleepers are not accused of denying anything or adopting a rival doctrine. The charge is drowsiness, consenting to a practice because it is the practice. The remedy is social rather than doctrinal. Nobody is argued out of a position. They are shaken.
+
+Blockquote, the epistle itself, addressed to an assembly of hearers, given as the source gives it.
+
+> This too is something that most of you have heard and known: that the holy month of Ramadan is not honoured with the full honour that God Almighty and His Messenger, peace be upon him, have prescribed for it, because it is the month of the great and generous God. The proper reverence is to precede the word month as Allah Almighty said, the month of Ramadan, yet you address it by calling it Ramadan alone, which is not appropriate at all and does not lead to what is right. A person does not address one he holds dear except with a word of honour placed before his name, as is well known among you, who know his glory and how to draw near.
+
+Blockquote, the clause that follows in the transmission, having lost whatever it was attached to.
+
+> As for what has been stated, and to Allah all things return.
+
+Annotation: a Quranic tag sitting after a lead-in the manuscript no longer carries. Reproduced as it stands rather than joined to a sentence somebody else supplies.
+
+Contrast pair. The bare name against the scriptural form.
+
+Column A: Ramadan, said alone
+- The hearers address the month by its bare name
+- Verdict: not appropriate at all, and does not lead to what is right
+- Analogy: calling a person you honour by his bare name
+
+Column B: The month of Ramadan
+- Scripture's own wording, chapter 2, verse 185
+- Verdict: this is the proper reverence
+- Analogy: a word of honour placed before a name, as is well known among you
+- What the added word supplies: no glory of its own. Month is the plainest noun available, not holy, not blessed, not noble. What it adds is agreement with a wording
+
+Shared row: not a legal argument. It argues from address, and everyone in the room already does this daily with people far less deserving of it. The fault is not ignorance of a rule but an inconsistency the hearers carry without noticing, which is what makes drowsiness the right word.
+
+Blockquote, narrated from our master al-Qadi al-Nu'man ibn Muhammad, may God sanctify him, in the book Mukhtasar al-Athar al-Sharifa, that our master the Imam al-Baqir Abu Ja'far Muhammad ibn Ali, peace be upon him, said:
+
+> Do not say Ramadan, but say as Allah Almighty said, the month of Ramadan.
+
+Annotated structure. Whole: the report, in two halves, the second load bearing.
+
+- Half 1, the prohibition: do not say.
+- Half 2, the instruction: say as Allah said, an authority that is not the speaker's preference but the wording of revelation.
+- Annotation: the Imam adds no etiquette to the language. He points at a phrase already in the Book and declines to improve on it.
+
+Blockquote, the point pressed into a question.
+
+> Whoever has heard the word of Allah Almighty, and His permission is in that saying, how can it be permissible for him to disobey and turn away from it?
+
+Annotation: the parenthetical about permission is obscure as it reaches us and is left as it is. The question asks only how a person who has heard the wording can decline it.
+
+## The Verses of Censure
+
+Blockquotes, the verses under which the said Imam al-Baqir, peace be upon him, classifies the fault, as stated in this noble book. The escalation covers the people of indifference, and those who belittle the command of Allah Almighty and His decree.
+
+> ⟪ar:يَا أَيُّهَا الَّذِينَ آمَنُوا لِمَ تَقُولُونَ مَا لَا تَفْعَلُونَ⟫
+> "O you who believe, why do you say what you do not do?"
+> Quran 61:2
+
+> ⟪ar:كَبُرَ مَقْتًا عِندَ اللَّهِ أَن تَقُولُوا مَا لَا تَفْعَلُونَ⟫
+> "Greatly hateful in the sight of Allah is that you say what you do not do."
+> Quran 61:3
+
+Contrast pair. The gap the verses censure, running in the two directions the classification requires.
+
+Column A: Saying what you do not do
+- The word runs ahead of the act, which is the verses' plain reading
+- Worked case: a man professes an observance he does not keep
+
+Column B: Failing to say what you claim to hold
+- The act runs ahead of the word, the same discrepancy from the other side
+- Worked case: a man professes reverence for the month, then declines the one word that would enact the profession
+
+Shared row: to file the naming fault under these verses is to say the gap can run either way. That is not a lapse of vocabulary.
+
+Comparison matrix. Two figures described in two vocabularies, and the distance between them.
+
+| | The one whose fast does not count | The one censured by the verses |
+|---|---|---|
+| Named in | the first heading, as a hypocrite | this heading, as one who says what he does not do |
+| The defect | between what he is and what he presents | between what he says and what he does |
+| Visible performance | intact | intact |
+| Nature | a seam between inward and outward | a seam between inward and outward |
+
+Annotation: this is why the naming rule belongs in a chapter about fasting rather than one about speech. The first heading made the fast a shield of the tongue before anything else, and the naming ruling is that shield applied to the month itself.
+
+Annotated structure. Whole: what the epistle's addressees were and were not accused of.
+
+- Not accused of: failing to fast. Nothing suggests they were eating in daylight.
+- Accused of: keeping the month and calling it by the wrong name.
+- Weight assigned: a failure of honour drawing a sword titled letter and a verse of censure.
+- Annotation: the chapter's estimate of a fast has now expanded twice, from the stomach to the senses, and from the senses to the words a community uses about the season.
+
+## Seven Obligations, Twelve Devotions
+
+Contrast pair. The heading's promise against the material recited under it.
+
+Column A: What the heading announces
+- A boy, once he can distinguish right from left
+- A Shari'ah ruling, and an obligation. One case
+
+Column B: What the council delivers
+- The whole of fasting, by the occasions that call a fast into being
+- A catalogue of nineteen items, seven obligatory and twelve recommended, of which the boy is one
+
+Shared row: the material is larger than the heading and settles the boy's case somewhere other than where the heading points.
+
+Blockquote, from the fourteenth majlis of the Mustansiriyya councils, may God's peace be upon its author.
+
+> Let us recite for you what pertains to the meaning of fasting and its division into categories.
+
+Substitution note, the point rather than a broken promise: the first heading defined the fast by what it guards, the council by what occasions it. It divides into sections, seven obligatory, twelve recommended or delegated.
+
+Comparison matrix. The seven obligatory fasts, as the council gives them.
+
+| Order | Occasion | The discharge he cannot make | Length |
+|---|---|---|---|
+| First | fasting the month of Ramadan every year | none, it substitutes for nothing | the month, annually |
+| Second | deliberately breaking the fast on a single day | an expiation he cannot afford | two consecutive months |
+| Third | killing a believer by mistake | a manumission he cannot arrange | two consecutive months, and likewise in expiation, until resurrection, a compressed clause that does not resolve and is left standing |
+| Fourth | expiation for zihar, an offence the council names without describing, and no description is supplied here | freeing a slave he cannot free | two months |
+| Fifth | expiation for perjury | neither food nor clothing can be found | three days |
+| Sixth | the gift offering for tamattu' hajj | a sacrifice he cannot find | ten days |
+| Seventh | a vow | none, nothing is replaced | as vowed |
+
+Hierarchy tree. The shape of the list, which is not seven parallel duties.
+
+- Level 1: Imposed by the calendar
+  - Level 2: The first, the only one that is a season. It comes to everyone at once and recurs annually whether or not anything has happened to the person who owes it.
+- Level 1: Imposed by inability
+  - Level 2: The second, cannot afford an expiation.
+  - Level 2: The third, cannot arrange manumission.
+  - Level 2: The fourth, cannot free a slave.
+  - Level 2: The fifth, can find neither food nor clothing.
+  - Level 2: The sixth, cannot find a sacrifice.
+- Level 1: Imposed by the person on himself
+  - Level 2: The seventh. Not an expiation, substitutes for nothing, answers no fault. He bound himself, and the binding is enforceable like the rest.
+
+Process flow. The single hinge that five in a row share.
+
+Start: something is owed.
+- Step 1: the ordinary discharge is named, a payment or a manumission or a sacrifice.
+- Condition: the person cannot make it.
+- Step 2: the fast is what he pays with instead.
+End state: the body is the currency of last resort, the one satisfaction requiring no property, which is why it is the fallback in five situations with nothing else in common. This gives the fast an economic character it did not have in the first heading.
+
+Contrast pair. The severe proportion that structure produces, which the council does not remark on and neither does this chapter.
+
+Column A: The man with means
+- Fault: one day of Ramadan broken on purpose
+- Discharge: an expiation he can buy, costing property and no time
+
+Column B: The man without means
+- Fault: one day of Ramadan broken on purpose
+- Discharge: sixty consecutive days, costing the body and two months of his life
+
+Shared row: the same fault, settled on two currencies. The chapter records the structure, not a judgement.
+
+## The Twelve Recommended, Item by Item
+
+Comparison matrix. The twelve recommended fasts. The council calls them recommended or delegated first and the recommended and mourning fasts second, a variance reproduced rather than settled.
+
+| Order | Fast | What the council supplies |
+|---|---|---|
+| First | the fasting of i'tikaf | named without explanation |
+| Second | fasting of Sha'ban | given bare |
+| Third | fasting every Thursday on the first day of each month | unreadable as it stands, a Thursday and a first of the month not being the same thing. Kept damaged |
+| Fourth | fasting the middle Wednesday | a point in a monthly rhythm |
+| Fifth | fasting the last Thursday | a point in a monthly rhythm |
+| Sixth | fasting the three white days | a monthly triad |
+| Seventh | the fast of Dawud, peace be upon him | one day fasted, the next broken, and this is the most rigorous fast |
+| Eighth | fasting on Friday | joined to Thursday or Saturday, never alone |
+| Ninth | fasting the day of Arafah | for those not on the pilgrimage |
+| Tenth | fasting for a boy | at the age of seven |
+| Eleventh | the expiation fast for hunting | varies according to what Allah has ruled in that matter |
+| Twelfth | fasting to compensate for shaving one's head | due to harm |
+
+Annotated structure. Whole: the monthly rhythm formed by items three, four and five, legible even in its damaged state.
+
+- Part 1, the first point: item three, where a first of something belongs. What survives no longer parses.
+- Part 2, the middle point: a middle Wednesday.
+- Part 3, the last point: a last Thursday.
+- Annotation: a middle and a last imply a first. The three describe a rhythm laid across each month, not three unrelated days. Left broken, because the standard forms of this triad are available elsewhere and importing one would supply another book's sentence in place of this book's damage.
+
+Contrast pair. Severity and obligation, which run on separate axes here.
+
+Column A: Heaviest discipline
+- The fast of Dawud, peace be upon him, alternating day by day
+- The council rates it itself, the most rigorous fast
+- Recommended, so nobody is required to take it up
+
+Column B: Heaviest duration
+- The two month expiations, sixty consecutive days
+- Unrated
+- Obligatory, so it falls on a person rather than being chosen by him
+
+Annotated structure. Whole: the eighth item, a restriction wearing the clothes of a recommendation.
+
+- Part 1, permitted: Friday may be fasted.
+- Part 2, the condition: only joined to the day before or the day after.
+- Part 3, forbidden: never alone.
+- Annotation: the day already carries a gathering of its own. The book established Friday's assembly earlier in the series, and this clause keeps that arrangement from being supplemented by a private observance setting the day apart a second time, at the faster's own initiative.
+
+Contrast pair. The ninth item, which splits the community by location.
+
+Column A: The pilgrim, on the plain of Arafah
+- Does not keep this fast
+
+Column B: The one not on the pilgrimage
+- Fasts the day of Arafah, his way of taking part in something happening elsewhere
+
+Shared row: the people at the centre of the event do not keep the fast named for it.
+
+Comparison matrix. The tenth item, where the heading's promise comes due and is not paid in the coin the heading offered.
+
+| | The heading announced | The list supplies |
+|---|---|---|
+| Criterion | discernment, right from left | age, seven years |
+| Category | obligatory | recommended |
+| Form | a Shari'ah ruling | an item in a catalogue |
+
+Annotation: the two do not obviously describe the same ruling, and the source does not reconcile them. Both are recorded as they stand. The book taught, in its chapter on the forming of children, how a child enters the prayer by stages rather than at a single threshold, and the same gradualism is visible at seven. The discrepancy is reported rather than dissolved into that teaching.
+
+Contrast pair. Items eleven and twelve, which sit oddly.
+
+Column A: What defined the obligatory list
+- Expiation, carried by five of the seven
+- Trigger: a fault, and an inability to discharge it otherwise
+
+Column B: Expiation appearing in the recommended list
+- Item eleven: expiation for hunting while in the sacred state
+- Item twelve: compensation for shaving the head because of harm
+- Oddity on item eleven: the only fast whose length is not fixed, proportioned to the case rather than stated in days, and the council declines to enumerate the variations
+
+Shared row: the two categories overlap at their edges, and the boundary is less clean in the delivery than in the promise.
+
+Delivery note: the council promised twelve and gives twelve, though the last two arrive after a break and in a changed voice. A better record than the previous chapter's council managed, noted in passing rather than made into an argument.
+
+Blockquote, from our master Zayd ibn Muhammad, may God sanctify his soul, in his hidden message, the same work that fixed the rates in the chapter on coin and herd.
+
+> After prayer and zakat, it is obligatory upon worshippers to fast the month of Ramadan. One month out of the twelve is to be fasted. The month of Ramadan is thirty days.
+
+Annotated structure. Whole: three details in that one passage.
+
+- Detail 1, the ordering: fasting placed third, after prayer and zakat, the sequence the book has itself just followed, arriving here out of two chapters on zakat.
+- Detail 2, the proportion: one month out of the twelve, a proportion of the year rather than a named season. How much of a life is claimed, rather than which part.
+- Detail 3, the length: thirty days. A month whose beginning waits on a crescent cannot have its length announced in advance with that confidence. A determined calendar can, and the clarification at the top of this chapter is what makes a plain thirty sayable.
+
+Comparison matrix. The naming rule kept by this chapter's own sources, easy to miss and impossible to unsee.
+
+| Authority | Form used | Bare or full |
+|---|---|---|
+| Mukhtasar al-Musannaf | fasting the month of Ramadan is obligatory | full |
+| The council's first obligatory item | fasting the month of Ramadan every year | full |
+| Zayd ibn Muhammad, twice in one sentence | the month of Ramadan | full |
+| Sha'ban, which carries no such ruling | Sha'ban | bare throughout |
+
+Rule applied: the rule the epistle demanded is the rule this chapter's own sources keep.
+
+Blockquote, from Mawlana Amir al-Mu'minin Ali ibn Abi Talib, may Allah's peace be upon him, in his four hundred manners.
+
+> Fasting three days of each month, along with the fast of Sha'ban, dispels the obsessions of the chest and brings tranquility to the heart.
+
+Contrast pair. What this sentence speaks of against what everything before it spoke of.
+
+Column A: Everything else in the chapter
+- Reward, obligation, expiation. What is owed, and to whom
+- The effect lands on an account, at the reckoning
+
+Column B: The closing sentence
+- A chest and a heart. What a fast does to the person keeping it, in this life
+- The effect lands on the one fasting, now, and he can feel it
+
+Shared row: the only sentence in the chapter naming two effects in this life, something dispelled and something arriving.
+
+Process flow. Where the closing sentence draws its fasts from, the council's own list rather than new ones.
+
+Start: the two fasts named by Ali ibn Abi Talib, peace be upon him.
+- Fast of Sha'ban → the council's second recommended item.
+- Three days of each month → branch A, the three white days, item six; or branch B, the monthly rhythm of items three to five.
+End state: the source does not say which, and this chapter does not choose.
+
+Contrast pair. The chapter's first image against its last.
+
+Column A: The opening
+- A shield, standing between a person and what is coming at him
+- The threat comes from outside, and he feels nothing
+
+Column B: The closing
+- A chest cleared and a heart at rest
+- The threat is inside, already present, and he feels the result
+
+Shared row: both describe something kept out. What differs is the direction of the threat.
+
+## What this episode lands
+
+Hierarchy tree. What the chapter settles, in three moves.
+
+- Level 1: The definition. A shield across the whole person, tongue first, food and drink arriving late and named insufficient alone.
+- Level 1: The accounting. Reward per sense restrained, virtue diminished in proportion to what was released, and beneath the scale a floor. The scope is every adult and sound Muslim, male and female, with the expected exemptions absent from this slice.
+- Level 1: The catalogue. Nineteen items, seven obligatory and twelve recommended, the boundary between them less clean in the delivery than in the promise.
+
+Contrast pair. The two registers in which the month is honoured, neither of them about abstention.
+
+Column A: Its timing
+- The reports on sighting the crescent, scoped to those distant from the Imam
+- Reach: backward over the two preceding chapters as well
+
+Column B: Its name
+- An epistle titled as a sword, taking the people of Yemen to task for the bare name
+- Classified under the verses censuring those who say what they do not do
+
+Process flow. The thread tying the three movements together.
+
+Start: the tongue, named first among the senses the fast shields.
+- Step: the tongue, disciplined in the naming ruling.
+- Step: the tongue, censured in the verses of chapter 61.
+End state: a man who eats nothing and speaks carelessly has, by this chapter's account, held up a shield with a hole in it, and the size of the hole is the size of the loss.

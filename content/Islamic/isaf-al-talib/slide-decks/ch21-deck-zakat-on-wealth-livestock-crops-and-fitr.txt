@@ -1,0 +1,538 @@
+# Zakat on Wealth, Livestock, Crops, and Fitr
+
+## Where this episode picks up
+
+Annotated structure. Whole: the chapter's four source headings, in source order.
+
+- Part 1, innermost: zakat on gold, silver and jewels. The coin in the hand, and the debt the estate owes once the hand is gone.
+- Part 2: zakat on livestock. The animal in the field, liable only where it fed itself.
+- Part 3: zakat on grains, fruits and plants. The grain in the ground, rated by the water that reached it.
+- Part 4, outermost: zakat al-fitr. A measure of food levied on persons, not property.
+Cross-axis: property (parts 1 to 3) against person (part 4). The previous chapter defined the obligation and declined to price it. This one prices it.
+
+Counting note on the same bands: coin by weight and year, animal by head and pasture, ground by measure and water source, person by head and by the hour of one morning. The unit changes at every band. The conviction under it does not.
+
+Hierarchy tree. The authorities carrying the reckoning.
+
+- Level 1: Works of case law
+  - Level 2: The book of questions and answers arranged according to the order of the chapters of the book The Pillars of Islam. Most of the case law.
+  - Level 2: Mukhtasar al-Musannaf. Grazing; the dhimmi's dawn boundary.
+  - Level 2: al-Masa'il al-Sharwa'. The contested threshold figure.
+  - Level 2: The Book of Akhbar. Tithe land and kharaj land.
+  - Level 2: The landmarks of religion, and the section on the chosen view. Measures for the sa'.
+- Level 1: Named masters answering
+  - Level 2: Our master Idris, may God sanctify his soul. Profit against capital; the classification.
+  - Level 2: Our master Sulayman ibn Hasan asks on seeds; our master Dawud ibn Ajab answers.
+  - Level 2: Our master Qadi al-Nu'man ibn Muhammad. Book of Himma; Keys of Grace.
+  - Level 2: Imam al-Mu'izz li-Din Allah, peace be upon him. Book of Interpretation of Sharia.
+  - Level 2: Our master Ja'far ibn our master Mansur al-Yaman. The fivefold scheme.
+  - Level 2: Our master Zayd ibn Muhammad, in the hidden message. The numbers.
+  - Level 2: The holder of the councils of al-Mustansiriyya, may God's peace rest upon its author. The thirteenth council.
+
+Comparison matrix. The damage register, declared at the outset rather than repaired.
+
+| Damaged element | What the source gives | What survives |
+|---|---|---|
+| Dirham weight | Carats that do not resolve | The anchor of 195 dirhams |
+| Ounce figures | Phrases that lost their nouns | Both anchor numbers |
+| A currency unit | The bare word "tanks" | The principle about profit |
+| The camel scale | Daughters, rights, trunks | Liability begins at five |
+| The cow scale | Thirty head that "are sold" | Bands of thirty and forty |
+
+Rule applied: the chapter reproduces what the source gives and says so. A repaired number would read better and would not be the book's own text.
+
+Contrast pair. The single conviction running under all four headings.
+
+Column A: Increase that arrived on its own
+- Animal grazing freely on open pasture: liable
+- Field watered by the heavens or the rivers: the full tenth
+
+Column B: Increase bought with the owner's expenditure
+- Animal fed from the purse the levy would come out of: not liable
+- Field irrigated by channels and buckets: half the tenth
+
+Shared row: zakat is charged against wealth capable of increase, at the moment and in the manner of its increase.
+
+## Coin, Debt, and the Threshold
+
+Process flow. Start: a man dies leaving two hundred dinars, more or less, liable for zakat, Hajj, khums, al-Sharwa and expiation.
+
+- Claim 1: Zakat. Reason: it is a debt owed from his wealth.
+- Claim 2: Hajj. Reason: it is a debt, and debt comes before inheritance.
+- Claim 3: Khums.
+- Claim 4: Expiation.
+- Claim 5: al-Sharwa.
+- End state: the heirs receive whatever survives the subtraction, which may be nothing at all.
+
+Branch entering at the top: one of two appointed guardians fears the second will neglect what is owed and pays it himself, secretly.
+- Condition: he discharged what was owed on behalf of the deceased.
+- Outcome: there is nothing wrong with it.
+- Rejoin: the order is unchanged. The question was never trust between two men but the ranking of claims themselves.
+
+Comparison matrix. Four estates, four things an estate proves.
+
+| Case | Ruling | Principle exposed |
+|---|---|---|
+| Died without paying khums, leaving house, servants, common goods | Khums is taken out of his entire estate | No category of property is screened off |
+| Reached the threshold alive, paid nothing, died owning only goods | If the estate reaches the threshold of what was subject to sale, trade goods and commerce, zakat is due, and Hajj is discharged after it | Form at death does not excuse liability incurred in life |
+| Had little beyond house and furnishings; estate proves sufficient for Hajj, expiation, al-Shurwa, khums | Obligations are discharged from it; heirs receive the rest | His last statement of what he owned, and it may convict him |
+| Heirs settle an estate without a bequest | Khums is still taken from the capital; pious heirs must discharge it | If they refrain, there is no compulsion in religion |
+
+Contrast pair. Where the defect sits when a man withholds payment.
+
+Column A: The man's obligation
+- Status: unmet, standing against him and his estate
+
+Column B: The man's property
+- Test case: may a guest eat food in his house
+- Answer: there is nothing wrong with it
+
+Shared row: the defect is in his obligation, not in his property.
+
+Process flow. The clock over money, and what fails to reset it.
+
+- Entry: wealth reaches the threshold and is free of encumbrances
+- Transition: a full year passes over it
+- Node: obligation falls due
+- Loop permitted: whoever pays two years in advance has the second year waived
+- Branch A: one hundred left idle at home. Liable.
+- Branch B: one hundred invested and traded. Liable.
+- Branch C: a commodity held as its price falls. Liable.
+- Only exit: what he owns falls below the threshold.
+Rule: zakat remains obligatory as long as the wealth remains in the owner's possession, whether he trades with it or holds it. Liability follows possession, not activity.
+
+Comparison matrix. Three figures offered for one line, reconciled nowhere.
+
+| Source of the figure | Amount | Status |
+|---|---|---|
+| The question citing al-Masa'il al-Sharwa' | 119 dirhams of silver | Recorded, unreconciled |
+| Our master, on the people of means | 195 dirhams of silver, each dirham fourteen carats of silver and five carats | The working anchor |
+| Our master, same answer | 20 gold dinars, each dinar twenty-four carats | The working anchor |
+| Some of the guardians of God, peace be upon them | 119 mithqals of gold for a person of means, 119 dirhams of silver for whoever cannot | Recorded, unreconciled |
+
+Annotated structure. The weights, with the gaps marked where the source lost its nouns.
+
+Whole: the two threshold weights by Arab measure.
+- Silver: eighteen ounces, ninety-five and a quarter, which is a quarter of a debt and a quarter.
+- Gold: three ounces, that is sixteen portions of a religious debt and a half.
+Callout: both trailing phrases lost their nouns and the ounce figures do not resolve. The anchor numbers are intact.
+
+Contrast pair. Which currency the believer is measured against when prices diverge.
+
+Column A: Silver reckoning
+- Instruction: see what this silver is worth in the currency of the day
+- Effect: whoever owns that amount or more counts among those of means
+
+Column B: Gold reckoning
+- Status: a difference of opinion is reported
+- Reason: the price of the two metals varies with people's demand
+- Case: twenty dinars may be worth more than two hundred dirhams, or the reverse
+
+Shared row: the believer may be assessed against whichever currency is the less costly, which pulls more people into liability, not fewer.
+
+Process flow. The hardest question: profit against capital.
+
+- Node 1: a man owes one fifth of one hundred tanks
+- Node 2: he takes out five in the first year, leaving four hundred
+- Node 3: he trades and gains three hundred
+- Node 4: household expenses consume two hundred, leaving one hundred of the principal
+- Decision point: does the fifth come from the three hundred or the one hundred
+- Branch taken, from our master Idris: having already paid the fifth on the capital, it is not due on the profit except on what remains in his hands
+- Branch permitted, not required: paying on everything is a virtue, not an obligation
+Reading: the unit is a casualty of transmission. A man is not billed for money he has already lived on.
+
+Hierarchy tree. Our master Idris supplies the classification, and the cases test each condition at its edge.
+
+- Level 1: Zakat is obligatory when three conditions hold
+  - Level 2: Condition A, wealth reaches the threshold on which it is due
+    - Level 3: If a year passes over a dead man's estate before division, zakat falls on each heir's share, not the whole
+    - Level 3: Whoever's share reaches the threshold pays; whoever's does not, or who has no other wealth, does not
+  - Level 2: Condition B, the wealth is free of encumbrances
+    - Level 3: A depositor who alters a deposit, introducing what removes it from the ruling of a deposit, owes zakat on all of it
+    - Level 3: The same if he consumes it and makes it as his own money
+    - Level 3: If his wealth exceeds his debt, a year passes while he is prevented from reaching it, and he then sells voluntarily, he pays on the excess
+  - Level 2: Condition C, a full year has passed over it
+    - Level 3: Trade goods taken in exchange for trade goods: the second item's year counts from when he owned the first
+    - Level 3: This holds whether or not he was fair in the exchange
+    - Level 3: The same if bought with cash on which zakat was payable; if the year arrives while the goods are in hand, he pays on his money
+Rule at the foot of the tree: changing an asset's form does not restart its clock.
+
+Comparison matrix. Closing rulings on persons, and on things found.
+
+| Holder or source | What is owed | What is not owed |
+|---|---|---|
+| Whoever acquires wealth good for him and then finds it | Zakat on it | Nothing waived |
+| An apostate | Nothing on what he held during apostasy | He receives it, and does not owe it |
+| An orphan, or one lacking legal capacity | Zakat on what is held for trade | Nothing on what he keeps for his own use |
+| Extracted metals, and ore | One fifth | The remainder belongs to the finder |
+| Dinars found on the routes of Islam | The ruling of found property | Not treated as a holding |
+
+Reading: the exemption protects the vulnerable, not the fund.
+
+Annotated structure. The question on seeds, and the phrase the ruling turns on.
+
+> ⟪ar:وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ⟫
+> "Know that whatever you take as booty, a fifth of it belongs to Allah"
+> Chapter 8, verse 41
+
+- Part 1: "whatever you take as booty". Names the occasion.
+- Part 2: "of anything". The operative phrase, taken as governing.
+- Applied case: our master Sulayman ibn Hasan asks, from the early period, whether one who has sown five ounces of his wealth must give a fifth. Our master Dawud ibn Ajab answers that a fifth of the seeds is obligatory.
+- Authority: our master Qadi al-Nu'man ibn Muhammad, may God sanctify his soul, in the Book of Himma, places these seeds within the category of "thing".
+
+Visual metaphor. Imam al-Mu'izz li-Din Allah, peace be upon him, in the Book of Interpretation of Sharia, gives the sum a meaning rather than a measure.
+
+Abstract relation: why the payment divides as it does. Metaphor: one body, many limbs.
+- Element: five dirhams, the whole of the zakat as he names it
+- Element: five types of poor, each category receiving a dirham
+- Element: all people and all creation, figured as one soul
+- Element: the suffering limb, to which all other limbs attend to relieve its pain
+- Element: the duty that follows, that if God afflicts any of the children of the human race, the rest must cure him, each according to what he is able
+Reading: the word doing the work is consolation, not collection.
+
+Contrast pair. The coda attached to the metaphor.
+
+Column A: What was said of the man
+- Claim: there is nothing wrong with him
+
+Column B: What he, peace be upon him, answered
+- Reply: if no defect had touched him, death would not have found him
+
+Shared row: nobody is the healthy limb.
+
+Hierarchy tree. Our master the late preacher Ja'far ibn our master Mansur al-Yaman sets the levy out in fives, in the first book of the work the source here calls Breastfeeding the Subconscious, a title arriving in another damaged form.
+
+- Level 1: As the five prayers are known at five times, zakat likewise has five forms
+  - Level 2: Form 1, one fifth of all wealth earned through trade, sales and gains
+  - Level 2: Form 2, zakat on wealth after a year has passed, one fifth of forty dinars, obligatory for the Hajj and the khums for the Imam
+  - Level 2: Form 3, zakat on crops, one tenth
+  - Level 2: Form 4, zakat on livestock, from forty heads one head
+  - Level 2: Form 5, zakat of the soul, what the believer performs for himself to expiate his sins, to free his neck, and from his nature, fasting after these four obligatory zakats
+Cross-cut: four levies fall on property; the fifth falls on the person and is paid in fasting rather than coin.
+
+Comparison matrix. Our master Zayd ibn Muhammad, in the hidden message, closes with the numbers.
+
+| Holding | Threshold | Amount owed | Proportion |
+|---|---|---|---|
+| Gold | Twenty mithqals | Half a mithqal | One fortieth |
+| Silver | Two hundred dirhams | Five dirhams | One fortieth |
+
+Annotations on the same rows:
+- The two hundred are named two covenants.
+- No zakat falls on one who owns neither twenty mithqals nor two hundred dirhams.
+- Whoever owns two hundred dirhams is forbidden to receive zakat or charity.
+- The owner of gold does not owe zakat on silver unless it is permissible to combine them.
+Reading: two rates at the same proportion, and the figure that makes a man liable also disqualifies him from being paid.
+
+## Grazing Herds and Watered Ground
+
+Contrast pair. The condition that makes a herd liable has nothing to do with quantity. Stated in Mukhtasar al-Musannaf.
+
+Column A: The grazing animal
+- Feeding: on open pasture, at no cost to the owner
+- Effect: the owner's wealth increased without his expenditure
+- Status: liable once the count is reached
+- Rule stated: there is no zakat on livestock until they have grazed freely
+
+Column B: The fed animal
+- Feeding: out of the purse the levy would come from
+- Effect: the increase was already paid for
+- Status: not liable
+
+Shared row: where a herd grazes part of the year and is fed the rest, the source's clauses about the two parts contradict themselves as they reach us, and are given as they stand.
+
+Comparison matrix. Adjacent livestock rulings.
+
+| Question | Ruling |
+|---|---|
+| A camel owner owes a camel and has a sheep of his flock fit for sacrifice | That is also permissible |
+| Buffaloes and cows | Treated in zakat as sheep and goats are |
+| A given level yields nothing | In the interpretation of these pillars, nothing is due on it |
+| The base scale, from Ja'far ibn Mansur al-Yaman, Book of Sub-Suckling | From forty heads, one head |
+
+Process flow. The camel scale, from our master Zayd ibn Muhammad in the hidden message, given whole rather than corrected.
+
+- Below five camels: there is no charity on one who does not have five camels
+- At five, once completed and owned: one sheep of the flock, for every five up to twenty, and four are paid
+- At twenty-five: a daughter of labour, the one whose mother bore a child in her womb
+- Above ten, at thirty-five: a daughter of Labun
+- At forty-five: a right of the stallion
+- Then with every additional five above ten, and when one is added to sixty: a trunk is due in it, and above the trunk something is taken in charity
+- In sixty: one of the camels is a stallion that resembles a stallion and can bear what it can bear
+- At one hundred and twenty: two rights, because one hundred and twenty is two times sixty
+
+Comparison matrix. The cow and sheep scales, in the same transmission.
+
+| Animal | Count reached | What is due |
+|---|---|---|
+| Cows | Thirty | They are sold |
+| Cows | Forty | An old cow |
+| Cows | Sixty | Three annals |
+| Cows | One hundred and twenty | In every forty an old cow, in every thirty a sold one |
+| Sheep | Forty | One sheep is charity |
+| Sheep | One hundred and twenty | One sheep |
+| Sheep | Two hundred | Two sheep |
+| Sheep | Every further hundred | One sheep |
+
+Annotated structure. What is legible in the most damaged passage of the chapter, and what is not.
+
+- Legible: liability begins at five camels. The floor is firm.
+- Legible: below twenty-five the payment is made in sheep. A small herd is not broken into to satisfy a levy on itself.
+- Legible: above that it becomes a camel of a specified kind, rising as the herd rises.
+- Damaged: "daughter of labour" and "daughter of Labun", possibly one term twice transmitted.
+- Damaged: thirty cows that "are sold", almost certainly a name for the animal owed.
+- Damaged: "three annals" at sixty, not recoverable.
+Rule: supplying the standard scales here would be supplying another book's text.
+
+Contrast pair. The two closing clauses are protections, not rates.
+
+Column A: What the scale governs
+- Subject: the payer, and how many head of what kind at each count
+
+Column B: What the closing clauses govern
+- Subject: the collector
+- Nothing is taken in charity that causes shame
+- No male sheep is taken unless the believer wishes it
+
+Shared row: the collector's hand is kept off the animal the flock depends on.
+
+## Grain, Fruit, and the Ground Beneath Them
+
+Contrast pair. The question of a grain threshold receives two answers, and the chapter keeps both.
+
+Column A: The tenth of everything
+- Stated in: the Pillars
+- Rule: zakat is paid from everything the earth produces
+- Warrant: the position of our senior loyalists, whose example it is one's duty to follow
+- Practice: they took one tenth of what was little or much, and that is a virtue
+
+Column B: The floor of five awsaq
+- Stated in: the Sharia, repeated in the landmarks of religion and the chosen view
+- Rule: the threshold for grains is five awsaq, one wasq reckoned at sixty sa's
+- Extension: obligatory on all grains resembling wheat and dates
+- Limit: grains and fruits combined, neither reaching half the threshold, are not liable
+
+Shared row: the question was put against the metal thresholds, twenty dinars of gold and one hundred dirhams of silver, and asked how this works for grain.
+
+Contrast pair. What a debt does to liability, on the two sides of the chapter.
+
+Column A: Money
+- Case: a man possesses a thousand dinars and owes a thousand dinars
+- Outcome: he owes no zakat on it
+- Principle: wealth exactly matched by liability is not wealth for this purpose
+
+Column B: Harvest
+- Case: the obligation falls on the young and the old, the rich and the poor, and those who carry a debt
+- Outcome: the debt does not excuse the farmer
+- Principle: the grain exists
+Shared row: the owner of the land does not deduct what he spent on it. The levy falls on gross yield, not profit.
+
+Annotated structure. A damaged clause from al-Akhbar, reproduced as it stands.
+
+- Part: "a sow was not sold, meaning grain on which zakat is due". Annotation: damaged, given without repair.
+- Part: what is sold before it is contracted, zakat is not due on it. Annotation: legible, and the operative rule.
+- Part: the same was narrated regarding fruits. Annotation: extends the rule from grain to fruit.
+
+Comparison matrix. Water decides the rate. From our master Zayd ibn Muhammad in the hidden message, and the surrounding rulings.
+
+| Water source | Rate due | Reasoning |
+|---|---|---|
+| The heavens, and the rivers | The full tenth | The increase arrived without the owner's expenditure |
+| Channels and buckets | Half the tenth | He lifted the water onto the field himself |
+| Two sources, one predominant | The majority source governs | The field follows the way it was mostly watered |
+| Two sources in equal measure | Three quarters of a tenth | The moderate case is split between the rates |
+
+Annotated structure. The five categories our master Zayd ibn Muhammad names, and the measure attached.
+
+- Part 1: dates
+- Part 2: raisins
+- Part 3: wheat
+- Part 4: barley
+- Part 5: grain
+Attached measure: if they reach five awsaq, half an awsaq of charity is due.
+
+Process flow. When the claim fixes, and when the taking happens. From the summary of effects.
+
+- Node 1: the crop forms kernels
+- Transition: the tithe becomes obligatory on the grain
+- Node 2: the grain's soundness becomes apparent and beneficial to its owners
+- Transition: collection is permitted
+- End: the levy taken without ruining the crop
+Reading: the claim fixes when the wealth comes into being; the taking waits until it can happen without destroying it.
+
+## Land Status and the Fifth of Spoils
+
+Contrast pair. From the Book of Akhbar. The status belongs to the ground, not the man standing on it.
+
+Column A: Tithe land
+- Definition: all land of the Arabs on which Muslims did not settle through conquest or passage
+- Extension: all mountain land whose people extracted, not overflowed by great rivers
+- Acquired case: lands surrendered by people at war became subject to the tithe
+
+Column B: Kharaj land
+- Definition: the land of Sudan, and the mountain territories the Muslims conquered by force of cavalry and infantry
+
+Shared row: the category attaches to the ground and survives the sale.
+
+Process flow. Two transfers, and what does not move with them.
+
+- Transfer A: a Muslim buys land from a dhimmi. Its ruling does not change by the transfer; it remains subject to kharaj.
+- Transfer B: a dhimmi buys land from a Muslim. The tithe becomes obligatory upon him when produce is extracted.
+- Reason given: what is obligatory is determined by what the earth yields, not by who owns it.
+
+Contrast pair. The book on breastfeeding reads the tithe as a disclosure rather than a rate.
+
+Column A: The man who keeps nine tenths
+- Act: pays a tenth of his apparent gain
+- Verdict: he has truly discharged an apparent obligation, having done what he was commanded even if his authority did not see any request upon him
+
+Column B: The man who keeps more than nine tenths
+- Act: exploits his gain and retains more than nine tenths
+- Verdict: he has not rightly fulfilled the tithe he was commanded and ordered to pay
+- Aggravation: he has not chosen to obey his authority in accordance with the truth
+
+Shared row: the tenth is an established ruling the Messenger of Allah, may Allah's peace and blessings be upon him and his family, implemented, collected from the faithful and from those whose wealth is visible. The failure moves from the ledger to the will.
+
+Annotated structure. The khums returns at the close, on the same verse, now at its full length.
+
+> ⟪ar:وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ⟫
+> Meaning one fifth goes to five categories among whom the khums is distributed.
+> Chapter 8, verse 41
+
+Whole: the five shares Allah has imposed concerning war spoils.
+- Part: the Messenger
+- Part: those of kinship
+- Part: the orphans
+- Part: the poor
+- Part: the wayfarer
+Sources the khums is taken from: minerals, treasures, war spoils.
+Practice attached, from Ja'far ibn Muhammad al-Sadiq, may Allah's prayers be upon him: when spoils came to the Messenger of Allah, peace and blessings be upon him and his family, he would take his share and divide the remainder among the relatives, orphans, the poor and the wayfarer.
+
+## The Charity of the Head
+
+Contrast pair. The last levy is not charged on property at all, and the first question about it is substitution.
+
+Column A: The common practice among Indian scholars
+- Method: combine four types, rice, corn, barley and salt
+- Payment: take their monetary value
+
+Column B: The Shari'ah, as mentioned in the Pillars
+- Method: a sa' of dates, raisins, barley or wheat, paid in the food itself
+- Guiding principle: from the best food one eats and the best food one stores
+- Combination rule: whatever one ate during the past month of Ramadan is divided proportionally
+- Limiting case: whoever ate nothing other than barley fulfils it with barley
+
+Shared row: the payment is measured against what the payer himself ate, at his own best. Rich and poor pay the same volume of different things, and neither is asked for money.
+
+Process flow. The question about paying early, and where the guarded boundary sits.
+
+- Start: a careful man wants to pay before Ramadan begins, fearing distance or travel will prevent him at the proper time
+- His premise: obligatory duties are performed at their appointed time and made up only after being missed
+- Branch A, early out of need: the Book of Pillars permits accepting zakat in advance from those obligated, if there is a need, and such a person is blessed with the answer
+- Branch B, early out of ignorance rather than need: submitting it to one entitled to receive it is permissible
+- Reason for Branch B: the prohibition is that a person should not break his fast before submitting it, and there is no delay in that
+- End state: the obligation is to deliver it
+Reading: the questioner assumed a fixed appointment. The reply says the guarded boundary is the far one.
+
+Timeline. The morning of al-Fitr, with the line drawn at two different moments and both recorded.
+
+- Before the break of dawn: a newborn born then falls under the obligation (landmarks of religion)
+- Before dawn on the day of al-Fitr: a dhimmi who submits payment has discharged it (Mukhtasar al-Musannaf)
+- After dawn: he has not discharged it (same)
+- Before sunrise: it is zakat al-fitr (Keys of Grace, attributed to our master Judge al-Nu'man ibn Muhammad, may God sanctify him)
+- After sunrise: it is charity, according to what has been transmitted (same)
+- Before the Fitr prayer: it is zakat al-fitr
+- After the Fitr prayer: it is merely voluntary charity
+- A newborn born after the prayer: his fitr is discharged before the next Fitr
+Period note: the prayer marks the line in one account, sunrise in the other. Both agree the same food, recipient and act change category by the clock. A man who is late has performed a different act and left the required one unperformed.
+
+Comparison matrix. Three competing systems of measure, set down as the source sets them down.
+
+| Authority | Unit | Figure given |
+|---|---|---|
+| The chosen view | The sa' | One sa', or half a sa' of wheat |
+| The landmarks of religion, Makkan | The sa' | Four and a half pounds |
+| The landmarks of religion, Madinan | The pound | One pound equals five pounds less one third |
+| The landmarks of religion, Baghdadi | The weight | Nine pounds and a fraction |
+
+Note: they do not reconcile, and none is preferred over the others here.
+
+Hierarchy tree. The thirteenth council, from our master and Mawlana, the holder of the councils of al-Mustansiriyya, may God's peace rest upon its author. Having covered the zakat obligatory on owners of wealth, he turns to the zakat obligatory on every person individually, given as charity by those who have little.
+
+- Level 1: Zakat al-fitr, with seven obligatory elements and twelve recommended ones
+  - Level 2: The seven obligatory elements, each naming a person the payment covers
+    - Level 3: First, that a man pays it for himself
+    - Level 3: Second, for his older children
+    - Level 3: Third, for his younger children
+    - Level 3: Fourth, for those among them who are free
+    - Level 3: Fifth, for those who are enslaved
+    - Level 3: Sixth, for the males among them
+    - Level 3: Seventh, for the females
+  - Level 2: The recommended practice
+    - Level 3: Given from the staple food one eats
+    - Level 3: A sa' of barley, of wheat, of dates, or of raisins
+    - Level 3: He is rewarded with half a sa' of wheat
+    - Level 3: Not from anything other than these except in a sa' for sa' measure
+  - Level 2: Four provisions
+    - Level 3: Paid to the Imam, peace be upon him, or to one he appoints
+    - Level 3: Taken out before breaking the fast
+    - Level 3: Spent from the moment it is taken out
+    - Level 3: Never its equivalent in paper or gold
+  - Level 2: The household case
+    - Level 3: A woman with no husband present pays for herself and her dependants
+
+Annotated structure. What the seven elements are doing, and what the count leaves open.
+
+Whole: the list of seven, read as one rule applied seven times.
+- Axis walked, age: older children, younger children. Annotation: division refused.
+- Axis walked, status: the free, the enslaved. Annotation: division refused.
+- Axis walked, sex: the males, the females. Annotation: division refused.
+- Anchor at the head: the man himself.
+Callout: the list walks through every division a household might use to exclude somebody and refuses each in turn.
+Callout on the count: twelve recommended elements are announced and a handful supplied. The count is left as it stands, as the previous council's list of sunnahs was left with its own irregularity rather than tidied.
+
+Contrast pair. The household standing outside the system, in the book on supplementary nursing topics, on the saying of the Messenger of Allah, peace be upon him and his family, that natural disposition does not permit him or his family to receive it.
+
+Column A: Receiving the charity of fitr
+- Applies to: the Messenger of Allah and his household
+- Status: barred, an exclusion established earlier in the series
+
+Column B: Paying the charity of fitr
+- Applies to: the same household
+- Status: obligatory, as our master Zayd ibn Muhammad stated in the hidden message, may God sanctify his soul
+- Scope: males and females, young and old, even a child born that very day, and the foetus in his mother's womb
+- Rate: one sa' per head of wheat, dates, raisins, barley or other grains
+
+Shared row: the prohibition was always about where a payment goes. The source adds that the meaning of natural disposition here is to discharge one's duty to God.
+
+Annotated structure. Two rulings close the chapter, both reaching us with their questions partly detached from their answers.
+
+- Case 1: a man for whom zakat has been given. As transmitted: he possesses a thousand dinars and owes a thousand dinars, and therefore owes no zakat. Set against the harvest a few pages earlier, where debt did not excuse the farmer.
+- Case 2: a man obligated to pay zakat who is himself wealthy. As transmitted: living among polytheists, he could find no Muslim on whom to spend it, and is himself the person most deserving of it. The chapter ends on a man holding a payment he owes with nobody in reach to receive it.
+
+Also recorded, its question unresolved: a collector who takes ten dirhams from polytheists for every two and five from Muslims for every one, forgiving the remainder; an owner of a cloth; a fardah of one or two dirhams; a proposal to write the unforgiven portion in another man's name if what remains is divided equally. What survives is a principle, not a resolution: what the partners have agreed upon is permissible.
+
+## What this episode lands
+
+Comparison matrix. Four currencies, one conviction. This chapter did the counting the last one refused to do.
+
+| Unit | Trigger | Rate | Timing | What cancels |
+|---|---|---|---|---|
+| Coin | Threshold reached, free of encumbrances | One fortieth: five dirhams on two hundred, half a mithqal on twenty | A full year must pass | Debt equal to the holding |
+| Animal | The herd has grazed freely | Camels from five, cows in bands of thirty and forty, sheep from forty then one per hundred | Counted at the level reached | Feeding the animal |
+| Grain | Kernels form | A tenth, half a tenth, or three quarters of a tenth by water source | Claim at the kernel, collection at soundness | Nothing: debt does not excuse, expenses are not deducted |
+| Head | Being a person in the household | One sa' of the food actually eaten | Before the fast is broken on the morning of al-Fitr | Nothing: the newborn, and on one reading the foetus, are counted |
+
+Rule restated under the matrix: the threshold is one hundred and ninety-five dirhams of silver or twenty gold dinars, assessed against the cheaper when their prices diverge, though two further figures for the same line are recorded and none reconciled. A death extinguishes none of it: the claims come out of the estate in order, and the heirs take what is left, if anything is.
+
+Annotated structure. The damage register, named at the close exactly as it was named at the open.
+
+- The collector's question about the fardah and the cloth
+- The ounce figures trailing phrases that have lost their nouns
+- The unit that reaches us only as "tanks"
+- The camel vocabulary of daughters, rights and trunks
+- The cow that is "sold" at thirty
+- The clause in al-Akhbar about a sow
+- The council that promises twelve recommended elements and supplies a few
+- The title of Ja'far ibn Mansur al-Yaman's book, arriving in a third damaged form
+Closing callout: the numbers that carry the rulings are intact. The rest are left as the book has them.

@@ -1,0 +1,518 @@
+# Imamate in Prayer
+
+## Where this episode opens
+
+Annotated structure. The whole: one chapter that moves from mosque space into the living arrangement of prayer once people have gathered inside it.
+
+Whole: imamate in prayer, opened after the teaching on sacred space has closed.
+Parts, in the order the source takes them:
+- Where the imam stands. Position: the opening panel. Annotation: placement before theory, the corner, the ship, the circle around the Kaaba.
+- Who may lead. Position: beneath it. Annotation: rank, knowledge, condition and claim, weighed against the congregation present.
+- Who should not lead. Position: the shadowed band beside it. Annotation: a source era classification of mismatched leadership, each permitted to lead its like.
+- How followers remain followers. Position: the central band. Annotation: timing, sound, posture, and the refusal to move first.
+- When the leader cannot finish. Position: the closing band. Annotation: appointment, limited repetition, completed prayer under ignorance.
+Reading: the surface is a chain of cases, and the inner argument is that a congregation becomes one body by accepting order, not by feeling united.
+
+Genealogy chain. What the book has already taught flows into this chapter, which does not reopen any of it.
+
+attentive prayer → missed obligations → sacred times → the summons → the adhan's witness → entering the mosque → guarded direction → imamate in prayer
+
+Applied here, narrowed rather than re-taught:
+- Taqiyya → narrowed to whether a phrase of praise may be lowered or omitted, and whether the prayer is deficient.
+- Bodily purity → narrowed to what followers repeat when the imam recalls an impurity after finishing.
+- Sacred rank → narrowed to who takes the front position when two leaders differ in standing.
+- Attentive prayer → narrowed to the follower who waits rather than moves first.
+
+Named-axis 2x2. The tension the chapter is organized around.
+
+Axes:
+- Horizontal: Where responsibility is located, from the individual worshipper on the left to the leading imam on the right.
+- Vertical: Whether the act is governed by order, from ungoverned at the bottom to governed at the top.
+
+Quadrants:
+- Top-right, imam and governed: the chapter's ideal. A fit leader recites without changing meaning and carries the congregation's timing on his own body.
+- Top-left, worshipper and governed: the man who keeps his own capacity inside a congregation, standing alone if he is able while the ship keeps the others seated.
+- Bottom-right, imam and ungoverned: leadership taken for salary, recitation with a melody that bends the revelation, a leader who cannot hear a warning. The front position is occupied without being earned.
+- Bottom-left, worshipper and ungoverned: the follower who raises his head before the imam, or stands in front of him, and calls it congregation. The body announces independence while claiming to follow.
+
+Contrast pair. The two truths the source insists on holding together.
+
+Column A: Prayer as intensely personal
+- What he must know: his own purification, recitation, obligation, travel status, bodily capacity.
+- What cannot be delegated: the capacity he actually has.
+- Failure mode: using shared prayer to escape a duty his condition still allows.
+- The source's refusal: no one is absolved of personal responsibility.
+
+Column B: Prayer as deliberately dependent
+- What he accepts: another person's lawful movement as the measure of his own.
+- What the leader can affect: the follower's prayer, through his state, speech, rank, intention, mistake, or departure.
+- Failure mode: pretending that standing behind an imam is the same as praying alone in a crowd.
+- The source's refusal: no one may treat the front position as decorative.
+
+Shared row: the imam is the visible hinge of a collective act, and both columns bear on every case that follows.
+
+## Standing Behind
+
+Comparison matrix. Placement cases, and what each settles.
+
+Rows: the qibla corner, the taller arrival, the eunuch with women, the mahram woman, the woman who is not a mahram.
+Columns: the case as posed | the ruling | the permitted position | what the ruling protects.
+- The qibla corner: an imam prays in the corner of the qibla while they stand behind him in the public mosque, and his prostration does not occur within the arch | there is nothing wrong with praying and prostrating in it | the arch, the corner, and the line behind him | the prayer against theatrical symmetry, since what matters is that he can lead and prostrate lawfully.
+- The taller arrival: someone taller arrives, so the believers move and stand to his right while he stands to their left | their prayers are valid | to his right, or to the north | the congregation against an ordinary rearrangement.
+- The eunuch with women: a eunuch prays with women | it is permissible | in line with them | order where the usual arrangement does not apply.
+- The mahram woman: a man prays with a woman who is his mahram | permitted | behind him, or to his right and slightly behind him | visible order where the relation is lawful.
+- The woman who is not a mahram: a man prays with a woman who is not his mahram | not permissible unless a third person is present | none, without him | the prayer against a relation too private and unguarded.
+
+Reading: placement is not one crude diagram. It is a set of ordered relations, behind, beside, slightly behind, in line, right side, north side, or invalid.
+
+Contrast pair. Traveler and resident, whose obligations differ inside one congregation.
+
+Column A: The traveler
+- Obligation carried: the shortened prayer, two rakʿahs.
+- When he leads and is superior to the residents: he gives the salām after two rakʿahs, and they rise and complete.
+- When he follows a resident imam while residing somewhere and praying a four rakʿah prayer: he remains standing until he prays with the imam.
+- What is not erased: his own shortened obligation.
+
+Column B: The resident
+- Obligation carried: the complete prayer.
+- When he leads and is superior to the travelers: he leads them, and they depart after two rakʿahs.
+- When he follows: he completes what his own status requires.
+- What is not erased: his own complete obligation.
+
+Shared row: congregation needs a way for unequal obligations to stand together without confusion. Imamate mediates between personal obligation and shared form.
+
+Hierarchy. The inequalities a congregation contains, which the source orders rather than flattens.
+
+- Level 1: Differences present among people praying together
+  - Level 2: Differences of legal status
+    - Level 3: Traveler and resident
+    - Level 3: Free and slave
+  - Level 2: Differences of knowledge
+    - Level 3: Jurist and non-jurist
+    - Level 3: Eloquent and mute
+  - Level 2: Differences of body
+    - Level 3: Healthy and sick
+    - Level 3: Sighted and blind
+    - Level 3: Those who can stand and those who cannot
+  - Level 2: Differences of ritual state
+    - Level 3: One who performs tayammum and one who performs water ablution
+  - Level 2: Differences of age
+    - Level 3: Adult and child
+
+Reading: the source does not erase these. It asks how each difference affects leadership, following, validity, and necessity.
+
+Process flow. The ship, where space and rank decide whether two congregations are possible.
+
+Start: one long, wide ship, and one imam already leading Dhuhr in one place
+  ↓
+A second imam leads the same prayer elsewhere on the ship
+  ↓
+Test: is there a barrier between the two groups
+  ↓
+Branch:
+  - A barrier is present → there is nothing wrong with it, the separation makes two congregations intelligible
+  - No barrier, the two imams are in the same place → the later one must be of higher standing
+  ↓
+Definition supplied by the source: the same place means a house or other location where one imam has already led people in the noon prayer, and then someone who outranks him, from the people of distinction, leads another group in that same house
+  ↓
+End: there is no objection to that, and the same applies in a large house
+
+Reading: separation can make two congregations possible, and rank can make a later one intelligible when separation is not the whole answer.
+
+Contrast pair. Seated leadership on a moving ship, and its limit.
+
+Column A: Where seated prayer is permitted
+- Ground: the ship is moving, or there is a lack of space, or another genuine cause.
+- Ruling: there is nothing wrong with it when there is genuine necessity.
+- Who it covers: those who are unable to stand on account of the ship.
+- Question line: the case of an imam leading while seated.
+
+Column B: Where seated prayer is not permitted
+- Ground: no necessity is present.
+- Ruling: without necessity, it is not permitted.
+- Who it covers: whoever is able to stand, in the case sent from Rajpur and Jalalpur where some can stand and others cannot.
+- Instruction: whoever is able should pray alone while standing.
+
+Shared row: congregation does not justify abandoning a capacity one has, and the shared form may not collapse every capacity into the easiest one.
+
+## Standing Behind, Position And Precedence
+
+Process flow. The man praying alone when an imam arrives, from Mukhtasar al-Muṣannaf.
+
+Start: a man begins an obligatory prayer alone
+  ↓
+An imam arrives and steps forward to lead
+  ↓
+Branch:
+  - Recommended path: he bows and prostrates, completes his cycle, counts it as voluntary, then begins the prayer with the imam
+  - Permitted path: he does not do this and continues alone, which is also permissible
+  ↓
+End: joining is recommended, continuing alone is allowed, and neither breaks the prayer
+
+Annotated structure. The one arrangement that is not permitted, dissected.
+
+Whole: a congregation in which some believers stand in front of the imam.
+Parts, with position and verdict:
+- The imam. Position: the reference point. Verdict: his prayer remains valid.
+- Those beside him. Position: the lateral line. Verdict: their prayers remain valid.
+- Those in front of him. Position: ahead of the reference point. Verdict: their prayers are not valid.
+Reading: one who claims to be in the congregation while standing in front of the imam contradicts the very sign of following. Standing in front makes the body speak against the act.
+
+Visual metaphor. Mecca, where the same rule survives a change of geometry.
+
+Abstract relation: following is defined by relative nearness to the imam, not by the shape of the line.
+Metaphor: concentric rings around a centre.
+Element assignments:
+- The centre: the walls of the Kaaba.
+- The imam's ring: the row in which the imam stands.
+- The followers' rings: every row outside the imam's ring, on any side.
+- The forbidden position: any row positioned closer to the walls of the Kaaba than the imam's row.
+Reading: rows encircle rather than line up behind one wall, and the principle is unchanged. The sacred geometry changes, the meaning of following does not.
+
+Process flow. The solitary prayer that becomes a followed prayer.
+
+Start: a man's ablution has been nullified, and he stands and prays alone
+  ↓
+Another man joins him before bowing, or after he has completed it
+  ↓
+Complication: the first man is not known to have led anyone else, and did not intend to lead
+  ↓
+Ruling: his prayer is permissible with the imam even if the imam did not intend to lead anyone else
+  ↓
+End: congregation can form around an already standing prayer, and once it forms, the logic of imamate applies
+
+Reading: the absence of an initial leadership intention does not block a follower. The person in front becomes the reference point for the one who joins.
+
+Annotated structure. The first concept, held as one picture.
+
+Whole: imamate in prayer as a visible order.
+Parts, with position and annotation:
+- What the order permits. Position: the open side. Annotation: a qibla corner, a seated imam under necessity, a late arrival, a rearranged row, a circle around the Kaaba, travelers and residents completing different obligations.
+- What the order forbids. Position: the closed side. Annotation: a follower standing ahead of the imam, and the use of shared prayer to escape a duty one's own condition still allows.
+- The hinge between them. Position: the centre. Annotation: no confusion about who leads and who follows.
+Reading: flexibility about architecture, ship movement, crowd shape, and late arrival, and no flexibility at all about the direction of following.
+
+## Ranked Leadership
+
+Contrast pair. The slave who is a jurist, and what his case refuses.
+
+Column A: What legal freedom decides
+- Claim: free status is the axis of rank.
+- The source's verdict: refused as the only axis.
+- Test case: a slave who is a jurist.
+- Ruling: it is permissible to pray behind a slave if he is a jurist.
+
+Column B: What juristic knowledge decides
+- Claim: fitness for this act decides the front position.
+- The source's verdict: upheld within this matter.
+- Test case: the questioner asks whether those below him in rank means slaves like him, or everyone lower in standing.
+- Ruling: it includes anyone below him in rank, even if they are free. One who is not a jurist may be excused from following him in order to reunite with his family.
+
+Shared row: imamate in prayer reveals a hierarchy of competence and standing that may cut across ordinary social status, without becoming a full doctrine of sacred ranks.
+
+Comparison matrix. Competing claims to the front position, and which wins where.
+
+Rows: the jurist slave, the master in his slave's dwelling, the owner of the mosque, the imam and whoever establishes the prayer, the woman leading women.
+Columns: the setting | the claim asserted | the ruling | what the case establishes.
+- The jurist slave: a congregation containing people of lower religious standing | juristic knowledge | permissible to pray behind him, including for those who are free | knowledge can outrank social position.
+- The master: he comes to his slave's dwelling | ownership and household authority | the master has a stronger claim to lead than the slave | leadership is situational, not one fixed ladder.
+- The owner of the mosque: his own mosque, and the Rajpur and Jalalpur case where it is not known who is more virtuous | place based authority | the owner of the mosque has the greater right in his mosque | where superiority cannot be determined, place supplies the rule.
+- The imam and whoever establishes the prayer: any setting | the overriding right | the imam, peace be upon him, and whoever establishes it has the greater right over all of them | the ladder ends in a claim that outranks every other.
+- The woman leading women: a gathering of women | leadership among equals | she prays with them and does not precede them, and they stand to her right and to the north | leadership without the forward position.
+
+Process flow. The tie break cascade preserved from the tenth council of the Book of Councils al-Mustansiriyya, on the authority of Mawlana Jaʿfar ibn Muhammad al-Sadiq.
+
+Start: a group gathers and no leader has been settled
+  ↓
+Test 1: who is eldest among them in terms of emigration → he leads, and if they are equal, continue
+  ↓
+Test 2: who has the most Quran memorized → he leads, and if equal, continue
+  ↓
+Test 3: who is the most learned in jurisprudence → he leads, and if equal, continue
+  ↓
+Test 4: who is the eldest → he leads
+  ↓
+Overriding claims, which cut across the cascade:
+  - The owner of the mosque has the greater right in his own mosque
+  - The imam, peace be upon him, and whoever establishes it has the greater right over all of them
+  ↓
+End: the front position belongs to order, not impulse, and if one factor is equal the next factor decides
+
+Reading: the sequence prevents leadership from becoming a scramble. It is decided by layered claims, not by charisma, convenience, or social dominance.
+
+## Ranked Leadership, Who May Not Lead
+
+Comparison matrix. The twelve categories the source names, set out as mismatches, not personal defects.
+
+Rows: the twelve stated pairings.
+Columns: the one who does not lead | those he does not lead | the mismatch named.
+- The healthy man: the sick | condition of body.
+- The leper: those not so afflicted | body.
+- The one afflicted with leprosy: those not so afflicted | body.
+- The insane: those of sound mind | condition of mind.
+- The one of limited capacity: those of full capacity | capacity.
+- The child born of adultery: those not so born | birth.
+- The Arab: the Muhajirin | standing within the community.
+- The divorced man: those to whom that does not apply | standing.
+- The one who performs dry ablution: those who perform water ablution | ritual state.
+- The mute: the eloquent | speech, on which the prayer depends.
+- The resident: the traveler | obligation.
+- The one who opposes by innovation: those who mourn in the traditional manner | allegiance and practice.
+
+Closing line attached to the list: each, however, may lead others in a similar situation.
+
+Reading: this is a source era legal classification, presented as such, without modern expansion and without apology. Its principle is not that a named condition destroys all prayer, but mismatched leadership, a leader whose condition, ritual status, speech, or opposition does not fit those behind him.
+
+Annotated structure. The muqayyad, defined by the source's own two answers.
+
+Whole: the prohibition of praying behind one who is muqayyad.
+Parts, with the question that produces each:
+- The term. Question: what is meant by restriction and the one who is restricted. Answer: the muqayyad is one upon whom a qayd has been placed.
+- The scope. Question: does the statement that the muqayyad does not lead the divorced ones refer to all restraints and bonds, or specifically to restraints on the legs. Answer: it means restraints and bonds placed on the legs and similar limbs.
+Reading: the source narrows its own rule rather than letting the word expand, the same discipline applied to every category in the list.
+
+Contrast pair. Recitation, where the chapter says most clearly why imamate is serious.
+
+Column A: The voice that preserves meaning
+- Condition: he recites well.
+- Ruling: whoever recites well should lead if called upon and if he consents.
+- What his voice does: it serves the words.
+- Standard he meets: he does not substitute a verse of mercy for a verse of punishment, nor falsehood for truth.
+
+Column B: The voice that changes meaning
+- Condition: he cannot pronounce certain letters correctly, having lost his teeth or not knowing the correct articulation points, or he introduces alterations and distortions.
+- Ruling: if the mispronunciation changes the meaning, it invalidates the prayer, and whoever cannot recite well should not be taken as imam.
+- What his voice does: it can carry the congregation into false speech, corrupting the sense of the statement that Allah is innocent of the polytheists and His messenger, or changing a phrase so that guidance is misassigned.
+- Standard he fails: mercy can become punishment, and truth can become falsehood.
+
+Shared row: a broken tooth is not the issue, and ignorance of articulation is not an embarrassment to be mocked. The issue is whether meaning is changed.
+
+Hierarchy. The capacities the imam's role requires, arranged by what each protects.
+
+- Level 1: Fitness to stand in front
+  - Level 2: Fitness of speech
+    - Level 3: Recitation without a melody that distorts the meanings of the Quran
+  - Level 2: Fitness of hearing
+    - Level 3: A deaf person who cannot hear even if warned may not lead
+    - Level 3: The congregation's ability to repair a mistake depends on the leader being correctable
+  - Level 2: Fitness of standing and authority
+    - Level 3: If a non adult holds authority, such as being the governor of the Muslims in his era, it is not permissible for anyone to lead him in prayer
+    - Level 3: It is not permissible for other boys to lead obligatory prayers
+
+Reading: beauty of sound may not overthrow meaning, and the imam must be not only correct in speech but correctable by those behind him.
+
+Comparison matrix. The blind leader, where the preserved rulings differ in emphasis.
+
+Rows: the author of the footnotes, the national collection, the Nāṣib, Qāḍī al-Nuʿmān ibn Muhammad, the People of the House.
+Columns: the position preserved | the condition attached | the form it takes.
+- The author of the footnotes: shortening the imamate of a blind person is appropriate | when he is compelled to lead and does not take a salary | a judgment about compulsion.
+- The national collection: a blind person is not permitted to lead | unless he performs it without charge and without salary | a prohibition with an exception.
+- The Nāṣib: they oppose this | none recorded | a dissent, without elaboration.
+- Qāḍī al-Nuʿmān ibn Muhammad, in an epistle answering questions from some judges: there is nothing wrong with him leading | provided he performs it without charge | a permission.
+- The People of the House: they disapproved of the imamate of the leper, the one afflicted with leprosy, a child born of adultery, one under obligation, the possessed, and the blind | except when necessity compels it, or when he takes an imam for a salary. They did not regard the Arab, the one with limited capacity, or the madman as fit to lead, but permitted people in similar situations to lead one another | a collective disapproval with named exceptions.
+
+Reading: the wording around salary is compressed, and the rulings are not all preserved with the same emphasis. All keep imamate tied to fitness, necessity, and the refusal to make prayer leadership a paid office.
+
+Contrast pair. Why payment is the recurring suspicion.
+
+Column A: The front position as a religious trust
+- What makes him followed: he is fit to lead the prayer.
+- The rule stated: an imam should not take a salary.
+- Effect on meaning: the front position stays truthful.
+
+Column B: The front position as a commercial performance
+- What makes him followed: he has been hired to occupy sacred visibility.
+- The risk stated: payment risks changing the meaning of the front position.
+- Effect on meaning: the reason for following is displaced.
+
+Shared row: the statement about salary is short, and it belongs at the heart of the chapter.
+
+Annotated structure. The relief that keeps restriction from becoming exclusion.
+
+Whole: the permission for similar people to lead one another.
+Parts:
+- What the restriction does. Position: the outer boundary. Annotation: a condition may make someone unfit to lead those without that condition.
+- What the permission does. Position: the inner space. Annotation: it does not erase his ability to gather those whose condition is similar.
+- What the pairing protects. Position: the centre. Annotation: both hierarchy and inclusion, the full obligation where possible and ordered prayer where necessity or shared limitation defines the group.
+Reading: the second concept lands on ranked fitness. The chapter asks who has the strongest right in this place, among these people, for this prayer. Sometimes the answer is the jurist even if enslaved, sometimes the owner of the mosque, sometimes the one whose speech preserves meaning, and sometimes no one from a category except his like.
+
+## Following Without Fracture
+
+Verbatim moment. The narration from the interpretation of the Shariʿah by al-Muʿizz, where the Prophet leads while injured.
+
+> The imam is to be followed; if he stands, stand; if he recites, listen; if he says "Samiʿa Allāhu liman ḥamidah," say "Rabbanā laka l-ḥamd," glorifying God greatly; if he gives the salām, give the salām; and if he prays seated, sit together with him.
+> The Prophet, peace and blessings be upon him and his family, as preserved in the interpretation of the Shariʿah by al-Muʿizz.
+
+Process flow. The scene that produces the narration.
+
+Start: the Prophet, peace and blessings be upon him and his family, rides a horse
+  ↓
+He falls from it and is injured on his right side
+  ↓
+His companions come to him
+  ↓
+He attends the prayer and leads them while seated
+  ↓
+They stand
+  ↓
+He gestures to them to sit, and they sit
+  ↓
+End: when he finishes, he states the rule of following
+
+Reading: the lesson is not that sitting is preferred, since an imam sits only from necessity. It is that followers do not invent their own choreography once inside the imam's prayer.
+
+Comparison matrix. Following, taken clause by clause from the narration.
+
+Rows: standing, recitation, the phrase of praise, the salām, seated leadership.
+Columns: what the imam does | what the follower does | what the clause governs.
+- Standing: he stands | stand | posture.
+- Recitation: he recites | listen | sound received rather than produced.
+- The phrase of praise: he says "Samiʿa Allāhu liman ḥamidah" | say "Rabbanā laka l-ḥamd," glorifying God greatly | the answering formula.
+- The salām: he gives the salām | give the salām | the closing.
+- Seated leadership: he prays seated | sit together with him | shared form under the leader's lawful condition.
+
+Contrast pair. Taqiyya, and the narrow thing it is permitted to change.
+
+Column A: What taqiyya may alter
+- Case one: an imam omits "Rabbanā laka al-ḥamd" because common people are present and he acts out of taqiyya. Ruling: there is nothing wrong with taqiyya.
+- Case two: Bismi Llāhi r-Raḥmāni r-Raḥīm in Maghrib when the people of al-Ẓāhir gather with him. Ruling: he may lower it to where only he himself hears it, for taqiyya.
+- What changes: the audible register.
+- Governing idea: prudence under public pressure.
+
+Column B: What taqiyya may not alter
+- Case one: the same phrase of praise. Ruling: he must not omit it except for taqiyya, and he should recite it as the pure guardians of God did.
+- Case two: the same opening formula. Ruling: he must recite Bismi Llāhi r-Raḥmāni r-Raḥīm aloud.
+- What does not change: the inherited form of the prayer.
+- Governing idea: fidelity to what the prayer contains.
+
+Shared row: taqiyya is named as an exception that changes audibility, not the inner obligation to preserve what the pure guardians practiced. It is not an excuse for laziness.
+
+Process flow. Timing, and the correction when a follower moves first.
+
+Start: the congregation stands behind the imam
+  ↓
+Rule: those behind the imam must not begin any complete act of prayer before the imam begins it
+  ↓
+Branch:
+  - He waits, bows after the imam, and rises after the imam → he remains a follower
+  - He precedes the imam in any act through omission → he must return to his position so as to remain a follower
+  ↓
+End: the hinge holds, because premature movement is repaired rather than carried forward
+
+Verbatim moment. The warning preserved in the Essential Councils.
+
+> Whoever raises his head before the imam fears that Allah will disfigure his head into the head of a donkey.
+> The Prophet, as quoted in the Essential Councils.
+
+Reading, as an annotated structure:
+- The act named: raising the head before the imam.
+- What the act claims: membership in the congregation.
+- What the body does instead: it announces independence.
+- Why the image is severe: the act is spiritually ugly, because the congregation may still be standing in the same room while the act has begun to fracture internally.
+- What the rule teaches: humility within collective worship, not merely external discipline.
+
+## Following Without Fracture, Repair And Continuity
+
+Process flow. The imam who does not know how much of the prayer has passed.
+
+Start: an imam leads but does not know how much of the prayer he has completed and what remains
+  ↓
+Instruction: he must rely on certainty
+  ↓
+Branch:
+  - Those behind him separate from him → they should return to what they affirmed until the truth becomes clear
+  - Those behind him also do not know, and neither he nor they can determine whether the prayer was more or less complete → the matter is left open
+  ↓
+End: uncertainty is handled by certainty where possible, and separation from the imam is not treated lightly
+
+Process flow. The imam who must leave, and the leadership that is handed on.
+
+Start: a person leads people in prayer and needs to relieve himself during the prayer
+  ↓
+Question: may he designate someone he deems fit to complete the prayer in his place, even if that person has not been divorced from the prayer, and may that person continue
+  ↓
+Ruling: if it is unconditional, there is nothing wrong, and he may offer the leadership to whomever he wishes
+  ↓
+The replacement completes what has been entrusted to him rather than beginning a new prayer
+  ↓
+End: the congregation does not collapse merely because the first imam cannot finish
+
+Reading: imamate is personal because fitness matters, and transferable because the act must be completed under lawful continuity.
+
+Contrast pair. The impurity remembered after prayer, and the limit on its consequence.
+
+Column A: What the followers must repeat
+- The case: an imam leads a congregation and, after finishing, recalls that he had an impurity he knew about before the prayer but forgot to wash off.
+- Verdict: those who followed him are required to repeat the obligatory prayers.
+- What this establishes: the imam's condition matters to those behind him.
+
+Column B: What the followers need not repeat
+- The same case, asked about the rest.
+- Verdict: they are not required to repeat the voluntary prayers.
+- What this establishes: the remedy repairs what must be repaired without multiplying repetition beyond the stated ruling.
+
+Shared row: the followers are not treated as if nothing happened, and the consequence is nevertheless limited.
+
+Comparison matrix. Three cases of irregular congregation, and why the rulings differ.
+
+Rows: the second Dhuhr in an emptied mosque, the latecomers after the imam has departed, the two late joiners completing together.
+Columns: the situation | the ruling | the reasoning the source supplies.
+- The second Dhuhr: an imam leads Dhuhr, the people depart, another man later leads a second group in the same prayer, and they were unaware at the time | the prayer has been performed and need not be repeated, whether they knew or not | let them be informed, and let them be grateful. This differs from the rule against fractured repetition in the same active setting.
+- The latecomers, from Mukhtasar al-Muṣannaf: people come after the imam has already left the mosque, where a man departed and no one joined him | their prayers are invalid if they come after the imam has left the mosque with a man who was not with him, and it is only permissible to wait a short time for the imam to speak before he exits | congregational attachment has a window, and the moment can pass.
+- The two late joiners: a man prays with a group, two men join having missed some of it, and the imam gives the salām | they make up what remains, one of them completing it in the manner of the imam with the other, otherwise the prayer of the one being led is invalid | the form of imamate continues into the repair of incompletion, and one of the two becomes the reference for the other.
+
+Reading: the phrase let them be grateful is revealing. Not every irregularity becomes a burden of repetition. Imamate is serious, not paranoid.
+
+Annotated structure. The transmitted precedent on combining, and why its placement matters.
+
+Whole: a report that the Messenger of Allah, peace and blessings be upon him and his family, combined the noon, afternoon, sunset, and night prayers without travel, illness, or fear.
+Parts:
+- The report itself. Position: centre. Annotation: preserved without being expanded into a full doctrine of prayer times, since sacred times have already been treated.
+- Its function here. Position: the surrounding frame. Annotation: it belongs to the imamate material, where communal obligatory prayer has transmitted precedents.
+- The reading the placement forbids. Position: struck through. Annotation: it cannot be reduced to an emergency excuse.
+- The reading the placement supports. Position: beneath. Annotation: the leader's practice can reveal lawful breadth in the form.
+
+Annotated structure. The third concept, gathered into one figure.
+
+Whole: the discipline of being led, and the weight it places on each side.
+Parts:
+- What the follower does. Position: behind. Annotation: he listens when the imam recites, answers at the proper phrase, waits for his movement, returns if he precedes, sits when lawful seated leadership requires shared sitting, and accepts repair when the imam appoints another or when missed portions must be completed.
+- What the imam carries. Position: in front. Annotation: he must preserve inherited formulas, recite without changing meaning, lead only when fit, avoid salary, handle taqiyya without erasing the prayer, and carry the congregation through uncertainty without fracture.
+- The instruction that governs both. Position: the centre. Annotation: he must rely on certainty, which could serve as a motto for the chapter.
+Reading: imamate requires certainty where certainty is possible, of placement, eligibility, recitation, rank, timing, purity, and continuity. Where it is absent, the congregation returns to what is affirmed and repairs what can be repaired.
+
+## Closing
+
+Annotated structure. What the imam accepts along with the front position.
+
+Whole: the consequences the source attaches to leading.
+Parts, arranged around the standing figure:
+- His choices. Position: ahead. Annotation: they affect others, because this is not private devotion with spectators behind him.
+- His mistakes. Position: right. Annotation: they may require repetition.
+- His incapacity. Position: left. Annotation: it may require appointment.
+- His words. Position: the crown. Annotation: they may preserve or distort meaning.
+- His movement. Position: base. Annotation: it may gather people into one act, or leave them imitating him without order.
+
+Contrast pair. The chapter's central inversion, which the closing asks the listener to feel.
+
+Column A: How congregational prayer appears
+- Surface impression: simpler than solitary prayer.
+- Reason given for the impression: one person leads and the rest follow.
+- What the impression hides: the follower's own obligation.
+
+Column B: What the source shows it to be
+- Actual character: more intricate than solitary prayer.
+- Reason: shared worship requires personal obligation and communal dependence at the same time.
+- What it demands: the follower cannot abandon his own capacity, and the imam cannot treat his own act as isolated.
+
+Shared row: between them stands the delicate discipline by which many bodies become one prayer without losing the truth each body owes.
+
+Annotated structure. The picture the listener is left holding.
+
+Whole: one congregation, mid prayer.
+Parts:
+- In front. Position: ahead. Annotation: the imam, whose rank, recitation, purity, capacity and timing the congregation trusts.
+- Behind. Position: the rows. Annotation: travelers and residents, standing and seated, each still owing what his own condition allows.
+- Between them. Position: the gap that must not be crossed. Annotation: the sign of following.
+- Held in reserve. Position: the margin. Annotation: the fit replacement, the repeated obligatory prayer, and the instruction to rely on certainty.
+Reading: this chapter turns imamate in prayer into a grammar of trust.

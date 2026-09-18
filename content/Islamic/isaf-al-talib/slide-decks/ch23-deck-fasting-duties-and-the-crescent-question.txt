@@ -1,0 +1,534 @@
+# Fasting Duties and the Crescent Question
+
+## Where this episode picks up
+
+Contrast pair, the two believers a night's ride apart, attribute by attribute.
+
+Column A: The believer on high ground
+- Sky condition: clear
+- Terrain: elevated, a ridge or a peak
+- What the eye registers: the thin new moon
+- Month he would enter tomorrow: Ramadan
+- Obligation tomorrow: a fast is owed
+
+Column B: The believer under cloud
+- Sky condition: obscured
+- Terrain: low ground, below a ridge
+- What the eye registers: nothing
+- Month he would enter tomorrow: Sha'ban
+- Obligation tomorrow: nothing is owed
+
+Shared row: Both stand a single night's ride apart and live through the same twenty four hours. If sighting begins the month, that one day carries two names, two months and two different obligations, the whole difference produced by a ridge line or a bank of cloud.
+
+Annotated structure, the chapter heading dissected into its parts.
+
+Whole: the heading announces the sighting of the crescent moon, what has been said about it and its established course.
+- Part 1, the sighting of the crescent moon. Position: the surface subject. Annotation: names the practice under examination, not the chapter's conclusion.
+- Part 2, what has been said about it. Position: the transmitted material. Annotation: signals that the chapter will work on reports rather than around them.
+- Part 3, its established course. Position: the tell, placed last. Annotation: a course that is established can be known in advance, and everything under this heading argues that the month of Ramadan has one.
+
+Process flow, how the previous chapter hands this one its subject.
+
+Start: the previous chapter lays out the whole of fasting as a catalogue
+  down to
+It passes over the crescent in a single clause, that the reports about watching for the new moon address people who cannot reach a determination
+  down to
+The clause is spent in a sentence and not defended
+  down to
+End: here the clause becomes the subject, and the defence runs the length of a chapter
+
+Comparison matrix, the four authorities who carry the argument.
+
+Columns: Register supplied | Setting | Textual vehicle | State in this slice
+
+- Mawlana Suleiman bin Hassan, may God sanctify him in the chambers of the Gardens of Eden: astronomy | a written message | his first honoured message, bearing the tag of the Ijdiyyah, with the Ahmadiyyah secrets and the Asjadiyyah jewels | delivered in full
+- The long serving preacher who supports the religion of God: the refutation proper | a council | the forty second council of the first hundred of his honoured supporting councils | delivered in full
+- The same figure, as our master the Supporter of Religion, may God sanctify his soul: live disputation | a king's courtroom in Shiraz | spoken reply to a champion's gesture | delivered in full, with the scene reported
+- One of the preachers, may God sanctify their souls: a formal question to the scholars of all the people of Islam | a written disputation | a list of questions on the fasting verses | left standing without its answer
+- The narration reported by al-Sadiq Ja'far ibn Muhammad, peace and blessings of Allah be upon him: transmitted report | the close of the chapter | a narration whose transmission breaks | arrives damaged, opening a reading of one word
+
+Contrast pair, the proposition against the counter thesis.
+
+Column A: The party holding the sighting rule
+- Claim about length: the month of Ramadan is sometimes complete and sometimes short
+- Claim about beginning: the fast depends on the sighting of the crescent
+- Evidence: a report from the Prophet
+
+> "Fast upon seeing it and break your fast upon seeing it; if it is obscured from you, then complete thirty days."
+> Attributed by the opposing party to the Prophet, peace and blessings be upon him.
+
+Column B: What this chapter sets out to prove
+- Claim about length: the month of Ramadan is never deficient
+- Claim about beginning: the month begins at a computable meeting of two bodies
+- Evidence: astronomy, the occasion of the report, the Prophet's own access to news of the heavens, and the wording of scripture
+
+Shared row: Both sides hold the same report in their hands. Neither side disputes its wording.
+
+Process flow, the method of a refutation that runs on its opponent's material.
+
+Start: the opposing party produces the report about sighting
+  down to
+The report is not denied, not called weak, not set aside
+  down to
+The report is given back an occasion, a questioner and an audience
+  down to
+Re read, it says something narrower than the claim it was brought to support
+  down to
+End: the chapter can close on the meaning of one verb
+
+## Absence and the Moon's Arithmetic
+
+Hierarchy, who the discussion addresses.
+
+- Level 1: The Book of Clarification, on fasting and the sighting of the crescent moon, together with what is mentioned in this chapter and the two chapters before it
+  - Level 2: Addressee, those absent from the Imam's presence
+    - Level 3: Condition, distance from the one who knows
+    - Level 3: What they lack, the appointed times of the crescent moons
+  - Level 2: Non addressee, those present with the Imam
+    - Level 3: Condition, no distance
+    - Level 3: What they have, he it is who knows the appointed times
+
+Annotation: the sentence does not say sighting is wrong. It says a body of discussion has an addressee, and the addressee is defined by a distance. Absence is the condition under which finding the month's beginning becomes a question.
+
+Process flow, the moon's arithmetic as Mawlana Suleiman bin Hassan sets it out.
+
+Start: the moon separates from the sun
+  down to
+The moon travels twenty eight degrees after the separation
+  down to
+Meanwhile the sun has advanced two full stations and a step into the third
+  down to
+The moon must traverse the first two stations again in order to catch up
+  down to
+The moon meets the sun at thirty degrees
+  down to
+End: the astronomers count this as one month
+
+Annotated structure, what survives when the arithmetic is left unsmoothed.
+
+Whole: a passage that runs degrees and stations together in a way that resists a clean reading, reproduced rather than tidied, whose arithmetic cannot be checked from inside the sentence.
+Parts that survive, and where each sits in the argument:
+- The two motions. Position: the base of the claim. Annotation: separation and catching up follow from the movement of two bodies, not from anybody's eyesight.
+- The regularity. Position: the middle term. Annotation: the interval between one meeting and the next is a quantity.
+- The verb in the last sentence. Position: the load bearing word. Annotation: astronomers count it, they do not watch for it.
+Cross reading: set that verb beside the heading's established course and the alignment is exact, what can be computed in advance need not be waited for.
+
+Contrast pair, what sighting is on this account.
+
+Column A: If the month begins with a sighting
+- Nature of the month's start: an event that happens to an observer
+- Where it occurs: on a particular horizon, at a particular hour, through particular air, on a particular eye
+- Number of starts possible on one night: as many as there are horizons
+- Status of cloud and terrain: constitutive, they decide whether the month began
+
+Column B: If the month begins with a meeting of two bodies
+- Nature of the month's start: an event in the sky
+- Where it occurs: at one moment, for everyone alive
+- Number of starts possible on one night: one
+- Status of cloud and terrain: evidential only, they decide who finds out
+
+Shared row: Sighting is not what makes the month begin. It is one local, obstructed, unevenly available way of finding out that it has.
+
+Timeline, the occasion restored to the report.
+
+Position 1: the ordinary practice, before the campaign. The companions fast when the Messenger fasts and break when he breaks.
+Position 2: the Messenger wishes to depart on certain campaigns near the month of Ramadan.
+Position 3: the companions approach him.
+
+> "O Messenger of Allah, we used to fast with your fasting and break our fast with your breaking of the fast, so what will our situation be in your absence?"
+> The companions, to the Messenger of Allah, peace and blessings of Allah be upon him and his family.
+
+Position 4: the reply.
+
+> "Fast upon seeing it and break your fast upon seeing it."
+> The Messenger of Allah, peace and blessings of Allah be upon him.
+
+Period bands: presence, matching him | the announced departure | absence, the substitute.
+
+Annotation: the companions are not asking how the month begins. They are describing a practice they already have and reporting that it is about to fail, because the man whose practice they follow is leaving. They are asking for a substitute, and the reply is the substitute.
+
+Contrast pair, the ruling in presence against the ruling in absence.
+
+Column A: When the Messenger is present, or the Imam who takes his place
+- Source of the obligation: following his fast and his breaking of the fast
+- What the believer watches: a person
+- Status of the crescent: not consulted
+- Proof that this is the ordinary case: the companions' own sentence, we used to fast with your fasting and break our fast with your breaking of the fast
+
+Column B: During the absence of the Messenger and of the Imam who takes his place
+- Source of the obligation: fasting upon the sighting of the crescent
+- What the believer watches: the sky
+- Status of the crescent: one of the matters of necessity
+- Proof that this is the exceptional case: an answer about absence cannot be the standing rule for presence, or the companions would have had nothing to ask
+
+Shared row: The report has not been weakened. It has been given back its question.
+
+Named axis 2x2, what kind of thing the beginning of a fast is.
+
+Axes:
+- Horizontal: how the month's start is known, by individual detection moving to by transmission from a head
+- Vertical: what the month's start is, a fact in nature moving to a communal act
+
+Quadrants:
+- Top left, communal act plus individual detection: the incoherent position the chapter attacks. One day is Sha'ban for the man under cloud and Ramadan for the man on the ridge, yet the fast is owed by a whole community.
+- Top right, communal act plus transmission from a head: the chapter's own position. The obligation runs through following, not through the moon, and not in the first instance through the eye, but through a person whose practice the others match.
+- Bottom left, fact in nature plus individual detection: the opposing party's position. Each believer separately detects an astronomical fact.
+- Bottom right, fact in nature plus transmission from a head: the astronomers' description. The meeting at thirty degrees is counted rather than watched for.
+
+Reading: sighting enters only where no person can be matched.
+
+## A Prophet Who Need Not Look
+
+Hierarchy, the flaws in the claim that the Prophet himself fasted upon seeing the crescent moon.
+
+- Level 1: The claim is flawed on three counts
+  - Level 2: Count 1, the transmitted argument
+    - Level 3: Gabriel came to him morning and evening with revelation and the Holy Quran
+    - Level 3: He had one who brought him certain news, so looking would have had nothing to do
+  - Level 2: Count 2, the rational argument
+    - Level 3: The differing conditions of crescent sightings cannot be hidden from him
+    - Level 3: A universal obligation cannot be tied to a local accident
+  - Level 2: Count 3, delivered later and without a label
+    - Level 3: The scriptural case, which opens the following movement
+
+Annotation: the tally is given as two legal and rational, and one other. It is odd as it stands and is reproduced rather than tidied.
+
+Process flow, the argument from redundancy.
+
+Start: Gabriel comes to the Prophet morning and evening with revelation and news from the heavens
+  down to
+Branch A, the redundancy claim proper: he had no need to turn his face toward the sky in search of the crescent, for he had one who brought him certain news
+  down to
+Branch B, the public consequence: had he been observed seeking the crescent, it would have contradicted his own statement that Gabriel was descending to him, and had anyone asked him about that, it would have been established that he was self sufficient in that regard
+  down to
+End: the argument is one of redundancy, not of prohibition. Nobody says it would have been forbidden for him to look.
+
+The saying that returns twice in this chapter, quoted here in its first appearance.
+
+> "I know the pathways of heaven as you know the pathways of the earth."
+> Narrated from the Prophet, peace be upon him.
+
+The scene that the saying sets up, put as a scene rather than as a syllogism.
+
+> "Where is this from what you said yesterday, that you know the pathways of heaven as we know the pathways of the earth?"
+> What people would have risen and said, had he been seen seeking the crescent in order to be told about it.
+
+Annotation: this is not a theologian's refutation, it is what any listener with a memory would say the next evening. A man who has told you he knows the roads of the sky as you know your own district does not then stand in the street asking directions.
+
+Contrast pair, the earth's positions and the gradations of sighting.
+
+Column A: Elevated ground
+- Examples given: the peaks of mountains and whatever follows the same course
+- Speed of sighting: faster
+- What the observer sees on a given night: the crescent
+- Month he assigns to the next day: Ramadan
+
+Column B: Low ground
+- Examples given: positions that are lower on the earth
+- Speed of sighting: slower
+- What the observer sees on a given night: nothing
+- Month he assigns to the next day: Sha'ban
+
+Shared row: The difference is barely concealed from a mine worker or from one who knows the positions of the earth. To suppose it hidden from the Prophet would be the gravest of deficiencies, from which he is free.
+
+Process flow, the challenge to reason that follows.
+
+Start: the Prophet is required to know the difference between the positions
+  down to
+Some people sight the crescent on a given night while others do not
+  down to
+If the obligation of fasting is tied to sighting, one day is counted as belonging to Sha'ban by those who cannot see it and to Ramadan by those who can
+  down to
+The obligation of fasting is tied to the obligation of Hajj on the same single basis, so making a month's beginning local and variable destabilises both at once
+  down to
+End: this is untenable, something no sane person doubts, and only an ignorant person would dismiss it
+
+Annotation: the Hajj clause is compressed in the source and is left compressed. What it appears to press is the parallel between two obligations dated to the lunar calendar in the same way.
+
+Annotated structure, the courtroom at Shiraz.
+
+Whole: a formal disputation before a ruler, the chapter's one piece of narrative, whose lead in is damaged and reproduced as it stands.
+Parts, in the positions they occupy in the room:
+- The seat of judgment: King Abu Kalijar al-Daylami, ruler of Shiraz, Iraq al-Ajam, and its kingdoms.
+- Brought forward by the king: a nobleman of the Zaydi school of thought, who delivers a statement on whether the obligation of fasting is tied to the sighting of the crescent.
+- The respondent: our master the Supporter of Religion, may God sanctify his soul.
+- The audience: the people of the courtroom, who rise at the end.
+Annotations:
+- The damaged lead in: a line about what Allah the Most Holy said in a similar case, in his book of noble biography. What follows is an account of an occasion rather than a saying, and the attribution cannot be read straight.
+- The register shift: for twenty two chapters this book has argued in the register of transmitted rulings. Here it argues in the register of a court.
+
+Contrast pair, the champion's demonstration against the reply.
+
+Column A: The champion's argument, made with his hands
+- Ruling invoked: al-Sharif ruled in favour of the Messenger of Allah, peace and blessings be upon him, then made his demonstration
+- Medium: five fingers gathered, the gesture repeated
+- Words spoken: "We are unlettered and do not count"
+- First round: thirty counts completed on the fingers
+- Second round: finishes one finger short, at twenty nine
+- Claim carried: the community that keeps these months neither reads nor reckons, it counts on its fingers and watches the sky because that is what it was given to do
+
+Column B: The reply of our master the Supporter of Religion
+- Target: the gesture rather than the conclusion
+- Method: take the demonstration literally and complete the picture
+- Picture completed: the Prophet, whom God honoured, who could see beyond the veil with full awareness, described as unlettered to the point of being unable to distinguish thirty from twenty nine with his tongue, moving his hand in the manner of a shepherd counting cattle and sheep
+- Objection: not that the numbers are wrong, but that a man who saw beyond the veil is being asked to reach twenty nine by running out of fingers
+- Reinforcement: the saying about the pathways of heaven, returning in the same words, because the courtroom is where it bites
+
+Shared row: Both parties agree the months alternate between thirty and twenty nine. They disagree about who is entitled to find that out by counting.
+
+Process flow, the Gabriel argument in its courtroom form.
+
+Start: suppose seeking the crescent were obligatory and necessary for us in particular
+  down to
+The Prophet would have been free of that need, for Gabriel, peace be upon him, informs him of the universe
+  down to
+If Gabriel informs him the crescent has appeared and he then proceeds to ask about it, he would be more likely to have revelation about his own affairs explained to him instead
+  down to
+Generalise away from prophecy: even if one of us had access to a king of angels whom he could question about unseen matters, he would not rely on himself in asking and striving
+  down to
+End: this is something upon which no proof or evidence can be founded
+
+Timeline, how the scene ends.
+
+Position 1: the reply is delivered.
+Position 2: from the shame of this answer, the man stood up while stumbling in his clothes.
+Position 3: the people rose in the courtroom.
+Position 4: the two scholars laughed at him and mocked him.
+Position 5: each of them went to his home.
+
+Annotation: the detail of the clothes is the kind of thing a report keeps only because someone watched it happen.
+
+## A Number of Days
+
+Genealogy chain, the scriptural argument from prescription to computed length.
+
+Fasting is prescribed for you as it was prescribed for those before you → those before you refers to the Christians → the fasting of the Christians is not based on sighting but on calculation → the verse establishing the fast establishes it by likeness to a fast reckoned in advance → the verse then confirms this with the phrase a number of days → a numbered count of days is one that is already determined → a determined count requires neither sighting nor looking
+
+> "Fasting is prescribed for you as it was prescribed for those before you, so that you may be pious."
+> Allah the Almighty, chapter 2, verse 183.
+
+> "a number of days"
+> Allah the Almighty, chapter 2, verse 184.
+
+Annotation: the comparison is read as carrying information rather than encouragement.
+
+Contrast pair, what ordinary usage commits a speaker to.
+
+Column A: A quantity already counted
+- Sample phrases: a number of days, these are a calculated account, these are a few dirhams
+- What the speaker has done: counted
+- Applied to Ramadan: the month is complete and does not vary
+
+Column B: A quantity that varies
+- Sample phrases: none of the above are said of it
+- What the speaker has done: not counted
+- Applied to Ramadan: sometimes thirty days and sometimes twenty nine
+
+Shared row: If it were possible that Ramadan varies, He would not have said a number of days with certainty. A man who offers you a few dirhams has counted them. This is the pivot of the whole chapter, and it turns on ordinary usage rather than on doctrine.
+
+Timeline, the alternating calendar according to the established Sunnah.
+
+Axis: the months of the year in order, from the first.
+- Muharram: complete
+- Safar: short
+- Rabi' the first: complete
+- Rabi' the second: short
+- Jumada al-Ula: complete
+- Jumada al-Ukhra: short
+- Rajab: complete
+- Sha'ban: short
+- Ramadan: complete
+Period band: six months of the year are complete and six are short. The original and foundational arrangement is built on completeness without deficiency.
+Boundary note: the list stops at Ramadan with the last three months unenumerated, because by then the pattern has done its work. The alternation straight down the year makes this an arrangement rather than a tally. Sha'ban falls on a short beat, Ramadan on a complete one.
+
+> "Sha'ban is short, not Ramadan."
+> The Prophet, peace and blessings of Allah be upon him.
+
+Annotated structure, the middle night as proof of length.
+
+Whole: the night of the middle of a month, used as evidence about how many days the month contains.
+Parts:
+- Sha'ban, twenty nine days. Fifteenth night placed at the centre. Fourteen nights precede it, fourteen nights follow it.
+- Ramadan tested at the fifteenth night. Fifteen days would remain after it, so the fifteenth is not the centre.
+- Ramadan tested at the sixteenth night. Sixteen is not half of thirty, so the sixteenth is not the centre.
+Annotations:
+- Sha'ban: the arithmetic works only for twenty nine. Fourteen, then one, then fourteen.
+- Ramadan: an even month has no middle night, only a seam between two halves.
+- The evidence base: the middle night of Sha'ban is a fixture of practice, everyone knows which night it is, and that shared knowledge is made evidence about the length of the month containing it.
+Cross reading: the feature that proves Sha'ban is twenty nine proves, by its absence, that Ramadan is not.
+
+Process flow, the argument from the expiation.
+
+Start: a man deliberately breaks his fast on a single day of Ramadan
+  down to
+He owes expiation as repentance to Allah
+  down to
+Primary form, he must fast two consecutive months, that is sixty days, equivalent to Ramadan
+  down to
+Branch, if he cannot do that
+  down to
+Alternative form, he feeds sixty poor people
+  down to
+Counterfactual test, suppose a month could be twenty nine days
+  down to
+Then the expiation would allow for feeding fifty eight poor people rather than sixty
+  down to
+End: the number is flat, not variable, so a thirty day month has been assumed all along
+
+Annotation: sixty is two thirties, and the sixty was not devised for this dispute. It sits in the law of expiation, already on the table in the previous chapter, where nobody was thinking about crescents at all, carrying an assumption about the length of the month the entire time.
+
+Visual metaphor, the closing address to the community.
+
+Abstract relation: completeness as a single word doing double duty, bridged to the practice of following.
+Metaphor: a rope of several cords held by a community, each cord a guardian.
+- The month: complete.
+- The religion: complete.
+- The word joining them: completeness, said once and carrying both.
+- The grip: holding to the cords of faith through following your guardians, the guardians of the Most Merciful.
+Reading: the beginning of a fast is not a fact each believer detects for himself, but something held in common by holding to a guide. This returns the argument to where the first movement left it.
+
+## The Formal Question Put to the Scholars
+
+Annotated structure, the disputation form and the verse it quotes.
+
+Whole: a question posed by one of the preachers, may God sanctify their souls, in argument against those who deviate from the path of guidance, in the formal style of a disputation.
+Opening formula: what do the learned scholars of all the people of Islam say regarding the words of the Lord of Majesty and Honour.
+
+> "O you who believe, fasting is prescribed for you as it was prescribed for those before you, so that you may be pious, a number of days. If any of you is sick or on a journey, then a number of other days. If any of you witnesses the month, let him fast; and whoever is sick or on a journey, then a number of other days. Allah wants ease for you and does not want hardship for you, and that you complete the count and glorify Allah for having guided you, and perhaps you will be thankful."
+> Allah the Lord of Majesty and Honour, chapter 2, verses 183 to 185.
+
+Comparison matrix, the questions asked and the state of each answer in this slice.
+
+Rows: the four opening questions, then the three closing questions
+Columns: phrase questioned | what is being asked | answer supplied in this slice
+
+- so that you may be pious | what the purpose clause means | none
+- those before | who they are | the Christians, supplied earlier in the chapter but not here
+- a number of days | how many | none, though the chapter's own answer is thirty
+- witnessing the month | what the act consists of | the state of the dispute, not a verdict
+- and complete the count | what the count is and how much it is | none
+- the takbir on Eid al-Fitr, after the completion of fasting | whether it is complete | none
+- the prescribed waiting period for the month | whether it is thirty days, twenty nine, or twenty eight, and which is truly a number of days | none
+
+Annotation: the twenty eight is the surprise, and it is left standing. Two of the three figures are the ordinary candidates for a lunar month. The third is not, and no explanation accompanies it.
+
+Contrast pair, the two readings of al-shahr in the phrase whoever among you witnesses the month.
+
+Column A: al-shahr means the crescent moon
+- Source of the reading: scholars of the Arabic language
+- What witnessing consists of: catching sight of a sliver of light
+- Who is obliged: some scholars extend it further, one who witnesses it is the one present in the city, as opposed to the absent person on a journey, and it is he who must fast and is not permitted to break his fast
+- Difficulty it faces: a crescent is a single recurring object, not a named period
+
+Column B: al-shahr means the full set of days that constitute the month
+- Source of the reading: others among the scholars
+- What witnessing consists of: being present for a stretch of time
+- Who is obliged: whoever is present through the days
+- Support it draws: the phrase the month of Ramadan in which the Quran was revealed, chapter 2, verse 185, is evidence that the Quran was revealed during days that are numbered and not during the crescent itself
+
+Shared row: the support comes from a phrase nobody disputes, since the revelation came down within a span of days rather than upon a crescent.
+
+Hierarchy, the crescent set beside the months.
+
+- Level 1: what is known in the sky and in the calendar
+  - Level 2: the crescent, of which only a single one is known
+    - Level 3: it waxes and becomes a full moon
+    - Level 3: it wanes throughout the days of the month
+    - Level 3: it does the same thing every month and belongs to none of them
+  - Level 2: the months, of which there are twelve
+    - Level 3: the number of months with Allah is twelve months in the Book of Allah, on the day He created the heavens and the earth, chapter 9, verse 36
+    - Level 3: of which four are sacred
+    - Level 3: they are known by name in a fixed order, from Muharram to Dhu al-Hijjah
+
+Reading: whatever a month is, it is not identical with the moon that crosses it.
+
+Process flow, presenting a report to the Book.
+
+Start: the principle, stated by the Prophet
+
+> "Whatever reaches you attributed to me, present it to the Book of Allah; if the Book of Allah does not agree with it, then I did not say it, and I am not contradicted by it."
+> The Prophet, peace and blessings be upon him.
+
+  down to
+Take the opposing party's evidence, the saying fast upon seeing it and break your fast upon seeing it
+  down to
+Present it to the Book of Allah
+  down to
+The Book requires that you complete the count
+  down to
+Fasting by the crescent sighting may prevent the fulfilment of the count of thirty days
+  down to
+By the opposing party's own account, their evidence does not agree with the completion of the count as expressed in the Holy Book
+  down to
+End: this is a reminder for the people of understanding hearts
+
+Annotation: the report is not rejected on its own authority. It is presented to the Book, exactly as the report about reports instructs, and the mismatch alleged is arithmetical rather than doctrinal.
+
+## The Damaged Narration and the Reading of One Verb
+
+Annotated structure, a narration that arrives badly damaged.
+
+Whole: a narration from the Prophet, peace and blessings of Allah be upon him and his family, in what was narrated by al-Sadiq Ja'far ibn Muhammad, peace and blessings of Allah be upon him.
+Parts, in the order they survive:
+- The chain of transmission. State: present.
+- The narration's own content. State: lost, the transmission breaks.
+- The fragment that follows. State: present, reading that it is established that Sha'ban had passed and the month of Ramadan had not yet begun, and the book aligns with this.
+- The restatement of the thesis. State: present, in the plainest words the chapter has used, that it is clear and true that the completion of a month is thirty days.
+Annotation: what remains is the conclusion drawn from the narration, not the narration.
+
+Contrast pair, the two readings of the verb in the disputed report.
+
+Column A: the verb read as ocular sight
+- What the believer is told to do: catch the moon with his eye
+- Instrument: the eye, on a particular horizon
+- Who can comply: whoever has clear sky and high ground
+- Consequence for the month: the month starts when and where it is seen
+- Status in the chapter: the reading assumed throughout the dispute by the opposing party
+
+Column B: the verb read as reception
+- What the believer is told to do: act on the month's arrival once he has it
+- Instrument: however he comes to have it, by his own eye for want of anything better, or from the one who knows the appointed times
+- Who can comply: everyone
+- Consequence for the month: the report never told anyone to watch the sky
+- Status in the chapter: the reading offered at the close, in the light of what the scholars of language have mentioned regarding the term lamas, which was found to be one of reception
+
+Shared row: The verb is the same verb in both readings. The report is not amended, it is construed.
+
+Annotation: the term arrives damaged and cannot be securely traced, so it is reproduced as the transmission carries it. The reading it supports is the natural end of this chapter.
+
+Process flow, where the slice stops.
+
+Start: the lexical reading of the verb is stated
+  down to
+Some of the scholars also cited lines of poetry in support of that reading
+  down to
+End: the slice ends mid argument, with the verses about to be quoted
+
+## What this episode lands
+
+Comparison matrix, the four registers in which one clause is defended.
+
+Columns: the move made | the evidence used | what it rules out
+
+- Astronomy: the moon separates from the sun, travels, and catches it again at a computable interval | the message of Mawlana Suleiman bin Hassan on the meeting at thirty degrees | that the month's start is unknowable in advance, which is why astronomers count the month rather than watch for it
+- The reading of a report: fast upon seeing it is restored to the occasion of its saying | the companions' question before the campaign, we used to fast with your fasting | that an answer about absence is the standing rule for presence, since the practice it replaces was to follow the one they could see
+- Argument about the Prophet: he had news of the heavens twice a day, said he knew its pathways as his listeners knew their own roads, and could not have been ignorant of the gradations of sighting | the saying about the pathways of heaven, the coming of Gabriel, the difference between high ground and low, and the courtroom at Shiraz answered with a picture of a shepherd counting cattle | that a man seen searching the dusk for a thread of light could avoid contradicting himself in public, and that a universal obligation may be tied to a local accident
+- Scripture and arithmetic: a fast prescribed on the pattern of people who calculate, days described as a number, an alternating calendar, a middle night, and a fixed expiation | chapter 2 verses 183 to 185, the saying that Sha'ban is short not Ramadan, the fifteenth night of Sha'ban, and the sixty of the expiation | that Ramadan varies in length, since the expiation has been assuming a thirty day month all along
+
+Hierarchy, what is settled and what is left open at the close.
+
+- Level 1: settled in this slice
+  - Level 2: the month has an established course that can be counted
+  - Level 2: the report about sighting is a provision for absence
+  - Level 2: Ramadan is complete and does not vary
+- Level 1: left open in this slice
+  - Level 2: the formal question to the scholars of all the people of Islam, put and unanswered
+    - Level 3: about piety
+    - Level 3: about who came before
+    - Level 3: about how many days
+    - Level 3: about what it means to witness a month
+    - Level 3: about whether the count is thirty, twenty nine or twenty eight
+  - Level 2: the direction offered instead of an answer, that the disputed verb may mean reception rather than eyesight
+  - Level 2: the poetry that would support it, the next thing on the page
+
+Reading: the slice ends unfinished, and deliberately so.

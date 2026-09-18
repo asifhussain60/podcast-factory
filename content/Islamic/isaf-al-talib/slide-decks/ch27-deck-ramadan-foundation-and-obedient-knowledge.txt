@@ -1,0 +1,525 @@
+# Ramadan, Foundation, and Obedient Knowledge
+
+## Where this episode picks up
+
+Annotated structure. One chapter, three registers usually kept apart.
+
+- Register 1, law, at the front: the fast placed under the leader who stands in the Prophet's place, and an objector striking at that rule.
+- Register 2, interpretation, at the centre: the sky read as a portrait, the sun as the Prophet, the moon as the foundation, the phases as a history.
+- Register 3, calculation, at the close: a year named, nights named, degrees counted, and an open invitation to check.
+- Annotation on the seam between 1 and 2: the outward ruling is secured first, and only then does the letter announce that the call has two dimensions and turn to the second.
+- Annotation on the seam between 2 and 3: the third register does what symbolism cannot. It shows its work.
+
+Visual metaphor. The chapter's governing image, stated before it is argued.
+
+- Abstract relation: an authority that holds nothing of its own and shines with everything it receives.
+- Metaphor: the moon's monthly performance, the vanishing, the thin blade of light, the slow filling out, the vanishing again.
+- Element assignment: the phases are not primarily a way of keeping time. They are a biography, drawn in the sky before the man was born.
+- Reading: the community rehearses that portrait twelve times a year without knowing whose life it traces.
+
+Process flow. The chapter's arc, start to end.
+
+Start: every pillar deposited with the community under the leader standing in the Prophet's place, and the claim put to work on the fast
+  ↓
+Objection 1: a single entry day forces some to fast a day belonging to Sha'ban
+  ↓
+Reply: every obligation stands on two causes, demonstrated across five pillars
+  ↓
+Register change: the call divides into outward practice and interpretation
+  ↓
+The sky read in order: sun, moon, seven phases, month, verse
+  ↓
+Descent to dates: the year four hundred, the degrees, the Haram
+  ↓
+Objection 2: the Prophet forbade taking the stars as a guide
+  ↓
+End: a defence that turns into a demand
+
+Contrast pair. Two objectors, neither named, each quoted in full before he is answered.
+
+Column A: The first objector
+- Target: the rule that entry into the fast must fall on a single day
+- Charge: concurrence means some of those days are from Sha'ban and some from Ramadan
+- Ground: the letter's own principle, turned against it
+- Cost alleged: an obligation on a day that carries none
+- Fallback offered: fast only the Ramadan portion of the span
+- Reply's register: legal architecture
+
+Column B: The second objector
+- Target: the entire method of reckoning, numbers included
+- Charge: making the report of the sun and moon your guide is what the Prophet forbade
+- Ground: a prohibition on taking the stars as one's guide and acting on them
+- Cost alleged: not error, but prohibition
+- Concedes: every figure on the page
+- Reply's register: licence first, then duty
+
+Shared row: each objector receives his challenge in full before it is answered, and neither is named.
+
+Annotated structure. The damaged manuscript, four places, each rendered as it stands and named as broken.
+
+- Break 1, in the first objection: where the sense requires the entry into the fast, the manuscript hands us a word meaning irony.
+- Break 2, after the balance of testimony: a phrase naming a barn in Jerusalem, where the sense requires that city's sanctuary.
+- Break 3, in the fifth phase: the clause about a group told to obey him except those whose days were devoted sincerely, come down compressed.
+- Break 4, in the first limb of the final reply: a fragment of scripture, then a clause that stops mid sentence.
+- Annotation: broken words are left broken, never smoothed into sense they do not have.
+
+## A cause general, a cause particular
+
+Named-axis 2x2. What private judgement costs, in both directions at once.
+
+Axes:
+- Horizontal: what the ruling does to duty, from Adds an obligation that is not owed to Removes an obligation that is owed
+- Vertical: what name the result is given, from Called by its own name to Dressed in the Prophet's name
+
+Quadrants:
+- Bottom-left, Adds plus Own name: treating what is not obligatory as obligatory. The fault the objector will shortly allege.
+- Bottom-right, Removes plus Own name: treating what is obligatory as abandoned.
+- Top-right, Removes plus Prophet's name: counting as a Sunnah what is in fact a violation of Allah's command and a departure from the infallibility of His authority.
+- Top-left, Adds plus Prophet's name: the same counterfeit running the other way, an invented duty carried under borrowed authority.
+- Reasoning for the square: the charge is not a slightly early month, but a counterfeit running both ways and signed with a name not its own.
+
+> We seek refuge in Allah from that.
+> Attribution: the letter, on individual reasoning in the pillars.
+
+Process flow. The objection, laid out as the objector lays it out.
+
+Start: the letter's principle, that the beginning of fasting requires concurrence, and the entry must fall on a single day
+  ↓
+Therefore some of those days are from Sha'ban and some from Ramadan
+  ↓
+Therefore it becomes obligatory for some to fast in a manner the Prophet did not command
+  ↓
+End: the rule convicts itself of the very fault it charges against the other side
+
+Contrast pair. The two causes, defined before they are demonstrated.
+
+Column A: The general preceding cause
+- Position: first, and prior
+- Scope: causes this obligation and other obligations as well
+- What it establishes: the ground the duty stands on
+- What it cannot do: oblige anyone by itself
+- Sharing: held in common with other duties
+
+Column B: The specific second cause
+- Position: second, and decisive
+- Scope: particular to this obligation alone
+- What it establishes: the moment the duty falls due
+- What it does: distinguishes this duty from every other duty standing on the same ground
+- Sharing: none
+
+Shared row: the Prophet and his family imposed the obligatory duties by Allah's command, and for each established two causes rather than one.
+
+Comparison matrix. Five pillars, the same architecture in each.
+
+Rows: Prayer, Zakat, Hajj, Jihad, Fasting
+Columns: General preceding cause | Why it is general | Specific second cause | What the second cause fixes
+
+- Prayer: the day | it causes this prayer and the other daylight prayers too | the sun passing its zenith | the moment within the day
+- Zakat: the presence of wealth | wealth grounds more than this one payment | a full year elapsed | the moment within the holding
+- Hajj: ability to perform it | ability grounds the duty wherever found | the greatest day in Mecca | the day within the year
+- Jihad: discord, and the banner of disobedience and defiance of authority raised | the condition can stand without the duty following | the standing of the Prophet and of a leader who leads the community into battle | the authority converting condition into duty
+- Fasting: the conjunction of the moon and the sun | it governs every lunar reckoning in the religion | the time of dawn at which one enters the fast | the moment, locally, for each person
+
+Comparison matrix. The same five, recapitulated from the other side, by what makes each fall due.
+
+Rows: Prayer, Zakat, Hajj, Jihad, Fasting
+Columns: Falls due when | What is explicitly not enough
+
+- Prayer: its time falls due | even if wealth is withheld
+- Zakat: wealth reaches its threshold amount at the appointed time | the mere presence of wealth
+- Hajj: the standing on the greatest day becomes possible at its appointed time | bare ability
+- Jihad: a divinely guided leader, one who stands in the place of the Lord of all worlds, is present to lead the community | discord and defiance alone
+- Fasting: dawn arrives | the moon existing at dawn
+
+Annotated structure. Where the objection actually fails.
+
+- What the objector assumed: the conjunction is the obligation.
+- What the conjunction actually is: the general half of a cause, the half that also governs every other lunar reckoning in the religion.
+- What obliges a person to fast: the arrival of dawn.
+- Property of dawn that settles the case: it is local, and universally available.
+- Annotation: nobody is asked to fast a day of Sha'ban as though it were Ramadan. They are asked to recognise that the month their dawn falls in has already begun.
+- Annotation on the concession: the fallback, that only the Ramadan portion be fasted, strengthens the other position. To fast that portion you must say where it starts, which finds the month's edge by something other than the crescent.
+
+## The balance of testimony and the two callings
+
+Visual metaphor. The great outward testimony, weighed.
+
+- Abstract relation: one testimony to the truthfulness of the Messenger of Allah in what he conveyed from Allah.
+- Metaphor: a balance with two pans.
+- Pan one: the revealed Law and its religious obligations.
+- Pan two: what Allah has created in His natural order among the horizons and within souls.
+- Reading: the two pans are not rivals, but the two weights of one testimony.
+
+> "We will show them Our signs on the horizons and within themselves until it becomes clear to them that it is the truth"
+> Quran 41:53
+
+Annotated structure. The damaged clause that follows the balance.
+
+- What survives: no human being could imitate the Prophet in his actions except one uniquely prepared.
+- What the preparation is: one set apart by his attribute and his readiness to receive the revelation of Allah as a gift.
+- What is broken: a barn where the sense requires the sanctuary of Jerusalem. Left as it stands.
+
+Hierarchy. The two callings, and what sits under each.
+
+- Level 1: The call to the way of the Lord, commanded to the Prophet
+  - Level 2: Outward practice
+    - Level 3: natural bodily worship
+    - Level 3: the obligatory duties the Prophet brought
+    - Level 3: the Sunnahs the Prophet brought
+  - Level 2: Interpretation, which is knowledge
+    - Level 3: the great hidden worship of the soul
+    - Level 3: peculiar to particular souls
+    - Level 3: taken from the perspective of the truths of belief
+    - Level 3: concerned with abstracting the oneness of God
+- Relation between the two Level 2 branches: the second supports the first. It is not a replacement for outward action but what holds it up.
+
+> "Call to the way of your Lord with wisdom"
+> Quran 16:125
+
+## The moon and the foundation
+
+Comparison matrix. The sun and the speaking soul, four correspondences.
+
+Rows: Nobility, Source of light, Generation, Causal position
+Columns: What the sun is | What the Prophet is
+
+- Nobility: the noblest of bodies | the most honoured and most knowledgeable of souls
+- Source of light: the source of light for the other planets | the source for human souls in the divine sciences that lead to the oneness of God
+- Generation: cause of the birth of children in the natural world | cause of spiritual births in the world of the soul
+- Causal position: a cause linked to the causes of the physical world | a cause linked to the causes of the world of religion, which is the worship of Allah Almighty
+- Standing note: the sun is appointed in its very being, not assigned a meaning afterwards. One dimension in the body, the other in the soul.
+
+Comparison matrix. The moon and the foundation, four correspondences.
+
+Rows: Rank in reception, Degree of reception, Illumination, Intermediacy
+Columns: What the moon is | What the foundation is
+
+- Rank in reception: ranks above other bodies in receiving light from the sun | ranks above all others in receiving the light of creative existence from the Prophet
+- Degree of reception: its reception of sunlight exceeds that of every other body | its reception from the speaking Prophet of the blessings of divine oneness exceeds that of all other people
+- Illumination: illuminates the darkness of night | illuminates what the Prophet conveyed of the sealed symbols, the simplified law, and the multiplied parables
+- Intermediacy: stands between the sun and others in the emergence of newborns | stands between the Prophet and the community, nurturing spiritual children through mutual benefiting and instruction
+- Standing note: the moon is ordered and receptive, drawing more of the sun's light than any other planet, and an intermediary through its acceptance and interaction.
+
+Genealogy chain. Light, and what it passes through, in each world.
+
+Sun → moon → the other bodies and the emergence of newborns
+Prophet, the speaking soul → foundation, the rank the book calls the Imam → the community, and spiritual children nurtured in the world of the soul
+Allah Almighty → the speaking Prophet → the foundation's reception → those who attend
+
+Annotated structure. The method, stated openly before it is used.
+
+- Premise: the conditions of the sun and moon in the corporeal world correspond to their spiritual counterparts in the world of religion.
+- Consequence: the moon's states can be read.
+- Constraint: they are read in order, phase by phase, not selected for convenience.
+
+Timeline. The seven states of the moon, read as the history of one authority.
+
+State 1, conjunction: the moon meets the sun and illuminates half its own mass, on the side facing the sun. Astrologers hold this releases a force rendering it virtually the cause of all events until the next conjunction.
+State 2, concealment: the moon lies beneath the sun's rays, hidden from the general public, invisible to all but those who possess the vision of knowledge.
+State 3, the crescent's appearance: the sun sets from its rising point, and both old and young can see it.
+State 4, absence by day: no light while the sun stands above the horizon, and no presence at all until after the sun has set.
+State 5, weakness: only sharp sight can catch it, and its sighting differs from person to person.
+State 6, increase: the moon's light grows as the days pass.
+State 7, completion: on the fourteenth night young and old see it, or can hardly doubt the sighting of it.
+
+Period bands across the seven: before the meeting | veiled | emerged | awaiting the departure | contested | strengthening | beyond doubt
+
+Comparison matrix. The same seven states, matched to what they figure.
+
+Rows: Conjunction, Concealment, Crescent's appearance, Absence by day, Weakness, Increase, Completion
+Columns: Celestial state | Its counterpart in the history of the authority
+
+- Conjunction: the charging meeting | the Prophet teaching the foundation whatever he wished, so the foundation could take his place in guidance, in education, and in the bestowal of benefit
+- Concealment: hidden beneath the rays | veiled from the guardians of ignorance and from the common people, recognised only by those endowed with virtue and discernment
+- Crescent's appearance: visible to old and young | his authority appearing as the speaking Prophet stipulated, obedience binding when he emerged, so that even the least could recognise the greatest
+- Absence by day: no presence under the sun | no authority during the life of the Prophet, until after the Prophet's departure from this world
+- Weakness: caught by sharp sight alone | the weakness of his affair at the outset, and the divergence that occurred regarding his Imamate
+- Increase: light growing day by day | the gradual revelation of his Imamate among the people, gaining strength over the years
+- Completion: the fourteenth night | his Imamate illuminating all nations when the seven repetitions are completed at the end of the cycle, so that no one doubts his leadership and his precedence
+
+Visual metaphor. Conjunction, given a second figure by the letter itself.
+
+- Abstract relation: authority received in a private meeting and exercised publicly afterwards.
+- Metaphor: a minister admitted to the king.
+- Element assignment, the king: the one who commands and signs.
+- Element assignment, the minister: the one commanded, who then commands the kingdom to carry out whatever the king signs.
+- Reading: the benefit the foundation conveys after the meeting is one he could not convey before it.
+
+> I am the city of knowledge and he is its gate; whoever wishes to enter the city, let him come through the gate.
+> Attribution: the Prophet, pointing to Ali ibn Abi Talib.
+
+Contrast pair. The one day of the month where practice and doubt collide.
+
+Column A: The people of knowledge and faith
+- The day: the day when the moon is hidden after conjunction with the coming month
+- What they do with it: affirm it as belonging to the new month
+- What they have seen: nothing
+- Ground: knowledge that reaches that far
+- Counterpart: those with true faith who knew what they knew from the Prophet's signs
+- What they recognised: the particular obedience owed to the Commander of the Faithful, before it was explicitly stipulated for the general public
+
+Column B: The ignorant and the common people
+- The day: the same day
+- What they do with it: doubt it, unsure whether it should be fasted from the prior month
+- What they require: the crescent seen with their own eyes
+- Ground: knowledge that does not reach that far
+- Counterpart: those who regard his obedience as no different from obedience owed to anyone else, established neither by sign nor by explicit text
+- What follows: they violate obedience out of ignorance of its obligation, until the truth of his Imamate becomes plain to them
+
+Shared row: the doubtful day and the unrecognised authority are one failure in two registers, and in both the person is called limited rather than malicious.
+
+## The month, the verse, and the council of silence
+
+Genealogy chain. From the moon to the month, without a seam.
+
+the moon, most receptive of bodies → the foundation, most receptive of souls
+Ramadan, the most honoured and greatest of the year's months → the foundation's position, honoured through interpretation, which is knowledge
+the Prophet's knowledge, entire → the one who gathered all of it → the month taken as the sign of that rank
+
+> "The month of Ramadan in which the Quran was revealed as guidance to the people and as clear proofs of guidance and the criterion"
+> Quran 2:185
+
+Process flow. The arithmetic argument for reading that verse as a sign.
+
+Start: the Quran was revealed over twenty-three years
+  ↓
+It did not descend all at once in the month of Ramadan
+  ↓
+It came down day by day, month by month, and year by year
+  ↓
+Therefore the verse on its apparent face points to signs, to the criterion, and to the distinction
+  ↓
+Therefore it is not reporting a single night's delivery of a finished book
+  ↓
+End: interpretation is needed, to reconcile the statement of Allah Almighty, the statement of the Prophet, and the obligation of fasting with its being bound to the sighting of the crescent
+
+Contrast pair. Two perspectives on one sighting, and their counterparts in the designation.
+
+Column A: The perspective of the soul
+- Who sights: the people of knowledge
+- When it applies: first
+- Counterpart in the designation: designation through signs apprehended by knowledge and discernment
+- Standing of those who hold it: binding upon those present from the outset by way of instruction and learning, while they remain ahead of the wider community
+
+Column B: The perspective of the senses
+- Who sights: the people of ignorance
+- When it applies: after
+- Counterpart in the designation: explicit text and formal declaration for the general public at the end
+- Standing of those who hold it: obedience becomes obligatory upon the Prophet's departure
+
+Shared row: one designation, reaching two ranks by two routes, in the same order the two sightings take.
+
+Annotated structure. One passage of scripture, dissected clause by clause, with its interpretive reading.
+
+- Whole: the commands governing conduct in the presence of authority.
+- Part 1, the address on voices: an address to the community against transgression until the judgement of Allah is brought forth. Annotation: it narrows the matter rather than widening it, drawing on the precedent of the Prophet and upon the foundation and their place, so that the Imam is distinguished from those who are led.
+- Part 2, the command to fast on witnessing the month: a signal from the spokesman to the nation to follow the foundation and heed what he says. Annotation: whoever attends his council of outward and hidden knowledge, let him be silent, for it is the foundation who is given the honour and entrusted with the affairs of religion and nothing else.
+- Part 3, the exception for the sick and the traveller: an exception to the ruling about witnessing the month. Annotation: silence is obligatory for all who attend the interpretive council attributed to the foundation, except one whose words serve as a means of benefit.
+
+> "Do not raise your voices above the voice of the Prophet"
+> Quran 49:2
+
+> "So whoever among you witnesses the month, let him fast"
+> Quran 2:185
+
+> "And whoever is sick or on a journey, then a number of other days"
+> Quran 2:185
+
+Comparison matrix. One inference, used twice, plus the case that names it.
+
+Rows: Knowledge and religion, Eating, Marriage
+Columns: What people used to do freely | What was then imposed | What the prohibition proves
+
+- Knowledge and religion: engage freely in matters of religion and knowledge as they pleased | obedience to the foundation made binding, and silence in his council | that they had been doing it before obedience became binding
+- Eating: eat as they liked | the binding of the fast | that the freedom preceded the duty
+- Marriage: marry without a guardian or two witnesses, as people did in the early days of Islam | the requirement of a guardian and two witnesses | that marriage had in fact been conducted without them
+- Standing rule across all three rows: you do not forbid what nobody was doing.
+
+> There is no marriage without a guardian and two witnesses.
+> Attribution: the Prophet, in the chapter of marriage.
+
+Annotated structure. The exception, carved by function rather than by rank.
+
+- Whole: the obligation of silence in the interpretive council attributed to the foundation.
+- Part 1, exempt: one who questions.
+- Part 2, exempt: one who teaches.
+- Part 3, bound: everyone else present.
+- Annotation on the cut: the exception is for two functions, not two ranks. Where silence is the discipline, the only voices permitted are those that carry knowledge across.
+- Annotation on what remains: for those bound, silence after drawing near is the spiritual prayer.
+- Annotation on the outward ruling: left intact. The sick and the traveller still owe their number of days, and proper etiquette remains obligatory in the practical prayer of the Sunnah and in the establishment of rulings.
+
+## Calculation and its licence
+
+Timeline. The year four hundred, as the letter reckons it.
+
+Night of Monday, in Ramadan: the conjunction occurs, making it the first Monday.
+Tuesday night: the crescent is not seen by looking for the light of its arc.
+Tuesday at sunset: the moon stands at six degrees and some minutes above the horizon, half its mass turned toward us, beneath the blocking ray of the sun.
+Tuesday, daytime: fasting is not broken, out of adherence to proper conduct.
+Night of Wednesday, two hours and some minutes: the conjunction for Shawwal.
+Wednesday: the day that would have been the forbidden Eid.
+Monday the tenth of Dhu al-Hijjah, same year: the slaughter in the Haram, on the sighting through knowledge.
+The same Monday, by the other reckoning: the ninth, on the sighting by the eye.
+
+Period bands: two days before the common sighting, where the people of truth entered their fast | the span of the disputed days | the pilgrimage, where the reckoning is checked against public rites
+
+Annotated structure. Two figures the letter states and does not reconcile.
+
+- Figure 1: the people of truth entered their fast two days before the common sighting of the crescent.
+- Figure 2: the discrepancy between the fasting of the people of truth and that of the people of disagreement was no more than one day.
+- Annotation: the two sit oddly together, and are left as stated rather than smoothed.
+
+> The matter was obscure to the ordinary mind except to the wise.
+> Attribution: the letter, on the year four hundred.
+
+Process flow. The counterfactual, where the case gets its force.
+
+Start: Tuesday, the moon at six degrees, invisible to the eye
+  ↓
+Branch:
+  - Path A, taken: do not break the fast, out of proper conduct
+  - Path B, refused: break the fast that day
+  ↓
+Following Path B: Ramadan is fasted as twenty-nine days
+  ↓
+But the conjunction for Shawwal falls on the night of Wednesday
+  ↓
+So Wednesday becomes the day of the forbidden Eid
+  ↓
+And the month of Ramadan would in fact have lasted thirty days
+  ↓
+End of Path B: a breach of one of the obligatory duties, and a contradiction of the words of the followers, that there is no deficiency in Sha'ban or in Ramadan
+  ↓
+End of Path A: the fast held, and the rites in Mecca land where knowledge said
+
+Annotated structure. Why the phrase carries the weight it does.
+
+- The phrase: the day of the forbidden Eid.
+- What a miscount ordinarily costs: a month left a day short.
+- What this miscount costs: a day of obligation converted into a day of festival.
+
+> Fast on the day of your fasting.
+> Attribution: the Prophet. The saying reaches the letter compressed, and is left as it stands.
+
+Contrast pair. Two sightings, one month.
+
+Column A: Sighting by the eye
+- Instrument: the unaided sight
+- Availability: universal
+- Failure mode: the crescent beneath the blocking ray cannot be caught, however clear the night
+- Result in the year four hundred: the tenth of Dhu al-Hijjah read as the ninth
+- Standing in the final ruling: what the Prophet directed the people to, in his use of the letter lām
+
+Column B: Sighting through knowledge
+- Instrument: the motion, course, conjunction, and separation of the sun and the moon
+- Availability: to those who have studied
+- Failure mode: none named, and the numbers are conceded even by the objector
+- Result in the year four hundred: the slaughter in the Haram falling on Monday the tenth
+- Standing in the final ruling: the superior of the two, and acting upon it in one's obligations takes precedence
+
+Shared row: the letter does not say the eye rule is false. It says the eye rule is a rule addressed to a rank, not a definition of what a month is.
+
+## The charge of a prohibited science
+
+Annotated structure. The final objection, and the two limbs of the reply.
+
+- The objection: what you have mentioned of the report of the sun and the moon, and the degrees, the distances, and the hours, making all of this your guide, is something the Prophet forbade, namely taking the stars as one's guide and acting on them.
+- Character of the objection: it disputes no number. It concedes the arithmetic and attacks the licence.
+- Limb 1, consistency: the same inference settles the direction of prayer and the times of prayer, by calculation. Those are pillars too, and nobody objects.
+- Limb 2, re-reading the prohibition: the Prophet prohibited that pursuit only for the risk that a student might chase astronomical knowledge without first grounding himself in the divine sciences.
+- Annotation on Limb 1: part of this passage breaks off in the manuscript and is rendered as it stands. The limb survives even so.
+- Annotation on Limb 2: the danger named is the one that afflicted the followers of Ptolemy and those who attributed divinity to the celestial bodies.
+
+Hierarchy. Pillars settled by calculation, and what settles each.
+
+- Level 1: Pillars of Islam settled through reckoning
+  - Level 2: Fasting
+    - Level 3: the path of the sun and the moon, which are the cause of months and years
+    - Level 3: their motion, their course, their conjunction, and their separation
+  - Level 2: The direction of prayer
+    - Level 3: established by inference of the same kind
+  - Level 2: The times of prayer
+    - Level 3: the lunar mansions
+    - Level 3: the height of the sun
+
+Process flow. The prohibition re-read as a rule about the order of study.
+
+Start: a student approaches the science of the heavens
+  ↓
+Branch:
+  - Path A: astronomical knowledge first, without grounding in the divine sciences → the error of those who attributed divinity to the celestial bodies → prohibition applies
+  - Path B: the legitimate religious sciences first → an understanding of how the heavens and the planets were arranged → the soul's recognition of Allah's oneness deepened → faith strengthened and the heart's perception of His unity sharpened → prohibition does not apply
+  ↓
+End: the ban is on an order, the source of the sky before the sky, and not on a subject
+
+Annotated structure. The sky read as a text, a cascade of scripture.
+
+- Whole: Allah's own treatment of the heavens as evidence.
+- Part 1, the comparison of creations: the creation of the heavens and the earth is greater than the creation of humanity, yet most people do not know, at chapter 40, verse 57.
+- Part 2, the signs on the horizons: We will show them Our signs on the horizons and within themselves until it becomes clear to them that it is the Truth, at chapter 41, verse 53. Annotation: the horizons are nothing other than the heavens and all that they contain.
+- Part 3, the constellations: Blessed is He who placed constellations in the heavens and set therein a lamp, at chapter 25, verse 61.
+- Part 4, the oath by positions: And I swear by the positions of the stars, and that, if you only knew, is a tremendous oath, at chapter 56, verses 75 and 76.
+- Part 5, the oath by the planets: I swear by the planets that recede, that run their course and set, at chapter 81, verses 15 and 16.
+- Part 6, the oath by the zodiac: By the sky adorned with the zodiac, at chapter 85, verse 1.
+- Part 7, the oath by the sun: By the sun and its radiance, at chapter 91, verse 1.
+- Part 8, the purpose clause, which carries the weight: It is He who made the sun a light and the moon a light and determined its phases, so that you might know the number of years and the reckoning, at chapter 10, verse 5.
+- Annotation on Part 8: the phases were determined so that the reckoning could be known, and a faculty given for a purpose cannot be forbidden in the exercise of it.
+
+Process flow. Licence converted into demand.
+
+Start: the method is permitted
+  ↓
+To delay knowledge of the planets' positions, their orbits, their peaks, and their nadirs
+  ↓
+Is to delay engagement with the testimony to what Allah has established of His religion, and with the truth of what the Prophet conveyed
+  ↓
+Such knowledge encompasses the degrees of awareness of what occurs as the planets move through their constellations, south and north, and the aspects they form
+  ↓
+Which affect the world through births and other events that point to the ranks of Allah's guardians
+  ↓
+End: the study is a duty, not a permission
+
+> Are darkness and light equal? Are the blind and the seeing equal? Are those who know and those who do not know equal? Only those of understanding take heed.
+> Attribution: a chain of questions woven from more than one verse, which is why no single reference is given.
+
+Annotated structure. The result, in three established points.
+
+- Point 1: the sighting is of two kinds.
+- Point 2: acting upon the superior of the two in fulfilling one's obligations takes precedence.
+- Point 3: the Prophet's intention in his use of the letter lām was to direct the people's fasting to the sighting of the crescent with their eyes and nothing else.
+- Annotation: point 3 is a limit on the audience of a rule, not a refutation of it.
+
+Annotated structure. The closing address, turning from argument to reader.
+
+- Part 1, the greeting: know, then, and may Allah grant you success in obeying Him and obeying His guardians, the meanings of what we have set forth.
+- Part 2, the instruction: seek Allah's help in all your affairs, draw near with sincere intention, and exert yourself in worshipping Him and obeying His guardians.
+- Part 3, the ground: He is the best of helpers in attaining the realities.
+- Part 4, the thanks: I thank Allah for the blessings He has bestowed through His trustees.
+
+## What this episode lands
+
+Comparison matrix. Three arrivals the series has not had before.
+
+Rows: Legal architecture, The correspondence, The licence
+Columns: What arrives | Where it is demonstrated | What it dissolves
+
+- Legal architecture: every obligation stands on two causes, one general and shared, one specific and its own | across five pillars, twice, from both sides | the charge that a shared first day forces anyone to fast a day of Sha'ban, because the conjunction never obliged them, dawn did
+- The correspondence: sun as Prophet in four respects, moon as foundation in four more, phases as history | seven states in order, then the month, then the verse | the separation between a ruling about a calendar and a claim about an authority
+- The licence: the method is not merely permitted but owed | the year four hundred, then the answer to the charge of prohibited science | the objection that reckoning the sky is a forbidden pursuit
+
+Annotated structure. The figure at the centre, its four moments.
+
+- Whole: the phases of the moon as a biography.
+- Moment 1: the minister receiving what the king has signed.
+- Moment 2: the concealment beneath rays that blind the ordinary eye.
+- Moment 3: the thin first crescent, caught only by sharp sight, disputed from eye to eye.
+- Moment 4: the full disc nobody can doubt.
+- Annotation: Ramadan becomes the sign of the rank that gathered all the Prophet's knowledge, the verse commanding the fast an instruction about silence in a teaching council, and the day of doubt the double of a community's failure to recognise an authority not yet announced.
+
+Visual metaphor. The closing formula, which was the argument in miniature the whole time.
+
+- Abstract relation: an authority holding nothing of its own.
+- Metaphor: moons amid the darkness.
+- Element assignment: the pure Imams, named in the final blessing alongside Muhammad al-Mustafa, the guardian ʿAlī al-Murtada, and the Imam of the age, the ruling Imam by the command of Allah, the Commander of the Faithful.
+- Reading: a body shining with nothing of its own is the truest figure of an authority holding nothing of its own.
+- Annotation: the community had been reciting the formula all along.

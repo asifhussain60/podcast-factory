@@ -1,0 +1,524 @@
+# Mosques and Sacred Space
+
+## Where this episode opens
+
+Annotated structure. One chapter built as a map of cases, not a single formal proof-letter.
+
+Whole: what makes a place a mosque, answered by walking its thresholds in order.
+Parts, in the order the source takes them:
+- Public dedication. Position: the opening band, the widest, concerned with land, ownership and boundary. Annotation: a mosque is ordinary property that permission has changed.
+- Entry and priority. Position: the middle band, at the doorway. Annotation: crossing the edge begins an ordered sequence of duties, not an open devotional field.
+- Guarded direction. Position: the closing band, the tightest, at the level of the body. Annotation: the qiblah disciplines sight, objects, posture and breath.
+Reading: the bands narrow from land, to threshold, to body. One reverence governs all three.
+
+Comparison matrix. Three candidate answers to the opening question, each tested.
+
+Rows: The walls | The permission | The discipline
+Columns: What would make the place a mosque | What follows for the owner | What follows for the worshipper | Where the chapter leaves it
+- The walls: a covered room set apart. He builds, and that is the whole act. He enters a container. Rejected, since a room in a house may carry the name and not the status.
+- The permission: the space opened to people for God's sake. He loses the freedom to demolish. He gains a claim and owes the greeting. Affirmed as the decisive act.
+- The discipline: what the space demands once entered. He must guard the surroundings and the qiblah. He orders greeting, Sunnah, obligation and congregation. Affirmed as the test the space keeps passing.
+
+Genealogy chain. What the book already taught flows into this chapter, which rebuilds none of it.
+
+attentive prayer → missed obligations → sacred times → the summons → the adhan's witness → the Discussion Letter → the Remaining Proofs → Unequal Errors → the First Testimony → the making of sacred space
+
+Applied here, narrowed rather than re-taught:
+- Attentive prayer → what may stand before the worshipper without breaking attention.
+- Missed obligations → why a make-up prayer outranks the greeting at the mosque door.
+- Sacred times → why entry etiquette yields when optional prayer is not permitted.
+- The adhan as public witness → the adhan as a spatial measure, marking who counts as a neighbour.
+
+Named-axis 2x2. The chapter's central tension, set on two axes at once.
+
+Axes:
+- Horizontal: permission given to people, from withheld on the left to granted on the right.
+- Vertical: fitness of the surroundings, from compromised at the bottom to clear at the top.
+
+Quadrants:
+- Top-left, withheld and clear: the devotional corner set aside inside a house. Prayer is sound, the greeting is not prayed in it, the owner may modify it as he wishes.
+- Top-right, granted and clear: the small mosque built for the people nearby and opened to them. The greeting is prayed, the owner may not demolish it, the neighbour who hears the call is claimed by it.
+- Bottom-left, withheld and compromised: private prayer between graves, or in a pigeon loft or graveyard. Named as excluded ground even though nobody else has a claim on it.
+- Bottom-right, granted and compromised: a mosque built near graves, or one whose qiblah faces a bathroom, a latrine, graves or a crowd. It carries communal claims while its surroundings fight the act it houses.
+
+Reading: the grant that the earth was made a mosque moves every place rightward and upward as a starting presumption. The source then pulls named places back down and back left.
+
+> The earth has been made for me a mosque and a means of purification, except for certain places: pigeon lofts, cemeteries, and graveyards.
+> Attribution: the report the questioner cites at the opening of the chapter, from the Prophet, peace and blessings be upon him and his family.
+
+Comparison matrix. The scattered case list, gathered and typed.
+
+Rows: the eleven openings the source raises
+Columns: What is asked | What governs the answer
+- A mosque near graves: may one pray between them, may one build there. Boundary of excluded ground.
+- A mosque above a shop or house: may the owners demolish it. Whether it was made permissible for others.
+- A mosque inside a private house: is the greeting prayed in it. Public availability.
+- A neighbour who hears the adhan: what makes him a neighbour. Audibility of the call.
+- A latecomer at Fajr: greeting, Sunnah, or join the imam. Time left before the imam rises from bowing.
+- A funeral prayer inside the mosque: is the greeting offered first. Whether optional prayer is permissible at that hour.
+- A traveller with no water: pray on the road or seek the mosque. Accessibility of the mosque along the way.
+- A sword facing the qiblah: may one pray before it. Necessity against choice.
+- The mosque courtyard: does the greeting bind there. Core against precinct.
+- Ranked prayers in the greatest sanctuaries: how much does place multiply merit. Seven graded levels.
+- Short sayings from Amīr al-Mu'minīn Ali ibn Abi Talib: sitting in the mosque, spitting toward the qiblah, approaching after eating something harmful. Bodily reverence.
+
+Process flow. The episode as a walk through thresholds, not a list of rulings.
+
+Start: the whole earth given as a place of prayer
+  ↓
+Threshold 1, exclusion: ground named unfit whoever owns it
+  ↓
+Threshold 2, dedication: private property opened to people for God's sake
+  ↓
+Threshold 3, the door: greeting, Sunnah, make-up and congregation put in order
+  ↓
+Threshold 4, the precinct: core, courtyard, and the audible field around the walls
+  ↓
+Threshold 5, the facing: what stands before the worshipper
+  ↓
+End: the body, its sitting, its breath, what it has eaten before approaching
+
+## Public Dedication
+
+Process flow. The opening case, taken as the chapter's method, not one ruling.
+
+Start: the questioner cites the grant that the earth was made a mosque and a means of purification
+  ↓
+He names the stated exceptions: pigeon lofts, cemeteries, graveyards
+  ↓
+He asks two things at once: may one pray between graves, may a mosque be built near them
+  ↓
+The answer is firm on both: one does not pray there, and one does not build there
+  ↓
+End: openness is a gift, not indifference. Sacred space still needs boundaries
+
+Annotated structure. Why the source begins with contact and not with architecture.
+
+Whole: the first case, read as a statement of method.
+Parts:
+- The grant. Position: above everything, the widest frame. Annotation: worship is not confined to a consecrated building.
+- The exceptions. Position: cut into the frame from below. Annotation: contact with death, defilement and distraction, not building style, is what withholds ground.
+- The prohibition on building. Position: beside the exceptions. Annotation: the rule reaches forward to what may be founded, not only to what may be prayed.
+Reading: not any covered room in which a person decides to pray. Its surroundings must support the dignity, direction, purity and public recognisability of worship.
+
+Process flow. Ownership above a shop or house, and the fork deciding demolition.
+
+Start: a permissible mosque situated above a house or a shop
+  ↓
+Question: may its owners remove and demolish it
+  ↓
+Branch on one fact only, whether the owner has made it permissible for others:
+  - Path A, owned alone and never opened → he may demolish it
+  - Path B, made permissible for others → he may not demolish it
+  ↓
+Recorded qualification: if it is demolished, there is nothing against him
+  ↓
+End: dedication, not geometry, has changed the moral status of the property
+
+Contrast pair. Before public permission and after it, attribute by attribute.
+
+Column A: Before public permission
+- Status of the space: private convenience, part of the owner's holding.
+- Power to alter: full, he may modify or demolish as he wishes.
+- Greeting of the mosque: not prayed in it.
+- Claim on outsiders: none, it makes no demand on the people of prayer.
+- The name mosque: a personal label the chapter declines to honour.
+
+Column B: After public permission
+- Status of the space: communal trust, offered for God's sake.
+- Power to alter: constrained, he must respect what the dedication has done.
+- Greeting of the mosque: prayed in it.
+- Claim on outsiders: real, worshippers enter a different relationship with it.
+- The name mosque: earned, because access and availability stand behind it.
+
+Shared row: the owner stays materially connected to the property in both columns. The sanctity of the mosque does not abolish ownership by magic, and it does transform ownership into a responsibility.
+
+Hierarchy. The forms of lawful founding, arranged by how ownership stands.
+
+- Level 1: Founding on ground the founder controls
+  - Level 2: Sole ownership, built on his own property
+    - Level 3: With a mosque and other structures together, and no permission from the governor required. He may do as he wishes.
+    - Level 3: Above a house or a shop, valid, with demolition governed by the dedication fork.
+    - Level 3: Inside a house, valid as a devotional corner, with public status only if it is opened.
+  - Level 2: Joint ownership
+    - Level 3: One mosque built on the jointly owned land. Prayer there is permissible.
+    - Level 3: Each owner builds on his own portion. Prayer in each is permissible.
+  - Level 2: Modest scale
+    - Level 3: A small mosque for the people around him. Once it is permissible to pray in it, the space is valid.
+
+Reading: the source recognises the complexity of ownership without letting it erase the validity of worship.
+
+Annotated structure. The refusal of political mediation.
+
+Whole: the ruling that a man building a mosque and other structures on his own property need not seek the governor's permission. He may do as he wishes.
+Parts:
+- The surface ruling. Position: front. Annotation: a straightforward property answer, no licence required.
+- The protected act. Position: behind it. Annotation: dedicating space to worship is kept free of unnecessary political mediation.
+- The limit. Position: beneath both. Annotation: not private absolutism, since the boundaries already named still hold.
+
+Contrast pair. The same room under two descriptions, which is why the source cares about this more than about architecture.
+
+Column A: A mosque in a house, opened to people
+- Greeting of the mosque: prayed in it.
+- Owner's freedom to modify: surrendered.
+- Standing of the name: secure.
+
+Column B: A mosque in a house, confined and not opened
+- Greeting of the mosque: not prayed in it.
+- Owner's freedom to modify: retained, he may alter it as he wishes.
+- Standing of the name: disliked, in a report attributed to Abu Abd Allah, because the name carries an ambiguity.
+
+Shared row: the chapter is not denying private prayer. It is guarding the word mosque from being reduced to a personal label.
+
+Contrast pair. The grave, ruled twice, which sounds like a contradiction only to a listener expecting one flat rule.
+
+Column A: The general caution, early in the chapter
+- What is addressed: praying between graves, and founding a mosque near them.
+- Verdict: one does not pray there, and one should not build there.
+- Force: a standing boundary on ground and on founding.
+
+Column B: The juristic answer of Muhammad ibn al-Fahd, later
+- What is addressed: a domed structure, or a mosque with a grave located on one of its sides.
+- Verdict: with God's help, the correct position is that both are permissible places of prayer, whichever was built first, and whether the grave was placed there by the builder or was there before the structure.
+- Force: permission covering obligatory and voluntary prayer alike.
+
+Shared row: the difference is not fully theorised. Sacred space is governed by concrete circumstances, not slogans. Ask where the grave is, what was built first, how the space is used, and whether prayer is being directed into confusion.
+
+Annotated structure. The qiblah of a mosque, and what must not stand in front of it.
+
+Whole: the disliked framings of a mosque's own direction of prayer.
+Parts, each with what it compromises:
+- A bathroom. Annotation: purity and dignity.
+- A latrine. Annotation: purity and dignity.
+- Graves. Annotation: attention, and entanglement with death.
+- A crowd, in another summary. Annotation: attention, since bodies and movement fill the field of sight.
+Reading: not a claim that every such prayer is void. The qiblah is more than a compass line. It is a bodily and visual discipline, and what stands before the worshipper shapes the act of facing.
+
+Visual metaphor. Why the chapter dwells on demolishing, moving, expanding and modifying.
+
+Abstract relation: what a dedication does to later decisions about the building.
+Metaphor: a promise made, then held.
+- The promise given: the space is opened to people for God's sake.
+- The promise held: alterations answer to worshippers, not only to the owner's plans.
+- The promise absent: the space is part of his house, and he alters it freely.
+Reading: these are not construction decisions. They are decisions about promises made to worshippers.
+
+## Entering the Mosque
+
+Comparison matrix. The five greeting questions the source puts in a row, and what decides each.
+
+Rows: the five questions on the greeting of the mosque
+Columns: The situation | The deciding factor | The answer
+- A mosque inside a private house: does it require the greeting. Public availability. Opened, it is prayed. Confined, it is not.
+- A latecomer at dawn: greeting and Sunnah before joining the imam. Time left before the imam rises from bowing. If he can pray what he wishes and still join before the imam raises his head, he should do so.
+- Entering to make up a missed obligatory prayer: is the greeting prayed. Priority of the debt. No Sunnah while an obligatory prayer is owed, except the Sunnah of Fajr, prayed alongside the obligatory prayer.
+- Entering, praying the greeting, going out for a need, returning: is it repeated. Whether he left the precincts. The earlier answer says pray it again. The later answer says no repetition within the precincts.
+- The courtyard and immediate surroundings: does the greeting bind there. Core against precinct. Obligatory inside the mosque itself only, commendable in the courtyard and surroundings.
+
+Hierarchy. The ordered field a worshipper steps into at the door.
+
+- Level 1: Sacred time governs the whole field
+  - Level 2: What the hour permits
+    - Level 3: Where optional prayer is permissible, greeting and Sunnah are live options.
+    - Level 3: Where it is not, the greeting is not prayed at all.
+  - Level 2: Obligation before devotion
+    - Level 3: A missed obligatory prayer displaces the Sunnah and the greeting.
+    - Level 3: The Sunnah of Fajr is the named exception, prayed alongside the obligatory prayer.
+  - Level 2: Congregation before private devotion
+    - Level 3: Join before the imam rises from bowing, even at the cost of the Sunnah.
+    - Level 3: What is missed may be made up afterwards where time allows.
+
+Process flow. The dawn latecomer, decided against the clock.
+
+Start: a man reaches the mosque at Fajr, the imam already leading the obligatory prayer
+  ↓
+Test: can he pray whatever Sunnah he wishes and still join before the imam rises from bowing
+  ↓
+Branch:
+  - Path A, yes → he prays it, then joins before the imam raises his head
+  - Path B, no → he joins the congregation directly
+  ↓
+If the Sunnah went unprayed, he may make it up after the obligatory Fajr prayer once the time passes
+  ↓
+Blocked windows for that make-up: after the sun has risen, after midday, at night
+  ↓
+End: entering a holy place does not suspend the rules of prayer-time
+
+## The Edges of the Mosque
+
+Visual metaphor. The mosque's edges, which the courtyard answer forces into view.
+
+Abstract relation: how far the mosque extends, and with what force.
+Metaphor: concentric rings.
+- Innermost ring, the mosque itself: the greeting is obligatory here.
+- Second ring, the courtyard and immediate surroundings: the greeting is commendable, because these are considered part of the mosque and its precincts. Leaving the core for this ring and returning requires no repetition.
+- Third ring, the audible field of the adhan: whoever can hear the call is the neighbour of the mosque, and praying alone at home is disliked for him without excuse.
+- Outermost ring, the open earth: prayer is valid, and the traveller who finds a mosque along his road should go to it rather than treat the road as equal.
+Reading: the mosque is not a point. It has edges, and its voice reaches past its walls. The question is never whether a foot crossed one doorway twice, but whether the person truly left the sacred complex.
+
+Contrast pair. Validity against preference, the register the chapter trains the listener to hear.
+
+Column A: What is valid
+- The neighbour's solitary prayer at home: it counts as one prayer in congregation.
+- A prayer in a lawful place that is less fitting: it stands.
+- A prayer completed after correcting the qiblah mid-prayer: it stands.
+
+Column B: What is better
+- The neighbour's prayer in the mosque, on the saying cited in the source.
+- The prayer placed where the surroundings do not compromise it.
+- The prayer begun after proper investigation of the direction.
+
+Shared row: a prayer may count and still be less fitting. A place may be permissible and not ideal. A gesture may be allowed and disliked.
+
+> There is no prayer for the neighbour of the mosque except in the mosque.
+> Attribution: the saying cited in the source when a man who heard the call prays at home with another person present.
+
+Hierarchy. The graded legal vocabulary, which is why the rulings cannot be flattened into yes and no.
+
+- Level 1: Forbidden
+  - Level 2: Disliked
+    - Level 3: Disliked unless necessity removes the alternative
+  - Level 2: Permissible
+    - Level 3: Permissible and commendable
+    - Level 3: Permissible and better than the alternative
+  - Level 2: Obligatory
+    - Level 3: Obligatory and repeated on re-entry
+    - Level 3: Obligatory and not repeated within the precincts
+
+Process flow. Bypassing the nearer mosque, and why it is not a contradiction of the neighbour rule.
+
+Start: a man leaves his house at prayer time in a place with several mosques
+  ↓
+The nearest mosque stands on his way
+  ↓
+A farther mosque is of greater rank
+  ↓
+Ruling: yes, this is established as permissible, and there is nothing wrong with it
+  ↓
+End: the obligation to value communal prayer does not trap the worshipper in the nearest building when a more meritorious sacred place is available
+
+## Order Inside the Gathering
+
+Process flow. Repeated congregation in one mosque, and the single exception.
+
+Start: an imam has led the congregational prayer in the mosque
+  ↓
+Another imam arrives
+  ↓
+Rule: two imams should not lead the same prayer simultaneously in the same gathering
+  ↓
+Exception: unless the first has vacated his place and another has been appointed in his stead
+  ↓
+Later case: the imam leaves, the congregation disperses, a second imam arrives with a congregation → he prays alone
+  ↓
+End: the imamate should not be held in one mosque more than once
+
+Annotated structure. Why that rule belongs to sacred space and not only to leadership.
+
+Whole: one mosque, holding the memory of its own prayer.
+Parts:
+- The gathering already held. Position: at the centre. Annotation: the space has hosted that communal act once.
+- The second performance. Position: pressing in from outside. Annotation: not harmless duplication, because public worship is meant to gather rather than fragment.
+- The unity protected. Position: the boundary around the centre. Annotation: the mosque must not become a stage for competing claims to the same prayer.
+Reading: this looks ahead to the next chapter on prayer leadership, yet here it belongs to space.
+
+Contrast pair. Two thresholds the chapter refuses to treat as breaks.
+
+Column A: The roof
+- The situation: one imam leads noon prayer in the mosque while another leads people on the roof.
+- The worry: vertical separation might fracture the gathering.
+- The answer: there is no objection to greeting from above toward those praying below.
+- What it shows: the mosque is a layered space, and worshippers relate across its levels.
+
+Column B: The road without water
+- The situation: a traveller's prayer time arrives on the path, he finds no water, and a mosque stands along the way.
+- The worry: constraint might excuse him where he stands.
+- The answer: he should go to the mosque and pray there.
+- What it shows: the earlier framework on purity is applied rather than re-taught.
+
+Shared row: neither vertical distance nor practical constraint is allowed to dissolve the mosque's claim.
+
+Process flow. Funeral prayer inside the mosque, ordered against the clock like every other entry.
+
+Start: the imam leads funeral prayers in the mosque
+  ↓
+Question: how should those entering offer the greeting
+  ↓
+Test: did they enter at a time when optional prayers are permissible
+  ↓
+Branch:
+  - Path A, yes → they pray the greeting first
+  - Path B, no → optional prayer is not performed, and the greeting is not prayed
+  ↓
+Standing limit: an obligatory make-up is not displaced by a greeting
+  ↓
+End: urgency and gravity do not erase entry etiquette where the time allows it, and do not suspend priority where it does not
+
+## Guarded Direction
+
+Comparison matrix. The qiblah under uncertainty, case by case.
+
+Rows: four states of knowledge
+Columns: What the worshipper knows | What he must do | Why the law rules this way
+- Ignorance before prayer: he does not know the direction. He investigates, then prays. He is responsible to seek, not to be omniscient.
+- Error found mid-prayer, time short: he learns the true direction while praying. He turns toward the correct direction and completes the prayer, provided that direction lies between east and west. Another summary records a brief turning movement, then completion. Correction without theatrical disruption.
+- Balanced uncertainty between two directions: he judges the qiblah equally likely either way. He may pray in both directions. Another version records that he may pray facing either of the two. Balanced evidence is answered by acting on the available possibilities.
+- Uncertainty across four directions: no side is favoured. The same applies across all four. The rule scales rather than collapsing into paralysis.
+
+Reading: the qiblah is absolute as a direction of worship, while the worshipper's access to it may be uncertain. The law trains him to seek, correct and complete.
+
+Hierarchy. The sutrah, from ordinary provision down to constraint.
+
+- Level 1: Praying in open ground with a barrier available
+  - Level 2: Praying in open ground with nothing to use
+    - Level 3: He draws a line.
+    - Level 3: He should not leave his sandals facing the qiblah to serve as a sutrah.
+  - Level 2: Another arrives and places his sword facing the qiblah
+    - Level 3: Where a barrier prevents him from moving away from the prayer, it is still permissible for him to pray.
+    - Level 3: Where it is safe to do otherwise, none should pray with a sword directed at the qiblah, on the word of Amīr al-Mu'minīn Ali ibn Abi Talib.
+
+Reading: necessity and choice carry the ruling. A sword may be tolerated under constraint, and it should not be deliberately made the object before which the worshipper stands.
+
+Contrast pair. Necessity and choice, the pattern governing the whole movement.
+
+Column A: Under constraint
+- Sword before the qiblah: permissible, where a barrier prevents moving away.
+- Praying between two rows: permissible, when no other spot is available.
+- Facing an unfit object: tolerated where nothing else can be done.
+- The law's posture: it does not turn necessity into sin.
+
+Column B: With a choice available
+- Sword before the qiblah: refused while it is safe to do otherwise.
+- Praying between two rows: disliked, and if another place within the mosque is free, even if finding it requires effort, he prays there.
+- Facing an unfit object: avoided.
+- The law's posture: the mosque should not be made disorderly by convenience.
+
+Shared row: both columns end in a completed prayer. What differs is whether the disorder was chosen.
+
+Quadrant map. The twelve places where prayer is disliked, positioned by the reason each is disliked rather than lumped as impure.
+
+Space: what a place can do to a prayer.
+- Top region, entanglement with death and slaughter: a cemetery, a slaughterhouse.
+- Right region, distraction and disturbance: a place of commerce, a pigeon loft, a place of weeding, camel shelters.
+- Bottom region, threat to purity: facing unclean wet earth, praying on top of food.
+- Left region, bodily exposure and lost attention: praying without a garment, facing a sleeper.
+- Far corner, another religious use: churches, and the houses of the Magi unless sprinkled with water.
+Reading: distraction, impurity, danger, religious ambiguity and bodily exposure are different ways a prayer can be compromised. Sacred space is guarded not only against filth, but against confusion of attention.
+
+Contrast pair. Animals before the qiblah, which the source splits rather than settles.
+
+Column A: Refused
+- Camels: one should not pray facing camels in the direction of the qiblah.
+- Camel shelters: named among the twelve disliked places.
+
+Column B: Permitted
+- Cows, sheep and the like: permissible to face.
+- Sheep pens: the Prophet, peace and blessings be upon him and his family, is reported to have said it is permissible to pray in them.
+
+Shared row: the source does not create a fragile sacredness that collapses at every sign of ordinary life. The worshipper learns the texture of particular places.
+
+Annotated structure. What the mosque refuses to host, even when the act belongs to law or social life.
+
+Whole: the mosque as something other than a general public hall.
+Parts:
+- Legal punishment. Position: excluded although lawful elsewhere. Annotation: the Prophet, peace and blessings be upon him and his family, is reported to have forbidden carrying out ḥudūd punishments in mosques. Punishment has its place, and it is not here.
+- Misdirected song. Position: excluded without a place elsewhere in the chapter. Annotation: of someone heard singing astray in a mosque he said, "I did not find it."
+- Weapons. Position: excluded with one narrow door. Annotation: from Ta'eefil al-Da'a'im, bringing weapons into mosques is not permissible except for the mosque imam on Friday, an exception tied to public responsibility rather than casual permission.
+Reading: the weapons rule and the sword before the qiblah agree. Even under genuine need, a weapon should not dominate the worshipper's orientation.
+
+> I did not find it.
+> Attribution: the Prophet, peace and blessings be upon him and his family, to those who heard someone singing astray in a mosque.
+
+## The Ladder of Ranked Places
+
+Hierarchy. The seven levels of prayer by place, on the word of the owner of the councils of al-Mustansiriyya. Each level, the source says, carries deep meanings and words of wisdom.
+
+- Level 1: Prayer in one's house, counting as one prayer
+  - Level 2: Prayer in the market mosque, counting as twelve
+    - Level 3: Prayer in the mosque of the tribe, counting as twenty-five
+      - Level 4: Prayer in the congregational mosque, counting as one hundred
+        - Level 5: Prayer in al-Aqsa Mosque, standing at a higher rank
+          - Level 6: Prayer in the Mosque of the Messenger of God, peace be upon him and his family, counting as ten thousand
+            - Level 7: Prayer in the Sacred House of God, counting as one hundred thousand
+
+Reading: sacred space is graded, not flattened. A place may be humble and still valid, and another higher in merit without making the nearer mosque worthless.
+
+Named-axis 2x2. Why rank and restriction are two sides of one reverence.
+
+Axes:
+- Horizontal: what place does to prayer, from diminishes on the left to multiplies on the right.
+- Vertical: what the source does about it, from permits at the bottom to regulates at the top.
+
+Quadrants:
+- Top-right, multiplies and regulated: the great sanctuaries and the congregational mosque. High merit draws the heaviest etiquette, since what enters and what faces the qiblah matter more.
+- Bottom-right, multiplies and permitted: passing the nearer mosque for a farther one of greater rank. Permitted because place carries merit.
+- Top-left, diminishes and regulated: the twelve disliked places, the graves, the latrine-facing qiblah, the sword before the worshipper. Restricted because place can damage fittingness.
+- Bottom-left, diminishes and permitted: prayer under constraint, between two rows, before a sword no barrier lets him escape. Tolerated because necessity is not sin.
+
+Reading: if place can multiply prayer's merit, it can also damage prayer's fittingness. Rank and restriction descend from one premise.
+
+Process flow. Passing the nearer mosque, read now through the ladder rather than as a loophole.
+
+Start: the worshipper knows the ranks of the mosques available to him
+  ↓
+He is not abandoning the mosque as such, he is seeking the mosque-prayer of higher merit
+  ↓
+Test: does the journey break another obligation
+  ↓
+Branch:
+  - Path A, no → the movement is itself an act of discernment
+  - Path B, yes → the higher rank does not license the breach
+  ↓
+End: not spiritual tourism or contempt for the local mosque, but an acknowledgment that sacred places are ordered by meaning, history, congregation and divine favour
+
+## The Body at the Mosque Door
+
+Annotated structure. The closing sayings of Amīr al-Mu'minīn Ali ibn Abi Talib, which bring sacred space down to the body.
+
+Whole: one body, examined at the mosque.
+Parts:
+- How it sits. Position: inside the mosque, between dawn and sunrise. Annotation: sitting there from dawn until sunrise is a swifter means of seeking provision than striking the earth in pursuit of it. Waiting, remembering and remaining are themselves a mode of seeking from God.
+- Where it spits. Position: at the line of the qiblah. Annotation: a Muslim must not spit toward the qiblah, and if he forgets, let him seek forgiveness.
+- Where it breathes. Position: at the place of prostration, and at what he consumes. Annotation: he should not blow toward the place of his prostration, nor into his food, nor into his incense.
+- What it has eaten. Position: at the door, before entry. Annotation: whoever eats something that harms him should not approach the mosque, since one brings a body into a community.
+Reading: the same body that faces the qiblah must not dishonour that direction. Reverence lives in small gestures, which is why these sit beside the ranked sanctuaries.
+
+## What this episode lands
+
+Visual metaphor. The chapter's shape with all three movements in view.
+
+Abstract relation: how one reverence governs three scales at once.
+Metaphor: three nested enclosures.
+- Outermost, the earth: made a mosque and a means of purification, with named ground withheld.
+- Middle, the dedicated building: made public by permission, guarded in its surroundings, entered in a fixed order of priority.
+- Innermost, the body: facing, placing, carrying, sitting and breathing under discipline.
+Reading: the gift is expansive and the chapter refuses to turn it into carelessness. Each enclosure is a trust held inside the one above.
+
+Hierarchy. The three linked insights the listener should carry out.
+
+- Level 1: A mosque is not merely a building
+  - Level 2: It is property transformed by permission, dedication and communal claim
+    - Level 3: Opened, it constrains its owner and claims the neighbour who hears the call.
+    - Level 3: Unopened, it stays a private corner, outside the mosque's law of entry.
+- Level 1: Entering a mosque places the worshipper inside an ordered field
+  - Level 2: Greeting, Sunnah, obligation, congregation, time and rank
+    - Level 3: Sacred time decides whether the greeting may be prayed at all.
+    - Level 3: A debt outranks a devotion, and congregation outranks a private Sunnah.
+- Level 1: Sacred space trains the whole body
+  - Level 2: Where it faces, what it places before itself, what it brings inside, how it sits, how it honours the qiblah
+    - Level 3: Necessity is accommodated, and chosen disorder is not.
+    - Level 3: The smallest gesture and the greatest sanctuary answer to one grammar.
+
+Contrast pair. The thesis, set against the misreading it prevents.
+
+Column A: The misreading
+- What the grant means: the earth is a mosque, so place has stopped mattering.
+- What follows: any covered room will do, any surroundings, any order of acts.
+- What the cautions look like: leftover scruples.
+
+Column B: The chapter's quiet thesis
+- What the grant means: the earth is opened as a field of worship, and the discipline of place is not thereby dissolved.
+- What follows: mosques must be lawfully dedicated, publicly opened when they claim public status, protected from confusing surroundings, entered with proper priority, and guarded through bodily reverence.
+- What the cautions look like: the shape of the trust itself.
+
+Shared row: prayer needs space capable of teaching reverence before the worshipper even begins to speak.

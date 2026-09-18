@@ -1,0 +1,563 @@
+# Ranks, Loyalty, and Communal Affection
+
+## Where this episode opens
+
+Annotated structure. Whole: one chapter of Iṣāf al-Ṭālib assembled from headings and transmitted sayings rather than from one continuous argument.
+
+Parts, with position and annotation:
+- Top band, the summit: the houses of the Imams, their conditions, their innocence from any alteration of their station, their purification from anything beneath their rank. Annotation: reverence must be exact before it may be warm.
+- Second band: proofs, preachers, hudud, emissaries. Annotation: guidance reaches people through named mediations.
+- Third band, a guardrail across the middle: the prohibition of exaggeration and extremism. Annotation: the boundary that keeps love truthful.
+- Fourth band, widening: commandments from the Imams to their guardians, and from the preachers to the Shi'a. Annotation: loyalty as conduct under pressure.
+- Fifth band, widest: affection among believers, toward parents, kin, neighbors, books, and the guarded secrets of the da'wa. Annotation: feeling converted into enforceable right.
+- Floor beneath all five: the earlier chapter's foundation, faith as knowledge joined to action, guidance recognized through the Ahl al-Bayt, salām as a practice of peace and belonging. Annotation: assumed, never re-argued.
+
+Cross-axis reading: height is nearness to guidance, width is how many people a rule touches. The chapter descends and widens at once.
+
+Process flow. The chapter's stated rhythm, as four ordered stages.
+
+Start: rank, the sacred order is named.
+  Down to: restraint, the order is guarded from reduction and exaggeration.
+  Down to: affection, the guarded order becomes mercy, visitation, shared necessity.
+  Down to: disciplined knowledge, affection bounded by permission, custody, secrecy.
+End: a person formed well enough to receive the legal material that follows.
+
+Contrast pair. What the foundation chapter settled, against what this chapter adds.
+
+Column A: The earlier foundation
+- Subject: faith itself, knowledge joined to action.
+- Recognition: guidance recognized through the Ahl al-Bayt.
+- Social practice: salām as peace and belonging.
+
+Column B: This chapter's contribution
+- Subject: how reverence is kept in order once the foundation is laid, rank held without inflation or reduction.
+- Recognition: proofs, preachers, hudud, and emissaries as the channels of transmission.
+- Social practice: affection made law between believers, parents, relatives, neighbors, books, teachers, and seekers of knowledge.
+
+Shared row: both treat love for the sacred household as the organizing fact of communal life. The first establishes it, the second disciplines it.
+
+Comparison matrix. Rows are the kinds of material this chapter is built from.
+
+| Material | Attributed voice | What it settles |
+|---|---|---|
+| Supplications | Imam al-Mu'izz li-Dīn Allāh, Ali ibn Abi Talib, Sayyidna Muhammad bin Ṭāhir | The vocabulary of rank, inherited not improvised |
+| Four Hundred Counsels | Ali ibn Abi Talib | Standing, speech, patience, secrecy |
+| Mustanṣiriyya councils | The council text, cited by number | Rights of parents, kin, neighbors |
+| Legal questions from India | Sayyidna Badr al-Din, Hassan bin Idris bin al-Hassan bin Abdullah al-A'la | Necessities, books, recitation, da'wa property |
+| Transmitted reports | The Messenger of God, Ali ibn Abi Talib | Seeking knowledge, fatherhood of the community, the limit of analogy |
+| Keys of Grace | Qadi al-Nu'man ibn Muhammad | How received science may be used |
+
+## Sacred ranks
+
+Annotated structure. Whole: the chapter's opening claim about the houses of the Imams, may God's blessings be upon them.
+
+Parts:
+- Their houses. Annotation: stations, not metaphors and not honorary titles.
+- Their conditions. Annotation: the state proper to each station.
+- Their innocence from alteration. Annotation: the rank may not be moved downward.
+- Their purification from anything beneath their rank. Annotation: nothing lower may be attributed to them.
+
+Reading: neither general pious leaders nor abstract symbols.
+
+Comparison matrix. Rows are the numbered sacred groupings invoked in the prayer of victory and reverence.
+
+| Grouping | Number | Function in the chapter |
+|---|---|---|
+| Verses | Nine, ten, twenty-one | Held as given, not decoded into separate doctrine |
+| Imams | Seven | Measured rank through which guidance is remembered |
+| Caliphs | Seven | Same measure, applied to the caliphal rank |
+| Witnesses | Seven | Same measure, applied to witness |
+| Alternates | Seven | Same measure, applied to the alternates |
+
+Reading: the numbers are not decoded one by one. Together they teach that devotion has shape.
+
+The two supplications cited at this point:
+- Mawlānā Imam al-Mu'izz li-Dīn Allāh, peace be upon him, in a Sunday supplication.
+- Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him, in the prayer of victory and reverence.
+
+Genealogy chain. Direction of mediation, from the spiritual world into the physical, as Imam al-Mu'izz is cited explaining it.
+
+Two origins, the Pen and the Tablet, in the spiritual world → three performers for those two origins → three ranks in the physical world in relation to the Speaker and the foundation.
+
+Named correspondences, one chain per line:
+- The grandfather → Israfil
+- The conqueror → Michael
+- The imaginer → Gabriel
+
+Reading: a map of transmission, not an angelology. As the spiritual world has origins and ordered mediations, the physical world has ranks through which meaning is received, carried, delivered.
+
+Hierarchy tree. The hudud as the chapter names them, with the proofs beneath.
+
+- Level 1: The Speaker
+  - Level 2: The Foundation
+    - Level 3: The Terminus
+      - Level 4: The After
+        - Level 5: The Wing
+          - Level 6: The Authorized
+            - Level 7: The Respondent
+- Attached by number: the twelve proofs
+- Attached by scriptural image: over it are nineteen
+
+Visual metaphor. Abstract relation: how the supplication attributed to Sayyidna Muhammad bin Ṭāhir widens the community without flattening it.
+
+Metaphor: concentric rings around the Imams, each named by the supplication itself.
+- Ring 1: their doors
+- Ring 2: their proofs
+- Ring 3: their preachers
+- Ring 4: their authorized ones
+- Ring 5: the respondents of their roles
+- Ring 6: those who incline toward them
+- Ring 7: those who take refuge in their refuge
+- Ring 8: those who come to them
+- Ring 9: all their followers
+
+> I beseech You, O God, by their doors, their proofs, their preachers, their authorized ones, the respondents of their roles, those who incline toward them, those who take refuge in their refuge, those who come to them, and all their followers.
+> Attributed to Sayyidna Muhammad bin Ṭāhir
+
+Reading: a ranked body, not a crowd. The circle widens, the order inside it does not dissolve.
+
+Contrast pair. The outward hierarchy against the inward measure, placed side by side in the same section.
+
+Column A: The hierarchy a person can name
+- What is known: doors, proofs, preachers, authorized ones, hudud, emissaries.
+- How it is learned: inherited supplication and transmitted teaching.
+- Failure mode: fluency in rank without reverence.
+
+Column B: The standing a person actually holds
+- What is known: how God stands in his own sight.
+- How it is learned: self-examination, not recitation.
+- Failure mode: none available, the measure cannot be performed for an audience.
+
+Shared row: the ethical test that follows both. Belonging to the ordered community is not a claim to comfort, the believer bears strain so that others find ease.
+
+> Whoever wishes to know what his standing is with God Almighty, let him see how God stands in his own sight.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+> The believer wearies himself while the people find rest through him.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+Visual metaphor. Abstract relation: sacred rank descending into ordinary households.
+
+Metaphor: a night sky viewed from Paradise, the homes of the Shi'a set as planets.
+- Viewing position: the people of Paradise, looking outward.
+- Objects viewed: the houses of the Shi'a.
+- Apparent form: a planet in the heavens, luminous and locatable.
+
+> Let the people of Paradise look upon the houses of our Shi'a as one of you looks upon a planet in the heavens.
+> Cited in the chapter without further attribution
+
+Reading: the ranked order is no ladder suspended above ordinary believers. Households living under it become bright.
+
+Named-axis 2x2. The boundary that makes praise lawful.
+
+Axes:
+- Horizontal: speech about the Ahl al-Bayt, from Restrained to Expansive.
+- Vertical: confession of their servanthood, from Absent to Present.
+
+Quadrants:
+- Top-right, expansive speech with servanthood confessed: the permitted love. Praise of their bounty may run as wide as the speaker wishes, because it is anchored.
+- Top-left, restrained speech with servanthood confessed: the believer under hostile authority, concealing love and lowering his posture. Permitted, taught later in the chapter.
+- Bottom-right, expansive speech with servanthood absent: exaggeration and extremism, praise detached from worship of God. The error the chapter forbids.
+- Bottom-left, restrained speech with servanthood absent: the Imams treated as ordinary religious functionaries. The opposite error, reduction of the station.
+
+> Say that we are elevated servants, and say of our bounty what you wish.
+> Ali ibn Abi Talib, concerning exaggeration about the Ahl al-Bayt
+
+Reading: the vertical axis decides. Once servanthood is confessed the horizontal axis is free. Reverence is not diminished by restraint, it is preserved by it.
+
+Process flow. Zeal that damages what it means to defend.
+
+Start: the truth becomes clear to a believer.
+  Branch on speed of response:
+  - Path A, hasty defense: speech runs ahead of wisdom, the defense is careless or socially destructive, and the truth is deformed by its defender.
+  - Path B, patience: he waits for wisdom before he speaks.
+End common to both: the Ahl al-Bayt accompany the one who draws near and follow the one who falls short.
+
+> If the truth becomes clear to you, do not be hasty in your defense, for we accompany the one who draws near and follow the one who falls short.
+> Ali ibn Abi Talib
+
+Annotated structure. Whole: why the chapter keeps returning to supplication rather than to argument.
+
+Parts:
+- The words are inherited. Annotation: the tongue remembers rank without inventing rank.
+- The register is devotional. Annotation: the seven, the twelve, the doors, the proofs and the authorized ones are named in prayer, not in private fantasy.
+- The form precedes the feeling. Annotation: given language improvises less recklessly.
+
+## Disciplined loyalty
+
+Comparison matrix. Rows are the commandments from the Imams to their guardians and from the preachers to their Shi'a.
+
+| Counsel | Commands | Forbids | Failure prevented |
+|---|---|---|---|
+| Love proved by work | Do our work, seek the help of the pious | Sentiment with no action behind it | Loyalty as slogan or inherited identity |
+| Posture before enemies | Conceal hatred, humble yourselves before their authority | Sitting in shame on our behalf, praising us openly before an enemy | Exposure of the community through display |
+| Inward attachment | Hold fast to the truth, desire what is with God, obey, be patient | Letting caution become collapse | Concealment turning into surrender |
+| Bearing your own weight | Arrive unburdened | Living so carelessly that intercession must plead for you | Intercession read as permission for negligence |
+| The two arenas | Guard your standing with God | Trading it for the pettiness of this world | Exposure before enemies on the Day of Resurrection |
+
+> Whoever loves us, let him do our work and seek the help of the pious, for that is the best provision in this world and the next.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+> Do not sit in shame on our behalf, and do not praise us openly before our enemy so that our love becomes apparent. Conceal your hatred of them and humble yourselves before their authority.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+> Hold fast to the truth, for it is salvation. Desire what is with God, seek His pleasure, obey Him, and be patient in that.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+Contrast pair. The believer's two faces under hostile authority, which the chapter insists are not in conflict.
+
+Column A: Outward posture
+- Visibility of love: concealed.
+- Speech before enemies: no open praise.
+- Bearing toward worldly authority: humility, lowered posture.
+- Reason: the community must not be exposed to harm.
+
+Column B: Inward attachment
+- Visibility of love: total, before God.
+- Speech before God: desire for what is with Him, request for His pleasure.
+- Bearing toward the truth: hold fast, obey, endure.
+- Reason: caution is a tactic, not a creed.
+
+Shared row, the two arenas both columns answer to: in this world enemies may hold authority and display is cheap, on the Day of Resurrection the true standing of persons is exposed and display is worthless.
+
+Comparison matrix. Rows are the compact counsels describing the inner texture of disciplined loyalty.
+
+| Counsel | Act | Stated reasoning | Arena |
+|---|---|---|---|
+| Beware of disputation | Refuse contentious argument | It breeds doubt | Speech |
+| Measure words against deeds | Keep speech no larger than practice, and no more than good | Words outrunning deeds make a man unreliable | Speech |
+| Rush to do good | Act before distraction arrives | Distraction is coming | Time |
+| Let most words be remembrance | Fill speech with remembrance of God Almighty | Remembrance displaces argument | Speech |
+| Beware of sins | Avoid the sin itself | A servant sins and thereby has his sustenance withheld | Livelihood |
+| Waiting for relief | Endure without display and without despair | It is the best deed of the believer | Patience |
+| Take admonition | Take the warning as addressed to yourself | Happy is the one who takes admonition from another | Self |
+
+Reading: disputation and unmeasured speech are listed together on purpose. Both turn religion to performance.
+
+Annotated structure. Whole: the nineteenth Mustanṣiriyya council on kinship ties, quoted as containing seven and twelve.
+
+Parts:
+- The seven. Annotation: those singled out by God's command in relation to the kinship of the Messenger of God, peace and blessings be upon him, identified as the Imams of the religion, may God's prayers be upon them.
+- The twelve. Annotation: held within the same command concerning kinship ties.
+- The promise. Annotation: the author says he has been promised seven things that recur like Fridays.
+
+> Listen now to what we have to say about what God has commanded regarding kinship ties, within which there are seven and twelve.
+> Nineteenth Mustanṣiriyya council
+
+> Say, I do not ask you for a reward for it except affection in kinship.
+> Cited in the council without a verse number
+
+Callback marker: guardianship and belonging were established earlier and are not re-taught. The new emphasis is that affection has a chain of service, so loving the Prophet's kin includes honoring the preachers through whom their guidance reaches the community.
+
+Comparison matrix. Rows are situations between believers.
+
+| Situation | Forbidden | Commanded | Consequence named |
+|---|---|---|---|
+| The weakest of your brothers | Despising him | Regarding him as a believer | Whoever despises a believer is despised and hated by God, and they are not brought together on the Day of Resurrection except in repentance |
+| A brother with an unspoken need | Waiting until need becomes visible | Ask him if he knows what he needs, visit him, show compassion, be humble | The burden is not left on the brother |
+| Describing brotherhood | Being a hypocrite who describes what he does not do | Matching speech to action | Speech kept level with action |
+| A fault seen in a brother | Treating him as a fool | Guide, advise, be gentle, make the guidance pleasant, show favor, kindness, mercy | Correction without humiliation |
+| A brother's honor in his absence | Backbiting, violating his honor | Silence, God has forbidden that | Pictured as eating the flesh of one's dead brother |
+| Meeting a believing brother | Coldness | Greet with a handshake, show joy | Communal repair |
+| Parting from one another | Leaving grievance standing | Let no burden of grievance remain between you | Bitterness is not carried away |
+
+Note on citation: no verse number is given for the backbiting image, so the quotation stands without an invented reference. Greeting was taught earlier as salām, the new point is greeting, joy, and parting well as instruments of repair.
+
+Visual metaphor. Abstract relation: how a believer should hold another believer's fault.
+
+Metaphor: a mirror held between two brothers.
+- What it does: reveals the fault exactly.
+- What it does not do: mock, distort, announce.
+- Position of the holder: beside his brother, not above him.
+- Required manner: gentle, pleasant, favoring, kind, merciful.
+
+> A Muslim is the mirror of his Muslim brother. If you see a fault in your brother, do not treat him as a fool, guide him, advise him, be gentle with him, make the guidance pleasant, and show him favor, kindness, and mercy.
+> Cited in the chapter without further attribution
+
+Reading: not soft on fault, severe against cruelty performed in the name of correction.
+
+Process flow. The legal question from India about necessities.
+
+Start: people in India have no means to obtain water, salt, food, and similar necessities.
+  Down to: they ask one another for such things without payment.
+  Down to: the question is put to the answering authority.
+End: permitted, and the stated ground is affection and brotherhood, not necessity alone.
+
+> This is fine, for the sake of affection and brotherhood.
+> Sayyidna Badr al-Din, Hassan bin Idris bin al-Hassan bin Abdullah al-A'la
+
+## Affection as law
+
+Comparison matrix. Rows are the Mustanṣiriyya councils cited in this movement.
+
+| Council | Subject | Numbering | Teaching settled |
+|---|---|---|---|
+| Seventeenth | Obligatory rights | Seven rights answering seven chapters in the testimony, twelve approved duties answering its years and letters | The first right is righteousness toward parents |
+| Eighteenth | Two parentages | Physical and religious | Bodily form and spiritual form each have a cause that must be honored |
+| Nineteenth | Relatives | Twelve categories | Whoever is connected to a category takes that category's ruling |
+| Twentieth | Neighbors | Seven sections, twelve points of etiquette | Rights persist across differences of faith |
+| Twenty-fourth | The generational triad | Three rights | God, parents, child |
+
+Scriptural ground cited without verse number: goodness to parents, especially the mother, who carried with hardship, gave birth with hardship, carried and weaned. She is named by her actions in both verses, read as divine wisdom distinguishing her with honor and righteousness.
+
+Contrast pair. The two parentages, layered rather than opposed.
+
+Column A: Physical parents
+- What they cause: the appearance of one's bodily form.
+- Their labor: they fed and nourished the child until he reached strength and hope.
+- What is owed: gratitude and righteousness.
+- Singled out: the mother.
+
+Column B: Religious parents
+- What they cause: the appearance of one's spiritual form.
+- Who they are: the one who precedes time and his proof, and the father of this community who conveys divine sciences, the Prophet, peace and blessings be upon him, the guardian, and the Imams from their descendants.
+- What is owed: righteousness of the same order.
+- Singled out: Ali, by a report from the Messenger of God.
+
+Shared row: the two are layered, not ranked. Nurture is physical, moral, and spiritual at once.
+
+> And you, O Ali, are the father of this community.
+> Report from the Messenger of God, peace and blessings be upon him
+
+Annotated structure. Whole: the twelve duties toward parents, grouped by the faculty each governs.
+
+Parts:
+- Upper left, the body's bearing: standing when one sees them, not preceding them in light or darkness, lowering for them the wing of humility from mercy.
+- Upper right, the voice: lowering one's voice before them, saying no unkind word to either, not reproaching them, answering their call.
+- Lower left, the standing granted them: magnifying them, honoring their resting place, not displaying one's affairs before them.
+- Lower right, the return of care: wishing them long life as they wished it for the child when he was young, meeting each parent's need as they once met his.
+
+Annotation: the list is tender because it remembers dependency. The adult who once needed everything must not grow proud before those who carried him.
+
+Process flow, looping. The twenty-fourth council's triad read as a cycle.
+
+Start: the right of God, to refrain from what He has forbidden and enter into what He has commanded.
+  Down to: the right of parents, to give thanks for what has passed and obey them in what remains.
+  Down to: the right of the child, to be raised with compassion, nourished with food, and taught the Book and wisdom.
+  Loop back: the child so raised becomes the adult who owes the first two rights.
+End: the community continues by fulfilled rights, not by sentiment.
+
+Hierarchy tree. The nineteenth council's categories of relatives.
+
+- Level 1: A person's relatives, divided into twelve categories
+  - Level 2: Direct descent
+    - Level 3: Sons and daughters
+  - Level 2: Siblings
+    - Level 3: Full siblings
+    - Level 3: Paternal half-siblings
+    - Level 3: Maternal half-siblings
+  - Level 2: Grandparents
+    - Level 3: Paternal grandfathers and grandmothers
+    - Level 3: Maternal grandfathers and grandmothers
+  - Level 2: Paternal collaterals
+    - Level 3: Paternal uncles
+    - Level 3: Paternal aunts
+  - Level 2: Maternal collaterals
+    - Level 3: Maternal uncles
+    - Level 3: Maternal aunts
+- Rule of attachment: whoever is connected to one of these categories takes that category's ruling.
+
+Process flow. Kinship maintained when the other side breaks it.
+
+Start: the believer is commanded to maintain ties.
+  Down to: do good, uphold kinship bonds, give and do not deprive, draw close and do not drive away.
+  Branch on the relative's conduct:
+  - Path A, the tie is honored in return: the command continues.
+  - Path B, they abandon him: the command does not lapse, he must not answer severance with severance.
+End: severance is never a religious excuse, and an oath may not authorize it.
+
+> Do not swear an oath in the severance of the womb.
+> Ali ibn Abi Talib
+
+Comparison matrix. The twentieth council's seven sections of neighborhood, scored against the three grounds of right.
+
+| Kind of neighbor | Neighborliness | Kinship | Faith | Rights held |
+|---|---|---|---|---|
+| Believing neighbor who is also kin | Yes | Yes | Yes | Three |
+| Neighbor by lineage but not faith | Yes | Yes | No | Two |
+| Believing neighbor without kinship | Yes | No | Yes | Two |
+| Neighbor who violates religion and doctrine | Yes | No | No | One |
+| Travel companion | Yes | No | Not specified | Neighboring right |
+| Caravan companion | Yes | No | Not specified | Neighboring right |
+| Companion where wisdom is heard | Yes | No | Not specified | Neighboring right |
+
+Reading: the first column never empties. Rights do not disappear because a person lacks agreement in faith, and the most binding category is not always the most comfortable. Scriptural ground cited without verse number: the neighbor who is near, the neighbor who is distant, and the companion at one's side.
+
+Annotated structure. Whole: the twelve points of neighborhood etiquette, grouped by the faculty each restrains.
+
+Parts:
+- The eye, upper left: does not peer into his neighbor's house, does not raise before him what he would hate to see, does not expose his 'awrah if it becomes apparent.
+- The ear and tongue, upper right: does not eavesdrop on speech inside the home, does not disclose what he learns of private affairs, does not let the neighbor hear what he would hate.
+- The hand, lower left: does not withhold help when asked, does not fail to assist him when needed.
+- The heart, lower right: does not act arrogantly if of higher station, does not envy him, does not harm him even when provoked, does not refuse to bear his harm patiently.
+
+Annotation: privacy, restraint, help, humility, concealment, non-harm, and patience all count as the neighbor's right. Quiet deeds, given their weight in one sentence.
+
+> These are the deeds of a people whose hearts Allah has tested with piety.
+> Closing sentence of the section
+
+## Guarded knowledge and permitted access
+
+Counsels from Ali ibn Abi Talib opening the section on desires, knowledge, and the Qur'an, one per line:
+- Do not let the night pass in silence except in remembrance of Allah.
+- A sane person should not recite the Qur'an without being in a state of ablution until purified.
+
+Process flow with gates. The questions about books and recitation, each resolved by one condition.
+
+Question 1. Looking into a brother's book without permission, against the prophetic saying that whoever does so is as though looking into fire.
+  Gate: is it the Book of Truth.
+  - Gate passed: it may be looked into only with the permission of the one who gave it.
+  - Gate not passed: etiquette rather than obligation.
+
+Question 2. A borrowed Qur'an or other book whose cover is visibly damaged.
+  Gate: may it be repaired without the owner's permission.
+  - Answer: nothing wrong with repairing it, though it is not obligatory.
+
+Question 3. A man dies leaving da'wa books and other belongings, owing debts his estate cannot cover.
+  Gate: are the books among the books of the da'wa.
+  - Gate passed: they may not settle debt, because they belong to the call and are not inherited.
+
+Question 4. Recitation before women in a gathering.
+  Gate 1: a screen through which she can hear him without seeing him.
+  Gate 2: seclusion absent, because another man is with him or another woman is with her.
+  - Both gates passed: permissible.
+
+Reading: access is not ownerless. Some books carry permission as part of their order, others fall under adab rather than obligation.
+
+Hierarchy tree. The obligatory knowledge that cannot be neglected.
+
+- Level 1: God
+  - Level 2: Acknowledge Allah's unity
+  - Level 2: Declare Him free from likeness and deficiency
+- Level 1: Prophecy
+  - Level 2: Acknowledge the first and last prophets
+  - Level 2: Affirm Muhammad, the Seal of the Prophets and Master of the Messengers
+- Level 1: Guidance after prophecy
+  - Level 2: Recognize the Imams from his descendants whom Allah commanded to be followed
+  - Level 2: Know the Imam of the age
+    - Level 3: Submit to his command
+    - Level 3: Take knowledge from him
+
+Callback marker: divine unity, prophecy, the Imams, and the Imam of the age were established earlier as the foundation of faith. The new contribution is that this knowledge becomes a duty sought from the authorized traces.
+
+Scriptural commands invoked without verse numbers, one per line:
+- Obey Allah, obey the Messenger, and those in authority among you.
+- Every people will be called by their Imam.
+- To every people there is a guide.
+- Ask the people of remembrance if you do not know.
+- Allah raises those who believe and those given knowledge by degrees.
+
+> The worth of every person is what he excels in.
+> Ali ibn Abi Talib
+
+> Seeking knowledge is obligatory upon every Muslim man and woman.
+> The Messenger of Allah, peace and blessings be upon him
+
+Contrast pair. Received religion against private analogy.
+
+Column A: Reasoning the chapter performs
+- Form: distinctions, classifications, answers, measured judgments.
+- Authority: what has been conveyed, with its proof and interpretation established.
+- Direction of use: applied to cases, under the received teaching.
+
+Column B: Analogy the chapter forbids
+- Form: measuring the religion by analogy.
+- Authority: the reasoner's own inference.
+- Direction of use: set above received religion as its ruler.
+
+Shared row: the warning is not a rejection of thought. Those who measure religion by analogy are named the enemies of the religion, and the first to be tormented is Satan.
+
+> Do not measure the religion by analogy, for it cannot be measured. There will come people who measure the religion by analogy, they are the enemies of the religion, and the first to be tormented is Satan.
+> Ali ibn Abi Talib
+
+Process flow. What to do with a saying you do not recognize.
+
+Start: a believer hears something from the discourse of the Ahl al-Bayt that he does not recognize.
+  Branch:
+  - Path A, forbidden: resolve it by private analogy, or turn away from it.
+  - Path B, commanded: return it to them, stand by it, receive it with trust.
+  Down from Path B: refer the difficult matter back to Allah, the Messenger, his guardian, the Imams, and their callers.
+End: the ambiguity is held by those authorized to interpret it.
+
+> If you hear from our discourse something you do not recognize, return it to us, stand by it, and receive it with trust.
+> Ali ibn Abi Talib
+
+Annotated structure. Whole: the three prohibitions of Qadi al-Nu'man ibn Muhammad in the Keys of Grace.
+
+Parts:
+- First: do not take some of their sciences and then turn them back against them. Annotation: received teaching may not be weaponized against its source.
+- Second: do not use what they have conveyed before its proof and interpretation have been established. Annotation: transmission is not yet permission.
+- Third: do not fabricate lies against them or turn away from them. Annotation: invention and abandonment, one failure with two faces.
+
+Visual metaphor. Abstract relation: why the chapter ends on secrecy after beginning on rank.
+
+Metaphor: a closed circle, its last arc meeting the first.
+- Arc 1: ranks and stations named.
+- Arc 2: exaggeration forbidden.
+- Arc 3: loyalty disciplined.
+- Arc 4: affection expanded into rights.
+- Arc 5: access to books governed.
+- Arc 6: obligatory knowledge named.
+- Arc 7: analogy forbidden.
+- Arc 8: reference back to the authorized required.
+- Arc 9: secrecy commanded, closing on the first arc.
+
+> Whoever broadcasts our secret, Allah will give him a taste of the iron.
+> Ali ibn Abi Talib, Four Hundred Counsels
+
+Reading: this knowledge is precious because it is ordered, entrusted, dangerous when mishandled.
+
+Comparison matrix. The thread of the whole chapter, affection made lawful.
+
+| What is loved | The act love takes | The discipline that bounds it |
+|---|---|---|
+| Parents | Service and gratitude | Twelve duties, obedience in what remains |
+| Children | Compassion, food, the Book, wisdom | Raising as a right owed, not a favor given |
+| Relatives | Maintained ties, giving, drawing close | No severance answered with severance |
+| Neighbors | Privacy, help, restraint, patience | Twelve points of etiquette, rights retained across difference of faith |
+| Believers | Gentle correction, protected honor | No contempt for the weak, no backbiting, no empty description |
+| The Ahl al-Bayt | Work, restraint, truthful praise | The boundary of elevated servanthood |
+| Books | Permission, repair, da'wa ownership | The Book of Truth read only by permission, da'wa books not inherited |
+| Knowledge | Seeking it from the right source | No reckless analogy, ambiguity returned to its people, entrusted matters concealed |
+
+Annotated structure. Whole: why this chapter stands near the beginning of Iṣāf al-Ṭālib.
+
+Parts:
+- What comes after it: the book's later rulings.
+- What it supplies first: the kind of person who can receive rulings properly.
+- The person described: reveres rank without exaggeration, loves without recklessness, speaks with measured goodness, shares necessities, honors parents, keeps kinship, protects neighbors, seeks knowledge, repairs books, respects permissions, refuses unauthorized analogy, guards entrusted secrets.
+
+Annotation: the law to come is not for an isolated legal mind, but for a formed member of a guided community.
+
+## What this episode lands
+
+Visual metaphor. Abstract relation: ordered affection as the thing that keeps a community alive.
+
+Metaphor: concentric circles propagating outward from the sacred household.
+- Innermost: the Imams and their hudud, held by measured rank.
+- Next: the preachers and the authorized ones, the channel of guidance.
+- Next: the believers, protected in weakness and in honor.
+- Next: parents, physical and religious, and the children owed compassion and wisdom.
+- Next: relatives, held by maintained ties.
+- Next: neighbors, held by neighborliness alone if nothing else remains.
+- Outermost: books, teachers, and seekers, governed by permission and custody.
+
+Reading: obligation propagates outward and never reaches zero. Intensity changes, the claim does not.
+
+Contrast pair. The two things the episode lands.
+
+Column A: The social landing
+- Claim: a religious community survives by ordered affection.
+- What is protected: ranks remembered without exaggeration.
+- What love becomes: work and restraint.
+- What brotherhood does: protects the weak, repairs grievance.
+- Sacred order here: ordinary rights toward parents, kin, neighbors, books, teachers, seekers.
+
+Column B: The epistemic landing
+- Claim: knowledge is obligatory, but not ownerless.
+- What is protected: sacred books, da'wa books, hidden meanings, difficult sayings.
+- What seeking becomes: reception from the authorized line.
+- What the believer refuses: measuring religion by private analogy.
+- Sacred order here: permissions, custodians, concealment of what is entrusted.
+
+Shared row: both prepare the listener for the legal material to come. Law here is not a list of rulings, it is the disciplined life of a community bound by rank, affection, and guarded knowledge.

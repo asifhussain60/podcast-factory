@@ -1,0 +1,549 @@
+# Astronomy, Calculation, and Religious Obligation
+
+## Where this episode opens
+
+Diagram type: Contrast pair. The opening claim, as a ranking of two instruments.
+
+Column A: The eye in your face
+- Name in the letter: natural vision
+- Rank claimed for it: junior instrument, later, coarser
+- Behaviour under pressure: more easily fooled
+- Standing when an obligation from God must be timed: subordinate
+
+Column B: The eye that belongs to the heart and to knowledge
+- Name in the letter: intellectual vision
+- Rank claimed for it: senior partner, prior, finer
+- Behaviour under pressure: scarcely falls into error
+- Standing when an obligation from God must be timed: the one a person is bound to obey
+
+Shared row: Both are called sight. The dispute is not whether the eye works. The dispute is which instrument times a duty.
+
+Diagram type: Process flow. Where this chapter sits in the crescent argument.
+
+Start: The preceding letter builds a universe and a law in which nothing created stands alone
+  Then: The disputed sighting report is set down inside that universe, the thing it is half of left unnamed
+  Then: This chapter names it
+End: The counterpart of sight is sight
+
+Diagram type: Annotated structure. The three moves that make up the chapter.
+
+Whole: One argument, delivered in three movements, each more technical than the last.
+
+- Move 1, position left: the division and its transfer onto religious duty.
+  Annotation: if the more precise vision belongs to knowledge, then knowing binds you, whatever your eye has caught.
+- Move 2, position centre: the astronomy, the most technical passage in the book.
+  Annotation: the conjunction as astronomers define it, the moon's degree and minute against the sun's, the growth of the crescent's light, and what stops the eye from following any of it.
+- Move 3, position right: the grammar, and the sharpest of the three.
+  Annotation: a sustained argument about one Arabic letter, the lam, inside the instruction to fast and to break the fast upon seeing the crescent.
+
+Diagram type: Contrast pair. What kind of document this is.
+
+Column A: The voice that speaks
+- Position: one voice, unfolding, absorbing objections as it goes
+- Turns of its own: all of them
+
+Column B: The imagined opponent
+- Form of address: the second person, unnamed, quoted
+- Line given to him: you say that a person does not know anything until his sight falls upon it
+- Counter-arguments permitted: one, drawn from scripture, near the end, and answered
+- Turns of his own: none
+
+Diagram type: Hierarchy. Argued ground against assumed ground.
+
+- Level 1: Ground this chapter argues
+  - Level 2: The division of sight into two kinds
+  - Level 2: The transfer of that division onto obligation
+  - Level 2: The mechanics of conjunction, crescent, and obstruction
+  - Level 2: The grammar of the lam
+- Level 1: Ground this chapter assumes and does not re-argue
+  - Level 2: The doctrine of pairs, built at length earlier, used here in a single clause
+  - Level 2: The astronomy of the month already laid down
+  - Level 2: The emergence reading of the sighting report
+  - Level 2: The scriptural material on counted days
+
+Diagram type: Annotated structure. The condition of the ending.
+
+Whole: A final argument that names a diagram it cannot show.
+- Part: the instruction in the text, as shown in this picture.
+- Part: the picture itself, absent, and what survives, a scatter of badly transmitted labels.
+- Annotation: the labels are reproduced as they stand, because a broken figure is part of the record.
+
+## Two kinds of sight
+
+Diagram type: Contrast pair. The two visions, jurisdiction by jurisdiction.
+
+Column A: Natural vision
+- Seat: the eye
+- Objects, first class: colors, white, black, red, yellow, and others
+- Objects, second class: forms, circular, triangular, square, and so on
+- Domain: the senses
+- Basis of reliance: it falls within the domain of the senses, and on that basis it is relied upon
+- Temporal reach: things physically present, within limits and time
+- What it reaches of a thing: the outward appearance
+
+Column B: Intellectual vision
+- Seat: the heart and the soul
+- Objects, first class: what natural vision cannot perceive
+- Objects, second class: the causes hidden from natural perception
+- Domain: knowledge
+- Basis of reliance: its knowledge of things reaches their realities
+- Temporal reach: what the eye misses from sight, including things in their absence
+- What it reaches of a thing: the reality
+
+Shared row: The eye sees the effect in front of it. The other vision sees why it is there. Nobody claims the eye lies about whether a thing is red.
+
+Diagram type: Comparison matrix. Three verses, and what each one contributes.
+
+Rows: the verse of the heart, the verse of the shadow, the verse of the elephant
+Columns: what it says | what it establishes | strength of the move
+
+> "The heart did not lie in what it saw."
+> Quran 53:11
+
+- Verse of the heart: seeing is assigned to the heart | the heart is vouched for in what it saw | assignment
+- Verse of the shadow: the language of sight is used for something no eye is watching at the moment of address | sight-language reaches beyond the eye | extension
+
+> "Did you not see how your Lord stretched out the shadow?"
+> Quran 25:45
+
+- Verse of the elephant: the address is have you not seen, put to a man born after the event | the seeing asked for cannot be ocular | proof, and it can be dated
+
+> "Have you not seen what your Lord did to the companions of the elephant?"
+> Quran 105:1
+
+Diagram type: Process flow. The dating argument, which needs no theory at all.
+
+Start: The address reads, have you not seen
+  Then: The Prophet, peace and blessings of Allah be upon him, was not alive at the time of the companions of the elephant
+  Then: He therefore did not see them with his eyes
+  Then: Yet the address stands, and asks him to confirm a seeing
+End: What is meant is the vision of the soul, which belongs to the domain of the heart and knowledge
+
+Annotation: the argument rests on a date, not on a doctrine.
+
+Diagram type: Annotated structure. The homelier proof, taken from ordinary Arabic speech.
+
+Whole: the proverb that calls a man blind.
+- Part: the word used, blind.
+- Part: what is actually meant, that he is slow and late in knowing things and in seeing them in their absence.
+- Part: what is not meant, anything at all about his eyes.
+- Annotation: everyone who uses the insult already believes there is a kind of seeing a person with perfect eyesight can fail at, and note its object, things in their absence, which is precisely the case the chapter is building toward.
+
+Diagram type: Genealogy chain. The doctrine of pairs, arriving in a single breath.
+
+All created things → divided into two states and two aspects → to complete the oneness of Allah → so that nothing shares in that oneness → therefore sight also is of two kinds, each coupled with the other
+
+Annotation: this is the preceding argument used as a tool, not defended again.
+
+Diagram type: Contrast pair. One drop taken from a pool, and two reports of the same event.
+
+Column A: The report of the outward eye and sight
+- Verdict: unchanged
+- Accuracy: false
+- Confidence: complete
+- Reason for the failure: the change is real and lies below its threshold
+
+Column B: The report of intellectual vision
+- Verdict: less by one drop
+- Accuracy: a true perception
+- Confidence: exact
+- Reason for the success: a quantity you have taken from is smaller
+
+Shared row: What carried the second report was not revelation and not a faculty granted to a few. It was ordinary inference, which anyone can run, and it is more accurate than looking.
+
+Annotation: a moon below the threshold of visibility is the same case at a larger scale.
+
+## Two kinds of sight, from precision to obligation
+
+Diagram type: Process flow. Theory becomes duty in one step.
+
+Start: Intellectual vision is the more prior and the more refined in perception
+  Then: When two instruments are available and one is better, using the worse one for God's business is not caution
+  Then: The first principle is to restrict oneself not to what is inferior, the level of the ignorant, but to what reason demands, which binds people to the truth
+End: It is all the more obligatory to act upon the more precise and superior, the vision of knowledge and the soul
+
+Diagram type: Comparison matrix. Three applications, arranged from the uncontroversial to the contested.
+
+Rows: the prayer, the dawn of the fast, the crescent of the fast
+Columns: what is known in the heart | which sense is blocked | who disputes it | the ruling
+
+- The prayer: that the time for one of the prayers has come | hearing, no call to prayer has reached him | nobody | the prayer becomes obligatory for him even if he has not heard the call
+- The dawn of the fast: that dawn has arrived | sight, his eyesight is prevented from seeing it | nobody | he would be obligated to abstain from food
+- The crescent of the fast: that the cause of fasting, the crescent's appearance, has occurred at its greatest strength | sight, prevented by light, clouds, dust, or mountains | this is the one the letter exists for | the fast becomes obligatory
+
+Annotation on row one: the call, taught earlier in this book as the summons, announces a time. It does not create one.
+
+Annotation on row two: a blind man at dawn is bound exactly as a sighted man is. The daily beginning of the fast is already governed by knowledge rather than eyesight, every morning, for anybody whose window faces a wall.
+
+Annotation on row three: the same logic, extended one step, and the step is the whole dispute.
+
+Diagram type: Process flow. The reasoning given is causal, not legal.
+
+Start: The cause occurs, the crescent's emergence
+  Then: It is customary that when the cause occurs, its effect becomes obligatory
+  Then: Neither should precede the other except in rank
+End: The effect follows, the fast
+
+Annotation: causes do not wait for witnesses.
+
+Annotation on reliability: the call in their entering the fast by virtue of intellectual vision is one in which they scarcely fall into error.
+
+Diagram type: Annotated structure. The scriptural bridge into the technical section.
+
+Whole: the sun and the moon issued as instruments of reckoning.
+- Part: the report, that Allah Almighty made the sun and the moon the means by which years, months, their times, and their people are known.
+- Part: the verse of the phases, with its purpose clause.
+
+> "Allah is the One who made the sun a radiance and the moon a light, and apportioned for it phases so that you might know the number of years and the reckoning."
+> Quran 10:5
+
+- Annotation: read the purpose clause as the letter reads it. The phases were apportioned so that you might know. The moon is issued for a calculating purpose.
+- Part: the verse of the crescents.
+
+> "They ask you about the crescents."
+> Quran 2:189
+
+- Part: the verse of the fixed count.
+
+> "Indeed, the number of months with Allah is twelve months in the Book of Allah from the day He created the heavens and the earth."
+> Quran 9:36
+
+- Annotation: a count set at creation. The frame is regular before anybody looks at anything.
+
+## What blocks the eye
+
+Diagram type: Annotated structure. The lunar month, defined as a circuit rather than a run of nights.
+
+Whole: one complete circuit of the moon, measured from a named geometrical instant back to the same instant.
+- Part: the degree, one of three hundred and sixty positions around the circle of the sky.
+- Part: the minute, one of sixty divisions inside a degree.
+- Part: the conjunction, the moment the moon and the sun occupy the same position in that reckoning.
+- Part: the starting point, the moon one degree and one minute ahead of the sun.
+- Part: the closing point, the moon returned to that same design and conjunction.
+- Annotation: on this definition a month is not a stretch of nights and not a sequence of appearances, and these months are not complete until their appointed periods are fulfilled.
+- Annotation: the definition is openly borrowed, this is the conjunction recognized by astronomers, and the letter does not hide the borrowing.
+
+Diagram type: Process flow. The moon across one month, with the crossings marked.
+
+Start: The moon's degree and minute within its zodiacal position become identical to those of the sun
+  Then: It has departed from the old month, and leaves the sun on its way to the next
+  Then: At the conjunction, the light of one half of the moon's mass is drawn away from the side facing the earth until it passes over
+  Then: The upper half of the mass is illuminated
+  Then: The light of the half facing us appears at the crescent, and grows as the moon increases its distance
+  Branch, the night of opposition: the moon stands opposite the sun, facing the centre, which the letter glosses for us as the earth, and this is the full moon
+End: The circuit closes and the next conjunction arrives
+
+Diagram type: Contrast pair. What survives of the optical passage against what does not.
+
+Column A: Legible, and essentially the modern account
+- The moon is a sphere with a lit half and a dark half
+- The lit half is always lit, and what changes is how much of it faces us
+- The crescent is the first sliver swinging into view as the moon pulls away from the sun
+- The night of opposition is the full moon
+
+Column B: Damaged, and not repaired
+- The phrase rendered here as the ocean side
+- The clause comparing what it reflects to what each half of the mass does when facing the centre
+- Treatment: left standing as transmitted, not reconstructed
+
+Diagram type: Comparison matrix. The four obstacles, and the fifth that does not belong with them.
+
+Rows: cloud, dust, a wall, a mountain, the sun
+Columns: where it stands | does it stop the eye | does it stop the moon | has any legal effect ever been attached to it
+
+- Cloud: between the observer and the sky | yes | no | no
+- Dust: between the observer and the sky | yes | no | no
+- A wall: on the observer's side | yes | no | no
+- A mountain: on the observer's side | yes | no | no
+- The sun: in the sky, and it is the source of the crescent's light | yes | no | this is the one under dispute
+
+Annotation: nobody has ever claimed that a mountain stops a month. If the crescent has risen and a ridge stands between you and it, the crescent has still risen. The letter puts the sun in that list and asks why it should be treated differently.
+
+Annotation on the mechanism: the causes that prevent the eye are many, and the eye's inability arises from within itself, and from the fact that it sees light emanating from the moon's body as the moon moves toward conjunction at the end of the month.
+
+Diagram type: Annotated structure. The everyday demonstration, which costs nothing to check.
+
+Whole: the daytime sky.
+- Part: the planets, overhead at noon, and the observer who sees nothing.
+- Part: the sun's light and its overwhelming radiance.
+- Part: the same sky after that light is broken, when the eye can perceive them.
+- Annotation on the cause: light is diminished by refraction.
+- Annotation on the law: nobody concludes the planets are gone, and no legal consequence has ever been attached to that invisibility.
+
+Diagram type: Visual metaphor. The paradox of the young crescent, drawn as a single source with two opposed outputs.
+
+Abstract relation: one body both generates the evidence and suppresses it.
+Metaphor: a single lamp casting a beam and a glare from the same filament.
+- Element, the filament: the sun.
+- Element, the beam: all of the crescent's light, borrowed, since the light at the moon's departure would not exist were it not for the sun's own rays.
+- Element, the glare: the sun's light standing as the barrier, just as other barriers are, like clouds and the atmospheric cycle.
+- Reading: the sun both makes the crescent and hides it, and the young crescent is most vulnerable when it is nearest the sun.
+
+Diagram type: Process flow. The conclusion, in one chain.
+
+Start: The eye is prevented by sunlight from seeing the crescent after its departure
+  Then: The soul, from the perspective of knowledge, is not prevented from seeing it as it truly is
+  Then: Fasting becomes obligatory through the vision of knowledge, derived from the established signs already outlined
+  Then: By these testimonies, the people of the Sayyid's call are on the truth and the right path in their entry into fasting through the soul's vision
+End: And if they are correct, then whoever disagrees with them is in error
+
+Annotation, the question then put to the other side: where does the person of right derive the basis for seeing by sight alone, without the vision of the heart and knowledge. The evidence rests on seeing from two angles, and no one denies this except out of apparent arrogance.
+
+## What blocks the eye, the opponent pressed three times
+
+Diagram type: Annotated structure. The opponent's doctrine, stated fairly in his own voice.
+
+Whole: a two-clause position.
+- Clause one: a person does not know anything until his sight falls upon it.
+- Clause two: once he sees it, the ruling of knowledge-vision is lifted from him.
+- Annotation: knowledge is a stand-in for sight, and the moment sight is available the stand-in retires.
+- Verdict returned: we say your argument is corrupt and invalid, for three reasons.
+
+Diagram type: Comparison matrix. The three pressures.
+
+Rows: the doctrine cannot see itself, the doctrine is not how learning works, the thirty-day case
+Columns: the question put | the answer he is forced to | where that answer lands
+
+- Cannot see itself: have you seen that Allah Almighty has made this obligatory upon you | no | his sight does not fall upon the very rule he enforces
+- Not how learning works: the learned man has commanded the world regarding its events, and if we asked you about something, what would you tell him | that you are wise enough to employ the vision of knowledge and proof | proof does not rule by the eye alone, which is what the letter says
+- The thirty-day case: a man broke his fast without seeing the crescent, but thirty days of Ramadan had passed, was his breaking valid | a fork with no third exit | either branch ends in the letter's own position
+
+Annotation on the first: he is compelled to abandon sight-seeing and return to the hadith of knowledge. The letter puts the answer in his mouth, because it is the only one available, that we know, and we have the proofs, and we have confirmed it. Which is the other party's position, adopted under pressure and renamed.
+
+Annotation on the third: every party to this dispute accepts the thirty-day rule, that if the new crescent is not sighted the month completes at thirty. That is what makes the question a fork.
+
+Diagram type: Process flow with a branch. The thirty-day trap.
+
+Start: A man breaks his fast, no crescent seen with the eye, thirty days of Ramadan elapsed
+  Branch A, you say it was valid:
+    Then: But the crescent was not seen with the eye, and your doctrine forbids breaking the fast until after seeing it
+    Then: You are compelled to say that we know that after thirty days the crescent has been seen, even though it was obscured
+    Then: You have used knowledge to certify a sighting nobody made
+    End A: You have abandoned the ruling of sight-vision and returned by necessity to the hadith of knowledge-vision, which is our position
+  Branch B, you say it was not valid:
+    Then: You must hold that one cannot know anything except through the physical senses, things physical in their form and quality only
+    Then: That is false about the soul, which dispenses with the aid of the senses in its knowledge by making use of other faculties within it
+    End B: The fate of the senses and their yield is that the soul rises above the need for them
+
+Annotation: branch B pushes the opponent into a claim about the human mind, and the next movement goes after it directly.
+
+## What seeking the crescent seeks
+
+Diagram type: Hierarchy. The instruments of perception within man.
+
+- Level 1: The instruments by which man perceives things
+  - Level 2: The five senses
+    - Level 3: hearing
+    - Level 3: sight
+    - Level 3: smell
+    - Level 3: taste
+    - Level 3: touch
+  - Level 2: The soul
+    - Level 3: receives the images of the senses' perceptions
+    - Level 3: rises above all of them after receiving those images
+    - Level 3: perceives what hearing, sight, smell, taste, and touch do not perceive
+
+Diagram type: Comparison matrix. Sealed domains, by design.
+
+Rows: hearing, sight, smell, taste, touch
+Columns: what it perceives | what it cannot perceive | why the seal is deliberate
+
+- Hearing: sound | color, form, scent, flavour, texture | so that no part of creation goes unregistered
+- Sight: shapes and colors | sound, scent, flavour, texture | the same
+- Smell: scent | the other four domains | the same
+- Taste: flavour | the other four domains | the same
+- Touch: texture | the other four domains | the same
+
+Annotation: each sense has its own domain in the wisdom of Allah Almighty, lest man be deprived of perceiving some part of what Allah has created in the worlds. Sight is deaf, hearing is colorblind, and each is sovereign in its own territory and blind everywhere else.
+
+Annotation, the question this invites: if each sense is sealed inside its domain, what perceives the world as a whole. His perception is thus multiple, and beyond the five it extends to what the senses do not reach, for he perceives by inference what they cannot hand him.
+
+Diagram type: Process flow. The mechanism given, which is memory.
+
+Start: A thing must be known
+  Then: The soul accepts the image of the thing as perceived by the senses at the first perception
+  Then: That image remains present to the soul in itself
+  Then: The soul returns to that thing without needing the senses again
+End: A second perception of the image in itself, with sight dispensed with
+
+Worked case, chosen because it is the case at issue: images of the planets and their qualities were perceived through sight, and the soul then dispenses with that sight for a second perception.
+
+Annotation: you looked once, the look deposited something, and the soul works with the deposit. Which lets the letter ask what nobody in the dispute had thought to ask, what is the sighting actually for.
+
+Diagram type: Contrast pair. What the sighting is not for, against what it is for.
+
+Column A: Not what is meant in seeking the crescent
+- Seeing it with the eye every month and year
+- Knowing its appearance in its form
+- Knowing its precision
+- Knowing its coarseness
+- Instrument this would require: sight
+
+Column B: What is actually meant in seeking it
+- Knowing the validity of its being in the west in front of the sun, after having been in the east
+- Category of the fact sought: position
+- Instrument this requires: the soul
+- Reason: sight, even without obstructions, only perceives shapes and colors
+
+Shared row: you are not going out at sunset to find out the moon's color or shape. You have known both since childhood. You are going out to settle whether it has crossed over.
+
+Annotation on the phrase even without obstructions: the whole section on cloud, dust, mountain, and glare is set aside as beside the point. Give the eye a perfect night and a sharp young crescent, and it still reports only a shape and a color. The obstructions were a nuisance. The real problem is jurisdiction.
+
+Diagram type: Process flow with two closed exits. The remaining escapes, and why each is shut.
+
+Start: Suppose the request regarding the crescent were about something the eye can supply
+  Exit 1, its color and shape:
+    Then: That would already be impossible to request from one who knows how it looks from having seen it
+    Then: And who trusts that it will not change as long as the heavens and the earth endure
+    Shut: you cannot be sent to learn what you already know and what cannot change
+  Exit 2, its fineness and thickness, its precision and coarseness:
+    Then: It would be impossible to make fasting obligatory if the crescent is precise while the condition is coarseness
+    Then: Or coarse while the condition is precision
+    Shut: if the sighting existed to certify a thickness, the law would have had to specify which thickness, and it never has
+End: This condition of shape, color, precision, and coarseness was not present in the obligation of fasting, so it is invalid to say the obligation is attached to perception of the crescent by sight. Once invalidated, fasting is established as attached to the perception of the soul, because what is sought is whether the crescent is in front of the sun.
+
+Diagram type: Comparison matrix. The reliability of the two instruments, listed like a physician's symptoms.
+
+Rows: error of magnitude, error of grain, error of range, error of scope
+Columns: how sight-vision fails | how knowledge-vision stands
+
+- Error of magnitude: it sees the large as small and the small as large | it does not err
+- Error of grain: it sees the fine as coarse and the coarse as fine | it does not err
+- Error of range: it may only see from near and not from far, or from far and not from near | range does not apply to it
+- Error of scope: it can barely err in what it encompasses, the narrow band where it is safe | its knowledge reaches the realities of things
+
+Annotation: taking what does not err in establishing obligatory duties, according to the people of hearts, is more deserving than taking what does err. So when the people of the call entered the fast, they took what does not err.
+
+## What seeking the crescent seeks, the lam and the lost diagram
+
+Diagram type: Annotated structure. The text the other side holds, and the single letter under dispute.
+
+Whole: the Prophet's instruction.
+
+> Fast upon seeing it and break the fast upon seeing it.
+> Attribution: the Prophet Muhammad, peace and blessings of Allah be upon him.
+
+- Part: the lam, the Arabic prefix carrying the sense of for or toward.
+- Part: the speaker's own claim about himself, that he is the most eloquent of the Arabs.
+- Annotation: a man who called himself that did not attach a preposition by accident, and there is no significance in the lam without some other purpose being served by the expression.
+- Annotation on the transmission: the letter says the saying is not without two possible interpretations, but the two branches as they reach us read almost identically, both describing the community fasting from the time of the crescent's sighting. The distinction cannot be recovered and is not reconstructed.
+
+Diagram type: Comparison matrix. Three examples of the lam from ordinary speech, all doing the same work.
+
+Rows: the guest, the poem, the Hereafter
+Columns: the saying | when the work is done | why it cannot mean at the moment of
+
+- The guest: prepare such-and-such a thing for the coming of so-and-so | before he walks in | nobody begins cooking when the guest arrives
+- The poem: they composed a poem to meet so-and-so, to recite it to him | before the meeting | they will have it ready when they find him, not compose it from the moment of meeting
+- The Hereafter: work for the Hereafter | before the time of the Hereafter arrives | it is known that in the Hereafter there is no work, so the deadline is absolute
+
+Annotation: the third is decisive. The lam cannot mean at the moment of. It must mean in readiness for.
+
+Annotation on the conclusion: with these evidences it is established that the lam was not used to mean that the people fast when seeing the crescent with their own eyes. And the letter concedes in passing that even if the Prophet, peace and blessings of Allah be upon him, did intend the crescent to be seen and the community to fast upon it, that is what we have said, and we have demonstrated its proof.
+
+Diagram type: Contrast pair. The opponent's counter, which is his best move, and the reply.
+
+Column A: The counter
+- Ground conceded: the lam is from the words of the Prophet, peace and blessings of Allah be upon him
+- Instrument used: the identical construction in scripture
+- The verse produced:
+
+> "Establish the prayer for the decline of the sun."
+> Quran 17:78
+
+- Force of the move: the verse does not require that the prayer precede the sun's decline, nor that it be offered before the sun
+- Consequence if the letter were right: the noon prayer would be early every day
+
+Column B: The reply
+- Move made: the parallel is conceded and turned around
+- Statement: the lam in the words of Allah Almighty about the sun is like the lam in the saying of the Prophet, to see it
+- Definition supplied: the sun's decline is its disappearance from the dome of the sky, as has been explained
+- Question reopened: yes, you pray at the decline, not before, but when is the decline
+- Verdict: the opponent's verse is not a counter-example, it is the same case
+
+Diagram type: Contrast pair. Two perceptions of one instant.
+
+Column A: Psychological perception
+- Object: the decline in reality within the dome of the heavens
+- Instrument: the soul, through the perspective of knowledge
+- Order: it precedes natural perception
+
+Column B: Natural perception
+- Object: a sun already on its way down
+- Instrument: natural vision, which is limited in its perception
+- Order: it follows, and only once the sun reaches the azimuth point and descends, securing its range in its descent at the intersection of the circle line and the straight line
+
+Shared row: even for the noon prayer, the event is one thing and the perception of it another, and the knowing runs ahead of the looking.
+
+Diagram type: Annotated structure. The figure the argument depends on, reconstructed from its surviving labels.
+
+Whole: what the manuscript instructs us to look at, as shown in this picture, and what has not survived.
+- Surviving label: a straight line and its sections.
+- Surviving label: a tangent line.
+- Surviving label: a meridian line.
+- Surviving label: a rising circle.
+- Surviving label: a centre.
+- Surviving label: the midday line, where elevation is taken.
+- Surviving label: two markings for east and west, the westward one rendered as though it named the country of Morocco, the same Arabic word.
+- Orphan fragment, attaching to nothing: medium of poison.
+- Annotation on what the figure was: a horizon circle, a meridian, and the sun's descending path crossing them, drawn to show the geometrical instant the argument depends on.
+- Annotation on the irony: the instant no eye can catch was to be settled by a drawing, and the drawing has not survived.
+
+## What this episode lands
+
+Diagram type: Genealogy chain. The argument, from doctrine to consequence.
+
+The doctrine of pairs → applied to the faculty the dispute turned on → sight divides into natural and intellectual → the intellectual is the more precise → the more precise instrument is the one that must time a duty → knowing the crescent has emerged obliges the fast → the sighting report is not what the law was asking for
+
+Diagram type: Comparison matrix. The evidence for the division, gathered in one place.
+
+Rows: scripture, ordinary speech, the pool
+Columns: the case | what the eye returns | what knowledge returns
+
+- Scripture: a man asked to confirm an event from before his birth | nothing, he was not there | the vision of the soul
+- Ordinary speech: a man with perfect eyesight called blind | a working eye | that he is slow and late in knowing
+- The pool: one drop taken from the water | unchanged | less by one, and the mind is right
+
+Diagram type: Comparison matrix. The three duties, and what stands in the way of each.
+
+Rows: the prayer, the dawn, the crescent
+Columns: what is known | what blocks the sense | the ruling
+
+- The prayer: that the hour has come | no call reached him | he is bound
+- The dawn: that dawn has broken | he cannot see the sky | he is bound
+- The crescent: that it has emerged | light, or cloud, or a mountain | the community is bound
+
+Annotation: causes do not wait for witnesses.
+
+Diagram type: Hierarchy. The opponent, pressed three times, and what each pressure reaches.
+
+- Level 1: The doctrine that nothing is known until sight falls on it
+  - Level 2: It cannot account for his own knowledge of the obligation, which he has never seen
+  - Level 2: It cannot account for how any scholar has ever settled anything
+  - Level 2: It cannot survive the thirty-day case
+    - Level 3: If valid, he has certified an unseen moon by knowledge
+    - Level 3: If invalid, he must claim the soul knows nothing the senses have not handed it
+
+Diagram type: Contrast pair. The deepest move, which came last and was the quietest.
+
+Column A: What a sighting is not for
+- The moon's color, which is known
+- Its shape, which cannot change
+- Its thickness, which no law has ever specified
+
+Column B: What a sighting is for
+- To settle whether the moon now stands west of the sun, having been east of it
+- Category: a fact about position
+- Reach of the eye on that question: none, even on a perfect night with nothing in the way
+
+Shared row: the eye was being asked a question outside its jurisdiction.
+
+Diagram type: Annotated structure. The closing condition of the text.
+
+Whole: an argument about the limits of eyesight, ending in wreckage.
+- Part: the proof of the last point, which was a diagram.
+- Part: the diagram, lost.
+- Part: a few surviving labels, garbled, a meridian, a rising circle, a centre, east and west.
+- Part: one label that has come down naming a country instead of a direction.
+- Annotation: the letter says, as shown in this picture, and there is no picture.
+- Annotation: a thousand-year-old argument about the limits of eyesight closes by asking us to look at something we cannot see.

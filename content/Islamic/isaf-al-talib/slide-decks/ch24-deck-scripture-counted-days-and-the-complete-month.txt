@@ -1,0 +1,582 @@
+# Scripture, Counted Days and the Complete Month
+
+## Where this episode picks up
+
+Annotated structure. Whole: the seam between two documents, and what sits in the joint.
+
+- Part 1, the near side: the last page of a reply arguing how the month of Ramadan begins, closing as a formal letter closes, with a line of verse, a demand put back to the other side, a request for a courteous answer, a blessing.
+- Part 2, the joint: a short attached message on what looks like a different subject, the inner meaning of the eclipse prayer.
+- Part 3, the far side: a new epistle, addressed to a named man in a named year about a named embarrassment, opening with what sounds like cosmology and is in fact the first move of a legal argument.
+- Annotation on the joint: not a digression. The eclipse material was filed beside the fast, because the fast is where the moon's timetable becomes a legal question.
+
+Cross-axis: two documents along the length, one subject running under both.
+
+Comparison matrix. Three voices, and what each contributes.
+
+| Voice | Position in the seam | What is supplied |
+|---|---|---|
+| The unnamed writer of the previous reply | Closing the near document | One preposition read, two questions set to the other side, a request for a healing answer, a valediction |
+| Our master Zayd ibn Muhammad | The attached message in the joint | The hidden interpretation of the eclipse prayer, a decreed date for the moon's covering, an arithmetic of the moon's absence the manuscript has damaged |
+| Our master and Mawlana, the summoner of the age, Ahmad Hamid al-Din ibn Abdallah al-Kirmani, may his intercession avail us, proof of our master al-Hakim bi-Amr Allah, the Commander of the Believers, may God bless him and grant him peace | The far document, and the dominant voice from here | The reply, its self given title, a diagnosis of the opposition, a proof drawn from the structure of creation |
+
+Timeline. The scandal the far document exists to answer.
+
+Axis: the fast of the year four hundred.
+- Position 1: commands received from the Immaculate Prophet oblige the community to begin.
+- Position 2: the Shi'i community of the Commander of the Faithful begins the fast.
+- Position 3: two days pass. No crescent. The general public has not begun.
+- Position 4: the crescent is sighted with our own eyes. The rest of the city begins.
+- Position 5: sustained public criticism follows, in the streets, not in a book.
+Period bands: two days ahead of the sighting, then the dispute that does not let go.
+
+Reading of the axis: not early by an hour, not early because somebody guessed at a dirty sky. Two full days, with the neighbours watching.
+
+Contrast pair. What the previous chapter settled, against what this one opens.
+
+Column A: already argued, assumed here, not re-argued
+- Who the crescent reports are addressed to
+- Astronomy, and the occasion on which the report was spoken
+- What the Prophet could not have failed to know
+- A count drawn from the law of expiation
+
+Column B: new here, narrower and stranger
+- A reading of one preposition
+- A decreed timetable for the moon's covering
+- A dated public scandal, and a diagnosis of why people disagree
+- The opening of a proof from the structure of creation
+
+Shared row: both argue about when a month begins, and neither disputes any report's wording.
+
+Visual metaphor. Relation: what kind of document these writers thought they were producing. Metaphor: a physician's word set where a verdict would sit.
+
+- The first writer asks his opponents for a sound and healing answer.
+- The second, taking up his pen, speaks of the healing answer and what it does.
+Reading: deliberate echo or shared vocabulary, the aim named is not victory. It is a cure.
+
+## The Moon's Own Timetable
+
+Annotated structure. Whole: the verse and poetry the reply closes on, and the damaged clause that follows.
+
+> As for the destruction of the house, the house is built, for death, mothers feed their children.
+> Attribution: a line of verse quoted in the closing reply.
+
+> They were born to death and were born to ruin.
+> Attribution: another poet, quoted in the same passage.
+
+> "This is what you were promised for the Day of Reckoning."
+> Quran 38:53
+
+- Part 1, as transmitted: the reckoning made the consequence bear the blame, in keeping with what we have mentioned, which is the most fitting interpretation.
+- Part 2, the apparent sense: responsibility is assigned to the outcome rather than the moment, as the poetry has just done. The house is built so that it can fall, the child fed so that it can die.
+- Annotation: reproduced as it stands. Nothing following depends on repairing it.
+
+Contrast pair. The operative sentence, read on both of its halves.
+
+Column A: what the Prophet and his family did
+- Wording: they fasted at the sighting of it
+- Gloss offered: meaning at its emergence
+- Timed by: the moon's coming out, the event in the sky
+- Not in the frame: anybody's perception of it
+
+Column B: what the community is instructed to do
+- Wording: you fast and break your fast at the sighting of it
+- Gloss offered: meaning so that it may be seen
+- Timed by: the moon's visibility as a state of affairs
+- Not in the frame: your eye as instrument, the gloss is not so that you may see it
+
+Shared row: nobody disputes the wording. What is claimed is what the phrase attaches to.
+
+Contrast pair. Why the distinction is small and load bearing.
+
+Column A: the ordinary reading
+- A month begins when somebody looks up and catches it
+- A universal obligation starts with whoever has the clearest horizon
+- The eye is the trigger
+
+Column B: the reading offered here
+- The moon's emergence is the event
+- Seeing is the evidence
+- Evidence is not the same thing as the fact it is evidence of
+
+Shared row: the previous chapter reached this from the sky and from the Prophet's access to news of the heavens. Here it is reached through grammar.
+
+Annotated structure. Whole: the examination set to the other side, two questions on the paper.
+
+- Question 1: if you hold otherwise, bring proof from the Qur'an for the completion of the month as mentioned therein.
+  - Callout: the party addressed holds the month sometimes complete and sometimes short, a variable the sky decides. Show where the Book treats it so.
+- Question 2, sharper: explain why the Messenger of Allah, peace and blessings be upon him, did not say, fast after seeing it and break the fast after seeing it, so the matter would be clearer to his community.
+  - Callout: an argument from what was available and not used.
+
+Process flow. The shape of the second question, as an inference.
+
+Start: a plain way to say wait until you have caught sight of it existed, one word longer and unambiguous
+  ↓
+The Prophet did not use it, and is not credited here with carelessness
+  ↓
+Branch, on the phrasing he did use:
+  - At the sighting, because the moon's emergence was meant
+  - Not after seeing, because the eye was not meant to be the trigger
+  ↓
+End: the phrasing is taken to have been chosen
+
+Annotated structure. Whole: the second compressed passage, damaged in transmission.
+
+- Part 1: one acts for the day on which one will be resurrected, and the Hereafter holds the reward.
+- Part 2: the Book of the House aligns with the saying of the Prophet sent to us.
+- Annotation: the Book of the House cannot be securely identified from this slice, and its tie to the Prophet's saying arrives without its connection spelled out.
+- Annotation: what survives is that a deed is named by its final day, the poetry's figure moved from death to reward.
+
+Annotated structure. Whole: the sign off, the only place the letter's temperature can be heard.
+
+> So grant us a sound and healing answer, for we do not travel the road of arrogance and dismissiveness.
+> Attribution: the closing request of the near document.
+
+Valediction, quoted in full and left as transmitted:
+
+"Praise be to Allah, Most High, Almighty, Most Exalted, and may the blessings of Allah be upon His Messenger to all humankind and jinn, and upon his family and companions, who are clear vessels of the meanings of the Qur'an, unchanged through the passage of ages, peace, mercy, and generosity be upon them. Allah is our Protector."
+
+Attribution: the closing valediction of the near document.
+
+- Part 1, the request read as a claim about method: the near letter disavows arrogance and dismissiveness while asking for a sound and healing answer.
+- Part 2, the letter that follows: makes the opposite accusation, naming arrogance, licentiousness and envy in the strongest terms available.
+- Part 3, the phrase that does more than decorate: clear vessels of the meanings of the Qur'an, unchanged through the passage of ages.
+- Annotation: the meanings of the Book are held in people who transmit them without the transmission degrading, and that is what keeps the Book intelligible across time. What earlier chapters established about where knowledge sits stands behind the clause, spent rather than re-argued.
+
+The correspondence ends. What is attached next seems to have nothing to do with fasting.
+
+## The Moon's Own Timetable, the eclipse that keeps an appointment
+
+Annotated structure. Whole: the eclipse attachment, and the damage on its face.
+
+- Part 1, the teacher: our master Zayd ibn Muhammad, in his message attached to the hidden interpretation of the eclipse prayer.
+- Part 2, the damage: a fragment reading His soul sits where a blessing on the speaker would normally go.
+- Part 3, handled by reproduction, not reconstruction.
+
+Process flow. The message's own argument, from creation to the last age.
+
+Start: Allah, Blessed and Exalted, when He created creation, decreed among them wonders
+  ↓
+A broken clause: the first to believe ended it
+  ↓
+And made all that was created in the first age a proof for the people of the last age
+  ↓
+End: what was made at the beginning is evidence for those who come at the end
+
+Reading: the world's oldest regularities are arguments addressed to the latest generation. The broken clause's first half cannot be recovered, its second half is clear and load bearing.
+
+Annotated structure. Whole: the specific wonder, the eclipse of the moon.
+
+- Part 1: He made the eclipse of the moon a covering for it.
+- Part 2: He decreed that its covering falls on the fourteenth night of the month.
+- Part 3: it may sometimes fall on the thirteenth night.
+- Part 4: the majority of eclipses occur on the fourteenth night.
+- Part 5: all of this contains signs and arguments for Allah.
+- Annotation: the covering has a date, and a decreed one rather than one noted after the fact.
+
+Contrast pair. What an eclipse looks like, against what this message says it is.
+
+Column A: the eclipse in the register of dread
+- The sky's most frightening irregularity
+- The one occasion the law itself answers with a prayer, as the earlier teaching established
+- Read as the sky breaking its own rules
+
+Column B: the eclipse as this message describes it
+- Not irregular at all
+- Dated in advance by decree, the fourteenth night, occasionally the thirteenth
+- A sign and an argument rather than a rupture
+
+Shared row: the thing that looks like the sky breaking its own rules turns out to keep an appointment.
+
+Comparison matrix. The figures the evidence supplies, and why they do not agree.
+
+| Figure as given | What it measures | Status |
+|---|---|---|
+| Twenty-eight nights of every month | The moon absent and hidden from the world | Not the moon anyone observes. Irreconcilable from inside the slice |
+| Two days and two nights | The moon absent and concealed | Given in the same sentence as the first figure |
+| Forty-eight hours | The same absence, restated | The figure the passage goes on to use and repeat |
+| Reappearance after forty-eight hours | The return | Consistent with the two figures above |
+
+Rule applied: the twenty-eight is left standing and named as damaged rather than quietly corrected, because a repaired number would be this chapter's invention, not its source's claim.
+
+Process flow. What the passage does, and what survives the damage.
+
+Start: the moon disappears for a fixed span, and returns
+  ↓
+The covering falls on a fixed night
+  ↓
+These are decrees rather than accidents
+  ↓
+A decree can be known in advance
+  ↓
+End: the same conclusion the first half of this movement reached with a preposition
+
+Reading: the moon has a timetable of its own. Your eye is how you find out where the moon is on it, not what puts it there.
+
+Genealogy chain. The hinge, and how the attachment reaches its recipient.
+
+The blessed message on the matter of the month of Ramadan → attached to the obligation of fasting the month of Ramadan → addressed to our master and Mawlana, the summoner of the age, Ahmad Hamid al-Din ibn Abdallah al-Kirmani, may his intercession avail us → who is the proof of our master al-Hakim bi-Amr Allah, the Commander of the Believers, may God bless him and grant him peace → the rest of this chapter is his reply
+
+## The Necessary Message on Fasting
+
+Annotated structure. Whole: the far document's opening, and the clause that is its thesis in miniature.
+
+> In the name of God, the Merciful, the Compassionate, and in Him I place my trust.
+> Attribution: the opening line of the necessary message.
+
+> Praise be to Allah, by whose grace good deeds are accomplished, and through obedience to His guardians, blessings prevail. May Allah bless His messenger and His servant Muhammad, the best of people, the pride of those who came before him among the noble messengers, the righteous among the righteous, the light of guidance and the luminaries in darkness. And thereafter.
+> Attribution: the doxology of the necessary message.
+
+Column A: good deeds are accomplished
+- By what: grace
+- What it covers: the doing of the deed
+
+Column B: blessings prevail
+- By what: obedience to His guardians
+- What it covers: the outcome that follows the deed
+
+Shared row: laid down before any argument begins. Whatever is said about months and moons ends up being about obedience.
+
+Annotated structure. Whole: the occasion, as the correspondent gave it.
+
+- Part 1: the people of division and disagreement, in the habits they have adopted.
+- Part 2: have driven a wedge against the people of truth and the coalition.
+  - Callout: not an argument lost but a community split off and made conspicuous.
+- Part 3: and have said much in challenging them regarding the community.
+  - Callout: sustained public criticism, not a scholar's objection in a book.
+- Part 4: opposing them in beginning the fast before the general public.
+  - Callout: the substance is embarrassingly concrete.
+
+Annotated structure. Whole: the request, with its date and its scandalous detail.
+
+- Part 1: clarify entering the fast among the Shi'i community of the Commander of the Faithful, may God's peace be upon him.
+- Part 2: the fast of the year four hundred, obligated by commands received from the Immaculate Prophet.
+- Part 3: entering it two days before the crescent moon was sighted with our own eyes.
+- Part 4: and address the problem with a clear statement, explanation, and proof.
+- Annotation: nobody claims a sighting the critics missed, or a cloud, or a dispute about the horizon.
+- Annotation: the fact the epistle exists to justify stands at the front in the plainest words, before a proof is offered.
+
+Contrast pair. How the shape of the argument changes here.
+
+Column A: the crescent question until now
+- A question about the month, how long it is and whether it can shrink
+- What the reports about watching for it were addressing
+- A question you can lose quietly
+
+Column B: the question from here
+- A dated year, four hundred, and a practice already carried out in public
+- An audience that found it ridiculous
+- A question you cannot lose quietly
+
+Shared row: the previous chapter argued that the fast begins by following rather than by squinting at a horizon. Here is what that looks like done.
+
+Annotated structure. Whole: the letter's account of itself.
+
+- Part 1, the acceptance: I therefore resolved to set that forth in a letter citing some of the proofs.
+- Part 2, the compressed sentence on what kind of answer it means to be: the healing answer does not alarm the discerning eyes of the saints in the structure of its arguments, and it warms the hearts of the notables while those who violate its meanings are left behind.
+  - Callout: the phrasing resists a clean reading and is reproduced rather than smoothed. Its legible direction is that such an answer holds up under expert scrutiny, comforts those who receive it, and leaves behind only those who will not take its meanings seriously.
+  - Callout: the phrase itself, the healing answer, is what the previous letter asked its opponents for.
+- Part 3, the invocation: I therefore say, with the help of Allah and His guardians in His land, peace and blessings be upon them.
+- Part 4, the title: and I label it, the necessary message on fasting the month of Ramadan.
+- Part 5, the claim: it contains arguments that bind all Muslims, and no one loyal to reason and sense can turn away from them. Allah is the guardian of right success.
+
+Contrast pair. The claim the letter does not make, against the claim it does.
+
+Column A: the expected claim from a minority practice
+- Here is why our community may keep its own reckoning
+- Ground held: our own authorities, addressed to those inside
+
+Column B: the claim actually made
+- Here are arguments binding on everyone
+- Ground held: reason and sense, addressed to all Muslims, including the critics
+
+Shared row: the letter names itself, which tells you it was written to circulate. It intends to win on common ground.
+
+## The Necessary Message on Fasting, the diagnosis before the proof
+
+The heading changes, and what follows is not yet an argument about fasting. It is a diagnosis of the other side, running uninterrupted from an opening invocation to a closing prayer.
+
+Process flow. The conditional the diagnosis opens with.
+
+Start: know, may Allah protect you from ignorance and guard you from the way of misguidance
+  ↓
+Condition, had the people of opposition possessed discernment and insight
+  ↓
+Condition, or had they a share in reason and understanding
+  ↓
+Condition, or been divided from it, a clause that arrives damaged and is left as it stands
+  ↓
+Consequence, the devil's machinations would have been repelled and their concern would have been for the truth
+  ↓
+End: they would be among those whom Allah excepts in His Book
+
+Reading: the problem named is not bad reasoning but equipment not in use.
+
+> "They will always be in disagreement except those upon whom your Lord has mercy."
+> Quran 11:118 to 119
+
+Contrast pair. The hard structure of the verse chosen to anchor the diagnosis.
+
+Column A: disagreement
+- Status: the default, permanent rather than a temporary failure
+- How it arrives: by itself
+
+Column B: agreement
+- Status: an exemption, lasting as long as mercy holds
+- How it arrives: granted rather than achieved
+
+Annotated structure. Whole: the fall, as the letter describes it.
+
+- Part 1: they mounted the steed of passion.
+  - Callout: a chosen mount. Someone climbs onto it.
+- Part 2: the causes of personal opinion overwhelmed them.
+  - Callout: personal opinion is named as a cause of the overwhelming, not a harmless alternative method.
+- Part 3: the devil gained hold of them and they followed him, all except a company of true believers.
+- Annotation: reasoning from one's own view, where an authority exists, is not a rival procedure but the mechanism of the fall.
+
+> "Have they not traveled through the earth so that they may have hearts with which to reason, or ears with which to hear? For it is not the eyes that go blind, but it is the hearts within the breasts that go blind."
+> Quran 22:46
+
+Contrast pair. Why that verse sits at the centre of a dispute about seeing.
+
+Column A: what the controversy has been about
+- Whose eyes, on what ground, under what sky, at what hour
+- Sighting as the trigger of an obligation
+
+Column B: what the verse says
+- Eyes are not where blindness happens, the heart within the breast is
+- The failure is one of reasoning, or of hearing, of taking in what is there
+
+Shared row: its placement in a quarrel about a crescent is not accidental.
+
+Contrast pair. The two images the letter sets side by side.
+
+Column A: the camel
+- Wallows, as animals do
+- Indifferent, and at home in it
+
+Column B: the dead
+- Do not feel
+- Past the reach of evidence altogether
+
+Shared row: a strong thing to say about a party you are about to spend a whole epistle trying to convince.
+
+> "Dead, not alive, and they do not perceive."
+> Quran 16:21
+
+Process flow. The diagnosis converging on one named failure.
+
+Start: they died to the knowledge of realities and turned a blind eye to them
+  ↓
+Driven by arrogance toward the people of truth, by desire and contention
+  ↓
+They became like beasts in their disputes, hesitating in their blindness, running without discernment or insight
+  ↓
+Unaware of the division and separation Allah has forbidden, except out of their licentiousness, arrogance, and envy
+  ↓
+End: their refusal to obey the one whom Allah has made obligatory to obey from among the rulers of the Command
+
+Reading: the blindness, the passion, the beasts, the dispersal all converge on a refusal of obedience to a person. Not a doctrinal error, not a miscalculation.
+
+> "And do not be like those who dispersed and disagreed."
+> Quran 3:105
+
+Annotated structure. Whole: the two quotations on referral.
+
+- Part 1, the first quotation: Whatever you dispute about, refer it to Allah and the Messenger.
+  - Callout: given without a reference, because the wording as the source transmits it cannot be securely assigned to one verse.
+- Part 2, the second quotation: the operative one, and the destination the admonition was built to reach.
+- Part 3, what it adds: not merely that disputes should be referred, but what happens when they are.
+- Annotation: referral is not deference that leaves the question where it was. It is the procedure by which the answer becomes available.
+
+> "And if they had referred it to the Messenger and to those in authority among them, those who can draw conclusions from it would have known it."
+> Quran 4:83
+
+Contrast pair. What the scandal of the year four hundred was, on this letter's account.
+
+Column A: what the critics take the dispute to be
+- One party calculated, another squinted at a horizon
+- The disagreement is about method
+
+Column B: what the letter says it is
+- There was somewhere to refer the question, and one party referred it
+- The disagreement is about whether referral was made
+
+Shared row: this is why the diagnosis comes before any astronomy or lexicography. A dispute about when the month begins is, on this account, solved and has a known address.
+
+Annotated structure. Whole: the closing prayer, and who it is for.
+
+- Part 1: arrogance, licentiousness, envy, and disobedience to the people of truth prevent one from standing upon the facts and leaving the company of the people of ignorance.
+- Part 2: whoever opposes the people of truth and persists in his blindness brings himself to ruin and evil, the word of punishment justly applies to him, and he earns the verse of chastisement.
+- Part 3, the three refuges sought: from division after unity, from tyranny after faith, and from disobedience to His guardians, Allah's prayers be upon them, after submission and belief.
+- Part 4, the petition: we ask Him to make us among those who win His mercy by obeying Him and obeying His guardians, for He is ever good and responsible.
+- Annotation: each refuge names a loss of something once held, and nobody who never had them can suffer them. The prayer ends on the speaker, not the opponent. It is for his own side.
+
+## Nothing Created Without Its Pair
+
+Hierarchy tree. The obligation confirmed from three authorities in three consecutive sentences.
+
+- Level 1: the obligation to fast the month of Ramadan
+  - Level 2: the explicit text of the Book
+  - Level 2: the Prophet, peace and blessings of Allah be upon him, and his family
+  - Level 2: the Imams, peace be upon them
+
+> "Fasting has been prescribed for you as it was prescribed for those before you, so that you may become righteous."
+> Quran 2:183
+
+> Sha'ban is a month and Ramadan is the month of Allah, and fasting is obligatory.
+> Attribution: the Prophet, peace and blessings of Allah be upon him, and his family.
+
+> Fasting the month of Ramadan is obligatory upon every Muslim.
+> Attribution: the Imams, peace be upon them.
+
+Reading: the verse has been through this book before and is not re-taught. Its function is what matters. The fast is commanded in plain text, so nothing that follows argues whether to fast. Everything at issue is when.
+
+Contrast pair. The asymmetry inside the short prophetic saying.
+
+Column A: Sha'ban
+- Named as: a month
+- Attributed to: nobody in the saying
+- Consequence: its length raises no special question
+
+Column B: Ramadan
+- Named as: the month of Allah
+- Attributed to: God, in a way the other is not
+- Consequence: the question of its length is different in kind
+
+Shared row: the same unit of the calendar, stated here without being developed.
+
+Annotated structure. Whole: the sentence on knowledge of the fast's time, muddled in transmission.
+
+- Part 1, as it begins: when Allah Almighty imposed the fast of the month of Ramadan upon His servants, He did not leave them.
+- Part 2, as it specifies: the Prophet, peace and blessings of Allah be upon him, and his family, blind to the knowledge of its time.
+- Part 3, the comparison: just as He did not leave them ignorant of how to fulfill other obligatory duties, such as the number and times of prayers.
+- Annotation: the them who were not left blind shifts mid clause, so the muddle is left visible rather than tidied.
+- Annotation on the two readings, which are not the same claim: God did not leave the community without access to the fast's timing, or He did not leave the Prophet and his family without knowledge of it. The second is stronger and is the one the argument uses.
+
+Comparison matrix. The analogy of specified measures, obligation by obligation.
+
+| Obligation | What is specified | What is not guessed |
+|---|---|---|
+| The prayers | Their number and their times | Not estimated each day from the look of the sky |
+| Zakat | The amount owed on each category | Coin, herds, watered ground, the head of every person, as earlier chapters catalogued |
+| The fast | Its time | The month's beginning, the point at issue |
+
+Rule stated: the religion does not command an obligation and leave its measure to be guessed at.
+
+> Fast at the sighting of it and break the fast at the sighting of it.
+> Attribution: the report both parties accept, quoted by the letter.
+
+Annotated structure. Whole: the concession, made without reluctance and made precise.
+
+- Part 1: on this narration there is scarcely any disagreement among the sects of Muslims.
+- Part 2: it is the pillar upon which the people of the outward rely in their argument.
+- Annotation on what is not said: the report is not called weak, nor given a defective chain, nor called one transmitter's isolated testimony.
+- Annotation on what is said: granted as something nearly all Muslims accept, credited as the load bearing support of the opposing case.
+- Annotation on method: the letter fights on the other side's strongest ground with the other side's own material, the method the previous chapter identified, arriving from a different writer.
+
+Contrast pair. What the claim about pairs says of creature and Creator, introduced by a connective doing enormous work, we therefore say that Allah Almighty created all things in pairs.
+
+Column A: everything created
+- Condition: made double
+- What it may never be: alone without a counterpart
+- Why: solitary oneness is not a condition anything created may be in
+
+Column B: the Creator
+- Condition: single, and nothing shares with Him in His oneness
+- What marks Him off: uniqueness itself
+- Why: uniqueness is not a property things have, it is what marks off the one who made them
+
+Shared row: the claim is about what kind of universe the law is legislating for.
+
+> "Glory be to Him who created all the pairs."
+> Quran 36:36
+
+> "And of all things We have created pairs, that you may remember."
+> Quran 51:49
+
+Reading: the second verse adds the purpose, and it is not decorative. Pairs exist that you may remember. The world's doubleness is a standing reminder, written into everything, of the one thing that is not double.
+
+Comparison matrix. The survey of pairs, offered as observation rather than as doctrine, sorted by kind of pairing.
+
+| Pair as given | Kind of pairing |
+|---|---|
+| Essence and extension | Two orders of one being |
+| Sky and earth | Two regions, above and below |
+| Land and sea | Two regions, dry and wet |
+| Plain and mountain | Two regions, low and high |
+| Night and day | Two phases of one cycle |
+| Good and evil | Two valuations, each defined against the other |
+| Body and soul | Two constituents of one creature |
+| Outward and inward | Two aspects of one thing, the book's working distinction |
+| This world and the next | Two abodes, the second named by contrast with the first |
+| Male and female | Two kinds within a species |
+
+Rule applied: the list is not one kind of pairing, and what holds it together is not likeness. In every case there are two, neither intelligible on its own. You do not know what inward means without an outward to set it against. Other things could be enumerated at length.
+
+Annotated structure. Whole: cosmology turned into law.
+
+- Part 1, the observation: the Prophet, peace and blessings of Allah be upon him, established the foundation of his law and its governing principle by pairing commands and duties with their counterparts.
+- Part 2, the purpose: pointing thereby to what has been said about the singularity of Allah's oneness.
+- Annotation: the revealed law reproduces the created world's structure on purpose.
+- Annotation: a law made of pairs never lets you mistake any of its parts for the One.
+
+Hierarchy tree. The seven paired institutions, ordered from the largest inward.
+
+- Level 1: whole institutions of the religion
+  - Level 2: prayer, paired with zakat, shown inseparable by the book's own chapters on giving
+  - Level 2: the call to prayer, paired with the iqama, the call and its answering call, given a chapter of its own
+  - Level 2: Hajj, paired with Umrah, the greater pilgrimage and the lesser
+- Level 1: paired elements inside a single rite
+  - Level 2: al-Safa, paired with al-Marwa, two hills that must both be walked
+  - Level 2: the obligatory prayer, paired with the Sunnah prayer
+  - Level 2: bowing, paired with prostration, two postures inside a single prayer
+- Level 1: the shortest thing a person can say
+  - Level 2: the testimony that there is no god but Allah, paired with the testimony that Muhammad is the Prophet of Allah
+    - Level 3: the one naming God, and the one naming the man who brought the message about Him
+
+Reading: the series is not random. It works inward, and many other examples could be mentioned. Every layer of the religion is built in twos.
+
+Annotated structure. Whole: where the slice stops, and what is withheld.
+
+- Part 1, assembled: the sighting report named as the pillar of the opposing case.
+- Part 2, laid out: a universe and a law where nothing stands alone and every command has its counterpart.
+- Part 3, where the next sentence is going: if everything in the law comes paired, a report about sighting is one half of something.
+- Part 4, the handling: that sentence is not in this chapter and is not manufactured.
+- Annotation: what this chapter delivers is the premise, fully built, the conclusion still on the following page.
+
+## What this episode lands
+
+Contrast pair. The seam, each side saying the same thing in its own idiom.
+
+Column A: the near document, closing
+- Last act: reading a preposition
+- The Prophet and his family fasted at the sighting, meaning at the moon's emergence
+- The community fasts at the sighting, meaning so that it may be seen
+- Two questions left behind: find the varying month in the Book, and say why the Messenger did not simply say after seeing it
+- Closing posture: a sound and healing answer asked for, arrogance disavowed
+
+Column B: the far document, opening
+- First act: naming a public embarrassment
+- Year four hundred, the fast begun two days before the crescent was seen with their own eyes
+- Self titled the necessary message on fasting the month of Ramadan, claiming arguments binding on all Muslims
+- Diagnosis before proof: disagreement is permanent unless mercy exempts, the heart goes blind and not the eye, the failure is a refusal to obey
+
+Shared row: both treat when a month begins as a question with a known answer, not one about who has the clearest horizon.
+
+Process flow. The attachment in the joint, and why the damage does not cost the argument.
+
+Start: the covering falls on the fourteenth night, occasionally the thirteenth
+  ↓
+Absence and return run on a fixed span of two days and two nights
+  ↓
+The other figure, twenty-eight nights, contradicts its own sentence and is left standing as damaged
+  ↓
+End: the argument is about periodicity, and the most alarming thing the sky does keeps an appointment
+
+Visual metaphor. Relation: the state in which this chapter leaves the argument. Metaphor: a bridge built to its last span.
+
+- The near bank: the sighting report, granted at full strength as the pillar of the opposing case.
+- The span built: everything made is made in pairs, because solitary oneness belongs to God alone.
+- The span built: the law reproduces that structure on purpose, from prayer with zakat down to the two testimonies.
+- The far bank: the conclusion about the sighting report, on the following page.
+Reading: a report about sighting has been placed in a world where nothing is ever one thing by itself. What its counterpart is, this chapter does not say.

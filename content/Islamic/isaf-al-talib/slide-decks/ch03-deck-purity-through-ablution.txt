@@ -1,0 +1,550 @@
+# Purity Through Ablution
+
+## Where this episode opens
+
+Annotated structure. Whole: one chapter of Iṣāf al-Ṭālib that reads like a working jurist's notebook on ṭahārah, assembled from gathered questions and transmitted answers rather than from a single definition.
+
+Parts, with position and annotation:
+- Top band, the gathered sources: questions from books of da'wa, short answers from masters, Mukhtasar al-Musannaf, Ta'wil al-Da'a'im, Ta'wil al-Shari'ah, the Four Hundred Etiquettes, the Mustanṣiriyya councils. Annotation: no single voice, many authorities converging on one subject.
+- Second band, the bodily practice: water, intention, washing, wiping, order, etiquette, concealment, invocation. Annotation: purity as trained attentiveness before it is a doctrine.
+- Third band, the practical judgment: dryness, wounds, disability, contaminated water, used water, large pools, uncertain vessels, tayammum. Annotation: the law meeting real pressure without losing precision.
+- Fourth band, the opening inward: outward water against visible filth, inner water against doubt and ignorance. Annotation: the ta'wil the whole chapter has been preparing.
+- Floor beneath all four: faith defined, rank guarded, communal affection disciplined in the earlier chapters. Annotation: assumed, never re-argued here.
+
+Cross-axis reading: depth is movement from body toward soul, width is how many circumstances a rule covers. The chapter descends inward and widens outward at once.
+
+Comparison matrix. Rows are the bodies of material this chapter is built from.
+
+| Material | What it settles |
+|---|---|
+| Books of da'wa | The awkward cases nobody writes a definition for |
+| Mukhtasar al-Musannaf | What causes wudhu' to be lost |
+| Commentary on the pillars | Interruption, continuity, the waived limb |
+| Mustanṣiriyya councils, fifth council | Seven obligations, twelve Sunnahs, the ghusl types |
+| Four Hundred Etiquettes | Invocation, modesty, siwak, children's hands |
+| Ta'wil al-Shari'ah | Direction, covering, speech, and the tranquil heart |
+| Book of Clarification | Laundering clothes, the neglected hollow |
+| Majlis al-Bayan | A second recension, memory stabilized through variation |
+| Zayd ibn Muhammad ibn al-Fadl | Knowledge as the inner water |
+
+Process flow. The chapter's stated inner movement, as three ordered stages with one gate at the end.
+
+Start: purity as disciplined bodily practice, water, intention, ordered limbs.
+  Down to: purity as legal judgment, the same discipline tested by dryness, injury, scarcity, doubt.
+  Down to: purity as ta'wil, outward water for visible filth, inner water for doubt and ignorance.
+End gate: a seeker fit to stand in prayer and fit to receive knowledge, shown to be the same fitness.
+
+Contrast pair. What the earlier chapters settled, against what this chapter adds.
+
+Column A: The earlier foundation
+- Subject: faith as knowledge joined to action, rank held without inflation, affection made law.
+- Locus: belief, standing, communal conduct.
+- Question answered: who is the seeker, and to whom does he belong.
+
+Column B: This chapter's contribution
+- Subject: ṭahārah, the first pillar-like body of law, in its obligations, Sunnahs, exceptions, and inner reading.
+- Locus: the body, the water, the vessel, the place, then the soul.
+- Question answered: how that seeker becomes fit for prayer and for instruction.
+
+Shared row: both hold knowledge to be the life of faith. The first names its authority, the second makes ablution the map of how it reaches the soul.
+
+## Bodily purity
+
+Comparison matrix. Rows are the four opening questions on the circumstances around bodily impurity.
+
+| Question | Ruling | Operative criterion |
+|---|---|---|
+| Does the prohibition on urinating beneath fruit trees cover only trees bearing fruit | Both, trees in which fruit is present and trees possessing the characteristic of bearing it | Capacity, not only present condition |
+| May one address a person in a state of impurity, may a standing narrator of the da'wa speak or greet | The greeting is permitted, its return required, speech permitted | The duty of salām survives an awkward setting |
+| May a stone used after urination be used again once dry | Permitted | No remaining trace of impurity or moisture |
+| May a person continue an interrupted ablution | Permitted, unless the water has dried on the limbs already washed | The freshness of water on the limb, not elapsed time |
+
+Reading: the method is set by the first four answers. Purity is never abstract, it reaches where bodies act, eat, rest, and share space with other living things.
+
+Hierarchy tree. What nullifies wudhu', as listed by Mukhtasar al-Musannaf, grouped by the kind of bodily event.
+
+- Level 1: Loss of wakeful control
+  - Level 2: Sleep
+  - Level 2: Fainting
+  - Level 2: Madness
+- Level 1: Breach of bodily integrity
+  - Level 2: The exit of anything from the passage, wind or otherwise
+  - Level 2: Enemas
+- Level 1: Sexual contact
+  - Level 2: Intercourse, described by the disappearance of the glans into a living or dead body
+
+Reading: wudhu' is not a ceremonial refreshment. It is a state, and the list names the three ways it is lost.
+
+Process flow. The interruption rule, with its branch and its late correction.
+
+Start: ablution begun, some limbs washed.
+  Interruption, the person rises, walks, or is delayed.
+  Branch on one test, has the water dried on the limbs already washed.
+    - Path A, not dried: continuity holds. Continue from where the act left off.
+    - Path B, dried before completion: continuity has failed. Start over.
+  Separate branch, the ablution already complete and a dry spot then seen.
+    - The whole act is not repeated. The dry spot alone is wiped.
+End: one act of ablution, continued, restarted, or corrected at a single point.
+
+Reading: the body becomes the clock. The question is not elapsed time but whether the signs of ablution remain fresh.
+
+Annotated structure. Whole: the ruling on the amputated hand.
+
+Parts:
+- The obligation: washing the hand in wudhu'. Annotation: tied to a limb, not to an idea of a limb.
+- The condition: amputation at or above the elbow, nothing remaining below it. Annotation: the real body standing before the law.
+- The outcome: that washing is waived. Annotation: the law does not pretend a missing limb is present.
+- What is not waived: the person, who remains under the law entire. Annotation: relief is granted at the point of impossibility, nowhere wider.
+
+Process flow. The etiquette of relieving oneself, as an ordered sequence of invocations from Ali ibn Abi Talib, peace be upon him.
+
+Stage 1, the standing instruction:
+
+> Cleanse yourself with water of foul-smelling waste.
+> Ali ibn Abi Talib, peace be upon him, Four Hundred Etiquettes
+
+Stage 2, on wishing to relieve oneself:
+
+> In the name of God. O God, remove harm from me and keep the devil away from my body.
+> Ali ibn Abi Talib, peace be upon him, the invocation before relieving oneself
+
+Stage 3, on finishing:
+
+> Praise be to God, who fed me in health and expelled its harm from me in health.
+> Ali ibn Abi Talib, peace be upon him, the invocation after relieving oneself
+
+Stage 4, on looking at what has been expelled:
+
+> O God, grant me what is lawful and spare me what is forbidden.
+> Ali ibn Abi Talib, peace be upon him, the invocation of moral accounting
+
+Stage 5, the reason, from the saying of the Messenger of God, peace and blessings be upon him: every servant has an angel assigned to observe him when he relieves himself and looks at what he has produced. The angel asks God to grant him what is lawful, and reminds him to consider where he took it from and what became of it.
+
+Reading: the sequence turns an ordinary bodily moment into gratitude and accounting. Food is not morally neutral once it becomes part of the body.
+
+The compact rule the source states next:
+
+> If sleep touches the heart, wudhu' becomes obligatory.
+> Cited in the chapter as the governing rule on sleep
+
+Annotation: sleep is named by the heart, not the eyelids. What is lost is the wakeful presence prayer requires.
+
+Contrast pair. Two cases judged differently because the question differs.
+
+Column A: The forgotten invocation before major impurity
+- Facts: assistance not sought, then prayed until the time had passed before remembering.
+- Judgment: the prayer must be repeated.
+- Principle: one does not pray while in a state of impurity.
+
+Column B: Performing wudhu' naked where one might be seen
+- Facts: washing in an exposed place, no certainty that anyone sees him.
+- Judgment: immersion is preferable from the standpoint of good conduct, and if no one sees him the nakedness carries no objection. It is preferable that he pray with the purity already performed.
+- Principle: the issue is modesty, visibility, and conduct, not the water alone.
+
+Shared row: purity is more than water touching skin. One case turns on the state of the body, the other on the conduct of the person.
+
+Process flow. The twelve points of etiquette from the Book of the Interpretation of the Shari'ah, ordered as entry, conduct, and exit.
+
+Entry:
+  1. Do not enter the open space except wearing sandals.
+  2. Advance the left foot when entering.
+  3. Cover the head until exiting.
+Conduct within:
+  4. Do not face the qiblah or turn one's back to it.
+  5. Cover oneself.
+  6. Lean to the left side.
+  7. Do not linger in the open space.
+  8. Do not relieve oneself on smeared surfaces, branded places, dung, soft earth, human waste, branded surfaces, or worn bones. Use three clean stones instead.
+  9. Cleanse with the left hand.
+  10. Do not pour water on excrement.
+  11. Do not speak until exiting.
+Exit:
+  12. Advance the right foot when leaving.
+
+Adjacent rules held in the same order: do not return to the very stone or place where one relieved oneself, but move away. Do not urinate in burrows, the shelter of snakes and serpents. From the Book of Clarification, Gabriel commanded the Messenger of God, peace and blessings be upon him, on behalf of his Lord, to wash and launder his clothes when performing wudhu'. Another report says not to neglect the finkh, the sides of the hollow passage.
+
+Reading: the twelve train direction, covering, pace, speech, and respect for place. The burrow rule carries that discipline into the shared world.
+
+The two sayings that gather the legal material:
+
+> It is not permissible to pray without wudhu'.
+> Transmitted saying gathered in the chapter
+
+> Prayer is not accepted without purity.
+> Transmitted saying gathered in the chapter
+
+Annotation: prayer is the test. Purity is not a refinement added afterward, it is the condition of standing before God.
+
+Annotated structure. Whole: the body as the chapter maps it, each part carrying a named discipline drawn from the sayings of Ali ibn Abi Talib, peace be upon him.
+
+Parts, with annotation:
+- Mouth and nose. Rinsing the mouth and inhaling water into the nose cleanse them and are Sunnah.
+- The whole body in cold water. Seeking purification with cold water cuts off hemorrhoids.
+- Wudhu' upon wudhu'. Wudhu' after purification earns ten good deeds.
+- The tongue, before water touches him:
+
+> In the name of God. O God, make me among the repentant and among the purified.
+> Ali ibn Abi Talib, peace be upon him, the invocation before purification
+
+- The uncovered body. When a man is naked Satan looks at him and covets him, so he should conceal himself. It is not permissible for a man to uncover himself and sit in the presence of others.
+- Children's hands. They should be washed after eating, because Satan smells food remnants, the child is frightened in sleep, and the scribes are harmed.
+
+Reading: mouth, nose, hands, eyes, ears, beard, ring, clothing, sandals, stones, vessels, waste, and children's hands belong to one practice. The source divides neither devotion from hygiene nor invocation from water.
+
+## The seven obligations and the twelve Sunnahs
+
+Hierarchy tree. The order of purity as the fifth Mustanṣiriyya council gives it.
+
+- Level 1: Purity
+  - Level 2: Guardianship, which is called purity
+  - Level 2: Ablution, the lesser purity
+    - Level 3: Seven obligations
+    - Level 3: Twelve Sunnahs
+  - Level 2: Ghusl, the greater purity, washing the whole body
+    - Level 3: Seven obligatory types
+    - Level 3: Twelve recommended types
+
+Preceding frame from the same council: religious obligations are connected to numbers, glad tidings, glorification, nineteen, seven, and twelve. Here the use is narrow and legal. Seven and twelve organize the act itself.
+
+Process flow. The seven obligations of ablution, in the order the council names, because order is itself the seventh.
+
+Before the body:
+  1. Pure water.
+  2. Intention.
+Then the body, in sequence:
+  3. Washing the face.
+  4. Washing the hands.
+  5. Wiping the head.
+  6. Wiping the feet.
+Governing the sequence:
+  7. Order, beginning with what Allah began by mentioning.
+
+Reading: ablution is not a random wetting of the body. The worshipper invents no arrangement, he begins where Allah began.
+
+Comparison matrix. The twelve Sunnahs in two recensions, the fifth council against Majlis al-Bayan, which the chapter gives with slight variation.
+
+| Sunnah act | Fifth Mustanṣiriyya council | Majlis al-Bayan |
+|---|---|---|
+| Opening act | Invocation | Thoroughness |
+| Before the vessel | Washing the hands before inserting them into the vessel | Washing the hands before the vessel |
+| Naming | Pronouncing the name of Allah when sitting for ablution | Pronouncing Allah's name |
+| Mouth | Rinsing the mouth | Rinsing the mouth |
+| Nose | Inhaling water into the nose | Inhaling into the nostrils |
+| Ring | Moving the ring so water reaches beneath it | Moving the ring |
+| Beard | Combing through the beard | Combing the beard |
+| Eyes | Drawing water from the eyes | Moistening the eyes |
+| Side or approach | Applying water from the right side | Pouring water from the steps |
+| Ears | Wiping the inner and outer ears | Wiping the ears |
+| Repetition | Washing the face a second and third time after the obligatory first wash | Each act three times, the first obligatory, the second and third Sunnah |
+| Teeth | Using the siwak | Using the siwak |
+
+Reading: the variation is a teaching method meant to stabilize memory. The Sunnahs do not replace the obligations, they surround them.
+
+Comparison matrix. The two registers of ghusl, obligatory against recommended.
+
+| Register | Count | Occasions |
+|---|---|---|
+| Obligatory | Seven | Ghusl from janabah; following menstruation; when a disbeliever enters Islam; when one who has lost consciousness regains it; following nifas; after contact with ritual impurity; washing the deceased, a communal obligation upon the living until someone fulfills it |
+| Recommended | Twelve | Friday; Eid al-Fitr; Eid al-Adha; entering ihram; entering the Haram; entering the Ka'bah; entering Madinah; the day of Arafah; the nineteenth night of Ramadan; the twenty-first night; the twenty-third night; ghusl connected with washing the deceased |
+
+Timeline. The same occasions read along a life, with era bands marked.
+
+Daily: after sleep, after bodily discharge, before prayer.
+Weekly: Friday.
+Cyclical: after menstruation, after nifas, after sexual impurity, after fainting or madness.
+Annual: Eid al-Fitr, Eid al-Adha, the day of Arafah, the nineteenth, twenty-first, and twenty-third nights of Ramadan.
+Once, at entry: when a disbeliever enters Islam.
+At sacred thresholds: entering ihram, the Haram, the Ka'bah, Madinah.
+At the end: washing the deceased, and the ghusl connected with that washing.
+
+Period bands: the ordinary day, the marked week, the sacred year, the single threshold, the final rite.
+
+Reading: the body is not an obstacle to religion. It is where obligation is enacted, through a body repeatedly prepared.
+
+## Purity under conditions
+
+Named-axis 2x2. The central legal tension of this movement, which is how omission is judged.
+
+Axes:
+- Horizontal: the status of what was omitted, Sunnah on the left, obligation on the right.
+- Vertical: the state of the worshipper, unaware or forgetful at the bottom, knowing at the top.
+
+Quadrants:
+- Bottom-left, Sunnah and forgetful: invocation, mouth-rinsing, or nasal inhalation omitted unintentionally. Nothing is required, the prayer stands.
+- Top-left, Sunnah and knowing: these should not be deliberately abandoned. Blameworthy as conduct, yet the omission still does not invalidate the prayer.
+- Bottom-right, obligation and forgetful: people perform wudhu', forget to wash hands and face, pray, and remember only after the time has passed. The prayer is not repeated.
+- Top-right, obligation and knowing: a person enters prayer, then remembers an impurity. One may not pray knowingly with impurity until it is washed away.
+
+Reading: the source refuses two mistakes at once. It does not reduce the Sunnah to nothing, nor turn every omitted detail into an invalid prayer. The obligation is to purify away ritual impurity, because removing impurity is what is obligatory.
+
+Contrast pair. Preference against validity, which the chapter keeps separate in two rulings.
+
+Column A: The preferred act
+- Eyes: wetting the eyes while washing the face, washing the face while drinking from the eyes, is preferable.
+- Body in an exposed place: immersion in water is preferable from the standpoint of good conduct.
+- Repetition: three washes is better than two or one.
+
+Column B: The valid act
+- Eyes: if a person does not wet the eyes, his wudhu' remains valid.
+- Body in an exposed place: if no one sees him, nakedness carries no objection.
+- Repetition: the first wash is the obligation, the second and third are Sunnah.
+
+Shared row: the better act reaches further, the valid act still stands. Neither column is allowed to swallow the other.
+
+Comparison matrix. Rows are the conditions of injury and inability, columns are the remedy and its limit.
+
+| Condition | Remedy | Limit of the remedy |
+|---|---|---|
+| Wounds or boils water cannot touch | Wiping over dressings and coverings | In wudhu' and in ghusl alike |
+| Removing the dressing would cause harm | Wiping over the covering | The harm must be real, cold or severe injury |
+| Smallpox, wounds, or the like, at ghusl | Water poured generally over the body | While no harm is feared |
+| Fear of harm from water | Tayammum | Whether travelling or at home |
+| The upper foot exposed, the sole underneath | The sole is an obligatory part over which wiping is required | No convenient substitute counts, the place of obligation stays named |
+| A man with broken hands | His owned slave girl performs wudhu' for him | The source's own social category, presented as given |
+| No such person, and his wife unavailable | He completes it as best he can and prays | Inability does not remove prayer |
+
+Reading: compassionate without becoming vague. The wound never removes the concern for purity, it is fulfilled according to the person's actual condition.
+
+Process flow. The two suspect vessels, the chapter's clearest case of uncertainty.
+
+Start: two vessels present, one contains impurity, the person does not know which.
+  Test: can the uncertainty be resolved.
+  Branch, unresolved:
+    - Do not perform ablution with either vessel.
+    - Perform tayammum.
+    - Pray.
+End: the prayer stands and no sin falls upon him.
+
+Reading: where knowledge is unavailable the person is not told to gamble. The law does not demand impossible knowledge, it supplies a path through uncertainty that preserves worship.
+
+Annotated structure. Whole: the twelve places where prayer is disliked, grouped by what makes the place unfit.
+
+Parts, with annotation:
+- Places of death and slaughter: the cemetery, the slaughterhouse. Annotation: the setting is saturated by what happens there.
+- Places of animal keeping and refuse: pigeon coops, rubbish heaps, camel enclosures. Annotation: neglect and filth gather by habit, not by accident.
+- States of the worshipper himself: while drowsy, without an upper garment. Annotation: the place fails when the person is unready.
+- Contaminated ground and misused surfaces: on wet impure ground, on food. Annotation: the surface itself carries the objection.
+- Places of other worship: Jewish synagogues, Christian churches, and Zoroastrian places of worship, the last unless water has been sprinkled over them. Annotation: the source supplies one cleansing that changes the status.
+
+Reading: purity extends from the person to the place. Prayer requires a prepared body and a fitting setting.
+
+The inner condition, from the Book of the Interpretation of the Shari'ah: nothing but purity is to be sought for the purpose of ritual, and this requires a tranquil heart and soul, along with certainty that purity has been achieved and impurity removed.
+
+Annotation: this one sentence gathers the legal complexity. The lists aim at certainty, not endless anxiety. Seek purity, remove impurity, reach a settled heart.
+
+Visual metaphor. Abstract relation: thoroughness bounded by form, as Ja'far ibn Mansur al-Yaman and the summary of transmitted accounts give it.
+
+Metaphor: a spectrum with a named floor, centre, and ceiling.
+- Far left, deficient: washing once, or twice, is incomplete.
+- Centre, the Sunnah: each place washed three times, which is better. The mouth is rinsed and water inhaled three times, both Sunnah and not to be abandoned, and if omitted unintentionally nothing is required.
+- Far right, excess: more than three should not be done.
+- Two exceptions to the count: the private parts, washed until impurity is removed. In ghusl, washing until water drips and flows freely, and if water is insufficient, wiping as much of the body as it reaches.
+
+Reading: care is not excess. One can be careless by doing too little and disordered by doing more. Purity is disciplined completion, not compulsive repetition.
+
+## The judgment of water
+
+Comparison matrix. Rows are the water cases the chapter puts to the test.
+
+| Case | Judgment | Criterion applied |
+|---|---|---|
+| A ghadeer where people relieve themselves, water then flows in carrying filth and gathers above the threshold, no characteristic of impurity present | Permitted | The water overwhelms the impurity and stands well above the threshold stipulated in the Shari'ah |
+| A vessel filled beyond the threshold, impurity falls in, a characteristic manifests, more water is poured until the trace disappears | Permitted | The water does not become impure and stays above the threshold after the vessel has been purified |
+| A small amount of pure water used by one person with no impurity on his body, then by another and another | Permitted | The limbs carried no impurity and no impure runoff collected in a vessel |
+| Dust already used for tayammum | Permitted | Same principle as used water |
+| Water already used once for wudhu' | Permitted | Provided it has not mixed with impurity |
+| Large pools | Usable | Color, taste, and smell unchanged |
+| Rainwater into a large pool, clean and dirty mixed | Usable | Unless color, taste, or smell change |
+| Well water drawn with buckets | Usable in the given case | Drawing does not impair it |
+| A small amount of water changed significantly, impurity unknown | Caution required | Change present, cause unknown, certainty absent |
+| Rosewater and liquids extracted from plants by pressing or distillation | May not be used | Water holds a legal role no pleasant liquid inherits |
+
+Hierarchy tree. The criteria by which water is judged, gathered from the cases above.
+
+- Level 1: Quantity
+  - Level 2: The threshold stipulated in the Shari'ah
+  - Level 2: Overpowering, whether the water overwhelms the impurity
+- Level 1: Characteristics
+  - Level 2: Color
+  - Level 2: Taste
+  - Level 2: Smell
+- Level 1: Trace
+  - Level 2: Visible manifestation of impurity
+  - Level 2: Disappearance of the trace after more water is poured
+- Level 1: Container
+  - Level 2: Whether the vessel has been purified
+  - Level 2: Whether runoff collected as impure
+
+Contrast pair. Water against rosewater, which is the chapter's sharpest boundary.
+
+Column A: Water
+- Legal role: the appointed medium of ritual purification.
+- Basis of the role: appointment, not pleasantness.
+- What disqualifies it: threshold failure, changed color, taste, or smell, mixture with impurity.
+- Substitute when harmful or absent: tayammum, which the law itself names.
+
+Column B: Rosewater and pressed or distilled plant liquids
+- Legal role: none in purification.
+- Basis of exclusion: extraction from plants by pressing or distillation.
+- What cannot rescue it: fragrance, refinement, visible cleanliness.
+- Substitute status: not a substitute at any quantity.
+
+Shared row: both may be clean to eye and nose. Only one is the appointed medium, and the law is not simply about visible cleanliness.
+
+Process flow. The impure vessel, from the Prophet's ruling to the chapter's summary.
+
+Start: a dog laps from a vessel.
+  The Prophet, peace and blessings be upon him, says it should be washed seven times, the last with dirt.
+  The chapter's summary states it is washed seven times, the first with dirt.
+  Parallel case: the pig is treated the same.
+End: the vessel returns to use, restored by a fixed count rather than by inspection.
+
+Annotated structure. Whole: the remaining water and ring rules the source gathers here.
+
+Parts, with annotation:
+- Rainwater at the time of rain. Used beneficially while it falls.
+- A ring bearing the name of God. Not worn at the beginning of purification during major ritual impurity.
+- The arms, from a report of Abu Abdillah Ja'far ibn Muhammad. Not wiped from the elbow upward.
+- The hands. Wiping is obligatory for them because there is no hair on them, as there is with the head.
+- The interruption rule, repeated. One continues unless the water on the washed limbs has dried.
+
+The saying that bridges water law to the chapter's inner teaching:
+
+> Whoever does not purify himself with the sea, God will not purify him.
+> Transmitted saying cited in the chapter, with its interpretation given by the source
+
+Genealogy chain. The interpretation the source supplies, one chain per line, direction fixed.
+
+Water → purifies the body → and is not itself purified by anything else.
+Knowledge of the Imam → purifies the seeker → and is not itself purified by anything else.
+Whoever does not draw purification from him → will not be purified by anything else.
+
+Reading: the bridge stays attached to water law. The logic that makes water the appointed purifier outwardly makes knowledge the appointed purifier inwardly.
+
+## Inner water
+
+The two citations Zayd ibn Muhammad ibn al-Fadl places at the head of the ta'wil:
+
+> Indeed, Allah loves the repentant and loves those who purify themselves.
+> Qur'anic verse, cited by Zayd ibn Muhammad ibn al-Fadl
+
+> No prayer is accepted except with purity.
+> The Messenger of Allah, peace be upon him and his family, cited by Zayd ibn Muhammad ibn al-Fadl
+
+Contrast pair. The governing distinction, purity of two kinds and filth of two kinds.
+
+Column A: Outward purity
+- Cleansing agent: visible water.
+- Filth removed: outward filth, such as urine, faeces, and the like.
+- Where it acts: the body, the clothing, the vessel, the place.
+- How it is verified: absence of trace, unchanged characteristics, the completed order of limbs.
+
+Column B: Inner purity
+- Cleansing agent: inner water, which is knowledge.
+- Filth removed: inner filth, which is doubt and ignorance.
+- Where it acts: the soul of the seeker.
+- How it is verified: the tranquil heart and certainty the source has already required.
+
+Shared row: both are called purity, neither is optional. The chapter makes the outward law concrete first, across water, vessels, stones, wounds, dryness, thresholds, ghusl, and disliked places, and only then names another water and another filth.
+
+Annotated structure. Whole: the seven meanings of ablution, four obligatory and three Sunnah, with the Sunnah acts placed first by the Prophet, peace be upon him and his family.
+
+Parts, in the order given:
+- First Sunnah, washing the hands before inserting them into the vessel. Annotation: the instrument of reception is cleaned first.
+- Second Sunnah, rinsing the mouth. Annotation: the passage through which the five senses are fed.
+- Third Sunnah, inhaling through the nose, joined with thoroughness. Annotation: the channel of breath, and no hidden residue left.
+- First obligation, washing the face. Annotation: the speaking self that encounters and responds.
+- Second obligation, washing the hands. Annotation: what acts, takes, gives, works, and touches.
+- Third obligation, wiping the head. Annotation: where command and perception gather.
+- Fourth obligation, wiping the feet. Annotation: what carries the person into places and directions.
+
+Together: seven limits.
+
+Comparison matrix. Rows are the organs the source reads, columns are the outward act and the inner signification.
+
+| Organ | Outward act | What the source says of it | Inner signification |
+|---|---|---|---|
+| Mouth | Rinsed, a Sunnah | Nourished by different foods and drinks in a way no other sense is, the passage through which the five senses are fed | The mouth is to the lesser world as the intellect is to the greater. Whoever seeks nourishment without a mouth cannot be fed and cannot live |
+| Nose | Water inhaled, a Sunnah | The organ by which the body draws breath and lives at rest. Blocked nostrils compel breathing through the mouth, both blocked and the person cannot live | The necessity of reception. The soul cannot live cut off from the channels by which knowledge reaches it |
+| Face | Washed, an obligation | It holds seven openings, the eyes, the ears, the nostrils, the mouth. A person knows his own face as he knows nothing else, and there is no salvation except by turning toward it | The place of recognition. Purifying the face teaches the self how to face truth |
+| Hands | Washed, an obligation | They act, take, give, work, and touch | Action made fit for the path |
+| Head | Wiped, an obligation | It gathers command and perception | Judgment made fit for the path |
+| Feet | Wiped, an obligation | They carry the person into places and directions | Movement made fit for the path |
+
+Annotated structure. Whole: the face and its seven openings.
+
+Parts, with position:
+- Upper pair: the two eyes, which receive sight.
+- Outer pair: the two ears, which receive hearing.
+- Central pair: the two nostrils, which receive breath.
+- Lower single: the mouth, which receives nourishment and issues speech.
+
+Annotations:
+- The seven openings are where the world enters the self.
+- A person knows his own face as he knows nothing else, and there is no salvation except by turning toward it.
+- Whoever turns his face wrongly turns his receiving powers wrongly.
+
+Reading: the body has become a map of disciplined reception, action, judgment, and movement, no separate allegory needed per limb.
+
+Contrast pair. The compressed statement on bounded and unbounded acts.
+
+Column A: The bounded act
+- Ghusl: one of the two types is bounded.
+- Anointing: one of the two acts is bounded.
+- Character: measured by explicit limits, countable, completable.
+- Function: form can be verified, which makes the inward opening trustworthy.
+
+Column B: The unbounded act
+- Ghusl: the other type is unbounded.
+- Anointing: the other act is not bounded.
+- Character: it overflows the limit because its meaning is broader.
+- Function: purity needs form and also points beyond form.
+
+Shared row: the tension is to be felt, not flattened.
+
+Genealogy chain. The analogy the chapter builds, stated with direction.
+
+Appointed outward purifier → water → removes urine and faeces → from the body.
+Appointed inward purifier → knowledge → removes doubt and ignorance → from the soul.
+Rosewater → pleasant, refined, clean → still no substitute for water.
+Attractive ideas → pleasant, refined, persuasive → still no substitute for the knowledge by which the Imam purifies the seeker.
+
+Reading: the earlier doctrine named the authority of knowledge. This chapter makes it bodily. The soul is not purified by private invention.
+
+The closing saying, from the Four Hundred Precepts: abstaining from intoxicants and wiping over socks are matters of taqiyyah.
+
+Annotation: the detail places purity inside concealment and circumstance. Some outward practices are shaped by guarded conduct under pressure. That does not cancel purity, it shows how law, knowledge, bodily practice, and communal survival meet in complicated conditions.
+
+## What this episode lands
+
+Hierarchy tree. The discriminations the seeker must hold, which is what the chapter actually trains.
+
+- Level 1: Status
+  - Level 2: Obligation against Sunnah
+  - Level 2: Preference against validity
+- Level 1: Knowledge
+  - Level 2: Knowing against forgetting
+  - Level 2: Certainty against uncertainty, and when tayammum is the truthful path
+- Level 1: Material
+  - Level 2: Usable water against unusable substitutes
+  - Level 2: Pure vessel against suspect vessel
+- Level 1: Body
+  - Level 2: Wounded limbs against healthy limbs
+  - Level 2: Continuity against interruption
+- Level 1: Measure
+  - Level 2: Thoroughness against excess, three being better and more than three not to be done
+  - Level 2: What can be cleansed against what must be admitted
+
+Contrast pair. The final statement of the two waters, which is what the episode is for.
+
+Column A: The body under water
+- What is washed: face, hands, head, feet, mouth, nose, and what is easy to neglect.
+- What is removed: urine, faeces, and the like.
+- What proves it: a completed order, a tranquil heart, certainty that impurity is gone.
+
+Column B: The soul under knowledge
+- What is washed: the self that receives, acts, judges, and moves.
+- What is removed: doubt and ignorance, which are not small blemishes but filth of the soul.
+- What proves it: purification drawn from the appointed source, since whoever does not draw it from him will not be purified by anything else.
+
+Shared row: knowledge is not ornament, it is water. Purity through ablution therefore stands as a bridge between law and guidance, and the seeker who learns how water purifies the body is being prepared to understand how authorized knowledge purifies the soul.

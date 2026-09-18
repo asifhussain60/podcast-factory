@@ -1,0 +1,587 @@
+# The Traveller's Prayer
+
+## Where this episode opens
+
+Annotated structure. The question the chapter appears to ask, and the question it answers.
+
+- Front of the frame, the apparent question: how far must a man go before his prayer is allowed to get shorter?
+- Centre of the frame, the real question: why does meeting his aunt on the road make it long again?
+- Beneath both, the engine: what makes a travelling man a traveller?
+- Annotation: distance is asked about constantly and never decides a case alone.
+
+Contrast pair. The same man, two positions on the earth.
+
+Column A: The man in his own house
+- Zuhr: four
+- Asr: four
+- Isha: four
+- Status: resident
+- Fasting: kept
+
+Column B: The same man on the road
+- Zuhr: two
+- Asr: two
+- Isha: two
+- Status: traveller
+- Fasting: broken
+
+Shared row: nothing inside the prayer changed, only where the worshipper's body stands. Somewhere between the door and the horizon the obligation changes shape, and this chapter records a community trying to find exactly where.
+
+Named-axis 2x2. What the source substitutes for distance.
+
+Axes:
+- Horizontal: what is measured, from Miles on the ground to Displacement from ordinary life
+- Vertical: where the answer lives, from Outside the man to Inside the man
+
+Quadrants:
+- Bottom-left, Miles plus Outside: the postal stages, the mail, the farsakh, the mil. Present throughout, never decisive alone.
+- Bottom-right, Displacement plus Outside: who is waiting at the other end, and whether he has crossed his threshold. Geography, not arithmetic.
+- Top-right, Displacement plus Inside: what he meant setting out, and how many nights he told himself he would stay. Resolve.
+- Top-left, Miles plus Inside: empty. A man cannot make distance out of intention, so no case lands here.
+
+Genealogy chain. The correspondence network, question to answer.
+
+Sheikhs of al-Hind, difficulties written and sent across the sea → loyal preachers of Yemen, replies returned
+Sayyidina Ali ibn Sulayman Qas, author of this book → our master and Mawlana Ja'far ibn our master Sulayman, may Allah Most High sanctify them in the chambers of the heavens
+Sheikh al-Hasan ibn Nuh, the eleventh issue → our master Idris ibn Hassan
+Sheikh Shamun ibn Muhammad Ghuri al-Hindi → our master Badr al-Din Hasan ibn Idris, may God be pleased with him
+Sheikh Abdullah ibn Nuh, the wandering sheikhs case → our master Idris, may God sanctify his soul
+Questioner of the seventeenth question → our master Muhammad ibn Fahd, in his treatise The Love of the Path of Guidance for Those Who Have Converted
+
+Hierarchy. The books standing behind the correspondence.
+
+- Level 1: Authorities cited in this chapter
+  - Level 2: Question-and-answer collections
+    - Level 3: the first question-and-answer book arranged according to the chapters of the Pillars of Islam
+    - Level 3: the Book of Purity
+  - Level 2: The works of our master al-Nu'man
+    - Level 3: the concise book on his works
+    - Level 3: Mukhtasar al-Musannaf
+    - Level 3: Mukhtasar al-Athar
+  - Level 2: Yemeni transmission
+    - Level 3: the Book of Sub-Nursing of Ja'far ibn Mansur al-Yaman
+    - Level 3: Anas al-Munibeh
+  - Level 2: Later treatises
+    - Level 3: The Love of the Path of Guidance for Those Who Have Converted
+
+Annotated structure. The shape of the questions.
+
+- Absent from the whole body: nobody asks whether travel shortens the prayer. Everybody knows it does.
+- Filling the whole body: the seams.
+- Seam case A: a man with a house in Ahmadabad and a house in Nahrwala. Which is he travelling from?
+- Seam case B: a man whose own land takes a day to walk across. Is that a journey?
+- Annotation: the shape of the questions tells you what kind of life produced them.
+
+Process flow. The chapter's three passes over the same ground.
+
+Start: the prayer as fixed by the chapters before this one
+  ↓
+Pass 1: what a journey is, how far, for what purpose, and what the licence contains once granted
+  ↓
+Pass 2: the doctrine that governs everything else, that a close blood relative present cancels the concession
+  ↓
+Pass 3: intention, length of stay, and the moment of coming home
+  ↓
+Branch at the close:
+  - Branch A: conditions cooperate, the rules above apply as stated
+  - Branch B: conditions will not cooperate, dispensations are granted
+  ↓
+End: the shortened prayer is a relief for a man genuinely out of his ordinary life, and the tradition keeps deciding that he is not.
+
+## The Journey And Its Licence
+
+Hierarchy. The scale of legal distance, reported from Mukhtasar al-Athar.
+
+- Level 1: Mail
+  - Level 2: four leagues
+- Level 1: Farsakh
+  - Level 2: three miles
+- Level 1: Mil
+  - Level 2: three thousand cubits
+    - Level 3: one thousand moderate paces measured by one leg
+      - Level 4: from where the right foot is raised to where it is placed down
+
+Annotation: the smallest unit is defined not against a rope or a rod but against a walking man. The scale is built upward from the body of someone going somewhere.
+
+Annotated structure. The base rule and its two conditions.
+
+- Whole: the traveller breaks his fast and shortens the prayer.
+- Opening boundary: from the moment he leaves his house and begins to travel.
+- Closing boundary: until he returns and enters his house.
+- The condition easy to read past: if his travel is blameless.
+- Annotation: a journey undertaken for something the tradition would not countenance earns nothing.
+
+Contrast pair. Distance covered against life left.
+
+Column A: The landowner walking his own estate
+- Ruling in the Book of Purity: one whose journey was merely a leisurely outing should not shorten the prayer
+- Case put to the source: what does a picnic journey mean
+- Answer: if a man owns a great deal of land and enjoys walking through it for pleasure, that does not justify shortening
+- Miles covered: possibly considerable
+- Life left: none
+
+Column B: The man put outside his ordinary arrangements
+- Ruling: he shortens from door to door
+- Miles covered: may be fewer
+- Life left: his own
+
+Shared row: the concession is paid not for miles but for the displacement miles usually cause. He has walked around inside his life, not left it.
+
+Comparison matrix. The six categories who do not shorten, reported in Anas al-Munibeh from the Commander of the Believers, may Allah's peace be upon him.
+
+Rows: the collector, the merchant, the prince, the hunter, the shepherd, the road-cutting warrior
+Columns: what the moving is | why no concession
+
+- The collector engaged in his rounds of collection: his work | the round has no destination outside itself
+- The merchant who travels in his trade from one market to another: his trade | the circuit is the trade, not an interruption of it
+- The prince who is within his emirate: governance | he sits at the centre of his own authority however far he rides
+- The man who goes out in pursuit of hunting: the pursuit | the field is ground he already keeps
+- The shepherd who seeks pastures and grazing grounds: the herding | grazing ground is where his life already is
+- The warrior who cuts off the road: his occupation | the road is his station, not an interruption
+
+Shared reading: for all six, moving is the ordinary, so there is no broken routine to compensate.
+
+Comparison matrix. Occupational cases decided by that principle.
+
+Rows: the wandering sheikh, the boat owner and his merchants, the authorized slave
+Columns: the case | the ruling | the authority
+
+- The wandering sheikh, such as Sheikh Abdullah ibn Nuh, travelling among villages for the sake of the believing community, some close and others far apart, sometimes more than a prayer's distance: he does not shorten and does not break the fast, his case being like that of a prince who goes out to govern his emirate | our master Idris, may God sanctify his soul
+- The owner of a boat and the merchants aboard, on a run no longer than from Sofa to Aden: they all pray in full, nothing else applies to them, and one should not be compelled to repeat the prayer after reaching his family | the chapter's own report
+- The slave authorized to trade, whether or not on his master's behalf, during Ramadan or at another time: he shortens his prayer and breaks his fast | the chapter's own report
+
+Annotation: the travelling sheikh is told his journeys are his office, so the ruling costs him the concession by raising the status of what he does. The slave's relief follows the man actually displaced, whatever his standing and on whoever's account the profit falls.
+
+Contrast pair. Two short trips, opposite outcomes.
+
+Column A: The short trip into settled country
+- Case: whoever travels fewer than two postal stages and intends to stay, and the prayer time comes upon him on the way
+- Ruling: he prays in full and does not shorten
+- Parallel case: whoever travels to a postal station intending to return, then returns to his family, the prayer time coming upon him on the way
+- Ruling: likewise in full
+
+Column B: The short trip into empty country
+- Case: the destination is only one mail away, there are no people or shops there, and he intends to return within ten days
+- Ruling: he shortens and breaks his fast until he departs
+
+Shared row: distance is a proxy. The thing measured is whether a man has been put outside the arrangements that ordinarily hold him.
+
+Annotated structure. The one place that refuses the whole apparatus.
+
+- Whole: Makkah and the Sacred Mosque.
+- The ruling: whoever enters Makkah should pray in full and not shorten.
+- Indifferent to duration: whether he stops for an hour or a day, for the sake of Allah.
+- Indifferent to purpose: whether or not he is engaged in worship there.
+- The transmission: our master said that Isma'il ibn Sayyidina Hiba said prayer is performed only in the sanctuary of the House of God, and Makkah is a place where prayer is not shortened.
+- The confirmation: Mukhtasar al-Musannaf says of the Sacred Mosque that there is no shortening in it, whether one is in a state of spiritual engagement or simply present.
+- Annotation: the relief is granted to a man away from where he belongs, and in the sanctuary that argument collapses.
+
+Annotated structure. What the licence contains, per our master Ja'far ibn Mansur of Yemen, may God sanctify him, in the Book of Sub-Nursing, on the Sunnah of shortening.
+
+- Whole: the five daily prayers, unchanged in number and in hour.
+- Untouched: Fajr.
+- Halved: the first, meaning Zuhr, obligatory as four, reduced to two.
+- Halved: Asr, obligatory as four, reduced to two.
+- Untouched: Maghrib.
+- Halved: Isha, obligatory as four, reduced to two.
+- Total of the three shortened prayers: six rak'ahs.
+- Annotation: nothing is cancelled, postponed, or merged. He stands at the same five hours as everyone else and says less at three of them.
+
+Process flow. The voluntary prayers, per Mukhtasar al-Athar.
+
+Start: he is walking during the day
+  ↓
+The prayer time arrives while he is walking
+  ↓
+He prays the obligatory prayer as two rak'ahs
+  ↓
+The Sunnah is deferred, not dropped
+  ↓
+He dismounts at night
+  ↓
+End: he makes it up with the night prayer
+
+Annotation: a tradition interested only in relief would have dropped the voluntary prayers first. This one moves them to the hour when he is off his feet.
+
+Process flow. The concession cannot be declined, per Mukhtasar al-Musannaf.
+
+Start: the traveller prays in full, forgetfully or deliberately
+  ↓
+Branch on the clock:
+  - Branch A: there is still time, he must repeat the prayer
+  - Branch B: the time has passed, he must repeat it even so
+  ↓
+End: the repeated prayer, shortened
+
+Annotation: praying four where two are owed is not extra devotion, it is the wrong prayer. The shortened prayer is the obligation itself in the form the road has given it.
+
+Contrast pair. The posture asymmetry, fixed by the same book.
+
+Column A: Obligatory on the ground, performed as a rider
+- Direction of the substitution: giving less than the situation requires
+- Verdict: it does not count for him
+- Reason: he has claimed a situation he is not in
+
+Column B: Obligatory while riding, performed on the ground
+- Direction of the substitution: giving more than the situation requires
+- Verdict: valid and accepted
+- Reason: a man may always give more than his situation requires
+
+Shared row: the asymmetry is deliberate.
+
+Contrast pair. Two reports about praying in motion, left unreconciled.
+
+Column A: Mukhtasar al-Athar
+- Report: praying on the road is forbidden
+- Standing: recorded, not followed
+
+Column B: The commentary on the Pillars
+- Report: the Messenger of Allah, may Allah's peace and blessings be upon him, used to pray on his way to Medina, inclining his head for prostration, with his mount behind him
+- Standing: this is the one the tradition keeps
+
+Shared row: that image, a man bending his head for the prostration he cannot make and keeping on, governs everyone here who prays while moving.
+
+Annotated structure. What the traveller carries.
+
+- Whole: carrying the Qur'an and other books during travel and in settled life.
+- The objection raised: the common people narrate from the Prophet, peace be upon him, that he said, "Do not carry the Qur'an".
+- The answer: the Qur'an should be placed on the head out of honour and reverence for it, not otherwise.
+- What it is not: neither a prohibition nor a simple permission.
+- What it is: a prescribed manner.
+- Annotation: a book in a saddlebag among the trade goods has been made cargo. A book on the head has been made something else.
+
+## Kinship That Completes The Prayer
+
+Contrast pair. The two-house question, and what resolves it.
+
+Column A: The answer the question expects
+- Test: which house is really his
+- Evidence: a house in Ahmadabad, another in Nahrwala, some days lived in each
+- Verdict sought: the borders of the country where he is staying
+- Outcome: no ruling is issued on this basis
+
+Column B: The answer the source gives
+- Test: who he is with, and for how long
+- Threshold: five prayer times with his wife or with his mahram relatives
+- Verdict: he should complete his prayer and fast
+- Outcome: a resident wherever the roof happens to stand
+
+Shared row: the condition is not the house. It is the people.
+
+Visual metaphor. The circle borrowed from the marriage law.
+
+- Abstract relation: whose presence ends a man's journey.
+- Metaphor: one circle drawn by scripture, read for a second purpose.
+- The verse named by the questioner:
+
+> Forbidden to you are your mothers, your daughters, your sisters, your paternal aunts, your maternal aunts, your brother's daughters, and your sister's daughters.
+> Chapter 4, verse 23
+
+- Original purpose: the women a man may not marry.
+- Borrowed purpose: the people whose presence ends your journey.
+- Reading: the relation inside this circle is closer than any that could be contracted, so the chapter reads it as the circle of home. Wherever a man stands inside it, he has not gone anywhere.
+
+Hierarchy. Inside the circle and outside it, as the source answers twice.
+
+- Level 1: Relations that complete the prayer and the fast
+  - Level 2: close relatives through the womb, male and female alike
+    - Level 3: the traveller prays and fasts in full, standing for the five prayers wherever he happens to be
+  - Level 2: a man's wife
+    - Level 3: established on her own account and on no other woman's account
+- Level 1: Relations that do not complete the prayer and the fast
+  - Level 2: the wife's relatives, the mothers of wives named explicitly
+  - Level 2: stepmothers
+  - Level 2: those related through nursing
+  - Level 2: those related through the male line, per the second answer
+
+Annotation: every relation that merely resembles blood or marriage is left outside, though those relations do bar marriage. The source is not repeating the marriage law, it is selecting from it.
+
+Process flow. Where the kinsman must be met.
+
+Start: a man travels from Nahrwala to Ahmadabad
+  ↓
+He meets a relative along the way, outside the city
+  ↓
+Test: has he entered the borders of the city where the relative lives
+  ↓
+Branch:
+  - Branch A, not yet entered: he should not pray in full
+  - Branch B, entered: he prays in full
+  ↓
+Extension: travelling from his home to stay in a city or in the home of relatives, or stopping for a day or more, he should not shorten while he remains
+  ↓
+Loop: if he departs and then returns, or stops for a day or more, he again does not shorten
+
+Annotation: what ends the journey is not a familiar face but arrival where the traveller is no stranger.
+
+Annotated structure. The load-bearing rule, stated twice in nearly the same words by the concise book on the works of our master al-Nu'man, may God sanctify his soul.
+
+- The rule: the traveller breaks his fast and shortens his prayer from the moment he leaves his house until he returns and enters it.
+- The condition: if his travel is blameless.
+- The interruption: if along the way he encounters a mahram relative whose home is not at a full travel distance from his own country, and that relative resides in that country, his prayer is completed in full.
+- Annotation: the source repeats a rule verbatim when it carries weight.
+
+Comparison matrix. The fine cases, where a doctrine shows what it holds.
+
+Rows: the in-law's village, the minor at her father's house, the divorced women of India, the non-Muslim companion
+Columns: the ruling | what the ruling turns on
+
+- Whoever travels and reaches the village where his brother-in-law or his sister-in-law resides: he shortens the prayer | the in-law is the relation the earlier answers excluded, and the exclusion holds even when a man under a relative's roof is still legally on the road
+- A woman who comes to her father's house yet does not live there, having stayed as a resident or in the home of a mahram relative, and who is a minor not yet adult, or a child yet unborn: the prayer is performed for her in full | the relation, not her judgment, so it does not depend on her having chosen anything
+- The divorced women in India, if someone travels with them for trade or otherwise, in Ramadan or at another time: if their intention was to travel with him they pray and fast in full, and if they set out for a different purpose their ruling follows that of travellers | the arrangement, not the fact of presence
+- Someone travelling with a non-Muslim: the same test | company deliberately kept is a settled arrangement, company that merely coincides is not
+
+Annotated structure. The detailed confirmation, from the book of the question of Sheikh Shamun ibn Muhammad Ghuri al-Hindi, answered by our master Badr al-Din Hasan ibn Idris, may God be pleased with him.
+
+- The question: a woman who is a close relative travelling with someone, and whether one who does not shorten has all five prayers established through his presence.
+- The answer: whoever is one of the guardians by kinship, the traveller prays and fasts by virtue of that person's presence and has the five prayers.
+- The boundary restated: the relationship with a wife is established, whereas it is not valid through the relation of a woman by kinship alone or through breastfeeding.
+- Half rebuke and half invitation:
+
+> Among you, who is saved? The best of you are those who reflect on matters of religion and contemplate them.
+
+- The ruling that follows: it applies only when one of his mahrams is present in a place and the traveller has all five prayer times established through that presence, and the same applies to his wife if she is staying with him through all five prayer times.
+
+Contrast pair. The last word on kinship, from Sheikh al-Hasan ibn Nuh's eleventh issue to our master Idris ibn Hassan.
+
+Column A: What the law permits
+- The question: whether a man may travel with his son's wife or with his wife's mother without a barrier between them, speak with them, and bury one of them, and what the status of nursing relatives is
+- The answer: it is not necessary to impose restrictions if there is no one else from her womb available. Allah knows best
+- The posture: it refuses to impose a restriction the law does not impose
+
+Column B: What caution advises
+- The counsel: the first and most important course is to be cautious about these matters
+- The ground, from the Prophet, may Allah bless him and his noble family: one should leave what is permissible in order to be safe from falling into what is not
+- The remedy: if one of their relatives is present, even if not a womb relative, that relative makes all of the above permissible
+
+Shared row: the circle marks what is allowed, not what is wise, and a careful man stands well inside the line rather than on it.
+
+## Intention, Return, And Dispensation
+
+Timeline. The ten-day stay, per our master Muhammad ibn Fahd, may God sanctify his soul, in the seventeenth question of The Love of the Path of Guidance for Those Who Have Converted.
+
+Axis: days of stay, counted from arrival.
+- Day 0, arrival: the intention held in the heart is what is read
+- Days 1 to 9: shortened prayer, if the intention was to stay fewer than ten days
+- Day 10, the stated threshold: what is stipulated in the books of the guardians of God, peace be upon them, is that the stay referred to independently is ten days, neither less nor more
+- Period bands: Traveller, days 0 to 9 | Resident, from day 10
+
+Process flow. The questioner's own case against that axis.
+
+Start: a man travels the distance of a mile
+  ↓
+Given: a round trip covering a postal distance makes the shortening apply, since going and returning together constitute two legs
+  ↓
+Branch on the intention held at arrival:
+  - Branch A: he intends to stay ten days, the prayer is completed
+  - Branch B: it appears he will return before ten days have elapsed
+  ↓
+Branch A continued: he stays eight days and returns on the ninth
+  ↓
+Result: he is not required to fulfil the full ten-day stay, and this does not invalidate his completing the prayers mentioned above
+  ↓
+End: what settles his standing is the calendar he held when he arrived, not the one he ends up keeping
+
+Process flow. When the intention changes.
+
+Start: a man intends to stay in a house for ten days
+  ↓
+After four or five days a need arises that he could not put off
+  ↓
+State 1: the need has arisen, and he still holds in his heart the intention to stay
+  ↓
+Ruling at State 1: he prays and fasts in full
+  ↓
+State 2: he has resolved to travel and committed to it
+  ↓
+Ruling at State 2: he shortens
+  ↓
+End: the hinge is resolve, not the need and not the packing
+
+Annotation: a man whose departure is certain is still a resident until he has decided. The book has taught elsewhere that intention lives in the heart, and that teaching is spent here.
+
+Contrast pair. Does intention attach to a building.
+
+Column A: The address
+- The case: a traveller leaves a house where he had been staying for ten days and moves to another only a mile away
+- The question: must he form a new intention for ten full days
+- If the address governed: a mile down the road would make him a traveller again
+
+Column B: The place held in mind
+- The answer: as long as he intends to return to the place where he had originally intended to stay, he prays and fasts in full, even if he left it intending to stay elsewhere
+- The addendum: moving does not nullify anything, and he need only renew his intention to stay there for ten days
+- The principle: residency is a state of mind about a place, not an address
+
+Shared row: these three answers, the source notes, are from our master Idris ibn Hassan, may Allah sanctify him.
+
+Process flow. Arrival at a village, the same question from the other side.
+
+Start: a traveller with family in a village enters its far side, or a house in it, without yet reaching his family and relatives
+  ↓
+Branch on what he arrived with:
+  - Branch A, arriving without the ten-day intention: the prayer is not performed in full until the mahram agrees to host him, if he is residing with a mahram, and this holds for five prayer times
+  - Branch B, arriving with the intention of staying: he prays and fasts in full at once
+  ↓
+End: presence alone does not do it. Arriving with the intention already formed does it immediately.
+
+Timeline. The short stop, and the unit actually counted.
+
+Axis: from arrival to the second day's prayer.
+- Just before sunset: the traveller reaches a town
+- The question: should he remain with the people until the day after sunrise, and does that count as a day and a night
+- Sunset, night, sunrise: hours pass, and hours are not the unit
+- The second day's prayer: if he intends to stay until he prays on the second day, he should pray and fast in full
+- Annotation: the unit counted is not hours but prayers.
+
+Annotated structure. The homecoming threshold.
+
+- Whole: the route of a homeward-bound traveller into Ahmadabad.
+- The outlying districts, Kanpur and Sarnak Pur and the rest, asked about as collectively one jurisdiction: not enough.
+- The city limits: not enough.
+- The gate: not enough.
+- His own house: a traveller returning home may not pray in full until he enters his own house.
+- Annotation: everything between the gate and the doorstep is still the road. The same threshold opens the concession and closes it.
+
+Contrast pair. The gate going out, the door coming back.
+
+Column A: Leaving
+- The case: he leaves his house while still in the city, without having passed through any of its gates, and the prayer time comes upon him within the city
+- The ruling: he prays in full
+- Operative threshold: the gate
+
+Column B: Returning
+- The case: he enters one of the city gates but has not yet reached his house
+- The ruling in principle: still on the road
+- The concession, if he fears missing the prayer: he may pray shortened
+- The Ramadan ruling: entering the gate of a city or village returning from travel, if the sun has not set before he enters his house, he performs his prayers and fasting in full, because he came home inside the day
+- Operative threshold: the door
+
+Shared row: two concessions soften the edge without moving it.
+
+## Dispensation When Conditions Will Not Cooperate
+
+Process flow. The overcast sky and the lost qibla.
+
+Start: a man travels and the prayer time arrives
+  ↓
+Condition: the sky is heavily overcast and he cannot determine the qibla
+  ↓
+Ruling: he prays facing four directions, one in each direction for each obligatory prayer
+  ↓
+Ground given: Allah Almighty excuses His servant when He afflicts him with hardship
+  ↓
+Later condition: the sun appears and the qibla becomes clear
+  ↓
+Branch:
+  - Branch A, the time has not yet expired: he should return to perform the prayer
+  - Branch B, the time has expired: the four-direction prayer stands
+  ↓
+End: a dispensation granted for hardship lasts exactly as long as the hardship
+
+Annotation: the book has already taught how much the guarded direction matters. This does not soften it, it satisfies it by exhaustion.
+
+Process flow. The turning ship and the fixed direction.
+
+Start: a man prays the Sunnah and nafl prayers aboard a ship as it rotates
+  ↓
+Rule at entry: he establishes the direction of prayer at the moment he enters into it
+  ↓
+Branch on what follows:
+  - Branch A, the ship turns on its own: there is nothing upon him
+  - Branch B, he is able to turn with it and reorient himself: that is better
+  - Branch C, he is in an obligatory prayer: he should do whatever he is able
+  ↓
+End: the direction is fixed at the door of the prayer, and the deck's later drifting is not charged to him
+
+Comparison matrix. The seated imam aboard a ship.
+
+Rows: the imam, congregants unable to stand, congregants able to stand, the rushed imam
+Columns: the condition | what is permitted
+
+- The imam: the ship's movement makes standing impossible | he leads while sitting, permitted given the circumstances of the ship, if they are not able to manage otherwise
+- Congregants unable to stand: the same deck, the same movement | they follow seated under the same condition
+- Congregants able to stand: they can manage | they are not barred from the congregation by the imam's posture
+- The rushed imam: he is pressed | he should pray alone
+
+Annotation: the teaching on standing behind an imam is bent exactly as far as the deck requires and no further.
+
+Contrast pair. A congregation whose members owe different amounts.
+
+Column A: The traveller behind a resident imam
+- The case, the thirty-fifth issue: a traveller arrives to find the resident imam in prayer, joins for two rak'ahs, then says the salaam
+- Option 1: if he wishes to leave after two rak'ahs he may depart with two
+- Option 2: if he waits for the imam to say the salaam there is no harm in that
+
+Column B: The traveller as imam of residents
+- The case, from the questions addressed to certain sheikhs of India with written replies from the loyal preachers of Yemen: the traveller leads and prays two rak'ahs
+- Ruling: they stand and complete the prayer
+- The mirror case: if the resident is the imam of the travellers, they depart after two rak'ahs
+
+Shared row: the congregation is not broken by the fact that its members owe different amounts. Each man prays what is his and the shared act absorbs the difference.
+
+Annotated structure. Muhammad ibn Fahd's restriction on that permission.
+
+- The condition on the imam: permissible if the imam is one of the virtuous and prays two rak'ahs.
+- What those behind him do: they stand and complete their prayers.
+- The scope: this ruling is specific to people of the higher ranks rather than to everyone.
+- The extension: the same holds for the prayer of the one who completes his prayer, the mutamim.
+
+Timeline. The story behind that dispensation, the most unusual passage in the chapter.
+
+Axis: one day in the land of Haraz.
+- Before: our master and Mawlana Da'i al-Zaman Ja'far ibn our master Sulayman, may God sanctify his soul, is in the Yemeni island
+- Descent: he comes down from a noble castle to the land of Haraz
+- The noon prayer of that day: performed in a state of purity like everyone else
+- The private disagreement: he did not agree with that, being one who investigated this and other matters and was not prepared to investigate purity alongside the purity of others
+- The unseen act: he completed tayammum in a way no one noticed
+- The public act: he prayed with the people in congregation
+- After: he told some of those close to his call that this is how the dispensation arose for praying the prayer of the one who performs ablution, when it is obligatory for some important reason serving the good of the call, its tranquillity, and the establishment of its order, just as there is a dispensation for the traveller to pray with the residents
+
+Annotation: the book has already taught the paths of tayammum and does not re-teach them. What is new is the reasoning. A leader satisfies himself privately rather than turning a private scruple into a public separation, and the traveller among residents declines, in the same way, to let a difference in what he owes tear the row apart.
+
+Annotated structure. The small case that closes the chapter, asked by Ali ibn Sulayman Qas.
+
+- The position: a minor praying behind a resident imam sits after two rak'ahs while the imam rises to continue.
+- The circumstance: there is no one behind the imam except the minor.
+- The question: should the imam call out the takbir aloud for the remainder.
+- The answer: there is no obligation upon him to do so.
+- The reasoning: his voice serves its purpose only for one who can be trusted to follow him in bowing, prostrating, and standing, and when that trust is absent it serves no purpose.
+- Annotation: the practice lapses, not because the child does not matter, but because the thing the voice is for is not happening.
+
+## What this episode lands
+
+Comparison matrix. What does not decide a case, and what does.
+
+Rows: distance covered, the kind of moving, the company at the other end, the intention at arrival, the threshold crossed on return
+Columns: does it decide | the case that proves it
+
+- Distance covered: no | a mail is four leagues and a mil is a thousand paces of a walking man, yet the landowner walking his own estate covers distance and shortens nothing
+- The kind of moving: yes | the six categories, for whom moving is the ordinary
+- The company at the other end: yes | a close blood relative, or a wife, for five prayer times restores the full prayer anywhere on earth
+- The intention at arrival: yes | the ten-day stay, held in the heart
+- The threshold crossed on return: yes | not the district, not the city limits, not the gate, the house
+
+Hierarchy. What the relief consists of, and what it will not do.
+
+- Level 1: What is reduced
+  - Level 2: Zuhr, Asr and Isha, four rak'ahs each, halved to two
+    - Level 3: six rak'ahs in total
+- Level 1: What is kept
+  - Level 2: Fajr and Maghrib, untouched
+  - Level 2: the five hours, unchanged
+  - Level 2: the voluntary prayers, deferred to the night rather than dropped
+- Level 1: What is refused
+  - Level 2: the full prayer on the road, which is the wrong prayer and is repeated
+  - Level 2: any shortening in Makkah, from anyone, for any length of stay
+
+Contrast pair. Where this chapter sits against everything the book has built.
+
+Column A: The earlier chapters
+- What they fixed: the prayer's shape, its hours, its direction, its leadership
+- Where the worshipper stands: inside the settings all of that assumed
+
+Column B: This chapter
+- What it fixes: what becomes of that prayer once the worshipper is moved out
+- Where the worshipper stands: onto roads, onto water, into other men's cities, into houses that are not his
+
+Shared row: the tradition follows him out, shortening what it must, excusing what it must, and quietly insisting that almost everywhere he goes, he is more at home than he thinks.

@@ -1,0 +1,493 @@
+# Zakat as Obligation and Intention
+
+## Where this episode picks up
+
+Annotated structure. Whole: one sentence placed twice, and everything the chapter puts between the two placements.
+
+- Position 1, near the opening: the Prophetic sentence that a man who does not pay zakat has no prayer.
+- Interior: the whole body of the chapter, itemised in the contrast pair below.
+- Position 2, the chapter's final word: the same sentence again, joined by a second, that the one who withholds zakat is in the Fire.
+
+- Callout on the frame: the sentence is not about prayer. It reports that an unpaid charity reaches backwards through a life and empties an act of worship that was, by every visible measure, correct.
+
+Verbatim, the sentence itself, as the Prophet said it, peace and blessings be upon him and his family:
+
+> There is no prayer for one who does not pay zakat.
+
+Contrast pair. What the Book of Zakat settles here, against what it defers.
+
+Column A: Settled in this chapter, prior to any sum
+- Who is barred from receiving
+- What the obligation actually encompasses
+- Where the payment has to be delivered
+- What counts as withholding when money has visibly changed hands
+- What a man is whose belief is sound and whose hands are closed
+
+Column B: Deferred to the chapter that follows
+- How much is owed on a herd
+- How much is owed on a harvest
+- What a mine yields
+- What a household pays at the end of the fast
+- What a man owes when he is himself in debt
+
+Shared row: nothing here tells a reader how much he owes.
+
+Hierarchy tree. The authorities carrying the chapter, and what each supplies.
+
+- Level 1: Named masters in named works
+  - Level 2: Our master Ja'far ibn Mansur al-Yaman, may Allah sanctify him and grant us his intercession, in the book the manuscript names as the book of sub-nursing. The household exclusion, the provision clause, the containment of tithe by khums, the first prayer sentence.
+  - Level 2: Our master Zayd ibn Muhammad, may Allah be pleased with him, in the hidden message. The ten things zakat is obligatory upon.
+  - Level 2: Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him, in his four hundred manners. The aphorism pairing charity with zakat.
+- Level 1: The council address
+  - Level 2: Our master and Mawlana, the owner of the councils of al-Mustansiriyya, may God's peace be upon its owner, twelfth council. The longest passage, the whole reckoning in sevens.
+  - Level 2: The same collection, returning at the close to describe the man who prays outwardly and spends nothing.
+- Level 1: The case law
+  - Level 2: The book of questions and answers, arranged according to the order of the chapters of the book The Pillars of Islam. The entire final section, as submitted questions with named replies.
+
+Visual metaphor. The one conviction running under all three of the chapter's passes.
+
+- Abstract relation: zakat is not a quantity to be surrendered. It is a delivery to be completed, and a delivery has an address.
+- Metaphor: a parcel with a named consignee, not a weight placed on a scale.
+- Element assignments:
+  - The parcel: the money that leaves a man's hands.
+  - The address: the Imam, named by the council as the party to whom zakat must be brought.
+  - Delivered and signed for: the obligation discharged.
+  - Gone from the sender's hands and arrived nowhere: still the sender's, still owed.
+- Three rulings that follow: a partial payment is concealment rather than shortfall; a man who paid the wrong recipient may take the money back by any means; the payment must be brought to the Imam.
+- Closing line: money that leaves a man's hands has not thereby been paid. It has only left his hands.
+
+Contrast pair. Where the previous chapter left the reader, and where this one puts him.
+
+Column A: The Book of Funerals, closing
+- Location: outdoors, at the cemetery, among the dead, who were glad of the visit
+- Standing of the reader: among people he could no longer help
+
+Column B: The Book of Zakat, opening
+- Location: back inside a household, with a ledger in it
+- First instruction: one family is forbidden to take anything from that ledger at all
+
+## Khums Above Tithe
+
+Annotated structure. Whole: the channel of charity, and the one household it is closed to.
+
+Verbatim, the saying of the Messenger of Allah, may Allah's peace and blessings be upon him and his family, cited by our master Ja'far ibn Mansur al-Yaman:
+
+> No charity is permissible for me, nor for my family.
+
+- Part, the institution: zakat is how a community moves wealth toward need.
+- Part, the summit: the household at the peak of that community's sanctity.
+- Part, the closure: that same household is categorically barred from drawing on the fund.
+- Annotation on the kind of rule this is: not a rule about poverty. It makes no reference to whether the family has anything. It is a rule about a channel, and it closes the channel absolutely.
+- Annotation on the giver: a man looking for the most honourable place to put his charity is told at the outset that the most honourable recipients he can think of may not have it. Whatever else the people of the House are owed, they are not owed this.
+
+Contrast pair. Two channels toward the same household, one shut and one open.
+
+Column A: Charity, the closed channel
+- Status: forbidden, absolutely
+- Character of the act: reflex, a man sees need and responds
+- Verdict: disqualified, because the reflex routes through charity and charity is shut
+
+Column B: Provision, the open channel
+- Status: what a man of means must do for them, outwardly
+- Source of funds: abundant wealth, drawn from two accounts at once, obligatory rights and voluntary acts
+- Character of the act: what he will beyond instinct
+- Verdict: whatever remains has to be deliberate
+
+Shared row: the household is not being left unsupported. It is being moved to a different account.
+
+Visual metaphor. The relation between the two obligations, stated as a containment.
+
+> Whoever fulfils the khums is spared from paying the tithe, except for voluntary giving; but whoever pays the tithe alone is not spared from paying the fifth that he must fulfil, because the tithe does not encompass the khums as the khums encompasses the tithe.
+> Attribution: our master Ja'far ibn Mansur al-Yaman.
+
+- Abstract relation: two payments whose relation is not parallel but nested.
+- Metaphor: concentric circles, the larger enclosing the smaller.
+- Element assignments:
+  - Outer circle: the khums, the fifth.
+  - Inner circle, wholly inside the outer: the tithe, the tenth.
+  - Outside both circles and touching neither: voluntary giving.
+- Reading: a fifth is larger than a tenth, and the reasoning takes that literally. The larger contains the smaller, so discharging it has already discharged what the smaller would have covered. The smaller cannot work in reverse.
+
+Process flow. Two payers, two outcomes.
+
+- Start: a man with wealth on which both obligations stand.
+- Branch A: he fulfils the khums.
+  - Transition: the tithe is already inside what he paid.
+  - End state A: spared from paying the tithe. Obligations closed.
+- Branch B: he pays the tithe alone.
+  - Transition: a tenth has been paid. A fifth has not.
+  - Condition: the remaining tenth is not a shortfall he may make up in goodwill.
+  - End state B: an obligation still standing, the fifth that he must fulfil.
+- Exception applying to both branches: except for voluntary giving.
+  - What is optional stays optional and stays available. A man who has discharged the fifth has closed his obligations and not exhausted his generosity.
+  - Rule it produces: the exemption reaches the required tenth, never the offered one. The arithmetic is a reason to stop owing, never a reason to stop giving.
+
+Annotated structure. The prayer sentence at its first occurrence, dissected.
+
+Verbatim, from the Prophet, peace and blessings be upon him and his family:
+
+> There is no prayer for one who does not pay zakat.
+
+- Part, three things the sentence does not say: that such a man's prayer is diminished, that it is unrewarded, that it is accepted with difficulty.
+- Part, what it says: there is no prayer. The category is empty for him.
+- Annotation on the distance involved: this series has spent thirteen chapters regulating prayer down to the placement of a garment and the direction of a glance, and a failure nowhere near the prayer mat is said to have removed the whole of it.
+- Annotation on the relation between the two pillars: not two duties a man may discharge one at a time and score independently. One can void the other in retrospect.
+
+Hierarchy tree. The ten things named in the hidden message, sorted by the kind each belongs to.
+
+> Allah Almighty has made zakat obligatory on ten things: first, gold; second, silver; third, camels; fourth, cows; fifth, sheep; sixth, dates; seventh, raisins; eighth, wheat; ninth, barley; tenth, grains.
+> Attribution: our master Zayd ibn Muhammad, may Allah be pleased with him, in the hidden message.
+
+- Level 1: Stored value that does nothing on its own
+  - Level 2: Gold, first; silver, second
+- Level 1: Wealth that eats, breeds and can die
+  - Level 2: Camels, third; cows, fourth; sheep, fifth
+- Level 1: Wealth that appears once a year and then has to be kept
+  - Level 2: Dates, sixth; raisins, seventh; wheat, eighth; barley, ninth; grains, tenth
+
+Callout on the sorting: the ten fall into three kinds without the source sorting them, so the count can be set against the council's seven.
+
+Callout on what the list excludes: no house, tool, garment or coin in circulation for its own sake. Everything on it either holds value or produces it.
+
+Forward pointer: the twelfth council will give a different list, of seven, and the difference is not a disagreement about how much is owed.
+
+Contrast pair. Two instructions in one sentence, aimed at two different targets.
+
+Verbatim, from Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him, in his four hundred manners:
+
+> Cure your people through charity, and fortify your wealth with zakat.
+
+Column A: Charity
+- Direction: outward
+- Target: people
+- Figure used: medicine
+- What it does: treats a community that is ill
+
+Column B: Zakat
+- Direction: inward, onto the giver's own property
+- Target: what he keeps
+- Figure used: fortification
+- What it does: builds a wall around the remainder
+
+Shared row: the payment that removes a portion of a man's wealth is named as the thing that secures the rest. The money handed over is not a loss offset by reward later. It is the defence of everything not handed over, so a man who withholds it has not protected his wealth. He has left it standing in the open.
+
+## The Twelfth Council's Reckoning
+
+Annotated structure. Whole: the address, as delivered to an assembly in the middle of a sequence.
+
+> You have heard what was recited to you above in jurisprudence concerning guardianship, purity, and prayer, what constitutes the sincerity of testimony, which is the foundation of religion and worship and the first cause of mercy and happiness. Now hear what we recite to you: the mention of zakat, which is one of its rights as established above.
+> Attribution: our master and Mawlana, the owner of the councils of al-Mustansiriyya, may God's peace be upon its owner, twelfth council.
+
+- Part, the backward glance: guardianship, purity, and prayer, named in the order this series travelled them, from the foundations of allegiance through the law of purification to the shape of the prayer.
+- Part, the status of those doctrines: taught in their place, not re-opened here, invoked as completed business.
+
+Hierarchy tree. The hierarchy the opening asserts.
+
+- Level 1: Testimony, the foundation of religion and worship and the first cause of mercy and happiness
+  - Level 2: Guardianship, a right of testimony, already recited
+  - Level 2: Purity, a right of testimony, already recited
+  - Level 2: Prayer, a right of testimony, already recited
+  - Level 2: Zakat, a right of testimony, now being introduced
+
+Callout on what the hierarchy denies: zakat is not the fourth item on a list of five. It is one of the things a single testimony demands, and the pillars are the contents of an oath rather than separate obligations that happen to number five.
+
+Process flow. What sincerity consists of, in the council's own sequence.
+
+> Its sincerity lies in knowing its noble boundaries, fulfilling its rights, and performing the seven obligatory duties that are the pillars of Islam as the above system has shown.
+> Attribution: the twelfth council.
+
+- Step 1: Knowing its noble boundaries.
+- Step 2: Fulfilling its rights.
+- Step 3: Performing the seven obligatory duties that are the pillars of Islam.
+- Rule read off the order: knowledge comes first, before payment. A man who hands over the correct sum without knowing its boundaries is not credited with sincerity in the council's sense.
+- Consequence for the chapter's shape: a chapter on intention spends its length enumerating thresholds and categories. The enumeration is the intention. There is nothing here about feeling generous.
+
+Annotated structure. The structural claim, which is the address's signature move.
+
+> In zakat likewise there are seven obligatory duties and twelve years, like the number of chapters of testimony and its letters.
+> Attribution: the twelfth council.
+
+- Whole: a pillar shown to be the numerical image of the testimony that generates it.
+- Part: seven obligatory duties, set against the chapters of testimony.
+- Part: twelve years, set against the letters of testimony.
+- Annotation on method: the same collection made the same manoeuvre for purity earlier in this series, matching its obligations and sunnahs to the chapters of the witnessing and its letters.
+- Annotation on the damaged term: twelve years is what the manuscript gives and is left as it stands. The correspondence asserted is a count rather than a span of time, and the council does not explain it further.
+
+Annotated structure. Seven words with no argument attached, and everything that hangs on them.
+
+> Zakat must be brought to the Imam.
+> Attribution: the twelfth council.
+
+- Whole: the delivery doctrine, stated bare.
+- Part, what zakat is not: a duty discharged by a reduction in a man's holdings.
+- Part, what zakat is: a duty discharged by delivery to a named recipient, the authority at the start of the process rather than the poor man at the end of it.
+- Annotation on reach: every ruling in the last section depends on these seven words.
+
+## Seven Sources and Eight Names
+
+Comparison matrix. Two enumerations of the same field, set side by side.
+
+| Kind | The hidden message, ten items | The twelfth council, seven items |
+|---|---|---|
+| Metals | Gold; silver | Gold; silver |
+| Livestock | Camels; cows; sheep | Camels; cows; sheep |
+| Produce of the ground | Dates; raisins; wheat; barley; grains | Crops, as one word |
+| Produce of the mine | Not named | Minerals |
+| Total | Ten commodities | Seven kinds |
+
+Callout on the arithmetic: the council has one word where the other list had five, so seven is not an abbreviation of ten. It is the same field sorted by kind rather than by commodity, with an extra kind admitted. The two enumerations disagree about taxonomy and agree about scope, except at the mine.
+
+Comparison matrix. Eight names divided into seven categories, with what each payment actually does.
+
+| Category | The name it carries | What the payment does |
+|---|---|---|
+| First | The poor and the needy, two words, one heading | Zakat is given to them |
+| Second | Those who work in its collection | Given the wages of collection, so the administration of the fund is financed by the fund |
+| Third | Those whose hearts are to be reconciled | Paid from it for protection, a payment securing a disposition rather than relieving a hardship |
+| Fourth | The freeing of those in bondage | Buys a person out of a condition |
+| Fifth | Those burdened with debts incurred in settling the affairs of the community | Reimbursement rather than gift, because the debt was taken on for everyone |
+| Sixth | In the way of Allah, meaning jihad | Funds a collective obligation, the category the funeral prayer was placed in earlier, owed by everybody and discharged by somebody |
+| Seventh | The wayfarer who is cut off and stranded | Relieves a man whose problem is that he is stuck, not that he is poor |
+
+Callout on the arithmetic showing in the list itself: eight names in seven categories says one category holds two names, and the list shows which. Half of what follows does not look like charity at all.
+
+Callout on the fifth heading: not debtors in general. Men who went into debt doing something on everyone's behalf.
+
+Callout on the seventh heading: the qualification is the whole ruling. A man of means a long way from his means is a legitimate recipient.
+
+## Thresholds, Protections, and the Harvest Due
+
+Annotated structure. The sunnahs list, with its two irregularities marked rather than repaired.
+
+- Whole: the council's list of sunnahs, as the source gives it.
+- Irregularity 1: introduced as two sunnahs, and eleven items follow.
+- Irregularity 2: the numbering runs one to six, skips seven, resumes at eight.
+- Annotation: both are in the source and both are left as they stand, because straightening them would require deciding what the missing item was.
+
+Comparison matrix. The floors, below which the obligation does not arise.
+
+| Item | Threshold given | Kind of floor |
+|---|---|---|
+| Time | Not taken until after the year is complete | A clock, not a quantity |
+| Gold | Twenty dinars | Stored value |
+| Silver | Two hundred dirhams | Stored value |
+| Camels | Five head | Headcount |
+| Cows | Thirty head | Headcount |
+| Sheep | Forty head | Headcount |
+
+Callout on what the floors build: below each number the obligation does not arise, so small holdings sit outside the system entirely rather than taxed lightly.
+
+Contrast pair. Who each protection restrains.
+
+Column A: Read against the collector
+- Quality: cattle taken of middling quality, so he may not select the best animal
+- Headcount: he may not add a joint to the herd, nor divide the community
+- Breeding stock: the stud animal must not be taken at all
+
+Column B: Read against the payer
+- Quality: the owner may not offload the worst animal
+- Headcount: both manipulations closed off, one inflating a holding and one splitting it, which tells us both were tried
+- Breeding stock: the exemption is reasoned from what the animal does, not what it is worth
+
+Shared row: the protections are the interesting half of the list, because they restrain the collector rather than the payer.
+
+Callout on the stud animal: remove the breeding male and the assessment collects a year's value while destroying the herd's capacity to produce any. The rule keeps the assessment from consuming its own object.
+
+Process flow. The eleventh item, which reverses the direction of every rule before it.
+
+- Everywhere else: the threshold is a wall. Below it, nothing is owed.
+- Here, entry condition: the owner of crops that have not reached the nisab, which is five awsaq, measured with the squeeze and the fist.
+- Transition: below the threshold, something is still given, and on a different clock. Not after a year has been completed, but at the time of his harvest.
+- Authority for the clock:
+
+> ⟪ar:وَآتُوا حَقَّهُ يَوْمَ حَصَادِهِ⟫
+> and give its due on the day of its harvest
+> Quran 6:141
+
+- End state: a farmer whose crop never reaches the taxable minimum still has a due, owed on the day the crop comes in, before it becomes a stored quantity that could be weighed against a threshold at all.
+
+Contrast pair. The boundary of the whole institution, drawn by the closing exclusion.
+
+> There is no zakat on houses, jewelry, and whatever is for use.
+> Attribution: the twelfth council.
+
+Column A: Wealth that grows, and is liable
+- Livestock: breed
+- Crops: come in
+- Metals: accumulate
+- Mines: yield
+
+Column B: Wealth that is held, and is exempt
+- A house: shelters
+- A bracelet: is worn
+- Whatever is for use: produces nothing that could be shared out
+
+Shared row: the line does not run between necessity and luxury, since jewelry is on the exempt side. It runs between wealth that grows and wealth that is held. Zakat falls on increase.
+
+Annotated structure. The council's closing gesture, which declines to finish.
+
+> And each of these words carries many meanings and effects of wisdom.
+> Attribution: the twelfth council.
+
+- Part, delivered: the outward form, correct as far as it goes.
+- Part, withheld: the inward reading, kept from an audience given the boundaries and told that knowing them is what sincerity consists of.
+- Annotation: the collection's habitual closing gesture, and it means what it says. The enumeration just delivered is not the whole of what is there.
+
+## Concealment and Misdirection
+
+Source note: every exchange below comes from the book of questions and answers arranged according to the order of the chapters of the book The Pillars of Islam.
+
+Annotated structure. The first questioner's objection, which is exact.
+
+> What do you say concerning what is established in the Shari'ah, namely that it is forbidden for a person to conceal his zakat from his imam? Our master, what is meant, is it that he withholds zakat or something else? And how does he conceal zakat from his imam if he is supposed to hand it to him openly?
+
+- Part, the property of concealment: it belongs to things done out of sight, and this payment is by definition done in the open, delivered in person to a named authority.
+- Part, the fork the objection forces: either the prohibition is empty, or it describes something other than hiding.
+
+> Answer: this hadith refers to one who pays some of the zakat while withholding the rest. He has abandoned an obligatory duty.
+
+Contrast pair. Two men who have not paid in full.
+
+Column A: The man who pays nothing
+- What an observer sees: nothing handed over. He withholds visibly.
+- What conceals the unpaid amount: nothing
+
+Column B: The man who pays most of it
+- What an observer sees: a payment made, in the open
+- What conceals the unpaid amount: the part handed over, which functions as a receipt
+
+Shared row: the concealment is not of the money but of the remainder, and the thing that hides it is the part that was handed over.
+
+Callout on what is named as abandoned: the obligatory duty in whole, not the fraction unpaid. A partial delivery is not most of a delivery. It is a failure dressed in evidence.
+
+Hierarchy tree. The second question, and how the answer narrows the prohibition.
+
+> What of the words recorded in the Book of Pillars, that the Messenger of Allah, may Allah's peace and blessings be upon him and his family, said: "We are the people of the House, no charity is permissible for us"? Our master, does this refer specifically to the Imams, or to all his descendants through Fatima, peace be upon her?
+
+> Answer: what is meant by this is the Imams, peace be upon them.
+
+- Level 1: The people of the House
+  - Level 2: The descendants through Fatima, peace be upon her. Status: not barred by descent alone.
+  - Level 2: The Imams, peace be upon them. Status: barred, and the bar falls here.
+
+Callout on what the reply does: it restricts the exclusion to a line rather than extending it to a lineage. Descent from Fatima is not, by itself, what closes the channel. The bar falls on those who hold the office.
+
+Callout read against the chapter's opening: the household forbidden to draw on the fund is the household to which the fund is brought. The ranks this series established earlier do the work unargued. The position that receives on the community's behalf may not receive on its own.
+
+Comparison matrix. The third question, whose wording has not survived intact, and its two-reading answer.
+
+| Element | What the source gives | How the chapter handles it |
+|---|---|---|
+| The question | Charity does not resolve the five for one of the men who bore the beauty, and a query on what is meant by the sling | Rendered as it stands |
+| Reading 1 of the answer | A punishment from an unjust authority | Given, not chosen |
+| Reading 2 of the answer | Blood money for a competent woman | Given, not chosen |
+| What both share | A liability imposed from outside a man's own dealings, the kind of charge he might hope to meet out of a fund for the burdened | Named, nothing further supplied |
+
+Annotated structure. The fourth question, a full case with a political geography attached.
+
+- Whole: the covenant written by the Commander of the Faithful for Hanaf ibn Salim, one of the people of obedience to us.
+- Part, the ground: between the island and Kufa and the land of Damascus.
+- Part, the claim: his charity was being directed to the agents of Damascus while he was in our possession, and it is forbidden for our horses and men to intercept it.
+- Part, the questioner's requests: the ruling, whether the Sultan must forbid the land of India with his forces and men, and whether the man owes zakat or not.
+- Annotation on the name: the recipient reaches this chapter as Hanaf ibn Salim in the question and al-Muhanaf ibn Sulaym in the answer. Both are kept.
+
+Contrast pair. What the questioner read in the covenant, against what the answer reads in it.
+
+Column A: The questioner's reading
+- Character of the document: a licence being abused
+- The man described: someone who may divert his zakat to the wrong authority
+- Remedy sought: enforcement, the Sultan sending forces
+
+Column B: The answer's reading
+- Character of the document: a relief
+- The people described: those who are not Shi'ites who have been seized by the enemy
+- Ruling given: zakat is not required from them
+- Ground of the ruling: they are held by a power standing between them and the party they would deliver to
+
+Shared row: the questioner arrived wanting an enforcement and was answered with an exemption. Where delivery is impossible because someone else holds the ground, the obligation does not stand as a debt against the man who cannot cross it.
+
+Process flow. Misdirected zakat, and the loop that must close.
+
+> The successive transmissions from the Ahl al-Bayt, peace be upon them, recorded in the book of Pillars and elsewhere, state that one who handed over zakat to someone whom Allah did not command him to hand it to may reclaim it by any means, until he hands it over to the guardian or to whoever receives it by his command.
+
+- Start: a man hands over zakat to someone Allah did not command him to hand it to.
+- Node: the money has left his hands. Ruling at that node: it has not been paid. It is still his.
+- Loop opens: he may reclaim it, by any means, a phrase conceding he may have to take it rather than ask for it.
+  - Purpose of the recovery: not his benefit, but the completion of the delivery he failed to make.
+- Loop closes only at: the guardian, or whoever receives it by his command.
+- End state: delivery complete, obligation discharged.
+
+Callout on what makes this ruling unlike every other here: the rest could be satisfied by a man who parted with the correct amount. This one cannot. A sum that reached the wrong party is, in the eyes of the ruling, still sitting in his hands.
+
+Annotated structure. The closing image, which is a legal one.
+
+> Likewise, the one who performs the outward prayer while holding inward conviction, yet does not spend of what Allah has provided for him as he has been obligated, giving zakat on his wealth and one-fifth of his gains, has bought himself, yet failed to pay off the debt he owed.
+> Attribution: the councils of al-Mustansiriyya.
+
+- Whole: a slave who purchases his own freedom by contract. The transaction is real, and so is the debt it creates.
+- Part, what the man in question has done: exactly that. He has made the purchase and has not paid for it.
+- Part, the instalments he is behind on, named precisely: the zakat on his wealth, and the fifth on his gains.
+- Annotation on what the council concedes him: the outward prayer and the inward conviction both, which is more than most censures concede. He is not an unbeliever with a convincing act.
+- Annotation on the diagnosis: not disbelief but default. He owns something he has not finished buying.
+
+Contrast pair. The description he is measured against, and where he fails it.
+
+Verbatim, the description the council quotes against him:
+
+> ⟪ar:وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ⟫
+> and who spend out of what We have provided for them.
+
+Note on the citation: the source names no chapter or verse and none is supplied here.
+
+Column A: Where he passes
+- The outward act: the prayer, performed
+- The inward state: conviction, held
+
+Column B: Where he fails
+- The verse's description: those who spend out of what they have been provided. His match to it: none.
+
+Shared row: the verse locates the failure at the disbursement rather than at the belief.
+
+Annotated structure. The two sentences the chapter ends on, the first returning for the second time and closing the frame the chapter opened with.
+
+Verbatim, both from the Prophet, peace and blessings be upon him and his family:
+
+> There is no prayer for one who does not pay zakat.
+
+> The one who withholds zakat is in the Fire.
+
+- Part 1: what his worship amounts to.
+- Part 2: where he is.
+
+## What this episode lands
+
+Comparison matrix. The three registers the chapter settles, before anyone calculates what zakat costs.
+
+| Register | What is fixed | The rule it yields |
+|---|---|---|
+| Shape of the duty | The Prophet's household is barred from charity absolutely, the exclusion falling on the Imams | What is owed them travels by another road, deliberately and out of abundance |
+| Shape of the duty | The fifth contains the tenth; the tenth does not contain the fifth | Pay the larger and the smaller is discharged; pay the smaller and the difference still stands, with voluntary giving outside the calculation |
+| Shape of the duty | Zakat falls on wealth that increases | Metals, herds, crops, minerals; never a house, jewelry, or anything a person simply uses |
+| Structure | Zakat must be brought to the Imam | The delivery has an address, and the address is named |
+| Structure | Taken from seven kinds | The field the list of ten described, sorted differently and extended to minerals |
+| Structure | Disbursed under eight names in seven categories | Collectors paid from the collection, dispositions secured, bondage bought out, community debts reimbursed, a collective obligation funded, a stranded traveller relieved |
+| Structure | Thresholds and restraints | Small holdings stay outside; the collector may not take the best animal, pad or split a herd, or touch the stud |
+| Structure | Below every threshold, a due on the day of the harvest | The only rule in the list that runs the other way |
+| Failure | Concealment is what a partial payment does | The portion handed over hides the portion withheld, and the duty abandoned is the whole of it |
+| Failure | A man an enemy keeps from the authority | Owes no debt for the crossing he could not make |
+| Failure | A man who delivered to the wrong party | Has not paid at all, and may recover the money by any means to deliver it properly |
+| Failure | A man with sound belief and closed hands | Has bought himself on credit and stopped paying |
+
+Callout on the council's own frame: the enumeration was delivered as boundaries to be known. Sincerity, in its account, is knowledge of the limits before it is anything else, and then the council said the words carry meanings it was not unfolding there.
+
+Comparison matrix. The damage register, kept rather than smoothed.
+
+| Damaged element | What the source gives | What the chapter does |
+|---|---|---|
+| Title of Ja'far ibn Mansur al-Yaman's work | The book of sub-nursing, uneven | Reproduced as given |
+| The question on charity and the sling | Wording not intact | Rendered as it stands |
+| Its answer | Two readings, neither chosen | Both kept |
+| The covenant's recipient | Hanaf ibn Salim, and al-Muhanaf ibn Sulaym | Both forms kept |
+| The council's sunnahs | Two announced, eleven listed, the seventh missing | Count left as it stands |
+
+Closing callout on what remains untouched: the arithmetic, how many sheep are owed on forty, what a mine yields, what a household pays at the end of the fast, what a man owes when he is himself in debt. The next chapter does the counting.
