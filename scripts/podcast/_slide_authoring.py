@@ -77,6 +77,9 @@ from _slide_checks import (
     _count_visual_candidates as _count_visual_candidates,
 )
 from _slide_checks import (
+    _merge_constraints as _merge_constraints,
+)
+from _slide_checks import (
     _parse_stdout_counts as _parse_stdout_counts,
 )
 from _slide_checks import (
@@ -159,8 +162,7 @@ class AuthoringResult:
       framing_path: Path to the deck framing (`chNN-framing-<slug>.md`).
       deck_words: Whitespace-split word count of the deck source.
       framing_words: Whitespace-split word count of the deck framing.
-      validation_findings: List of validator findings from the final attempt.
-        Empty list when success=True; populated when success=False.
+      validation_findings: Validator findings from the final attempt; empty iff success.
       stdout: Captured stdout from the final claude -p call (debug aid).
       stderr: Captured stderr from the final claude -p call (debug aid).
       attempts: How many claude -p calls were made (1 = no retry needed,
@@ -202,13 +204,10 @@ def author_deck_pair(
     fails and `retry_on_validation_fail` is True, re-invokes claude -p once with
     the validation findings appended to the prompt as constraints.
 
-    `prior_findings` — Slide Deck Challenger findings from the OUTER
-    convergence loop's previous iteration (`_slide_convergence.run_slide_convergence`),
-    shaped as `[{"id", "severity", "slides", "notes", "scope"}, ...]`. When
-    given, the FIRST authoring attempt already carries them as constraints,
-    so a re-author actually responds to what the Challenger flagged instead
-    of regenerating blind. Without this the outer loop retries identically
-    on every iteration.
+    `prior_findings` — outer convergence loop's Slide Deck Challenger findings
+    (`_slide_convergence.run_slide_convergence`), shaped as `[{"id", "severity",
+    "slides", "notes", "scope"}, ...]`, carried as constraints on every attempt
+    including inner retries (`_merge_constraints`), so re-authoring responds.
 
     Returns an :class:`AuthoringResult`. Raises :class:`AuthoringError` only for
     unrecoverable errors (claude not on PATH, timeout, missing prerequisites).
@@ -228,11 +227,12 @@ def author_deck_pair(
 
     book_slug = book_dir.name
     if prior_findings:
-        extra_constraints = "\n".join(
+        prior_findings_block = "\n".join(
             f"- [{f.get('id', '?')}] {f.get('notes', '')} (slides: {f.get('slides', '?')})" for f in prior_findings
         )
     else:
-        extra_constraints = ""
+        prior_findings_block = ""
+    extra_constraints = prior_findings_block  # inner retries merge via _merge_constraints
     attempts = 0
     last_stdout = ""
     last_stderr = ""
@@ -320,7 +320,7 @@ def author_deck_pair(
                 f"size={framing_path.stat().st_size if framing_path.exists() else 0}",
             ]
             if retry_on_validation_fail and attempts <= MAX_AUTHORING_RETRIES:
-                extra_constraints = "\n".join(f"- {f}" for f in last_findings)
+                extra_constraints = _merge_constraints(prior_findings_block, last_findings)
                 continue
             # No retry budget left — return failure.
             return AuthoringResult(
@@ -366,7 +366,7 @@ def author_deck_pair(
                 attempt=attempts,
                 findings=findings,
             )
-            extra_constraints = "\n".join(f"- {f}" for f in findings)
+            extra_constraints = _merge_constraints(prior_findings_block, findings)
             continue
         # Exhausted retry budget; return validation-failure result.
         return AuthoringResult(
