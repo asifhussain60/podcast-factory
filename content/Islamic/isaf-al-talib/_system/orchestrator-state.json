@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
-  "phase": "0f",
-  "phase_status": "halted",
-  "last_completed_phase": "0e",
-  "next_phase": "0literary",
+  "phase": "0g",
+  "phase_status": "completed",
+  "last_completed_phase": "0g",
+  "next_phase": "per-chapter",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -111,10 +111,193 @@
       "series_plan_path": "content/Islamic/isaf-al-talib/_system/series-plan.md"
     },
     "0g": {
-      "status": "pending"
+      "status": "completed",
+      "ts_started": "2026-09-18T05:49:31Z",
+      "ts_completed": "2026-09-18T05:49:33Z",
+      "audit_outcomes": {
+        "adhan-and-iqama": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "astronomy-calculation-and-religious-obligation": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "bodily-substances-and-disavowal": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "condolence-mourning-and-burial": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "congregation-and-shared-prayer": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "fasting-duties-and-the-crescent-question": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "foods-cleanliness-and-everyday-purity": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "foundations-of-faith-and-guardianship": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "friday-eid-and-prayer-corrections": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "imamate-in-prayer": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "major-washing-and-material-purity": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "missed-rakahs-and-learning-prayer": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "mosques-and-sacred-space": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "prayer-virtue-and-sacred-times": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "purity-through-ablution": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "ramadan-foundation-and-obedient-knowledge": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "ranks-loyalty-and-communal-affection": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "scripture-counted-days-and-the-complete-month": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "sickness-epidemic-and-remembering-death": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "special-prayers-and-voluntary-devotion": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "supplication-conduct-and-dress-in-prayer": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-form-of-the-prayer-summons": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-obligation-and-meaning-of-fasting": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "the-travellers-prayer": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "two-sightings-and-higher-meaning": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "zakat-obligation-and-intention": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        },
+        "zakat-on-wealth-livestock-crops-and-fitr": {
+          "status": "missing-bundle",
+          "p0": 0,
+          "p1": 0,
+          "p2": 0
+        }
+      },
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 6,
+        "blocking_fail": null
+      }
     },
     "per-chapter": {
-      "status": "pending"
+      "status": "failed",
+      "ts_completed": "2026-09-18T05:49:31Z",
+      "skipped_reason": "skip_podcast set in series-config.yaml",
+      "manual_fallback": "Phase review failed: PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short. Fix the cause, then: python3 scripts/podcast/orchestrate_book.py --resume isaf-al-talib --retry-phase per-chapter",
+      "review": {
+        "verdict": "PHASE-BROKEN",
+        "failed": 2,
+        "crashed": 0,
+        "total": 7,
+        "blocking_fail": "PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short"
+      }
     },
     "per-chapter-optimize": {
       "status": "pending"
@@ -172,7 +355,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T05:48:20Z",
+  "ts_updated": "2026-09-18T05:49:33Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -180,6 +363,6 @@
     "unit_mode": "auto"
   },
   "unattended": true,
-  "run_id": "20260918T054819Z-8d71e4",
+  "run_id": "20260918T054931Z-e3afa7",
   "phase_attempts": {}
 }
