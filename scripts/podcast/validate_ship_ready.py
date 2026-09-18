@@ -74,30 +74,99 @@ def main() -> int:
         print()
         print("=== Gates ===")
 
-    ok1, chapters, episodes = P.gate_g1_structure(workspace)
-    gate_results.append({"gate": "G1", "name": "structure", "passed": bool(ok1)})
-    if not ok1:
-        return _emit(args, gate_results, "BLOCKED", "G1 structure check failed")
+    # Lane detection mirrors publish_to_library.py's publish() exactly — this
+    # script is documented as running the SAME gate functions read-only, but
+    # until now it never actually branched on which lane the book is in, so a
+    # Sessions/reading-edition-only/skip_podcast book always hit the standard
+    # chapters+episodes G1-G4 sequence and failed on a folder it was never
+    # going to have. See _publish_skip_podcast_gates.py for why a skip_podcast
+    # book's finalize halt can't reuse the reading-edition-only lane's G1
+    # (book/book.md + PDF + narration manifest): those artifacts are built
+    # AFTER this gate passes, not before.
+    from _publish_reading_edition_gates import (
+        gate_g1_reading_edition_structure,
+        gate_g5_reading_edition_state,
+        is_reading_edition_only,
+    )
+    from _publish_sessions_gates import gate_g1_sessions_structure, gate_g5_sessions_state, is_sessions_lane
+    from _publish_skip_podcast_gates import gate_g1_skip_podcast_structure, is_skip_podcast_lane
 
-    ok2 = P.gate_g2_pairs(chapters, episodes)
-    gate_results.append({"gate": "G2", "name": "chapter-episode-pairs", "passed": bool(ok2)})
-    if not ok2:
-        return _emit(args, gate_results, "BLOCKED", "G2 chapter/episode pair mismatch")
+    sessions_lane = is_sessions_lane(workspace)
+    reading_edition_only = is_reading_edition_only(workspace)
+    skip_podcast_lane = is_skip_podcast_lane(workspace)
 
-    ok3 = P.gate_g3_sequential(chapters, episodes)
-    gate_results.append({"gate": "G3", "name": "sequential-numbering", "passed": bool(ok3)})
-    if not ok3:
-        return _emit(args, gate_results, "BLOCKED", "G3 sequential-numbering failed")
+    def _fail(gate: str, msg: str) -> None:
+        if not args.json:
+            print(f"FAIL  [{gate}] {msg}")
 
-    ok4 = P.gate_g4_build_clean(workspace, args.slug, episodes, args.strict)
-    gate_results.append({"gate": "G4", "name": "build-clean", "passed": bool(ok4)})
-    if not ok4:
-        return _emit(args, gate_results, "BLOCKED", "G4 build-clean failed")
+    def _ok(gate: str, msg: str) -> None:
+        if not args.json:
+            print(f"OK    [{gate}] {msg}")
 
-    ok5 = P.gate_g5_state(workspace, args.force)
-    gate_results.append({"gate": "G5", "name": "state-shippable", "passed": bool(ok5)})
-    if not ok5:
-        return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
+    if sessions_lane:
+        ok1, _episode_count = gate_g1_sessions_structure(workspace, fail=_fail, ok=_ok)
+        gate_results.append({"gate": "G1", "name": "structure", "passed": bool(ok1)})
+        if not ok1:
+            return _emit(args, gate_results, "BLOCKED", "G1 structure check failed")
+        for g in ("G2", "G3", "G4"):
+            gate_results.append({"gate": g, "name": "n/a-sessions-lane", "passed": None, "skipped": "n/a"})
+        if not args.json:
+            print("n/a   [G2-G4] sessions lane has no chapters/episodes txt upload bundle to check")
+        ok5 = gate_g5_sessions_state(workspace, args.force, fail=_fail, ok=_ok)
+        gate_results.append({"gate": "G5", "name": "state-shippable", "passed": bool(ok5)})
+        if not ok5:
+            return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
+    elif reading_edition_only:
+        ok1, _episode_count = gate_g1_reading_edition_structure(workspace, fail=_fail, ok=_ok)
+        gate_results.append({"gate": "G1", "name": "structure", "passed": bool(ok1)})
+        if not ok1:
+            return _emit(args, gate_results, "BLOCKED", "G1 structure check failed")
+        for g in ("G2", "G3", "G4"):
+            gate_results.append({"gate": g, "name": "n/a-reading-edition-only", "passed": None, "skipped": "n/a"})
+        if not args.json:
+            print("n/a   [G2-G4] reading-edition-only lane has no chapters/episodes txt upload bundle to check")
+        ok5 = gate_g5_reading_edition_state(workspace, args.force, fail=_fail, ok=_ok)
+        gate_results.append({"gate": "G5", "name": "state-shippable", "passed": bool(ok5)})
+        if not ok5:
+            return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
+    elif skip_podcast_lane:
+        ok1, _chapter_count = gate_g1_skip_podcast_structure(workspace, fail=_fail, ok=_ok)
+        gate_results.append({"gate": "G1", "name": "structure", "passed": bool(ok1)})
+        if not ok1:
+            return _emit(args, gate_results, "BLOCKED", "G1 structure check failed")
+        for g in ("G2", "G3", "G4"):
+            gate_results.append({"gate": g, "name": "n/a-skip-podcast", "passed": None, "skipped": "n/a"})
+        if not args.json:
+            print("n/a   [G2-G4] skip_podcast lane has no episodes/ upload bundle to check")
+        ok5 = P.gate_g5_state(workspace, args.force)
+        gate_results.append({"gate": "G5", "name": "state-shippable", "passed": bool(ok5)})
+        if not ok5:
+            return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
+    else:
+        ok1, chapters, episodes = P.gate_g1_structure(workspace)
+        gate_results.append({"gate": "G1", "name": "structure", "passed": bool(ok1)})
+        if not ok1:
+            return _emit(args, gate_results, "BLOCKED", "G1 structure check failed")
+
+        ok2 = P.gate_g2_pairs(chapters, episodes)
+        gate_results.append({"gate": "G2", "name": "chapter-episode-pairs", "passed": bool(ok2)})
+        if not ok2:
+            return _emit(args, gate_results, "BLOCKED", "G2 chapter/episode pair mismatch")
+
+        ok3 = P.gate_g3_sequential(chapters, episodes)
+        gate_results.append({"gate": "G3", "name": "sequential-numbering", "passed": bool(ok3)})
+        if not ok3:
+            return _emit(args, gate_results, "BLOCKED", "G3 sequential-numbering failed")
+
+        ok4 = P.gate_g4_build_clean(workspace, args.slug, episodes, args.strict)
+        gate_results.append({"gate": "G4", "name": "build-clean", "passed": bool(ok4)})
+        if not ok4:
+            return _emit(args, gate_results, "BLOCKED", "G4 build-clean failed")
+
+        ok5 = P.gate_g5_state(workspace, args.force)
+        gate_results.append({"gate": "G5", "name": "state-shippable", "passed": bool(ok5)})
+        if not ok5:
+            return _emit(args, gate_results, "BLOCKED", "G5 state-shippable failed")
 
     # G6 is obsolete and MUST stay obsolete here too: publish_to_library.py stopped
     # evaluating it when draft/published became a status field, because nothing is
