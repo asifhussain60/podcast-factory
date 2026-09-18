@@ -31,6 +31,7 @@ pipeline makes.
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from _arabic_coverage import arabic_coverage_shortfall, arabic_run_spans
@@ -41,6 +42,23 @@ from _translation_text import _translation_long_enough, normalize_translation_pr
 
 _COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
 _RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
+
+
+def _verbatim_arabic_hint(body: str, findings: list[str]) -> str:
+    """Quote the source's own Arabic spans when the gate says script was dropped.
+
+    The finding names the missing words without their vowels, which a model
+    cannot copy back faithfully; quoting the source span lets it keep it verbatim.
+    """
+    if not any("Arabic script dropped" in f for f in findings):
+        return ""
+    spans = re.findall(r"\u27ea(?:ar):[^\u27eb]+\u27eb", body)
+    if not spans:
+        return ""
+    return (
+        ". Keep EVERY Arabic quotation from the source exactly as written, each inside its "
+        "\u27ea" + "ar:…\u27eb marker, unchanged and untransliterated: " + " | ".join(dict.fromkeys(spans))[:2500]
+    )
 
 
 def _compose_one(
@@ -108,6 +126,7 @@ def _compose_one(
             prompt
             + "\n\nYour previous answer failed these integrity checks: "
             + "; ".join(findings[:5])
+            + _verbatim_arabic_hint(body, findings)
             + ". Rewrite now as clean chapter prose only, correcting exactly those failures. "
             "Do not mention instructions, options, source mismatch, inability, the title "
             "selection, or the prompt. Do not emit Markdown headings."
