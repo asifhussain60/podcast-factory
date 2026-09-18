@@ -1,0 +1,33 @@
+{
+  "phase": "06a",
+  "approved": false,
+  "warnings": [
+    {
+      "severity": "P1",
+      "message": "Missing primary source authentication. No translator attribution, publication details, or scholarly edition metadata provided. Cannot verify which text version is being used (multiple editions of Isaf al-Talib exist with different chapter structures).",
+      "chapter": "all"
+    },
+    {
+      "severity": "P1",
+      "message": "Extraction methodology opaque. Source files include 'raw-extract.md' and 'refined-english.md' but no documentation of extraction process, OCR corrections, or editorial interventions. Cannot distinguish original text from processing artifacts.",
+      "chapter": "all"
+    },
+    {
+      "severity": "P2",
+      "message": "Chapter structure inconsistency flagged. Ch01 opens with 'foundations-of-faith-and-guardianship' (walayah emphasis) which is distinctive to Ismaili interpretation. Requires verification that remaining 26 chapters maintain doctrinal coherence without Sunni/Twelver Shi'a cross-contamination.",
+      "chapter": "ch01"
+    },
+    {
+      "severity": "P2",
+      "message": "Purity chapters (03-05) follow classical fiqh structure. Confirm these align with source text's specific legal school (Ismaili, Twelver, or other) rather than representing harmonized/comparative framework.",
+      "chapter": "ch03, ch04, ch05"
+    },
+    {
+      "severity": "P1",
+      "message": "No companion source material verification. File 'chapters-rationale.md' suggests editorial decision-making about chapter divisions. Original text divisions must be confirmed against scholarly editions.",
+      "chapter": "all"
+    }
+  ],
+  "reviewed_at": "2026-09-18T05:46:16Z",
+  "approved_at": null
+}
