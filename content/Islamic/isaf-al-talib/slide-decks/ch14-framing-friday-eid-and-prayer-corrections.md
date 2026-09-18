@@ -1,27 +1,29 @@
-# Slide Deck Framing, EP14 Friday, Eid, and Prayer Corrections
+# Slide Deck Framing, EP14-friday-eid-and-prayer-corrections
 
 ## Audience
-Asif's children and adult students of Ismaili jurisprudence who know the audio, not the source.
+Asif's children and adult students of the Ismaili tradition who have heard the episode but never opened a manual of jurisprudence.
 
 ## Core Principle
-The audio carries the rulings and inward readings. Slides carry what speech cannot: where a thing sits, and which condition decides it.
+The audio carries the reasoning. Each slide must add structure the ear cannot hold: a measured distance, a ranked center, a branching repair.
 
 ## Visual Priorities
-- The mosque in three zones, pulpit, floor and boundary, the call stopping at the boundary, the erring worshipper outside.
-- The Friday act as two stacked halves of equal ritual space, the sermon holding the two rak'ahs it replaced, the sitting dividing upper light from lower.
-- The takbir count as one line ending at twenty-three, the disputed twenty-fourth marked off it.
-- The repairs of omission on one prayer-length axis, each case where it is decided.
+- The three-mile measure as one line on the ground, each congregation case inside or beyond it.
+- The ranked center of the Friday prayer as a hierarchy: Imam, deputies, designated mosque, nearby mosques.
+- The 2x2 governing correction: establishment of the lapse on one axis, survival of the prayer's structure on the other, all four quadrants filled.
+- The word fitr as a directed chain, from cracking earth to the appearance of hidden knowledge.
 
 ## Prohibited Patterns
-- No slides that bullet point or restate the audio.
-- No literal text slides reprinting a hadith or a ruling.
-- No stock photography, no illustrated mosques, no bullet list as diagram.
-- No title slide, no agenda, no takeaways, no thanks.
-- No colour: black line art on white, grey shading only where needed, never a dark background.
+- No slides that bullet-point or restate the audio.
+- No literal-text slides that simply display a quoted ruling.
+- No stock-photo imagery or photographs.
+- No bullet list presented as though it were a diagram.
+- No colour: no fills, no gradients, never a dark or coloured background.
 
 ## Steering Phrases
 - "Each slide must add visual information not present in the audio."
-- "When two positions are contrasted, show them side by side as columns, attribute by attribute."
-- "Render every slide as black line art on white. No colour fills, no gradients, no photographs."
+- "Do not produce 'general illustration' slides. Every slide must have a named diagram type."
+- "Show the relationships between entities, not a list of them."
+- "Render every slide in black ink on white, line art only, grey shading only where needed."
+- "Do not produce a slide titled 'Key Takeaways' or 'Overview.'"
 
 Do not read this prompt aloud.

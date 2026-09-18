@@ -1,15 +1,15 @@
 # Slide Challenger Report, ch02-ranks-loyalty-and-communal-affection
 
 **Book**: isaf-al-talib
-**Run**: 2026-09-18 (slide-deck-challenger v1.0)
+**Run**: 2026-09-18 (slide-deck-challenger v1.0, `challenger_version: 1.0`)
 **Scope**: per-chapter, ch02-ranks-loyalty-and-communal-affection
 **Deck source**: `content/Islamic/isaf-al-talib/slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt`
 **Slide framing**: `content/Islamic/isaf-al-talib/slide-decks/ch02-framing-ranks-loyalty-and-communal-affection.md`
 **Audio chapter**: `content/Islamic/isaf-al-talib/chapters/ch02-ranks-loyalty-and-communal-affection.txt`
-**Discussion spine**: ABSENT (`_system/episode-drafts/` contains only `.gitkeep`)
+**Discussion spine**: ABSENT (`_system/episode-drafts/` does not exist in this book)
 **Slide spine**: ABSENT (`_system/slide-decks/ch02-.../` contains only `.validated`)
 **Visual registry**: ABSENT (`slide-decks/_visual-registry.md` does not exist)
-**Iterations**: 1 (of 5 max)
+**Iterations**: 1 (of 5 max) — this run follows a Worker re-authoring pass against the prior BLOCKED report
 
 **Bundle status**: iterate
 **Verdict**: BLOCKED
@@ -20,29 +20,31 @@
 
 | Metric | Value | Spec | Result |
 |---|---|---|---|
-| Deck word count | 5,634 | 50 to 100% of audio | 99.7%, in band at the ceiling |
+| Deck word count | 5,650 | 50 to 100% of audio | 99.96%, in band at the ceiling |
 | Audio word count | 5,652 | — | — |
-| Typed structural moments | 39 | — | — |
-| Untyped content blocks | 3 | 0 | FAIL (SL-P4) |
+| Typed structural moments | 37 | — | — |
+| Untyped content blocks | 0 | 0 | pass (SL-P4), 3 fixed since prior run |
 | Prose paragraphs >100 words | 0 | 0 | pass |
 | Em dashes (deck + framing) | 0 | 0 | pass |
 | Inline phonetic parens (R-PHONETICS-OUT) | 0 | 0 | pass |
-| H1 / H2 movements preserved from audio | yes, 4 movements | required | pass |
-| Framing body length | 259 words | 150 to 250 | 9 words over band (advisory) |
+| Hedged matrix cells ("varies", "depends", "TBD") | 0 | 0 | pass |
+| Audio H2 movements present in deck | 5 of 5 | 5 | pass |
+| Deck H2 movements | 6 | 5 | advisory, see Observation O1 |
+| Framing body length | 244 words | 150 to 250 | pass, in band (was 259, fixed) |
 | Framing required H2 sections | 5 of 5 | 5 | pass |
 
-### Diagram-type distribution (39 typed moments, 8 types)
+### Diagram-type distribution (37 typed moments, 8 types)
 
 | Type | Count | Share |
 |---|---|---|
-| Annotated structure | 8 | 20.5% |
-| Comparison matrix | 8 | 20.5% |
-| Process flow (incl. looping, gated) | 7 | 17.9% |
-| Contrast pair | 6 | 15.4% |
-| Visual metaphor | 5 | 12.8% |
-| Hierarchy tree | 3 | 7.7% |
-| Named-axis 2x2 | 1 | 2.6% |
-| Genealogy chain | 1 | 2.6% |
+| Comparison matrix | 11 | 29.7% |
+| Contrast pair | 6 | 16.2% |
+| Process flow (incl. gated, branching, looping) | 6 | 16.2% |
+| Annotated structure with positions | 5 | 13.5% |
+| Named-axis 2x2 | 3 | 8.1% |
+| Hierarchy tree | 3 | 8.1% |
+| Visual metaphor | 2 | 5.4% |
+| Genealogy chain | 1 | 2.7% |
 
 ---
 
@@ -50,18 +52,18 @@
 
 | Probe | Result | Moments flagged | Notes |
 |---|---|---|---|
-| SL-P1 Restatement | **fail (P0)** | L179, L485, L523, L279 | 3 VERIFIED + 1 INFERRED; threshold is 2 |
-| SL-P2 Literal Illustration | pass | — | No "image of" / "photo of" / "depiction of" language anywhere; night-sky metaphor at L139 is the closest approach, advisory only |
-| SL-P3 Structure-vs-Description | pass | — | Every typed moment commits to axes, cells, levels, nodes, or positions; the 2x2 at L151 names both axis poles and populates all four quadrants with entity + reasoning |
-| SL-P4 Diagram-Type Discipline | **fail (P0)** | L74, L401, L443 | Three standalone content blocks carry no diagram type and render as bare bullet lists |
-| SL-P5 Diversity | pass | — | 8 types; contrast pair, comparison matrix, and named-axis 2x2 all present |
-| SL-P6 Audio Redundancy | pass | — | ~9 of 42 blocks (21%) add no structural value; threshold is 70% |
-| SL-P7 Justified Skip | n/a | — | slide-deck-status is not `not-needed`; a deck exists |
-| SL-P8 Coverage | pass (vacuous) | — | No `04-discussion-spine.md` and no `01-slide-spine.md` exist, so there are zero `[VISUAL CANDIDATE]` beats to check. Probe is UNEXERCISABLE, see P2 advisory |
+| SL-P1 Restatement | **fail (P0)** | L71, L96, L270 | 2 VERIFIED + 1 INFERRED; failure threshold is 2 |
+| SL-P2 Literal Illustration | pass | — | Zero occurrences of "image of", "photo of", "picture of", "depiction of", "illustration of", "stock". The planet at L154 is a calibration mark inside an annotated structure, not a depicted object |
+| SL-P3 Structure-vs-Description | pass | — | All 3 named-axis 2x2s name both axis poles and populate four quadrants with entity plus reasoning. All 11 matrices carry concrete cells, zero hedges. All 5 annotated structures carry a `Position:` per part. All 6 process flows carry Start, branch or gate, End. Both visual metaphors assign every element |
+| SL-P4 Diagram-Type Discipline | pass | — | 37 of 37 structural blocks open with a taxonomy type. Zero untyped, blank, "TBD" or "various". The three untyped bullet lists cited in the prior run (old L74, L401, L443) are resolved: the two-arenas block is now folded into the L211 2x2 as a second `Reading:` line |
+| SL-P5 Diversity | pass | — | 8 distinct types, well above the 2-type floor. Contrast pair, comparison matrix and named-axis 2x2 are all present, which is what the affinity matrix predicts for a theological-argument plus lineage source |
+| SL-P6 Audio Redundancy | pass | — | 4 of 37 moments (10.8%) are 1:1 with an audio paragraph and add no structural value; threshold is 70%. Most moments regroup across audio paragraphs: L406 gathers five separate audio paragraphs into one access matrix, L326 regroups a flat list of twelve duties by faculty, L344 turns a flat list of relative categories into a branching tree |
+| SL-P7 Justified Skip | n/a | — | Not in skip mode. A deck exists, and no `slide-deck-status` column exists anywhere in this book to set `not-needed` |
+| SL-P8 Coverage | pass (vacuous) | — | No `04-discussion-spine.md` and no `01-slide-spine.md` exist, so there are zero `[VISUAL CANDIDATE]` beats to check. The probe is UNEXERCISABLE. See finding SL4 and the substitute check below |
 
 ### SL-P8 substitute check (INFERRED, good faith)
 
-With no spine substrate, the Challenger ran a concept-coverage check of the audio chapter against the deck source instead. Every audio movement and every named source block is represented: the two supplications, the Pen/Tablet genealogy, the seven hudud, the Muhammad bin Tahir supplication, the inward-measure counsel, the planet image, the exaggeration boundary, the hasty-defense counsel, the Four Hundred Counsels loyalty block, the seven compact counsels, the nineteenth/seventeenth/eighteenth/twentieth/twenty-fourth councils, the twelve duties, the twelve relative categories, the seven neighbor kinds, the twelve etiquette points, all four legal questions from India, the obligatory-knowledge list, the five scriptural commands, the analogy prohibition, the return-what-you-do-not-recognize counsel, the three Keys of Grace prohibitions, and the secrecy counsel. No missing concepts (format-spec Common Mistake 6 clear).
+With no spine substrate, the Challenger ran a concept-coverage walk of the audio chapter against the deck source instead. All 37 audio content units are represented: the opening tension, the six registers, the four-stage rhythm, the earlier-chapter foundation, the houses and their four attributes, both supplications and their numbered groupings, the Pen and Tablet cascade with the three angelic correspondences, the seven hudud plus twelve proofs plus nineteen, the nine-part Muhammad bin Tahir supplication, the inward-measure counsel, the wearied-believer counsel, the planet image, the elevated-servants boundary, the hasty-defence counsel, the five loyalty commandments, the two arenas, the seven compact counsels, the nineteenth council's seven and twelve, the seven situations between believers, the mirror saying, the India necessities ruling, the seventeenth and eighteenth and twentieth and twenty-fourth councils, the twelve duties toward parents, the twelve categories of relatives, the severance-of-the-womb oath, the seven kinds of neighbour, the twelve etiquette points, the night and ablution counsels, all four legal questions about books, the obligatory-knowledge list, the five scriptural commands, the analogy prohibition, the return-what-you-do-not-recognise counsel, the three Keys of Grace prohibitions, the secrecy counsel, the affection-made-lawful thread, and both landings. No missing concepts (format-spec Common Mistake 6 clear).
 
 ---
 
@@ -69,134 +71,102 @@ With no spine substrate, the Challenger ran a concept-coverage check of the audi
 
 | Check | Result | Notes |
 |---|---|---|
-| SL-A1 Visual Memory Test | pass (narrow) | 10 of 42 blocks forgettable, 23.8%; threshold is 30%. Margin is 3 blocks |
-| SL-A2 Variety | pass | Largest type share 20.5%, threshold >60% for a 10+ moment deck. Advisory: two concentric-ring metaphors (L101, L534) will render near-identically |
-| SL-A3 Arc | pass | Opening establishes the organizing structure (L5 bands with a stated cross-axis reading, height = nearness, width = reach; L17 the four-stage rhythm). Middle builds pressure through the central 2x2 at L151 and an accumulating matrix sequence. Close resolves structurally: L492 closed circle whose ninth arc meets the first, L510 synthesis matrix, L534 outward propagation, L547 two-column landing. Not a bullet-list takeaway. Blemish: L523 is a summary-slide insertion that weakens the run-in to the close, and it is already cited under SL-P1 |
-| SL-A4 Cross-Episode Consistency | n/a | `slide-decks/_visual-registry.md` does not exist, so the registry has no entries and the check cannot fire. See P2 advisory: 15 decks now exist in this book with recurring entities (the Imams, the hudud, the preachers, Ali ibn Abi Talib, the Mustansiriyya councils) and no registry to hold conventions |
-
-### SL-A1 forgettable inventory (the 10)
-
-Weak annotated structures that are annotated lists with no positional or comparative commitment: L52, L179, L237, L485, L523. Linear single-question flow with no branch: L279. Decorative matrix whose "Function in the chapter" column repeats "Same measure, applied to..." across three of five rows: L62. Untyped bullet lists: L74, L401, L443.
-
-The deck survives this check on the strength of its spatially-committed blocks: L5 (six bands with a named cross-axis), L151 (the 2x2), L322 and L386 (twelve items each, grouped into four named quadrant positions by faculty), L372 (seven neighbor kinds scored against three grounds with the "first column never empties" reading), L89 and L340 and L427 (hierarchy trees), L492 (closed circle).
+| SL-A1 Visual Memory Test | pass | 3 of 37 moments forgettable, 8.1%; threshold is 30%. Margin is 8 moments. The three: L71 (decorative matrix, two constant columns), L96 (single-child chain rendering as an indented list), L297 (index table, lookup rather than conceptual shape). Improved sharply since the prior run: all five annotated structures now carry positional commitments, where the prior run found five that were annotated lists with no position |
+| SL-A2 Variety | pass | Largest type share 29.7% (comparison matrix, 11 of 37); threshold is >60% for a 10+ moment deck. Advisory: the matrix count is nearly double the next type, and three matrices in the closing movement (L436, L481, L508) run consecutively enough to read as one texture |
+| SL-A3 Arc | pass | Opening L5 establishes the central tension as a named-axis 2x2 and names the quadrant never argued against. Middle builds pressure through L60 (the band with two edges), the doctrinal hinge at L161, the concealment 2x2 at L211 whose reading does real conceptual work, then accumulating granularity through L377 and L391, then the epistemic climax at L452 and L481. Close resolves structurally: L508 synthesis grid, L521 reading on why the chapter sits where it does, L525 two-column landing. Not a bullet-list takeaway. The L5 and L161 2x2s deliberately share a restraint axis, which binds the arc |
+| SL-A4 Cross-Episode Consistency | n/a | `slide-decks/_visual-registry.md` does not exist, so the registry has no entries and the check cannot fire. See finding SL5 |
 
 ---
 
 ## Failures requiring Worker iteration
 
-### P0, blocks ship
+### P0 (blocks ship)
 
-#### SL-P1: Restatement, L523 is near-verbatim audio prose
+#### SL1 — SL-P1 Restatement: L71 comparison matrix is decorative, and regressed against a prior cited finding
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:523-530`
-- **Content**: "Annotated structure. Whole: why this chapter stands near the beginning of Isaf al-Talib. / Parts: / - What comes after it: the book's later rulings. / - What it supplies first: the kind of person who can receive rulings properly. / - The person described: reveres rank without exaggeration, loves without recklessness, speaks with measured goodness, shares necessities, honors parents, keeps kinship..."
-- **Replaceable by**: `chapters/ch02-...txt:127`, "This is why the chapter belongs near the beginning of Isaf al-Talib. Before the book enters later rulings, it trains the listener in the kind of person who can receive rulings properly. That person reveres rank without exaggeration, loves without recklessness, speaks with measured goodness, shares necessities, honors parents, keeps kinship, protects neighbors, seeks knowledge, repairs books, respects permissions, refuses unauthorized analogy, and guards entrusted secrets."
-- **What is wrong**: the twelve-item enumeration is transcribed word for word from the audio paragraph into a single bullet. Zero structural addition, and the block reads as a summary slide immediately before the closing movement.
-- **Suggested Worker re-authoring**: delete it. L510 already carries the same synthesis as an eight-row matrix (What is loved / The act love takes / The discipline that bounds it) and does it better. If the "who this chapter forms" point must survive, fold the twelve traits into L510 as a fourth column naming which of the chapter's disciplines each trait comes from, rather than restating them as a list.
-- **Verified | Inferred**: VERIFIED
+- **File**: `content/Islamic/isaf-al-talib/slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:71`
+- **Content (excerpt)**: `| Grouping | Number | Decoded here | Function of the count | ... | Verses | Nine | No | Inherited count, received as given | | Verses | Ten | No | Inherited count, received as given | | Verses | Twenty-one | No | Inherited count, received as given | | Imams | Seven | No | Guidance remembered by measured rank |`
+- **What is wrong**: two of the four columns do no comparative work. `Decoded here` reads "No" in all seven rows, and `Function of the count` repeats "Inherited count, received as given" three times and "The same measure on ..." three times. The constant column is a verbatim restatement of one audio sentence: "The chapter does not pause to decode every number as a separate doctrine." A host saying that sentence aloud loses nothing the table supplies. What remains is a seven-item list, which SL-A1 names as a memory-test failure mode.
+- **Regression note**: the prior report cited this exact block (then at L62) under SL-A1 as "decorative matrix whose 'Function in the chapter' column repeats 'Same measure, applied to...' across three of five rows." The re-authoring made it worse, not better: it split "Nine, ten, twenty-one" into three rows (5 rows to 7) and ADDED a fourth column that is 100% constant.
+- **Suggested Worker re-authoring**: drop the `Decoded here` column entirely and move its content to the `Reading:` line, where it already lives. Then either (a) re-type the moment as an annotated structure showing the block of four sevens against the three varying verse counts, so the recurrence is the visual payload, or (b) give the fourth column a genuinely varying value, for example which register each count is invoked in (prayer of victory versus Sunday supplication) and what office it measures.
+- **Verified | Inferred**: **VERIFIED** — the constant columns are directly checkable in the file, and the regression is checkable in the diff against the prior revision.
 
-#### SL-P1: Restatement, L179 mirrors one audio paragraph with no structural gain
+#### SL2 — SL-P1 Restatement: L96 hudud "hierarchy tree" is a single-child chain equal to one audio sentence
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:179-185`
-- **Content**: "Annotated structure. Whole: why the chapter keeps returning to supplication rather than to argument. / Parts: / - The words are inherited. Annotation: the tongue remembers rank without inventing rank. / - The register is devotional. Annotation: the seven, the twelve, the doors, the proofs and the authorized ones are named in prayer, not in private fantasy. / - The form precedes the feeling. Annotation: given language improvises less recklessly."
-- **Replaceable by**: `chapters/ch02-...txt:35`, whose four sentences supply every clause here, several verbatim ("trains the tongue to remember rank without inventing rank", "in a devotional register, not as a private fantasy", "less likely to improvise recklessly").
-- **What is wrong**: three labelled parts, but no axis, no comparison, no hierarchy, no position. The block is the audio paragraph with bullet punctuation.
-- **Suggested Worker re-authoring**: make the point visual by contrasting the two registers the chapter actually sets against each other. A contrast pair, Column A inherited supplication (source of words: transmitted; who fixes the rank: the prayer; failure mode blocked: invention), Column B private praise (source of words: the speaker; who fixes the rank: nobody; failure mode: exaggeration). That connects it to the L151 2x2 instead of narrating alongside it.
-- **Verified | Inferred**: VERIFIED
+- **File**: `content/Islamic/isaf-al-talib/slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:96`
+- **Content (excerpt)**: `Hierarchy tree. The hudud as the chapter names them, with numbered attachments beneath. - Level 1: The Speaker / - Level 2: The Foundation / - Level 3: The Terminus / - Level 4: The After / - Level 5: The Wing / - Level 6: The Authorized / - Level 7: The Respondent`
+- **What is missing**: siblings. `slide-deck-patterns.md` requires a hierarchy tree to specify "levels (named), parent-child relations, and ALL SIBLINGS at each level." Every level here has exactly one child, so the structure is a linear chain typed as a tree, and it renders as an indented list — patterns anti-pattern 2, "bullet-list-as-diagram." The corresponding audio sentence enumerates the same seven names in the same order: "The Speaker, the Foundation, the Terminus, the After, the Wing, the Authorized, and the Respondent are named as hudud." The only thing the deck adds over that sentence is indentation.
+- **Compounding factor in the framing**: `ch02-framing-...md:13` elevates this to Visual Priority 4, "The hudud as one descending tree, Speaker to Respondent, twelve proofs beneath." The framing therefore steers NotebookLM to spend one of its four named priority slides on the deck's most list-like moment. Fix the framing in lockstep with the deck.
+- **Regression note**: the prior revision carried the same chain; this run's edit was cosmetic only ("with the proofs beneath" to "with numbered attachments beneath", and two bullet labels lengthened).
+- **Suggested Worker re-authoring**: give the descent a second dimension so it stops being an ordered list. Two options that fit the source: (a) re-type as a process flow of transmission, where each descent step names WHAT passes down it (meaning received, carried, delivered — the vocabulary is already at L94), turning seven names into six labelled edges; or (b) fuse it with the L108 concentric-ring metaphor, mapping each hadd to the ring that answers to it, so the vertical chain and the horizontal widening become one figure and the deck gains a genuinely novel structure. Option (b) also resolves the advisory that the deck's two strongest rank structures currently sit unconnected.
+- **Verified | Inferred**: **VERIFIED** — the absence of siblings is directly checkable in the file, and the audio sentence is quoted above.
 
-#### SL-P1: Restatement, L485 bulletizes one audio sentence
+#### SL3 — SL-P1 Restatement: L270 visual metaphor is lifted from the saying it quotes
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:485-490`
-- **Content**: "Annotated structure. Whole: the three prohibitions of Qadi al-Nu'man ibn Muhammad in the Keys of Grace. / Parts: / - First: do not take some of their sciences and then turn them back against them... / - Second: do not use what they have conveyed before its proof and interpretation have been established... / - Third: do not fabricate lies against them or turn away from them..."
-- **Replaceable by**: `chapters/ch02-...txt:121`, one sentence carrying all three prohibitions in the same order and wording.
-- **What is wrong**: the annotations add gloss, but the block itself is a three-item transcription. A host reading the audio sentence loses nothing visual.
-- **Suggested Worker re-authoring**: the three prohibitions are three distinct misuse modes of received knowledge, which is a matrix, not a list. Rows = the three prohibitions, columns = what the recipient did with the transmission / which stage of custody it violates (reception, verification, attribution) / which earlier block in the deck it answers to. That earns its slide and ties back to the L456 contrast pair.
-- **Verified | Inferred**: VERIFIED
+- **File**: `content/Islamic/isaf-al-talib/slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:270`
+- **Content (excerpt)**: `Visual metaphor. Abstract relation: how a believer holds another believer's fault. Metaphor: a mirror held between two brothers. - What it does: returns the fault exactly, at its true size. - What it does not do: mock, distort, enlarge, announce. - Position of the holder: beside his brother, never above him.`
+- **What is wrong**: the metaphor is not supplied by the deck, it is the source's own words, quoted verbatim eight lines below ("A Muslim is the mirror of his Muslim brother"). A visual metaphor earns its place by MAKING an abstract relation spatial; here the relation arrived already spatial. Two of the three scaffold lines restate the audio's own gloss ("The mirror does not mock. It reveals"). Only the third line, the holder's position, is a commitment the audio does not make.
+- **Suggested Worker re-authoring**: keep the moment but make the spatial claim carry the weight. The audio supplies a sharp contrast the deck drops — "the source is not soft on fault, but it is severe against cruelty in the name of correction." Render that as the metaphor's two failure directions (the mirror that distorts the fault away, the mirror held above and turned outward to an audience), so the figure shows three positions rather than one plus a denial list. Alternatively re-type as a contrast pair, mirror versus announcement, attribute by attribute.
+- **Verified | Inferred**: **INFERRED** — heuristic judgment. The line "Position of the holder: beside his brother, never above him" is a genuine non-audio commitment, so a reasonable Worker could argue this moment clears the bar. It is cited because SL-P1's threshold is met by SL1 and SL2 alone; this finding does not carry the verdict.
 
-#### SL-P1: Restatement, L279 is a linear narration of one ruling (lesser instance)
+### P1 (ship-with-caution)
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:279-287`
-- **Content**: "Process flow. The legal question from India about necessities. / Start: people in India have no means to obtain water, salt, food, and similar necessities. / Down to: they ask one another for such things without payment. / Down to: the question is put to the answering authority. / End: permitted, and the stated ground is affection and brotherhood, not necessity alone."
-- **Replaceable by**: `chapters/ch02-...txt:77`, "People in India were accustomed to asking one another for such things without payment when they had no means to obtain them otherwise. The answer... is brief: 'This is fine, for the sake of affection and brotherhood.'"
-- **What is wrong**: a process flow with no branch and no gate is a sentence with arrows. The four deck's other question-blocks (L405) do this correctly by adding gates; this one does not.
-- **Suggested Worker re-authoring**: fold it into the L405 gated flow as a fifth question with its own gate (is the ground necessity or affection), which both removes the weak block and strengthens the gated structure.
-- **Verified | Inferred**: INFERRED (the added clause "not necessity alone" is a small interpretive gain, so the "no loss" judgment is heuristic rather than textual)
+None.
 
-#### SL-P4: Diagram-Type Discipline, L443 is an untyped five-item bullet list
+### P2 (advisory, does not affect verdict)
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:443-448`
-- **Content**: "Scriptural commands invoked without verse numbers, one per line: / - Obey Allah, obey the Messenger, and those in authority among you. / - Every people will be called by their Imam. / - To every people there is a guide. / - Ask the people of remembrance if you do not know. / - Allah raises those who believe and those given knowledge by degrees."
-- **What is missing**: a diagram type. This is a standalone body block inside the "Guarded knowledge and permitted access" movement, between a hierarchy tree and a blockquote pair, and it names no taxonomy type. It is the exact shape the deck source exists to prevent, and the chapter's own framing file forbids it ("No bullet list masquerading as a diagram"). NotebookLM reading five bare bullets will render a bullet-list slide.
-- **Suggested Worker re-authoring**: type it as a comparison matrix, rows = the five commands, columns = what each establishes (obedience / summoning / guidance / inquiry / rank) against which hudud level from the L427 tree it authorizes. Alternatively attach each command as an annotation to the L427 hierarchy level it grounds, which removes the block entirely.
-- **Verified | Inferred**: VERIFIED
+#### SL4 — SL-P8 Coverage probe is unexercisable book-wide
 
-#### SL-P4: Diagram-Type Discipline, L401 is an untyped two-item bullet list
+- **File**: `content/Islamic/isaf-al-talib/_system/episode-drafts/` (does not exist)
+- **What is wrong**: neither `04-discussion-spine.md` (anywhere in the book) nor `01-slide-spine.md` (for this chapter) exists, so there are zero `[VISUAL CANDIDATE]` beats and zero `Anchor:` fields. SL-P8 cannot fail, which means it also cannot pass meaningfully. A silently dropped visual beat would be invisible to this Challenger for every chapter of this book.
+- **Suggested Worker action**: this is a pipeline-shape gap, not a ch02 authoring defect. Either author `01-slide-spine.md` per chapter with `Anchor:` fields, or record in the book's `_system/` that this book's slide decks are authored without a spine so the probe's vacuous pass is a deliberate state rather than an accident.
+- **Verified | Inferred**: **VERIFIED** — absence of both files is directly checkable.
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:401-403`
-- **Content**: "Counsels from Ali ibn Abi Talib opening the section on desires, knowledge, and the Qur'an, one per line: / - Do not let the night pass in silence except in remembrance of Allah. / - A sane person should not recite the Qur'an without being in a state of ablution until purified."
-- **What is missing**: a diagram type. Also transcribed verbatim from `chapters/ch02-...txt:105`, so it is a restatement as well as an untyped block.
-- **Suggested Worker re-authoring**: both counsels are preconditions on an act of approach (speech at night, recitation of the Qur'an). Render as a two-row comparison matrix, act / required state / what the state protects, which makes them the entry gate to the L405 gated flow that follows.
-- **Verified | Inferred**: VERIFIED
+#### SL5 — SL-A4 Cross-episode consistency is unenforceable book-wide
 
-#### SL-P4: Diagram-Type Discipline, L74 is an untyped attribution list
+- **File**: `content/Islamic/isaf-al-talib/slide-decks/_visual-registry.md` (does not exist)
+- **What is wrong**: 29 chapters carry deck bundles in this book, and this chapter alone recurs entities that will appear across many of them: the Imams, the hudud, Ali ibn Abi Talib, the Mustansiriyya councils, the preachers, the Ahl al-Bayt. With no registry, nothing prevents the Imams being drawn at the top of a vertical band here and on the left of a contrast there, and SL-A4 will return `n/a` for every chapter forever.
+- **Suggested Worker action**: create the per-book registry with, at minimum, the five recurring entities above and the two conventions this deck already commits to implicitly (rank drawn on a vertical axis with higher meaning nearer; community reach drawn as concentric rings widening outward).
+- **Verified | Inferred**: **VERIFIED** — absence of the file is directly checkable.
 
-- **File**: `slide-decks/ch02-deck-ranks-loyalty-and-communal-affection.txt:74-76`
-- **Content**: "The two supplications cited at this point: / - Mawlana Imam al-Mu'izz li-Din Allah, peace be upon him, in a Sunday supplication. / - Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him, in the prayer of victory and reverence."
-- **What is missing**: a diagram type. Lesser instance than the two above, since it functions as source attribution for the preceding L62 matrix rather than as its own visual moment, but it stands as a separate block and will be read as one.
-- **Suggested Worker re-authoring**: absorb it into L62 as an "Attributed to" column, which also repairs L62's repetitive "Function in the chapter" column (see the SL-A1 inventory) by giving that matrix a second distinguishing axis.
-- **Verified | Inferred**: VERIFIED
+---
 
-### P1, ship-with-caution
+## Observations (no finding emitted)
 
-None. All P1-severity probes and checks (SL-P5, SL-P6, SL-P8, SL-A1, SL-A2, SL-A3, SL-A4) returned pass or n/a.
-
-### P2, advisory
-
-#### SL-P8: Coverage is unexercisable for this chapter and this book
-
-`_system/episode-drafts/` contains only `.gitkeep`, so no `04-discussion-spine.md` exists for any chapter, and `_system/slide-decks/ch02-ranks-loyalty-and-communal-affection/` contains only a `.validated` marker with no `01-slide-spine.md`. The Coverage probe therefore passes vacuously rather than substantively: there are no `[VISUAL CANDIDATE]` beats to find missing, and no `Anchor:` map to check against. The substitute concept-coverage check above is INFERRED and does not carry the same weight. This is a book-level gap, not a ch02 authoring defect. **Verified | Inferred**: VERIFIED (absence of files confirmed on disk).
-
-#### SL-A4: no visual registry exists for a 15-deck book
-
-`slide-decks/_visual-registry.md` is absent while 15 deck sources already exist in `slide-decks/`. Recurring entities across this series are numerous (the Imams, the hudud ranks, the Ahl al-Bayt, the preachers and authorized ones, Ali ibn Abi Talib, the Mustansiriyya councils). ch02 introduces a seven-level hudud hierarchy tree (L89, Speaker down to Respondent) that no other deck currently reproduces, which means ch02 is establishing a convention with nowhere to record it. SL-A4 is n/a today by the letter of the check and will stay permanently unenforceable until the registry exists. **Verified | Inferred**: VERIFIED.
-
-#### SL-A2: two concentric-ring metaphors will render near-identically
-
-L101 ("concentric rings around the Imams", nine rings) and L534 ("concentric circles propagating outward from the sacred household", seven rings) are different content, doors/proofs/preachers versus Imams/preachers/believers/parents/relatives/neighbors/books, but the same visual form at opposite ends of the deck. The rendered slides will look like the same diagram twice. Does not trip the >60% threshold, so not a failure. Consider re-rendering L534 as a spectrum or layered-band metaphor so the close does not visually echo the opening. **Verified | Inferred**: INFERRED.
-
-#### SL-P2: the night-sky metaphor is the deck's closest approach to literal illustration
-
-L139 to L149, "Metaphor: a night sky viewed from Paradise, the homes of the Shi'a set as planets", with fields Viewing position / Objects viewed / Apparent form. It clears SL-P2 because the three fields commit to an observer-to-object relation and the abstract claim being made spatial is real (sacred rank descending into ordinary households). It is noted because the fields describe appearance more than relation, and because NotebookLM could reasonably render it as a picture of a starry sky. The framing file's "Black ink on white only... no dark background" prohibition is what holds the line here, and it should stay in the framing. **Verified | Inferred**: INFERRED.
-
-#### Format-spec deviation: framing body is 259 words
-
-`slide-deck-format.md` specifies 150 to 250 words for the customize prompt. The ch02 framing body (excluding the H1 label line) is 259, nine over. Not a probe failure, no ledger finding emitted. All five required H2 sections are present, the audience is named concretely ("Asif's children and adult students of Ismaili teaching, who heard the audio and have never opened Isaf al-Talib"), and all four Visual Priorities map to real deck structures (the L151 2x2, the L89 hudud tree, the L372 neighbor matrix, the L303 parents contrast pair), which is unusually tight alignment and worth preserving through the iteration.
+- **O1, deck adds a sixth movement.** The audio has five H2 movements; the deck has six, splitting the audio's long "Affection as law" into "Affection as law" plus "Guarded knowledge" at L404. All five audio movements are present, so nothing is lost, and the split improves SL-A3 by giving the epistemic material its own act. Recorded because `slide-deck-format.md` checklist item 3 asks that H2 movements be preserved, and this is an addition rather than a preservation failure.
+- **O2, `Parts:` blocks exceed 100 words.** Three blocks (L62 at 102 words, L328 at 110, L393 at 116) cross the 100-word line, but all three are `Parts:` headers followed by bulleted positional scaffolds, not prose paragraphs. The format spec's rule targets "prose paragraphs of >100 words." Not a violation.
+- **O3, two annotated structures share a layout.** L326 (twelve duties toward parents, by faculty) and L391 (twelve etiquette points, by faculty) use the identical four-quadrant upper-left / upper-right / lower-left / lower-right scheme. They will render as near-twins. Under threshold for SL-A2, but worth one axis of differentiation.
+- **O4, framing trailing line.** `ch02-framing-...md:29` carries "Do not read this prompt aloud." outside any H2 section. Harmless in the paste, but it sits outside the five-section contract.
 
 ---
 
 ## Verified vs Inferred summary
 
-**VERIFIED (6)**: SL-P1 at L523, SL-P1 at L179, SL-P1 at L485, SL-P4 at L443, SL-P4 at L401, SL-P4 at L74. Plus two VERIFIED P2 advisories (missing spine substrate, missing visual registry), both confirmed by absence on disk.
+| Finding | Check | Severity | Verified or Inferred |
+|---|---|---|---|
+| SL1 | SL-P1 | P0 | VERIFIED |
+| SL2 | SL-P1 | P0 | VERIFIED |
+| SL3 | SL-P1 | P0 | INFERRED |
+| SL4 | SL-P8 | P2 | VERIFIED |
+| SL5 | SL-A4 | P2 | VERIFIED |
 
-**INFERRED (3)**: SL-P1 at L279 (lesser restatement instance), SL-A2 concentric-ring echo, SL-P2 night-sky proximity.
-
-The Worker addresses BOTH categories on iteration. The three P0 SL-P4 blocks and the L523 P0 restatement are the cheapest and highest-value fixes: L523 deletes outright, and the three untyped lists each fold into an adjacent structure that they currently sit beside.
+4 VERIFIED, 1 INFERRED. The Worker addresses both categories on iteration. The verdict rests on SL1 and SL2 alone, both VERIFIED; SL3 would not change the verdict if the Worker successfully disputed it.
 
 ---
 
-## What this deck does well (not a probe, recorded so iteration does not damage it)
+## Iteration note
 
-The named-axis 2x2 at L151 is the strongest single structure in the bundle: both axes are named with poles (speech about the Ahl al-Bayt, Restrained to Expansive; confession of their servanthood, Absent to Present), all four quadrants are populated with an entity and a reason, and the reading names which axis decides. The neighbor matrix at L372 scores seven neighbor kinds against three independent grounds and lands a genuinely surprising result ("the first column never empties"). L322 and L386 each take a twelve-item list from the audio, which is the classic bullet-list trap, and convert it into a four-quadrant grouping by faculty (body/voice/standing/return of care; eye/ear-and-tongue/hand/heart). Those are the moves that carried SL-A1 and SL-A3.
+The Worker's re-authoring against the prior report cleared real ground: three untyped bullet lists are now typed or folded into neighbouring structures (SL-P4 moves from fail to pass), five annotated structures gained positional commitments (SL-A1 moves from 23.8% forgettable to 8.1%), and the framing came back inside its 150 to 250 word band. What did NOT move is the pair of moments cited above. L71 was cited in the prior report and was re-authored in the wrong direction; L96 received a cosmetic edit only. Per the iteration protocol, the Worker addresses ALL cited failures, not just the tractable ones.
 
-## Ledger emission summary
+---
 
-11 findings emitted to `_learning/findings.jsonl` this run (source: slide-deck-challenger, version: 1.0). 7 P0 (4 SL-P1, 3 SL-P4), 0 P1, 4 P2. No duplicate signatures within the run.
+## Learning loop
 
-## Verdict
+- **Steering-phrase candidate.** `ch02-framing-...md:23` uses "Render every slide as black and white line art on a white background," which is not in `slide-deck-steering.md`. It is a house style for this book's Islamic scholarly content and pairs with the framing's no-depiction rule. If it holds across a second chapter, propose it to `slide-deck-steering.md` `## Category 7 — Candidates`.
+- **Recurring failure watch.** SL-P1 has now failed twice consecutively on this chapter, both times on a comparison matrix or hierarchy whose columns or levels do not vary. If the same shape fails on a third chapter in this book, it meets the 2+ episode threshold for a new anti-pattern draft in `slide-deck-patterns.md`: "constant-column matrix — a matrix earns its type only when at least two columns vary across rows."
 
-**Pass 1**: fail (SL-P1 P0, SL-P4 P0)
-**Pass 2**: pass
-**Bundle status**: iterate
-**Verdict**: BLOCKED
+---
 
-Per the canonical spec, there is no Worker-overrides-Challenger path. The bundle does not ship until SL-P1 and SL-P4 clear on re-run.
+## Ledger emission
+
+5 findings emitted to `_learning/findings.jsonl` this run (`source: slide-deck-challenger`, `challenger_version: 1.0`).

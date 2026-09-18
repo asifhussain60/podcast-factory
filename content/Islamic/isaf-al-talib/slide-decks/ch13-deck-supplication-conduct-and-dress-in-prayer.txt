@@ -2,557 +2,514 @@
 
 ## Where this episode picks up
 
-Diagram type: Annotated structure. One threshold line drawn across the page, with what the body has already completed on its left and what the source asks on its right.
+Annotated structure. The whole: a completed prayer, dissected into the three edges the source defends.
 
-Whole: the instant the salutation is given.
+Whole: the prayer as an act with living edges, not a closed box.
 
-The line itself: the salutation, which closes the public form and opens the test.
+Parts, with position and one-sentence annotation:
+- Edge AFTER the salutation, positioned to the right of the act: the public form is complete, and supplication begins. The question is whether the servant may ask, when, and with what gesture.
+- Edge INSIDE the act, positioned at the center: speech, motion, carrying, eating, drinking, recitation, and voice. The question is what the body may do while the prayer is running.
+- Edge AROUND the body, positioned as the surrounding ring: garment, covering, ornament, image, impurity, and the ground of prostration. The question is what the prayer is performed in and upon.
 
-Left of the line, completed and not in question, in the order performed:
-- Standing. Position: farthest left.
-- Recitation. Position: beside it.
-- Bowing. Position: nearer the line.
-- Prostration. Position: nearer still.
-- The salutation. Position: on the line itself, the last act and the boundary.
+Reading of the layout: right, then center, then outward. A manual of thresholds rather than a treatise on prayer's core.
 
-Right of the line, raised and unanswered:
-- Whether one supplicates after the afternoon prayer. Position: immediately right, the first question put.
-- Whether the face is wiped at the place of prostration. Position: beside it, the same two prayers.
-- How the hands turn during supplication. Position: further right, where the body resumes motion.
-- Why the culmination of prayer is not simply another spoken wish. Position: farthest right, the question the chapter answers.
+Comparison matrix. The three edges, each with its governing question and decisive test.
 
-Reading: nothing on the left is disputed and nothing on the right is settled.
+| Edge | Governing question | Decisive test | What failure looks like |
+|---|---|---|---|
+| After the salutation | May the servant ask, when, and with what gesture | Received practice, order, and mediation | Improvised asking severed from obedience |
+| Inside the act | What the body may do while the prayer runs | Whether the required form survives | Gesture, carrying, eating, drinking, competing voice |
+| Around the body | What the prayer is performed in and upon | Covering, purity, visibility, bodily capacity | Exposed 'awra, known impurity, visible image, disabling wrap |
 
-Diagram type: Comparison matrix. Each doctrine already settled, set against the single edge this chapter adds to it.
+Hierarchy. The source's authority stack, every level named.
 
-Rows: the prayer's outward shape, the sanctity of its times, the discipline of attention, the form of the summons, the shared boundaries of congregation.
-Columns: the edge this chapter adds | the case that tests that edge.
-- The prayer's outward shape: what may be carried, worn, or held while the shape is performed | a lobe or a dirham inside the mouth.
-- The sanctity of prayer's times: what may be said in the window that opens after the salutation | supplication after the afternoon prayer.
-- The discipline of attention: what the eye may rest on while the forehead descends | a figure woven where the place of prostration falls.
-- The form of the summons: where the voice stands once the prayer has begun | recitation raised above the voice of the imam.
-- The shared boundaries of congregation: what a follower may improvise when the setting is wrong | a signalled bow behind an intoxicated leader.
-
-Cell commitment: none of the five is re-argued. The chapter works only in the right-hand columns.
-
-Diagram type: Visual metaphor. The metaphor is three concentric rings drawn around a standing body.
-
-- Innermost ring, the act itself: speech, gesture, motion, recitation
-- Middle ring, the body's covering: cloth, hair, ornament, objects held or carried
-- Outer ring, the material world the act rests on: rug, image, impurity, stone, plaster, earth
-- The centre: the forehead's contact with the ground
-- Reading: a breach at any ring travels inward toward that contact point
-
-Diagram type: Hierarchy. Every threshold the chapter names, filed under the ring it sits on.
-
-- Level 1: The inner ring, the act
-  - Level 2: Speech
-    - Level 3: The signalled gesture, the voice raised above the imam, speech before the salutation
-  - Level 2: Motion
-    - Level 3: Habitual bowing, the carried infant, eating and drinking
-  - Level 2: Encumbrance
-    - Level 3: The lobe or dirham in the mouth, the object in the hand
-- Level 1: The middle ring, the covering
-  - Level 2: What is worn
-    - Level 3: Pure silk, the saffron dye, the dense shirt, the small cloth, ishtimal al-samma'
-  - Level 2: What is added to the body
-    - Level 3: Rings, gold and silver weights, the earring, the dirham tied into a garment
-  - Level 2: What is left uncovered
-    - Level 3: The exposed limb, the thin net, the uncovered head, the absent face-covering
-- Level 1: The outer ring, the world the act rests on
-  - Level 2: What is seen
-    - Level 3: The figured rug, the engraved furnishing, the picture at the place of prostration
-  - Level 2: What is touched
-    - Level 3: The impure garment, milk, fat, eggs, camel pens, sheep pens
-  - Level 2: What receives the forehead
-    - Level 3: Earth, grass, purified plaster, stone, a heap of wheat or barley
-
-Annotation on the source's own shape: no two named opponents debate here. The rings are filled from question and answer rulings, transmitted maxims, the interpretation of the Sharīʿa, the Mustanṣiriyya Councils, the Musannaf, the answers of Yemeni and Indian authorities, and sayings of the Prophet, peace be upon him, and Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him.
+- Level 1: Revelation and prophetic word
+  - Level 2: The Qur'an, cited for the ascent of good words, chapter 35, verse 10
+  - Level 2: Sayings of the Prophet, peace be upon him, on the earth as mosque, on the Fatiha, on the basmala and wiping over the feet
+- Level 1: Imami transmission
+  - Level 2: Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him
+    - Level 3: The Four Hundred Etiquettes, on promptness, gates, and the thrower without an arrow
+    - Level 3: Rulings on pictures, dirhams, prostration on food, distress, shirt without waist-wrapper
+  - Level 2: The pure Imams, may God's blessings be upon them, from whom the loyal ones received the wiping practice
+- Level 1: Learned corpus and councils
+  - Level 2: The interpretation of the Shari'a
+  - Level 2: The Mustansiriyya Councils
+  - Level 2: The Musannaf
+  - Level 2: Ja'far ibn Mansur al-Yaman, may God sanctify him, book of the subconscious and book of obligatory laws
+  - Level 2: Answers of Yemeni and Indian authorities, including Idris ibn al-Hasan, may Allah sanctify him
 
 ## The Answerable Plea
 
-Diagram type: Comparison matrix. The opening questions on supplication after prayer, each with its ruling and the limit set inside that ruling.
+Process flow. The two opening questions and their rulings, with conditions on each transition.
 
-Rows: the four questions put to the source.
-Columns: the ruling given | the limit inside the ruling.
-- Do the books of the guiding call forbid the special supplication of drawing near after the afternoon prayer, or all supplication: it refers to drawing near and to other acts | no one is obligated to commit a sin through supplication.
-- Should the worshipper supplicate after the obligatory afternoon prayer: it is not permitted until after ʿAṣr and Fajr | the prescription came from the pure Imams, may God's blessings be upon them.
-- Should he wipe his face at the place of prostration during every prayer: the loyal ones prescribed wiping after ʿAṣr and Fajr in particular | these two prayers, not every prayer.
-- Does a supplication after ʿAṣr lengthen a life: a person's lifespan is not prolonged by it | if he prolongs it, he bears no sin for that.
+Start: A questioner reads in the books of the guiding call that supplication is not recited after the afternoon prayer.
+- ↓ Question 1. Does the ruling concern the special supplication of drawing near, or all supplications?
+- ↓ Answer. It refers to drawing near and to other acts.
+- ↓ Qualifier. No one is obligated to commit a sin through supplication.
+- ↓ Question 2. Should the worshipper supplicate after the obligatory 'Asr prayer, and wipe his face at the place of prostration in every prayer?
+- ↓ Answer, branch one. It is not permitted until after 'Asr and Fajr.
+- ↓ Answer, branch two. The loyal ones prescribed wiping after 'Asr and Fajr in particular, received from the pure Imams, may God's blessings be upon them.
+- ↓ Answer, branch three. A lifespan is not prolonged by a supplication made after 'Asr.
+- ↓ Answer, branch four. If he prolongs it, he bears no sin for that.
+End state: not a ban on asking, but a boundary between received practice, devotional extension, and a false mechanical expectation.
 
-Cell commitment: not a ban on asking, but a placement of asking inside inherited order.
+Comparison matrix. Three registers the ruling keeps apart.
 
-Diagram type: Contrast pair. What the ruling protects, against what it refuses.
+| Register | What it holds | What it denies |
+|---|---|---|
+| Received practice | Wiping after 'Asr and Fajr, taken from the pure Imams | That the practice is a personal invention |
+| Devotional extension | Prolonging supplication carries no sin | That prolonging is prescribed |
+| False expectation | None | That post-'Asr supplication lengthens a lifespan |
 
-Column A: Received practice, protected
-- Supplication located after ʿAṣr and Fajr
-- Wiping the face prescribed for those two prayers
-- Devotional extension permitted without sin
-- Origin: received from the pure Imams, may God's blessings be upon them
+Contrast pair. Time-consciousness as the frame for the plea, from the interpretation of the Shari'a.
 
-Column B: Improvisation, refused
-- Self-directed invention after the salutation
-- The thought that a post-ʿAṣr plea mechanically lengthens a life
-- Supplication treated as an obligation to transgress
-- Origin: the worshipper's own eagerness, unanchored
+Column A: Daytime prayer
+- Voice: recited silently
+- Marker: the noon and afternoon prayers are not audible
+- Bodily state: the body prays under open light
+- Threshold effect: silence trained by day does not spill into unbounded speech afterward
 
-Shared row: not asking against silence, but received asking against self-directed asking.
+Column B: Night prayer
+- Voice: voiced in the depth of darkness
+- Marker: dawn announced like glass catching the light
+- Bodily state: the body prays under cover of dark
+- Threshold effect: the voiced act still ends at the salutation, not wherever the worshipper wishes
 
-Diagram type: Annotated structure. One day, dissected into the three registers in which prayer is voiced, as the interpretation of the Sharīʿa presents them.
+Shared row: Prayer is never detached from time, and the afterword of prayer has its own discipline.
 
-Whole: the daily cycle of voice and silence.
+Annotated structure. The Mustansiriyya Councils place supplication at the culmination.
 
-Parts, with position and annotation:
-- Daytime prayer, recited silently. Position: the lit half. Annotation: silence belongs to the light.
-- Night prayer, voiced in the depth of darkness. Position: the dark half. Annotation: voice belongs to the dark, where the act must be heard.
-- Dawn, announced like glass catching the light. Position: the seam between them. Annotation: the hinge is announced rather than hidden.
+Whole: the completed discussion of prayer's jurisprudence, the outward with its exposition, the inward with its signs.
 
-Reading: prayer is never detached from time, and its afterword inherits that discipline.
+Parts, in sequence:
+- Outward jurisprudence, positioned first: exposition of the visible act
+- Inward jurisprudence, positioned beneath it: the signs of the hidden act
+- Supplication, positioned last and highest
 
-Diagram type: Contrast pair. The seam the Mustanṣiriyya Councils mark, where the jurisprudence of prayer closes and supplication opens, read across rather than down.
+> which is the culmination of prayer, and what it contains.
+Attribution: the Mustansiriyya Councils.
 
-Column A: The prayer now completed
-- What it trains: the body, through standing, recitation, bowing, prostration
-- What it binds: the worshipper to inherited form
-- What governs it: the outward, which has its exposition, and the inward, which has its signs
-- Where its words come from: the fixed order of the act
-- What it produces: a servant whose limbs have obeyed
+Annotations:
+- Culmination, not decoration: duʿāʾ is where completed standing, recitation, bowing, and prostration become explicit dependence.
+- Prayer trains the body; supplication trains the need.
+- Prayer binds the worshipper to inherited form; supplication binds his desires to repentance, praise, blessing, authority, and refuge.
 
-Column B: The supplication that culminates it
-- What it trains: the need
-- What it binds: the worshipper's desires to repentance, praise, blessing, authority, refuge
-- What governs it: times, gestures, roots, foundations, mediating authority
-- Where its words come from: what the servant actually wants, ordered before it is voiced
-- What it produces: a servant whose wanting has obeyed
+Comparison matrix. The seven forms of supplication, each with its bodily commitment.
 
-Shared row: the councils place the second immediately after the first, so the act does not end at the salutation but culminates past it.
+| Form | Hand or body position | Direction | Setting or instrument | What the body is saying |
+|---|---|---|---|---|
+| Supplication of appeal | Hands spread, palm insides facing the face, then turned so the backs face the face | Inward, then reversed | Any | Calling for help against what is feared |
+| Supplication of seeking refuge | Palms turned outward | Outward | Any | Pushing away, not drawing toward |
+| Supplication of al-istikana | Hands clasping his own shoulders | Inward and self-enclosing | Solitude only | Lowliness before Allah, unwitnessed |
+| Supplication with the rosary | Finger counts the beads | Downward to the hand | Rosary | Need told one bead at a time |
+| Supplication by moving the finger | The finger moves | Minimal motion | Any | The smallest possible gesture still speaks |
+| Supplication of raising | Palms stretched outward, hands extended upward | Upward toward the sky | Any | Reaching past the ceiling of the room |
+| Supplication of al-ta'affur | Cheeks pressed to the ground | Downward to earth | Ground | Dust-marked humility |
 
-The Mustanṣiriyya Councils, on what follows the jurisprudence of prayer:
+Visual metaphor. Why the seven are called roots.
 
-> Supplication, which is the culmination of prayer, and what it contains.
+Abstract relation: seven fixed gestures standing beneath an open field of personal asking.
+Metaphor: the root system of a tree.
+Element assignments:
+- Root system, below ground: the seven supplications, each with mention in the Qur'an
+- Trunk: the twelve principles and foundations of supplication
+- Branches: the particular askings of particular servants
+- Fruit: an answered plea
 
-## The Answerable Plea, Roots And Foundations
+Reading: what has been mentioned consists of roots, like the roots of a tree waiting to branch out and bear fruit. Everything above ground is fed from below.
 
-Diagram type: Comparison matrix. The seven named forms of supplication, each with the body that performs it.
+Process flow. The twelve foundations for the one who wishes his supplication answered, in the source's own order.
 
-Rows: the seven forms.
-Columns: what the body does | condition or purpose.
-- Supplication of appeal: hands spread, inside of the palms facing the face, then the palms turned so their backs face the face | calling for help against what he fears.
-- Supplication of seeking refuge: the palms turned outward | seeking refuge from what threatens.
-- Supplication of al-istikāna: the shoulders clasped with the hands | performed only in solitude.
-- Supplication with the rosary: the finger counts the beads | counting sustains the plea.
-- Supplication by moving the finger: the finger is moved | motion alone carries the plea.
-- Supplication of raising: the palms stretched outward, the hands extended upward toward the sky | lifting the request.
-- Supplication of al-taʿaffur: the cheeks pressed to the ground | humility marked in dust.
+Start: A servant who wants his supplication answered.
+- Step 1: He precedes it with repentance from what God has forbidden.
+- Step 2: He gives charity.
+- Step 3: He fasts.
+- Step 4: He prays, because God Almighty says that good words ascend to Him and righteous deeds lift them higher, chapter 35, verse 10.
+- Step 5: He perfects his intention in supplication, accepts it, and gathers his heart.
+- Step 6: He begins by glorifying God Almighty and praising Him as He deserves.
+- Step 7: He invokes blessings upon the Prophet, peace be upon him.
+- Step 8: He draws near to God Almighty through the imams of the religion, naming them one by one until he reaches the imam of his own time.
+- Step 9: He beseeches him and them before God in answering his supplication.
+- Step 10: He asks for the good of this world and the Hereafter.
+- Step 11: He seeks refuge from the evil of this world and the Hereafter.
+- Step 12: He calls upon God for whatever he wishes and wills.
+End state: ordered dependence, not raw emotion released into heaven.
 
-Cell commitment: each entry is a bodily grammar, not a preference. Palm inward, palm outward, shoulder clasped, cheek to earth each speak differently.
+Annotated structure. The twelve read as four movements rather than a flat list.
 
-Diagram type: Visual metaphor. The metaphor is the source's own, a tree.
+Whole: the shape of an answered plea.
 
-- Below ground, the roots: the seven gestures, each with mention in the Qurʾān
-- At ground level, the trunk: the twelve, named as the principles and foundations of supplication
-- Above ground, the branching: the practice that grows from them
-- At the crown, the fruit: the answered plea
-- Reading: the gestures are root forms, waiting to branch out and bear fruit
+Parts, with position:
+- Turning away, steps 1 through 4, positioned at the base: repentance, charity, fasting, prayer. The grip on forbidden things is loosened, wealth is loosened, appetite is disciplined, the body stands.
+- Gathering, steps 5 and 6, positioned above the base: intention perfected, heart gathered, praise offered before any request.
+- Approaching, steps 7 through 9, positioned as the ascent: blessings on the Prophet, peace be upon him, then the imams of the religion named in order to the imam of the time, then beseeching through them.
+- Asking, steps 10 through 12, positioned at the summit: this world, the Hereafter, refuge from both evils, then whatever he wishes and wills.
 
-Diagram type: Process flow. The twelve foundations for the person who wishes his supplication answered, with the gate each stage must clear before the next begins.
+Annotation on the order: personal want is last. It is not diminished, it is positioned.
 
-Start: a servant who intends to ask, and has not yet spoken.
+Genealogy chain. Step 8 rendered as a directed approach, one chain per line.
 
-Stage 1, what must be set down first:
-  Repentance from what God has forbidden
-  ↓ only once the turning away has happened
-  Charity given
-  ↓ only once the hand has loosened
-  Fasting undertaken
-  ↓ only once appetite has been disciplined
-  Prayer performed
-  ↓ gate: does a righteous deed exist beneath the word that is coming
+Servant → repentance → charity → fasting → prayer → praise of God Almighty
+Praise → blessings upon the Prophet, peace be upon him → the imams of the religion, named one by one
+The imams of the religion → the imam of the servant's own time → beseeching him and them before God
+Beseeching → the request itself → answer
 
-The gate is supplied by the word of God Almighty:
+Contrast pair. What Step 8 presupposes, set against what it supplies.
 
-> Good words ascend to Him, and righteous deeds lift them higher.
-> Quran 35:10
+Column A: Presupposed doctrine
+- Guardianship and knowledge
+- Sacred ranks
+- Disciplined loyalty
+- Affection as law
 
-Stage 2, what must be gathered before a word is voiced:
-  Intention perfected in supplication, and accepted
-  ↓
-  The heart gathered
-  ↓ gate: is the asking whole, or still scattered
+Column B: What the approach supplies
+- Authority supplies the supplicant with names
+- Authority supplies order, one by one to the imam of the time
+- Authority supplies mediation before God
+- Authority supplies belonging, so the plea is not a solitary invention
 
-Stage 3, the order of address, which may not be reordered:
-  Glorification of God Almighty, and praise as He deserves
-  ↓ praise before request
-  Blessings upon the Prophet, peace be upon him
-  ↓ blessing before need
-  Approach through the imams of the religion, named one by one to the imam of his own time
-  ↓ mediation before petition
-  Beseeching him and them before God in answering the supplication
-  ↓ gate: did the servant arrive by the named order, or by a route of his own
+Shared row: the plea is personal; its grammar is communal and hierarchical.
 
-Stage 4, the request, which now branches:
-  Branch A: asking for the good of this world and the Hereafter
-  Branch B: seeking refuge from the evil of this world and the Hereafter
-  Branch C: calling upon God for whatever he wishes and wills
-  ↓ the three branches converge into one plea
+Timeline. The six times the gates of heaven are opened, from the Four Hundred Etiquettes of Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him.
 
-End state: a request that ascends because a righteous deed is beneath it and a named order stands in front of it.
-
-Reading: the request is reached last because nothing before it may be skipped.
-
-Diagram type: Hierarchy. The same twelve regrouped under the question each group answers, a grouping the source does not itself supply.
-
-- Level 1: What comes before the asking
-  - Level 2: Repentance from what is forbidden
-  - Level 2: Charity
-  - Level 2: Fasting
-  - Level 2: Prayer
-- Level 1: What condition the asker must be in
-  - Level 2: Intention perfected in supplication, and accepted
-  - Level 2: The heart gathered
-- Level 1: Through whom, and in what order, the asking travels
-  - Level 2: Glorification and praise as He deserves
-  - Level 2: Blessings upon the Prophet, peace be upon him
-  - Level 2: Approach through the imams of the religion, to the imam of his own time
-  - Level 2: Beseeching him and them before God
-- Level 1: What is finally asked
-  - Level 2: The good of this world and the Hereafter
-  - Level 2: Refuge from the evil of both
-  - Level 2: Whatever he wishes and wills
-
-Annotation: guardianship, sacred rank, and disciplined loyalty are not argued again. They become the grammar of the asking, personal in its plea and communal in its route.
-
-Diagram type: Comparison matrix. The sayings of Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him, in the Four Hundred Etiquettes.
-
-Rows: the seven sayings.
-Columns: the force each one carries.
-- Remember God Almighty and He will accept your supplication: remembrance opens acceptance.
-- Remember Him and He will preserve you and care for you: remembrance secures protection.
-- Be prompt in supplication before calamity descends: supplication is preventative, not consoling.
-- Supplication responds to a decree that has already been concluded, so call upon God and hasten: a concluded decree is not the end of asking.
-- Ward off affliction through supplication before calamity descends: affliction reaches the believer faster than a torrent from the mountaintop to the valley below.
-- The one who does not supplicate is like the thrower who aims without an arrow: aim without an arrow launches nothing.
-- Whoever recites Say: He is God, the One ten times until sunrise, and Indeed, We sent it down on the Night of Power ten times, no sin will be recorded against him: even the utmost effort of Iblīs is outmatched.
-
-Diagram type: Timeline. The six openings of the gates of heaven, placed against the day's own axis, with the three that refuse to sit on it marked apart.
-
-Axis: one day, from the rising of dawn at the left end to the setting of the sun at the right end.
-
-On the axis, fixed by the sun:
-- The rising of dawn. Position: the left end.
-- The call to prayer. Position: recurring marks along the axis, wherever a prayer falls.
-- The setting of the sun. Position: the right end.
-
-Off the axis, fixed by occasion rather than hour, drawn as a band above it:
-- When the Qurʾān is recited
+Axis: the arc of a day and its events, not clock hours.
+- At the rising of dawn
+- At the call to prayer
+- When the Qur'an is recited
 - When the army advances
 - At the descent of rain
+- At the setting of the sun
 
-Reading: three gates open by the clock of the sky and three by what happens beneath it. The second three cannot be scheduled, so the instruction attached to them is to be prompt.
+Period bands: fixed daily openings, being dawn, the call, the setting sun. Occasional openings, being recitation, rain, the advancing army.
 
-Diagram type: Visual metaphor. The abstract relation is a duty understood but never launched. The metaphor is the source's own thrower.
+Reading of the axis: three gates keep the day's rhythm; three open when the world moves.
 
-- The thrower: a believer who understands duty
-- His aim: knowledge of the prayer
-- His strength: recognition of authority
+Comparison matrix. The maxims of Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him, on supplication.
+
+| Maxim | Timing it commands | What it promises | What it warns against |
+|---|---|---|---|
+| Remember God Almighty and He will accept your supplication | Continuous | Acceptance, preservation, care | Forgetfulness |
+| Be prompt in supplication before calamity descends | Before the event | Gates of heaven opened at six times | Waiting for disaster |
+| Supplication responds to a decree already concluded | After the decree | Response even to what is settled | Assuming the matter is closed |
+| Ward off affliction through supplication before calamity descends | Before the event | Affliction turned aside | Delay, because affliction reaches the believer faster than a torrent from mountaintop to valley |
+| The one who does not supplicate is like the thrower who aims without an arrow | Always | Nothing, if he does not ask | Strength and aim without launch |
+| Whoever recites "Say: He is God, the One" ten times until sunrise and "Indeed, We sent it down on the Night of Power" ten times | Until sunrise | No sin recorded against him even if Iblis exerts his utmost effort | Neglecting the dawn window |
+
+Visual metaphor. The thrower without an arrow.
+
+Abstract relation: a believer who has knowledge, duty, and recognized authority but does not supplicate.
+Metaphor: an archer's posture, complete but empty.
+Element assignments:
+- The stance: understanding of duty
+- The aim: knowledge of the prayer
+- The strength of the arm: recognition of authority
 - The missing arrow: supplication
-- Reading: the aim is true and nothing flies
+- The target, untouched: the need itself
 
-Annotation: supplication is neither resignation after events nor optional overflow. It is prompt, preventative, and armed.
+Reading: everything visible is correct and nothing flies. Supplication does not replace righteous action, since righteous deeds lift good words. It is the launch.
 
 ## Speech And Motion
 
-Diagram type: Comparison matrix. The cases inside the prayer, each with its ruling and the test that produced it.
+Comparison matrix. The rulings on conduct inside the prayer, each judged by its own test.
 
-Rows: the eight cases put to the source.
-Columns: the ruling | the test applied.
-- A man prays behind an intoxicated imam and signals to him with a bow or another gesture without completing the prayer properly: invalidated if deliberate and without excuse, whether directed toward the imam or accompanied by praise | improvised correction.
-- A man bows excessively out of habit: if deliberate, he must repeat the prayer | deliberate excess in form.
-- A woman prays while carrying her infant to prevent him from crying: it is not permissible for her to pray in such a manner | chosen encumbrance.
-- A person prays while experiencing internal discomfort: if unavoidable, nothing falls upon him | constrained endurance.
-- A man prays with his hair gathered inside his turban, drawn from the back of the neck to above the temple: there is nothing wrong with that | the forbidden form is drawing the hair back to its origin, to the middle of the head.
-- Something inside the mouth resembling a lobe or a dirham: complete, if it does not prevent the proper formation of the letters | obstruction of letters.
-- He holds something in his hand: nothing falls upon him if the conditions are met, and freedom from encumbrance is preferable | obstruction of conditions.
-- A worshipper eats or drinks during prayer, forgetfully or deliberately: he has interrupted his prayer | an ordinary bodily activity carried into worship.
+| Case | The test applied | Ruling | Register |
+|---|---|---|---|
+| Signalling to an intoxicated imam by bow or gesture without completing the prayer properly | Deliberate and without excuse | Prayer invalidated, whether directed at the imam or accompanied by praise | Invalidity |
+| Bowing excessively out of habit | Done deliberately | He must repeat the prayer | Repetition required |
+| A woman praying while carrying her infant to prevent him from crying, in congregation or alone | Chosen strategy | Not permissible to engage in prayer in such a manner | Prohibition |
+| Praying while experiencing internal discomfort | Unavoidable | Nothing falls upon him | Excused |
+| Hair gathered inside the turban, drawn from the back of the neck to the forehead above the temple | Whether it is drawn back to its origin | Nothing wrong with that; the forbidden form is gathering it to the middle of the head | Permitted |
+| Something in the mouth resembling a lobe or a dirham | Whether it prevents proper formation of the letters | The prayer is complete | Permitted |
+| Something held in the hand | Whether it prevents fulfilling the conditions of prayer | Nothing falls upon him, though being free of encumbrances is preferable | Permitted, better left |
+| Eating or drinking during prayer, forgetfully or deliberately | Nature of the act itself | He has interrupted his prayer | Interruption |
 
-Diagram type: Named axis 2x2. The moral scale the cases together produce.
+Named-axis 2x2. The logic beneath those rulings, both axes committed.
 
 Axes:
 - Horizontal: origin of the act, from Unavoidable on the left to Chosen on the right
-- Vertical: effect on the required form, from Does not obstruct at the bottom to Obstructs at the top
+- Vertical: effect on the required form, from Does not obstruct at the bottom to Obstructs or replaces at the top
 
 Quadrants:
-- Bottom left, unavoidable and not obstructing: internal discomfort that cannot be helped. Nothing falls upon him, because the body is enduring rather than deciding.
-- Bottom right, chosen and not obstructing: an object in the hand, a lobe or dirham in the mouth, hair gathered within the permitted form. Valid, though freedom from encumbrance is preferable.
-- Top left, unavoidable and obstructing: the traveler burdened by weapons, and the person with no alternative garment. The prayer stands, with repair owed where repair becomes possible.
-- Top right, chosen and obstructing: deliberate gesturing, habitual extra bowing, carrying the infant, eating and drinking. Invalidation or repetition.
+- Top-right, Chosen and Obstructing: deliberate gesturing at the imam, deliberate excessive bowing, carrying the infant, eating and drinking. The worshipper chose a thing that damages the act, so the prayer is invalidated, interrupted, or must be repeated.
+- Top-left, Unavoidable and Obstructing: the constrained cases the chapter handles later under travel, necessity, and the single garment. The act is performed as it can be, and repaired when repair becomes possible.
+- Bottom-right, Chosen and Not obstructing: the object in the hand, the arranged hair, the earring or dirham. Permitted, with freedom from encumbrance named as preferable.
+- Bottom-left, Unavoidable and Not obstructing: internal discomfort that cannot be helped. Nothing falls upon him.
 
-Reading of the axes: chosen disorder is separated from constrained endurance, and the top right is where prayers are lost.
+Reasoning for the axes: the source distinguishes chosen disorder from constrained endurance, then asks separately whether the required form survives.
 
-Annotation: encumbrance is judged by function, eating and drinking by kind.
+Process flow. The discipline of the voice, from the interpretation of the Shari'a.
 
-Diagram type: Annotated structure. The discipline of sound, as the interpretation of the Sharīʿa sets it out.
+Start: The worshipper rises.
+- ↓ Speech stops. He does not speak until he offers the salutation.
+- ↓ Recitation comes before bowing.
+- Branch by time of day:
+    - Branch A, noon and afternoon: recitation should not be audible, because these are daytime prayers.
+    - Branch B, night: the prayer is recited aloud.
+- ↓ In congregation, he does not raise his voice above the voice of the imam.
+- ↓ Two prophetic exclusions. The Prophet, peace be upon him, forbade wiping over the feet, and left aside the public utterance of the basmala.
+End: The salutation, which is where speech resumes.
 
-Whole: the worshipper's voice inside the act, dissected by where each rule falls.
+Hierarchy. The fourteen doors of prayer, from Ja'far ibn Mansur al-Yaman, may God sanctify him, book of the subconscious on the meaning of prayer, grouped by function.
 
-Parts, with position and annotation:
-- Recitation comes before bowing. Position: early in the act. Annotation: order, not preference.
-- The voice is not raised above the imam's. Position: wherever the imam speaks. Annotation: sound may not compete with leadership.
-- Recitation in the noon and afternoon prayers is not audible, these being daytime prayers. Position: the lit half. Annotation: voice follows time.
-- Night prayer is recited aloud. Position: the dark half. Annotation: the dark is where the act is heard.
-- The Prophet, peace be upon him, forbade wiping over the feet and left aside the public utterance of the basmala. Position: the margin of public sound. Annotation: some acts are withheld from public voice.
-- Once the worshipper rises, he does not speak until the salutation. Position: the closing stretch. Annotation: speech has a closing boundary as well as an opening one.
+- Level 1: Approach
+  - Level 2: Wudu'
+- Level 1: Entry
+  - Level 2: Opening
+  - Level 2: Adhan
+  - Level 2: Iqama
+  - Level 2: Orientation
+- Level 1: The voiced spine
+  - Level 2: Recitation
+- Level 1: The bending body
+  - Level 2: Bowing
+  - Level 2: Praise
+  - Level 2: Praise
+  - Level 2: Prostration
+- Level 1: Articulated completion
+  - Level 2: Tashahhud
+  - Level 2: Taslim
+- Level 1: Supplication kept inside the structure
+  - Level 2: Du'a' al-Qunut
+  - Level 2: Du'a' al-Witr
 
-Diagram type: Process flow. The fourteen doors of prayer, as Jaʿfar ibn Manṣūr al-Yaman, may God sanctify him, names them in the book of the subconscious on the meaning of prayer.
+Source statement: these are fourteen doors that the worshipper must observe; they are the pillars of prayer, and without them his prayer is not complete.
 
-Start: a worshipper outside the act.
+Visual metaphor. Why the doors change the weight of small rulings.
 
-Approach: Wuḍūʾ
-  ↓
-Entry: Opening, then Adhān, then Iqāma
-  ↓
-Turning: Orientation
-  ↓
-Voice: Recitation
-  ↓
-Descent: Bowing, then Praise, then Praise
-  ↓
-Lowest point: Prostration
-  ↓
-Rising toward completion: Tashahhud, then Taslīm
-  ↓
-Supplication held inside the act: Duʿāʾ al-Qunut, then Duʿāʾ al-Witr
+Abstract relation: a sequence of required acts whose interruption is not trivial.
+Metaphor: a building with thresholds rather than a list of steps.
+Element assignments:
+- The approach path: Wudu'
+- The outer gate: Opening, Adhan, Iqama, Orientation
+- The load-bearing spine: Recitation
+- The two descents: Bowing and Prostration, with Praise at each
+- The inner chamber: Tashahhud and Taslim
+- The rooms kept within the walls: Du'a' al-Qunut and Du'a' al-Witr
 
-End state: a prayer that is complete, because its doors have been observed.
-
-Annotation: these are fourteen doors the worshipper must observe. They are the pillars of prayer, and without them his prayer is not complete.
-
-Reading: a descent and a rise, not a flat list, with supplication kept inside the structure. Careless speech, gesture, eating, drinking, obstructed letters, and disorderly movement are breaches in an architecture.
+Reading: if prayer has doors, then careless speech, needless gesture, eating, drinking, obstructed letters, and disorderly movement are breaches in an architecture. To pass through them the servant must accept their shape.
 
 ## Garment And Ground
 
-Diagram type: Comparison matrix. Dress rulings sorted by the register of judgment each one occupies.
+Process flow. The image test, with its branch conditions.
 
-Rows: the seven cases.
-Columns: the verdict | the register it belongs to.
-- A man prays in a garment a woman is permitted to wear: not invalidated | etiquette.
-- A woman prays in pure silk, or a very red garment, dyed with saffron or not: not invalidated | etiquette.
-- A man prays in pure silk: disliked for men, and the prayer stands | dislike without invalidity.
-- A man prays wearing forged gold or silver weights and similar items: complete and valid | validity.
-- A man wears rings on hand or foot for adornment rather than practical benefit: he should not, there is no valid reason, and whoever does it is not sinful | impropriety without sin.
-- A woman wears such rings: permitted, and leaving it is better | permission with a better option.
-- A man goes out to the congregation and prays with his head uncovered: permissible | validity.
+Start: Rugs or furnishings decorated with engravings, facing the qibla or another direction.
+- Branch on distraction:
+    - If the decoration distracts the worshipper: his prayer is not permissible in that space.
+    - If it does not distract him: the prayer is permissible, except that one should not pray in the direction of images.
+- ↓ The Musannaf on a carpet with depicted figures. It may be prayed on, unless the figure is in the place of prostration, where it distracts from prayer.
+- ↓ A stronger answer. A rug or garment bearing figures is not permissible for prayer if the worshipper can see them; if he cannot see them, it is permissible.
+- ↓ Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him. A man should not prostrate on a picture, nor on a carpet on which he stands facing one.
+- Branch on the dirham:
+    - Tied into the garment while praying, bearing a picture: he should not.
+    - In a money-pouch or garment, and pure: permissible.
+End: the decisive variables are visibility, placement, and purity, not the mere existence of an image.
 
-Cell commitment: validity, etiquette, dislike, and sin are four registers, and one case can occupy several without contradiction.
+Comparison matrix. Four registers of judgment the chapter refuses to collapse.
 
-Diagram type: Comparison matrix. The covering rulings for women, as the source states them.
+| Case | Valid | Disliked | Better left | Sinful |
+|---|---|---|---|---|
+| A man praying in a garment a woman is permitted to wear | Yes | Matter of etiquette | Not stated | No |
+| A woman praying in pure silk or a very red garment, saffron-dyed or not | Yes | Matter of etiquette | Not stated | No |
+| Pure silk on a man | Yes | Yes, disliked for men | Implied | No |
+| A man praying in forged gold or silver weights and similar items | Yes, complete and valid | Not stated | Not stated | No |
+| A man wearing rings for adornment rather than practical benefit | Yes | Men should not | Yes | Not sinful |
+| A woman wearing rings for adornment | Yes | Permitted to do so | Leaving it is better | No |
 
-Rows: the seven questions and cases.
-Columns: the ruling.
-- The books of the Sharīʿa on a woman whose ʿawra becomes exposed during prayer: invalidated, whether she knew of it or not.
-- Women of the people of the daʿwa in India whose legs are sometimes exposed once or twice: covering is obligatory for all women, and if any part of her ʿawra is exposed she may not pray.
-- The respondent's own reading of the question: it perhaps concerns special cases, the person swimming in water, the person in fear, the traveler.
-- The Musannaf on a free woman or an umm al-walad praying with the ʿawra exposed: void, knowingly or not.
-- A free woman praying with a net over her clothing: the net does not suffice if the shield or veil is not thick.
-- An umm al-walad, a correspondence slave woman, a concubine, and a slave girl not yet of menstruating age: they may pray without a face-covering.
-- Those among them who are disobedient and do not know this: they must repeat every prayer performed without a face-covering from that lapse.
+Reading of the matrix: the prayer is valid, the adornment lacks proper reason, leaving it is better, and the person is not sinful. These are registers, not contradictions.
 
-Annotation: the covering rule stays firm, and exceptional constraint stays exception, not habit.
-
-Diagram type: Comparison matrix. Constraint and necessity, and what each one costs.
-
-Rows: the four constrained cases.
-Columns: the ruling.
-- A traveler carries weapons that prevent proper prayer, such as feathers in arrows, daggers, and pure silk garments: no repetition is owed except when clothing is pure and nothing impure remains on him that he has not removed.
-- A person in distress, in darkness, or in a garment that distresses him: he should not pray so, and finding no alternative, he prays as he is.
-- A man who has only a small cloth on his shoulders: he may not lead others.
-- The same man, with no one else available to lead: his own prayer in that state is permissible.
-
-Cell commitment: repetition is tied to purity and removable impurity, not to every burden of travel.
-
-Diagram type: Contrast pair. The praying self against the leading self, in one and the same inadequate garment.
-
-Column A: His own prayer
-- Verdict: stands under necessity
-- What decides it: whether the act can be fulfilled
-- Who bears the consequence: himself alone
-- What the garment is: a private constraint
-
-Column B: His leadership of others
-- Verdict: refused while he wears only a small cloth on his shoulders
-- What decides it: the dignity the front position requires
-- Who bears the consequence: everyone behind him
-- What the garment is: a public representation
-
-Shared row: the same cloth is judged twice, and private necessity carries what public representation cannot.
-
-Diagram type: Comparison matrix. The three garment forms the source interprets.
-
-Rows: the three forms.
-Columns: what the phrase means | effect on the act.
-- A single dense shirt: there is nothing wrong with praying in it, and if the worshipper bows, his side may become apparent | permitted.
-- Like the wings of the hook: a garment wrapped around the back with the limbs resting on the shoulders, when no other option is available | permitted under necessity.
-- Ishtimal al-samma': a single garment wrapped so that it becomes like a sewn garment with both hands underneath it | forbidden.
-
-Diagram type: Annotated structure. Ishtimal al-samma' dissected, part by part, against the act each part disables.
-
-Whole: one garment, wrapped so that it becomes like a sewn garment with both hands underneath it.
-
-Parts, with position and what each one blocks:
-- The middle, placed over the head or shoulders. Position: the top of the figure. Blocks: free movement of the upper body.
-- One end held in the left hand against the body. Position: the left side. Blocks: the left arm.
-- The other end turned from the right side behind him and gathered with the right hand. Position: the right side, passing behind. Blocks: the right arm.
-- Both hands enclosed underneath. Position: the centre, hidden. Blocks: the hands entirely.
-
-Disabled acts, set beside the figure:
-- He cannot place his hands on the ground as required
-- He cannot bow or prostrate correctly
-- He cannot complete the raising of his hands
-
-End state: such a prayer is incomplete and does not earn reward.
-
-Annotation: the objection is not unfamiliarity. Dress is not an aesthetic layer over worship; it either enables obedience or obstructs it.
-
-Diagram type: Process flow. The single test the source keeps applying to anything worn, held, or nearby.
-
-Start: a thing present on or near the praying body.
-
-Does it prevent the motions of prayer?
-  ↓ if yes, the act fails
-Does it block the conditions of prayer?
-  ↓ if yes, the act fails
-Does it obstruct the formation of the letters?
-  ↓ if yes, the act fails
-Does it carry impurity that is known and removable?
-  ↓ if yes, the act fails
-Does it capture the eye toward an image?
-  ↓ if yes, the space is refused
-Does it leave the covering insufficient?
-  ↓ if yes, the prayer may not proceed
-
-End state, if none of these: the prayer stands, and freedom from the encumbrance is still preferable.
-
-Annotation: Jaʿfar ibn Manṣūr al-Yaman, may Allah sanctify him, in his book on obligatory laws and the limits of religion, runs the same test over an earring, a dirham, and a thing held in the hand that constrains without preventing.
-
-Diagram type: Named axis 2x2. The image rulings, organised by where the figure sits and whether the worshipper can see it.
+Named-axis 2x2. Validity against etiquette, with the garment rulings placed.
 
 Axes:
-- Horizontal: position of the figure, from Outside the place of prostration on the left to At the place of prostration on the right
-- Vertical: visibility to the worshipper, from Unseen at the bottom to Seen at the top
+- Horizontal: effect on validity, from Prayer stands on the left to Prayer falls on the right
+- Vertical: standing in adab, from Approved at the bottom to Disliked or unfitting at the top
 
 Quadrants:
-- Bottom left, unseen and away from the place of prostration: a dirham bearing a picture kept in a money-pouch or garment, and pure. Permissible, because nothing draws the eye and nothing is impure.
-- Top left, seen and away from the place of prostration: a decorated rug or furnishing that does not distract. Permissible, except that one should not pray in the direction of images.
-- Bottom right, unseen at the place of prostration: a figure the worshipper cannot see. The Musannaf permits it, because attention is untouched.
-- Top right, seen at the place of prostration: a figure where the forehead goes. Refused. Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him, says a man should not prostrate on a picture, nor on a carpet on which he stands facing one.
+- Bottom-left, Stands and Approved: the plain sufficient garment, the pure clothing of Muslim boys and Muslim slaves, the uncovered head in public.
+- Top-left, Stands but Disliked: pure silk on a man, rings for adornment on a man, a very red garment. Valid, yet not fitting.
+- Top-right, Falls and Disliked: praying with a visible figure on rug or garment, praying knowingly with impurity on the clothing, ishtimal al-samma'.
+- Bottom-right, Falls though not blameworthy in intent: a woman whose 'awra becomes exposed during prayer, knowingly or not; a free woman or an umm al-walad in the same case. The prayer is void without the wearer being cast as defiant.
 
-Reading of the axes: a picture at the place of prostration competes with the forehead's act, and a visible figure draws the eye into an image when the body should face Allah.
+Reasoning: the two axes are independent. A garment can be disliked and the prayer still stand; a garment can be innocently worn and the prayer still fall.
 
-Annotation: the deciding factors are distraction, direction, placement, visibility, and concealment with purity. A man should not tie a dirham bearing a picture into his garment while praying.
+Comparison matrix. Covering, by the source's own categories.
 
-## Garment And Ground, Earth And Impurity
+| Body or status | Covering rule | If neglected | Qualifier |
+|---|---|---|---|
+| Women generally | Covering is obligatory for all women | If any part of her 'awra becomes exposed, she may not pray | The respondent states he knows this ruling |
+| Women of the people of the da'wa in India whose legs are sometimes exposed once or twice | Same obligation | Same | The respondent suggests the question perhaps concerns special cases |
+| A free woman | If she prays with her 'awra exposed, knowingly or not, the prayer is void, per the Musannaf | Void | Knowledge is not the variable |
+| An umm al-walad, on covering during prayer | Same as the free woman, per the Musannaf | Void | Knowledge is not the variable |
+| A free woman wearing a net over her clothing | Not covered by the net if the shield or veil is not thick | Not sufficient | Thickness is the test |
+| An umm al-walad, a correspondence slave woman, a concubine, a slave girl who has not reached menstruation | May pray without a face-covering | Those among them who are disobedient and do not know this must repeat every prayer performed without a face-covering from the time of that lapse | The source's own social categories |
 
-Diagram type: Process flow. Impurity on the garment, traced by what the worshipper knew and what he had.
+Special cases the respondent names as possibly governing the question: the person swimming in water, the person in fear, and the traveler.
 
-Start: a garment worn into prayer.
+Contrast pair. Firm rule against recognized exception.
 
-Branch on ownership and source:
-- The clothing of Muslim boys and Muslim slaves is permissible, unless the garments show impurity or one does not pray in them.
+Column A: The rule held firm
+- Covering is obligatory for all women
+- Exposure voids, knowledge or not
+- A thin net does not suffice
+- Purpose: the ruling is not softened into vagueness
 
-Branch on knowledge after the fact:
-- He finishes the prayer and notices impurity on his garment, and he knew of it beforehand. The prayer is invalidated and must be repeated, whether he was making up a missed prayer or not.
+Column B: The exception recognized
+- The swimmer, the fearful, the traveler
+- Accommodation for fear, travel, water, and necessity applies
+- Exceptional constraint governed by its own conditions
+- Purpose: exception stays exception rather than becoming habit
 
-Branch on having no alternative:
-- He has nothing but an impure garment, cannot obtain another, and has no water to purify it. He prays in it, then repeats the prayer when he finds another garment or water to purify it.
+Process flow. Impurity on the garment, with its two decision branches.
 
-Branch on uncertainty:
-- He has two garments, one of them impure, and does not know which. He prays twice, once in each garment, intending the obligatory prayer with each.
+Start: The worshipper's clothing.
+- Branch 1, borrowed clothing: it is permissible to pray in the clothing of Muslim boys and Muslim slaves, unless the garments show impurity or one does not pray in them.
+- Branch 2, impurity noticed after the prayer: if he knew of it beforehand, he has invalidated his prayer and must repeat it, whether he was making up a missed prayer or not.
+- Branch 3, only one garment and it is impure, with no other garment and no water: he prays in it, then repeats the prayer when he finds another garment or water to purify it.
+- Branch 4, two garments, one impure, and he does not know which: he prays twice, once in each garment, intending the obligatory prayer with each.
+End: obligation is never delayed into nonexistence. He prays now under constraint and repairs later when repair becomes possible. Uncertainty is answered by doubling the act, not by ignoring impurity.
 
-End states:
-- Obligation is never delayed into nonexistence
-- Constraint is prayed through now and repaired later
-- Uncertainty is answered by doubling the act, not by ignoring impurity
+Comparison matrix. Travel, weapons, and the limits of repetition.
 
-Diagram type: Comparison matrix. Minor contact and place.
+| Encumbrance | Example given | Must he repeat? | Governing variable |
+|---|---|---|---|
+| Weapons that prevent praying properly | Feathers in arrows, daggers | No repetition on that account | The burden is not the test |
+| Garments of pure silk while travelling | Pure silk garments | No repetition on that account | The burden is not the test |
+| Impurity on the worshipper he has not removed | Any removable impurity | Repetition required | Purity and removability |
 
-Rows: the three cases.
-Columns: the ruling.
-- A small amount of milk, fat, or eggs from camels, cows, sheep, and chickens contacting clothing or body: permissible.
-- Prayer in camel pens: there is no prayer in them.
-- Prayer in sheep pens after they have been swept and sprinkled with water: there is nothing wrong with it.
+Source formulation: a prayer need not be repeated except when clothing is pure and there is nothing impure on the worshipper that he has not removed. The traveler may be encumbered; the prayer remains required; what cannot be changed is endured, and what is impure and removable must be removed.
 
-Diagram type: Hierarchy. What qualifies as a place for the forehead, sorted by kind.
+Contrast pair. The servant's own prayer against his fitness to lead.
 
-- Level 1: Fit for prostration
+Column A: Praying for himself
+- Condition: wearing only a small cloth on his shoulders, having only that garment
+- Ruling if no one else can be found: his own prayer in that state is permissible
+- Governing principle: necessity permits a person to pray as he is
+- Also under this column: praying in distress, in darkness, or in a garment that distresses him, when no alternative is found
+
+Column B: Leading others
+- Condition: the same small cloth on the shoulders
+- Ruling: he may not lead others in prayer
+- Governing principle: the leader's public representational role demands a dignity private necessity may not meet
+- Also under this column: no one should stand before Allah Almighty in a state of distress
+
+Shared row: validity and leadership are not identical. A prayer that stands for the man himself may still be unfit to stand before others.
+
+Annotated structure. Ishtimal al-samma' dissected, part by part.
+
+Whole: a single garment wrapped so that it disables the acts prayer requires.
+
+Parts, with position:
+- The middle of the garment, placed over the head or shoulders
+- One end, held in the left hand against the body
+- The other end, turned from his right side behind him
+- That end, gathered with his right hand
+- The result, a wrap that becomes like a sewn garment with both hands underneath it
+
+Annotations, one per consequence:
+- Hands underneath: he cannot place his hands on the ground as required.
+- Body bound: he cannot bow or prostrate correctly.
+- Arms enclosed: he cannot complete the raising of his hands.
+- Verdict: such a prayer is incomplete and does not earn reward.
+
+Cross-reading: the objection is not unfamiliarity of appearance. Dress is not an aesthetic layer over worship; it either enables or obstructs obedience.
+
+Comparison matrix. Three garment forms the source interprets side by side.
+
+| Garment form | What the phrase means | Consequence for the act | Verdict |
+|---|---|---|---|
+| A single dense shirt | If the worshipper bows, his side may become apparent | Bowing and prostration remain possible | Nothing wrong with praying in it |
+| "like the wings of the hook" | A garment wrapped around the back with the limbs resting on the shoulders | Used when no other option is available | Permitted under necessity |
+| Ishtimal al-samma' | Wrapped so both hands are underneath and the garment becomes like a sewn one | Hands cannot reach the ground; bowing, prostration, and raising the hands are blocked | Forbidden; the prayer is incomplete and earns no reward |
+
+## The Ground Of Prostration
+
+Hierarchy. Permissible and impermissible surfaces for prostration.
+
+- Level 1: Permitted
   - Level 2: The ground itself
-    - Level 3: Earth, which the Prophet, peace be upon him, named mosque and means of purification
+    - Level 3: Earth, per the Prophet, peace be upon him
   - Level 2: What grows from the ground
-    - Level 3: Grass and the like, named by the interpretation of the Sharīʿa
-  - Level 2: What has been changed into fitness
-    - Level 3: Plaster and the like burned with the dead, counted as part of the mosque and the house, since fire has purified it
-- Level 1: Unfit for prostration
-  - Level 2: What is not earth in the complete sense
-    - Level 3: Stone, milk, and the like
-  - Level 2: What is ordinarily consumed
-    - Level 3: A heap of wheat or barley, anything edible, bread
-  - Level 2: What captures attention
-    - Level 3: A picture, and a carpet on which one stands facing one
-
-The Prophet, peace be upon him, on the ground of prostration:
+    - Level 3: Grass and the like, per the interpretation of the Shari'a
+  - Level 2: Material transformed into part of the prayer-space
+    - Level 3: Plaster and the like, burned with the dead, counted as part of the mosque and the house, since fire has purified it, per the Musannaf
+- Level 1: Not permitted
+  - Level 2: Materials that are not earth in the complete sense
+    - Level 3: Stone, milk, and the like. Only the obligatory prayer is binding upon him; the nafl and sunnah prayers are not.
+    - Level 3: Stone and plaster, per the answers of Idris ibn al-Hasan, may Allah sanctify him, in the untreated case
+  - Level 2: Edible things
+    - Level 3: A heap of wheat or barley, anything edible, bread. Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him, says a man should not prostrate on such things.
+  - Level 2: Images
+    - Level 3: A picture, or a carpet on which he stands facing one
 
 > The earth has been made for me a mosque and a means of purification.
+Attribution: the Prophet, peace be upon him, cited in the answers of Idris ibn al-Hasan, may Allah sanctify him.
 
-Diagram type: Comparison matrix. What each surface ruling carries beyond the surface.
+Annotation on the principle: anything that does not qualify as earth in the complete sense cannot be prayed on. The forehead makes the lowest bodily sign of servanthood, and the act needs ground, not appetite.
 
-Rows: the four surfaces.
-Columns: the attached consequence.
-- Stone, milk, or something similar: not permissible, and only the obligatory prayer is binding upon him, the nafl and sunnah prayers are not.
-- Stone and plaster, in the answers of Idris ibn al-Hasan, may Allah sanctify him: the Prophet's saying is the measure, and what is not earth in the complete sense cannot be prayed on.
-- Plaster burned with the dead: fire has purified it, and it becomes part of the mosque and the house.
-- A heap of wheat or barley, anything edible, or bread: Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him, says a man should not prostrate on such things.
+Comparison matrix. The closing miscellaneous rulings on material contact and place.
 
-Annotation: the act needs ground, not appetite. A substance can change its legal character through treatment, which is why the law attends to fire, water, thickness, and material fact.
+| Material or place | Ruling | Condition |
+|---|---|---|
+| A small amount of milk, fat, or eggs from camels, cows, sheep, and chickens on clothing or body | Permissible | Small amount |
+| Camel pens | There is no prayer in them | None given |
+| Sheep pens | Nothing wrong with praying in them | After they have been swept and sprinkled with water |
+| A shirt alone without a waist-wrapper | A man should not pray in it, per Amir al-Mu'minin Ali ibn Abi Talib, peace be upon him | None given |
+| A garment worn loosely around the neck or immodestly | Not permissible to pray in it | None given |
+| A state of distress | None should stand before Allah Almighty in it | Unless no alternative is found, in which case he prays as he is |
+| A prayer without the Fatiha | Incomplete and deficient, per the Prophet, peace be upon him | Every such prayer |
 
-Diagram type: Contrast pair. The chapter's two closing voices on the body before Allah.
+Reading: the last ruling ties the whole surface discipline back to prayer's recited center.
 
-Column A: The Prophet, peace be upon him
-- What he names: every prayer in which the Fatiha is not recited is incomplete and deficient
-- Where he locates the defect: the recited centre
-- What the ruling protects: the words the act is built on
+Process flow. The practical test the whole movement has been building.
 
-Column B: Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him
-- What he names: none should stand before Allah Almighty in a state of distress, a man should not pray in a shirt alone without a waist-wrapper, and it is not permissible to pray in a garment worn loosely around the neck or immodestly
-- Where he locates the defect: the covered and composed body
-- What the ruling protects: the bearing the words are spoken in
+Start: A worshipper, dressed, standing on a surface, holding or wearing something.
+- Test 1: Does the thing prevent motion? If yes, the act fails.
+- Test 2: Does it block the conditions of prayer? If yes, the act fails.
+- Test 3: Does it obstruct the letters? If yes, the act fails.
+- Test 4: Does it introduce impurity he knows of and can remove? If yes, the prayer is undone.
+- Test 5: Does it distract the eye, by visible image or figure? If yes, the prayer is not permissible there.
+- Test 6: Does it leave covering insufficient? If yes, the prayer is void.
+- Test 7: Does wrapping make bowing and prostration impossible? If yes, the prayer earns no reward.
+End state, all tests passed: the prayer stands, even with an uncovered head, an earring or dirham, or a constrained hand, though freedom from encumbrance remains preferable.
 
-Shared row: the recited centre and the covered body are one concern.
+Visual metaphor. The praying body inside its material loyalties.
+
+Abstract relation: prayer as an act surrounded by objects that either protect or disturb it.
+Metaphor: concentric rings around a prostrating body.
+Element assignments:
+- Center: the forehead at the point of prostration
+- Ring 1: the ground, earth or what grows from it, never an edible heap or an image
+- Ring 2: the garment, judged by covering, purity, thickness, and whether it permits the acts
+- Ring 3: ornament and object, gold, silver, rings, pouches, nets, dirhams, judged by use and effect
+- Ring 4: the room, its rugs, figures, engravings, darkness, and the direction of images
+- Outermost: the servant's state, distress or composure
+
+Reading: obligations propagate inward. The outer rings do not create the prayer, but any of them can undo it.
 
 ## Closing
 
-Diagram type: Visual metaphor. The opening figure redrawn, the same three rings around the same standing body, each ring now carrying the refusal the chapter established for it.
+Contrast pair. The chapter's severity against the chapter's mercy, held together.
 
-- Innermost ring, the act. New label: the refusal to treat devotion as permission for ordinary behaviour. What it holds: the fourteen doors, and the invalidation that follows a chosen breach of them.
-- Middle ring, the covering. New label: the refusal to let dress become an aesthetic layer. What it holds: the garment that binds the hands, the covering that does not suffice, the ornament worn without reason.
-- Outer ring, the material world. New label: the refusal to treat surrounding material as neutral. What it holds: the figure at the place of prostration, the impurity known and left, the heap of wheat beneath the forehead.
-- The centre, unchanged: the forehead's contact with the ground.
-- The ring the close adds, drawn outside all three: the moment after the salutation, where supplication carries roots, foundations, gestures, repentance, praise, blessing, and approach through the imams of the religion.
-
-Reading: the opening figure showed how far a breach travels inward. This one shows what each ring refuses, and adds the ring the salutation opens.
-
-Diagram type: Contrast pair. Severity and mercy, held together rather than traded off.
-
-Column A: Where the chapter is severe
+Column A: Severity
 - Prayer cannot be casually interrupted
 - It cannot be wrapped in disabling garments
 - It cannot be performed knowingly with impurity
 - It cannot be directed toward distracting images
 - It cannot be placed upon unsuitable surfaces
 
-Column B: Where the chapter is merciful
+Column B: Mercy
 - Unavoidable discomfort is excused
-- Constrained travel is recognised
-- Hidden objects may be tolerated when they do not obstruct the act
+- Constrained travel is recognized
+- Hidden objects are tolerated when they do not obstruct the act
 - Necessity permits a person to pray as he is
 - Later repair is possible when water or pure clothing becomes available
 
-Shared row: prayer is guarded not because Allah needs perfect fabric, flawless rooms, or empty hands, but because the servant needs a form strong enough to train desire, discipline the body, and make supplication rise with righteous action.
+Shared row: prayer is not fragile because Allah needs perfect fabric, flawless rooms, or empty hands. It is guarded because the servant needs a form strong enough to train desire, discipline the body, and make supplication rise with righteous action.
+
+Annotated structure. The three edges closed, in the order the chapter opened them.
+
+Whole: the act with living edges, now complete.
+
+Parts, with position and closing annotation:
+- After the salutation, to the right: no dissolving into private wishes. Supplication has roots, foundations, gestures, repentance, praise, blessing, and approach through the imams of the religion.
+- Inside the prayer, at the center: devotion is not permission for ordinary behavior. Speech, motion, carrying, eating, drinking, recitation, and gesture are governed by the doors of the act.
+- Around the prayer, as the surrounding ring: clothing, ornaments, images, impurity, and ground are never neutral. They preserve or disturb the dignity of standing before Allah.
