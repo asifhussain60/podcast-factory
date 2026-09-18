@@ -1,0 +1,161 @@
+chapter_ref: ch08-adhan-and-iqama
+slug: adhan-and-iqama
+source_type: book-chapter
+book_slug: isaf-al-talib
+source_chapter_ref: 8
+section_index: 8
+episode_number: 8
+title: Adhan and Iqama
+audience: 'Thoughtful adult listeners continuing a faithful translation-edition series on Is''af al-Talib, ready for a dense legal-devotional chapter on the call to prayer, iqama, mosque office, and the debated public witness to Ali and the Prophet''s household.
+
+  '
+angle: faithful_exposition
+angle_note: 'The episode renders the source''s practical rulings, historical report, and formal proof letter in coherent modern English while preserving the chapter''s argument for the adhan phrase naming Muhammad, Ali, and the ''atrah.
+
+  '
+episode_format: debate
+debate:
+  proposition: >
+    The adhan may rightly include testimony to Muhammad and
+    Ali as the best of human beings, and to Ali's guardianship,
+    alongside the standard testimony of faith.
+  host_a:
+    role: scholar
+    position: >
+      Imam al-Hakim bi-Amr Allah and the defending jurist
+      affirm that the added testimony belongs in the adhan,
+      settling the preacher of Atfih's objection through
+      accepted reports and Quranic proof.
+    source_moves:
+      - >
+        Cites the muezzin's private addition after the
+        testimony that Muhammad is the Messenger of God.
+      - >
+        Quotes reports naming Muhammad and Ali as the best of
+        human beings, and their 'atrah as the finest of
+        perfumes.
+      - >
+        Distinguishes the muezzin's ritual-purity latitude from
+        the stricter iqama requirement, to ground how the
+        testimony fits the adhan's form.
+      - >
+        Answers the preacher of Atfih's formal objection with
+        accepted reports until the preacher himself professes
+        belief.
+  host_b:
+    role: debater
+    position: >
+      The preacher of Atfih objects before Imam al-Hakim
+      bi-Amr Allah that the adhan's customary wording should
+      not carry the added testimony to Ali's guardianship.
+    source_moves:
+      - >
+        Raises the objection formally before the Imam.
+      - >
+        Presses the community's received adhan wording against
+        the addition.
+  resolution: host_b_concedes
+format_rationale: 'The chapter contains sustained named opposition with dialogue: the preacher of Atfih objects before Imam al-Hakim bi-Amr Allah, and the later Discussion letter stages two jurists disputing whether the adhan may say that Muhammad and Ali are the best of human beings. The proposition under contest is the permissibility and proof of that adhan phrase, and the resolution is host_b_concedes because the preacher says he believes and is convinced while the letter''s respondent begins the decisive proof sequence.
+
+  '
+essential: core
+essential_rationale: 'It advances the prayer sequence by showing how the ritual summons is governed by lawful order, purity, iqama, inward testimony, and public allegiance to the Ahl al-Bayt.
+
+  '
+host_dynamic: advocate + arbiter
+host_dynamic_rationale: 'The advocate voices the objectors who challenge Ali''s inclusion in the adhan phrase, while the arbiter follows Imam al-Hakim and the defending jurist as they settle the objection through accepted reports and Quranic proof.
+
+  '
+length_target: 5500-6000
+key_tensions:
+  - 'The muezzin performs a public ritual office, yet his service remains tied to the legitimacy of public funds and authorized distribution.
+
+    '
+  - 'The adhan may be given without ritual purity, but the iqama requires purity because it stands immediately before the obligatory prayer.
+
+    '
+  - 'The call to prayer summons all worshippers, yet the source places within it a specifically Ahl al-Bayt witness that some hearers contest.
+
+    '
+  - 'Objectors accept Muhammad''s supremacy but resist Ali''s inclusion in the phrase "best of human beings," forcing the source to defend the wording by hadith, Quranic language, and the rank of the Prophet''s household.
+
+    '
+tone_constraints:
+  - 'Open with a curiosity hook around the adhan becoming the place where a community must decide who may be named aloud, not neutral stage-setting.
+
+    '
+  - 'Use only brief callbacks for doctrines already taught in earlier chapters: the levels of faith, guardianship and knowledge, peace and belonging, sacred ranks, disciplined loyalty, affection as law, bodily purity, purity under conditions, inner water, major washing, material purity, tayammum paths, food and contact, grooming boundaries, Ja''far''s admonition, hair, skin, and bone, menstruation and nifas, disavowal and waiting, attentive prayer, missed obligations, and sacred times.
+
+    '
+  - 'Preserve Arabic and Islamic technical terms supplied by the source, including adhan, iqama, muezzin, jizyah, tashahhud, qibla, Ahl al-Bayt, Sharia, Sunnah, Ghadir, ''atrah, Bani Hashim, da''i, hadith, Quran, and On the Discussion.
+
+    '
+  - 'Do not use the forbidden leadership-title phrase for Ali ibn Abi Talib. Refer to him as Ali ibn Abi Talib, Father of Imams, or by source titles such as Amir al-Mu''minin.
+
+    '
+  - 'Present source-era legal and polemical formulations about the Sultan of al-Jur, jizyah, Abu Bakr, opposing sects, and rejection of the adhan phrase as the source''s own claims without modern expansion or apology.
+
+    '
+  - 'Quranic quotations must use plain-English references when supplied by the source or confidently verified from the source wording; never use shorthand citation forms or bare numeric citations.
+
+    '
+anchor_passages:
+  - '"If the funds come from the public treasury and are disbursed in accordance with the judgment of those appointed as guardians by God, then it is permissible for him to receive it; otherwise, it is not."
+
+    '
+  - '"When the muezzin says ''I bear witness that Muhammad is the Messenger of God'' twice, he should say to himself, ''I bear witness that Ali is the guardian of God.''"
+
+    '
+  - '"It is permissible for the muezzin to give the call to prayer without being in a state of ritual purity, but the iqama may not be given except by one who is ritually pure."
+
+    '
+  - '"Do not pray the obligatory prayer when the call to prayer has been given and pray the obligatory prayer when the iqama has been performed."
+
+    '
+  - '"The muezzins added to their call - after the testimony that Muhammad is the Messenger of God - the phrase ''I testify that our Mawlana Ali is the guardian of God.''"
+
+    '
+  - '"Muhammad and Ali are the best of human beings, and their ''atrah are the finest of perfumes."
+
+    '
+  - '"They are like the Ark of Noah - whoever boards it is saved, and whoever remains behind is drowned."
+
+    '
+  - '"It has thereby been established that the best of human beings - alongside the Prophet - is Ali."
+
+    '
+  - '"Then I believed and I was convinced."
+
+    '
+  - '"I ask you for a clear and decisive argument, a proof."
+
+    '
+adaptation_mode: faithful
+phonetic_overrides: {}
+sermon:
+  present: true
+  section_title: The Discussion Letter
+show_notes:
+  blurb: 'This chapter follows the adhan and iqama from practical ritual rules into a major defense of the adhan phrase naming Muhammad, Ali, and the ''atrah. It asks how lawful funds, mosque office, qibla, purity, inward testimony, and Quranic proof all gather inside the sound that summons the community to prayer.
+
+    '
+  related_episodes:
+    - ranks-loyalty-and-communal-affection
+    - prayer-virtue-and-sacred-times
+    - foundations-of-faith-and-guardianship
+  references:
+    - The first book of questions and answers arranged according to the chapters of the Pillars of Islam.
+    - A summary derived from the words of Ja'far ibn Muhammad ibn Ali on the muezzin who calls while walking or mounted.
+    - The book of abbreviated rulings on inward responses to the adhan and leaving the mosque after the call.
+    - The book on the Interpretation of the Sharia on adhan, iqama, purity, qibla, intention, Sunnah, and obligatory prayer.
+    - Idris ibn Sayyidina Hassan, Uyun al-Akhbar, sixth section on the call to prayer.
+    - The report of Ali ibn al-Husayn al-Qari concerning Imam al-Hakim bi-Amr Allah and the people of Atfih.
+    - The message On the Discussion addressed to Muhammad ibn Fahd in Jerusalem.
+thesis_relevance: 'This chapter advances the book''s central claim that the pillars and rulings of Islam must be understood through faithful knowledge, action, and the authoritative guidance of the Ahl al-Bayt by showing how the prayer summons itself requires lawful authority, ritual order, inward testimony, and public recognition of the Prophet''s household.
+
+  '
+session_index: 8
+session_title: Adhan and Iqama
+session_slug: adhan-and-iqama
+session_episode: 1
+session_episode_count: 1
