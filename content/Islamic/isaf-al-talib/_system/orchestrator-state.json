@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
-  "phase": "06a",
-  "phase_status": "awaiting_human_review",
+  "phase": "0f",
+  "phase_status": "halted",
   "last_completed_phase": "0e",
   "next_phase": "0literary",
   "last_error": null,
@@ -105,7 +105,10 @@
       "gate_warnings": 5
     },
     "0f": {
-      "status": "pending"
+      "status": "halted",
+      "ts_started": "2026-09-18T05:48:19Z",
+      "ts_completed": "2026-09-18T05:48:20Z",
+      "series_plan_path": "content/Islamic/isaf-al-talib/_system/series-plan.md"
     },
     "0g": {
       "status": "pending"
@@ -169,7 +172,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T05:46:30Z",
+  "ts_updated": "2026-09-18T05:48:20Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -177,6 +180,6 @@
     "unit_mode": "auto"
   },
   "unattended": true,
-  "run_id": "20260918T054609Z-008281",
+  "run_id": "20260918T054819Z-8d71e4",
   "phase_attempts": {}
 }
