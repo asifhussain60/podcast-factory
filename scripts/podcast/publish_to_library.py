@@ -408,7 +408,9 @@ def publish(slug: str, args: argparse.Namespace) -> int:
         if not ok1:
             return 1
         _info("[G2-G4] n/a — skip_podcast lane has no episodes/ upload bundle to check")
-        if not gate_g5_state(workspace, args.force):
+        # By publish time the reading edition exists, so its own B1-B8 suite (B3 = Arabic on the
+        # rendered book) is the state checkpoint — the finalize-time G13 is n/a for this lane.
+        if not gate_g5_reading_edition_state(workspace, args.force, fail=_fail, ok=_ok):
             return 1
     else:
         ok1, chapters, episodes = gate_g1_structure(workspace)

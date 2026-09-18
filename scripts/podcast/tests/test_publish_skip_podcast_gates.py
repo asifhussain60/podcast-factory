@@ -139,3 +139,26 @@ def test_publish_dry_run_skip_podcast_branch_reports_g2_g4_na(tmp_path: Path, mo
     ptl.publish("some-skip-podcast-book", args)
     out = capsys.readouterr().out
     assert "skip_podcast lane has no episodes/ upload bundle to check" in out
+
+
+def test_finalize_g13_is_na_for_skip_podcast(tmp_path: Path, monkeypatch, capsys) -> None:
+    """G13 checks podcast-lane chapters/*.txt + a glossary. A skip_podcast book has neither by
+    design (0c is skipped), so G13 must be n/a there rather than block finalize forever
+    (isaf-al-talib, 2026-09-18). Arabic is enforced on the rendered book by B3 instead."""
+    import publish_to_library as P
+    import validate_ship_ready as vsr
+
+    monkeypatch.setattr(P, "resolve_workspace", lambda slug: tmp_path)
+    monkeypatch.setattr(sys, "argv", ["validate_ship_ready.py", "some-book", "--json"])
+    _chapters(tmp_path, n=3)
+    _state(tmp_path)
+
+    # skip_podcast: G13 passes as n/a
+    (tmp_path / "_system" / "series-config.yaml").write_text(
+        "skip_podcast: true\ncontent_profile: islamic_scholarly\n", encoding="utf-8"
+    )
+    vsr.main()
+    out = capsys.readouterr().out  # other gates print status lines before the JSON verdict
+    gates = {g["gate"]: g for g in json.loads(out[out.index("{") :])["gates"]}
+    assert gates["G13"]["passed"] is True
+    assert "n/a" in gates["G13"]["note"]
