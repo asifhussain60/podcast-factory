@@ -15,49 +15,42 @@ angle_note: 'The slice is a refutation and is rendered as one, but the treatment
   '
 episode_format: debate
 debate:
-  proposition: >
-    The month of Ramadan is never deficient, and reliance on
-    sighting the crescent is a concession granted only in the
-    Imam's absence, not the essence of the fast.
+  proposition: 'The month of Ramadan is never deficient, and reliance on sighting the crescent is a concession granted only in the Imam''s absence, not the essence of the fast.
+
+    '
   host_a:
     role: scholar
-    position: >
-      The long-serving preacher, joined by Mawlana Suleiman
-      bin Hassan's astronomy, settles the case: sighting is a
-      matter of necessity during the Imam's absence, and the
-      disputed report's verb may be one of reception rather
-      than eyesight.
+    position: 'The long-serving preacher, joined by Mawlana Suleiman bin Hassan''s astronomy, settles the case: sighting is a matter of necessity during the Imam''s absence, and the disputed report''s verb may be one of reception rather than eyesight.
+
+      '
     source_moves:
-      - >
-        Distinguishes necessity-in-absence from the rule
-        itself, since the Imam who knows the crescent's
-        appointed times removes the need for sighting.
-      - >
-        Brings the astronomical calculation showing the moon
-        meets the sun at thirty degrees, so the month is
-        counted complete.
-      - >
-        Reinterprets the disputed hadith's verb as reception of
-        news rather than physical eyesight, citing the
-        Prophet's certain knowledge from Gabriel.
-      - >
-        Puts the settled case formally to the scholars of all
-        the people of Islam.
+      - 'Distinguishes necessity-in-absence from the rule itself, since the Imam who knows the crescent''s appointed times removes the need for sighting.
+
+        '
+      - 'Brings the astronomical calculation showing the moon meets the sun at thirty degrees, so the month is counted complete.
+
+        '
+      - 'Reinterprets the disputed hadith''s verb as reception of news rather than physical eyesight, citing the Prophet''s certain knowledge from Gabriel.
+
+        '
+      - 'Puts the settled case formally to the scholars of all the people of Islam.
+
+        '
   host_b:
     role: debater
-    position: >
-      The opposing party holds that Ramadan is sometimes
-      complete and sometimes short, and that fasting depends
-      solely on sighting the crescent moon.
+    position: 'The opposing party holds that Ramadan is sometimes complete and sometimes short, and that fasting depends solely on sighting the crescent moon.
+
+      '
     source_moves:
-      - >
-        Cites the hadith "Fast upon seeing it and break your
-        fast upon seeing it... complete thirty days."
-      - >
-        Claims the Prophet himself relied on sighting.
-      - >
-        Presents the Zaydi nobleman's finger-counting
-        demonstration before King Abu Kalijar al-Daylami.
+      - 'Cites the hadith "Fast upon seeing it and break your fast upon seeing it... complete thirty days."
+
+        '
+      - 'Claims the Prophet himself relied on sighting.
+
+        '
+      - 'Presents the Zaydi nobleman''s finger-counting demonstration before King Abu Kalijar al-Daylami.
+
+        '
   resolution: host_b_concedes
 format_rationale: 'The spine of the slice is a contest, and the opposing party is named, quoted and answered point by point. The proposition under contest is stated by them: that the month of Ramadan is sometimes complete and sometimes short and that fasting depends on the sighting of the crescent, evidenced by the Prophet''s report "Fast upon seeing it and break your fast upon seeing it; if it is obscured from you, then complete thirty days." Their side is carried in three voiced forms — the claim with its hadith, the claim that the Prophet himself sighted, and the Zaydi nobleman''s finger-counting demonstration delivered aloud in the court of King Abu Kalijar al-Daylami — and the reply is delivered against each in turn by the long-serving preacher, with a second questioner putting the case to the scholars of all the people of Islam. The resolution enum that matches is `host_b_concedes`: the opposing champion is answered in the room, stands up stumbling in his clothes and leaves under laughter, which is a concession by rout rather than by agreement. Deep_dive was rejected because a named party contests the proposition throughout; narrative was rejected because the one narrated episode serves the argument rather than the reverse.
 

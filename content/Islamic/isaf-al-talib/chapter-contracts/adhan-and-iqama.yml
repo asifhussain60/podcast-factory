@@ -15,45 +15,39 @@ angle_note: 'The episode renders the source''s practical rulings, historical rep
   '
 episode_format: debate
 debate:
-  proposition: >
-    The adhan may rightly include testimony to Muhammad and
-    Ali as the best of human beings, and to Ali's guardianship,
-    alongside the standard testimony of faith.
+  proposition: 'The adhan may rightly include testimony to Muhammad and Ali as the best of human beings, and to Ali''s guardianship, alongside the standard testimony of faith.
+
+    '
   host_a:
     role: scholar
-    position: >
-      Imam al-Hakim bi-Amr Allah and the defending jurist
-      affirm that the added testimony belongs in the adhan,
-      settling the preacher of Atfih's objection through
-      accepted reports and Quranic proof.
+    position: 'Imam al-Hakim bi-Amr Allah and the defending jurist affirm that the added testimony belongs in the adhan, settling the preacher of Atfih''s objection through accepted reports and Quranic proof.
+
+      '
     source_moves:
-      - >
-        Cites the muezzin's private addition after the
-        testimony that Muhammad is the Messenger of God.
-      - >
-        Quotes reports naming Muhammad and Ali as the best of
-        human beings, and their 'atrah as the finest of
-        perfumes.
-      - >
-        Distinguishes the muezzin's ritual-purity latitude from
-        the stricter iqama requirement, to ground how the
-        testimony fits the adhan's form.
-      - >
-        Answers the preacher of Atfih's formal objection with
-        accepted reports until the preacher himself professes
-        belief.
+      - 'Cites the muezzin''s private addition after the testimony that Muhammad is the Messenger of God.
+
+        '
+      - 'Quotes reports naming Muhammad and Ali as the best of human beings, and their ''atrah as the finest of perfumes.
+
+        '
+      - 'Distinguishes the muezzin''s ritual-purity latitude from the stricter iqama requirement, to ground how the testimony fits the adhan''s form.
+
+        '
+      - 'Answers the preacher of Atfih''s formal objection with accepted reports until the preacher himself professes belief.
+
+        '
   host_b:
     role: debater
-    position: >
-      The preacher of Atfih objects before Imam al-Hakim
-      bi-Amr Allah that the adhan's customary wording should
-      not carry the added testimony to Ali's guardianship.
+    position: 'The preacher of Atfih objects before Imam al-Hakim bi-Amr Allah that the adhan''s customary wording should not carry the added testimony to Ali''s guardianship.
+
+      '
     source_moves:
-      - >
-        Raises the objection formally before the Imam.
-      - >
-        Presses the community's received adhan wording against
-        the addition.
+      - 'Raises the objection formally before the Imam.
+
+        '
+      - 'Presses the community''s received adhan wording against the addition.
+
+        '
   resolution: host_b_concedes
 format_rationale: 'The chapter contains sustained named opposition with dialogue: the preacher of Atfih objects before Imam al-Hakim bi-Amr Allah, and the later Discussion letter stages two jurists disputing whether the adhan may say that Muhammad and Ali are the best of human beings. The proposition under contest is the permissibility and proof of that adhan phrase, and the resolution is host_b_concedes because the preacher says he believes and is convinced while the letter''s respondent begins the decisive proof sequence.
 

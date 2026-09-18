@@ -15,49 +15,42 @@ angle_note: 'The episode renders the source''s formal proof sequence and polemic
   '
 episode_format: debate
 debate:
-  proposition: >
-    The adhan may rightly bear testimony to Ali ibn Abi Talib's
-    rank and wilaya alongside the testimony to Muhammad's
-    messengership.
+  proposition: 'The adhan may rightly bear testimony to Ali ibn Abi Talib''s rank and wilaya alongside the testimony to Muhammad''s messengership.
+
+    '
   host_a:
     role: scholar
-    position: >
-      The defending jurist completes the formal proof sequence
-      and rejects the claim that adding the testimony to
-      wilaya is equivalent, as an error, to the alleged
-      omission attributed to Omar ibn al-Khattab.
+    position: 'The defending jurist completes the formal proof sequence and rejects the claim that adding the testimony to wilaya is equivalent, as an error, to the alleged omission attributed to Omar ibn al-Khattab.
+
+      '
     source_moves:
-      - >
-        Cites the Moses-Aaron hadith and the verse of
-        guardianship as Quranic ground for Ali's rank.
-      - >
-        Brings the "best of creation" and chosen-families
-        proofs, and the Ghadir declaration, as further support.
-      - >
-        Answers the equal-error objection by arguing that
-        scale, content, duration, and authority make addition
-        and omission morally unequal acts.
-      - >
-        Grounds the testimony's transmission through Qadi
-        al-Nu'man from Ja'far al-Sadiq, predating the rival
-        hadith collections invoked against it.
+      - 'Cites the Moses-Aaron hadith and the verse of guardianship as Quranic ground for Ali''s rank.
+
+        '
+      - 'Brings the "best of creation" and chosen-families proofs, and the Ghadir declaration, as further support.
+
+        '
+      - 'Answers the equal-error objection by arguing that scale, content, duration, and authority make addition and omission morally unequal acts.
+
+        '
+      - 'Grounds the testimony''s transmission through Qadi al-Nu''man from Ja''far al-Sadiq, predating the rival hadith collections invoked against it.
+
+        '
   host_b:
     role: debater
-    position: >
-      Objectors equate the Ali-witness addition to the adhan
-      with the omission attributed to Omar ibn al-Khattab,
-      invoking Sahih al-Bukhari and rival schools against the
-      addition.
+    position: 'Objectors equate the Ali-witness addition to the adhan with the omission attributed to Omar ibn al-Khattab, invoking Sahih al-Bukhari and rival schools against the addition.
+
+      '
     source_moves:
-      - >
-        Presses the equal-error argument: if omission was
-        wrong, so is addition.
-      - >
-        Invokes "prayer is better than sleep" as a parallel
-        case of an accepted addition to argue by analogy.
-      - >
-        Cites rival hadith archives to deny the omission report
-        the source relies on.
+      - 'Presses the equal-error argument: if omission was wrong, so is addition.
+
+        '
+      - 'Invokes "prayer is better than sleep" as a parallel case of an accepted addition to argue by analogy.
+
+        '
+      - 'Cites rival hadith archives to deny the omission report the source relies on.
+
+        '
   resolution: host_b_concedes
 format_rationale: 'The chapter continues a named juristic dispute from the Discussion Letter and then answers objectors who equate the Ali-witness addition with Omar ibn al-Khattab''s alleged omission from the adhan. The proposition under contest is whether the adhan may bear testimony to Ali''s rank and wilaya, and the resolution is arbiter_refutes because the source completes eight proofs and rejects the equal-error objection rather than staging a concession.
 
