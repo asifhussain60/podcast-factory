@@ -18,6 +18,14 @@ back for later parts.
 Target deliverable language: **English** (translation edition — see
 `book_voice`/`book_augmentation`/`deliverable_mode` in `series-config.yaml`).
 
+A byte-identical working copy of the Arabic primary source also lives at
+[../_system/source/Isaf-al-Talib-Vol1A-Arabic.pdf](../_system/source/Isaf-al-Talib-Vol1A-Arabic.pdf)
+— `phases/resume_dispatcher.py`'s `--retry-phase 0a` recovery path globs
+`_system/source/*.pdf`, the convention `scaffold_book.py` itself documents
+("drop the verbatim source file into `_system/source/`"). This directory
+(`_source/`) stays the canonical, documented-role record; the copy exists
+only so a resume can find the file without re-deriving where it lives.
+
 ## Later parts
 
 If Part 1-B, Part 2, etc. surface later, they become a separate

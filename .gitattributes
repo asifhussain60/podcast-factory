@@ -6,6 +6,10 @@ content/knowledge-base/*.jsonl merge=union
 content/Islamic/where-the-caravans-set-forth/_source/Jahan[[:space:]]sy[[:space:]]Qafily[[:space:]]Chaly[[:space:]]1.pdf filter=lfs diff=lfs merge=lfs -text
 content/Islamic/isaf-al-talib/_source/arabic/Isaf-al-Talib-Vol1A-Arabic.pdf filter=lfs diff=lfs merge=lfs -text
 content/Islamic/isaf-al-talib/_source/urdu/Isaf-al-Talib-Vol1A-Urdu.pdf filter=lfs diff=lfs merge=lfs -text
+# Working copy at the conventional Phase 0a lookup location (resume_dispatcher.py
+# globs _system/source/*.pdf on --retry-phase 0a) — byte-identical to
+# _source/arabic/, same LFS object, no extra storage.
+content/Islamic/isaf-al-talib/_system/source/Isaf-al-Talib-Vol1A-Arabic.pdf filter=lfs diff=lfs merge=lfs -text
 # These source-faithful poetry lines use Markdown's two-space hard breaks.
 content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-chapters.md whitespace=-blank-at-eol
 content/Islamic/where-the-caravans-set-forth/_system/source/text/articulator-chapters/Jahan-sy-Qafily-Chaly-CH-12.md whitespace=-blank-at-eol
