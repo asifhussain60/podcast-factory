@@ -298,7 +298,20 @@ def main() -> int:
     try:
         from _content_profile import is_islamic_scholarly
 
-        if is_islamic_scholarly(workspace):
+        if skip_podcast_lane:
+            # The chapters/*.txt files are podcast-lane sources this book never uploads, and it
+            # builds no glossary (0c is skipped) — so this check could only ever fail. The
+            # deliverable is the reading edition, whose Arabic is enforced on the rendered
+            # book.md by validate_book_ready B3 (the same applicability rule B3 already uses).
+            gate_results.append(
+                {
+                    "gate": "G13",
+                    "name": "arabic-script-in-chapters",
+                    "passed": True,
+                    "note": "n/a (skip_podcast: Arabic coverage is enforced on the rendered book by B3)",
+                }
+            )
+        elif is_islamic_scholarly(workspace):
             from inject_chapter_arabic import chapter_arabic_status
 
             _status = chapter_arabic_status(workspace)
