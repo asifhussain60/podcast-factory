@@ -38,8 +38,8 @@ enable_video: false
 video_style: none
 book_pipeline_v2: true
 
-# Chapters + read-aloud narration + slide-decks only — no NotebookLM two-host
-# podcast episodes for this book (Asif, 2026-09-17). Per-book override, added
+# Chapters + read-aloud narration only — no NotebookLM two-host podcast
+# episodes for this book (Asif, 2026-09-17). Per-book override, added
 # specifically because this need was expected to recur: docs/standards/
 # book-series-setup.md, scripts/podcast/_content_profile.py::skip_podcast.
 # Unlike the content-type registry's skip_per_chapter (islamic_session,
@@ -47,3 +47,10 @@ book_pipeline_v2: true
 # book still runs Phase 0a OCR and 0c phonetics as normal; only the episode
 # loop is skipped.
 skip_podcast: true
+
+# No slide decks either (Asif, 2026-09-18) — after two overnight runs of
+# real content-quality findings (restatement, diagram-type discipline) that
+# kept needing more iteration than the per-chapter budget allowed, Asif
+# decided the deliverable for this book is chapters + read-aloud only.
+# `phases/post_chapter_driver.py` checks this flag before running Phase 11b.
+enable_slide_decks: false
