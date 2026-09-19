@@ -37,14 +37,17 @@ def _stub_pipeline(monkeypatch: pytest.MonkeyPatch, *, render_ok: bool = True) -
     none of which this test is about, and all of which touch the network or a
     real PDF parser."""
 
-    def fake_run(argv, **kwargs):
+    def fake_render(argv, **kwargs):
         # argv: ["node", RENDER_SCRIPT, book_md, out_pdf, THEME_CSS, "1", self_study_flag]
         out_pdf = Path(argv[3])
         if render_ok:
             out_pdf.write_bytes(b"%PDF-1.4 fake render\n%%EOF\n")
-        return type("R", (), {"returncode": 0 if render_ok else 1, "stderr": ""})()
+        return type("R", (), {"returncode": 0 if render_ok else 1, "stderr": "", "stdout": ""})()
 
-    monkeypatch.setattr(B.subprocess, "run", fake_run)
+    # The seam is `_run_renderer`, NOT `subprocess.run`: since a2617e05 the render runs through a supervised
+    # Popen helper, and these tests kept stubbing subprocess.run — so they silently ran a REAL browser. They passed
+    # wherever plan-dashboard/node_modules existed and failed in CI, where it does not.
+    monkeypatch.setattr(B, "_run_renderer", fake_render)
     monkeypatch.setattr("_book_cover.ensure_cover", lambda *a, **k: None)
     monkeypatch.setattr(B, "_final_comprehension_review", lambda *a, **k: None)
     monkeypatch.setattr(B, "_GDRIVE_LIBRARY", Path("/nonexistent-in-tests"))

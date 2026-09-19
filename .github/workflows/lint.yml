@@ -116,7 +116,11 @@ jobs:
       # from a gate that passes, right up until you read the log. Found 2026-08-01
       # while fixing the install step two jobs over (RCA-009).
       - name: Install ruff + mypy + probe deps
-        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0" "pyyaml>=6"
+        # pytest is here because the repo-surgeon probe's CT-VERIFY check requires every verify command in
+        # .repo-audit/profile.yaml (`python3 -m pytest`) to be runnable. Without it the probe step failed on every
+        # develop push from 2026-09-02 on (12 in a row) and nobody could tell a real finding from the missing tool.
+        # Pinned to the same version as requirements.txt.
+        run: python3 -m pip install "ruff==0.16.1" "mypy==2.3.0" "pyyaml>=6" "pytest==9.0.3"
       - name: Ruff lint
         run: ruff check
       - name: Ruff format check
