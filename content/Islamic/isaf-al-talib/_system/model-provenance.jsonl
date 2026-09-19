@@ -660,3 +660,238 @@
 {"phase": "0book-etymology", "step": "generate", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "5a-glossary-vowel", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the eight levels of fait", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-As for fulfillin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-As for fulfillin-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-These twelve are", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-These twelve are-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-three questions from the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-three questions fr-the first thing ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-three questions fr-the first thing -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the grammar of peace", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the five \u2014 the s", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the five \u2014 the s-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the seven procla", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the seven procla-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-guardians, proofs, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-guardians, proofs,-he is the proof ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-guardians, proofs,-he is the proof -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-parents, kin, and the ne", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what must be learned, wh", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-The first to rea", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-The first to rea-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-God will give hi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-God will give hi-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-water and intention: the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the manners of the washi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-the two recordin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-the two recordin-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Water purifies a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Water purifies a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Of the two washi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Of the two washi-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-The face bears t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-The face bears t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-major impurity and the c", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-The washing is a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-The washing is a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-for the water ha", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-for the water ha-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-Water purifies a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-Water purifies a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-tooth-stick, dust, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-tooth-stick, dust,-The primary ruli", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-tooth-stick, dust,-if three grains ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-bodies, hair, and the re", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-bodies, hair, and -the one whom the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-bodies, hair, and -the one whom the-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-skins, blood, and waitin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -prayer is not pe", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -prayer is not pe-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -whoever misses t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -whoever misses t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -what is meant is", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -what is meant is-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the pillar of religion a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-because the bedo", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-because the bedo-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the Messenger of", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the Messenger of-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-parents, kin, and the ne", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -seven that corre", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -seven that corre-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -The seal of this", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -The seal of this-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-water and intention: the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-its seven letter", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-its seven letter-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-When sleep mingl", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-When sleep mingl-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the pillar of religion a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the bedouins are", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the bedouins are-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-then the shaf an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-then the shaf an-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-if it belonged t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-if it belonged t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the disputed words of th", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the disputed words-if it is adminis", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the disputed words-if it is adminis-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-eight proofs for the bes", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-Likeness to the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-Likeness to the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-the family of Ya", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-the family of Ya-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-is an address fr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-this phrase and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-this phrase and -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-where a muslim stands to", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-one of the licen", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-one of the licen-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-he prays toward ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-he prays toward -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-prayer has seven", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-prayer has seven-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-who may lead, and who ma", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -one granted lice", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -one granted lice-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the nasib is set", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the nasib is set-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the imam's hujja", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the imam's hujja-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the shape of the prayer ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-whoever abandons", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-whoever abandons-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-the one who aban", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-the one who aban-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-it is because th", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-it is because th-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-every prayer in ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-every prayer in -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-supplication, speech, an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-the supplication", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-the supplication-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-Supplication tur", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-Supplication tur-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what the worshipper wear", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-Obligatory praye", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-Obligatory praye-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-A man is not to ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-A man is not to -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-friday and the two festi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-Do not count the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-Do not count the-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-that preacher is", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-that preacher is-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-it is a likeness", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-it is a likeness-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-forgetting, doubting, an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-the Imam deliver", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-the Imam deliver-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-a surah taken fr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-a surah taken fr-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-he delivers the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-he delivers the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-Three things int", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-Three things int-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-children, travelers, and", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-they are to be s", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-If he has land o", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-If he has land o-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-This is particul", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-This is particul-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-eclipse, fear, rain, and", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-A statement has ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-A statement has -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-it is permissibl", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-it is permissibl-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-when I asked him", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-when I asked him-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the sickbed and the soun", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-sleep in that po", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-sleep in that po-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-calls down upon ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-calls down upon -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-washing, shrouding, carr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-he is likewise n", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-he is likewise n-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-if the man in ja", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-if the man in ja-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-neither wars nor", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-neither wars nor-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-the dead man is ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-the dead man is -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the wealth that is not y", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-seven obligation", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-seven obligation-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-the purchase of ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-the purchase of -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-gold, herds, and harvest", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-expiation, al-Sh", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-He begins with t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-He begins with t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-the poor are of ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-upon whoever own", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-upon whoever own-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the charity of the head", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-if the child is ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-a man among the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-a man among the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-a shield against the fir", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-a shield against t-fasting becomes ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-a shield against t-fasting becomes -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the quarrel over the cre", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the quarrel over t-it would be poss", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the quarrel over t-it would be poss-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-two kinds of sight", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-commands issued ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-commands issued -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the seeing of kn", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the seeing of kn-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the sense of lam", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the sense of lam-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-we say: we have ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the sun, the moon, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sun, the moon,-that is, tempora", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sun, the moon,-that is, tempora-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S09", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S10", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S11", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S12", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S13", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S15", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S16", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S17", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S18", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S19", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S20", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S21", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S22", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S23", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S24", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S25", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S26", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S27", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S29", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S30", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S31", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S32", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S33", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "draft", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "repair", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "5a-glossary-vowel", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

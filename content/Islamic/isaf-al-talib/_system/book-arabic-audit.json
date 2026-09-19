@@ -8,8 +8,14 @@
       "runs": []
     },
     {
+      "chapter": "Introduction to the Book",
+      "arabic_runs": 0,
+      "unverified": 0,
+      "runs": []
+    },
+    {
       "chapter": "1. The Eight Levels of Faith",
-      "arabic_runs": 22,
+      "arabic_runs": 23,
       "unverified": 0,
       "runs": [
         {
@@ -21,6 +27,11 @@
           "text": "وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ وَأُفَوِّضُ أَمْرِي إِلَى اللَّهِ إِنَّ اللَّهَ بَصِيرٌ بِالْعِبَادِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ",
           "resolution": "ocr",
           "skeleton": "وماتوفيقيالاباللهعليهتوكلتواليهانيبوافوض"
+        },
+        {
+          "text": "عَلَيْهِ السَّلَامُ",
+          "resolution": "ocr",
+          "skeleton": "عليهالسلام"
         },
         {
           "text": "السَّبْعُ الْمَثَانِي",
@@ -126,7 +137,7 @@
     },
     {
       "chapter": "2. Three Questions from the King of Rum",
-      "arabic_runs": 8,
+      "arabic_runs": 9,
       "unverified": 0,
       "runs": [
         {
@@ -162,6 +173,12 @@
           "text": "عَلَيْهِمُ السَّلَامُ",
           "resolution": "ocr",
           "skeleton": "عليهمالسلام"
+        },
+        {
+          "text": "رَضِيَ اللَّهُ عَنْه",
+          "resolution": "canonical-mushaf",
+          "skeleton": "رضياللهعنه",
+          "reference": "Al-Ma'idah: 119"
         },
         {
           "text": "وَجَعَلْنَا اللَّيْلَ وَالنَّهَارَ آيَتَيْنِ فَمَحَوْنَا آيَةَ اللَّيْلِ وَجَعَلْنَا آيَةَ النَّهَارِ مُبْصِرَةً",
@@ -370,7 +387,7 @@
           "skeleton": "وبالثمانيهالحافينبعرشكياربالعالمين"
         },
         {
-          "text": "وبالإحدى عشر الساجدين وبالاثنى عشر المعدودين الراكعين",
+          "text": "وَبِالْإِحْدَى عَشَرَ السَّاجِدِينَ وَبِالِاثْنَى عَشَرَ الْمَعْدُودِينَ الرَّاكِعِينَ",
           "resolution": "ocr",
           "skeleton": "وبالاحديعشرالساجدينوبالاثنيعشرالمعدودينا"
         },
@@ -515,7 +532,7 @@
           "skeleton": "بنوالعلات"
         },
         {
-          "text": "بنوا العلاّت",
+          "text": "بَنُوا الْعَلَّاتِ",
           "resolution": "ocr",
           "skeleton": "بنواالعلات"
         },
@@ -568,7 +585,7 @@
           "skeleton": "مننظرفيكتاباخيهبغيراذنهفكانماينظرفيالنار"
         },
         {
-          "text": "هذا في كتاب الحقيقة لا ينظر الإنسان الا بأذن من أطلق له ذلك وأما في غيرها فأدب وليس بلازم",
+          "text": "هَذَا فِي كِتَابِ الْحَقِيقَةِ لَا يَنْظُرُ الْإِنْسَانُ اِلَّا بِأِذْنِ مَنْ أَطْلَقَ لَهُ ذَلِكَ وَأَمَّا فِي غَيْرِهَا فَأَدَبٌ وَلَيْسَ بِلَازِمٍ",
           "resolution": "ocr",
           "skeleton": "هذافيكتابالحقيقهلاينظرالانسانالاباذنمناط"
         },
@@ -583,7 +600,7 @@
           "skeleton": "لاباسبانيصلحهوليسلهلازم"
         },
         {
-          "text": "إن كانت الكتب من كتب الدعوة فليس له ذلك لأنها للدعوة لا تورث",
+          "text": "إِنْ كَانَتِ الْكُتُبُ مِنْ كُتُبِ الدَّعْوَةِ فَلَيْسَ لَهُ ذَلِكَ لِأَنَّهَا لِلدَّعْوَةِ لَا تُورَثُ",
           "resolution": "ocr",
           "skeleton": "انكانتالكتبمنكتبالدعوهفليسلهذلكلانهاللدع"
         },
@@ -696,7 +713,7 @@
           "skeleton": "تنظفوابالماءمنالريحالمنتنه"
         },
         {
-          "text": "إذا أراد أحدكم الخلاء فليقل بسم الله اللهم أمط عني الأذى وأعذني من الشيطان الرجيم الحمد لله الذي أطعمنيه في عافية وأخرج مني أذاه في عافية",
+          "text": "إِذَا أَرَادَ أَحَدُكُمُ الْخَلَاءَ فَلْيَقُلْ بِسْمِ اللَّهِ اللَّهُمَّ أَمِطْ عَنِّي الْأَذَى وَأَعِذْنِي مِنَ الشَّيْطَانِ الرَّجِيمِ الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِيهِ فِي عَافِيَةٍ وَأَخْرَجَ مِنِّي أَذَاهُ فِي عَافِيَةٍ",
           "resolution": "ocr",
           "skeleton": "اذااراداحدكمالخلاءفليقلبسماللهاللهمامطعن"
         },
@@ -723,7 +740,7 @@
           "skeleton": "عليهمالسلام"
         },
         {
-          "text": "أمرني جبرئيل عليه السلام عن ربي أن اغسل فنكي عند الوضوء",
+          "text": "أمرني جبرئيل عَلَيْهِ السَّلَامُ عن ربي أن اغسل فنكي عند الوضوء",
           "resolution": "ocr",
           "skeleton": "امرنيجبرييلعليهالسلامعنربياناغسلفنكيعندا"
         },
@@ -991,7 +1008,7 @@
           "skeleton": "تاويلالدعايم"
         },
         {
-          "text": "السواك مرضاة للرب عز وجل ومطيبة للفم وهو من السّنّة",
+          "text": "السِّوَاكُ مَرْضَاةٌ لِلرَّبِّ عَزَّ وَجَلَّ وَمَطْيَبَةٌ لِلْفَمِ وَهُوَ مِنَ السُّنَّةِ",
           "resolution": "ocr",
           "skeleton": "السواكمرضاهللربعزوجلومطيبهللفموهومنالسنه"
         },
@@ -1098,7 +1115,7 @@
           "skeleton": "السيفالاقطعفيابطالالبدع"
         },
         {
-          "text": "إذا أراد أحدكم أن يتزوج امرأة فيسأل عن شعرها كما يسأل عن وجهها فان الشعر أحد الجمالين",
+          "text": "إِذَا أَرَادَ أَحَدُكُمْ أَنْ يَتَزَوَّجَ امْرَأَةً فَيَسْأَلُ عَنْ شَعْرِهَا كَمَا يَسْأَلُ عَنْ وَجْهِهَا فَاِنَّ الشَّعْرَ أَحَدُ الْجَمَالَيْنِ",
           "resolution": "ocr",
           "skeleton": "اذااراداحدكمانيتزوجامراهفيسالعنشعرهاكماي"
         },
@@ -1139,7 +1156,7 @@
           "reference": "An-Nur: 54"
         },
         {
-          "text": "أسرعوا بختان أولادكم فأنه أطهر لهم",
+          "text": "أَسْرِعُوا بِخِتَانِ أَوْلَادِكُمْ فَأِنَّهُ أَطْهَرُ لَهُمْ",
           "resolution": "ocr",
           "skeleton": "اسرعوابختاناولادكمفانهاطهرلهم"
         },
@@ -1198,7 +1215,7 @@
     {
       "chapter": "12. Skins, Blood, and Waiting Periods",
       "arabic_runs": 34,
-      "unverified": 2,
+      "unverified": 1,
       "runs": [
         {
           "text": "دَعَائِمُ الْإِسْلَامِ",
@@ -1216,7 +1233,7 @@
           "skeleton": "تاويلالدعايم"
         },
         {
-          "text": "ولا يجز الشعر من المعز الا بعد الذبح فان جز وهو حيّ فهو ميّة",
+          "text": "وَلَا يُجَزُّ الشَّعْرُ مِنَ الْمَعْزِ اِلَّا بَعْدَ الذَّبْحِ فَاِنْ جُزَّ وَهُوَ حَيٌّ فَهُوَ مَيَّةٌ",
           "resolution": "ocr",
           "skeleton": "ولايجزالشعرمنالمعزالابعدالذبحفانجزوهوحيف"
         },
@@ -1316,7 +1333,7 @@
           "skeleton": "تاويلالدعايم"
         },
         {
-          "text": "مَا لَكَ أَنْفَسْتَ ؟ قالت نعم",
+          "text": "مَا لَكَ أَنْفَسْتَ ؟ قَالَتْ نَعَمْ",
           "resolution": "ocr",
           "skeleton": "مالكانفستقالتنعم"
         },
@@ -1361,9 +1378,9 @@
           "skeleton": "كتابالزينه"
         },
         {
-          "text": "الولد للفراش وللعاهر الحجر\n\nالْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ",
-          "resolution": "unverified",
-          "skeleton": "الولدللفراشوللعاهرالحجرالولدللفراشوللزان"
+          "text": "اَلْوَلَدُ لِلْفِرَاشِ وَلِلْعَاهِرِ الْحَجَرُ",
+          "resolution": "ocr",
+          "skeleton": "الولدللفراشوللعاهرالحجر"
         },
         {
           "text": "الْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ",
@@ -1383,7 +1400,7 @@
           "skeleton": "قيامالليلمصلحهللبدنورضيللربوتعرضللرحمهوت"
         },
         {
-          "text": "ولا يقومنّ الرجل إلى الصلاة متكاسلاً ولا متناعساً وليقلل العبد الفكر إذا قام بين يدي الله عز وجل فإنما له من صلاته ما أقبل عليه ولا تدعوا ذكر الله في كل مكان على كل حال ولا يلتفتنّ أحدكم في صلاته فإن العبد إذا التفت فيها قال الله عز وجل",
+          "text": "وَلَا يَقُومَنَّ الرَّجُلُ إِلَى الصَّلَاةِ مُتَكَاسِلًا وَلَا مُتَنَاعِسًا وَلْيُقْلِلِ الْعَبْدُ الْفِكْرَ إِذَا قَامَ بَيْنَ يَدَيِ اللَّهِ عَزَّ وَجَلَّ فَإِنَّمَا لَهُ مِنْ صَلَاتِهِ مَا أَقْبَلَ عَلَيْهِ وَلَا تَدَعُوا ذِكْرَ اللَّهِ فِي كُلِّ مَكَانٍ عَلَى كُلِّ حَالٍ وَلَا يَلْتَفِتَنَّ أَحَدُكُمْ فِي صَلَاتِهِ فَإِنَّ الْعَبْدَ إِذَا الْتَفَتَ فِيهَا قَالَ اللَّهُ عَزَّ وَجَلَّ",
           "resolution": "ocr",
           "skeleton": "ولايقومنالرجلاليالصلاهمتكاسلاولامتناعساو"
         },
@@ -1398,7 +1415,7 @@
           "skeleton": "اياكموالكسلفانمنكسللميودحقاللهعزوجل"
         },
         {
-          "text": "لا يعبث أحدكم بلحيته في الصلاة ولا بما يشغله عنها",
+          "text": "لَا يَعْبَثْ أَحَدُكُمْ بِلِحْيَتِهِ فِي الصَّلَاةِ وَلَا بِمَا يَشْغَلُهُ عَنْهَا",
           "resolution": "ocr",
           "skeleton": "لايعبثاحدكمبلحيتهفيالصلاهولابمايشغلهعنها"
         },
@@ -1499,7 +1516,7 @@
           "skeleton": "ومنيعملمثقالذرهخيرايرهومنيعملمثقالذرهشرا"
         },
         {
-          "text": "إذا اشتد الحر فأبردوا بالظهر فإن شدة الحر من لفح جهنم",
+          "text": "إِذَا اشْتَدَّ الْحَرُّ فَأَبْرِدُوا بِالظُّهْرِ فَإِنَّ شِدَّةَ الْحَرِّ مِنْ لَفْحِ جَهَنَّمَ",
           "resolution": "ocr",
           "skeleton": "اذااشتدالحرفابردوابالظهرفانشدهالحرمنلفحج"
         },
@@ -1570,7 +1587,7 @@
       "unverified": 1,
       "runs": [
         {
-          "text": "بَيْتُ الْمَالِ",
+          "text": "بَيْتُ الْمَال",
           "resolution": "ocr",
           "skeleton": "بيتالمال"
         },
@@ -1973,7 +1990,7 @@
     },
     {
       "chapter": "17. Who May Lead, and Who May Not",
-      "arabic_runs": 26,
+      "arabic_runs": 24,
       "unverified": 0,
       "runs": [
         {
@@ -2059,7 +2076,7 @@
           "skeleton": "المجالسالمستنصريه"
         },
         {
-          "text": "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عليه السلام ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها",
+          "text": "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عَلَيْهِ السَّلَامُ ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها",
           "resolution": "ocr",
           "skeleton": "يومالقوماقدمهمهجرهفاناستووافاقراهمفاناست"
         },
@@ -2070,19 +2087,9 @@
           "reference": "At-Tawbah: 3"
         },
         {
-          "text": "اَللَّام",
-          "resolution": "ocr",
-          "skeleton": "اللام"
-        },
-        {
           "text": "وَمِنْهُمْ مَنْ هَدَى اللَّهُ",
           "resolution": "ocr",
           "skeleton": "ومنهممنهديالله"
-        },
-        {
-          "text": "اَلْهَاء",
-          "resolution": "ocr",
-          "skeleton": "الهاء"
         },
         {
           "text": "دَعَائِمُ الْإِسْلَامِ",
@@ -2095,7 +2102,7 @@
           "skeleton": "عليهمالسلام"
         },
         {
-          "text": "ينبغي للصفوف أن تكون تامة متواصلة بعضها إلى بعض فيكون بين كل صفين قدر مسقط جسد الإنسان إذا سجد فان لم يصلوا مثل هذا لم تكن لهم صلاة",
+          "text": "يَنْبَغِي لِلصُّفُوفِ أَنْ تَكُونَ تَامَّةً مُتَوَاصِلَةً بَعْضُهَا إِلَى بَعْضٍ فَيَكُونَ بَيْنَ كُلِّ صَفَّيْنِ قَدْرُ مَسْقَطِ جَسَدِ الْإِنْسَانِ إِذَا سَجَدَ فَاِنْ لَمْ يُصَلُّوا مِثْلَ هَذَا لَمْ تَكُنْ لَهُمْ صَلَاةٌ",
           "resolution": "ocr",
           "skeleton": "ينبغيللصفوفانتكونتامهمتواصلهبعضهااليبعضف"
         },
@@ -2350,7 +2357,7 @@
           "skeleton": "وعندطلوعالفجر"
         },
         {
-          "text": "الدعاء يرد القضاء المبرم فادعوه واستعجلوه",
+          "text": "الدُّعَاءُ يَرُدُّ الْقَضَاءَ الْمُبْرَمَ فَادْعُوهُ وَاسْتَعْجِلُوهُ",
           "resolution": "ocr",
           "skeleton": "الدعاءيردالقضاءالمبرمفادعوهواستعجلوه"
         },
@@ -2365,7 +2372,7 @@
           "skeleton": "الداعيبلاعملكالراميبلاوتر"
         },
         {
-          "text": "من قرأ قل هو الله أحد إلى أن تطلع الشمس عشر مرات وإنا أنزلناه في ليلة القدر لم يصب ذنبا ولو اجتهد إبليس",
+          "text": "مَنْ قَرَأَ قُلْ هُوَ اللَّهُ أَحَدٌ إِلَى أَنْ تَطْلُعَ الشَّمْسُ عَشْرَ مَرَّاتٍ وَإِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ لَمْ يُصِبْ ذَنْبًا وَلَوْ اجْتَهَدَ إِبْلِيسُ",
           "resolution": "ocr",
           "skeleton": "منقراقلهواللهاحداليانتطلعالشمسعشرمراتوان"
         },
@@ -2460,7 +2467,7 @@
     },
     {
       "chapter": "21. Friday and the Two Festivals",
-      "arabic_runs": 24,
+      "arabic_runs": 25,
       "unverified": 0,
       "runs": [
         {
@@ -2549,6 +2556,11 @@
           "skeleton": "تفطرتالارضوانفطرت"
         },
         {
+          "text": "تَفَطَّرَتِ الْأَرْضُ وَانْفَطَرَتْ",
+          "resolution": "ocr",
+          "skeleton": "تفطرتالارضوانفطرت"
+        },
+        {
           "text": "تَفَطَّرَتِ الشَّجَرَةُ",
           "resolution": "ocr",
           "skeleton": "تفطرتالشجره"
@@ -2613,7 +2625,7 @@
           "skeleton": "المرغمتان"
         },
         {
-          "text": "من كان على يقينه فأصابه شك فليمض على يقينه فان الشك لا يدفع اليقين ولا ينقصه",
+          "text": "مَنْ كَانَ عَلَى يَقِينِهِ فَأَصَابَهُ شَكٌّ فَلْيَمْضِ عَلَى يَقِينِهِ فَاِنَّ الشَّكَّ لَا يَدْفَعُ الْيَقِينَ وَلَا يَنْقُصُهُ",
           "resolution": "ocr",
           "skeleton": "منكانعلييقينهفاصابهشكفليمضعلييقينهفانالش"
         },
@@ -2930,8 +2942,8 @@
     },
     {
       "chapter": "25. The Sickbed and the Sound of Mourning",
-      "arabic_runs": 29,
-      "unverified": 1,
+      "arabic_runs": 28,
+      "unverified": 0,
       "runs": [
         {
           "text": "يَتَوَجَّهُونَ حَيْثُ يَشَاءُونَ وَالْأَمْرُ بِيَدِ اللَّهِ تَعَالَى",
@@ -3012,11 +3024,6 @@
           "text": "لَا يُلْطَمَنَّ عَلَيَّ خَدٌّ وَلَا يُشَقَّنَّ عَلَيَّ جَيْبٌ فَمَا مِنِ امْرَأَةٍ تَشُقُّ جَيْبَهَا إِلَّا لَهَا فِي جَهَنَّمَ صَدْعٌ كُلَّمَا زَادَتْ زِيدَتْ",
           "resolution": "ocr",
           "skeleton": "لايلطمنعليخدولايشقنعليجيبفمامنامراهتشقجي"
-        },
-        {
-          "text": "مَا امْرَأَةٌ تَشُقُّ جَيْبَهَا إِلَّا كَانَ لَهَا فِي النَّارِ شَقٌّ",
-          "resolution": "unverified",
-          "skeleton": "ماامراهتشقجيبهاالاكانلهافيالنارشق"
         },
         {
           "text": "وَإِيَّاكَ وَالنَّوْحَ عَلَى الْمَيِّتِ بِبَلَدٍ يَكُونُ لَكَ بِهِ سُلْطَانٌ",
@@ -3378,7 +3385,7 @@
           "skeleton": "اللام"
         },
         {
-          "text": "فللموت تغذوا الوالدات عيالها",
+          "text": "فَلِلْمَوْتِ تَغْذُوا الْوَالِدَاتُ عِيَالَهَا",
           "resolution": "ocr",
           "skeleton": "فللموتتغذواالوالداتعيالها"
         },
@@ -3560,7 +3567,7 @@
           "skeleton": "رويهالعين"
         },
         {
-          "text": "أولوا العلم",
+          "text": "أُولُوا الْعِلْم",
           "resolution": "canonical-mushaf",
           "skeleton": "اولواالعلم",
           "reference": "Ali 'Imran: 18"
@@ -3744,7 +3751,7 @@
           "skeleton": "الحدود"
         },
         {
-          "text": "فهل يستوي الظلمات والنور أم هل يستوي الأعمى والبصير أم هل يستوي الذين يعلمون والذين لا يعلمون إنما يتذكر أولوا الألباب",
+          "text": "فَهَلْ يَسْتَوِي الظُّلُمَاتُ وَالنُّورُ أَمْ هَلْ يَسْتَوِي الْأَعْمَى وَالْبَصِيرُ أَمْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ إِنَّمَا يَتَذَكَّرُ أُولُوا الْأَلْبَابِ",
           "resolution": "ocr",
           "skeleton": "فهليستويالظلماتوالنورامهليستويالاعميوالب"
         },
@@ -3772,11 +3779,11 @@
     }
   ],
   "totals": {
-    "canonical-mushaf": 107,
-    "ocr": 559,
+    "canonical-mushaf": 108,
+    "ocr": 560,
     "knowledge-base": 0,
     "honorific-formula": 0,
-    "unverified": 19,
+    "unverified": 17,
     "arabic_runs": 685
   },
   "quran_coverage": {
@@ -3788,82 +3795,11 @@
     "uncited_inserted": 0
   },
   "stages": {
-    "base": {
-      "(front matter)": 0,
-      "1. The Eight Levels of Faith": 15,
-      "2. Three Questions from the King of Rum": 8,
-      "3. The Grammar of Peace": 17,
-      "4. Guardians, Proofs, and the Limits of Praise": 30,
-      "5. Parents, Kin, and the Neighbor at Your Side": 15,
-      "6. What Must Be Learned, What Must Be Concealed": 17,
-      "7. Water and Intention: The Anatomy of Ablution": 8,
-      "8. The Manners of the Washing Place": 20,
-      "9. Major Impurity and the Cleanliness of Things": 23,
-      "10. Tooth-Stick, Dust, and the Purity of Food": 13,
-      "11. Bodies, Hair, and the Reform of Custom": 24,
-      "12. Skins, Blood, and Waiting Periods": 33,
-      "13. The Pillar of Religion and Its Appointed Hours": 31,
-      "14. The Disputed Words of the Call": 27,
-      "15. Eight Proofs for the Best of Human Beings": 37,
-      "16. Where a Muslim Stands to Pray": 7,
-      "17. Who May Lead, and Who May Not": 24,
-      "18. The Shape of the Prayer Itself": 27,
-      "19. Supplication, Speech, and Silence": 23,
-      "20. What the Worshipper Wears and Stands Upon": 14,
-      "21. Friday and the Two Festivals": 23,
-      "22. Forgetting, Doubting, and Beginning Again": 10,
-      "23. Children, Travelers, and the Sick": 24,
-      "24. Eclipse, Fear, Rain, and the Night Vigil": 29,
-      "25. The Sickbed and the Sound of Mourning": 28,
-      "26. Washing, Shrouding, Carrying, Burying": 8,
-      "27. The Wealth That Is Not Yours": 8,
-      "28. Gold, Herds, and Harvest": 6,
-      "29. The Charity of the Head": 5,
-      "30. A Shield Against the Fire": 6,
-      "31. The Quarrel Over the Crescent": 18,
-      "32. Two Kinds of Sight": 25,
-      "33. The Sun, the Moon, and the Order of Obedience": 34
-    },
-    "fluency": {
-      "(front matter)": 0,
-      "1. The Eight Levels of Faith": 15,
-      "2. Three Questions from the King of Rum": 8,
-      "3. The Grammar of Peace": 17,
-      "4. Guardians, Proofs, and the Limits of Praise": 30,
-      "5. Parents, Kin, and the Neighbor at Your Side": 15,
-      "6. What Must Be Learned, What Must Be Concealed": 18,
-      "7. Water and Intention: The Anatomy of Ablution": 8,
-      "8. The Manners of the Washing Place": 21,
-      "9. Major Impurity and the Cleanliness of Things": 24,
-      "10. Tooth-Stick, Dust, and the Purity of Food": 13,
-      "11. Bodies, Hair, and the Reform of Custom": 24,
-      "12. Skins, Blood, and Waiting Periods": 34,
-      "13. The Pillar of Religion and Its Appointed Hours": 32,
-      "14. The Disputed Words of the Call": 27,
-      "15. Eight Proofs for the Best of Human Beings": 37,
-      "16. Where a Muslim Stands to Pray": 8,
-      "17. Who May Lead, and Who May Not": 24,
-      "18. The Shape of the Prayer Itself": 27,
-      "19. Supplication, Speech, and Silence": 23,
-      "20. What the Worshipper Wears and Stands Upon": 14,
-      "21. Friday and the Two Festivals": 23,
-      "22. Forgetting, Doubting, and Beginning Again": 10,
-      "23. Children, Travelers, and the Sick": 24,
-      "24. Eclipse, Fear, Rain, and the Night Vigil": 29,
-      "25. The Sickbed and the Sound of Mourning": 29,
-      "26. Washing, Shrouding, Carrying, Burying": 8,
-      "27. The Wealth That Is Not Yours": 8,
-      "28. Gold, Herds, and Harvest": 6,
-      "29. The Charity of the Head": 5,
-      "30. A Shield Against the Fire": 6,
-      "31. The Quarrel Over the Crescent": 18,
-      "32. Two Kinds of Sight": 25,
-      "33. The Sun, the Moon, and the Order of Obedience": 34
-    },
     "final": {
       "(front matter)": 0,
-      "1. The Eight Levels of Faith": 22,
-      "2. Three Questions from the King of Rum": 8,
+      "Introduction to the Book": 0,
+      "1. The Eight Levels of Faith": 23,
+      "2. Three Questions from the King of Rum": 9,
       "3. The Grammar of Peace": 17,
       "4. Guardians, Proofs, and the Limits of Praise": 32,
       "5. Parents, Kin, and the Neighbor at Your Side": 16,
@@ -3878,15 +3814,15 @@
       "14. The Disputed Words of the Call": 28,
       "15. Eight Proofs for the Best of Human Beings": 37,
       "16. Where a Muslim Stands to Pray": 8,
-      "17. Who May Lead, and Who May Not": 26,
+      "17. Who May Lead, and Who May Not": 24,
       "18. The Shape of the Prayer Itself": 27,
       "19. Supplication, Speech, and Silence": 23,
       "20. What the Worshipper Wears and Stands Upon": 14,
-      "21. Friday and the Two Festivals": 24,
+      "21. Friday and the Two Festivals": 25,
       "22. Forgetting, Doubting, and Beginning Again": 10,
       "23. Children, Travelers, and the Sick": 24,
       "24. Eclipse, Fear, Rain, and the Night Vigil": 29,
-      "25. The Sickbed and the Sound of Mourning": 29,
+      "25. The Sickbed and the Sound of Mourning": 28,
       "26. Washing, Shrouding, Carrying, Burying": 8,
       "27. The Wealth That Is Not Yours": 8,
       "28. Gold, Herds, and Harvest": 6,

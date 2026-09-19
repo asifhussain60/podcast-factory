@@ -1,40 +1,20 @@
 {
   "title": "29. The Charity of the Head",
-  "purpose": "It compiles the doctrinal rulings on zakat al-fitr (the charity of the head) — its substance, measure, timing, who owes it and on whose behalf — from the Pillars, fatwa collections and Ismaili authorities, closing with two edge-case rulings on ordinary zakat.",
+  "purpose": "It compiles the Ismaili legal rulings on zakat al-Fitr — its measure, its timing, who owes it and on whose behalf — together with a few residual rulings on zakat generally.",
   "points": [
     {
-      "text": "A fatwa collection arranged by the chapters of the Book of the Pillars addresses the Indian custom of mixing four grains (rice, maize, wheat, salt) for the fitra and taking their monetary value, and answers that the reliance is on the Pillars: a sa of wheat, barley, dates or raisins.",
+      "text": "Answering a question about the Indian custom of mixing four grains (rice, maize, wheat, salt) and taking their monetary value, the reply is that reliance is on the Book of the Pillars: a sa of wheat, barley, dates, or raisins.",
       "kind": "claim",
       "weight": 3,
       "entities": [
-        "Book of the Pillars",
-        "zakat al-fitr",
-        "fitra",
-        "sa",
+        "Book of the Pillars of Islam",
+        "zakat al-Fitr",
         "India"
       ]
     },
     {
-      "text": "A transmitted saying holds that the fitra should be from the best of what one eats and the purest of what one stores.",
-      "kind": "evidence",
-      "weight": 2,
-      "entities": [
-        "fitra"
-      ]
-    },
-    {
-      "text": "The answer concedes latitude: whoever mixes his fitra from everything he ate during Ramadan has discharged it, and whoever ate nothing but barley may give barley.",
+      "text": "A reported saying holds that the fitra should be from the best of what one eats and the purest of what one stores, yet mixing it from everything eaten during Ramadan suffices, and one who ate nothing but barley may give barley.",
       "kind": "caveat",
-      "weight": 2,
-      "entities": [
-        "fitra",
-        "Ramadan",
-        "barley"
-      ]
-    },
-    {
-      "text": "On paying the fitra before Ramadan out of fear of poverty or travel — objected to because obligatory acts may not be done outside their appointed times — the answer is that delivering it to a rightful recipient suffices, since no fixed time was set for advancing or delaying it and the obligation is simply its delivery; the only prohibition is that one not break the fast before delivering it.",
-      "kind": "resolution",
       "weight": 3,
       "entities": [
         "fitra",
@@ -42,19 +22,27 @@
       ]
     },
     {
-      "text": "Mukhtasar al-Musannaf rules that a dhimmi who accepts Islam before dawn on the day of Fitr owes the zakat of Fitr, while one who converts after dawn owes nothing.",
-      "kind": "distinction",
-      "weight": 2,
+      "text": "Against the objection that obligatory duties may not be performed outside their appointed times, the answer given is that delivering the fitra to a rightful recipient suffices whenever done, since no fixed time was set for advancing or delaying it — the sole prohibition being that one must not break the fast before delivering it.",
+      "kind": "resolution",
+      "weight": 4,
       "entities": [
-        "Mukhtasar al-Musannaf",
-        "dhimmi",
-        "day of Fitr"
+        "fitra",
+        "zakat al-Fitr"
       ]
     },
     {
-      "text": "Reports state the zakat of Fitr is paid for the mukatab; the Landmarks of Religion holds it due for a child born before dawn on the day of Fitr; and the Book of the Pillars records that it has also been said to be paid for a child still in the womb.",
+      "text": "Mukhtasar al-Musannaf rules that a dhimmi who accepts Islam before dawn on the day of Fitr owes zakat al-Fitr, while one who converts after dawn owes nothing.",
       "kind": "claim",
       "weight": 2,
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "dhimmi"
+      ]
+    },
+    {
+      "text": "Reports state the fitra is paid on behalf of the mukatab; the Landmarks of Religion that it is due for a child born before dawn on the day of Fitr; and the Book of the Pillars that it has also been said to be paid for the child still in the womb.",
+      "kind": "claim",
+      "weight": 3,
       "entities": [
         "mukatab",
         "Landmarks of Religion",
@@ -62,72 +50,80 @@
       ]
     },
     {
-      "text": "The measure of the sa is given as four and a half ratls by the Meccan ratl, five ratls less a third by the Medinan ratl, and nine and a tenth by the Baghdadi ratl, with the Selected Book allowing a sa of dried curd or half a sa of wheat.",
+      "text": "The Landmarks of Religion gives the sa as four and a half Meccan ratls, five ratls less a third by the ratl of Medina, and nine and a tenth Baghdadi ratls, while the Selected Book allows a sa of dried curd or half a sa of wheat.",
       "kind": "definition",
       "weight": 2,
       "entities": [
         "sa",
         "ratl",
-        "Mecca",
-        "Medina",
-        "Baghdad",
-        "Selected Book"
+        "Selected Book",
+        "Landmarks of Religion"
       ]
     },
     {
-      "text": "The author of the Mustansiriyya sessions, in the thirteenth session, distinguishes zakat obligatory on the wealthy from zakat of Fitr, which is obligatory in every condition and even on those of small means, and enumerates seven obligations — that a man pay it for himself, for the elder and younger of his household, the free and the enslaved, the males and the females — plus twelve Sunnah practices.",
+      "text": "The thirteenth Mustansiriyya session, following on the prior session about zakat owed by the wealthy, presents zakat al-Fitr as the zakat obligatory in every condition and even upon those of small means, comprising seven obligations and twelve Sunnah practices.",
       "kind": "framework",
       "weight": 4,
       "entities": [
+        "al-Mustansir bi-llah",
         "Mustansiriyya sessions",
-        "zakat of Fitr"
+        "zakat al-Fitr"
       ]
     },
     {
-      "text": "Among the Sunnah practices: it is brought out from the middle sort of one's food — a sa of wheat, barley, dates or raisins, with half a sa sufficing only for wheat; the sa is four mudds; it is handed to the Imam or his appointee before the breaking of the fast; delay requires making it up; one lacking food gives its value in silver or gold; and a woman without a husband pays for herself and her dependents.",
+      "text": "The seven obligations are that a man pay it for himself, for the elder and the younger of his household, the free and the enslaved among them, and the males and the females among them.",
       "kind": "framework",
       "weight": 4,
-      "depends_on": [],
       "entities": [
+        "zakat al-Fitr"
+      ]
+    },
+    {
+      "text": "The Sunnah practices include bringing it from the middle sort of what one eats (a sa of wheat, barley, dates, or raisins — half a sa sufficing only for wheat, the sa being four mudds), handing it to the Imam or his appointee, bringing it out before the breaking of the fast, making it up if delayed, and giving its value in silver or gold if one lacks the food; a woman with no husband present pays for herself and her dependants.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [
+        "S28-P01"
+      ],
+      "entities": [
+        "Imam",
         "sa",
-        "mudd",
-        "Imam"
+        "mudd"
       ]
     },
     {
-      "text": "The Inner Nursing cites the Prophet's saying that the fitra is not lawful for him nor for the people of his house.",
-      "kind": "evidence",
-      "weight": 2,
+      "text": "The Inner Nursing cites the Prophet's saying that the fitra is lawful neither for him nor for the people of his house.",
+      "kind": "claim",
+      "weight": 3,
       "entities": [
-        "Inner Nursing",
         "Messenger of God",
-        "ahl al-bayt"
+        "Ahl al-Bayt",
+        "Inner Nursing"
       ]
     },
     {
-      "text": "Zayd ibn Muhammad's Concealed Epistle states that the Messenger of God made the fitra obligatory on every head among the Muslims — male and female, small and great, even an infant born that day and the child in the womb — a sa of wheat, dates, raisins, barley or other grain, which is why it is named the charity of the head; if paid before the prayer it counts as charity.",
+      "text": "Zayd ibn Muhammad in the Concealed Epistle holds that the Prophet obliged every Muslim head — male, female, small, great, even an infant born that day, and the child in the womb — to pay a sa, and explains that zakat al-Fitr is therefore named 'the charity of the head'.",
       "kind": "definition",
       "weight": 4,
       "entities": [
         "Zayd ibn Muhammad",
         "Concealed Epistle",
-        "charity of the head",
-        "fitra"
+        "charity of the head"
       ]
     },
     {
-      "text": "Al-Qadi al-Numan's Mafatih al-Nima draws the temporal distinction that what is brought out before sunrise counts as fitra and after sunrise as ordinary charity, and defines the meaning of fitra as bringing out what is owed to God and to His appointed guardian, as ransom and as offering.",
-      "kind": "definition",
+      "text": "Al-Qadi al-Numan's Mafatih al-Nima distinguishes fitra from ordinary charity by timing — before sunrise it is fitra, after sunrise mere sadaqa — and defines fitra as bringing out what is owed to God and to His appointed guardian, as ransom and offering.",
+      "kind": "distinction",
       "weight": 4,
       "entities": [
-        "Mafatih al-Nima",
         "al-Qadi al-Numan",
+        "Mafatih al-Nima",
         "fitra",
-        "wali"
+        "sadaqa"
       ]
     },
     {
-      "text": "Two puzzle-rulings close the section: a man owning a thousand dinars while owing a thousand dinars owes no zakat on it, and a polytheist who finds no Muslim to whom to hand his zakat has more right to it than anyone else.",
+      "text": "Two residual riddle-rulings hold that zakat is lawful to a man who owns a thousand dinars but owes a thousand (so no zakat is due from him), and to a well-off polytheist who has found no Muslim to receive his zakat, who then has more right to it than anyone.",
       "kind": "example",
       "weight": 2,
       "entities": [
@@ -135,5 +131,5 @@
       ]
     }
   ],
-  "fingerprint": "7c9fc45643d51d56"
+  "fingerprint": "0bd07272b731e27e"
 }

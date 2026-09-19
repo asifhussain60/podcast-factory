@@ -1,0 +1,1099 @@
+{
+  "schema": "book.student-reader/v1",
+  "generated_at": "2026-09-19T09:21:39Z",
+  "dry_run": false,
+  "chapters": [
+    {
+      "chapter": "the eight levels of faith",
+      "file": "1-the-eight-levels-of-faith",
+      "title": "1. The Eight Levels of Faith",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "three questions from the king of rum",
+      "file": "2-three-questions-from-the-king-of-rum",
+      "title": "2. Three Questions from the King of Rum",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "the grammar of peace",
+      "file": "3-the-grammar-of-peace",
+      "title": "3. The Grammar of Peace",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "guardians, proofs, and the limits of praise",
+      "file": "4-guardians-proofs-and-the-limits-of-praise",
+      "title": "4. Guardians, Proofs, and the Limits of Praise",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "parents, kin, and the neighbor at your side",
+      "file": "5-parents-kin-and-the-neighbor-at-your-side",
+      "title": "5. Parents, Kin, and the Neighbor at Your Side",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:eb83d174589cbb39",
+          "defect": "undefined-term",
+          "quote": "seven that correspond to the seven clauses of the testimony, matching the number of its clauses, which are not subject to dispute",
+          "question": "What specific formulation of the testimony is meant here — which version has exactly seven clauses and twelve letters, such that the seven obligatory rights map to its clauses and the twelve practices (including righteousness toward parents) map to the count of its letters?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:a550e8089bf9e2ae",
+          "defect": "unexplained-leap",
+          "quote": "The seal of this righteousness is a person's righteousness toward his own soul",
+          "question": "After establishing three distinct tiers of parents — bodily, religious, and communal — what is the doctrinal basis for placing righteousness toward one's own soul as the 'seal' of this entire category, and in what sense does the soul belong to the framework of parental duty?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "what must be learned, what must be concealed",
+      "file": "6-what-must-be-learned-what-must-be-concealed",
+      "title": "6. What Must Be Learned, What Must Be Concealed",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "water and intention: the anatomy of ablution",
+      "file": "7-water-and-intention-the-anatomy-of-ablution",
+      "title": "7. Water and Intention: The Anatomy of Ablution",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:036a4eb8a48c846e",
+          "defect": "ambiguous-referent",
+          "quote": "its seven letters and its twelve",
+          "question": "The chapter says the number nineteen was already \"set forth\" through the testimony's \"clauses,\" \"its seven letters,\" and \"its twelve\" — what does \"its\" refer to in each case, what are those seven letters and those twelve, and how do they produce the number nineteen?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:057c45e44fbca178",
+          "defect": "unresolved-double-reading",
+          "quote": "When sleep mingles with the heart, ablution becomes obligatory",
+          "question": "The chapter has already listed \"sleep\" plainly among the nullifiers of ablution; does this final saying qualify that ruling — meaning only sleep that has \"mingled with the heart\" nullifies, while lighter drowsiness does not — and if so, what distinguishes sleep that has mingled with the heart from sleep that has not?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the manners of the washing place",
+      "file": "8-the-manners-of-the-washing-place",
+      "title": "8. The Manners of the Washing Place",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "major impurity and the cleanliness of things",
+      "file": "9-major-impurity-and-the-cleanliness-of-things",
+      "title": "9. Major Impurity and the Cleanliness of Things",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "tooth-stick, dust, and the purity of food",
+      "file": "10-tooth-stick-dust-and-the-purity-of-food",
+      "title": "10. Tooth-Stick, Dust, and the Purity of Food",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "bodies, hair, and the reform of custom",
+      "file": "11-bodies-hair-and-the-reform-of-custom",
+      "title": "11. Bodies, Hair, and the Reform of Custom",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "skins, blood, and waiting periods",
+      "file": "12-skins-blood-and-waiting-periods",
+      "title": "12. Skins, Blood, and Waiting Periods",
+      "skipped": "unchanged",
+      "filed": 0
+    },
+    {
+      "chapter": "the pillar of religion and its appointed hours",
+      "file": "13-the-pillar-of-religion-and-its-appointed-hours",
+      "title": "13. The Pillar of Religion and Its Appointed Hours",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 5,
+      "gated_out": [],
+      "unsourced": [
+        {
+          "quote": "The time of the declining of the night is the more excellent",
+          "question": "The question posed a binary — either after both halves of the night have passed or precisely at the midpoint — but the answer names a third marker, 'the declining of the night': what moment of the night does this phrase designate, and how does it relate to the two options the questioner offered?"
+        }
+      ],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:e63672ae32b2b43a",
+          "defect": "unsupported-claim",
+          "quote": "the bedouins are harder in disbelief and hypocrisy, and it is not permissible to pray behind them",
+          "question": "The chapter gives the general Quranic characterization of bedouins as the sole reason for invalidating prayer behind them — what legal principle connects this characterization to the specific ruling that a prayer performed behind a bedouin imam is void?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:76a0969191c14a62",
+          "defect": "undefined-term",
+          "quote": "then the shaf and the witr, then the sunan",
+          "question": "The chapter lists the shaf as a distinct category between the obligatory prayers and the sunan in the sequence of making up missed prayers — what is the shaf, and how does it differ from the witr and the sunan in this hierarchy?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:64d02bb72cacf4c5",
+          "defect": "undefined-term",
+          "quote": "her release and her discharge, which are known in the books of the friends of God",
+          "question": "The chapter directs the son who killed his mother to undertake 'her release and her discharge' but names no procedure, no book, and no authority — what specific acts or rites are meant by these two terms?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:5c1b8221a1742693",
+          "defect": "unexplained-leap",
+          "quote": "if it belonged to the night prayer, the fasting person would be permitted to eat at its time",
+          "question": "Al-Muizz uses the fasting person's permission to eat as a proof that Fajr is not a night prayer — what is the underlying principle that links a prayer's classification as a night prayer to the permissibility of eating during its time?",
+          "grounded": 0,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the disputed words of the call",
+      "file": "14-the-disputed-words-of-the-call",
+      "title": "14. The Disputed Words of the Call",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [
+        {
+          "quote": "if al-Hasan and al-Husayn are the two masters of the youth of the people of the Garden, and their father is better than the two of them, it is established that Ali is the best of humankind together with the Prophet",
+          "reasons": [
+            "question is 63 words, over the 60 maximum"
+          ]
+        },
+        {
+          "quote": "مَنْ أَحْرَمَ فَقَدْ دَخَلَ جَنَّةَ أَهْلِ الْحَقِّ — Whoever enters the sacred state of the prayer has entered the garden of the people of truth",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:eef78328e45db082",
+          "defect": "ambiguous-referent",
+          "quote": "if it is administered according to the judgment of one appointed by the friends of God",
+          "question": "Who specifically are \"the friends of God\" whose appointment over the public treasury makes it lawful to accept payment from it, and by what authority do they administer it?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "eight proofs for the best of human beings",
+      "file": "15-eight-proofs-for-the-best-of-human-beings",
+      "title": "15. Eight Proofs for the Best of Human Beings",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 1,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:7566e54ef1daadbe",
+          "defect": "unexplained-leap",
+          "quote": "Likeness to the Prophet is therefore established for him. He is the best of human beings alongside him",
+          "question": "What is the step that moves from shared purity under the Purification Verse to shared rank as 'best of human beings,' given that the Prophet's unique standing includes prophecy, which the chapter explicitly says Ali does not hold?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:40df604f210396cf",
+          "defect": "undefined-term",
+          "quote": "the family of Yasin — upon whom God, glorified is He, has sent peace — are the family of the Messenger of God",
+          "question": "What is the derivation that identifies 'Yasin' in this verse with the Prophet Muhammad, and on what interpretive authority does that identification rest?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:0c4ab4d484b49d64",
+          "defect": "unsupported-claim",
+          "quote": "this phrase and the testimony to guardianship issued from the Commander of the Believers, Ali ibn Abi Talib, concerning himself",
+          "question": "What source or chain of transmission supports attributing the origin of the testimony of guardianship in the call to prayer to Ali himself, after the chapter has dismissed the attribution to al-Hakim as plainly void?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "where a muslim stands to pray",
+      "file": "16-where-a-muslim-stands-to-pray",
+      "title": "16. Where a Muslim Stands to Pray",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:d23199399f5b4462",
+          "defect": "undefined-term",
+          "quote": "one of the licensed men of the mission leads the prayer",
+          "question": "Who are \"the licensed men of the mission\" — what is \"the mission\" being referred to here, and what does it mean for a man to be licensed within it?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:cd21eda8fe5ea330",
+          "defect": "unexplained-leap",
+          "quote": "he prays toward both directions together; and the like of this has been mentioned concerning the four directions",
+          "question": "When neither of two confused directions prevails in a worshipper's judgment and he is told to pray \"toward both directions together,\" what does this physically require, and what does the parallel ruling \"concerning the four directions\" demand of him?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:e73144b39c7eb33e",
+          "defect": "unsupported-claim",
+          "quote": "prayer has seven ranks, by which the prayers of those who pray are graded one above another",
+          "question": "The seven locations carry multipliers of 1, 12, 25, 100, 1,000, 10,000, and 100,000 respectively — what principle assigns these specific numbers to these specific sites, given that the promised \"abundant meanings and likenesses of wisdom\" are never supplied?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "who may lead, and who may not",
+      "file": "17-who-may-lead-and-who-may-not",
+      "title": "17. Who May Lead, and Who May Not",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [
+        {
+          "quote": "the Messenger of God (ع) joined the noon and afternoon prayers, and the sunset and later evening prayers, with neither travel nor illness nor any excuse",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:4f5a2931d0daf84a",
+          "defect": "undefined-term",
+          "quote": "one granted license who prays with the people while some of the common people are with him",
+          "question": "The chapter repeatedly distinguishes \"one granted license\" from ordinary worshippers, gives him specific powers such as appointing a substitute and leading in multiple locations — what is this license, who in the hierarchy grants it, and what authority does it confer?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:ac388051164759d7",
+          "defect": "ambiguous-referent",
+          "quote": "the nasib is set aside if he has led them from the side",
+          "question": "In a passage otherwise concerned with the blind imam, the text abruptly states that \"the nasib is set aside if he has led them from the side\" — to whom does \"the nasib\" refer here, and what does leading \"from the side\" mean in this context?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:e975004f51ac2ec9",
+          "defect": "unexplained-leap",
+          "quote": "the imam's hujja, who stands in the imam's place after him, arrives and likewise finds no place in the rows, he steps forward and stands level with the imam and prays with him. This is permitted to no one else.",
+          "question": "The text permits the hujja alone to stand level with the imam when no row-space remains, while all others must pray apart — what is the principle by which the hujja's rank grants him this positional privilege that is denied to every other worshipper?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the shape of the prayer itself",
+      "file": "18-the-shape-of-the-prayer-itself",
+      "title": "18. The Shape of the Prayer Itself",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:74c5bffe9452977e",
+          "defect": "ambiguous-referent",
+          "quote": "whoever abandons the prayer without excuse, or abandons any of the prescribed works, has broken the covenant",
+          "question": "The text repeatedly declares that specific acts — abandoning prayer, refusing to believe a believer's oath, fornication, reviling the summoner — each \"break the covenant,\" but never names or describes this covenant; to what specific pledge or agreement does \"the covenant\" refer, and with whom is it contracted?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:4db67c6723bcb23f",
+          "defect": "unexplained-leap",
+          "quote": "the one who abandons my sunnah is cursed. Meaning: the one who abandons my legatee is one banished from the mercy of God",
+          "question": "The chapter interprets the Prophet's hadith about abandoning \"my sunnah\" as referring specifically to abandoning his legatee — on what basis is \"sunnah\" read as denoting the legatee rather than the Prophet's practice or way?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:e84b71b6fa32fff7",
+          "defect": "unexplained-leap",
+          "quote": "it is because the outward prayer neither forbids nor commands",
+          "question": "After citing Shuayb's people asking whether his prayer commands them to abandon their fathers' worship, the chapter concludes that the outward prayer neither forbids nor commands — what is \"outward prayer\" contrasted with, and how does this distinction follow from the Shuayb passage?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:75609ef82ccded4e",
+          "defect": "unexplained-leap",
+          "quote": "every prayer in which there is no first sitting has a qunut that stands in its place in the count",
+          "question": "The twelfth sunnah states that when a prayer has no first sitting, the qunut takes that sitting's place in the count of twelve sunnahs — what doctrinal or structural reasoning makes the qunut the functional equivalent of the first sitting for enumeration purposes?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "supplication, speech, and silence",
+      "file": "19-supplication-speech-and-silence",
+      "title": "19. Supplication, Speech, and Silence",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:29991a3821e1c599",
+          "defect": "undefined-term",
+          "quote": "the supplication of drawing near, or all supplications",
+          "question": "What exactly is \"the supplication of drawing near\" as a distinct category — the chapter treats it as already known and then lists seven types of supplication by name, none of which carries that title, so where does it fit among or apart from those seven?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:7dc0e3b5c2a1067b",
+          "defect": "unsupported-claim",
+          "quote": "Supplication turns back the decree that has been firmly settled",
+          "question": "The chapter cites Ali as teaching that supplication reverses al-qaḍāʾ al-mubram — the decree that has been firmly settled — but offers no account of how a supplication can alter what has been definitively ordained: what principle or mechanism in this teaching allows a sealed decree to be undone?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "what the worshipper wears and stands upon",
+      "file": "20-what-the-worshipper-wears-and-stands-upon",
+      "title": "20. What the Worshipper Wears and Stands Upon",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:e0ad2eb7ebe951f1",
+          "defect": "unexplained-leap",
+          "quote": "Obligatory prayer upon them is not permitted; only the supererogatory and the sunna prayer.",
+          "question": "What principle distinguishes obligatory prayer from supererogatory and sunna prayer such that stone and unbaked brick are valid surfaces for the latter but impermissible for the former?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:32b1238fb1ef358f",
+          "defect": "unsupported-claim",
+          "quote": "A man is not to pray in a shirt draped loosely across him, for that is the practice of the people of Lot.",
+          "question": "What is the connection between wearing a shirt draped loosely across the shoulders during prayer and the practice of the people of Lot that makes this particular garment style carry that identification?",
+          "grounded": 2,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "friday and the two festivals",
+      "file": "21-friday-and-the-two-festivals",
+      "title": "21. Friday and the Two Festivals",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:089f7a7ddb381b69",
+          "defect": "undefined-term",
+          "quote": "Do not count the prayer behind a الناصب or a الحروري as valid",
+          "question": "Who exactly are al-Nasib and al-Haruri, and why are they singled out as figures behind whom prayer is invalid, while the 'unjust' imam discussed immediately afterward is someone behind whom prayer is described as obligatory?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:11db34eb95c25bd4",
+          "defect": "unexplained-leap",
+          "quote": "that preacher is the property of the man who entered through the door of the congregational mosque, for that man had appointed him as his deputy",
+          "question": "What prior relationship or principle makes a man who simply enters the congregational mosque during the sermon the preacher's appointing master, such that the preacher could no longer permissibly lead him?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:cd3a97f93b17466e",
+          "defect": "unexplained-leap",
+          "quote": "it is a likeness of what obtains in the summons of the five speakers — the possessors of firm resolve — who correspond to the five prayers, drawn from the mention of the ten spiritual ranks and the ten bodily ranks, and the mention of the speaker of the cycle, his executor, and the Imam of the age",
+          "question": "How does the number twenty-three derive from the five speakers, the ten spiritual ranks, the ten bodily ranks, and the three named figures — and what role do the five prayers play in producing that total rather than a different one?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "forgetting, doubting, and beginning again",
+      "file": "22-forgetting-doubting-and-beginning-again",
+      "title": "22. Forgetting, Doubting, and Beginning Again",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:df1e368b3d54e38e",
+          "defect": "undefined-term",
+          "quote": "the Imam delivers the salaam of the dhikr yet he did not intend the prayer",
+          "question": "What is 'the salaam of the dhikr,' and how does it differ from the closing salaam of the prayer itself?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:1ac66b4482ba7779",
+          "defect": "undefined-term",
+          "quote": "a surah taken from above, which is not what is required in the obligatory prayer",
+          "question": "What does it mean to recite 'a surah taken from above,' and what surah or ordering is 'required' in the obligatory prayer that this violates?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:a72154c8f73aa273",
+          "defect": "unexplained-leap",
+          "quote": "he delivers the salaam, prays two rakahs seated, and performs the two prostrations of omission",
+          "question": "When doubting between three and four rakahs the remedy calls for seated rakahs, but doubting between two and four calls for standing rakahs — what principle determines whether the remedial rakahs are performed seated or standing?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:f702bc0d7bc0d494",
+          "defect": "unexplained-leap",
+          "quote": "Three things interrupt the prayer: a woman, a donkey, and a black dog",
+          "question": "The chapter first states that a woman, a donkey, and a black dog interrupt the prayer, then immediately quotes the Prophet saying nothing interrupts the prayer of a believer — how are these two reports reconciled?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "children, travelers, and the sick",
+      "file": "23-children-travelers-and-the-sick",
+      "title": "23. Children, Travelers, and the Sick",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "warriors who cut the road",
+          "sources": [
+            "almerja.com",
+            "awkafonline.gov.eg",
+            "juancole.com",
+            "shia-online.com"
+          ]
+        }
+      ],
+      "unanswered": 1,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:8da418bc30073fb0",
+          "defect": "unexplained-leap",
+          "quote": "If he has land of the extent that would ordinarily require the shortening of the prayer, and he wishes to walk in it for pleasure, he does not shorten the prayer",
+          "question": "Why does ownership of land at the travel-shortening distance — rather than the declared purpose of the journey — determine whether a trip counts as a pleasure outing exempting the traveler from shortening?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:b24632da8269e44d",
+          "defect": "undefined-term",
+          "quote": "This is particular to the people of the high ranks, and does not extend to others among all the hudud",
+          "question": "What specific grade or grades within the dawa hierarchy constitute 'the high ranks' that alone may exercise the dispensations of a traveler leading residents and of one who has performed tayammum leading those who have performed ablution?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:c8131d6d421d9639",
+          "defect": "ambiguous-referent",
+          "quote": "warriors who cut the road",
+          "question": "Does 'warriors who cut the road' denote soldiers who interdict enemy routes, brigands who waylay travelers, or some other defined category — and which reading explains why they share with collectors and merchants the ruling of not shortening the prayer?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "eclipse, fear, rain, and the night vigil",
+      "file": "24-eclipse-fear-rain-and-the-night-vigil",
+      "title": "24. Eclipse, Fear, Rain, and the Night Vigil",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "If it is among the binding ones, he must prostrate",
+          "sources": [
+            "islamic-laws.com",
+            "islamiced.org",
+            "islamweb.net",
+            "wordpress.com",
+            "wikishia.net",
+            "almerja.com",
+            "quranexplorer.com",
+            "dr-s-elhusseini.com",
+            "burujacademy.com",
+            "abdurrahman.org"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:c121efefd432d698",
+          "defect": "ambiguous-referent",
+          "quote": "A statement has come from Mawlana, the author of the letters",
+          "question": "The question cited the Brethren of Purity's astronomical treatise as the source of the difficulty; is \"Mawlana, the author of the letters\" the Imam credited with authoring or authorizing those same letters, and if so, how does appealing to him resolve rather than restate the contradiction the questioner raised?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:d078dfdd51875336",
+          "defect": "unexplained-leap",
+          "quote": "it is permissible to pray it before dawn, on account of the noble meaning beneath this that permits it",
+          "question": "What is the \"noble meaning\" that makes it permissible to pray the sunnah of dawn before the dawn has spread, and in which of the books of the friends of God is it articulated?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:58505fa49262ce0e",
+          "defect": "ambiguous-referent",
+          "quote": "when I asked him about it, and whether that supplication may be recited in a month other than Rajab, he said",
+          "question": "Having just attributed the original ruling on the prayer of Umm Daud to the historical Mawlana al-Sadiq (ع), who is the \"him\" that the writer then says he asked directly: Mawlana al-Sadiq himself, a living Imam contemporary with Mawlana Jafar, or some other intermediary?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:e5d33e0e18e97c65",
+          "defect": "undefined-term",
+          "quote": "If it is among the binding ones, he must prostrate",
+          "question": "Which Quranic prostration-verses count as \"binding\" and which do not, and by what principle or authority is that distinction drawn?",
+          "grounded": 0,
+          "researched": true
+        }
+      ]
+    },
+    {
+      "chapter": "the sickbed and the sound of mourning",
+      "file": "25-the-sickbed-and-the-sound-of-mourning",
+      "title": "25. The Sickbed and the Sound of Mourning",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [
+        {
+          "quote": "الَّذِي يَنْقُصُ فِي الدَّوْرِ الْمَاضِي يَزِيدُ فِي الْمُسْتَقْبَلِ فِيهِ",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:774c13bd9992e969",
+          "defect": "undefined-term",
+          "quote": "sleep in that posture, nor upon his face",
+          "question": "What specific bodily position does 'على الحجة' — rendered here as 'that posture' — denote, given that no prior sleeping position has been named in this passage to which 'that' could refer?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:ba6b475ea10d368e",
+          "defect": "unresolved-double-reading",
+          "quote": "calls down upon himself the very causes of affliction by which the soul is punished",
+          "question": "Does 'upon himself' mean the wailing person draws punishment onto their own soul, or onto the soul of the dead person — and since the story of 'Abdullah ibn Rawahah only demonstrates the dead suffering from the mourners' cries, which of these two readings does this chapter intend?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "washing, shrouding, carrying, burying",
+      "file": "26-washing-shrouding-carrying-burying",
+      "title": "26. Washing, Shrouding, Carrying, Burying",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 4,
+      "created": 4,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:c9c3501181e90a5a",
+          "defect": "ambiguous-referent",
+          "quote": "he is likewise not washed, because he was not lifted from his place",
+          "question": "\"Likewise not washed\" implies a prior established category of the dead who are exempt from washing, but the chapter has not yet named one at this point — what class of dead person does this comparison refer back to, and where is that category defined?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:f96b10bab75f4272",
+          "defect": "ambiguous-referent",
+          "quote": "if the man in janabah is the more excellent of them, his washing of the dead is permitted",
+          "question": "\"The more excellent of them\" — of whom is the man in janabah being compared: of other available washers present, of some ranked group, or of himself relative to the deceased, and what quality of excellence is meant?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:66d39cbe19909373",
+          "defect": "undefined-term",
+          "quote": "neither wars nor saffron is put into the hanut of men, while these are put into the hanut of women",
+          "question": "\"Wars\" is listed alongside saffron as a hanut ingredient excluded from men but permitted for women, yet the chapter offers no description of what wars is — what substance or plant does this term name, and why is it classed with saffron as specific to women's hanut?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:11d929454b167dae",
+          "defect": "unsupported-claim",
+          "quote": "the dead man is in the position of one consecrated for pilgrimage",
+          "question": "The chapter asserts that a dead person holds the ritual status of someone in ihram, but gives no explanation for why death confers that state — what is the doctrinal basis for this equivalence, and does it apply to all the dead or only to those who died under particular conditions?",
+          "grounded": 2,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the wealth that is not yours",
+      "file": "27-the-wealth-that-is-not-yours",
+      "title": "27. The Wealth That Is Not Yours",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:75b8101b25bdf512",
+          "defect": "unsupported-claim",
+          "quote": "seven obligations and twelve sunnahs, like the number of the clauses of the testimony and its letters",
+          "question": "Which testimony is meant here, what are its seven clauses, and how does counting its letters yield exactly twelve, such that this numerical correspondence with zakat's obligations and sunnahs holds?",
+          "grounded": 3,
+          "researched": false
+        },
+        {
+          "id": "student:746046985429dd92",
+          "defect": "undefined-term",
+          "quote": "the purchase of his own self, and the redemption of his pledge",
+          "question": "In the Mustansiriyya passage, 'the purchase of his own self' and 'the redemption of his pledge' are listed alongside zakat and khums as obligatory expenditures — what specific acts or payments do each of these two phrases denote?",
+          "grounded": 1,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "gold, herds, and harvest",
+      "file": "28-gold-herds-and-harvest",
+      "title": "28. Gold, Herds, and Harvest",
+      "budget": 4,
+      "full_budget": 4,
+      "already_had": 0,
+      "proposed": 4,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 2,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:d91f58d854a46461",
+          "defect": "unsupported-claim",
+          "quote": "He begins with the zakat, for it is a debt upon him and is not part of his wealth; then the Hajj, then the khums, then the expiation, then al-Shurwa",
+          "question": "The chapter twice ranks the claims against an estate in a fixed sequence — zakat, then Hajj, then khums, then expiation, then al-Shurwa — yet gives no principle to explain why one debt takes precedence over another of the same kind: on what basis is this sequence determined?",
+          "grounded": 1,
+          "researched": false
+        },
+        {
+          "id": "student:8ca930b099186e33",
+          "defect": "unexplained-leap",
+          "quote": "upon whoever owns two hundred dirhams there are five dirhams, and the two hundred are two covenants",
+          "question": "When our master Zayd ibn Muhammad says that the two hundred dirhams \"are two covenants,\" what are the two covenants that this sum represents, and why does the nisab of silver correspond to them?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the charity of the head",
+      "file": "29-the-charity-of-the-head",
+      "title": "29. The Charity of the Head",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 1,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:e0836b0e8611ae66",
+          "defect": "unexplained-leap",
+          "quote": "a man among the polytheists who has found no Muslim to whom to hand the zakat of his wealth, so he has more right to it than anyone else",
+          "question": "On what jurisprudential principle does the absence of a qualified Muslim recipient cause a polytheist's zakat obligation to revert to the payer himself, and does this discharge the obligation entirely or merely suspend it?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "a shield against the fire",
+      "file": "30-a-shield-against-the-fire",
+      "title": "30. A Shield Against the Fire",
+      "budget": 2,
+      "full_budget": 2,
+      "already_had": 0,
+      "proposed": 2,
+      "gated_out": [],
+      "unsourced": [],
+      "researched": [
+        {
+          "quote": "does not know the measures of the crescents",
+          "sources": [
+            "wikipedia.org",
+            "islam.ms",
+            "aicp.org",
+            "ismailignosis.com",
+            "ismailignosis.com",
+            "ismaili.imamat",
+            "the.akdn"
+          ]
+        }
+      ],
+      "unanswered": 0,
+      "filed": 2,
+      "created": 2,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:34b0b14aedb162f7",
+          "defect": "undefined-term",
+          "quote": "does not know the measures of the crescents",
+          "question": "What are \"the measures of the crescents,\" and how does possessing that knowledge change the rules for determining when Ramadan begins, compared to the standard crescent-sighting method?",
+          "grounded": 0,
+          "researched": true
+        },
+        {
+          "id": "student:6566d154c2a86cb4",
+          "defect": "unexplained-leap",
+          "quote": "fasting becomes obligatory upon a boy once he can tell his right hand from his left",
+          "question": "How does this threshold — telling right from left — relate to the earlier criterion that fasting is obligatory on every Muslim who is \"of age\": does it replace puberty as the standard, apply only to voluntary fasting, or serve some other purpose the chapter does not state?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the quarrel over the crescent",
+      "file": "31-the-quarrel-over-the-crescent",
+      "title": "31. The Quarrel Over the Crescent",
+      "budget": 3,
+      "full_budget": 3,
+      "already_had": 0,
+      "proposed": 3,
+      "gated_out": [
+        {
+          "quote": "'Those before you' refers to the Christians, whose fasting is governed not by sighting but by calculation.",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        },
+        {
+          "quote": "let it rise while you are fasting; and 'break your fast when it is seen' means: let it rise while you are breaking the fast",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:a3db1b45cf98dbfa",
+          "defect": "unexplained-leap",
+          "quote": "it would be possible for the expiation to be the feeding of sixty poor persons or of fifty-eight poor persons",
+          "question": "The chapter treats the fixed expiation of sixty as proof that Ramadan is thirty days, assuming sixty equals twice thirty — but what establishes that this figure is derived from the month's length doubled rather than being an independently fixed penalty?",
+          "grounded": 1,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "two kinds of sight",
+      "file": "32-two-kinds-of-sight",
+      "title": "32. Two Kinds of Sight",
+      "budget": 5,
+      "full_budget": 5,
+      "already_had": 0,
+      "proposed": 5,
+      "gated_out": [],
+      "unsourced": [
+        {
+          "quote": "as we have set forth in the figure: the earth at the center, the east and the west, the meridian line, the circle of elevation, the straight line that cuts across, and the tangent of the circle upon the straight line — with the place of the vision of the soul of the declining marked at the point ب and the place of the sensible vision of the declining marked at the point ج",
+          "question": "What is the geometric figure referenced here, and what do the labeled points أ, ب, and ج specifically mark, since the entire subsequent argument about where soul-vision versus natural vision detects the sun's declination depends on positions on this diagram?"
+        }
+      ],
+      "researched": [],
+      "unanswered": 1,
+      "filed": 3,
+      "created": 3,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:00e0d42a4dce5dc1",
+          "defect": "unexplained-leap",
+          "quote": "commands issued from the Pure Presence made it obligatory to begin the fast two days before the crescent was seen with the eye",
+          "question": "The chapter argues that soul-vision detects the moon's separation from the sun before the eye can, but what astronomical calculation or principle determines that this advance detection amounts to specifically two days before natural sighting?",
+          "grounded": 2,
+          "researched": false
+        },
+        {
+          "id": "student:2f82d2a705b6a28d",
+          "defect": "unsupported-claim",
+          "quote": "the seeing of knowledge scarcely errs in what it encompasses",
+          "question": "On what basis does the chapter assert that soul-vision or inferential knowledge scarcely errs, given that inference builds on sensory data that can itself be mistaken or incomplete?",
+          "grounded": 4,
+          "researched": false
+        },
+        {
+          "id": "student:230edc67c0f44c31",
+          "defect": "unsupported-claim",
+          "quote": "the sense of lam, as it is used and as it is intended, is that the act must precede that for which it is done",
+          "question": "The three analogies show lam used where an act precedes its occasion, but what grammatical principle or authority establishes that the lam in 'صُومُوا لِرُؤْيَتِهِ' must carry this meaning rather than a simple temporal or causal one?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    },
+    {
+      "chapter": "the sun, the moon, and the order of obedience",
+      "file": "33-the-sun-the-moon-and-the-order-of-obedience",
+      "title": "33. The Sun, the Moon, and the Order of Obedience",
+      "budget": 6,
+      "full_budget": 6,
+      "already_had": 0,
+      "proposed": 6,
+      "gated_out": [
+        {
+          "quote": "bound to fast by the hidden vision of the soul (الرُّؤْيَةُ النَّفْسَانِيَّةُ)",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        },
+        {
+          "quote": "the seven repetitions (اَلْمَثَانِي السَّبْعَةُ) at the end of the cycle",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        },
+        {
+          "quote": "the month of Ramadan is thirty days without deficiency, by the word of our masters: مَا تَمَّ شَعْبَانُ وَلَا نَقَصَ رَمَضَانُ",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        },
+        {
+          "quote": "Whoever among you witnesses the month, let him fast it… let him keep silent — for it is the Foundation who has been honored",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        },
+        {
+          "quote": "when the Prophet (ع) used the letter ل (اَللَّام) in his words لرؤيته, he intended by it the sighting of knowledge",
+          "reasons": [
+            "quote is not a verbatim passage of this chapter"
+          ]
+        }
+      ],
+      "unsourced": [],
+      "researched": [],
+      "unanswered": 0,
+      "filed": 1,
+      "created": 1,
+      "refreshed": 0,
+      "withdrawn": 0,
+      "notes": [
+        {
+          "id": "student:64312d1597979e44",
+          "defect": "unsupported-claim",
+          "quote": "that is, temporary marriage (اَلْمُتْعَة) — however people wished, in the early days of Islam",
+          "question": "On what basis does the chapter identify marriages previously contracted without a guardian or witnesses specifically as temporary marriage (mut'a), rather than some other early Islamic or pre-Islamic practice?",
+          "grounded": 4,
+          "researched": false
+        }
+      ]
+    }
+  ],
+  "filed_total": 58
+}

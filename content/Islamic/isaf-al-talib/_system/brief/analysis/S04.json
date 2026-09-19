@@ -1,6 +1,6 @@
 {
   "title": "4. Guardians, Proofs, and the Limits of Praise",
-  "purpose": "It assembles transmitted sayings of the Imams and Ismaili authorities to define the ranks (hudud) beneath the Imams, the Quranic warrant for Imamate, and the prohibitions of exaggeration and shortfall in praising them.",
+  "purpose": "It assembles transmitted testimony from the Imams and Ismaili masters on the ranks of the Imams and their subordinate hudud, and on the duties, prohibitions and limits binding those loyal to them.",
   "points": [
     {
       "text": "Jafar bin Mansour al-Yemen, in the book of the Esoteric Nursing, interprets the Quranic verse 'the earth is inherited by My righteous servants' as referring to the Imams among God's servants.",
@@ -10,24 +10,24 @@
       "entities": [
         "Jafar bin Mansour al-Yemen",
         "Esoteric Nursing",
-        "Quran"
+        "Imams"
       ]
     },
     {
-      "text": "On the verse promising to make 'those made weak in the land' Imams and heirs, Jafar bin Mansour al-Yemen identifies 'those made weak' as the descendants of Ali ibn Abi Talib, weakened in the person of Ali himself, who is the proof (hujja) of Muhammad, the earth being his likeness.",
+      "text": "On the same authority, 'those who were made weak in the land' whom God will make Imams and heirs means the descendants of Ali ibn Abi Talib, weakened in the person of Ali himself, who is the proof of Muhammad and whose likeness is the earth.",
       "kind": "claim",
       "weight": 4,
       "depends_on": [],
       "entities": [
         "Ali ibn Abi Talib",
         "Muhammad",
-        "hujja"
+        "proof (hujja)"
       ]
     },
     {
-      "text": "Al-Muizz li Din Allah, in his Sunday supplication, ranks beneath the Foundation (al-Asas) the Terminus (al-Mutimm) facing Israfil, beneath the Terminus the After (al-Lahiq) facing Michael, and beneath the After the Wing (al-Janah) facing Gabriel.",
+      "text": "Al-Muizz li Din Allah, in his Sunday supplication, sets out a descending order of ranks: beneath the Foundation (al-Asas) the Terminus (al-Mutimm) facing Israfil, beneath the Terminus the After (al-Lahiq) facing Michael, and beneath the After the Wing (al-Janah) facing Gabriel.",
       "kind": "framework",
-      "weight": 5,
+      "weight": 4,
       "depends_on": [],
       "entities": [
         "al-Muizz li Din Allah",
@@ -41,9 +41,9 @@
       ]
     },
     {
-      "text": "Al-Muizz states that these three ranks deliver to the respondents from the Speaker and the Foundation in the corporeal world, just as three deliver from the two principles — the Pen and the Tablet — in the spiritual world; the author glosses these three as the Grandfather (al-Jadd), the Opener (al-Fath), and the Imagination (al-Khayal), identified with Israfil, Michael, and Gabriel.",
-      "kind": "definition",
-      "weight": 5,
+      "text": "Al-Muizz holds that these three (the Grandfather/al-Jadd, the Opener/al-Fath, and the Imagination/al-Khayal — i.e. Israfil, Michael, Gabriel) transmit to the respondents from the Speaker and the Foundation in the bodily world, just as three transmit from the two roots, the Pen and the Tablet, in the spiritual world.",
+      "kind": "framework",
+      "weight": 4,
       "depends_on": [],
       "entities": [
         "al-Jadd",
@@ -56,20 +56,20 @@
       ]
     },
     {
-      "text": "In his Friday supplication al-Muizz enumerates the hudud as Speaker, Foundation, Terminus, After, Wing, Authorized (ma'dhun) and Respondent (mustajib), together with twelve proofs ranked across twelve regions (jaza'ir), which the author links to the Quranic 'over it are nineteen.'",
+      "text": "In his Friday supplication al-Muizz enumerates seven hudud — the Speaker, the Foundation, the Terminus, the After, the Wing, the Authorized (al-Madhun) and the Respondent (al-Mustajib) — together with twelve proofs ranked across twelve regions, which the author correlates with the Quranic 'over it are nineteen'.",
       "kind": "framework",
       "weight": 5,
       "depends_on": [],
       "entities": [
         "hudud",
-        "ma'dhun",
-        "mustajib",
-        "twelve jaza'ir",
-        "Quran 74:30"
+        "al-Madhun",
+        "al-Mustajib",
+        "twelve proofs",
+        "twelve regions"
       ]
     },
     {
-      "text": "Sayings ascribed to Ali in the supplication of victory and awe invoke numbered groups — six transmitted, seven beheld, nine signs, ten words, twenty-one, eight encircling the Throne, eleven prostrating, twelve bowing — and seven Imams, seven successors, seven witnesses, seven substitutes.",
+      "text": "Ali ibn Abi Talib's supplication of victory and awe invokes numbered ranks — the six transmitted, the seven beheld, the nine signs, the ten words, the twenty-one, the eight who encircle the Throne, the eleven who prostrate and the twelve counted ones who bow.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "text": "Ali is reported in the Four Hundred Manners as saying that whoever holds fast to the Imams joins the truth and whoever holds to another way is undone.",
+      "text": "In his Four Hundred Manners Ali names seven Imams, seven successors, seven witnesses and seven substitutes, and declares that whoever holds fast to them joins the truth while whoever holds to another way is undone.",
       "kind": "claim",
       "weight": 4,
       "depends_on": [],
@@ -89,68 +89,55 @@
       ]
     },
     {
-      "text": "Ali prohibits exaggeration (ghuluw) concerning the Imams, requiring believers to say 'we are servants under a Lord' while permitting them to say of the Imams' excellence whatever they wish — a boundary that condemns excess without limiting praise of merit.",
+      "text": "Muhammad bin Tahir, in a supplication, seeks nearness to God through the Imams' gates, proofs, preachers, authorized ones, the respondents of their cycles, and all who incline toward, shelter in, follow or are guided by them.",
+      "kind": "evidence",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Muhammad bin Tahir"
+      ]
+    },
+    {
+      "text": "Ali prohibits both exaggeration and falling short concerning the Imams: believers must say the Imams are servants under a Lord, though they may say whatever they wish of their excellence — and he adds that the exaggerator will return to them and they themselves will raise up the one who falls short.",
       "kind": "distinction",
       "weight": 5,
       "depends_on": [],
       "entities": [
-        "ghuluw",
+        "ghuluww (exaggeration)",
+        "taqsir (falling short)",
         "Ali ibn Abi Talib"
       ]
     },
     {
-      "text": "Ali teaches that both errors are remediable through the Imams: the one who exaggerates returns to them, and they themselves raise up the one who falls short (al-muqassir).",
-      "kind": "resolution",
+      "text": "Ali's commandment to those who love the Imams requires doing their work with God-fearing restraint, not sitting with those who revile them, and not praising them openly before the enemy — so that love of them be plain and hatred of them concealed — together with truthfulness, patience, and not burdening the Imams with intercession on the Day of Resurrection.",
+      "kind": "claim",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "al-muqassir",
-        "ghuluw"
+        "Four Hundred Manners",
+        "Shia"
       ]
     },
     {
-      "text": "Ali's commandments to the Imams' followers require working as the Imams work, relying on pious restraint (wara'), avoiding those who revile them, not praising them openly before the enemy, truthfulness, patience, and not burdening the Imams with intercession on the Day of Resurrection.",
-      "kind": "claim",
-      "weight": 3,
-      "depends_on": [],
-      "entities": [
-        "wara'",
-        "taqiyya",
-        "Four Hundred Manners"
-      ]
-    },
-    {
-      "text": "Further maxims from the Four Hundred Manners warn that disputation bequeaths doubt, that speech is to be reckoned among deeds, that sin withholds sustenance, that the best deed of the believer is awaiting the relief (intizar al-faraj), and that blessed is he admonished by another's example.",
+      "text": "Further maxims from the Four Hundred Manners: beware disputation, for it bequeaths doubt; reckon speech as part of deeds; hasten to good works and let most speech be remembrance of God; sins withhold provision; the best deed of the believer is awaiting the relief; and blessed is he admonished by another's case.",
       "kind": "claim",
       "weight": 2,
       "depends_on": [],
       "entities": [
-        "intizar al-faraj",
         "Four Hundred Manners"
       ]
     },
     {
-      "text": "Muhammad bin Tahir's supplication seeks nearness to God through the Imams' gates, proofs, preachers, authorized ones, respondents of their cycles, and all who follow or shelter with them.",
+      "text": "The nineteenth of the Mustansiriya councils teaches that the kinship God commands to be joined contains a seven and a twelve, the seven being the Imams of the religion indicated by 'I ask you no reward except affection toward my kin', recurring like the days of Friday.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "Muhammad bin Tahir",
-        "du'at",
-        "abwab"
-      ]
-    },
-    {
-      "text": "The nineteenth Mustansiriya council divides the commanded ties of kinship into seven and twelve, identifying the seven as the Imams of the religion — the 'kin' whose affection the Quran names as the Prophet's only reward — recurring like the days of Friday.",
-      "kind": "claim",
-      "weight": 4,
-      "depends_on": [],
-      "entities": [
         "Mustansiriya councils",
-        "al-mawadda fi'l-qurba",
-        "Imams of the religion"
+        "Imams of the religion",
+        "al-mawadda fi'l-qurba"
       ]
     }
   ],
-  "fingerprint": "de9408b08d5da88a"
+  "fingerprint": "8d9a225f1a361544"
 }

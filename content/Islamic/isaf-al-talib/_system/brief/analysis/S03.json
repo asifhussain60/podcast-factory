@@ -1,52 +1,52 @@
 {
   "title": "3. The Grammar of Peace",
-  "purpose": "It sets out the full doctrinal taxonomy of the greeting of peace (salam) — its seven divine/angelic forms and twelve human forms, the rules of precedence and reply, and its extension into prayer upon Muhammad, his family and the ranks of the da'wa hierarchy.",
+  "purpose": "It classifies the Qur'anic and Sunnaic instances of the greeting of peace into a sevenfold divine/angelic order and a twelvefold human order, and derives from them the rules of offering and returning peace, including prayer upon Muhammad and his family and upon the ranks (borders) of the religion.",
   "points": [
     {
-      "text": "The author, citing the twenty-third of the Mustansiriya councils, states that the revelation of peace divides into seven sections above (from God and His angels) and twelve sections below (from human beings).",
+      "text": "The author, citing the twenty-third of the Mustansiriya councils, states that the revelation of peace divides into seven sections from above (from God and His angels) and twelve sections from below (those coming from human beings).",
       "kind": "framework",
       "weight": 4,
       "depends_on": [],
       "entities": [
         "Mustansiriya councils",
-        "salam"
+        "revelation of peace"
       ]
     },
     {
-      "text": "The seven higher forms of peace are enumerated from Qur'anic verses: God's own 'Peace be upon you'; 'O Noah, descend in peace from Us'; 'their greeting on the day they meet Him is peace'; 'they will be met therein with greeting and peace'; the angels' entering with peace from every gate; the command that believers pray for and submit to the Prophet; and 'Peace be upon the family of Yasin'.",
+      "text": "The seven higher instances are enumerated in descending order of exaltedness: God's 'Peace be upon you'; 'O Noah, descend in peace from Us'; 'Their greeting on the day they meet Him is peace'; 'they will be met therein with greeting and peace'; the angels' entry saying 'peace be upon you'; the command that believers pray for the Prophet and submit; and 'Peace be upon the family of Ya Sin'.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "Qur'an",
         "Noah",
-        "angels",
-        "Al Yasin"
+        "Ya Sin"
       ]
     },
     {
-      "text": "The author identifies Yasin as the Prophet Muhammad, and therefore 'the family of Yasin' as the family of Muhammad, making the seventh Qur'anic peace a peace upon the Imams of the Prophet's house.",
+      "text": "The author interprets 'Ya Sin' as our Prophet Muhammad and 'the family of Ya Sin' as the family of Muhammad, the family of Ali, so that the seventh Qur'anic peace is addressed to the Imams of the Prophet's house.",
       "kind": "claim",
-      "weight": 4,
+      "weight": 5,
       "depends_on": [],
       "entities": [
-        "Yasin",
+        "Ya Sin",
         "Muhammad",
-        "Al Muhammad"
+        "Al Ali",
+        "family of Muhammad"
       ]
     },
     {
-      "text": "In the twenty-fourth assembly it is stated that the offering of peace is an obligatory Sunnah of Islam expressing affection and submission, and that al-Salam is one of the names of God, possessed of majesty and honor.",
+      "text": "Citing the twenty-fourth assembly, the author holds that the offering of peace is an obligatory Sunnah of Islam expressing affection and submission, and that al-Salam is one of the names of God, possessed of majesty and honor.",
       "kind": "definition",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "Sunnah",
-        "al-Salam"
+        "al-Salam",
+        "Sunnah"
       ]
     },
     {
-      "text": "Among the twelve human forms, the first four are named: the greeting of the people of the right hand ('Peace be upon you for your patience'), the greeting on entering houses/the mosque, the peace concluding the prayer, and the believer's 'peace' when addressed by the ignorant.",
+      "text": "Of the twelve human greetings, the first four are named as: the greeting of the people of the right hand to the Prophet and his noble family ('Peace be upon you for your patience'); the greeting on entering houses/the mosque; the peace concluding the ritual prayer; and the believer's 'peace' answer when the ignorant address him.",
       "kind": "framework",
       "weight": 3,
       "depends_on": [],
@@ -56,7 +56,7 @@
       ]
     },
     {
-      "text": "The Sunnah fixes an order of precedence in initiating the greeting: camel-rider to horse-rider, horse-rider to donkey-rider, donkey-rider to the walker, the walker to the one standing, and the one standing both initiates and returns it.",
+      "text": "The fifth through ninth divisions set an order of precedence in initiating the greeting: the camel rider greets the horse rider, the horse rider the donkey rider, the donkey rider the walker, the walker the one standing, and the one standing initiates and then returns it.",
       "kind": "framework",
       "weight": 2,
       "depends_on": [],
@@ -65,7 +65,7 @@
       ]
     },
     {
-      "text": "The return of a greeting is divided into three kinds — the virtuous reply (greeting back with something better), the complete reply (responding in kind, per 'return it with something better, or return it as it is'), and the just reply.",
+      "text": "The author distinguishes three kinds of reply to a greeting: the virtuous reply (better than what was offered), the complete reply (in kind), grounded in 'return it with something better, or return it as it is', and the just reply.",
       "kind": "distinction",
       "weight": 4,
       "depends_on": [],
@@ -76,9 +76,9 @@
       ]
     },
     {
-      "text": "The just reply applies to dhimmis, who do not initiate the greeting; if one does, the answer is 'And upon you', because some were reported to say 'al-sam alaykum' (death be upon you) instead of 'al-salam alaykum', so that whoever said good receives its like and whoever said evil receives its like.",
-      "kind": "caveat",
-      "weight": 4,
+      "text": "The just reply is reserved for dhimmis, who do not initiate the greeting; if one does, the answer is 'And upon you', because some were reported to say 'al-sam alaykum' ('death be upon you') instead of 'al-salam alaykum', so that whoever said good receives its like and whoever said evil receives its like.",
+      "kind": "resolution",
+      "weight": 3,
       "depends_on": [],
       "entities": [
         "dhimmis",
@@ -86,13 +86,13 @@
       ]
     },
     {
-      "text": "The Imam al-Mu'izz li-Din Allah is reported to pray on Sunday for the lower borders, the five — the spokesman, the foundation, the culmination, the successor, and the wing — and on Saturday over the seven days and twelve months.",
+      "text": "The author cites al-Muizz li-Din Allah's Sunday prayer naming the five lower borders — the spokesman, the foundation, the culmination, the successor, and the wing — and his Saturday prayer over the seven days and twelve months.",
       "kind": "evidence",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "al-Mu'izz li-Din Allah",
-        "the five borders",
+        "al-Muizz li-Din Allah",
+        "lower borders",
         "spokesman",
         "foundation",
         "culmination",
@@ -101,37 +101,51 @@
       ]
     },
     {
-      "text": "Saints of the religion are reported to pray across the days of the week for the proclaimers and their gates, the imams of their stations, their proofs and preachers, and specifically for the seven proclaimers, seven culminations, seven caliphs and twelve successors, asking to be admitted to every good granted them and spared every evil they were spared.",
+      "text": "Prayers of the saints of the religion are reported invoking blessings on the seven proclaimers, seven culminations, seven caliphs and twelve successors, together with their gates, proofs, and preachers, and on the Imams of Muhammad's station and the proofs of their ages.",
       "kind": "evidence",
       "weight": 4,
       "depends_on": [],
       "entities": [
         "proclaimers",
-        "seven caliphs",
-        "twelve successors"
+        "culminations",
+        "caliphs",
+        "successors",
+        "gates",
+        "proofs",
+        "preachers"
       ]
     },
     {
-      "text": "Amir al-Mu'minin in his Four Hundred Counsels commands returning a greeting with something better or in kind, shaking the hand of an enemy who dislikes it (citing 'Repel with that which is better...'), and replying to 'May God greet you with peace' with 'You are the peace of God, and the finest of abodes and stations'.",
+      "text": "From the Four Hundred Counsels of Amir al-Muminin the author reports the command to return a greeting better or in kind, to shake hands with an enemy even if he dislikes it on the authority of 'Repel with that which is better', and to answer 'May God greet you with peace' with 'You are the peace of God, and the finest of abodes and stations'.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "Amir al-Mu'minin",
+        "Amir al-Muminin",
         "Four Hundred Counsels"
       ]
     },
     {
-      "text": "From the book of questions of Shaykh Shamoun ibn Muhammad Ghori al-Hindi with answers from Badr al-Din Hasan ibn Idris, it is ruled that peace should be proclaimed aloud to shaykhs and teachers (better than the Indian custom of bowing or lowering the head), while audibility in returning greetings or in blessing a sneezer is a courtesy and not an obligation — except that returning a greeting itself is required, whether aloud or silently.",
+      "text": "Citing the questions of Shaykh Shamoun ibn Muhammad Ghori al-Hindi answered by Badr al-Din Hasan ibn Idris, the author records the ruling that peace to sheikhs and teachers should be proclaimed aloud rather than by the Indian custom of bowing, that is better.",
       "kind": "resolution",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "Shamoun ibn Muhammad Ghori al-Hindi",
-        "Badr al-Din Hasan ibn Idris",
+        "Badr al-Din",
+        "Hasan ibn Idris",
         "India"
+      ]
+    },
+    {
+      "text": "The same source rules that audibility in returning a greeting and in blessing a sneezer is a courtesy and not an obligation, with no fault in omitting it — except that returning a greeting in general remains required, whether aloud or silently.",
+      "kind": "caveat",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Badr al-Din"
       ]
     }
   ],
-  "fingerprint": "a479033296ef3dcf"
+  "fingerprint": "ea59bb12a77e80f5"
 }

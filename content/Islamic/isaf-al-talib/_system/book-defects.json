@@ -3,6 +3,22 @@
   "counts": {
     "duplicated-arabic": 0,
     "english-rtl": 0,
+    "romanized-arabic": 2,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 68,
+    "prophet-wrong-honorific": 98,
+    "translation-outside-card": 4,
+    "translation-leads-a-paragraph": 4,
+    "translation-fused-with-prose": 5,
+    "bare-arabic": 44,
+    "orphaned-heading": 0,
+    "stale-provenance": 0
+  },
+  "previous": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
     "romanized-arabic": 3,
     "romanized-honorific": 0,
     "stray-emphasis": 0,
@@ -16,15 +32,10 @@
     "orphaned-heading": 0,
     "stale-provenance": 1
   },
-  "previous": {},
   "findings": {
     "duplicated-arabic": [],
     "english-rtl": [],
     "romanized-arabic": [
-      [
-        "21. Friday and the Two Festivals",
-        "tafattarat al-ard wa-infatarat"
-      ],
       [
         "21. Friday and the Two Festivals",
         "fatara nab al-bair"
@@ -837,16 +848,8 @@
         "أَوَّلُهَا الْإِحْسَانُ بِالْوَالِدَيْنِ ، وَبِذِي الْقُرْبَى ، وَالْيَتَامَى ، وَالْمَسَاكِينِ ، وَالْجَارِ ذِي الْقُرْبَى ، وَالْجَارِ الْجُنُبِ ، وَالصَّاحِبِ ذِي الْجَنْبِ ، وَابْنِ السَّبِيلِ وَمَا مَلَكَتْ أَيْمَانُكُمْ"
       ],
       [
-        "2. Three Questions from the King of Rum",
-        "رضي الله عنه"
-      ],
-      [
         "4. Guardians, Proofs, and the Limits of Praise",
         "لوّاحة للبشر عليها تسعة عشر\n\nلَوَّاحَةٌ لِّلْبَشَرِ عَلَيْهَا تِسْعَةَ عَشَرَ"
-      ],
-      [
-        "4. Guardians, Proofs, and the Limits of Praise",
-        "وبالإحدى عشر الساجدين وبالاثنى عشر المعدودين الراكعين"
       ],
       [
         "4. Guardians, Proofs, and the Limits of Praise",
@@ -862,10 +865,6 @@
       ],
       [
         "5. Parents, Kin, and the Neighbor at Your Side",
-        "بنوا العلاّت"
-      ],
-      [
-        "5. Parents, Kin, and the Neighbor at Your Side",
         "ولا يمين في قطيعة رحم\n\nلا يمين في قطيعة رحم"
       ],
       [
@@ -875,14 +874,6 @@
       [
         "6. What Must Be Learned, What Must Be Concealed",
         "نعم قد كان أطلق له لاقراره فضل أهل البيت عَلَيْهِمُ السَّلَامُ لا غير"
-      ],
-      [
-        "6. What Must Be Learned, What Must Be Concealed",
-        "هذا في كتاب الحقيقة لا ينظر الإنسان الا بأذن من أطلق له ذلك وأما في غيرها فأدب وليس بلازم"
-      ],
-      [
-        "6. What Must Be Learned, What Must Be Concealed",
-        "إن كانت الكتب من كتب الدعوة فليس له ذلك لأنها للدعوة لا تورث"
       ],
       [
         "6. What Must Be Learned, What Must Be Concealed",
@@ -897,12 +888,8 @@
         "لا تقيسوا الدين فأنه لا يقاس وسيأتي قوم يقيسون الدين وهم أعداءه وأول من قاس إبليس"
       ],
       [
-        "7. Water and Intention: The Anatomy of Ablution",
-        "إذا أراد أحدكم الخلاء فليقل بسم الله اللهم أمط عني الأذى وأعذني من الشيطان الرجيم الحمد لله الذي أطعمنيه في عافية وأخرج مني أذاه في عافية"
-      ],
-      [
         "8. The Manners of the Washing Place",
-        "أمرني جبرئيل عليه السلام عن ربي أن اغسل فنكي عند الوضوء"
+        "أمرني جبرئيل عَلَيْهِ السَّلَامُ عن ربي أن اغسل فنكي عند الوضوء"
       ],
       [
         "9. Major Impurity and the Cleanliness of Things",
@@ -918,47 +905,15 @@
       ],
       [
         "10. Tooth-Stick, Dust, and the Purity of Food",
-        "السواك مرضاة للرب عز وجل ومطيبة للفم وهو من السّنّة"
-      ],
-      [
-        "10. Tooth-Stick, Dust, and the Purity of Food",
         "حتى إذا لم يرى شيئا طار"
-      ],
-      [
-        "11. Bodies, Hair, and the Reform of Custom",
-        "إذا أراد أحدكم أن يتزوج امرأة فيسأل عن شعرها كما يسأل عن وجهها فان الشعر أحد الجمالين"
       ],
       [
         "11. Bodies, Hair, and the Reform of Custom",
         "وقالوا يعني الأئمة من أهل بيت النبوة عَلَيْهِمُ السَّلَامُ في المرأة إذا تطهرت إنها تنقض شعرها الا أن تكون تعلم أن الماء يصل إلى بشرة رأسها ويبل شعرها كله وذلك أن تكون أظفار شعرها رخوة"
       ],
       [
-        "11. Bodies, Hair, and the Reform of Custom",
-        "أسرعوا بختان أولادكم فأنه أطهر لهم"
-      ],
-      [
         "12. Skins, Blood, and Waiting Periods",
-        "ولا يجز الشعر من المعز الا بعد الذبح فان جز وهو حيّ فهو ميّة"
-      ],
-      [
-        "12. Skins, Blood, and Waiting Periods",
-        "مَا لَكَ أَنْفَسْتَ ؟ قالت نعم"
-      ],
-      [
-        "12. Skins, Blood, and Waiting Periods",
-        "الولد للفراش وللعاهر الحجر\n\nالْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ"
-      ],
-      [
-        "13. The Pillar of Religion and Its Appointed Hours",
-        "ولا يقومنّ الرجل إلى الصلاة متكاسلاً ولا متناعساً وليقلل العبد الفكر إذا قام بين يدي الله عز وجل فإنما له من صلاته ما أقبل عليه ولا تدعوا ذكر الله في كل مكان على كل حال ولا يلتفتنّ أحدكم في صلاته فإن العبد إذا التفت فيها قال الله عز وجل"
-      ],
-      [
-        "13. The Pillar of Religion and Its Appointed Hours",
-        "لا يعبث أحدكم بلحيته في الصلاة ولا بما يشغله عنها"
-      ],
-      [
-        "13. The Pillar of Religion and Its Appointed Hours",
-        "إذا اشتد الحر فأبردوا بالظهر فإن شدة الحر من لفح جهنم"
+        "مَا لَكَ أَنْفَسْتَ ؟ قَالَتْ نَعَمْ"
       ],
       [
         "14. The Disputed Words of the Call",
@@ -974,11 +929,7 @@
       ],
       [
         "17. Who May Lead, and Who May Not",
-        "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عليه السلام ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها"
-      ],
-      [
-        "17. Who May Lead, and Who May Not",
-        "ينبغي للصفوف أن تكون تامة متواصلة بعضها إلى بعض فيكون بين كل صفين قدر مسقط جسد الإنسان إذا سجد فان لم يصلوا مثل هذا لم تكن لهم صلاة"
+        "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عَلَيْهِ السَّلَامُ ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها"
       ],
       [
         "18. The Shape of the Prayer Itself",
@@ -1014,15 +965,7 @@
       ],
       [
         "19. Supplication, Speech, and Silence",
-        "الدعاء يرد القضاء المبرم فادعوه واستعجلوه"
-      ],
-      [
-        "19. Supplication, Speech, and Silence",
         "ادفعوا داعي البلاء بالدعاء وعليكم به قبل نزول البلاء فوالذي فلق الحبة وبرأ النسمة للبلاء أسرع إلى المؤمن من السيل من أعلى الجبل إلى أسفلها ومن ركض البراذين"
-      ],
-      [
-        "19. Supplication, Speech, and Silence",
-        "من قرأ قل هو الله أحد إلى أن تطلع الشمس عشر مرات وإنا أنزلناه في ليلة القدر لم يصب ذنبا ولو اجتهد إبليس"
       ],
       [
         "20. What the Worshipper Wears and Stands Upon",
@@ -1041,10 +984,6 @@
         "وإذا السماء انفطرت"
       ],
       [
-        "22. Forgetting, Doubting, and Beginning Again",
-        "من كان على يقينه فأصابه شك فليمض على يقينه فان الشك لا يدفع اليقين ولا ينقصه"
-      ],
-      [
         "25. The Sickbed and the Sound of Mourning",
         "ولا ينامنّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على وجهه فانتبهوه ولا تنام المرأة مستلقية على ظهرها"
       ],
@@ -1059,10 +998,6 @@
       [
         "27. The Wealth That Is Not Yours",
         "لا تحل الصدقة لي ولا لأهل بيتي"
-      ],
-      [
-        "31. The Quarrel Over the Crescent",
-        "فللموت تغذوا الوالدات عيالها"
       ],
       [
         "32. Two Kinds of Sight",
@@ -1083,18 +1018,9 @@
       [
         "33. The Sun, the Moon, and the Order of Obedience",
         "فلا أقسم بمواقع النجوم وأنه قسم لو تعلمون عظيم"
-      ],
-      [
-        "33. The Sun, the Moon, and the Order of Obedience",
-        "فهل يستوي الظلمات والنور أم هل يستوي الأعمى والبصير أم هل يستوي الذين يعلمون والذين لا يعلمون إنما يتذكر أولوا الألباب"
       ]
     ],
     "orphaned-heading": [],
-    "stale-provenance": [
-      [
-        "2. Three Questions from the King of Rum",
-        "رضي الله عنه"
-      ]
-    ]
+    "stale-provenance": []
   }
 }

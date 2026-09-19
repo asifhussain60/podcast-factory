@@ -1,83 +1,69 @@
 {
   "title": "1. The Eight Levels of Faith",
-  "purpose": "Opens the book with its author's dedication, occasion and title, then begins the doctrinal exposition by defining faith, its first level, the seven obligations and twelve practices, and the distinction between faith and Islam.",
+  "purpose": "It opens the book with its dedication, authorship, occasion and title, then begins the doctrinal exposition by setting out the levels of faith, the seven obligations and twelve practices, and the distinction between faith and Islam.",
   "points": [
     {
-      "text": "The author states that he composed the book at the repeated request of a senior figure of the dawa, to gather into one place what lies scattered through the books of the saints and their learned callers — the paired and authoritative books, the brief compositions on Sharia matters, and expansive treatments of juristic paths and legal opinions — so that their contents would be made more accessible.",
+      "text": "The book is titled Isʿaf al-Talib fi Jamiʿ al-Matalib (The Student's Aid in All Demands), begun on 7 Rajab in the year 1051 of the Prophetic migration.",
       "kind": "context",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "dawa",
+        "Isʿaf al-Talib fi Jamiʿ al-Matalib",
+        "Rajab"
+      ]
+    },
+    {
+      "text": "The author wrote at the repeated request of a patron, to gather into one place what is scattered across the books of the saints and their callers — the paired and authoritative books, the brief abridgements on Sharia matters, and expansive treatments of juristic paths and legal opinions — so that these paths become easier to travel.",
+      "kind": "context",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
         "Sharia"
       ]
     },
     {
-      "text": "The author names the book إسعاف الطالب في جميع المطالب ('The Student's Aid in All Demands') and dates the start of composition to the seventh of Rajab al-Asabb in the year 1051 of the Prophetic migration.",
-      "kind": "context",
-      "weight": 3,
-      "depends_on": [],
-      "entities": [
-        "إسعاف الطالب في جميع المطالب",
-        "Rajab al-Asabb"
-      ]
-    },
-    {
-      "text": "The author writes from within the Tayyibi Ismaili tradition, invoking the Prophet, 'Ali, Fatima al-Batul, al-Hasan, al-Husayn, the pure Imams, and the caller of his own age, the dai Jafar ibn Sulayman and his successor the dai Muhammad ibn al-Fahd, in service to the Imam al-Tayyib.",
+      "text": "The work is situated in the Tayyibi Ismaili dawa, dedicated to the caller Jafar ibn Sulayman ibn al-Hasan ibn Yusuf ibn Sulayman and his successor the caller Muhammad ibn al-Fahd, in service to the Imam al-Tayyib.",
       "kind": "context",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "Tayyibi",
-        "Imam al-Tayyib",
         "Jafar ibn Sulayman",
         "Muhammad ibn al-Fahd",
-        "'Ali",
-        "Fatima al-Batul",
-        "al-Hasan",
-        "al-Husayn"
+        "Imam al-Tayyib",
+        "Tayyibi dawa"
       ]
     },
     {
-      "text": "The author disclaims personal credit: whatever in the work is correct derives from the substance of his patron the caller and his successor, while whatever is a slip or error comes from his own shortness of reach.",
+      "text": "The author disclaims originality: whatever is correct in the book derives from the guardian of his favor and his successor, while every slip or error is his own shortcoming.",
       "kind": "caveat",
       "weight": 2,
       "depends_on": [],
       "entities": []
     },
     {
-      "text": "Reporting from 'some of the noble books', the author states that faith has eight levels (مراتب).",
+      "text": "Quoting some noble books, the author reports the teaching that faith has eight levels, the first of which is charity toward parents, relatives, orphans, the needy, the neighbor who is a relative, the neighbor nearby, the companion at one's side, the traveler, and those whom one's faith obligates one to care for — a list established in the Book of God.",
       "kind": "framework",
-      "weight": 4,
+      "weight": 5,
       "depends_on": [],
       "entities": [
-        "iman (faith)"
-      ]
-    },
-    {
-      "text": "The first of the eight levels of faith is charity (الإحسان) toward parents, relatives, orphans, the needy, the neighbor who is a relative, the nearby neighbor, the companion at one's side, the traveler, and those whom one's faith obligates one to care for — a level the author says is established in the Book of God.",
-      "kind": "definition",
-      "weight": 4,
-      "depends_on": [],
-      "entities": [
-        "al-ihsan",
+        "Eight Levels of Faith",
         "Quran"
       ]
     },
     {
-      "text": "The quoted source asserts that whoever undertakes the worship of God and the call of the People of the House without knowledge and without action cannot rightly bear the name of faith, and holds no bond with God nor covenant or honor with His guardian, having departed from faith.",
+      "text": "The same source asserts that whoever undertakes the worship of God and the call of the People of the House without knowledge and without action cannot bear the name of faith, and has no bond with God nor covenant or honor with His guardian, because he has departed from it.",
       "kind": "claim",
-      "weight": 4,
+      "weight": 5,
       "depends_on": [],
       "entities": [
         "Ahl al-Bayt",
-        "al-wali (the guardian)"
+        "People of the House"
       ]
     },
     {
-      "text": "The author announces that he will next treat the distinction between faith (iman) and Islam — what each encompasses — and what lies beyond them.",
+      "text": "The author announces that he will next distinguish faith (iman) from Islam, setting out what each encompasses and what lies beyond them.",
       "kind": "distinction",
-      "weight": 3,
+      "weight": 4,
       "depends_on": [],
       "entities": [
         "iman",
@@ -85,28 +71,19 @@
       ]
     },
     {
-      "text": "Quoting the fourth of the Mustansiriyya Councils (the Councils of Exposition and Wisdom), the author reports that the Imams of religion are seven, recurring in the world as the days of the week recur until the rising of the Qa'im, while twelve proofs (hujjas) are spread throughout the world — and this constitutes knowledge of the sum of the limits (hudud) of the testimony.",
+      "text": "Reporting from the fourth of the Mustansiriyya Councils (the Councils of Exposition and of Wisdom), the author states that the Imams of religion are seven, recurring in the world as the days of the week recur until the rising of the Qa'im, while the twelve proofs (hujjas) are spread throughout the world — and that this constitutes knowledge of the sum of the limits of the testimony.",
       "kind": "framework",
       "weight": 5,
       "depends_on": [],
       "entities": [
         "Mustansiriyya Councils",
-        "hudud",
-        "al-Qa'im",
-        "hujja"
+        "Imams",
+        "Qa'im",
+        "twelve hujjas"
       ]
     },
     {
-      "text": "The author distinguishes knowing the limits of the testimony from fulfilling the rights owed to those limits: the latter consists of upholding seven obligations of religion and twelve practices incumbent upon the God-fearing, mirroring the seven Imams and twelve proofs.",
-      "kind": "distinction",
-      "weight": 5,
-      "depends_on": [],
-      "entities": [
-        "hudud"
-      ]
-    },
-    {
-      "text": "The seven obligations of religion are guardianship (walaya), purity (tahara), prayer (salat), almsgiving (zakat), fasting (sawm), pilgrimage (hajj), and struggle (jihad).",
+      "text": "The author interprets that saying to mean the limits of testimony only, and holds that fulfilling the rights owed to those limits consists of seven obligations of religion — guardianship, purity, prayer, almsgiving, fasting, pilgrimage and struggle — corresponding to the seven Imams.",
       "kind": "framework",
       "weight": 5,
       "depends_on": [],
@@ -121,22 +98,32 @@
       ]
     },
     {
-      "text": "The twelve practices are honoring parents, maintaining kinship ties, protecting the neighbor, enjoining good, forbidding wrong, truthfulness in one's home, good conduct with one's spouse, kindness to dependents, spreading the greeting of peace, feeding others, keeping the bond among the brethren, and visiting the sick — and the author states these twelve are not obligatory upon women.",
+      "text": "Corresponding to the twelve proofs are twelve incumbent practices: honoring parents, maintaining kinship ties, protecting the neighbor, enjoining good, forbidding wrong, truthfulness in one's home, good conduct with one's spouse, kindness to dependents, spreading the greeting of peace, feeding others, keeping the bond among the brethren, and visiting the sick.",
       "kind": "framework",
-      "weight": 4,
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "twelve practices"
+      ]
+    },
+    {
+      "text": "The author states as a qualification that these twelve practices are not obligatory upon women.",
+      "kind": "caveat",
+      "weight": 2,
       "depends_on": [],
       "entities": []
     },
     {
-      "text": "The author cites 'Ali ibn Abi Talib's four hundred precepts that the Children of Israel divided into seventy-two sects and this community will divide into seventy-three, of which one is in the Garden and the rest in the Fire.",
+      "text": "The author cites 'Ali ibn Abi Talib's four hundred precepts to the effect that the Children of Israel divided into seventy-two sects and this community will divide into seventy-three, of which one is in the Garden and the rest in the Fire.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "'Ali ibn Abi Talib",
-        "Children of Israel"
+        "Children of Israel",
+        "seventy-three sects"
       ]
     }
   ],
-  "fingerprint": "c74a3d36cbda7438"
+  "fingerprint": "60c4d4f71efc03da"
 }

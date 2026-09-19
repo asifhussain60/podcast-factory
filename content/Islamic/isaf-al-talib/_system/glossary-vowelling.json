@@ -1,27 +1,11 @@
 {
-  "vowelled": 49,
-  "marks_added": 200,
-  "already": 2,
-  "refused": 9,
+  "vowelled": 4,
+  "marks_added": 24,
+  "already": 51,
+  "refused": 5,
   "refusals": [
     {
-      "term": "دعائم الإسلام",
-      "reason": "empty"
-    },
-    {
-      "term": "مجالس البيان",
-      "reason": "empty"
-    },
-    {
       "term": "جرح",
-      "reason": "empty"
-    },
-    {
-      "term": "الأخبار",
-      "reason": "letters changed, not just marks (first difference at character 1: source \"الأخبار\" vs proposal \"ألأخبار\")"
-    },
-    {
-      "term": "بيت المال",
       "reason": "empty"
     },
     {
@@ -41,6 +25,6 @@
       "reason": "letters changed, not just marks (first difference at character 6: source \" الشجرة\" vs proposal \"\")"
     }
   ],
-  "in_chars": 1901,
-  "out_chars": 558
+  "in_chars": 393,
+  "out_chars": 107
 }

@@ -1,21 +1,21 @@
 {
   "title": "7. Water and Intention: The Anatomy of Ablution",
-  "purpose": "It compiles the legal anatomy of ritual purity — what necessitates and nullifies ablution, the seven obligations and twelve practices of the lesser and greater purity, and the prayers accompanying relieving oneself — drawing on question-and-answer literature, Mukhtasar al-Musannaf, Tawil al-Daaim, the Majalis of al-Muayyad, and maxims of Ali.",
+  "purpose": "It sets out the legal anatomy of purity — what nullifies ablution, and the sevenfold obligations and twelvefold practices of both the lesser and greater purity — as the second pillar after walaya, drawing on Ismaili juridical and majalis sources.",
   "points": [
     {
-      "text": "The author cites a Book of Question and Answer arranged by the order of the chapters of Daaim al-Islam, in which the questions come from teachers of the Indian lands and the answers from the summoners (duat) of the Yemeni lands.",
+      "text": "A Question-and-Answer book arranged on the order of the doors of Daaim al-Islam, containing questions from teachers of the Indian lands and answers from the summoners (duat) of the Yemeni lands, is cited as an authority on purity.",
       "kind": "context",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "Book of Question and Answer",
         "Daaim al-Islam",
-        "India",
-        "Yemen"
+        "Indian lands",
+        "Yemeni lands"
       ]
     },
     {
-      "text": "Answering an Indian question, the Yemeni respondent rules that the prohibition on urinating beneath fruit-bearing trees covers both trees on which fruit is actually present and trees whose property it is to bear fruit.",
+      "text": "Asked whether the prohibition on urinating beneath fruit-bearing trees means trees actually bearing fruit or trees whose property it is to bear fruit, the Yemeni respondents answer that it covers both.",
       "kind": "claim",
       "weight": 2,
       "depends_on": [],
@@ -24,23 +24,24 @@
       ]
     },
     {
-      "text": "The respondent rules that although greeting and speaking are forbidden to one in a state of hadath, once he has risen from that place — having cleansed himself with a stone or otherwise — he may be greeted, must return the greeting, and may speak.",
-      "kind": "resolution",
+      "text": "Though the dawah books forbid greeting or speaking to one in a state of hadath, the answer given is that once he has risen from that place (having cleansed himself with a stone or otherwise) he may be greeted, must return the greeting, and may speak.",
+      "kind": "distinction",
       "weight": 2,
       "depends_on": [],
       "entities": [
-        "hadath"
+        "hadath",
+        "dawah"
       ]
     },
     {
-      "text": "The respondent permits reusing a stone or clod of earth previously used for cleansing after urination, once it has dried, provided no impurity and no moisture are evident upon it.",
+      "text": "Reusing a stone or clod of earth used for cleansing after urination is permitted once it has dried, provided no impurity and no moisture are evident upon it.",
       "kind": "claim",
       "weight": 2,
       "depends_on": [],
       "entities": []
     },
     {
-      "text": "Mukhtasar al-Musannaf is cited as listing the nullifiers of ablution: sleep, whatever issues from the front or rear passage (whether a stone or wind), an enema, fainting, insanity, and the disappearance of the glans into the front passage of a living or dead person.",
+      "text": "Mukhtasar al-Musannaf lists the nullifiers of ablution as sleep, whatever issues from the front or rear passage (including a stone or wind), an enema, fainting, insanity, and the disappearance of the glans into the front passage of a living or dead person.",
       "kind": "framework",
       "weight": 3,
       "depends_on": [],
@@ -49,56 +50,50 @@
       ]
     },
     {
-      "text": "Tawil al-Daaim is cited for the rule that one who interrupts his ablution may build upon what he has already done, so long as the water has not dried upon the limbs already washed.",
+      "text": "Tawil al-Daaim reports that one who interrupts his ablution may build upon what he has already done, so long as the water has not dried upon the limbs already washed; and Mukhtasar al-Musannaf holds that one whose hands are amputated above the elbows is relieved of the obligation to wash them.",
       "kind": "claim",
       "weight": 2,
       "depends_on": [],
       "entities": [
-        "Tawil al-Daaim"
-      ]
-    },
-    {
-      "text": "Mukhtasar al-Musannaf is also cited for the concession that one whose hands are amputated above the elbows, leaving nothing of them, is released from the obligation of washing the hands.",
-      "kind": "caveat",
-      "weight": 2,
-      "depends_on": [],
-      "entities": [
+        "Tawil al-Daaim",
         "Mukhtasar al-Musannaf"
       ]
     },
     {
-      "text": "The Trusted of the Imam, the Banner of Islam (al-Muayyad), in the fifth council of his Majalis al-Bayan and Majalis al-Hikma (the Councils of al-Mustansiriyya), teaches that Islam is built upon seven obligations to which twelve practices are attached, and that each individual obligation likewise contains its own seven obligations and twelve practices.",
+      "text": "The Trusted of the Imam, the Banner of Islam, in the fifth council of Majalis al-Bayan and Majalis al-Hikma (the Councils of al-Mustansiriyya), teaches that each of the seven obligations of Islam itself contains seven obligations and twelve practices, mirroring the honored number nineteen formed from the testimony's seven and twelve letters.",
       "kind": "framework",
-      "weight": 4,
-      "depends_on": [],
+      "weight": 5,
+      "depends_on": [
+        "S06-P01"
+      ],
       "entities": [
         "Majalis al-Bayan",
         "Majalis al-Hikma",
         "al-Mustansiriyya",
-        "Muayyad"
+        "nineteen"
       ]
     },
     {
-      "text": "In that council walaya is named the first and most excellent of the obligations, and it is stated that in every allusion made by these numbers the ranking of the friends of God is the utmost aim and intention.",
-      "kind": "claim",
-      "weight": 4,
+      "text": "Walaya is the first and most excellent of the obligations, and in every allusion made by these numbers the ranking of the friends of God is the utmost aim and intention.",
+      "kind": "thesis",
+      "weight": 5,
       "depends_on": [],
       "entities": [
         "walaya"
       ]
     },
     {
-      "text": "The seven obligations of the lesser purity (ablution) are given as pure water, intention, washing the face, washing the hands, wiping the head, wiping the feet, and order — order being that one begins with what God began by mentioning.",
-      "kind": "definition",
+      "text": "Purity follows walaya in rank, and its lesser purity (ablution) has seven obligations: pure water, intention, washing the face, washing the hands, wiping the head, wiping the feet, and order — beginning with what God began by mentioning.",
+      "kind": "framework",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "al-tahara al-sughra",
+        "al-taharah al-sughra",
         "wudu"
       ]
     },
     {
-      "text": "The twelve practices of ablution are enumerated as istinja, washing the hands before entering them into the vessel, pronouncing God's name on sitting down, rinsing the mouth, drawing water into the nose, moving the ring so water reaches beneath it, combing water through the beard, wetting the eyes, giving the right limbs precedence over the left, wiping the ears inside and out, the second and third washings of the face (the first being the obligation), and the siwak.",
+      "text": "The twelve practices (sunan) of ablution are istinja, washing the hands before entering the vessel, pronouncing God's name on sitting down, rinsing the mouth, drawing water into the nose, moving the ring, combing water through the beard, wetting the eyes, giving the right precedence over the left, wiping the inner and outer ears, the second and third washings of the face (the first being the obligation), and the siwak.",
       "kind": "framework",
       "weight": 3,
       "depends_on": [],
@@ -108,40 +103,42 @@
       ]
     },
     {
-      "text": "The greater purity — washing of the whole body — is likewise divided into seven obligations (washing from janabah, from menstruation, of the unbeliever entering Islam, of one recovering from unconsciousness, from the blood of nifas, after immersion in impurity, and of the dead, this last being an obligation on the living until one of them performs it) and twelve practices (Friday; al-Fitr; al-Adha; ihram; entering the Haram; entering the Kabah; entering Madinah; the day of Arafah; the nights of the nineteenth, twenty-first and twenty-third of Ramadan; and after washing the dead).",
+      "text": "The greater purity — washing of the whole body — likewise has seven obligations: washing from janabah, from menstruation, of the unbeliever entering Islam, of one recovering from unconsciousness, from the blood of nifas, after immersion in impurity, and of the dead, which is an obligation upon the living until one of them performs it.",
       "kind": "framework",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "al-tahara al-kubra",
+        "al-taharah al-kubra",
         "janabah",
-        "nifas",
-        "Ramadan",
-        "Kabah",
-        "Madinah",
-        "Arafah"
+        "nifas"
       ]
     },
     {
-      "text": "Ali ibn Abi Talib, in his four hundred maxims of conduct, commands cleansing with water from foul odor and prescribes set invocations on entering the privy and on looking at what has passed from one, the latter grounded in the Prophet's report that an angel turns the servant's neck so he looks at it and asks: this is what you were eager for — consider where you took it from and what it has come to.",
+      "text": "The twelve practices of the greater purity are the washings of Friday, of Eid al-Fitr, of Eid al-Adha, for ihram, for entering the Haram, the Kabah, and Madinah, on the day of Arafah, on the nights of the nineteenth, twenty-first and twenty-third of Ramadan, and after washing the dead.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "al-Fitr",
+        "al-Adha",
+        "ihram",
+        "Haram",
+        "Kabah",
+        "Madinah",
+        "Arafah",
+        "Ramadan"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib, in his four hundred maxims of conduct, commands cleansing with water from foul odor, prescribes invocations on entering the privy and on looking at what has passed, and states that when sleep mingles with the heart ablution becomes obligatory.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "Ali ibn Abi Talib",
-        "four hundred maxims",
-        "Messenger of God"
-      ]
-    },
-    {
-      "text": "Ali is also cited in the same context for the rule that when sleep mingles with the heart, ablution becomes obligatory.",
-      "kind": "claim",
-      "weight": 3,
-      "depends_on": [],
-      "entities": [
-        "Ali ibn Abi Talib"
+        "four hundred maxims"
       ]
     }
   ],
-  "fingerprint": "4eef3b96be55495b"
+  "fingerprint": "f8f11b929e05f3fa"
 }

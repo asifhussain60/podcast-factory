@@ -1,9 +1,9 @@
 {
   "schema": "podcast.book-fluency/v5",
   "narrative_frame": "first_person_author",
-  "adapted": 33,
+  "adapted": 26,
   "reverted": 0,
-  "overwritten_by_replay": 0,
+  "overwritten_by_replay": 7,
   "chapters": [
     {
       "title": "The Eight Levels of Faith",
@@ -17,7 +17,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 10,
-      "status": "partial",
+      "status": "adapted-then-overwritten",
       "gates": [
         "reconcile-01-part-05: abridged re-voice (54<67 words)",
         "reconcile-01-part-05: repair still failed: abridged re-voice (56<67 words)"
@@ -52,7 +52,8 @@
       "terminology_notes": [
         "\"guardian of my favor\" \u2014 the rendering of \u0648\u0644\u064a\u0651 \u0646\u0639\u0645\u062a\u064a should be confirmed and standardized throughout the book; \"dawa\" \u2014 the book's house style should confirm whether this term is italicized and how its plural is handled consistently.",
         "\"trust of the Imam\" \u2014 the underlying honorific title should be rendered consistently throughout the book."
-      ]
+      ],
+      "pre_replay_status": "partial"
     },
     {
       "title": "Three Questions from the King of Rum",
@@ -106,7 +107,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 5,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "assembly_gates": [],
       "warnings": [
@@ -136,7 +137,8 @@
         "\"good proclaimers\" and \"righteous borders\" \u2014 these appear to be technical terms specific to this work; their standard book-wide renderings should be confirmed.",
         "\"the Sabbath\" (used in the saints' prayer section) vs. \"Saturday\" (used in al-Muizz's prayers) \u2014 both appear to render the same Arabic day name and should be standardized to one form book-wide.",
         "The concept rendered variously as \"peace,\" \"greeting,\" and \"salutation\" throughout this passage corresponds to the Arabic sal\u0101m; a book-wide standard for its English rendering would improve consistency."
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "Guardians, Proofs, and the Limits of Praise",
@@ -521,7 +523,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 7,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "assembly_gates": [],
       "warnings": [
@@ -547,7 +549,8 @@
       "terminology_notes": [
         "tahlil, takbir, tahmid, tasbih, basmala, tayammum, mawla, mustahadah, istihadah, nifas, janaba \u2014 all appear here as untranslated technical terms and should be standardized in spelling and treatment throughout the book.",
         "\"withdraws\" \u2014 used consistently here for the husband's or wife's abstention during istibra; should be confirmed as the book-wide rendering for this term."
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "The Pillar of Religion and Its Appointed Hours",
@@ -561,7 +564,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 15,
-      "status": "partial",
+      "status": "adapted-then-overwritten",
       "gates": [
         "reconcile-13-part-03: abridged re-voice (70<96 words)",
         "reconcile-13-part-03: repair still failed: abridged re-voice (87<96 words)"
@@ -602,7 +605,8 @@
         "units \u2014 confirm whether the book renders rak'ah/rak'ahs as \"units,\" \"cycles,\" or another term consistently throughout.",
         "\"Book of the Inward Nursing\" \u2014 the book-wide rendering of this title should be confirmed against its established Arabic original and standardized throughout.",
         "making up \u2014 confirm \"making up\" as the book's standard rendering for qada' (missed prayers and fasts) throughout."
-      ]
+      ],
+      "pre_replay_status": "partial"
     },
     {
       "title": "The Disputed Words of the Call",
@@ -1103,7 +1107,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 26,
-      "status": "partial",
+      "status": "adapted-then-overwritten",
       "gates": [
         "reconcile-25-part-09: abridged re-voice (20<47 words)",
         "reconcile-25-part-09: repair still failed: abridged re-voice (20<47 words)",
@@ -1156,7 +1160,8 @@
         "mawlana \u2014 confirm the book's preferred rendering (one word, no hyphen) is applied consistently throughout.",
         "\"he has attained\" \u2014 the object of attainment is unspecified in the source; a book-wide editorial note may be needed to clarify what this phrase denotes in its original context.",
         "\"accursed voice at a blessing\" \u2014 if the source Arabic carries a fixed technical phrase here, the book-wide rendering should be confirmed and standardized."
-      ]
+      ],
+      "pre_replay_status": "partial"
     },
     {
       "title": "Washing, Shrouding, Carrying, Burying",
@@ -1248,7 +1253,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 3,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "assembly_gates": [],
       "warnings": [
@@ -1270,7 +1275,8 @@
       ],
       "terminology_notes": [
         "\"al-Shurwa\" / \"shurwa\" \u2014 the source uses the article-bearing form in all standalone occurrences but the bare form within list item 5; the book-wide capitalization and article convention should be confirmed and applied consistently."
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "The Charity of the Head",
@@ -1319,7 +1325,7 @@
       "model_failures": 0,
       "fresh_calls_disabled": false,
       "pre_assembly_windows_kept": 3,
-      "status": "adapted",
+      "status": "adapted-then-overwritten",
       "gates": [],
       "assembly_gates": [],
       "warnings": [
@@ -1343,7 +1349,8 @@
       "terminology_notes": [
         "\"the measures of the crescents\" \u2014 this technical expression, referring to crescent-visibility calculation or schedules used to determine the start of Ramadan, should be rendered consistently throughout the book.",
         "\"of the practice and commended\" \u2014 confirm this is the book's established rendering for the category of sunnah and mustahabb fasts, and standardize it throughout."
-      ]
+      ],
+      "pre_replay_status": "adapted"
     },
     {
       "title": "The Quarrel Over the Crescent",

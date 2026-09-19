@@ -1,40 +1,41 @@
 {
   "title": "14. The Disputed Words of the Call",
-  "purpose": "It sets out the rules of the adhan and iqama and then defends, through Fatimid precedent and prophetic reports, the disputed additions to the call — the testimony to Ali's walaya and the proclamation that Muhammad and Ali are the best of humankind.",
+  "purpose": "It assembles the legal and doctrinal material on the adhan and iqama, focusing on the disputed Shi'i formulas testifying to Ali's walaya and the superiority of Muhammad and Ali over all humankind, and defends them by tradition, argument and Fatimid precedent.",
   "points": [
     {
-      "text": "Answering a question about a man appointed by a tyrannical sultan as prayer leader, muezzin or teacher on a salary drawn from the port levy or jizya, the compiled answer is that such money comes from the public treasury (bayt al-mal) and is lawful for him to consume only if it is administered according to the judgment of one appointed by the friends of God.",
+      "text": "A question-and-answer book arranged by the chapter order of Daa'im al-Islam records that a man of the call appointed by a tyrannical sultan as imam, muezzin or teacher and paid from the port levy or jizya may lawfully consume such pay only if the public treasury (bayt al-mal) is administered by the judgment of one appointed by the friends of God, and not otherwise.",
       "kind": "claim",
       "weight": 3,
       "entities": [
+        "Daa'im al-Islam",
         "bayt al-mal",
         "jizya",
-        "Daaim al-Islam"
+        "port levy"
       ]
     },
     {
-      "text": "Mukhtasar al-Idah reports from Jafar ibn Muhammad ibn Ali that giving the call while walking or mounted is permissible provided that at the moment of the testimony one faces the qibla, while the author states that the books attributed to the Ahl al-Bayt agree that the iqama is valid only while standing on the ground.",
-      "kind": "distinction",
+      "text": "Mukhtasar al-Idah reports from Ja'far ibn Muhammad ibn Ali that giving the call while walking or mounted is permissible provided one faces the qibla at the moment of the testimony, while the author states that the books attributed to the Ahl al-Bayt agree that the iqama is invalid unless the person is standing upon the ground.",
+      "kind": "claim",
       "weight": 3,
       "entities": [
         "Mukhtasar al-Idah",
-        "Jafar al-Sadiq",
+        "Ja'far al-Sadiq",
         "iqama",
-        "adhan"
+        "qibla"
       ]
     },
     {
-      "text": "Mukhtasar al-Musannaf instructs the muezzin to say inwardly, after the twofold testimony to Muhammad's messengership, 'I bear witness that Ali is the friend of God,' and after 'Come to the best of deeds,' 'The family of Muhammad are the best of humankind.'",
+      "text": "Mukhtasar al-Musannaf holds that the muezzin should say inwardly 'I bear witness that Ali is the friend of God' after each testimony to Muhammad's messengership, and 'the family of Muhammad are the best of humankind' after each 'Come to the best of deeds'.",
       "kind": "claim",
-      "weight": 3,
+      "weight": 4,
       "entities": [
         "Mukhtasar al-Musannaf",
-        "muezzin",
-        "hayya ala khayr al-amal"
+        "hayya ala khayr al-amal",
+        "Ali"
       ]
     },
     {
-      "text": "Mukhtasar al-Musannaf further holds that one present in the mosque at the call should not leave before praying, except for a necessity with intent to return in time or to perform ablution, and if he misses the congregation he prays alone or with another congregation without fault.",
+      "text": "Mukhtasar al-Musannaf further rules that no one in the mosque should leave after the call before praying, except for a necessity or to perform ablution with the intention and expectation of returning, and that one who misses the congregation prays alone or with another congregation without fault.",
       "kind": "claim",
       "weight": 2,
       "entities": [
@@ -42,100 +43,85 @@
       ]
     },
     {
-      "text": "Tawil al-Sharia holds that the muezzin may give the adhan without purity but the iqama requires purity, that he faces the qibla and forms intention first, and that the supererogatory prayer is joined to the adhan while the obligatory prayer is prayed only after the iqama.",
-      "kind": "claim",
+      "text": "Tawil al-Shari'a rules that the adhan may be given without ritual purity but the iqama only by one who is pure, that the muezzin faces the qibla and forms intention first, and that the obligatory prayer is prayed at the iqama while the supererogatory is joined to the adhan and comes first.",
+      "kind": "distinction",
       "weight": 3,
       "entities": [
-        "Tawil al-Sharia",
+        "Tawil al-Shari'a",
         "adhan",
         "iqama"
       ]
     },
     {
-      "text": "Idris ibn Sayyidina Hasan records in the sixth part of Uyun al-Akhbar that in the caliphate of al-Hakim bi-Amr Allah the muezzins added to the call the testimony that 'our mawla Ali is the friend of God' and the proclamation that Muhammad and Ali are the best of humankind and their kindred the best of kindred, in confirmation of the Prophet's declaration at Ghadir, 'Whoever's master I am, Ali is his master.'",
+      "text": "Idris ibn Sayyidina Hasan records in the sixth part of Uyun al-Akhbar that under the caliph al-Hakim bi-Amr Allah the muezzins publicly proclaimed 'I bear witness that our mawla Ali is the friend of God' and 'Muhammad and Ali are the best of humankind and their kindred the best of kindred', in confirmation of the Prophet's Ghadir declaration.",
       "kind": "evidence",
       "weight": 4,
       "entities": [
-        "Idris ibn Hasan",
+        "Idris ibn al-Hasan",
         "Uyun al-Akhbar",
         "al-Hakim bi-Amr Allah",
         "Ghadir Khumm"
       ]
     },
     {
-      "text": "Against the claim, related from Abu Bakr, that 'we are the kindred of the Messenger of God,' the text holds that Ibn Abbas identified the near kindred as Ali, Fatima, al-Hasan and al-Husayn alone, and that Abu Bakr's only link to the Prophet was the remote one of Quraysh, a point supported by al-Kumayt's verse naming Banu Hashim as the Prophet's clan.",
+      "text": "The author argues from Ibn Abbas's answer that the 'near kindred' are Ali, Fatima, al-Hasan and al-Husayn, and rejects the report from Abu Bakr that 'we are the kindred of the Messenger of God' on the ground that Abu Bakr's only tie was remote Qurashi lineage.",
       "kind": "claim",
-      "weight": 4,
+      "weight": 3,
       "entities": [
+        "Abdullah ibn Abbas",
         "Abu Bakr",
-        "Ibn Abbas",
-        "al-Kumayt",
-        "Banu Hashim",
-        "itra"
+        "itra",
+        "al-Kumayt"
       ]
     },
     {
-      "text": "The common objection is stated: many concede that Muhammad is the best of humankind but deny it of Ali, since humankind includes the prophets.",
-      "kind": "claim",
+      "text": "The objection of many common people — that Muhammad may be granted best of humankind but not Ali, since prophets are among humankind — is answered by the author as obstinate and self-refuting, since all Muslims accept that Muhammad's community is 'the best community brought forth for the people' though earlier communities contained prophets.",
+      "kind": "turn",
       "weight": 4,
-      "entities": [
-        "Ali ibn Abi Talib"
-      ]
-    },
-    {
-      "text": "The first answer to that objection is that all Muslims agree, on the verse 'You were the best community brought forth for the people,' that Muhammad's community surpasses earlier communities which themselves contained prophets and favoured friends of God — so the same comparative logic must be granted for Ali.",
-      "kind": "claim",
-      "weight": 4,
-      "depends_on": [],
       "entities": [
         "Quran 3:110"
       ]
     },
     {
-      "text": "Supporting reports are cited: the hadith of the two weighty things from Hudhayfa ibn al-Yaman, likening the Book and the Prophet's kindred to Noah's ark in which boarding means salvation and holding back means drowning, and the saying 'Ali is the best of humankind, and whoever refuses this has disbelieved.'",
+      "text": "The author supports Ali's pre-eminence with the Prophet's hadith of the two weighty things and the ark of Noah, and the saying 'Ali is the best of humankind, and whoever refuses this has disbelieved'.",
       "kind": "evidence",
-      "weight": 4,
+      "weight": 3,
       "entities": [
         "Hudhayfa ibn al-Yaman",
-        "hadith al-thaqalayn",
-        "Ark of Noah"
+        "hadith al-thaqalayn"
       ]
     },
     {
-      "text": "The narrated confrontation at al-Gharafa has al-Hakim bi-Amr Allah adjudicate between the preacher of Atfih, who rejected the new call, and the dai who gave it, by getting the preacher to confirm as sound the reports that al-Hasan and al-Husayn are the masters of the youth of the Garden, that their father is better than the two of them, and that the people of the Garden are youths who do not grow old.",
+      "text": "The narrated anecdote of al-Hakim at al-Gharafa has him settle a dispute at Atfih between a preacher who rejected the new call and the dai who gave it, by a chain of reports the preacher himself concedes sound.",
       "kind": "anecdote",
-      "weight": 4,
+      "weight": 3,
       "entities": [
         "al-Hakim bi-Amr Allah",
         "Atfih",
         "al-Gharafa",
-        "al-Hasan",
-        "al-Husayn"
+        "Ali ibn al-Husayn al-Qari"
       ]
     },
     {
-      "text": "Al-Hakim's syllogism concludes that since Adam, Noah, Abraham, Moses and Jesus are in the Garden but are not its youths, and al-Hasan and al-Husayn are masters of its youth while their father is better than they, it is established that Ali is the best of humankind together with the Prophet — whereupon the shaykh assented and al-Hakim told the dai to give the call as he wished, for none would oppose him.",
+      "text": "Al-Hakim's argument runs: al-Hasan and al-Husayn are masters of the youth of the people of the Garden, the people of the Garden are youths who never age and include Adam, Noah, Abraham, Moses and Jesus, and the Prophet said their father is better than the two of them — therefore Ali is the best of humankind alongside the Prophet; the preacher then professes belief and al-Hakim tells the dai to give the call as he wishes, since none will oppose him.",
       "kind": "resolution",
-      "weight": 5,
+      "weight": 4,
       "entities": [
         "al-Hakim bi-Amr Allah",
-        "Ali ibn Abi Talib",
-        "Adam",
-        "Noah",
-        "Abraham",
-        "Moses",
-        "Jesus"
+        "al-Hasan",
+        "al-Husayn",
+        "Ali"
       ]
     },
     {
-      "text": "The author announces that he will next reproduce in full the epistle of his sayyid and mawla and father Muhammad ibn Fahd, entitled al-Muriba amma jarat bihi al-mubahatha, which frames the dispute between those who hold the added words of the call impermissible and unnarrated and those who hold them commanded by the Noble Book and binding on whoever obeys those whose command must be obeyed.",
+      "text": "The author announces that he will next reproduce in full the epistle al-Muriba 'amma jarat bihi al-mubahatha by his sayyid and father Muhammad ibn Fahd, which debates whether the formula 'Muhammad and Ali are the best of humankind' is an illicit innovation or a thing commanded by the Noble Book and upheld by obedience to those whose command must be obeyed.",
       "kind": "turn",
       "weight": 3,
       "entities": [
         "Muhammad ibn Fahd",
-        "al-Muriba amma jarat bihi al-mubahatha"
+        "al-Muriba 'amma jarat bihi al-mubahatha"
       ]
     }
   ],
-  "fingerprint": "141ee915f391f0c0"
+  "fingerprint": "9a4deaf73d44766d"
 }

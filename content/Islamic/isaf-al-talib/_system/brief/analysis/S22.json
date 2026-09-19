@@ -1,47 +1,51 @@
 {
   "title": "22. Forgetting, Doubting, and Beginning Again",
-  "purpose": "It compiles the law of omission (sahw), doubt, and interruption in prayer from responsa, council teachings, and reports, establishing when the two prostrations of omission are owed, when the prayer must be repeated, and how intention governs validity.",
+  "purpose": "It sets out the law of omission (sahw), doubt, interruption, and latecoming in prayer, assembled from question-and-answer collections, the Mustansiriyya councils, Mukhtasar al-Musannaf, and reports from the Imams.",
   "points": [
     {
-      "text": "The author distinguishes omission from doubt: the one who commits an omission is certain of what he omitted, while the doubter is not certain of what he doubts — a confusion said to trouble many jurists.",
+      "text": "The author distinguishes omission (sahw, inattention) from doubt: the one who commits an omission is certain of what he omitted, whereas the doubter is not certain of what he doubts — a distinction many jurists confuse by treating doubt as if it were omission.",
       "kind": "distinction",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "omission (sahw)",
-        "doubt"
+        "sahw",
+        "doubt",
+        "prostration of omission"
       ]
     },
     {
-      "text": "The two prostrations of omission are called al-marghamatan ('the two that rub down the nose') because they rub down the nose of the devil when the corruption of forgetfulness is repaired by them.",
+      "text": "The two prostrations of omission are called al-murghimatan, 'the two that rub down the nose', because they rub down the nose of the devil when the corruption of forgetfulness is repaired by them.",
       "kind": "definition",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "المرغمتان",
-        "two prostrations of omission"
+        "al-murghimatan"
       ]
     },
     {
-      "text": "The Mustansiriyya councils enumerate seven places of omission in prayer, in six of which the two prostrations are proper — including omitting a prostration, forgetting the first or second tashahhud, saluting after two rakahs of a four-rakah prayer, and rising to a fifth rakah — while the seventh, omission behind the Imam, requires none because the Imam bears it.",
+      "text": "The Mustansiriyya councils (ninth council) enumerate seven places of omission in prayer, in six of which the two prostrations of omission are proper — including forgetting a prostration, forgetting the first or second tashahhud, saluting after two rakahs in a four-rakah prayer, and rising to a fifth rakah — while the seventh, inattention behind the Imam, requires none because the Imam bears it for the worshipper.",
       "kind": "framework",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "Mustansiriyya councils"
+        "Mustansiriyya councils",
+        "tashahhud",
+        "Imam"
       ]
     },
     {
-      "text": "Doubt in prayer falls into twelve cases: where the doubt concerns an act still ahead or unsettled (bowing, number of rakahs) the worshipper builds on what is certain — the lesser — and prostrates for omission; but where the doubt arises after the act has been passed (doubting the takbir after bowing, recitation after bowing, or anything after the salaam) nothing is due.",
+      "text": "The same source divides doubt into twelve cases: in five (doubt about bowing while still praying, or over one/two, two/three, three/four, two/four rakahs) the worshipper builds on what is certain — the lesser — and prostrates for omission; in the remainder, where the doubt arises only after the relevant act has been passed (e.g. doubting the takbir after bowing, or anything after the salaam), nothing at all is due.",
       "kind": "framework",
       "weight": 4,
       "depends_on": [],
       "entities": [
-        "doubt"
+        "doubt",
+        "tashahhud",
+        "salaam"
       ]
     },
     {
-      "text": "Ali ibn Abi Talib is quoted from his four hundred manners: whoever is certain of something and is then struck by doubt should act on his certainty, for doubt neither dispels nor diminishes certainty.",
+      "text": "Ali ibn Abi Talib (ع) is quoted in his four hundred manners: whoever is certain of something and is then struck by doubt should act on his certainty, for doubt neither dispels nor diminishes certainty.",
       "kind": "evidence",
       "weight": 4,
       "depends_on": [],
@@ -51,27 +55,16 @@
       ]
     },
     {
-      "text": "If the doubter is certain of nothing at all — not knowing whether he added to or fell short of his prayer — he begins the prayer again from the beginning, and so likewise does the Imam.",
-      "kind": "resolution",
+      "text": "If a doubter is certain of nothing at all — not knowing whether he added to or fell short of his prayer — he begins the prayer again from the beginning, and so likewise does the Imam.",
+      "kind": "claim",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "book of questions"
+        "Imam"
       ]
     },
     {
-      "text": "The responsa hold that intention resides in the heart and that utterance with the tongue is merely a verbal expression, so that an act intended in the heart is complete even if the intention is never spoken — cited as stated in the Pillars, against the text that deeds are accepted only with intentions.",
-      "kind": "claim",
-      "weight": 4,
-      "depends_on": [],
-      "entities": [
-        "niyya",
-        "Pillars of Islam",
-        "الأعمال لا تقبل الا بالنيات"
-      ]
-    },
-    {
-      "text": "The prostration of omission is not multiplied: one who omits several obligations, or commits omissions repeatedly in a single prayer, owes only the two prostrations.",
+      "text": "The prostration of omission is not multiplied: repeated omissions in a single prayer, or three separate omitted obligations, still require only the two prostrations.",
       "kind": "claim",
       "weight": 3,
       "depends_on": [],
@@ -80,56 +73,68 @@
       ]
     },
     {
-      "text": "Where there is no explicit text stipulating a prostration of omission — as with neglecting the first tashahhud but remembering before the salaam, or repeating a single surah after the Opening — the worshipper is not required to prostrate, though he should not do such things deliberately.",
-      "kind": "caveat",
+      "text": "Where no explicit text (nass) exists — as with neglecting the first tashahhud and remembering before the salaam, or repeating a single surah after the Opening — it has not been stipulated that the worshipper must prostrate, though the answerers add that such things should not be done deliberately.",
+      "kind": "claim",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "Yemeni summoners",
-        "Indian questioners"
+        "nass",
+        "tashahhud"
       ]
     },
     {
-      "text": "Some omissions void the prayer outright rather than being repaired: failing to sit after each pair of rakahs, adding a bowing before sitting for the tashahhud, and neglecting the bowing or the opening takbir behind the Imam, which the Imam does not bear.",
-      "kind": "distinction",
+      "text": "Against the maxim that deeds are accepted only with intentions, the answer given is that the intention resides in the heart and the tongue's utterance is merely verbal expression, as stated in the Pillars, so that an act intended in the heart is complete even if never voiced.",
+      "kind": "resolution",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "niyya",
+        "Book of the Pillars of Islam"
+      ]
+    },
+    {
+      "text": "The Imam bears responsibility for a follower's omission, except in the bowing and the opening takbir, which the follower must not neglect; conversely a latecomer prostrates for his Imam's omission even if he caught only the opening takbir with him, and prostrates on his own account for errors made while praying alone.",
+      "kind": "claim",
       "weight": 3,
       "depends_on": [],
       "entities": [
-        "Book of Purity"
+        "Imam",
+        "opening takbir",
+        "latecomer"
       ]
     },
     {
-      "text": "On interruption, the Prophet's reported saying that three things interrupt the prayer — a woman, a donkey, and a black dog — is set beside his own account of seeing these pass before him, when he said nothing interrupts the prayer of a believer but 'ward off what you are able'; and Ali is quoted that smiling does not interrupt the prayer while loud laughter does.",
+      "text": "On interruption, the author cites the report that three things interrupt the prayer — a woman, a donkey, and a black dog — alongside the Prophet's own statement that nothing interrupts a believer's prayer but one should ward off what one is able, and Ali's dictum that smiling does not interrupt the prayer while loud laughter does.",
       "kind": "evidence",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "the Prophet",
-        "Ali ibn Abi Talib",
-        "black dog"
+        "Ali ibn Abi Talib"
       ]
     },
     {
-      "text": "The latecomer who reaches the Imam in the bowing, before the Imam raises his head, attains that rakah with a single takbir serving for both opening and bowing, provided he contracts the intention in his heart — as stated by Muhammad ibn Fahd in his epistle The Broad Road of the Path of Guidance for the Rightly Guided.",
+      "text": "Broken purity or bodily impurity during prayer is governed by position and orientation: one who breaks purity before the tashahhud repeats the prayer but one who breaks it after the peace upon the Prophet and the righteous need not, and one who cleans blood or vomit without turning his face from the qibla builds upon his prayer, whereas turning from the qibla obliges repetition from the beginning.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "qibla",
+        "tashahhud",
+        "Book of Purity"
+      ]
+    },
+    {
+      "text": "Muhammad ibn Fahd, in his epistle The Broad Road of the Path of Guidance for the Rightly Guided, answers that a latecomer who reaches the Imam before the Imam raises his head from the bowing and enters with a single takbir has attained that rakah, provided the intention is contracted in his heart.",
       "kind": "claim",
       "weight": 3,
       "depends_on": [],
       "entities": [
         "Muhammad ibn Fahd",
         "The Broad Road of the Path of Guidance for the Rightly Guided",
-        "Mukhtasar al-Musannaf"
-      ]
-    },
-    {
-      "text": "One who joins the Imam even only for the opening takbir before the salaam must perform the two prostrations for his Imam's omission, and one praying the remainder alone prostrates for his own errors.",
-      "kind": "claim",
-      "weight": 2,
-      "depends_on": [],
-      "entities": [
-        "Imam",
         "latecomer"
       ]
     }
   ],
-  "fingerprint": "c776adbc42f2378a"
+  "fingerprint": "b50522dd7afde176"
 }

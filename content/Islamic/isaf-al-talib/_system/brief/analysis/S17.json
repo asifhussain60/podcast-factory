@@ -1,79 +1,101 @@
 {
   "title": "17. Who May Lead, and Who May Not",
-  "purpose": "It compiles, from question-and-answer collections and juridical books, the rules governing who is qualified to lead congregational prayer, how followers relate to the imam, and how rows and the presence of women are ordered.",
+  "purpose": "It assembles, from fatwa collections and legal compendia, the rules governing who is qualified to lead congregational prayer, how followers must relate to the imam, and how rows and the placement of women are arranged.",
   "points": [
     {
-      "text": "The compiler states that twelve categories of men may not lead prayer — the sick leading the healthy, the leper, the one with white leprosy, the madman, one on whom a prescribed penalty has been carried out, the child of adultery, the bedouin leading emigrants, the fettered leading the unfettered, one who performed dry ablution leading those who used water, the mute leading speakers, a traveler leading residents, and one hostile to the Prophet's household leading its followers — while each of these may lead others in his own condition.",
+      "text": "The section is compiled from a question-and-answer book arranged according to the chapter order of Daʿaʾim al-Islam, supplemented by Mukhtasar al-Musannaf, Mukhtasar al-Athar, al-Ikhtisar, al-Muntakhaba, al-Idah, al-Majalis al-Hatimiyya, al-Majalis al-Mustansiriyya, and epistles of al-Qadi al-Numan and later summoners of Yemen answering Indian questioners.",
+      "kind": "context",
+      "weight": 3,
+      "entities": [
+        "Daʿaʾim al-Islam",
+        "Mukhtasar al-Musannaf",
+        "Mukhtasar al-Athar",
+        "al-Qadi al-Numan ibn Muhammad",
+        "al-Majalis al-Mustansiriyya",
+        "Badr al-Din Hasan ibn Idris",
+        "Shamun ibn Muhammad Ghuri al-Hindi",
+        "Jafar ibn Sayyidna Sulayman",
+        "Ali ibn Sulayman"
+      ]
+    },
+    {
+      "text": "A list of twelve disqualifications from leading prayer is given: the sick may not lead the healthy, nor the leper, nor one with white leprosy, nor the madman, nor one on whom a prescribed penalty (hadd) has been carried out, nor the child of adultery, nor a bedouin leading emigrants, nor one in fetters leading the unfettered, nor one who performed dry ablution leading those who used water, nor the mute leading those who speak, nor a traveler leading residents, nor one hostile to the Prophet's household leading those who follow it.",
       "kind": "framework",
       "weight": 4,
       "entities": [
-        "al-Majalis al-Mustansiriyya",
+        "muhdud",
+        "hadd",
         "imamate"
       ]
     },
     {
-      "text": "Reported from Jafar ibn Muhammad al-Sadiq, precedence in leading prayer follows a ranked order — earliest in emigration, then best reciter, then most learned in jurisprudence, then eldest — with the owner of a mosque having better right in his mosque, and the Imam or whomever he appoints having the strongest right of all, while a woman leading women stands among them rather than ahead.",
+      "text": "The disqualification is relative, not absolute: each of these persons may validly lead others who share his own condition.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "imamate"
+      ]
+    },
+    {
+      "text": "Precedence in leading prayer is ranked among seven, per Jafar ibn Muhammad al-Sadiq: earliest in emigration, then best reciter, then most learned in jurisprudence, then eldest; the owner of a mosque has the better right to his own mosque; and the Imam and whomever the Imam appoints outrank all of them.",
       "kind": "framework",
       "weight": 4,
       "entities": [
-        "Jafar ibn Muhammad al-Sadiq"
+        "Jafar ibn Muhammad al-Sadiq",
+        "imamate"
       ]
     },
     {
-      "text": "The compiler defines the محدود, whose leadership is barred, as one upon whom the prescribed legal penalty has actually been carried out, and defines the barred 'fettered' man as one bound on the legs or anywhere else.",
-      "kind": "definition",
+      "text": "A woman may lead women in prayer but does not stand ahead of them — they stand to her right and left — and a woman may never stand ahead of a man while he prays behind her.",
+      "kind": "claim",
       "weight": 3,
       "entities": [
-        "محدود"
+        "women's prayer"
       ]
     },
     {
-      "text": "A slave learned in jurisprudence may lead when no one more learned is present, and he leads whoever is below him in rank even if they are free men — though when the slave's master is present in the slave's own dwelling the master has the stronger right to lead.",
-      "kind": "distinction",
+      "text": "Recitation that alters the meaning of the Quran voids the leadership: one who substitutes or distorts vowels (e.g. a kasra on the lam in \"Allah is free of the polytheists and His Messenger,\" or a fatha on the ha in \"and among them are those whom God guided\") may not be taken as imam, must correct his recitation lest he exchange a verse of mercy for one of punishment, and one who does recite well is obliged to lead when the people call him and he is acceptable to them.",
+      "kind": "claim",
       "weight": 3,
       "entities": [
-        "slave imam"
+        "Quran recitation",
+        "imamate"
       ]
     },
     {
-      "text": "Taqiyya licenses modification but not abandonment of ritual elements: one may omit ربنا لك الحمد before outsiders, and may recite the basmala aloud only so far as to hear himself, but such omission is forbidden for any cause other than taqiyya.",
+      "text": "Taqiyya licenses modification but not omission of prayer elements: the licensed imam may lower the recitation of the basmala so only he hears it, and may omit \"rabbana laka al-hamd\" when common people are present — but he must not omit it for any cause other than taqiyya.",
       "kind": "claim",
       "weight": 4,
+      "depends_on": [
+        "S16-P01"
+      ],
       "entities": [
         "taqiyya",
-        "بسم الله الرحمن الرحيم"
+        "basmala"
       ]
     },
     {
-      "text": "An imam whose recitation is so distorted that it alters the meanings of the Quran — as by a wrong vowel turning a verse of mercy into one of punishment — may not lead and spoils the prayer, whether the defect comes from lost teeth or ignorance of the points of articulation; and one who recites well is obliged to lead when the people call on him.",
+      "text": "A man of the summons who repeats a prayer outside its time purely for taqiyya before those not of the People of the House commits no sin, even if others of the summons follow him with him as their intended imam.",
       "kind": "claim",
       "weight": 3,
       "entities": [
-        "recitation",
-        "articulation"
+        "taqiyya",
+        "People of the House"
       ]
     },
     {
-      "text": "Sources differ in degree on the blind imam: al-Ikhtisar and al-Qadi al-Numan permit his leading when there is need and he is set straight, but not as a standing imam, while al-Muntakhaba adds that he may lead only if set straight on a given day; Mukhtasar al-Athar reports that the People of the House disliked his imamate along with that of the leper, the child of adultery, the castrated, the owned slave, the bedouin, the penalized, and the madman.",
+      "text": "The blind man's imamate is conditionally allowed: al-Ikhtisar permits it when there is need, al-Muntakhaba requires that he be set straight on a given day and sets aside the nasib if he led from the side, and al-Qadi al-Numan wrote that there is no harm if he is set straight — but in every case he is not to be taken as a standing (permanent) imam.",
       "kind": "distinction",
       "weight": 3,
       "entities": [
-        "al-Qadi al-Numan ibn Muhammad",
-        "Mukhtasar al-Athar",
+        "al-Ikhtisar",
         "al-Muntakhaba",
-        "al-Ikhtisar"
+        "al-Qadi al-Numan",
+        "nasib"
       ]
     },
     {
-      "text": "Two imams are not to be gathered in one undivided place unless the later one is the more excellent — as when a higher licence-holder prays a second congregation of the same prayer in the same house — while a partition removes the objection entirely.",
-      "kind": "claim",
-      "weight": 3,
-      "entities": [
-        "ma'dhun (licence-holder)"
-      ]
-    },
-    {
-      "text": "A follower must never precede the imam in any act, returning to his prior position if he does so by forgetfulness, and the Prophet is reported in al-Majalis al-Hatimiyya as warning that whoever raises his head before the imam risks God transforming his head into a donkey's.",
+      "text": "The follower must never precede the imam: he begins each act after him, returns to his prior position if he forgets and precedes, may not stand in front of him (that follower's prayer is void though the imam's is valid), and the Prophet warned that one raising his head before the imam risks having his head turned into a donkey's.",
       "kind": "claim",
       "weight": 3,
       "entities": [
@@ -81,50 +103,49 @@
       ]
     },
     {
-      "text": "If an imam's ablution breaks, the prayer is saved only if a substitute is put forward at that very moment before he leaves the mosque, and an imam with unrestricted leave may appoint whomever he wishes even one not otherwise authorized to appoint.",
-      "kind": "claim",
-      "weight": 3,
+      "text": "The Prophet, injured by a fall from a horse, led his companions seated and signalled them to sit, then declared that the imam exists to be followed — when he magnifies, magnify; when he recites, be silent; when he says \"God hears him who praises Him,\" say \"our Lord, to You be praise\"; when he gives the greeting, greet; and when he prays seated, all of you pray seated.",
+      "kind": "anecdote",
+      "weight": 4,
       "entities": [
-        "Mukhtasar al-Musannaf"
+        "Prophet",
+        "al-Muizz",
+        "imamate"
       ]
     },
     {
-      "text": "Rows must be continuous with room for prostration between them, praying alone behind the rows requires repetition, a latecomer finding no place prays alongside the imam rather than in his row, and only the imam's hujja may step level with the imam.",
+      "text": "Rank among licensed men governs multiplicity and substitution: two imams are not gathered in one unpartitioned place unless the later is the more excellent; only one granted unrestricted leave may appoint a substitute if his prayer is interrupted; a broken ablution requires appointing a replacement before the imam leaves the mosque or the congregation's prayer is spoiled; and only one whom the summoner designates may step forward to the niche.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [
+        "S16-P01"
+      ],
+      "entities": [
+        "licensed man",
+        "hujja",
+        "summoner"
+      ]
+    },
+    {
+      "text": "Rows must be complete and continuous with the space of a prostrating body between them, none in Mecca closer to the Kaaba than the imam, and a latecomer finding no room prays alone alongside the imam without joining his row — save the imam's hujja, who alone may step level with the imam, by explicit text.",
       "kind": "claim",
-      "weight": 3,
+      "weight": 4,
       "entities": [
         "hujja",
+        "Kaaba",
         "rows"
       ]
     },
     {
-      "text": "Jafar ibn Sayyidna Sulayman, answering the book's own author Sayyidna Ali ibn Sulayman, rules that women praying behind a screen need only one glance at the men's garments before entering the sanctified state when the place is not connected, and none at all when it is connected by an opening or lattice — any looking after the sanctified state at non-kin cuts off the prayer.",
-      "kind": "resolution",
+      "text": "On women praying behind a screen, Sayyidna Jafar ibn Sulayman answers Sayyidna Ali ibn Sulayman that if the place is connected by an opening or lattice the prayer is complete and looking at the men is forbidden before or after entering the sanctified state, cutting off the prayer if directed at non-kin; if the place is not connected, the woman nearest the men takes a single glance at their garments before the sanctified state, and that suffices for all of them — this against the Daudi position that she must keep her gaze on the men during bowing and prostration or none of them has a prayer.",
+      "kind": "distinction",
       "weight": 4,
       "entities": [
-        "Jafar ibn Sayyidna Sulayman",
+        "Jafar ibn Sulayman",
         "Ali ibn Sulayman",
-        "Yemen",
-        "India"
-      ]
-    },
-    {
-      "text": "The Prophet, reported in al-Muizz's interpretation of the Shariah as leading seated after a fall from a horse, told his companions that the imam exists to be followed and that when he prays seated they must all pray seated.",
-      "kind": "anecdote",
-      "weight": 3,
-      "entities": [
-        "al-Muizz",
-        "the Prophet"
-      ]
-    },
-    {
-      "text": "An imam uncertain how much of the prayer he has completed builds on what is certain and may be corrected by the glorifications of those behind him if they are certain, but if neither he nor they know, he begins the prayer anew.",
-      "kind": "claim",
-      "weight": 2,
-      "entities": [
-        "doubt in prayer"
+        "Daudis",
+        "women's prayer"
       ]
     }
   ],
-  "fingerprint": "543720af61191b87"
+  "fingerprint": "ef702d8610d908a8"
 }

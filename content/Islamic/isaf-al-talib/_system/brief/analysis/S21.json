@@ -1,160 +1,125 @@
 {
   "title": "21. Friday and the Two Festivals",
-  "purpose": "It compiles the legal rulings and the esoteric interpretations governing the Friday prayer and the prayers of the two festivals, drawing on the question-and-answer collection and the doctrinal sources.",
+  "purpose": "It compiles the rulings, fatwa-answers and esoteric interpretations governing the Friday prayer and the prayers of the two festivals, joining legal detail to symbolic (batini) exegesis.",
   "points": [
     {
-      "text": "The compiler reports the ruling that Friday prayer is established in two congregational mosques only if three miles or more separate them, and that if the distance is less than three miles it is established in only one, whether the mosques stand in one city or in two.",
+      "text": "A cited question-and-answer collection, arranged by the chapters of Daaim al-Islam, rules that Friday prayer may be established in two congregational mosques only if three miles or more separate them — and the answer extends this: if the distance is less than three miles, Friday is established in only one of them, whether the mosques belong to one city or two.",
       "kind": "claim",
       "weight": 3,
       "entities": [
-        "Friday prayer",
-        "Book of Purity",
-        "three miles"
+        "Daaim al-Islam",
+        "Friday prayer"
       ]
     },
     {
-      "text": "Against al-Muayyad's sermon wording that abandoning Friday prayer is blameworthy 'whether under a just imam or an unjust one', the answer given is that praying behind the people of injustice is permissible only for the sake of dissimulation (taqiyyah).",
-      "kind": "turn",
+      "text": "Against al-Muayyad's sermon wording that condemns abandoning Friday prayer 'under a just imam or an unjust one', the answer distinguishes two senses: praying behind the people of injustice is impermissible except under taqiyya (dissimulation), whereas 'the unjust' in the sermon means an appointed summoner in whom transgression has appeared, behind whom prayer remains obligatory while the people refer the matter to the holder of authority.",
+      "kind": "distinction",
       "weight": 4,
       "entities": [
         "al-Muayyad",
-        "taqiyyah",
-        "people of injustice"
+        "taqiyya",
+        "summoner"
       ]
     },
     {
-      "text": "Support for this is drawn from al-Baqir Muhammad ibn Ali, who instructed that prayer behind a nasib or haruri not be counted, and that such a leader be treated as a pillar of the mosque while one recites for oneself as if praying alone.",
+      "text": "Al-Baqir Muhammad ibn Ali is reported as instructing that prayer behind a nasib or a haruri not be counted, the leader being treated as a mere pillar of the mosque while one recites for oneself as if praying alone.",
       "kind": "evidence",
       "weight": 3,
       "entities": [
-        "Muhammad al-Baqir",
+        "al-Baqir",
         "nasib",
         "haruri"
       ]
     },
     {
-      "text": "Al-Husayn ibn Ali is reported to have put Muawiya's governor forward to lead the prayer over al-Hasan, saying 'were it not for the practice I would not have put you forward', which the compiler explains as the practice of the People of the House in dissimulation, one Imam having said 'dissimulation is my religion and the religion of my fathers'.",
+      "text": "Al-Husayn ibn Ali is reported to have let Muawiya's governor lead the prayer over al-Hasan, saying 'were it not for the practice I would not have put you forward', which the text glosses as the People of the House's practice of dissimulation, summed up in an Imam's saying that 'dissimulation is my religion and the religion of my fathers'.",
       "kind": "anecdote",
       "weight": 3,
       "entities": [
         "al-Husayn ibn Ali",
         "al-Hasan ibn Ali",
         "Muawiya",
-        "People of the House"
+        "taqiyya"
       ]
     },
     {
-      "text": "A distinction is drawn: 'the unjust' in the sermon means one appointed among the summoners in whom injustice has appeared — behind him prayer is still obligatory, but the people must bring the matter before the holder of authority and await his response.",
-      "kind": "distinction",
-      "weight": 4,
-      "entities": [
-        "summoners",
-        "holder of authority"
-      ]
-    },
-    {
-      "text": "Mukhtasar al-Musannaf is cited for rulings of precedence and procedure: prayer behind the Imam of the Muslims excels prayer behind his deputies; the binding call is the one given before the seated preacher; a sale then made is not annulled; and detailed remedies are given for broken purity, omitted sitting between sermons, and congregations that disperse mid-prayer.",
+      "text": "Mukhtasar al-Musannaf supplies the practical rules of Friday: prayer behind the Imam of the Muslims surpasses prayer behind his deputies; the binding call is the one given before the seated preacher; a broken purity lets the Imam withdraw, wash, and either repeat the sermon or simply pray; a seated sermon suffices for illness; and omitting the sitting between the two sermons is disliked but not grounds for repetition.",
       "kind": "claim",
       "weight": 3,
       "entities": [
-        "Mukhtasar al-Musannaf",
-        "Imam of the Muslims"
+        "Mukhtasar al-Musannaf"
       ]
     },
     {
-      "text": "Tawil al-Shariah states that the sermon precedes the prayer, the prayer is two cycles, the sermon is divided by a sitting, the raised voice distinguishes it from the ordinary noon prayer, and the call to stand comes after the sermon.",
-      "kind": "framework",
+      "text": "The number of cycles depends on when the congregation disperses: if all but one man leave after the sermon the Imam prays four, if they leave after one completed cycle he prays Friday as two, and if they leave before he bows he restarts as the four-cycle noon prayer.",
+      "kind": "distinction",
       "weight": 3,
       "entities": [
-        "Tawil al-Shariah"
+        "Friday prayer"
       ]
     },
     {
-      "text": "Tawil al-Shariah further equates the conduct of respondents in the assembly of the summoner with that of the Friday congregation: silence and listening are obligatory, and the respondent may not press proposals or demand branches of knowledge from the summoner, who knows better how to raise his children.",
-      "kind": "relationship",
-      "weight": 4,
-      "entities": [
-        "summoner",
-        "respondents",
-        "Friday congregation"
-      ]
-    },
-    {
-      "text": "Zayd ibn Muhammad ibn al-Fadl's Hidden Epistle interprets the Friday prayer as pointing to Muhammad, gate of the Garden, possessor of an outward summons to his Shariah and an inward summons to its interpretation; the reduction to two cycles with the sermon substituting for the other two, and the sitting as the separation between the upper and lower lights with which the Qaim rises.",
+      "text": "Tawil al-Shariah states that the sermon precedes the two-cycle Friday prayer, is divided in two by a sitting, is distinguished from ordinary noon prayer by the raised voice, and that the call to stand comes after the sermon; it also makes the summoner's assembly parallel to the Friday congregation, so that silence and attentive listening become obligatory once the preacher faces the people.",
       "kind": "framework",
       "weight": 4,
-      "depends_on": [
-        "S20-P01"
-      ],
+      "entities": [
+        "Tawil al-Shariah",
+        "summoner"
+      ]
+    },
+    {
+      "text": "Tawil al-Shariah forbids the respondent to 'give suck' unless appointed to it by his summoner, and forbids him to press proposals or demand branches of knowledge from the summoner, who 'knows better how to raise his children'.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "respondent",
+        "summoner"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad ibn al-Fadl's Hidden Epistle reads Friday esoterically: it points to Muhammad, gate of the Garden, who has an outward summons to the zahir of his law and an inward summons to its interpretation; the two cycles replace four because the sermon substitutes for two, and the sitting within the sermon is the separation between the upper and lower lights with which the Qaim rises.",
+      "kind": "framework",
+      "weight": 4,
       "entities": [
         "Zayd ibn Muhammad ibn al-Fadl",
         "Hidden Epistle",
-        "Muhammad",
-        "the Qaim"
+        "Qaim",
+        "Muhammad"
       ]
     },
     {
-      "text": "Ali ibn Abi Talib's Four Hundred Points of Conduct names three hours for seeking a need from God: Friday at the sun's zenith, when the winds blow and the gates of heaven open, and the last hour of night at dawn, when two angels call out for the repentant, the asker, and the seeker of forgiveness.",
-      "kind": "evidence",
-      "weight": 2,
-      "entities": [
-        "Ali ibn Abi Talib",
-        "Four Hundred Points of Conduct"
-      ]
-    },
-    {
-      "text": "On the festivals, 'tashriq' is glossed as the prayer of the two festivals, so named because it is prayed at sunrise and its performer is called al-mushriq, and it is not incumbent on the traveler except in a congregational city.",
-      "kind": "definition",
-      "weight": 3,
+      "text": "The section reports that tashriq, said to be incumbent only in a congregational city, means the prayer of the two festivals — so named because it is prayed at sunrise and its performer is called al-mushriq — and that the twenty-three magnifications from Arafah to the last day of tashriq are a likeness of the summons of the five speakers of firm resolve corresponding to the five prayers, the ten spiritual and ten bodily ranks, and the speaker of the cycle, his executor, and the Imam of the age.",
+      "kind": "framework",
+      "weight": 4,
       "entities": [
         "tashriq",
         "al-mushriq",
-        "al-Mujzi"
-      ]
-    },
-    {
-      "text": "The twenty-three magnifications from Arafah to the last day of tashriq are interpreted as a likeness of the summons of the five speakers of firm resolve corresponding to the five prayers, drawn from the ten spiritual and ten bodily ranks plus the speaker of the cycle, his executor, and the Imam of the age — the local addition of a twenty-fourth being noted as a departure.",
-      "kind": "framework",
-      "weight": 4,
-      "depends_on": [
-        "S20-P01"
-      ],
-      "entities": [
-        "Day of Arafah",
-        "five speakers of firm resolve",
+        "five speakers",
         "Imam of the age"
       ]
     },
     {
-      "text": "Festival practice is specified: a congregation of five including the Imam as with Friday; the washing is a prophetic practice from dawn to the sun's zenith; hands are raised at every magnification; the festival prayer is not prayed in congregation at Mina but individually, as verified from Idris ibn Hasan.",
+      "text": "The festival prayer has neither call to prayer nor call to stand, requires a congregation of five including the Imam like Friday, is obligatory where someone establishes it, and is not prayed in congregation at Mina — where, per al-Numan's Tawil al-Daaim and Idris ibn Hasan, each prays it alone.",
       "kind": "claim",
       "weight": 3,
       "entities": [
         "Mina",
-        "Idris ibn Hasan",
         "al-Qadi al-Numan",
-        "Tawil al-Daaim"
+        "Tawil al-Daaim",
+        "Idris ibn Hasan"
       ]
     },
     {
-      "text": "Zayd ibn Muhammad ibn al-Fadl derives al-fitr from senses of splitting open, appearing and beginning, so that fasting is silence and concealment — evidenced by Maryam's vow of a fast of silence — and the day of breaking the fast is the day secrets and hidden knowledge are manifested.",
+      "text": "The Hidden Epistle derives fitr from the sense of splitting open, appearing and beginning — as earth, tree and camel's tooth 'break forth' — so that, fasting being silence and concealment as in Maryam's vow of a fast of silence, the breaking of the fast is the day the veiled command and hidden secrets are manifested; and the festival-of-sacrifice sermon uniquely begins with four magnifications rather than praise, signalling that the command appears otherwise than in past cycles.",
       "kind": "definition",
       "weight": 4,
       "entities": [
-        "al-fitr",
+        "fitr",
         "Maryam",
-        "Hidden Epistle"
-      ]
-    },
-    {
-      "text": "He adds that the festival prayer has neither call to prayer nor call to stand, that the breaking-of-the-fast sermon uniquely follows the prayer as a sign that the command appears otherwise than in past cycles, and that every sermon opens with praise except the sermon of the day of sacrifice, which opens with four magnifications.",
-      "kind": "claim",
-      "weight": 3,
-      "entities": [
-        "day of sacrifice",
-        "festival of the breaking of the fast"
+        "Hidden Epistle",
+        "festival of the sacrifice"
       ]
     }
   ],
-  "fingerprint": "a1f08b9397f1b5a1"
+  "fingerprint": "8e767fe58ffa8360"
 }

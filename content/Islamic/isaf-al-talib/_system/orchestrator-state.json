@@ -4,8 +4,8 @@
   "category": "books",
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
-  "phase": "0book-design",
-  "phase_status": "completed",
+  "phase": "0book-compose",
+  "phase_status": "running",
   "last_completed_phase": "0book-design",
   "next_phase": "0book-compose",
   "last_error": null,
@@ -348,7 +348,7 @@
       }
     },
     "0book-compose": {
-      "status": "completed",
+      "status": "running",
       "ts_started": "2026-09-18T16:06:35Z",
       "ts_completed": "2026-09-19T03:48:57Z",
       "review": {
@@ -396,7 +396,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-19T03:53:52Z",
+  "ts_updated": "2026-09-19T03:53:55Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {

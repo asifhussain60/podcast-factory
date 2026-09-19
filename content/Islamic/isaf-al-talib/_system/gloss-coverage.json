@@ -1,0 +1,13 @@
+{
+  "schema": "book.gloss-coverage/v2",
+  "candidates": 31,
+  "strong": 5,
+  "covered": 31,
+  "missing_strong": [],
+  "glossary_entries": 66,
+  "coverage": 1.0,
+  "strong_coverage": 1.0,
+  "bare_terms": 0,
+  "bare_uses": 0,
+  "bare": []
+}
