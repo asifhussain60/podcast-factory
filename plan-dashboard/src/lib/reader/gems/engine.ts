@@ -76,25 +76,58 @@ export function buildUserTurn(opts: {
     .join("\n");
 }
 
-/** Fence-strip + JSON.parse, then brace-extraction fallback (matches arabic-term.ts's extractJson). */
+/**
+ * Repair the two ways a model routinely mis-encodes an otherwise complete JSON reply: literal
+ * line breaks/tabs inside string values (JSON.parse rejects control characters) and trailing commas.
+ * Encoding only — it never closes an unfinished string or brace, because completing a truncated reply
+ * would file half a sentence as a whole card. (isaf-al-talib, chapters 29 and 31: correct cards were
+ * dropped as "unparsed JSON envelope" purely because of literal newlines.)
+ */
+export function repairJsonEncoding(text: string): string {
+  let out = "";
+  let inString = false;
+  let escaped = false;
+  for (const ch of text) {
+    if (inString) {
+      if (escaped) {
+        escaped = false;
+        out += ch;
+      } else if (ch === "\\") {
+        escaped = true;
+        out += ch;
+      } else if (ch === '"') {
+        inString = false;
+        out += ch;
+      } else if (ch === "\n") out += "\\n";
+      else if (ch === "\r") out += "\\r";
+      else if (ch === "\t") out += "\\t";
+      else out += ch;
+    } else {
+      if (ch === '"') inString = true;
+      out += ch;
+    }
+  }
+  return out.replace(/,\s*([}\]])/g, "$1");
+}
+
+/** Fence-strip + JSON.parse, then brace-extraction, then encoding repair. */
 function extractGemJson(
   raw: string,
 ): { body?: string; etymology?: unknown } | null {
   if (!raw) return null;
-  const cleaned = raw.replace(/^```json\s*|\s*```$/g, "").trim();
-  try {
-    return JSON.parse(cleaned);
-  } catch {
-    const m = cleaned.match(/\{[\s\S]*\}/);
-    if (m) {
+  const cleaned = raw.replace(/^\s*```(?:json)?\s*|\s*```\s*$/g, "").trim();
+  const candidates = [cleaned, cleaned.match(/\{[\s\S]*\}/)?.[0]];
+  for (const text of candidates) {
+    if (!text) continue;
+    for (const attempt of [text, repairJsonEncoding(text)]) {
       try {
-        return JSON.parse(m[0]);
+        return JSON.parse(attempt);
       } catch {
-        return null;
+        // try the next form
       }
     }
-    return null;
   }
+  return null;
 }
 
 /** Defense-in-depth fallback: split raw text on a bare "Etymology" line. */
