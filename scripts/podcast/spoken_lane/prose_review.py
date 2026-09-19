@@ -72,6 +72,13 @@ _FRONT_MATTER = re.compile(r"\b(narrated by|translated by|all rights reserved|is
 
 _SENTENCE_START = re.compile(r"^[\"'(\[A-Z0-9]")
 
+#: Emphasis markers that may wrap the first word of a sentence: `*On bad opinion:* he said`.
+#: Stripped before the capital-letter test, which cannot see past them.
+_LEADING_EMPHASIS = re.compile(r"^[*_]+")
+
+#: A thematic break (`---`, `***`, `___`): a divider, not a paragraph of running text.
+_THEMATIC_BREAK = re.compile(r"^([-*_][ \t]*){3,}$")
+
 #: What a chapter body says when its recording has not been transcribed yet.
 #: Written by `spoken_lane/audiobook.py` so the book still composes and its
 #: structure is visible. It is NOT prose and must not be reviewed as prose --
@@ -99,7 +106,12 @@ _ARABIC_START = re.compile(f"^[{ARABIC_BODY}]")
 def _is_prose(paragraph: str) -> bool:
     """True when a paragraph is running text that should begin like a sentence."""
     text = paragraph.strip()
-    return bool(text) and not _is_markdown_structure(text) and not _ARABIC_START.match(text)
+    return (
+        bool(text)
+        and not _is_markdown_structure(text)
+        and not _THEMATIC_BREAK.match(text)
+        and not _ARABIC_START.match(text)
+    )
 
 
 @dataclass(frozen=True)
@@ -156,7 +168,7 @@ def review_book(book_dir: Path) -> list[Finding]:
 
         paras = [p.strip() for p in body.split("\n\n") if p.strip()]
         prose = [p for p in paras if _is_prose(p)]
-        mid = [p for p in prose if not _SENTENCE_START.match(p)]
+        mid = [p for p in prose if not _SENTENCE_START.match(_LEADING_EMPHASIS.sub("", p))]
         if prose and len(mid) / len(prose) > 0.25:
             findings.append(
                 Finding(

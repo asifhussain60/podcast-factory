@@ -381,6 +381,21 @@ class TestMarkdownIsNotProse(unittest.TestCase):
         self._write("A real sentence.\n\nصلى الله عليه وسلم and then more\n\nAnother sentence.")
         self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
 
+    def test_a_thematic_break_is_not_a_broken_sentence(self):
+        # purification-of-the-heart, "Fraud": a `---` divider was counted as prose.
+        self._write("A real sentence here.\n\n---\n\nAnother real sentence.")
+        self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_an_italic_label_leading_a_sentence_is_not_a_broken_sentence(self):
+        # Seven Q&A lead-ins like `*On bad opinion versus hatred:* ...` opened with the
+        # emphasis marker, which the capital-letter test could not see past.
+        self._write("A real sentence here.\n\n*On bad opinion versus hatred:* he said it is not the same.")
+        self.assertNotIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
+    def test_an_italic_marker_does_not_excuse_a_lowercase_start(self):
+        self._write("A real sentence here.\n\n*weeping on* a bench, over the course")
+        self.assertIn("MID_SENTENCE_BREAKS", {f.code for f in R.review_book(self.d)})
+
     def test_genuinely_broken_prose_is_still_caught(self):
         """The check must keep its teeth: this is the White Nights defect."""
         self._write("weeping on\n\na bench. Over the course\n\nof four nights\n\nthey share a brief")
