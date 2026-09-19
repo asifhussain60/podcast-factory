@@ -207,7 +207,8 @@ def resolve_bucket(*, bucket: str | None, profile: str | None, category: str | N
     if bucket:
         return _validate_bucket(bucket)
     if profile:
-        return bucket_for_profile(profile)
+        resolved: str = bucket_for_profile(profile)
+        return resolved
     if category:
         return _CATEGORY_TO_BUCKET.get(category.strip().lower(), "Islamic")
     return "Islamic"

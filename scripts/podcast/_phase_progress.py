@@ -31,7 +31,8 @@ def _path(book_dir: Path) -> Path:
 
 def load(book_dir: Path) -> dict[str, Any] | None:
     try:
-        return json.loads(_path(book_dir).read_text(encoding="utf-8"))
+        data = json.loads(_path(book_dir).read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else None
     except (OSError, ValueError):
         return None
 
@@ -74,7 +75,7 @@ def eta_seconds(entry: dict[str, Any] | None) -> float | None:
     if len(seconds) < 2:
         return None
     left = max(int(entry["total"]) - int(entry["done"]), 0)
-    return statistics.median(seconds[-_RECENT:]) * left
+    return float(statistics.median(seconds[-_RECENT:])) * left
 
 
 def _human(seconds: float) -> str:

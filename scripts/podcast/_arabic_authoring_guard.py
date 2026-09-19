@@ -19,6 +19,7 @@ import json
 import re
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import arabic_integrity as ai
 
@@ -31,7 +32,7 @@ _EMPTY_BRACKETS = re.compile(r"[ \t]*[(\[][ \t]*[)\]]")
 
 
 def _hash(span: str) -> str:
-    return ai._hash(ai.normalize_arabic_span(span))
+    return str(ai._hash(ai.normalize_arabic_span(span)))
 
 
 def _all_sanctioned(spans: list[str], sanctioned: set[str]) -> bool:
@@ -88,7 +89,7 @@ def scrub_authored_chapters(
     if not per_file:
         return 0
     report_path = book_dir / "_system" / REPORT_NAME
-    report: dict = {"rule": "R-ARABIC-INTEGRITY", "chapters": {}}
+    report: dict[str, Any] = {"rule": "R-ARABIC-INTEGRITY", "chapters": {}}
     if report_path.exists():
         try:
             report = json.loads(report_path.read_text(encoding="utf-8"))

@@ -16,8 +16,10 @@ from __future__ import annotations
 import re
 import subprocess
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 from _production_publish import ACCOUNT_ID, ACCOUNT_NAME, KEYCHAIN_SERVICE
 from _wrangler import run as _wrangler_run
@@ -119,7 +121,7 @@ def remedy_for(detail: str) -> str:
     return f"read the message above, then see {RUNBOOK}."
 
 
-def check_remote_access(env: dict[str, str], listener_dir: Path, *, run=_wrangler_run) -> Result:
+def check_remote_access(env: dict[str, str], listener_dir: Path, *, run: Callable[..., Any] = _wrangler_run) -> Result:
     """Probe account, database and media bucket. Never raises; never writes; never prints the token."""
     secret = env.get("CLOUDFLARE_API_TOKEN", "")
     shape = token_shape_problem(secret)

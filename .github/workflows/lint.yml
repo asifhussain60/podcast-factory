@@ -155,6 +155,11 @@ jobs:
         continue-on-error: true
         run: mypy scripts tools
 
+      # The modules where a silent type bug costs money or ships a defective book, held to --strict.
+      # BLOCKING, and grow-only (infra/mypy-strict-modules.txt); the global step above stays advisory.
+      - name: mypy strict set (blocking)
+        run: mypy --strict --follow-imports=silent --ignore-missing-imports --explicit-package-bases $(grep -v '^#' infra/mypy-strict-modules.txt | tr '\n' ' ')
+
   site:
     name: eslint + prettier + astro + tests + views (site)
     needs: changes

@@ -30,7 +30,8 @@ def _text(value: Any) -> str | None:
 def _enable_book_branch(cfg: dict[str, Any]) -> bool:
     if cfg.get("deliverable_mode") == TRANSLATION_EDITION_MODE:
         return True
-    series = cfg.get("series") if isinstance(cfg.get("series"), dict) else {}
+    series = cfg.get("series")
+    series = series if isinstance(series, dict) else {}
     return bool(cfg.get("enable_book_branch") or series.get("enable_book_branch"))
 
 

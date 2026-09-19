@@ -11,7 +11,9 @@ from __future__ import annotations
 
 import re
 import subprocess
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 from _wrangler import run as _wrangler_run
 
@@ -20,7 +22,7 @@ _MIGRATION = re.compile(r"\b(\d{4}_[A-Za-z0-9_-]+\.sql)\b")
 REMEDY = f"cd listener && npm run db:migrate   (applies pending migrations to the local {DB_NAME} database)"
 
 
-def pending_migrations(listener_dir: Path, *, run=_wrangler_run) -> list[str]:
+def pending_migrations(listener_dir: Path, *, run: Callable[..., Any] = _wrangler_run) -> list[str]:
     """Migration file names not yet applied to the local database."""
     out = run(
         ["npx", "wrangler", "d1", "migrations", "list", DB_NAME, "--local"], cwd=str(listener_dir), timeout=120
@@ -30,7 +32,7 @@ def pending_migrations(listener_dir: Path, *, run=_wrangler_run) -> list[str]:
     return list(dict.fromkeys(_MIGRATION.findall(out)))
 
 
-def ensure_local_migrations(listener_dir: Path, *, run=_wrangler_run) -> str | None:
+def ensure_local_migrations(listener_dir: Path, *, run: Callable[..., Any] = _wrangler_run) -> str | None:
     """None when the local schema is current (applying anything pending first); else a report to print."""
     try:
         pending = pending_migrations(listener_dir, run=run)
