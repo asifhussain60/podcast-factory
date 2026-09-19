@@ -355,6 +355,8 @@ Coverage rules (enforced — fail the phase if any are violated):
 
 ### PHASE 0d: CHAPTER DESIGN — MEANINGFUL SEPARATION, BALANCED SIZE
 
+**Arabic in authored chapters (R-ARABIC-INTEGRITY):** the authoring prompt forbids writing Arabic script or `⟪ar:…⟫` markers from memory — script may appear only where the source slice already supplies it, and verified script is injected afterwards from the mushaf and the curated glossary. As a deterministic backstop, `_arabic_authoring_guard.py` removes any unsanctioned span straight after each chapter is written (keeping the English) and records it in `_system/arabic-authoring-scrub.json`; finalize gate G14 remains the hard check.
+
 **This phase REPLACES the v3.2 "promote per-section raw extracts" pattern.**
 
 Goal: design the chapter set for the NotebookLM-podcast series. **Each chapter IS one NotebookLM source for one episode (strict 1:1 mapping per Section 0).** The published structure of the source book is a hint, not a constraint — re-segment by meaningful thematic units.
