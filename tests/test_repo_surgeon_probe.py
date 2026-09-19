@@ -268,6 +268,56 @@ def test_retired_surfaces_flags_each_banned_path(tmp_path, banned):
     assert probe.findings[0].severity == "P0"
 
 
+# ---------- HK: hook targets must exist ----------
+# .claude/settings.json once registered four hooks under a gitignored .claude/hooks/
+# that a machine move left empty; every session then fired dead commands, silently.
+
+
+def _settings(hook_command):
+    import json
+
+    return json.dumps({"hooks": {"Stop": [{"matcher": "", "hooks": [{"type": "command", "command": hook_command}]}]}})
+
+
+def test_hook_targets_clean_when_no_settings_file(tmp_path):
+    probe = make_probe(tmp_path, {})
+    probe.check_hook_targets()
+    assert ids(probe) == []
+
+
+def test_hook_targets_clean_when_every_target_exists_and_is_executable(tmp_path):
+    write(tmp_path, "infra/claude-hooks/stop.sh", "#!/bin/sh\n")
+    (tmp_path / "infra/claude-hooks/stop.sh").chmod(0o755)
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/infra/claude-hooks/stop.sh"))
+    probe = make_probe(tmp_path, {})
+    probe.check_hook_targets()
+    assert ids(probe) == []
+
+
+def test_hook_targets_flags_a_registered_hook_whose_script_is_missing(tmp_path):
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/.claude/hooks/gone.sh"))
+    probe = make_probe(tmp_path, {})
+    probe.check_hook_targets()
+    assert ids(probe) == ["HK-MISSING"]
+    assert probe.findings[0].severity == "P0"
+
+
+def test_hook_targets_flags_a_script_that_is_not_executable(tmp_path):
+    write(tmp_path, "infra/claude-hooks/stop.sh", "#!/bin/sh\n")
+    (tmp_path / "infra/claude-hooks/stop.sh").chmod(0o644)
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/infra/claude-hooks/stop.sh"))
+    probe = make_probe(tmp_path, {})
+    probe.check_hook_targets()
+    assert ids(probe) == ["HK-NOT-EXECUTABLE"]
+
+
+def test_hook_targets_ignores_a_command_that_is_not_a_project_script(tmp_path):
+    write(tmp_path, ".claude/settings.json", _settings("echo done"))
+    probe = make_probe(tmp_path, {})
+    probe.check_hook_targets()
+    assert ids(probe) == []
+
+
 # ---------- A2: the agent registry (A1, the skill registry, moved to
 # test_repo_surgeon_specs.py alongside A3/A4 when check_skill_registry moved) ----------
 

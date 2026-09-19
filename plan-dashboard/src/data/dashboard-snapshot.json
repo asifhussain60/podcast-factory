@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 93.62
+    "burn_30d_usd": 15.32
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -2202,6 +2202,12 @@
       "slug": "where-the-caravans-set-forth",
       "title": "Where the Caravans Set Forth",
       "shipped": "2026-08-13T23:33:43Z",
+      "episodes": 0
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "shipped": "2026-09-12T20:11:18Z",
       "episodes": 0
     }
   ]
