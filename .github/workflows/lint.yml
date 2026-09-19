@@ -123,6 +123,10 @@ jobs:
         run: ruff format --check
       - name: DR-005 line-count gate
         run: python3 infra/git-hooks/check-dr005.py
+      # Shrink-only counts of subprocess calls with no timeout and silent `except: pass`.
+      # Fix some, then lower the baseline with --write-baseline; growth fails here.
+      - name: Hygiene ratchets (subprocess timeouts, silent excepts)
+        run: python3 scripts/check_hygiene_ratchets.py
       # Scoped to the normative docs (agent specs, skills, root docs) — not all
       # markdown. Historical review transcripts carry stale paths that are correct
       # as history; flagging those would make the gate un-adoptable.

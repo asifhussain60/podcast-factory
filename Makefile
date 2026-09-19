@@ -41,10 +41,11 @@ install-skills-dry:  ## Dry-run the skill installer (no files written).
 RUFF := $(shell [ -x .venv/bin/ruff ] && echo .venv/bin/ruff || echo ruff)
 
 .PHONY: lint
-lint:  ## Ruff lint + format check + DR-005 line-count gate (pipeline surface).
+lint:  ## Ruff lint + format check + DR-005 line-count gate + hygiene ratchets (pipeline surface).
 	@$(RUFF) check
 	@$(RUFF) format --check
 	@python3 infra/git-hooks/check-dr005.py
+	@python3 scripts/check_hygiene_ratchets.py
 	@echo "lint: clean"
 
 .PHONY: lint-fix
