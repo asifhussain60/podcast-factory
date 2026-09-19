@@ -207,7 +207,14 @@ def check_after_publish(slugs: list[str], failed: list[str], *, dry_run: bool, j
         return 0
     targets = [d for d in book_dirs(None) if d.name in set(published)]
     print()
-    return report(targets, problems=True, quiet_if_clean=True)
+    try:
+        return report(targets, problems=True, quiet_if_clean=True)
+    except SystemExit as exc:
+        # An ADVISORY report. When production cannot be read (expired token, no
+        # network) it must not fail a publish that already wrote what it was asked
+        # to write — a localhost-only publish never needed production at all.
+        print(f"  audio_parity: skipped — production could not be read ({str(exc).splitlines()[0]}).")
+        return 0
 
 
 def main() -> int:
