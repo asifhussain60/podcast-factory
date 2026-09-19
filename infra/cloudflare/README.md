@@ -108,6 +108,43 @@ Registrar read-only.
 blocked anything — Pages and Workers custom domains both create their own DNS —
 but if a standalone record is ever needed, add **DNS: Edit** on the zone.
 
+### Rotating the API token
+
+**Asif does this step; no tool enters or stores a credential.** Do it when
+`python3 scripts/podcast/_cloudflare_preflight.py` fails, when a publish stops with
+`Authentication error [code: 10000]`, or on a schedule you choose.
+
+The signature of the failure this fixes (2026-09-19): `wrangler whoami` still
+works — the token is recognised — but every **D1** and **R2** call is refused.
+That is a *permission* problem, not an expired login. The preflight names which
+of the three probes failed (account / database / storage) so you can see it
+before anything is uploaded.
+
+1. Cloudflare dashboard → **Manage Account → Account API Tokens** (an account-owned
+   token; the personal *My Profile → API Tokens* page makes a different kind).
+2. **Create Token → Custom token.** Permissions, all under *Account*:
+   **D1 — Edit**, **Workers R2 Storage — Edit**, **Workers Scripts — Edit**.
+   Nothing else is needed; leave Billing, Members and API Tokens out.
+3. **Account Resources:** include **only** `asifhussain60@gmail.com`'s account
+   (`19cb05067ea7e704f94481df1685ec51`). A token that also spans the other account
+   on this machine defeats the account guard.
+4. Store it — the command prompts for the value, so it never enters shell history:
+
+   ```bash
+   security add-generic-password -U -a "$USER" -s cloudflare_api_token -w
+   ```
+
+5. Prove it before publishing anything:
+
+   ```bash
+   python3 scripts/podcast/_cloudflare_preflight.py
+   ```
+
+   Expect `cloudflare preflight: ok (account, database, storage)`. It is read-only
+   and never prints the token. `deploy_listener.sh`, `publish_to_production.py`,
+   `publish_to_listener.py`, `upload_listener_media.py`, `sync_listener_work_groups.py`
+   and `audio_parity.py` run the same probes themselves and stop with the same report.
+
 ### R2
 
 R2 needs a one-time account opt-in in the dashboard before any bucket can exist;

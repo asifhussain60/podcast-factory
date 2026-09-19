@@ -51,17 +51,16 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _cloudflare_preflight import prepare_remote  # noqa: E402
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
 from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
-from _production_publish import account_ok, cloudflare_env  # noqa: E402
 from _wrangler import run as wrangler  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
@@ -459,14 +458,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.remote:
-        try:
-            os.environ.update(cloudflare_env())
-        except RuntimeError as error:
-            print(f"  ! {error}")
-            return 2
-        ok, who = account_ok(dict(os.environ), LISTENER)
-        if not ok:
-            print(f"  ! {who}")
+        problem = prepare_remote(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
             return 2
 
     commit = None

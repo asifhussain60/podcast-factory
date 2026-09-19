@@ -92,8 +92,11 @@ def local_rows() -> dict[str, dict]:
 
 def remote_rows() -> dict[str, dict]:
     """media_asset from the deployed D1."""
-    from _production_publish import cloudflare_env
+    from _cloudflare_preflight import prepare_remote
 
+    problem = prepare_remote(LISTENER)
+    if problem:
+        raise SystemExit(f"audio_parity: cannot read remote D1\n{problem}")
     r = wrangler(
         [
             "npx",
@@ -108,7 +111,7 @@ def remote_rows() -> dict[str, dict]:
             "FROM media_asset WHERE kind = 'audio' AND key NOT LIKE '%/narration/%';",
         ],
         cwd=LISTENER,
-        env={**os.environ, **cloudflare_env()},
+        env=dict(os.environ),
     )
     start = r.stdout.find("[")
     if r.returncode != 0 or start < 0:
