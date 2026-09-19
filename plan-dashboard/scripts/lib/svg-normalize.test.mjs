@@ -75,3 +75,26 @@ test("describeDifference points at the first place two SVGs diverge", async () =
   assert.match(d.rendered, /Alpine/);
   assert.equal(describeDifference("<a/>", "<a/>"), null);
 });
+
+// Mermaid stores each edge's routing points as base64-encoded JSON in `data-points`, so a coordinate that moves by a
+// fraction of a pixel changes the encoded TEXT — letters and all — not just digits. Found from the CI log of 2026-09-19:
+// the first divergence in all five "stale" diagrams was inside a data-points attribute. It is geometry, not content.
+test("edge routing points (base64 data-points) are geometry and do not make a diagram stale", () => {
+  const points = (obj) => Buffer.from(JSON.stringify(obj)).toString("base64");
+  const mac = `<path data-points="${points([
+    { x: 91.0703125, y: 62 },
+    { x: 91.07, y: 98.5 },
+  ])}" data-look="classic"/>`;
+  const linux = `<path data-points="${points([
+    { x: 90.5, y: 62 },
+    { x: 90.5, y: 98.5 },
+  ])}" data-look="classic"/>`;
+  assert.notEqual(mac, linux);
+  assert.equal(normalizeSvg(mac), normalizeSvg(linux));
+});
+
+test("the attributes AROUND data-points still count", () => {
+  const a = '<path data-points="AAAA" data-look="classic" class="edge-a"/>';
+  const b = '<path data-points="BBBB" data-look="classic" class="edge-b"/>';
+  assert.notEqual(normalizeSvg(a), normalizeSvg(b));
+});

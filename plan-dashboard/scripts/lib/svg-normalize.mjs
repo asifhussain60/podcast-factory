@@ -6,11 +6,18 @@
 
 const TAG = /(<[^>]*>)/g;
 const NUMBER = /-?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?/gi;
+// Mermaid encodes each edge's routing points as base64 JSON; moving a coordinate changes the encoded text (letters
+// included), so digit-normalising cannot see through it. It is geometry — drop the whole value.
+const DATA_POINTS = /(data-points=")[^"]*(")/g;
 
 export function normalizeSvg(svg) {
   return svg
     .split(TAG)
-    .map((part) => (part.startsWith("<") ? part.replace(NUMBER, "#") : part))
+    .map((part) =>
+      part.startsWith("<")
+        ? part.replace(DATA_POINTS, "$1#$2").replace(NUMBER, "#")
+        : part,
+    )
     .join("")
     .replace(/>\s+</g, "><")
     .trim();
