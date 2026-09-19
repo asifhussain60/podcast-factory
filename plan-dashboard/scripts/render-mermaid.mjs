@@ -11,7 +11,7 @@
 // Diagrams are defined in src/diagrams/<id>.mmd (one Mermaid definition each).
 // Run: npm run mermaid:render
 
-import { normalizeSvg } from "./lib/svg-normalize.mjs";
+import { describeDifference, normalizeSvg } from "./lib/svg-normalize.mjs";
 import { chromium } from "playwright";
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
@@ -229,6 +229,14 @@ async function main() {
             `  STALE ${id}.svg — committed ${committed.length} bytes, ` +
               `source renders ${svg.length}`,
           );
+          const where = describeDifference(committed, svg);
+          if (where) {
+            console.error(
+              `    first difference at ${where.index}:\n` +
+                `      committed: ${where.committed}\n` +
+                `      rendered:  ${where.rendered}`,
+            );
+          }
           stale.push(id);
         } else {
           // Byte-identical is the common case on the machine that rendered it. A platform that measures the pinned

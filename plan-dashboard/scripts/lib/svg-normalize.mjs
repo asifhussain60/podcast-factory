@@ -15,3 +15,19 @@ export function normalizeSvg(svg) {
     .replace(/>\s+</g, "><")
     .trim();
 }
+
+/** Where two SVGs first diverge, with a little context from each — or null when they are identical. For the check's
+ *  failure output: "STALE" alone says nothing about WHAT differs, which is what made this hard to diagnose from CI. */
+export function describeDifference(committed, rendered, context = 90) {
+  const a = normalizeSvg(committed);
+  const b = normalizeSvg(rendered);
+  if (a === b) return null;
+  let i = 0;
+  while (i < a.length && i < b.length && a[i] === b[i]) i += 1;
+  const from = Math.max(0, i - 30);
+  return {
+    index: i,
+    committed: a.slice(from, i + context),
+    rendered: b.slice(from, i + context),
+  };
+}

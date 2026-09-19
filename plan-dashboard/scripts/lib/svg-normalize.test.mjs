@@ -63,3 +63,15 @@ test("whitespace between tags does not matter", () => {
 test("identical input is identical", () => {
   assert.equal(normalizeSvg(svg("")), normalizeSvg(svg("")));
 });
+
+test("describeDifference points at the first place two SVGs diverge", async () => {
+  const { describeDifference } = await import("./svg-normalize.mjs");
+  const d = describeDifference(
+    "<svg><text>Alpha</text></svg>",
+    "<svg><text>Alpine</text></svg>",
+  );
+  assert.ok(d.index > 0);
+  assert.match(d.committed, /Alpha/);
+  assert.match(d.rendered, /Alpine/);
+  assert.equal(describeDifference("<a/>", "<a/>"), null);
+});
