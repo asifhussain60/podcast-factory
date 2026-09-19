@@ -204,8 +204,10 @@ def build_book(
         cwd=_DASHBOARD,
     )
     if proc.returncode == 3:
+        from _playwright_diag import diagnose_launch_failure
+
         raise AuthoringError(
-            phase="0book-render", message="Playwright chromium binary is not installed.", manual_fallback=_INSTALL_HINT
+            phase="0book-render", message=diagnose_launch_failure(proc.stderr or ""), manual_fallback=_INSTALL_HINT
         )
     if proc.returncode != 0:
         raise AuthoringError(
