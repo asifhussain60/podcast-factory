@@ -73,6 +73,11 @@ class CostRow:
     # cost report separate flat-rate Max usage from real money. Defaulted so older
     # rows (written before this field) deserialize cleanly.
     engine: str = "api"
+    # 2026-09-19: False when the model is missing from PRICING_USD_PER_MILLION_TOKENS,
+    # so a $0 that means "no price on file" is distinguishable from a real $0 in the
+    # ledger itself (the stderr warning alone is lost in subprocess logs). Defaulted
+    # so older rows deserialize as priced.
+    priced: bool = True
 
 
 def compute_cost_usd(
@@ -267,6 +272,7 @@ def append_cost_row(
         cache_create=int(cache_create),
         cost_usd=cost,
         engine=engine,
+        priced=model in PRICING_USD_PER_MILLION_TOKENS,
     )
     # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
     # When run_windowed runs with max_workers > 1, parallel threads append
