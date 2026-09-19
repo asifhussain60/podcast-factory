@@ -134,7 +134,9 @@ def verdict(disk: str | None, loc: dict | None, rem: dict | None) -> str:
     return "same"
 
 
-def report(targets: list[Path], *, problems: bool = False, quiet_if_clean: bool = False) -> int:
+def report(
+    targets: list[Path], *, problems: bool = False, quiet_if_clean: bool = False, production: bool = True
+) -> int:
     """Run the disk/local/remote comparison over `targets` and print it.
 
     Shared by the CLI and by `publish_to_listener`, which calls this on the
@@ -145,7 +147,10 @@ def report(targets: list[Path], *, problems: bool = False, quiet_if_clean: bool 
     file agrees, since that publish output is not the place to restate five
     lines of "same" on a book that always ships fine.
     """
-    loc, rem = local_rows(), remote_rows()
+    loc = local_rows()
+    # `production=False` is a localhost-only publish: it must neither touch nor depend on the deployed
+    # database. The local rows stand in for the "remote" side, so disk-versus-local drift is still caught.
+    rem = remote_rows() if production else loc
     if not loc and not quiet_if_clean:
         print("audio_parity: no local D1 on this machine — comparing disk against production only.\n")
 
@@ -187,11 +192,14 @@ def report(targets: list[Path], *, problems: bool = False, quiet_if_clean: bool 
     if bad:
         print(f"\n  {bad} file(s) disagree — resolve before re-encoding or uploading.")
     elif quiet_if_clean:
-        print("  audio parity: clean — disk, local and production agree")
+        which = "disk, local and production" if production else "disk and local"
+        print(f"  audio parity: clean — {which} agree")
     return 1 if bad else 0
 
 
-def check_after_publish(slugs: list[str], failed: list[str], *, dry_run: bool, json_mode: bool) -> int:
+def check_after_publish(
+    slugs: list[str], failed: list[str], *, dry_run: bool, json_mode: bool, remote: bool = True
+) -> int:
     """`publish_to_listener` calls this on every run, after writing the SQL.
 
     Scoped to only the slugs THIS run actually published (`failed` drops out,
@@ -211,7 +219,7 @@ def check_after_publish(slugs: list[str], failed: list[str], *, dry_run: bool, j
     targets = [d for d in book_dirs(None) if d.name in set(published)]
     print()
     try:
-        return report(targets, problems=True, quiet_if_clean=True)
+        return report(targets, problems=True, quiet_if_clean=True, production=remote)
     except SystemExit as exc:
         # An ADVISORY report. When production cannot be read (expired token, no
         # network) it must not fail a publish that already wrote what it was asked
