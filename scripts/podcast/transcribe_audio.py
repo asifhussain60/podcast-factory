@@ -38,12 +38,13 @@ def extract_wav(video: Path, seconds: int | None) -> tuple[Path, float]:
     if seconds:
         cmd += ["-t", str(seconds)]
     cmd += ["-ac", "1", "-ar", "16000", "-codec:a", "libmp3lame", "-b:a", "48k", "-vn", "-y", str(tmp)]
-    subprocess.run(cmd, check=True, capture_output=True)
+    subprocess.run(cmd, check=True, capture_output=True, timeout=1800)
     # duration in seconds
     probe = subprocess.run(
         ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(tmp)],
         capture_output=True,
         text=True,
+        timeout=60,
     )
     dur = float(probe.stdout.strip() or 0)
     return tmp, dur

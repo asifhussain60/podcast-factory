@@ -67,7 +67,7 @@ def _book_dir(slug: str) -> Path | None:
 
 def _pgrep_count(pattern: str) -> int:
     """macOS-safe process count (BSD pgrep has no -c)."""
-    r = subprocess.run(["pgrep", "-f", pattern], capture_output=True, text=True)
+    r = subprocess.run(["pgrep", "-f", pattern], capture_output=True, text=True, timeout=30)
     return len([tok for tok in r.stdout.split() if tok.strip()])
 
 
@@ -267,7 +267,7 @@ def cmd_watch(slug: str, poll_sec: int = POLL_SEC, max_ticks: int = 480) -> int:
                 _write_registry(slug, status="halted-retries-exhausted", retries=retries)
                 _raise_alert(slug, "hung, retries exhausted")
                 return 2
-            subprocess.run(["pkill", "-f", f"orchestrate_book.py --resume {slug}"])
+            subprocess.run(["pkill", "-f", f"orchestrate_book.py --resume {slug}"], timeout=30)
             time.sleep(2)
             pid = _relaunch(slug)
             retries += 1

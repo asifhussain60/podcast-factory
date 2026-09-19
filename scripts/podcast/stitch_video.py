@@ -127,7 +127,7 @@ def _video_enabled(book_dir: Path) -> bool:
 
 def _require_ffmpeg() -> None:
     try:
-        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True, timeout=30)
     except (FileNotFoundError, subprocess.CalledProcessError):
         sys.exit("ERROR: ffmpeg not found. Install with: brew install ffmpeg")
 
@@ -138,6 +138,7 @@ def _audio_duration(audio_path: Path) -> float:
         capture_output=True,
         text=True,
         check=True,
+        timeout=60,
     )
     return float(result.stdout.strip())
 
@@ -362,7 +363,7 @@ def _run_ffmpeg(
     if dry_run:
         print(f"  [dry-run] full command:\n    {' '.join(cmd)}")
         return
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=7200)
     if result.returncode != 0:
         print(f"  FAILED:\n{result.stderr[-1000:]}")
     else:

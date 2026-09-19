@@ -212,9 +212,6 @@
       "silent_except": 3,
       "subprocess_no_timeout": 1
     },
-    "scripts/podcast/downsize_audio.py": {
-      "subprocess_no_timeout": 3
-    },
     "scripts/podcast/drop_editorial_chapter.py": {
       "silent_except": 1
     },
@@ -234,8 +231,7 @@
       "subprocess_no_timeout": 2
     },
     "scripts/podcast/intake_book.py": {
-      "silent_except": 1,
-      "subprocess_no_timeout": 4
+      "silent_except": 1
     },
     "scripts/podcast/intelligence/_augment_usage.py": {
       "silent_except": 1
@@ -337,9 +333,6 @@
     "scripts/podcast/promotion_lane.py": {
       "silent_except": 1
     },
-    "scripts/podcast/publish_to_library.py": {
-      "subprocess_no_timeout": 3
-    },
     "scripts/podcast/publish_to_listener.py": {
       "silent_except": 1,
       "subprocess_no_timeout": 2
@@ -406,12 +399,8 @@
     "scripts/podcast/stage_runner.py": {
       "subprocess_no_timeout": 1
     },
-    "scripts/podcast/stitch_video.py": {
-      "subprocess_no_timeout": 3
-    },
     "scripts/podcast/supervise_run.py": {
-      "silent_except": 1,
-      "subprocess_no_timeout": 2
+      "silent_except": 1
     },
     "scripts/podcast/supplication/intake.py": {
       "subprocess_no_timeout": 3
@@ -424,9 +413,6 @@
     },
     "scripts/podcast/transcribe_all_lectures.py": {
       "subprocess_no_timeout": 1
-    },
-    "scripts/podcast/transcribe_audio.py": {
-      "subprocess_no_timeout": 2
     },
     "scripts/podcast/transcribe_episode.py": {
       "silent_except": 1
@@ -479,6 +465,6 @@
   },
   "totals": {
     "silent_except": 207,
-    "subprocess_no_timeout": 73
+    "subprocess_no_timeout": 56
   }
 }
