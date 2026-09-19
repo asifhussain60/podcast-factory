@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import yaml  # noqa: E402
 from _book_edits import anchor_key  # noqa: E402
+from _content_profile import skip_podcast  # noqa: E402
 from _listener_companion import (  # noqa: E402
     CompanionCard,
     attach_companion,
@@ -182,8 +183,12 @@ def read_episodes(book_dir: Path) -> list[Episode]:
     into the Customize box — and their filenames carry a slug rather than the
     episode's real title. The contracts carry `episode_number`, `title`,
     `episode_format` and a written blurb, so they are the better source. A book
-    with no contracts simply has no episodes here.
+    with no contracts simply has no episodes here. A book that opted out of the
+    podcast (`skip_podcast: true`) has none either, however many planning
+    contracts survive on disk: publishing them would list episodes nobody can play.
     """
+    if skip_podcast(book_dir):
+        return []
     contracts = sorted((book_dir / "chapter-contracts").glob("*.yml"))
     if not contracts:
         return _audiobook_episodes(book_dir)
