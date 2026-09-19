@@ -49,6 +49,20 @@ def test_counts_silent_excepts_only(tmp_path):
     assert H.scan(tmp_path)["scripts/a.py"]["silent_except"] == 2
 
 
+def test_counts_hard_coded_model_ids(tmp_path):
+    _write(
+        tmp_path,
+        "scripts/a.py",
+        'MODEL = "claude-opus-4-8"\nOTHER = "gemini-2.5-flash"\nlabel = "claude is great"\nx = "not-a-model"\n',
+    )
+    assert H.scan(tmp_path)["scripts/a.py"]["model_literal"] == 2
+
+
+def test_the_price_table_is_allowed_to_name_models(tmp_path):
+    _write(tmp_path, "scripts/podcast/_cost_ledger.py", 'PRICES = {"claude-opus-4-8": 1}\n')
+    assert H.scan(tmp_path) == {}
+
+
 def test_test_trees_and_caches_are_out_of_scope(tmp_path):
     body = "import subprocess\nsubprocess.run(['x'])\n"
     _write(tmp_path, "scripts/podcast/tests/test_a.py", body)

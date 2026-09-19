@@ -3,6 +3,10 @@
 
   subprocess_no_timeout  a subprocess.run/check_output/check_call/call with no `timeout=`
   silent_except          an `except` handler whose whole body is `pass` or `continue`
+  model_literal          a string that is exactly a Claude/Gemini model id ("claude-opus-4-8"):
+                         21 files hard-coded them across five generations, so one price or
+                         model change meant editing all of them. New ones belong in the
+                         price table (_cost_ledger.py) or a future _models.py registry.
 
 The 2026-09 audit found 128 and 197 of these across scripts/. Fixing them all at once was
 rejected: the code is thinly tested and a live book run depends on it. Instead each file's
@@ -20,6 +24,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -27,6 +32,9 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 BASELINE = REPO_ROOT / "infra" / "git-hooks" / "hygiene-baseline.json"
 
 _SUBPROCESS_CALLS = frozenset({"run", "check_output", "check_call", "call"})
+_MODEL_ID = re.compile(r"^(claude|gemini)-[A-Za-z0-9._-]+$")
+#: The only files allowed to name models: the price table and its future registry.
+_MODEL_HOMES = frozenset({"scripts/podcast/_cost_ledger.py", "scripts/podcast/_models.py"})
 
 
 def _is_subprocess_call(node: ast.Call) -> bool:
@@ -50,17 +58,24 @@ def _is_silent(handler: ast.ExceptHandler) -> bool:
     return all(isinstance(s, (ast.Pass, ast.Continue)) for s in handler.body)
 
 
-def _count_file(path: Path) -> dict[str, int]:
+def _count_file(path: Path, *, allow_models: bool = False) -> dict[str, int]:
     try:
         tree = ast.parse(path.read_text(encoding="utf-8"))
     except (SyntaxError, UnicodeDecodeError, OSError):
         return {}
-    counts = {"subprocess_no_timeout": 0, "silent_except": 0}
+    counts = {"subprocess_no_timeout": 0, "silent_except": 0, "model_literal": 0}
     for node in ast.walk(tree):
         if isinstance(node, ast.Call) and _is_subprocess_call(node) and _lacks_timeout(node):
             counts["subprocess_no_timeout"] += 1
         elif isinstance(node, ast.ExceptHandler) and _is_silent(node):
             counts["silent_except"] += 1
+        elif (
+            not allow_models
+            and isinstance(node, ast.Constant)
+            and isinstance(node.value, str)
+            and _MODEL_ID.match(node.value)
+        ):
+            counts["model_literal"] += 1
     return {k: v for k, v in counts.items() if v}
 
 
@@ -71,7 +86,7 @@ def scan(root: Path) -> dict[str, dict[str, int]]:
         rel = path.relative_to(root).as_posix()
         if "/tests/" in rel or "__pycache__" in rel:
             continue
-        counts = _count_file(path)
+        counts = _count_file(path, allow_models=rel in _MODEL_HOMES)
         if counts:
             out[rel] = counts
     return out

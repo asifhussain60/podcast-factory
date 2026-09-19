@@ -2,7 +2,11 @@
   "_about": "Shrink-only hygiene ratchet; see scripts/check_hygiene_ratchets.py. Lower with --write-baseline, never raise by hand.",
   "files": {
     "scripts/gemini_chat.py": {
+      "model_literal": 1,
       "silent_except": 1
+    },
+    "scripts/generate_tile_art.py": {
+      "model_literal": 1
     },
     "scripts/podcast/_audio_engines.py": {
       "silent_except": 1
@@ -16,11 +20,20 @@
     "scripts/podcast/_authoring/_chapter_design.py": {
       "silent_except": 5
     },
+    "scripts/podcast/_authoring/_claude_runtime.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_authoring/_core.py": {
+      "model_literal": 7
+    },
     "scripts/podcast/_authoring/_dialogue.py": {
       "silent_except": 2
     },
     "scripts/podcast/_authoring/_engine_fallback.py": {
       "silent_except": 1
+    },
+    "scripts/podcast/_authoring/_refine.py": {
+      "model_literal": 1
     },
     "scripts/podcast/_authoring/_routing.py": {
       "silent_except": 2
@@ -59,6 +72,7 @@
       "silent_except": 1
     },
     "scripts/podcast/_chunking.py": {
+      "model_literal": 1,
       "silent_except": 2
     },
     "scripts/podcast/_codex_text.py": {
@@ -86,12 +100,18 @@
     "scripts/podcast/_etymology.py": {
       "silent_except": 3
     },
+    "scripts/podcast/_gemini_text.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/_halt_advisories.py": {
       "silent_except": 2
     },
     "scripts/podcast/_listener_book.py": {
       "silent_except": 2,
       "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_literary.py": {
+      "model_literal": 1
     },
     "scripts/podcast/_narration_plan.py": {
       "silent_except": 1
@@ -119,6 +139,7 @@
       "subprocess_no_timeout": 1
     },
     "scripts/podcast/_review_ai.py": {
+      "model_literal": 11,
       "silent_except": 2
     },
     "scripts/podcast/_review_serializer.py": {
@@ -139,7 +160,11 @@
     "scripts/podcast/_step_ledger.py": {
       "silent_except": 1
     },
+    "scripts/podcast/_text_transform.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/_tighten_helpers.py": {
+      "model_literal": 2,
       "silent_except": 3
     },
     "scripts/podcast/_tool_cost.py": {
@@ -166,10 +191,14 @@
     "scripts/podcast/_verbatim_edition.py": {
       "silent_except": 1
     },
+    "scripts/podcast/_vowel_gemini.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/_window_cache.py": {
       "silent_except": 1
     },
     "scripts/podcast/align_arabic_paragraphs.py": {
+      "model_literal": 2,
       "silent_except": 1
     },
     "scripts/podcast/allocate_teachings.py": {
@@ -178,7 +207,14 @@
     "scripts/podcast/arabic_integrity.py": {
       "silent_except": 3
     },
+    "scripts/podcast/audit_bundle.py": {
+      "model_literal": 2
+    },
+    "scripts/podcast/audit_bundle_gemini.py": {
+      "model_literal": 3
+    },
     "scripts/podcast/augment_book.py": {
+      "model_literal": 1,
       "silent_except": 1
     },
     "scripts/podcast/book_status_card.py": {
@@ -193,6 +229,9 @@
     "scripts/podcast/build_episode_txt.py": {
       "silent_except": 1
     },
+    "scripts/podcast/build_fiction_book_pdf.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/build_slide_deck.py": {
       "silent_except": 1
     },
@@ -200,6 +239,7 @@
       "silent_except": 1
     },
     "scripts/podcast/composer_visual.py": {
+      "model_literal": 1,
       "silent_except": 1
     },
     "scripts/podcast/cross_book_dashboard.py": {
@@ -215,14 +255,32 @@
     "scripts/podcast/drop_editorial_chapter.py": {
       "silent_except": 1
     },
+    "scripts/podcast/estimate_cost.py": {
+      "model_literal": 3
+    },
     "scripts/podcast/export_distribution.py": {
       "silent_except": 1
+    },
+    "scripts/podcast/fill_glossary_arabic.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/full_book_denoise.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/gemini_refine.py": {
+      "model_literal": 1
     },
     "scripts/podcast/generate_reader_narration.py": {
       "silent_except": 1
     },
+    "scripts/podcast/generate_slide_decks.py": {
+      "model_literal": 2
+    },
     "scripts/podcast/generate_tts_episode.py": {
       "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/generate_video_layer.py": {
+      "model_literal": 2
     },
     "scripts/podcast/hydrate_search_index.py": {
       "silent_except": 2
@@ -254,6 +312,9 @@
     "scripts/podcast/intelligence/extract_terms_from_doctrine.py": {
       "silent_except": 2
     },
+    "scripts/podcast/intelligence/extractor.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/intelligence/import_kashkole_binder.py": {
       "silent_except": 1
     },
@@ -261,15 +322,18 @@
       "silent_except": 1
     },
     "scripts/podcast/intelligence/tag_doctrine_concepts.py": {
+      "model_literal": 1,
       "silent_except": 1
     },
     "scripts/podcast/intelligence/translate_kashkole.py": {
       "silent_except": 1
     },
     "scripts/podcast/knowledge/categorize_atoms.py": {
+      "model_literal": 1,
       "silent_except": 1
     },
     "scripts/podcast/knowledge/fill_etymology_phonetics.py": {
+      "model_literal": 1,
       "silent_except": 2
     },
     "scripts/podcast/learn_aggregate.py": {
@@ -283,6 +347,9 @@
     },
     "scripts/podcast/mint_section_depths.py": {
       "silent_except": 1
+    },
+    "scripts/podcast/narrator_additions.py": {
+      "model_literal": 1
     },
     "scripts/podcast/normalize_m4a.py": {
       "silent_except": 1
@@ -303,8 +370,14 @@
     "scripts/podcast/phases/bundle_audit.py": {
       "silent_except": 1
     },
+    "scripts/podcast/phases/noise_router.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/phases/per_chapter.py": {
       "silent_except": 1
+    },
+    "scripts/podcast/phases/per_chapter_optimize.py": {
+      "model_literal": 1
     },
     "scripts/podcast/phases/preflight_chapter.py": {
       "silent_except": 1
@@ -320,7 +393,11 @@
       "silent_except": 2,
       "subprocess_no_timeout": 1
     },
+    "scripts/podcast/phases/source_review_gate.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/preflight_doctor.py": {
+      "model_literal": 9,
       "silent_except": 1
     },
     "scripts/podcast/produce_bilingual.py": {
@@ -343,6 +420,9 @@
     "scripts/podcast/rearticulate_chapter.py": {
       "silent_except": 1
     },
+    "scripts/podcast/reconcile_book.py": {
+      "model_literal": 1
+    },
     "scripts/podcast/rename_book.py": {
       "subprocess_no_timeout": 1
     },
@@ -357,6 +437,7 @@
       "silent_except": 2
     },
     "scripts/podcast/restore_arabic.py": {
+      "model_literal": 1,
       "silent_except": 2
     },
     "scripts/podcast/review_server.py": {
@@ -367,6 +448,9 @@
     },
     "scripts/podcast/sanitize_chapter_for_tts.py": {
       "silent_except": 2
+    },
+    "scripts/podcast/segment_book.py": {
+      "model_literal": 1
     },
     "scripts/podcast/sessions/articulate.py": {
       "silent_except": 1
@@ -405,14 +489,26 @@
     "scripts/podcast/supplication/intake.py": {
       "subprocess_no_timeout": 3
     },
+    "scripts/podcast/supplication/llm.py": {
+      "model_literal": 2
+    },
     "scripts/podcast/supplication/render.py": {
       "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/sync_codex_agents.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/test_azure_connectivity.py": {
+      "model_literal": 1
     },
     "scripts/podcast/tighten_source.py": {
       "silent_except": 1
     },
     "scripts/podcast/transcribe_all_lectures.py": {
       "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/transcribe_audio_book.py": {
+      "model_literal": 1
     },
     "scripts/podcast/transcribe_episode.py": {
       "silent_except": 1
@@ -444,8 +540,14 @@
       "silent_except": 2,
       "subprocess_no_timeout": 2
     },
+    "scripts/wisdom/annotate_chapters.py": {
+      "model_literal": 1
+    },
     "scripts/wisdom/image_dedupe.py": {
       "silent_except": 1
+    },
+    "scripts/wisdom/rewrite_chapters.py": {
+      "model_literal": 1
     },
     "scripts/wisdom/wisdom_adapt_all.py": {
       "silent_except": 1,
@@ -464,6 +566,7 @@
     }
   },
   "totals": {
+    "model_literal": 76,
     "silent_except": 207,
     "subprocess_no_timeout": 56
   }
