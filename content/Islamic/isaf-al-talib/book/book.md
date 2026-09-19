@@ -1,5 +1,13 @@
 # Isaf al-Talib fi Jami al-Matalib (The Student's Aid in All Demands)
 
+## Introduction to the Book
+
+Isaf al-Talib fi Jami al-Matalib is a work of religious instruction, written as a continuous treatise in the voice of its author, who addresses the reader directly as one who seeks and who speaks as one who has gathered. No name for that author is recorded here, and this edition does not supply one.
+
+The book begins where belief begins, with the eight levels of faith, and with three questions put by the King of Rum. From there it turns to the conduct that faith requires: the greeting of peace and its grammar, the standing of guardians and the limits of praise, the claims of parents, of kin, and of the neighbor at one's side, and what a person must learn and what a person must conceal. The larger part of the book is then given to practice. Purification comes first — water, intention, the washing place, major ritual impurity, the cleanliness of bodies and things — and after it prayer, in its hours, its call, its place, its leader, its shape, its lapses, and its forms for the sick, the traveler, the eclipse, and the night vigil. Burial follows, then the wealth that is not yours, then fasting and the quarrel over the crescent.
+
+The text cites earlier books by short names, and the reader should note that the same short name may serve more than one work: Mukhtasar stands for both Mukhtasar al-Musannaf and Mukhtasar al-Athar, and al-Daaim for Daaim al-Islam, which is not Tawil al-Daaim.
+
 ## 1. The Eight Levels of Faith
 
 Through Him I seek help, upon Him I rely, and He is sufficient for me.
@@ -9,7 +17,7 @@ Through Him I seek help, upon Him I rely, and He is sufficient for me.
 
 Praise belongs to God — who fulfills the hope of every seeker of truth, guidance, and certainty; who makes the features of religion clear to those He has guided; who has made His saints into ladders of salvation for all who aspire to climb toward true life. I praise Him and bear witness that there is no god but He, before whose greatness all creation stands humbled. And I bear witness that Muhammad is His servant and His messenger, sent with the finest of laws and creeds, whose noble character encompassed every means by which innovations are expelled.
 
-I send blessings upon his brother, his appointed guardian, and the Commander of the Faithful, 'Ali (عليه السلام) — who descends from the line of the sacrifice, Ismail ibn Ibrahim al-Khalil — and who, through his interpretation, dispels the doubts that gather over the outward revelation.
+I send blessings upon his brother, his appointed guardian, and the Commander of the Faithful, 'Ali (عَلَيْهِ السَّلَامُ) — who descends from the line of the sacrifice, Ismail ibn Ibrahim al-Khalil — and who, through his interpretation, dispels the doubts that gather over the outward revelation.
 
 And upon the niche of his light, the locus of his secret and his manifestation, Fatima al-Batul, daughter of Muhammad the Messenger. And upon her eldest son, Abu Muhammad al-Hasan al-Mutahhar; and upon her second son, Abu Abdullah al-Husayn — who grasps the meaning of what lies within the seven oft-repeated verses (السَّبْعُ الْمَثَانِي) of the great Quran — the foremost among those versed in the knowledge of the two paths.
 
@@ -104,7 +112,7 @@ Our master the Commander of the Faithful, 'Ali ibn Abi Talib (ع), said in his f
 
 > اِفْتَرَقَ بَنُو إِسْرَائِيلَ عَلَى اثْنَتَيْنِ وَسَبْعِينَ فِرْقَةً وَسَتَفْتَرِقُ هَذِهِ الْأُمَّةُ عَلَى ثَلَاثٍ وَسَبْعِينَ فِرْقَةً وَاحِدَةٌ فِي الْجَنَّةِ وَسَايِرُهَا فِي النَّارِ
 >
-> "The Children of إسرائيل divided into اثنتين and seventy sects, and this community will افترق into seventy-three sects. One of them is in the Garden, and the rest of them are in the Fire."
+> "The Children of Israel divided into seventy-two sects, and this community will divide into seventy-three sects. One of them is in the Garden, and the rest of them are in the Fire."
 
 ## 2. Three Questions from the King of Rum
 
@@ -174,7 +182,7 @@ He said, "And what are they?" The man said:
 
 The Commander of the Faithful (ع) said to him: "God has destroyed the son of the liver-eater. How astray he is, and how astray are those with him. By God, he freed his slave girl and did not do well to marry her. God judge between me and this nation, who severed my ties of kinship, wasted my days, denied me my right, diminished the greatness of my station, and joined together in contending against me."
 
-Then he said, "Bring me al-Hasan, al-Husayn, and Muhammad." They came to him. He said to the man, "O brother of the people of Syria, these are the sons of the Messenger of God (ع)," and he gestured toward al-Hasan and al-Husayn (عَلَيْهِمُ السَّلَامُ), "and this is my son," and he gestured toward Muhammad (رضي الله عنه), "so ask whichever of them you wish." The Syrian said he wished to ask al-Hasan (ع). The Commander of the Faithful (ع) said to him, "Ask him," and he asked him all of those questions.
+Then he said, "Bring me al-Hasan, al-Husayn, and Muhammad." They came to him. He said to the man, "O brother of the people of Syria, these are the sons of the Messenger of God (ع)," and he gestured toward al-Hasan and al-Husayn (عَلَيْهِمُ السَّلَامُ), "and this is my son," and he gestured toward Muhammad (رَضِيَ اللَّهُ عَنْه), "so ask whichever of them you wish." The Syrian said he wished to ask al-Hasan (ع). The Commander of the Faithful (ع) said to him, "Ask him," and he asked him all of those questions.
 
 Al-Hasan (ع) said: "O brother of the people of Syria, the distance between truth and falsehood is four fingers. What your eyes see is truth, and with your ears you may hear a great deal of falsehood." The Syrian said, "You have spoken truly, may God set you aright."
 
@@ -252,7 +260,7 @@ In the twenty-third council of the Mustansiriya councils — may God's peace be 
 
 > ⟪سَلَامٌ عَلَىٰ آلِ يَاسِينَ⟫
 >
-> "Peace be upon the family of ياسين."
+> "Peace be upon the family of Ya Sin."
 
 And ياسين is our Prophet Muhammad (ع), and the family of ياسين is the family of Muhammad — آل على (عَلَيْهِمُ السَّلَامُ).
 
@@ -412,7 +420,7 @@ And by the eight who encircle Your Throne, O Lord of the worlds.
 
 And he said in it:
 
-> وبالإحدى عشر الساجدين وبالاثنى عشر المعدودين الراكعين
+> وَبِالْإِحْدَى عَشَرَ السَّاجِدِينَ وَبِالِاثْنَى عَشَرَ الْمَعْدُودِينَ الرَّاكِعِينَ
 
 And by the eleven who prostrate, and by the twelve counted ones who bow.
 
@@ -578,7 +586,7 @@ He said in the nineteenth council of the Mustansiriya councils: as for a person'
 
 1. The children, male and female.
 2. Then the children of the father by the same mother, who are the brothers of one stock, called الأشقاء (full brothers).
-3. And the children of the father by another mother, who are بَنُو الْعَلَّاتِ (بنوا العلاّت).
+3. And the children of the father by another mother, who are بَنُو الْعَلَّاتِ (بَنُوا الْعَلَّاتِ).
 4. And the children of the mother by another father, who are الأخياف (maternal half-brothers), called brothers through the mother.
 5. and 6. The grandfathers and grandmothers on the father's side.
 7. and 8. The grandfathers and grandmothers on the mother's side.
@@ -678,7 +686,7 @@ Our master: when the people of a school gather together, each freely looks into 
 
 The answer:
 
-> هذا في كتاب الحقيقة لا ينظر الإنسان الا بأذن من أطلق له ذلك وأما في غيرها فأدب وليس بلازم
+> هَذَا فِي كِتَابِ الْحَقِيقَةِ لَا يَنْظُرُ الْإِنْسَانُ اِلَّا بِأِذْنِ مَنْ أَطْلَقَ لَهُ ذَلِكَ وَأَمَّا فِي غَيْرِهَا فَأَدَبٌ وَلَيْسَ بِلَازِمٍ
 
 This concerns the book of inner truth — أُطْلِقَ الْإِنْسَانُ — into which no one may look except by the permission of the one who granted him access to it. For all other books, the matter rests on good manners alone and carries no binding obligation.
 
@@ -698,7 +706,7 @@ The question: What do you say, O gate of our sought goal — which none may reac
 
 The answer:
 
-> إن كانت الكتب من كتب الدعوة فليس له ذلك لأنها للدعوة لا تورث
+> إِنْ كَانَتِ الْكُتُبُ مِنْ كُتُبِ الدَّعْوَةِ فَلَيْسَ لَهُ ذَلِكَ لِأَنَّهَا لِلدَّعْوَةِ لَا تُورَثُ
 
 If the books are among the books of the dawah, that is not permitted to him, because they belong to the dawah and are not inherited.
 
@@ -863,7 +871,7 @@ Cleanse yourselves with water from the foul odor.
 
 And he said therein:
 
-> إذا أراد أحدكم الخلاء فليقل بسم الله اللهم أمط عني الأذى وأعذني من الشيطان الرجيم الحمد لله الذي أطعمنيه في عافية وأخرج مني أذاه في عافية
+> إِذَا أَرَادَ أَحَدُكُمُ الْخَلَاءَ فَلْيَقُلْ بِسْمِ اللَّهِ اللَّهُمَّ أَمِطْ عَنِّي الْأَذَى وَأَعِذْنِي مِنَ الشَّيْطَانِ الرَّجِيمِ الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِيهِ فِي عَافِيَةٍ وَأَخْرَجَ مِنِّي أَذَاهُ فِي عَافِيَةٍ
 
 When any of you intends to go to the privy, let him say: "In the name of God. O God, remove the filth from me and protect me from the accursed devil. Praise be to God, who fed me in good health and expelled its harm from me in good health."
 
@@ -891,7 +899,7 @@ From another source: whoever urinates in a place should not perform the istinja 
 
 From Kitab al-Idah, the Messenger of God said:
 
-> أمرني جبرئيل عليه السلام عن ربي أن اغسل فنكي عند الوضوء
+> أمرني جبرئيل عَلَيْهِ السَّلَامُ عن ربي أن اغسل فنكي عند الوضوء
 
 Gabriel (ع) commanded me on behalf of my Lord to wash the two hollows beside my chin when I perform the ablution.
 
@@ -1390,7 +1398,7 @@ From the book شَرْحُ الْأَخْبَارِ: الريحان is every pla
 
 The Commander of the Faithful, Ali ibn Abi Talib (ع), said in his four hundred points of etiquette:
 
-> السواك مرضاة للرب عز وجل ومطيبة للفم وهو من السّنّة
+> السِّوَاكُ مَرْضَاةٌ لِلرَّبِّ عَزَّ وَجَلَّ وَمَطْيَبَةٌ لِلْفَمِ وَهُوَ مِنَ السُّنَّةِ
 
 The tooth-stick is a means of pleasing the Lord, mighty and majestic; it sweetens the mouth, and it belongs to the established practice.
 
@@ -1557,7 +1565,7 @@ Our master and mawla Jafar ibn Sulayman, may God exalt his sanctity and grant us
 
 Section: Among these matters is what we have come to learn — that some of the womenfolk among your women, especially those bound by covenant among them, crop the hair of their heads by shaving, as men shave their heads. This, together with what we mentioned first, belongs to the contrary and inverted order of things: for that was something with which faces and heads are adorned, and this is something by which heads and faces are disfigured. When one of you reflects upon this, the aspects of the matter become plain to him. God, glorified and exalted, has placed the adornment of men in the hair of their beards, in its combing and its grooming, and the adornment of women in the hair of their heads, in its combing and its lengthening. As for hair, it has come down concerning it, in what has reached us of the prophetic reports, that it is one of the two beauties. So a woman's shaving of it and the cropping of her head is nothing but a disfigurement of her pleasing form. The Prophet has said concerning this that which removes the rust from hearts, where he said:
 
-> إذا أراد أحدكم أن يتزوج امرأة فيسأل عن شعرها كما يسأل عن وجهها فان الشعر أحد الجمالين
+> إِذَا أَرَادَ أَحَدُكُمْ أَنْ يَتَزَوَّجَ امْرَأَةً فَيَسْأَلُ عَنْ شَعْرِهَا كَمَا يَسْأَلُ عَنْ وَجْهِهَا فَاِنَّ الشَّعْرَ أَحَدُ الْجَمَالَيْنِ
 >
 > "When one of you wishes to marry a woman, let him ask about her hair as he asks about her face, for the hair is one of the two beauties."
 
@@ -1603,7 +1611,7 @@ Then he said, concerning the circumcision of girls:
 
 Section: Among these matters also is what we have come to learn: that you hasten the circumcision of your girls in the days falling short of ten, or beyond that up to a limit of forty days — which is the outermost term among your elite and common alike. That is contrary to the Shariah of the Prophet and to the religion of Islam, and contrary to what our master Qadi al-Numan ibn Muhammad set down concerning it in the noble book *Daaim al-Islam*, reporting it from your mawla the Commander of the Faithful, Ali ibn Abi Talib (ع), where he stated it with the clearest exposition; and from him (ع) that he said:
 
-> أسرعوا بختان أولادكم فأنه أطهر لهم
+> أَسْرِعُوا بِخِتَانِ أَوْلَادِكُمْ فَأِنَّهُ أَطْهَرُ لَهُمْ
 >
 > "Hasten the circumcision of your children, for it is purer for them."
 
@@ -1679,7 +1687,7 @@ Answer: If anything edible is placed in this vessel, it becomes impure, and one 
 
 And from the book تَأْوِيلُ الدَّعَائِمِ:
 
-> ولا يجز الشعر من المعز الا بعد الذبح فان جز وهو حيّ فهو ميّة
+> وَلَا يُجَزُّ الشَّعْرُ مِنَ الْمَعْزِ اِلَّا بَعْدَ الذَّبْحِ فَاِنْ جُزَّ وَهُوَ حَيٌّ فَهُوَ مَيَّةٌ
 
 The hair of the goat is not to be shorn except after slaughter. If it is shorn while the animal is alive, it counts as carrion. This ruling applies to the goat in particular. And from the same book: the goat is not shorn of its hair as the sheep is shorn of its wool, so that benefit may be taken from it while the animals are alive, and it is lawful to be clothed in it and to pray in it and upon it. The rest of the animal is likewise lawful — its hair, its skins, its bones, and whatever else belongs to it — and these are purified if the animal is properly slaughtered.
 
@@ -1730,7 +1738,7 @@ It is said in the book مُخْتَصَرُ الْمُصَنَّفِ: if she beg
 
 It is said in تَأْوِيلُ الدَّعَائِمِ that the word nifas was mentioned only in connection with childbirth, and that what is meant by it is the blood that accompanies it. This is made plain by what was reported from the Messenger of God, who said to one of his wives when she was with him on his bed and she drew back:
 
-> مَا لَكَ أَنْفَسْتَ ؟ قالت نعم
+> مَا لَكَ أَنْفَسْتَ ؟ قَالَتْ نَعَمْ
 
 What is the matter with you? Have you begun to bleed? She said: Yes. He meant that she had menstruated.
 
@@ -1766,9 +1774,9 @@ The book مُخْتَصَرُ الْمُصَنَّفِ states that the woman und
 
 The book كِتَابُ الزِّينَةِ, concerning the saying:
 
-> الولد للفراش وللعاهر الحجر
+> اَلْوَلَدُ لِلْفِرَاشِ وَلِلْعَاهِرِ الْحَجَرُ
 
-الْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ. He said: what is meant is only that the fornicator has no right in the lineage of the child.
+He said: what is meant is only that the fornicator has no right in the lineage of the child.
 
 The book of questions and answers already mentioned states: whoever commits fornication with a man's slave girl and then buys her from him while she is pregnant may not approach her until she gives birth. If she bears a child, its sale is permitted — even though the child came from him — because الْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ.
 
@@ -1786,7 +1794,7 @@ I record first what the Commander of the Faithful, Ali ibn Abi Talib (ع), said 
 
 And he said in it:
 
-> ولا يقومنّ الرجل إلى الصلاة متكاسلاً ولا متناعساً وليقلل العبد الفكر إذا قام بين يدي الله عز وجل فإنما له من صلاته ما أقبل عليه ولا تدعوا ذكر الله في كل مكان على كل حال ولا يلتفتنّ أحدكم في صلاته فإن العبد إذا التفت فيها قال الله عز وجل: أَنِّي خَيْرٌ لَكَ مِمَّا الْتَفَتَّ إِلَيْهِ
+> وَلَا يَقُومَنَّ الرَّجُلُ إِلَى الصَّلَاةِ مُتَكَاسِلًا وَلَا مُتَنَاعِسًا وَلْيُقْلِلِ الْعَبْدُ الْفِكْرَ إِذَا قَامَ بَيْنَ يَدَيِ اللَّهِ عَزَّ وَجَلَّ فَإِنَّمَا لَهُ مِنْ صَلَاتِهِ مَا أَقْبَلَ عَلَيْهِ وَلَا تَدَعُوا ذِكْرَ اللَّهِ فِي كُلِّ مَكَانٍ عَلَى كُلِّ حَالٍ وَلَا يَلْتَفِتَنَّ أَحَدُكُمْ فِي صَلَاتِهِ فَإِنَّ الْعَبْدَ إِذَا الْتَفَتَ فِيهَا قَالَ اللَّهُ عَزَّ وَجَلَّ: أَنِّي خَيْرٌ لَكَ مِمَّا الْتَفَتَّ إِلَيْهِ
 >
 > "Let no man rise to prayer in laziness or in drowsiness. Let the servant limit his wandering thoughts when he stands before God Almighty, for he receives of his prayer only that much of it to which he turned his attention. Do not abandon the remembrance of God in any place or in any condition. And let none of you look aside during his prayer, for when the servant looks aside in it, God Almighty says: I am better for you than that toward which you have turned."
 
@@ -1798,7 +1806,7 @@ And he said in it:
 
 And he said in it:
 
-> لا يعبث أحدكم بلحيته في الصلاة ولا بما يشغله عنها
+> لَا يَعْبَثْ أَحَدُكُمْ بِلِحْيَتِهِ فِي الصَّلَاةِ وَلَا بِمَا يَشْغَلُهُ عَنْهَا
 >
 > "Let none of you toy with his beard during the prayer, nor with anything that distracts him from it."
 
@@ -1812,7 +1820,7 @@ And he said in it:
 
 > لَيْسَ مِنْ عَمَلٍ أَحَبَّ إِلَى اللَّهِ مِنَ الصَّلَاةِ فَلَا تَشْغَلْكُمْ عَنْ أَوْقَاتِهَا أُمُورُ الدُّنْيَا فَإِنَّ اللَّهَ سُبْحَانَهُ ذَمَّ قَوْمًا اسْتَهَانُوا بِأَوْقَاتِهَا
 >
-> "There is no deed more beloved — أحب — to God than prayer, so let not the أمور of this world distract you from its أوقاتها, for God — glory be to Him — reproached a people who made light of its times."
+> "There is no deed more beloved to God than prayer, so let not the affairs of this world distract you from its appointed times, for God — glory be to Him — reproached a people who made light of its times."
 
 He then cited the words of God Almighty:
 
@@ -2038,7 +2046,7 @@ He said in it: The obligatory elements of prayer are seven:
 
 He said in it: Prayer is not permitted except in its time. He said in it: The Fajr prayer is performed in the last darkness of the night. He said in it: The Maghrib prayer is at the falling of the disc. He said in it: The Prophet said:
 
-> إذا اشتد الحر فأبردوا بالظهر فإن شدة الحر من لفح جهنم
+> إِذَا اشْتَدَّ الْحَرُّ فَأَبْرِدُوا بِالظُّهْرِ فَإِنَّ شِدَّةَ الْحَرِّ مِنْ لَفْحِ جَهَنَّمَ
 >
 > "When the heat grows severe, wait for the cool for the noon prayer, for the severity of the heat is from the scorching breath of Hell."
 
@@ -2118,7 +2126,7 @@ In the book of questions and answers named at the outset — the one whose compi
 
 The question: What do you say about a man from among the people of the call whom a tyrannical sultan, or his agents, appoints to a position — whether as prayer leader in a mosque, muezzin, teacher, or some other role — paid from the proceeds of the port levy or the jizya, while the people know that the one who holds the port levy takes from their wealth whatever he sees fit, not what is rightfully due? Is it permissible for such a man to accept this position or not?
 
-The answer: This comes from the public treasury (بَيْتُ الْمَالِ). If it is administered according to the judgment of one appointed by the friends of God, it is lawful for him to consume it; if not, it is not lawful.
+The answer: This comes from the public treasury (بَيْتُ الْمَال). If it is administered according to the judgment of one appointed by the friends of God, it is lawful for him to consume it; if not, it is not lawful.
 
 From Mukhtasar al-Idah, on the authority of Jafar ibn Muhammad ibn Ali (ع), concerning a man who gives the call to prayer while walking or mounted, he said:
 
@@ -2735,7 +2743,7 @@ It is related in the book الإيضاح that the Messenger of God (ع) combined
 
 Our master, the author of the book الْمَجَالِسُ الْمُسْتَنْصِرِيَّةُ, states in the tenth of its assemblies that the right to lead prayer belongs to seven, ranked one above another in precedence. Our master Jafar ibn Muhammad al-Sadiq (ع) said:
 
-> يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عليه السلام ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها
+> يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عَلَيْهِ السَّلَامُ ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها
 
 Twelve among the men do not lead in prayer:
 
@@ -2766,7 +2774,7 @@ It is said among the questions put by certain of the shaykhs of India, with the 
 
 Question: If a man prays and with him is a woman of his unmarriageable kin, where does the man stand and where does the woman? Answer: If he prays with a woman of his unmarriageable kin, he stands ahead of her and she prays behind him, or at his right but set back from him. If she is a stranger to him, her prayer alongside him is not valid unless a third person is with them.
 
-A further question, from among the questions of certain of the ranks of India, with its answer from certain of our masters, the summoners of Yemen: You asked about an imam who leads a people while not reciting well, bringing substitution and distortion into his recitation — as when he says أَنَّ ٱللَّهَ بَرِىٓءٌۭ مِّنَ ٱلْمُشْرِكِينَ وَرَسُولُهُۥ with a kasra upon the lam (اَللَّام), or وَمِنْهُمْ مَنْ هَدَى اللَّهُ with a fatha upon the ha (اَلْهَاء), and the like. Answer: Whoever does not recite well in such matters may not be taken as an imam. It is incumbent upon him to correct his recitation so that he does not exchange a verse of mercy for a verse of punishment, nor exchange truth for falsehood. It is not fitting for anyone to pray in the prayer of such a man. And upon whoever recites well it is incumbent to pray with the people when they call him to it and he is acceptable to them.
+A further question, from among the questions of certain of the ranks of India, with its answer from certain of our masters, the summoners of Yemen: You asked about an imam who leads a people while not reciting well, bringing substitution and distortion into his recitation — as when he says أَنَّ ٱللَّهَ بَرِىٓءٌۭ مِّنَ ٱلْمُشْرِكِينَ وَرَسُولُهُۥ with a kasra upon the lam, or وَمِنْهُمْ مَنْ هَدَى اللَّهُ with a fatha upon the ha, and the like. Answer: Whoever does not recite well in such matters may not be taken as an imam. It is incumbent upon him to correct his recitation so that he does not exchange a verse of mercy for a verse of punishment, nor exchange truth for falsehood. It is not fitting for anyone to pray in the prayer of such a man. And upon whoever recites well it is incumbent to pray with the people when they call him to it and he is acceptable to them.
 
 It is said among the questions of the law whose answers are from certain of our masters: You asked about an imam who led a people and then did not know how much of the prayer he had completed or how much remained. He must build upon what is certain. If those behind him prompt him with words of glorification, he returns to the point to which they have prompted him until he arrives at what is correct, provided those behind him are certain of it. If they too do not know, and neither he nor they can determine whether he has added to the prayer or fallen short in it, he begins the prayer anew.
 
@@ -2794,7 +2802,7 @@ Question: Concerning a man who reaches the imam in the obligatory prayer at the 
 
 From another source, the saying of al-Sadiq Jafar ibn Muhammad (ع):
 
-> ينبغي للصفوف أن تكون تامة متواصلة بعضها إلى بعض فيكون بين كل صفين قدر مسقط جسد الإنسان إذا سجد فان لم يصلوا مثل هذا لم تكن لهم صلاة
+> يَنْبَغِي لِلصُّفُوفِ أَنْ تَكُونَ تَامَّةً مُتَوَاصِلَةً بَعْضُهَا إِلَى بَعْضٍ فَيَكُونَ بَيْنَ كُلِّ صَفَّيْنِ قَدْرُ مَسْقَطِ جَسَدِ الْإِنْسَانِ إِذَا سَجَدَ فَاِنْ لَمْ يُصَلُّوا مِثْلَ هَذَا لَمْ تَكُنْ لَهُمْ صَلَاةٌ
 
 By "the fall of a man's body" I mean simply that each worshipper must have sufficient room to prostrate.
 
@@ -3143,7 +3151,7 @@ Come forward with supplication before affliction descends, for the gates of heav
 
 And he said:
 
-> الدعاء يرد القضاء المبرم فادعوه واستعجلوه
+> الدُّعَاءُ يَرُدُّ الْقَضَاءَ الْمُبْرَمَ فَادْعُوهُ وَاسْتَعْجِلُوهُ
 
 Supplication turns back the decree that has been firmly settled, so call upon Him and press your request with urgency.
 
@@ -3161,7 +3169,7 @@ Whoever supplicates without deeds is like an archer with no bowstring.
 
 And he said:
 
-> من قرأ قل هو الله أحد إلى أن تطلع الشمس عشر مرات وإنا أنزلناه في ليلة القدر لم يصب ذنبا ولو اجتهد إبليس
+> مَنْ قَرَأَ قُلْ هُوَ اللَّهُ أَحَدٌ إِلَى أَنْ تَطْلُعَ الشَّمْسُ عَشْرَ مَرَّاتٍ وَإِنَّا أَنْزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ لَمْ يُصِبْ ذَنْبًا وَلَوْ اجْتَهَدَ إِبْلِيسُ
 
 Whoever recites until sunrise the chapter beginning "Say: He is God, One" ten times, and the chapter beginning "Indeed We sent it down on the Night of Decree" — no sin will touch him, however hard Iblis may strive against him.
 
@@ -3458,7 +3466,7 @@ He says in the book of questions and answers mentioned at the outset: intercours
 
 Our master Jafar ibn Mansur al-Yaman said in the book *al-Rida al-Batin*: it is permitted after the festival of the breaking of the fast to fast on the following day and thereafter. And he says in it: it is not permitted after this festival — meaning the festival of the sacrifice — as it is permitted after the festival of the breaking of the fast.
 
-Our master Zayd ibn Muhammad ibn al-Fadl said in the *Hidden Epistle*, concerning the prayer of the festival of the breaking of the fast: الفطر (al-fitr) in the language means appearance and beginning. One says تَفَطَّرَتِ الْأَرْضُ وَانْفَطَرَتْ (tafattarat al-ard wa-infatarat) — meaning the earth split open and what lay within it appeared and came forth. Likewise تَفَطَّرَتِ الشَّجَرَةُ (tafattarat al-shajarah) means that its hidden fruit appeared. And فَطَرَ نَابُ الْبَعِيرِ (fatara nab al-bair) means that it came up and appeared. In all these examples there runs a single sense: it is the day on which the command and the things that had been hidden come to light. From this, the breaking of the fast was named fitr, for fasting is silence and concealment. God the Exalted said in the story of Maryam:
+Our master Zayd ibn Muhammad ibn al-Fadl said in the *Hidden Epistle*, concerning the prayer of the festival of the breaking of the fast: الفطر (al-fitr) in the language means appearance and beginning. One says تَفَطَّرَتِ الْأَرْضُ وَانْفَطَرَتْ (تَفَطَّرَتِ الْأَرْضُ وَانْفَطَرَتْ) — meaning the earth split open and what lay within it appeared and came forth. Likewise تَفَطَّرَتِ الشَّجَرَةُ (tafattarat al-shajarah) means that its hidden fruit appeared. And فَطَرَ نَابُ الْبَعِيرِ (fatara nab al-bair) means that it came up and appeared. In all these examples there runs a single sense: it is the day on which the command and the things that had been hidden come to light. From this, the breaking of the fast was named fitr, for fasting is silence and concealment. God the Exalted said in the story of Maryam:
 
 > إِنِّى نَذَرْتُ لِلرَّحْمَنِ صَوْمًۭا فَلَنْ أُكَلِّمَ ٱلْيَوْمَ إِنسِيًّۭا
 
@@ -3601,7 +3609,7 @@ In all of this nothing is due from him.
 
 Our master, the Commander of the Faithful, Ali ibn Abi Talib (ع), said in his four hundred manners:
 
-> من كان على يقينه فأصابه شك فليمض على يقينه فان الشك لا يدفع اليقين ولا ينقصه
+> مَنْ كَانَ عَلَى يَقِينِهِ فَأَصَابَهُ شَكٌّ فَلْيَمْضِ عَلَى يَقِينِهِ فَاِنَّ الشَّكَّ لَا يَدْفَعُ الْيَقِينَ وَلَا يَنْقُصُهُ
 
 Whoever is certain of something and is then struck by doubt should act on his certainty, for doubt neither dispels certainty nor diminishes it.
 
@@ -4117,7 +4125,7 @@ The one among you who reads has read in the noble book of the pillars of Islam t
 
 > لَا يُلْطَمَنَّ عَلَيَّ خَدٌّ وَلَا يُشَقَّنَّ عَلَيَّ جَيْبٌ فَمَا مِنِ امْرَأَةٍ تَشُقُّ جَيْبَهَا إِلَّا لَهَا فِي جَهَنَّمَ صَدْعٌ كُلَّمَا زَادَتْ زِيدَتْ
 >
-> "Let no cheek be struck for me, and let no collar be torn for me. مَا امْرَأَةٌ تَشُقُّ جَيْبَهَا إِلَّا كَانَ لَهَا فِي النَّارِ شَقٌّ — there is no woman who tears her collar but that she has a rent in Hell, and whenever she adds to it, it is added for her."
+> "Let no cheek be struck for me, and let no collar be torn for me. There is no woman who tears her collar but that she has a rent in Hell, and whenever she adds to it, it is added for her."
 
 He also records in it, from 'Ali, the blessings of Allah be upon him, that he wrote to Rifaah ibn Shaddad, his judge over al-Ahwaz:
 
@@ -4459,7 +4467,7 @@ He said in the questions put by our master Sulayman ibn Hasan in his early days,
 
 Answer: Yes, may God prolong you; the khums is obligatory upon him in the seed of those lands, as God Almighty said:
 
-> ⟪ar:وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ⟫
+> وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ
 
 Know that whatever you take as spoil, a fifth of it belongs to God.
 
@@ -4523,7 +4531,7 @@ He said in the Book of the Inner Nursing: as for the tenth, it is an outward rul
 
 Our master Zayd ibn Muhammad said in al-Risala al-Maknuna: these five — meaning dates, raisins, wheat, barley, and grain — when they reach five awsaq, half a wasq of charity is due on them. He said in it: the tenth is obligatory on what the sky waters and what the rivers water; and on what is watered by wheels and by water-carrying beasts, half the tenth is due. He said in it: God imposed the khums on spoils. God Almighty said:
 
-> ⟪ar:وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ⟫
+> وَاعْلَمُوا أَنَّمَا غَنِمْتُم مِّن شَيْءٍ فَأَنَّ لِلَّهِ خُمُسَهُ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ
 
 Know that whatever you take as spoil, a fifth of it belongs to God, and to the Messenger, and to the near of kin, and the orphans, and the needy, and the wayfarer.
 
@@ -4623,9 +4631,9 @@ Do not say Ramadan, but say as God Almighty said: the month of Ramadan.
 
 So whoever has had God, glorified be He, cause his ear to hear this saying — how can it be permissible for him to oppose it and turn away from it, being of the people of piety and faith? The heedless one who turns away from it after having come to stand upon it makes light of God, glorified be He, and of His noble month mentioned above, and of the weighty saying of the Imam al-Baqir (ع) mentioned above. And the one who speaks by this noble book while turning away from acting upon what is in it enters under the censure contained in the words of God, glorified be He, in the verses of His noble and guarded Book, where He, glorified be He, says:
 
-> ⟪ar:يَا أَيُّهَا الَّذِينَ آمَنُوا لِمَ تَقُولُونَ مَا لَا تَفْعَلُونَ⟫
+> يَا أَيُّهَا الَّذِينَ آمَنُوا لِمَ تَقُولُونَ مَا لَا تَفْعَلُونَ
 >
-> ⟪ar:كَبُرَ مَقْتًا عِندَ اللَّهِ أَن تَقُولُوا مَا لَا تَفْعَلُونَ⟫
+> كَبُرَ مَقْتًا عِندَ اللَّهِ أَن تَقُولُوا مَا لَا تَفْعَلُونَ
 
 O you who believe, why do you say what you do not do? It is greatly hateful in the sight of God that you say what you do not do."
 
@@ -4798,7 +4806,7 @@ This accords with the plain Book, and the completeness of the month's count at t
 
 We found the saying of the Prophet (ع), "fast when it is seen and break your fast when it is seen," to indicate the anticipation of its sighting. Examining what the scholars of the language have recorded about the uses of the letter ل (اَللَّام), we found this lam to be the lam of anticipation — as one of them recorded in verse:
 
-> فللموت تغذوا الوالدات عيالها
+> فَلِلْمَوْتِ تَغْذُوا الْوَالِدَاتُ عِيَالَهَا
 > كَمَا لِخَرَابِ الدَّارِ تُبْنَى الْمَسَاكِنَا
 
 Mothers nourish their children for death, just as dwellings are built for the ruin of the house.
@@ -5026,7 +5034,7 @@ By these witnesses it is sound that the letter lam was used for nothing other th
 
 If an opponent objects and says, "What do you say against the lam in the saying of the Prophet لرؤيته being like the lam in the saying of Allah Almighty,
 
-> 'أَقِمِ ٱلصَّلَوٰةَ لِدُلُوكِ ٱلشَّمْسِ'
+> 'أَقِمِ ٱلصَّلَوٰةَ لِدُلُوكِ ٱلشَّمْسِ
 
 'Establish the prayer at the declining of the sun,'
 
@@ -5046,7 +5054,7 @@ and what is that but a requiring of the seeing of the eye?" we say: we have esta
 
 ## 33. The Sun, the Moon, and the Order of Obedience
 
-It is the nobler of the two, and the more fitting to be relied upon in the performance of obligatory duties. In saying this, we have not set aside the ruling of the sighting of the eye (رُؤْيَةُ الْعَيْنِ), for these two sightings are both foundations in the performance of obligatory duties — one simply more excellent than the other. The more excellent belongs to the select, those who go before others by their knowledge: they are the possessors of knowledge (أولوا العلم). The other belongs to the generality, whose ignorance obliges them to follow the people of knowledge — those who are bare of understanding. The relation between the two sightings is like the relation between the two times of a prayer, the first of which is more excellent than the second.
+It is the nobler of the two, and the more fitting to be relied upon in the performance of obligatory duties. In saying this, we have not set aside the ruling of the sighting of the eye (رُؤْيَةُ الْعَيْنِ), for these two sightings are both foundations in the performance of obligatory duties — one simply more excellent than the other. The more excellent belongs to the select, those who go before others by their knowledge: they are the possessors of knowledge (أُولُوا الْعِلْم). The other belongs to the generality, whose ignorance obliges them to follow the people of knowledge — those who are bare of understanding. The relation between the two sightings is like the relation between the two times of a prayer, the first of which is more excellent than the second.
 
 So it is with all matters: they come in two kinds, hidden and apparent. The hidden is known only by the select among the excellent, while the apparent is known by both the select and the generality alike. The select are obliged to carry out what follows from what they have come to know, just as the common people are obliged to carry out what follows from what they have come to know. This being so, what is there to deny in the following: that a learned man, by the excellence of his knowledge, is bound to fast by the hidden vision of the soul (الرُّؤْيَةُ النَّفْسَانِيَّةُ), and that an ignorant man is bound to follow the learned man in that? It is precisely as with the one taking the pre-dawn meal who knows, by his hidden knowledge, that dawn has broken — for whom food, drink, and marital relations become forbidden, and fasting becomes binding — while the one taking the pre-dawn meal who is ignorant of the dawn must follow the learned man in that.
 
@@ -5241,7 +5249,7 @@ And He said:
 
 What merit, then, is nobler than knowledge of the luminous stars in their circles — their positions at their highest and their lowest — which testify to the soundness of what Allah the Exalted has established of His religion, and bear witness to the truth of what the Prophet (ع) brought from Allah? And what knowledge stands higher, after the affirmation of oneness and the ranks of the hudud (الْحُدُود), than knowledge of what arises through the passage of the stars through their constellations — southward and northward — and through the conjunctions of their lights with one another, in the world of generation and corruption, in the appearance of offspring and in other events that point to the ranks of the friends of Allah?
 
-> "فهل يستوي الظلمات والنور أم هل يستوي الأعمى والبصير أم هل يستوي الذين يعلمون والذين لا يعلمون إنما يتذكر أولوا الألباب"
+> "فَهَلْ يَسْتَوِي الظُّلُمَاتُ وَالنُّورُ أَمْ هَلْ يَسْتَوِي الْأَعْمَى وَالْبَصِيرُ أَمْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ إِنَّمَا يَتَذَكَّرُ أُولُوا الْأَلْبَابِ"
 
 Are darkness and light equal? Or are the blind and the seeing equal? Or are those who know and those who do not know equal? Only those of understanding take heed.
 

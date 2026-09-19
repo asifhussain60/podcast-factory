@@ -44,7 +44,7 @@ _COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
 _RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
 
 
-_SPAN_RE = re.compile("\u27ea(?:ar):[^\u27eb]+\u27eb")
+_SPAN_RE = re.compile("\u27ea(?:ar):([^\u27eb]+)\u27eb")
 _TOKEN_RE = re.compile(r"\[\[AR(\d+)\]\]")
 _TOKEN_NOTE = (
     "\n\nARABIC PLACEHOLDERS: each token like [[AR1]] in the source stands for a protected Arabic "
@@ -62,7 +62,9 @@ def _protect_spans(body: str, table: dict[str, str]) -> str:
 
     def _swap(m: re.Match) -> str:
         key = f"[[AR{len(table) + 1}]]"
-        table[key] = m.group(0)
+        # Keep only the Arabic: the ⟪ar:…⟫ wrapper is source-side syntax that nothing
+        # downstream strips, so restoring it would print the marker into the book.
+        table[key] = m.group(1)
         return key
 
     return _SPAN_RE.sub(_swap, body)

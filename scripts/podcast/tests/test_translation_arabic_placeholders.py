@@ -17,18 +17,20 @@ def test_protect_replaces_spans_with_tokens() -> None:
     table: dict[str, str] = {}
     out = tc._protect_spans(f"a {SPAN1} b {SPAN2}", table)
     assert out == "a [[AR1]] b [[AR2]]"
-    assert table == {"[[AR1]]": SPAN1, "[[AR2]]": SPAN2}
+    assert table == {"[[AR1]]": "وَاعْلَمُوا أَنَّمَا", "[[AR2]]": "وَابْنِ السَّبِيلِ"}
 
 
 def test_restore_is_verbatim_and_leaves_unknown_tokens() -> None:
-    table = {"[[AR1]]": SPAN1}
-    assert tc._restore_spans("x [[AR1]] y [[AR7]]", table) == f"x {SPAN1} y [[AR7]]"
+    table = {"[[AR1]]": "وَاعْلَمُوا أَنَّمَا"}
+    assert tc._restore_spans("x [[AR1]] y [[AR7]]", table) == "x وَاعْلَمُوا أَنَّمَا y [[AR7]]"
 
 
-def test_round_trip_is_identity() -> None:
+def test_restore_prints_plain_arabic_never_the_marker() -> None:
     table: dict[str, str] = {}
     body = f"one {SPAN1} two {SPAN2} three"
-    assert tc._restore_spans(tc._protect_spans(body, table), table) == body
+    out = tc._restore_spans(tc._protect_spans(body, table), table)
+    assert "\u27ea" not in out and "\u27eb" not in out
+    assert out == "one وَاعْلَمُوا أَنَّمَا two وَابْنِ السَّبِيلِ three"
 
 
 def test_hint_only_when_script_dropped() -> None:
