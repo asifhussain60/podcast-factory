@@ -188,6 +188,7 @@ project_skills:
   # knows about does not survive a fresh clone.
   - podcast-factory-deploy
   - challenge-my-request
+  - dependency-steward
 
 apps:
   # The web surfaces, declared so the audit can reason about them instead of
