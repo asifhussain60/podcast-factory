@@ -140,7 +140,7 @@ before anything is uploaded.
    python3 scripts/podcast/_cloudflare_preflight.py
    ```
 
-   Expect `cloudflare preflight: ok (account, database, storage)`. It is read-only
+   Expect `cloudflare preflight: ok (account, database, storage)`. A token is either 40 letters/digits (created before 2026) or starts `cfat_` (account) / `cfut_` (user) and is 53 characters (newer); the check accepts both and reports only the LENGTH of a value it rejects. It is read-only
    and never prints the token. `deploy_listener.sh`, `publish_to_production.py`,
    `publish_to_listener.py`, `upload_listener_media.py`, `sync_listener_work_groups.py`
    and `audio_parity.py` run the same probes themselves and stop with the same report.

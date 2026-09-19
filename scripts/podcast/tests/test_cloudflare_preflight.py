@@ -175,3 +175,39 @@ def test_terminal_colour_codes_are_stripped_from_reported_errors(tmp_path):
     coloured = "\x1b[31m✘ \x1b[41;31m[ERROR]\x1b[0m Authentication error [code: 10000]"
     r = _run(Fake(d1=_proc(1, "", coloured)), tmp_path)
     assert "\x1b" not in r.explain() and "[31m" not in r.explain()
+
+
+# Cloudflare's scannable formats (docs: fundamentals/api/get-started/token-formats): a prefix, 40 random
+# characters and an 8-character checksum. The first version of this check knew only the older 40-character
+# form and REJECTED a freshly rolled, perfectly valid account token (53 characters) — caught the same day.
+MODERN_ACCOUNT = "cfat_" + "Ab3dE6gH9jK2mN5pQ8sT1vW4yZ7cF0hJ3lO6rU9x" + "Qw3Er5Ty"
+MODERN_USER = "cfut_" + "Ab3dE6gH9jK2mN5pQ8sT1vW4yZ7cF0hJ3lO6rU9x" + "Qw3Er5Ty"
+
+
+@pytest.mark.parametrize("good", [MODERN_ACCOUNT, MODERN_USER, TOKEN])
+def test_every_real_token_format_passes_the_shape_check(good):
+    assert cf.token_shape_problem(good) is None
+
+
+def test_the_modern_account_token_goes_on_to_the_network_probes(tmp_path):
+    fake = Fake()
+    r = cf.check_remote_access({"CLOUDFLARE_API_TOKEN": MODERN_ACCOUNT}, tmp_path, run=fake)
+    assert r.ok and len(fake.calls) == 3
+
+
+@pytest.mark.parametrize(
+    "bad",
+    [
+        "cfat_" + "a" * 10,  # prefix but truncated
+        "cfat_" + "a" * 60,  # too long
+        "cfat_" + "a" * 47 + "!",  # bad character
+        "cfk_" + "a" * 48,  # a Global API Key cannot authenticate as a Bearer token
+    ],
+)
+def test_malformed_modern_tokens_are_still_rejected(bad):
+    assert cf.token_shape_problem(bad)
+
+
+def test_the_message_mentions_both_formats():
+    text = cf.token_shape_problem("short") or ""
+    assert "cfat_" in text and "40" in text

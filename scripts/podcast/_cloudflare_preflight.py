@@ -24,7 +24,9 @@ from _wrangler import run as _wrangler_run
 
 DB_NAME = "podcast-listener"
 PROBE_TIMEOUT = 60.0
-_TOKEN_SHAPE = re.compile(r"[A-Za-z0-9_-]{40}")
+#: Older tokens are 40 letters/digits. Since 2026 Cloudflare issues a prefix (`cfat_` account, `cfut_` user),
+#: 40 random characters and an 8-character checksum. Both work; `cfk_` (Global API Key) is not a Bearer token.
+_TOKEN_SHAPE = re.compile(r"[A-Za-z0-9_-]{40}|cf(?:at|ut)_[A-Za-z0-9]{48}")
 _ANSI = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 RUNBOOK = "infra/cloudflare/README.md (section: Rotating the API token)"
 
@@ -77,7 +79,8 @@ def token_shape_problem(token: str) -> str | None:
         return None
     return (
         f"the stored token is {len(token)} characters or contains characters an API token never has; a Cloudflare "
-        "API token is exactly 40 letters, digits, '-' and '_'. The keychain item holds something else "
+        "API token is either 40 letters/digits (older tokens) or starts with 'cfat_' / 'cfut_' and is 53 characters "
+        "(newer tokens). The keychain item holds something else "
         "(a truncated paste, quotes, a 'Bearer ' prefix, a placeholder, or a different credential)"
     )
 
@@ -89,7 +92,7 @@ def _summary(proc: "subprocess.CompletedProcess[str]", secret: str) -> str:
 
 def remedy_for(detail: str) -> str:
     low = detail.lower()
-    if "api token is exactly 40" in low:
+    if "api token is either 40" in low:
         return (
             "re-store the real token. Create it as in the runbook, then store it with the prompt form so it never "
             f'touches shell history: security add-generic-password -U -a "$USER" -s {KEYCHAIN_SERVICE} -w — '
