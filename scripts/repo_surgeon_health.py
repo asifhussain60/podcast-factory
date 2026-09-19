@@ -17,6 +17,9 @@ STUCK_AFTER_DAYS = 14
 BACKLOG_AFTER_DAYS = 45
 _NOT_STUCK_PHASE_STATUS = {"completed", "skipped", "done"}
 _OPEN_RESOLUTIONS = {"flagged", "carried", None}
+# Docs that load into EVERY session (~214 KB combined at the 2026-09-19 audit). Budgets are the size then plus ~5%: a
+# tripwire against creep, not a target. History and rationale belong in docs/decisions/; the rule stays here.
+DOC_BUDGETS = {"CLAUDE.md": 76_000, "AGENTS.md": 76_500, "framework.md": 74_000}
 
 
 def _parse(value) -> float | None:
@@ -111,3 +114,18 @@ def check_findings_backlog(probe) -> None:
             "_learning/findings.jsonl",
             fingerprint="HL-BACKLOG",
         )
+
+
+def check_doc_budgets(probe) -> None:
+    for name, budget in DOC_BUDGETS.items():
+        path = probe.root / name
+        if path.exists() and path.stat().st_size > budget:
+            size = path.stat().st_size
+            probe.add(
+                "P2",
+                "HL-DOC-BUDGET",
+                f"{name} is {size:,} bytes, over its {budget:,}-byte budget — it loads into every session; "
+                "move history and rationale to docs/decisions/ and keep only the rule here",
+                name,
+                fingerprint=f"HL-DOC-BUDGET:{name}",
+            )

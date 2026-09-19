@@ -113,3 +113,25 @@ def test_a_missing_or_garbled_ledger_cannot_crash_the_check(tmp_path):
     write(tmp_path, "_learning/findings.jsonl", "not json\n{\n")
     health.check_findings_backlog(probe)
     assert ids(probe) == []
+
+
+# ---------- always-loaded doc budgets ----------
+def test_a_doc_over_its_budget_is_reported_with_where_the_rationale_belongs(tmp_path):
+    write(tmp_path, "CLAUDE.md", "x" * (health.DOC_BUDGETS["CLAUDE.md"] + 1))
+    probe = make_probe(tmp_path, {})
+    health.check_doc_budgets(probe)
+    assert ids(probe) == ["HL-DOC-BUDGET"]
+    assert "CLAUDE.md" in probe.findings[0].summary and "docs/decisions" in probe.findings[0].summary
+
+
+def test_docs_within_budget_and_absent_docs_are_quiet(tmp_path):
+    write(tmp_path, "CLAUDE.md", "x" * 100)
+    probe = make_probe(tmp_path, {})
+    health.check_doc_budgets(probe)
+    assert ids(probe) == []
+
+
+def test_the_live_repos_docs_are_within_their_budgets():
+    root = Path(__file__).resolve().parents[1]
+    over = {n: (root / n).stat().st_size for n, b in health.DOC_BUDGETS.items() if (root / n).stat().st_size > b}
+    assert over == {}, f"always-loaded docs outgrew their budgets: {over} — move rationale to docs/decisions/"

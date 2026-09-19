@@ -10,6 +10,9 @@
  * (fixed position, dark background, gold brand color).
  */
 import "../styles/theme.css";
+// Self-hosted from the installed package (6.5.0 — the exact build the CDN served), so the site works offline and no
+// page depends on a third-party host. Vite emits the CSS and the webfonts under /_astro/.
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../styles/narrative.css";
 import { TOP_NAV } from "../lib/site-nav";
 
@@ -34,12 +37,6 @@ const { title, description } = Astro.props;
       and go depending on which layout you were on. */
     }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
   </head>
   <body class="narrative-body">
     <a href="#main-content" class="skip-link">Skip to content</a>

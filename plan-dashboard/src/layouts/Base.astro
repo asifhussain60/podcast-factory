@@ -1,5 +1,8 @@
 ---
 import "../styles/theme.css";
+// Self-hosted from the installed package (6.5.0 — the exact build the CDN served), so the site works offline and no
+// page depends on a third-party host. Vite emits the CSS and the webfonts under /_astro/.
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import BrandLogo from "../components/BrandLogo.astro";
 import { TOP_NAV, getNavSection, getSubnavLinks } from "../lib/site-nav";
 import type { ActivePage } from "../lib/site-nav";
@@ -33,12 +36,6 @@ const showShellSubnav = hasCustomSubnav || subnavLinks.length > 0;
       an .ico would be a second binary to keep in step with the first. */
     }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>

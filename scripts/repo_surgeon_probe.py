@@ -11,8 +11,7 @@ Why a script and not a prose checklist: the prose version rotted — on 2026-07-
 dead, inert or aimed at directories deleted in the May split, and nothing said so for two months. Every claim
 this file makes is executable, so the next drift is a non-zero exit rather than a slow discovery.
 
-Findings are sorted deterministically (severity -> id -> file -> line), never by
-discovery order, so two runs on the same tree produce the same report.
+Findings sort deterministically (severity, id, file, line): two runs on one tree give one report.
 
 Usage:
     python3 scripts/repo_surgeon_probe.py              # text report
@@ -830,6 +829,7 @@ CHECKS: tuple = (
     CheckSpec("check_hook_targets", hooks.check_hook_targets, ("HK-MISSING", "HK-NOT-EXECUTABLE")),
     CheckSpec("check_stuck_books", health.check_stuck_books, ("HL-STUCK",)),
     CheckSpec("check_findings_backlog", health.check_findings_backlog, ("HL-BACKLOG",)),
+    CheckSpec("check_doc_budgets", health.check_doc_budgets, ("HL-DOC-BUDGET",)),
     CheckSpec("check_agent_mirrors", Probe.check_agent_mirrors, ("A2",)),
     CheckSpec("check_skill_registry", specs.check_skill_registry, ("A1",)),
     CheckSpec("check_project_skill_mirrors", specs.check_project_skill_mirrors, ("A3",)),
