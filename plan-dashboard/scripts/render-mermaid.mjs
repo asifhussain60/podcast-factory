@@ -11,6 +11,7 @@
 // Diagrams are defined in src/diagrams/<id>.mmd (one Mermaid definition each).
 // Run: npm run mermaid:render
 
+import { describeDifference, normalizeSvg } from "./lib/svg-normalize.mjs";
 import { chromium } from "playwright";
 import { readdir, readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
@@ -220,14 +221,32 @@ async function main() {
         if (committed === null) {
           console.error(`  MISSING ${id}.svg — never committed`);
           stale.push(id);
-        } else if (committed !== svg) {
+        } else if (
+          committed !== svg &&
+          normalizeSvg(committed) !== normalizeSvg(svg)
+        ) {
           console.error(
             `  STALE ${id}.svg — committed ${committed.length} bytes, ` +
               `source renders ${svg.length}`,
           );
+          const where = describeDifference(committed, svg);
+          if (where) {
+            console.error(
+              `    first difference at ${where.index}:\n` +
+                `      committed: ${where.committed}\n` +
+                `      rendered:  ${where.rendered}`,
+            );
+          }
           stale.push(id);
         } else {
-          console.log(`  ok ${id}.svg`);
+          // Byte-identical is the common case on the machine that rendered it. A platform that measures the pinned
+          // font slightly differently (Chromium on Linux vs macOS) moves coordinates by a fraction of a pixel; the
+          // diagram's content — labels, nodes, edges, order, styles — is what this check is for, and it still matches.
+          console.log(
+            committed === svg
+              ? `  ok ${id}.svg`
+              : `  ok ${id}.svg (content identical; layout differs by platform)`,
+          );
           ok++;
         }
       } else {
