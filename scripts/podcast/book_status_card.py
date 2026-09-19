@@ -46,6 +46,7 @@ from _book_status_subphase import chunk_fraction as _chunk_fraction  # noqa: E40
 from _book_status_subphase import narration_fraction as _narration_fraction  # noqa: E402
 from _book_status_subphase import sessions_articulate_fraction as _sessions_articulate_fraction  # noqa: E402
 from _paths import find_content  # noqa: E402
+from _phase_progress import progress_line
 from _phase_vocabulary import _PHASE_NAMES, _PHASE_WEIGHTS  # noqa: E402
 from _progress import PHASES, read_state  # noqa: E402
 
@@ -452,6 +453,7 @@ def build_card(book_dir: Path) -> dict[str, Any]:
         "generated_at": _est_now(),
         "eta": _format_est_dated(eta) if eta else None,
         "spend_usd": _spend_usd(book_dir),
+        "item_progress": progress_line(book_dir),
         "status": state.get("status"),
         **progress,
     }
@@ -488,23 +490,11 @@ def render_card(card: dict[str, Any], *, verbose: bool = False, compact: bool = 
     consecutive readings look identical except for what changed — a layout that
     reflows with its content makes you re-read it every time.
 
-    Redesigned 2026-08-12 on Asif's direction: this card answers "how is this
-    run going" — what step is executing, what steps remain, when it should
-    finish. It carries nothing from the project-wide backlog (the snag list),
-    which is a different question with its own place (`pending-work.yaml`,
-    the Snag List view), and it never truncates the remaining-step list behind
-    a "+N more" — every step this book still has to clear is printed, one per
-    line, so the picture is complete rather than a sample of it.
-
-    `compact` added 2026-08-30 for the heartbeat loop: five minutes apart, the
-    26-line remaining-step list is the same 26 lines every tick until a phase
-    actually advances — the one thing that changed (current step, spend, ETA)
-    was buried in a wall of unchanging text. compact keeps every ROW above the
-    step list (title, bar, Now, any gate/error/skip rows, Spend, Checked, ETA)
-    and drops only "Left" and the per-step rows beneath it. `verbose` still
-    means what it did — append the COMPLETED steps too — and is refused
-    together with `compact`, since asking for less detail and more in the same
-    call is not a request this function can satisfy.
+    This card answers "how is this run going": what step is executing, what remains, when it should
+    finish. It carries nothing from the project-wide backlog (`pending-work.yaml`, the Snag List view)
+    and never truncates the remaining-step list. `compact` (heartbeat loop) keeps every row above the
+    step list and drops only "Left" and the per-step rows; `verbose` appends the completed steps too, and
+    is refused together with `compact`.
     """
     if compact and verbose:
         raise ValueError("render_card: compact and verbose are mutually exclusive")
@@ -528,6 +518,8 @@ def render_card(card: dict[str, Any], *, verbose: bool = False, compact: bool = 
         mid,
         _row("Now", f"{step_name(card['current'])} · {card['current_status']}"),
     ]
+    if card.get("item_progress") and card["current_status"] == "running":
+        lines.append(_row("Pace", card["item_progress"]))  # measured per-chapter time, not a percentage guess
     # A phase waiting on a person is not a phase the ETA describes. Say so, or the
     # number reads as a finish time when it is only a "machine stops here" time.
     if card.get("human_gated_remaining"):

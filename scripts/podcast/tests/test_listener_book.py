@@ -395,3 +395,17 @@ def test_without_an_alias_the_full_name_is_used_rather_than_being_shortened():
     from _listener_book import credit
 
     assert credit({"author": "Asif Hussain"}) == ("Asif Hussain", "Asif Hussain")
+
+
+def test_skip_podcast_book_publishes_no_episodes(tmp_path):
+    """Contracts left behind on a skip_podcast book must not become episodes."""
+    from _listener_book import read_episodes
+
+    (tmp_path / "chapter-contracts").mkdir()
+    (tmp_path / "chapter-contracts" / "ch01.yml").write_text(
+        "episode_number: 1\ntitle: One\nepisode_format: deep_dive\n", encoding="utf-8"
+    )
+    (tmp_path / "_system").mkdir()
+    assert len(read_episodes(tmp_path)) == 1
+    (tmp_path / "_system" / "series-config.yaml").write_text("skip_podcast: true\n", encoding="utf-8")
+    assert read_episodes(tmp_path) == []

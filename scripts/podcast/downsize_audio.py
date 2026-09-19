@@ -148,6 +148,7 @@ def probe_bitrate(path: Path) -> int | None:
         ],
         capture_output=True,
         text=True,
+        timeout=60,
     )
     raw = r.stdout.strip()
     return int(raw) if r.returncode == 0 and raw.isdigit() else None
@@ -168,6 +169,7 @@ def probe_duration(path: Path) -> float | None:
         ],
         capture_output=True,
         text=True,
+        timeout=60,
     )
     try:
         return float(r.stdout.strip())
@@ -264,6 +266,7 @@ def reencode(path: Path, floor_kbps: int) -> tuple[bool, str]:
         ],
         capture_output=True,
         text=True,
+        timeout=3600,
     )
     if r.returncode != 0 or not tmp.exists():
         tmp.unlink(missing_ok=True)

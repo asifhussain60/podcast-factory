@@ -73,6 +73,11 @@ class CostRow:
     # cost report separate flat-rate Max usage from real money. Defaulted so older
     # rows (written before this field) deserialize cleanly.
     engine: str = "api"
+    # 2026-09-19: False when the model is missing from PRICING_USD_PER_MILLION_TOKENS,
+    # so a $0 that means "no price on file" is distinguishable from a real $0 in the
+    # ledger itself (the stderr warning alone is lost in subprocess logs). Defaulted
+    # so older rows deserialize as priced.
+    priced: bool = True
 
 
 def compute_cost_usd(
@@ -267,6 +272,7 @@ def append_cost_row(
         cache_create=int(cache_create),
         cost_usd=cost,
         engine=engine,
+        priced=model in PRICING_USD_PER_MILLION_TOKENS,
     )
     # F34-second (2026-05-25): fcntl LOCK_EX critical section around append.
     # When run_windowed runs with max_workers > 1, parallel threads append
@@ -433,7 +439,7 @@ def append_azure_stt_cost(
 
 # Patterns we try to find in stdout. Tested against multiple `claude -p` output
 # samples; each pattern is anchored to the variant most recently observed.
-_USAGE_PATTERNS: tuple[tuple[str, re.Pattern], ...] = (
+_USAGE_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     # Most common: "Tokens: 12345 in, 6789 out, cache: 1024 read, 0 create"
     ("input", re.compile(r"(\d+)\s*in\b", re.IGNORECASE)),
     ("output", re.compile(r"(\d+)\s*out\b", re.IGNORECASE)),
@@ -442,7 +448,7 @@ _USAGE_PATTERNS: tuple[tuple[str, re.Pattern], ...] = (
 )
 
 
-def parse_usage_from_stdout(stdout: str) -> dict[str, int]:
+def parse_usage_from_stdout(stdout: str) -> dict[str, float]:
     """Best-effort extraction of token counts from `claude -p` stdout.
 
     Returns a dict with keys `input`, `output`, `cache_read`, `cache_create`,
@@ -521,7 +527,7 @@ def actual_model_from_stdout(stdout: str) -> str | None:
                 best_id, best_tokens = model_id, tokens
         if not best_id:
             return None
-        return best_id.split("[", 1)[0]
+        return str(best_id.split("[", 1)[0])
     except (ValueError, TypeError, AttributeError):
         return None
 

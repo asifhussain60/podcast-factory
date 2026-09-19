@@ -17,7 +17,7 @@ scripts/podcast/augment_book.py 622
 scripts/podcast/check_chapter_set.py 817
 scripts/podcast/density_planner.py 763
 scripts/podcast/generate_video_layer.py 742
-scripts/podcast/intake_book.py 1008
+scripts/podcast/intake_book.py 983
 scripts/podcast/intelligence/augmenter.py 883
 scripts/podcast/phases/chapter_driver.py 766
 scripts/podcast/render_dialogue_audio.py 680

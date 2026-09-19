@@ -270,3 +270,61 @@ def test_etymology_is_omitted_rather_than_written_empty() -> None:
     a card with nothing to say about a root should carry no key at all."""
     assert "etymology" not in filed(etymology=[])
     assert filed(etymology=["عِلْم: from ع-ل-م."])["etymology"] == ["عِلْم: from ع-ل-م."]
+
+
+# ─── an unreadable reply is asked for again, then dropped ─────────────────────────────────────────
+class _Replies:
+    """Scripted claude -p replies; records how many times the model was asked."""
+
+    def __init__(self, *replies):
+        self.replies = list(replies)
+        self.calls = 0
+
+    def __call__(self, prompt, **kw):
+        self.calls += 1
+        rc, out = self.replies.pop(0)
+        return rc, out, "stderr"
+
+
+def _ask(monkeypatch, replies, parse_ok_on):
+    import _authoring._core as core
+    import student_reader_notes as srn
+    from _scholar_bridge import ScholarBridgeError
+
+    monkeypatch.setattr(core, "_run_claude_p_with_retry", replies)
+
+    def fake_parse(*, raw):
+        if raw not in parse_ok_on:
+            raise ScholarBridgeError("reply is an unparsed JSON envelope")
+        return {"body": raw}
+
+    monkeypatch.setattr(srn, "parse", fake_parse)
+    logs: list[str] = []
+    result = srn._ask_and_parse({"system": "S", "user": "U"}, book_dir=Path("."), step="s", quote="q", log=logs.append)
+    return result, logs
+
+
+def test_an_unreadable_reply_is_asked_for_again_and_a_good_second_reply_is_kept(monkeypatch) -> None:
+    replies = _Replies((0, "garbled"), (0, "good"))
+    result, logs = _ask(monkeypatch, replies, parse_ok_on={"good"})
+    assert result == {"body": "good"} and replies.calls == 2
+    assert any("unreadable" in line and "1/2" in line for line in logs)
+
+
+def test_a_reply_that_stays_unreadable_is_still_a_hard_failure(monkeypatch) -> None:
+    replies = _Replies((0, "bad-1"), (0, "bad-2"))
+    result, _ = _ask(monkeypatch, replies, parse_ok_on=set())
+    assert result is None and replies.calls == 2  # bounded: never loops
+
+
+def test_a_transport_failure_is_not_asked_again_here(monkeypatch) -> None:
+    # `_run_claude_p_with_retry` has already retried transient errors; a second ask would double-spend.
+    replies = _Replies((1, ""))
+    result, _ = _ask(monkeypatch, replies, parse_ok_on=set())
+    assert result is None and replies.calls == 1
+
+
+def test_a_readable_first_reply_costs_one_call(monkeypatch) -> None:
+    replies = _Replies((0, "good"))
+    result, _ = _ask(monkeypatch, replies, parse_ok_on={"good"})
+    assert result == {"body": "good"} and replies.calls == 1

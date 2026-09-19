@@ -79,7 +79,15 @@ def drive_post_chapter(
         )
 
     # Phase 11b — slide-deck cohort.
-    enable_slide_decks = _series_flag(book_dir, "enable_slide_decks", default=True)
+    # Either place can opt a book out: series-plan.md (`**Enable Slide Decks:** false`) or the
+    # per-book series-config.yaml (`enable_slide_decks: false`) — the latter was documented in
+    # isaf-al-talib's config but never read here, so slide decks ran anyway (2026-09-18).
+    from _pipeline_flags import _read_series_config
+
+    enable_slide_decks = (
+        _series_flag(book_dir, "enable_slide_decks", default=True)
+        and _read_series_config(book_dir).get("enable_slide_decks", True) is not False
+    )
     _slides_already_done = (read_state(book_dir) or {}).get("phases", {}).get("per-chapter-slides", {}).get(
         "status"
     ) in ("completed", "skipped")
@@ -134,6 +142,8 @@ def drive_post_chapter(
     except Exception as _e:  # never block finalize on a best-effort restore
         _err(f"finalize: Arabic auto-restore skipped (non-fatal): {_e}")
 
+    from _finalize_failure import finalize_fallback
+
     validate_script = Path(__file__).resolve().parents[1] / "validate_ship_ready.py"
     rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
     print(vout)
@@ -143,7 +153,11 @@ def drive_post_chapter(
             phase="finalize",
             status="failed",
             error="G1-G7 gates failed; see stdout for the failing gate",
-            extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]},
+            extras={
+                "validator_stdout": vout[-2000:],
+                "validator_stderr": verr[-1000:],
+                "manual_fallback": finalize_fallback(book_slug, vout),
+            },
         )
         _err(
             "finalize halt — at least one G1-G7 gate failed. "

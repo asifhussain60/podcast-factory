@@ -207,7 +207,8 @@ def resolve_bucket(*, bucket: str | None, profile: str | None, category: str | N
     if bucket:
         return _validate_bucket(bucket)
     if profile:
-        return bucket_for_profile(profile)
+        resolved: str = bucket_for_profile(profile)
+        return resolved
     if category:
         return _CATEGORY_TO_BUCKET.get(category.strip().lower(), "Islamic")
     return "Islamic"
@@ -260,24 +261,8 @@ def bucket_dir(bucket: str) -> Path:
     return CONTENT_ROOT / _validate_bucket(bucket)
 
 
-def drafts_root() -> Path:
-    """DEPRECATED — legacy layout helper; zero callers as of 2026-06-10."""
-    return DRAFTS_ROOT
-
-
-def published_root() -> Path:
-    """DEPRECATED — legacy layout helper; zero callers as of 2026-06-10."""
-    return PUBLISHED_ROOT
-
-
 def archive_root() -> Path:
     return ARCHIVE_ROOT
-
-
-def category_root(category: str, *, stage: str = "drafts") -> Path:
-    """DEPRECATED — legacy content/<stage>/<category>; zero callers as of 2026-06-10."""
-    root = PUBLISHED_ROOT if stage == "published" else DRAFTS_ROOT
-    return root / category
 
 
 def find_content(slug: str) -> tuple[str, str, Path] | None:

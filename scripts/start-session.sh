@@ -4,7 +4,7 @@
 # Replaces the previous multi-machine version that read ~/.machine-id,
 # routed to assigned book branches, and surfaced cross-machine queue state.
 # Post-2026-05-23 single-machine model: develop is the working branch,
-# new books just land at content/drafts/<slug>/ directly.
+# new books land at content/<Bucket>/<slug>/ (status: draft) directly.
 #
 # Usage:
 #   bash scripts/start-session.sh

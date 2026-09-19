@@ -34,6 +34,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
+import repo_surgeon_hooks as hooks  # noqa: E402
 import repo_surgeon_probe as probe_mod  # noqa: E402
 from _harness import ids, make_probe, track, write  # noqa: E402
 from repo_surgeon_probe import CHECKS, Finding, Probe, checks_for  # noqa: E402
@@ -266,6 +267,56 @@ def test_retired_surfaces_flags_each_banned_path(tmp_path, banned):
     probe.check_retired_surfaces()
     assert ids(probe) == ["RS-RESURRECT"]
     assert probe.findings[0].severity == "P0"
+
+
+# ---------- HK: hook targets must exist ----------
+# .claude/settings.json once registered four hooks under a gitignored .claude/hooks/
+# that a machine move left empty; every session then fired dead commands, silently.
+
+
+def _settings(hook_command):
+    import json
+
+    return json.dumps({"hooks": {"Stop": [{"matcher": "", "hooks": [{"type": "command", "command": hook_command}]}]}})
+
+
+def test_hook_targets_clean_when_no_settings_file(tmp_path):
+    probe = make_probe(tmp_path, {})
+    hooks.check_hook_targets(probe)
+    assert ids(probe) == []
+
+
+def test_hook_targets_clean_when_every_target_exists_and_is_executable(tmp_path):
+    write(tmp_path, "infra/claude-hooks/stop.sh", "#!/bin/sh\n")
+    (tmp_path / "infra/claude-hooks/stop.sh").chmod(0o755)
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/infra/claude-hooks/stop.sh"))
+    probe = make_probe(tmp_path, {})
+    hooks.check_hook_targets(probe)
+    assert ids(probe) == []
+
+
+def test_hook_targets_flags_a_registered_hook_whose_script_is_missing(tmp_path):
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/.claude/hooks/gone.sh"))
+    probe = make_probe(tmp_path, {})
+    hooks.check_hook_targets(probe)
+    assert ids(probe) == ["HK-MISSING"]
+    assert probe.findings[0].severity == "P0"
+
+
+def test_hook_targets_flags_a_script_that_is_not_executable(tmp_path):
+    write(tmp_path, "infra/claude-hooks/stop.sh", "#!/bin/sh\n")
+    (tmp_path / "infra/claude-hooks/stop.sh").chmod(0o644)
+    write(tmp_path, ".claude/settings.json", _settings("$CLAUDE_PROJECT_DIR/infra/claude-hooks/stop.sh"))
+    probe = make_probe(tmp_path, {})
+    hooks.check_hook_targets(probe)
+    assert ids(probe) == ["HK-NOT-EXECUTABLE"]
+
+
+def test_hook_targets_ignores_a_command_that_is_not_a_project_script(tmp_path):
+    write(tmp_path, ".claude/settings.json", _settings("echo done"))
+    probe = make_probe(tmp_path, {})
+    hooks.check_hook_targets(probe)
+    assert ids(probe) == []
 
 
 # ---------- A2: the agent registry (A1, the skill registry, moved to

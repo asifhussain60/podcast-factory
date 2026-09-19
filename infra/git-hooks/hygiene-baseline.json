@@ -1,0 +1,573 @@
+{
+  "_about": "Shrink-only hygiene ratchet; see scripts/check_hygiene_ratchets.py. Lower with --write-baseline, never raise by hand.",
+  "files": {
+    "scripts/gemini_chat.py": {
+      "model_literal": 1,
+      "silent_except": 1
+    },
+    "scripts/generate_tile_art.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_audio_engines.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_audio_fingerprint.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_authoring/_artifact_convergence.py": {
+      "silent_except": 7
+    },
+    "scripts/podcast/_authoring/_chapter_design.py": {
+      "silent_except": 5
+    },
+    "scripts/podcast/_authoring/_claude_runtime.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_authoring/_core.py": {
+      "model_literal": 7
+    },
+    "scripts/podcast/_authoring/_dialogue.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_authoring/_engine_fallback.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_authoring/_refine.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_authoring/_routing.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_authoring/capstone.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_azure_creds.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_book_arabic_audit.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_book_augment.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_book_brief.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_book_companion.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_book_frontmatter.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_book_illustrate.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_book_pass_reports.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_book_romanization.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_book_status_subphase.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_chunking.py": {
+      "model_literal": 1,
+      "silent_except": 2
+    },
+    "scripts/podcast/_codex_text.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_compose_skips.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_contract_validation.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_convergence.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_corpus_retrieval.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_cost_ledger.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_elevenlabs.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_etymology.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_gemini_text.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_halt_advisories.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_listener_book.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_literary.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_narration_plan.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_phase_review.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_pipeline_flags.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_pipeline_preconditions.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/_production_publish.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/_progress.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_pronunciation_block.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_publish_downstream.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/_review_ai.py": {
+      "model_literal": 11,
+      "silent_except": 2
+    },
+    "scripts/podcast/_review_serializer.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_runlog.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_sessions.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_slide_authoring.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_slide_checks.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/_step_ledger.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_text_transform.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_tighten_helpers.py": {
+      "model_literal": 2,
+      "silent_except": 3
+    },
+    "scripts/podcast/_tool_cost.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_transcript.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_translation_cache.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_translation_seams.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_tts_sanitize.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_validators.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_validators_dialogue.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_verbatim_edition.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/_vowel_gemini.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/_window_cache.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/align_arabic_paragraphs.py": {
+      "model_literal": 2,
+      "silent_except": 1
+    },
+    "scripts/podcast/allocate_teachings.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/arabic_integrity.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/audit_bundle.py": {
+      "model_literal": 2
+    },
+    "scripts/podcast/audit_bundle_gemini.py": {
+      "model_literal": 3
+    },
+    "scripts/podcast/augment_book.py": {
+      "model_literal": 1,
+      "silent_except": 1
+    },
+    "scripts/podcast/book_status_card.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/build_audio_gold_standard.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/build_book_pdf.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/build_episode_txt.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/build_fiction_book_pdf.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/build_slide_deck.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/check_chapter_set.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/composer_visual.py": {
+      "model_literal": 1,
+      "silent_except": 1
+    },
+    "scripts/podcast/cross_book_dashboard.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/cut_chapter_audio.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/deliver_book.py": {
+      "silent_except": 3,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/drop_editorial_chapter.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/estimate_cost.py": {
+      "model_literal": 3
+    },
+    "scripts/podcast/export_distribution.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/fill_glossary_arabic.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/full_book_denoise.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/gemini_refine.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/generate_reader_narration.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/generate_slide_decks.py": {
+      "model_literal": 2
+    },
+    "scripts/podcast/generate_tts_episode.py": {
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/generate_video_layer.py": {
+      "model_literal": 2
+    },
+    "scripts/podcast/hydrate_search_index.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/inject_slide_deck.py": {
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/intake_book.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/_augment_usage.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/_citation_verify.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/_kashkole_gates.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/_kashkole_translation.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/augmenter.py": {
+      "silent_except": 4
+    },
+    "scripts/podcast/intelligence/corpus_sync.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/intelligence/extract_terms_from_doctrine.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/intelligence/extractor.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/intelligence/import_kashkole_binder.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/librarian.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/tag_doctrine_concepts.py": {
+      "model_literal": 1,
+      "silent_except": 1
+    },
+    "scripts/podcast/intelligence/translate_kashkole.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/knowledge/categorize_atoms.py": {
+      "model_literal": 1,
+      "silent_except": 1
+    },
+    "scripts/podcast/knowledge/fill_etymology_phonetics.py": {
+      "model_literal": 1,
+      "silent_except": 2
+    },
+    "scripts/podcast/learn_aggregate.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/learn_propose.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/lexicon_ingest.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/mint_section_depths.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/narrator_additions.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/normalize_m4a.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/orchestrate_book.py": {
+      "silent_except": 4
+    },
+    "scripts/podcast/orchestrate_work.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/phases/audio_driver.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/phases/book_driver.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/phases/bundle_audit.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/phases/noise_router.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/phases/per_chapter.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/phases/per_chapter_optimize.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/phases/preflight_chapter.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/phases/publish_driver.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/phases/resume_dispatcher.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/phases/series_plan.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/phases/source_review_gate.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/preflight_doctor.py": {
+      "model_literal": 9,
+      "silent_except": 1
+    },
+    "scripts/podcast/produce_bilingual.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/promote_staging_to_book.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/promotion_lane.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/publish_to_listener.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/r2_orphans.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/rearticulate_chapter.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/reconcile_book.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/rename_book.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/render_dialogue_audio.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/render_sample_preview.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/render_slides.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/restore_arabic.py": {
+      "model_literal": 1,
+      "silent_except": 2
+    },
+    "scripts/podcast/review_server.py": {
+      "silent_except": 4
+    },
+    "scripts/podcast/run_pronunciation_probe.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/sanitize_chapter_for_tts.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/segment_book.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/sessions/articulate.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/sessions/spoken.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/slow_pod.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/source_library_queries.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/source_library_server.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/spoken_lane/audiobook.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/spoken_lane/manifest.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/podcast/spoken_lane/transcript_repair.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/stage_knowledge_enrich.py": {
+      "silent_except": 2
+    },
+    "scripts/podcast/stage_runner.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/supervise_run.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/supplication/intake.py": {
+      "subprocess_no_timeout": 3
+    },
+    "scripts/podcast/supplication/llm.py": {
+      "model_literal": 2
+    },
+    "scripts/podcast/supplication/render.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/sync_codex_agents.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/test_azure_connectivity.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/tighten_source.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/transcribe_all_lectures.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/transcribe_audio_book.py": {
+      "model_literal": 1
+    },
+    "scripts/podcast/transcribe_episode.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/transcribe_notebooklm.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/upload_listener_media.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/podcast/validate_book_ready.py": {
+      "silent_except": 1
+    },
+    "scripts/podcast/validate_ship_ready.py": {
+      "silent_except": 3
+    },
+    "scripts/podcast/vowel_book.py": {
+      "silent_except": 1
+    },
+    "scripts/repo_cleanup.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 4
+    },
+    "scripts/repo_surgeon_checks.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/repo_surgeon_specs.py": {
+      "silent_except": 2,
+      "subprocess_no_timeout": 2
+    },
+    "scripts/wisdom/annotate_chapters.py": {
+      "model_literal": 1
+    },
+    "scripts/wisdom/image_dedupe.py": {
+      "silent_except": 1
+    },
+    "scripts/wisdom/rewrite_chapters.py": {
+      "model_literal": 1
+    },
+    "scripts/wisdom/wisdom_adapt_all.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 3
+    },
+    "scripts/wisdom/wisdom_challenge_all.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 3
+    },
+    "scripts/wisdom/wisdom_pipeline_all.py": {
+      "subprocess_no_timeout": 1
+    },
+    "scripts/wisdom/wisdom_translate_all.py": {
+      "silent_except": 1,
+      "subprocess_no_timeout": 3
+    }
+  },
+  "totals": {
+    "model_literal": 76,
+    "silent_except": 207,
+    "subprocess_no_timeout": 56
+  }
+}

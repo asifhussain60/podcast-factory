@@ -12,6 +12,51 @@
 
 set -e
 
+# ---- bounded steps -------------------------------------------------------------------
+# 2026-09-18: a `git commit` went uninterruptible when the machine's I/O stalled, and this hook
+# had no time limit on ANY step (the repo probe, the 30 MB corpus export, the site linters), so a
+# stall left a stale .git/index.lock and a hung shell. Every heavy step now runs under _bounded.
+# A GATING step that times out refuses the commit (fail-closed; the lock is released and a
+# re-run works once the machine responds). The advisory corpus export only skips.
+# PF_HOOK_TIMEOUT overrides every default (seconds) — used by the hook's own tests.
+_pf_timeout() { echo "${PF_HOOK_TIMEOUT:-$1}"; }
+
+# _bounded SECS CMD... — run CMD; if it outlives SECS kill its whole process group and return 124.
+_bounded() {
+    local secs=$1 flag pid guard rc=0
+    shift
+    flag=$(mktemp "${TMPDIR:-/tmp}/pf-hook.XXXXXX")
+    rm -f "$flag"
+    set -m
+    "$@" &
+    pid=$!
+    ( sleep "$secs"; : > "$flag"; kill -TERM -- "-$pid" 2>/dev/null; sleep 2; kill -KILL -- "-$pid" 2>/dev/null ) >/dev/null 2>&1 &
+    guard=$!
+    set +m
+    wait "$pid" 2>/dev/null || rc=$?
+    kill -TERM -- "-$guard" 2>/dev/null || kill "$guard" 2>/dev/null || true
+    wait "$guard" 2>/dev/null || true
+    if [ -e "$flag" ]; then
+        rm -f "$flag"
+        return 124
+    fi
+    return "$rc"
+}
+
+# _gate "step name" DEFAULT_SECS CMD... — a bounded GATING step; a timeout refuses the commit.
+_gate() {
+    local name=$1 secs rc=0
+    secs=$(_pf_timeout "$2")
+    shift 2
+    _bounded "$secs" "$@" || rc=$?
+    if [ "$rc" -eq 124 ]; then
+        echo "pre-commit: $name timed out after ${secs}s — commit refused. The hook never waits forever;" >&2
+        echo "pre-commit: a stalled disk or a hung tool is the usual cause. Re-run the commit once it responds." >&2
+        exit 1
+    fi
+    return "$rc"
+}
+
 fail=0
 
 # Collect staged files (added, copied, modified, renamed) — handle no-staged-files cleanly.
@@ -149,7 +194,7 @@ fi
 # pre-existing findings, and a gate that fails on somebody else's backlog is a gate
 # people learn to bypass.
 if [ -f "$repo_root/scripts/repo_surgeon_probe.py" ]; then
-    if ! python3 "$repo_root/scripts/repo_surgeon_probe.py" >&2; then
+    if ! _gate "repo-surgeon probe" 90 python3 "$repo_root/scripts/repo_surgeon_probe.py" >&2; then
         echo "" >&2
         echo "pre-commit: repo-surgeon probe found P0/P1 finding(s) (see above)." >&2
         echo "pre-commit: catalog + what each id means: skills-staging/repo-surgeon/SKILL.md" >&2
@@ -163,7 +208,7 @@ site_staged=$(printf '%s\n' "$staged_files" \
 if [ -n "$site_staged" ] && command -v node >/dev/null 2>&1 \
         && [ -d "$repo_root/plan-dashboard/node_modules/eslint" ]; then
     files_rel=$(printf '%s\n' "$site_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
-    if ! (cd "$repo_root/plan-dashboard" && npx eslint --quiet --no-warn-ignored $files_rel) >&2; then
+    if ! _gate "eslint" 180 bash -c 'cd "$1" && shift && npx eslint --quiet --no-warn-ignored "$@"' _ "$repo_root/plan-dashboard" $files_rel >&2; then
         echo "pre-commit: eslint errors on staged site files (warnings don't block)." >&2
         echo "pre-commit: run: cd plan-dashboard && npm run lint:fix" >&2
         exit 1
@@ -184,8 +229,8 @@ fmt_staged=$(printf '%s\n' "$staged_files" \
 if [ -n "$fmt_staged" ] && command -v node >/dev/null 2>&1 \
         && [ -d "$repo_root/plan-dashboard/node_modules/prettier" ]; then
     files_rel=$(printf '%s\n' "$fmt_staged" | sed 's|^plan-dashboard/||' | tr '\n' ' ')
-    if ! (cd "$repo_root/plan-dashboard" \
-            && npx prettier --check --ignore-unknown $files_rel) >&2; then
+    if ! _gate "prettier" 180 bash -c 'cd "$1" && shift && npx prettier --check --ignore-unknown "$@"' \
+            _ "$repo_root/plan-dashboard" $files_rel >&2; then
         echo "pre-commit: prettier drift on staged site files." >&2
         echo "pre-commit: run: cd plan-dashboard && npm run format" >&2
         echo "pre-commit: bypass requires explicit operator authorization (--no-verify)." >&2
@@ -217,7 +262,7 @@ listener_staged=$(printf '%s\n' "$staged_files" \
     | grep -E '^listener/(app|scripts|test)/.*\.(ts|tsx|mjs)$|^plan-dashboard/src/styles/(quote-typography|study-track-colors)\.css$' || true)
 if [ -n "$listener_staged" ] && command -v node >/dev/null 2>&1 \
         && [ -d "$repo_root/listener/node_modules/vitest" ]; then
-    if ! (cd "$repo_root/listener" && npm run test --silent) >&2; then
+    if ! _gate "listener unit tests" 240 bash -c 'cd "$1" && npm run test --silent' _ "$repo_root/listener" >&2; then
         echo "" >&2
         echo "pre-commit: listener unit tests failed." >&2
         echo "pre-commit: run: cd listener && npm run test" >&2
@@ -238,7 +283,7 @@ view_files=$(printf '%s\n' "$staged_files" \
 if [ -n "$view_files" ] && command -v node >/dev/null 2>&1 \
         && [ -f plan-dashboard/scripts/lint-html-views.mjs ]; then
     files_csv=$(printf '%s' "$view_files" | paste -sd, -)
-    if ! node plan-dashboard/scripts/lint-html-views.mjs --files "$files_csv" >&2; then
+    if ! _gate "html-view quality gate" 120 node plan-dashboard/scripts/lint-html-views.mjs --files "$files_csv" >&2; then
         echo "" >&2
         echo "pre-commit: html-view quality gate failed (Cortex MUST violation)." >&2
         echo "pre-commit: fix the findings (see docs/standards/html-view-quality-digest.md)" >&2
@@ -261,12 +306,22 @@ corpus_sync="$repo_root/scripts/podcast/intelligence/corpus_sync.py"
 corpus_py="$repo_root/.venv/bin/python"
 [ -x "$corpus_py" ] || corpus_py=$(command -v python3 || true)
 if [ -f "$corpus_db" ] && [ -f "$corpus_sync" ] && [ -n "$corpus_py" ]; then
-    if "$corpus_py" "$corpus_sync" export --safe >/dev/null 2>&1; then
+    corpus_rc=0
+    _bounded "$(_pf_timeout 60)" "$corpus_py" "$corpus_sync" export --safe >/dev/null 2>&1 || corpus_rc=$?
+    if [ "$corpus_rc" -eq 0 ]; then
         git add "$repo_root/content/knowledge-base/"*.jsonl 2>/dev/null || true
+    elif [ "$corpus_rc" -eq 124 ]; then
+        echo "pre-commit: corpus export timed out (skipped; advisory — the commit is not blocked)." >&2
     else
-        echo "pre-commit: corpus export skipped (would shrink committed corpus)." >&2
-        echo "pre-commit: run 'python3 scripts/podcast/intelligence/corpus_sync.py rebuild' first." >&2
-        # advisory only — never block a commit on corpus sync
+        # Advisory only — never block a commit on corpus sync. The same advice on EVERY commit
+        # trains people to ignore it (it printed on all of them on isaf-al-talib), so it is shown
+        # once a day; the corpus stays un-exported until somebody runs the rebuild.
+        corpus_marker=$(git rev-parse --git-path pf-corpus-skip-warned)
+        if [ -z "$(find "$corpus_marker" -mmin -1440 2>/dev/null)" ]; then
+            echo "pre-commit: corpus export skipped (would shrink committed corpus)." >&2
+            echo "pre-commit: run 'python3 scripts/podcast/intelligence/corpus_sync.py rebuild' first (shown once a day)." >&2
+            : > "$corpus_marker" 2>/dev/null || true
+        fi
     fi
 fi
 

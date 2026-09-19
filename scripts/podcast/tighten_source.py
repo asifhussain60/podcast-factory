@@ -42,15 +42,15 @@ USAGE
 
   # Dry-run (no LLM, no writes):
   python3 scripts/podcast/tighten_source.py \\
-      --book-dir content/drafts/kitab-al-riyad --dry-run
+      --book-dir content/Islamic/kitab-al-riyad --dry-run
 
   # Real per-chapter pass + report:
   python3 scripts/podcast/tighten_source.py \\
-      --book-dir content/drafts/kitab-al-riyad
+      --book-dir content/Islamic/kitab-al-riyad
 
   # Apply two chapters' accepted cuts (advisory; writes .tightened.txt):
   python3 scripts/podcast/tighten_source.py \\
-      --book-dir content/drafts/kitab-al-riyad \\
+      --book-dir content/Islamic/kitab-al-riyad \\
       --apply ch07,ch11
 
 EXIT CODES
@@ -65,8 +65,8 @@ SAFETY
   - Advisory by default: NEVER overwrites <ch>.txt; writes .tightened.txt siblings.
   - Protect-list defaults baked in (Imam, Quran, proper names) even with no config.
   - Per-book budget cap default $3.00; refuses past that.
-  - Boundary check: refuses if book_dir is not under content/drafts/ or
-    content/published/.
+  - Boundary check: refuses if book_dir is not under content/<Bucket>/ (or the retired
+    content/drafts/ and content/published/books/ layouts, still accepted for old checkouts).
 
 Three-file split (DR-005 — files must stay under 600 lines):
   _tighten_helpers.py  — constants, data classes, helpers, prompts, SDK invocation
@@ -449,9 +449,7 @@ def apply_cuts(
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Advisory tighten-pass for NotebookLM source chapters.")
-    parser.add_argument(
-        "--book-dir", required=True, help="path to content/drafts/<slug>/ or content/published/books/<slug>/"
-    )
+    parser.add_argument("--book-dir", required=True, help="path to content/<Bucket>/<slug>/")
     parser.add_argument("--chapter", help="run only this chapter (e.g. ch07). Default: all chapters.")
     parser.add_argument("--all", action="store_true", help="run all chapters (default if --chapter not given)")
     parser.add_argument("--apply", help="comma-separated chapter slugs to apply (e.g. ch07,ch11)")

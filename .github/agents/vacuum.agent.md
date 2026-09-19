@@ -32,9 +32,9 @@ Pipeline-aware folder hygiene. Where `postprod-review` judges, `vacuum` *mutates
 |---|---|---|
 | `clean-commit` (skill) | Generic folder hygiene + git commit. No pipeline knowledge. | Vacuum understands the per-book canonical layout, reads chapter-contracts to infer correct names, knows what `m4a/v1/` means. |
 | `repo-surgeon` (skill) | Repo-wide architectural audit (dead code, orphaned files, root clutter). | Repo-surgeon operates at repo level; vacuum operates *inside one book's folder*. |
-| `podcast-publisher` | Moves drafts/<slug>/ → published/books/<slug>/ via `publish_to_library.py`. | Publisher is transactional copy across two trees; vacuum reorganizes *within* one tree. |
+| `podcast-publisher` | Flips a finished book's `status` from draft to published in place via `publish_to_library.py` (nothing is copied; draft vs published is a status field, not a folder). | Publisher changes pipeline state; vacuum reorganizes files *within* a book folder. |
 | `postprod-review` | Audits NotebookLM audio output. Identify-only. | Postprod *finds* drift; vacuum *fixes* it. Postprod delegates to vacuum. |
-| `podcast-auditor` | Repo-level regression sweep after merges. Identify-only. | Different surface (pipeline scripts/specs), not file hygiene. |
+| `repo-surgeon --scope podcast` | Repo-level regression sweep after merges. Identify-only. | Different surface (pipeline scripts/specs), not file hygiene. |
 
 Vacuum does NOT do: commits (`clean-commit` does), repo-wide audits (`repo-surgeon` does), cross-tree publish (`publish_to_library.py` does), or content judgment (`postprod-review` and `podcast-challenger` do).
 
@@ -286,4 +286,4 @@ These flow into `_learning/findings.jsonl` with prefix `VAC-` like all other vac
 
 ### Why this is in vacuum, not the auditor
 
-`postprod-review` and `podcast-auditor` are identify-only. Without a mutator owning the cleanup, sprawl accumulates indefinitely because nobody is authorized to move files. Vacuum is the only Worker for file hygiene; extending its scope to the planning surface is consistent with that boundary. The auditor still validates that root is clean after vacuum runs — see `podcast-auditor.md` probe AU-H1.
+`postprod-review` and `repo-surgeon` are identify-only. Without a mutator owning the cleanup, sprawl accumulates indefinitely because nobody is authorized to move files. Vacuum is the only Worker for file hygiene; extending its scope to the planning surface is consistent with that boundary. The auditor still validates that root is clean after vacuum runs — see `repo-surgeon.md` probe AU-H1.

@@ -17,14 +17,24 @@
 set -uo pipefail
 
 # ── Args ─────────────────────────────────────────────────────────────────────
-SLUG="${1:?Usage: watch_orchestrator.sh <slug> [--max-retries N]}"
+SLUG="${1:?Usage: watch_orchestrator.sh <slug> [--max-retries N] [--authoring-engine auto|claude|codex]}"
 MAX_RETRIES=20          # each retry = one orchestrator launch; 20 × ~30s backoff = ~10 min overhead max
 RETRY_DELAY_S="${RETRY_DELAY_S:-30}"   # seconds between a crash and the next attempt (env override for tests)
+# Forwarded to every orchestrate_book.py invocation this watchdog makes. Unset
+# (the default) reproduces the prior behavior byte-for-byte — orchestrate_book.py
+# itself defaults to "auto". Exists because the watchdog's own retries hardcode
+# their invocation and previously had no way to carry an engine override across
+# a crash/retry cycle: a book force-switched to `codex` (e.g., the local `claude`
+# CLI's OAuth session expired mid-run — asif-al-talib, 2026-09-17) fell back to
+# `auto` on every subsequent watchdog-driven retry and re-hit the same wall on
+# the next Claude-authored phase.
+AUTHORING_ENGINE="${AUTHORING_ENGINE:-}"
 
 shift
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --max-retries) MAX_RETRIES="$2"; shift 2 ;;
+        --authoring-engine) AUTHORING_ENGINE="$2"; shift 2 ;;
         *) echo "Unknown flag: $1" >&2; exit 2 ;;
     esac
 done
@@ -74,6 +84,7 @@ else
 fi
 STATE="$BOOK_DIR/_system/orchestrator-state.json"
 SENTINEL="$BOOK_DIR/_system/watchdog.json"
+ATTENTION="$BOOK_DIR/_system/NEEDS-ATTENTION.txt"
 
 LOG_DIR="$REPO_ROOT/_workspace/logs"
 LOG="$LOG_DIR/orchestrator-$SLUG.log"
@@ -81,6 +92,24 @@ LOG="$LOG_DIR/orchestrator-$SLUG.log"
 mkdir -p "$LOG_DIR"
 
 _log() { echo "[watchdog $(date -u +%H:%M:%SZ)] $*" | tee -a "$LOG"; }
+
+# A refusal that only reaches a log file is a silent stall (isaf-al-talib, 2026-09-18: one
+# pre-flight refusal cost ~50 minutes because nothing said so). Leave a marker next to the
+# book carrying the orchestrator's own last words and the fix, and raise a desktop notification
+# where the OS has one. Best-effort: nothing here may fail the watchdog.
+_raise_attention() {
+    local title="$1" fix="$2"
+    {
+        echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)  $title"
+        echo
+        tail -n 15 "$LOG" 2>/dev/null
+        echo
+        echo "$fix"
+    } > "$ATTENTION" 2>/dev/null || true
+    if [[ -z "${PF_NO_NOTIFY:-}" ]] && command -v osascript >/dev/null 2>&1; then
+        osascript -e "display notification \"$title\" with title \"podcast-factory\"" >/dev/null 2>&1 || true
+    fi
+}
 _state() { jq -r "${1}" "$STATE" 2>/dev/null || echo ""; }
 
 # ── Verify book exists ────────────────────────────────────────────────────────
@@ -268,6 +297,9 @@ if _is_iter_cap_halt; then
 fi
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
+# A marker from an earlier refusal must not outlive the problem it reported.
+rm -f "$ATTENTION"
+
 for attempt in $(seq 1 "$MAX_RETRIES"); do
     PHASE="$(_state '.phase')"
     STATUS="$(_state '.phase_status')"
@@ -301,11 +333,26 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
 
     # Stale-running guard: orchestrator crashed while phase_status was "running".
     # --retry-phase clears the stale flag so --resume can proceed.
+    #
+    # Empty-array expansion, not "${ENGINE_ARGS[@]}" directly: under `set -u`,
+    # bash 3.2 (macOS's shipped /bin/bash — `bash --version` here is
+    # 3.2.57) treats expanding an EMPTY array as an unbound-variable error,
+    # even though the array itself was declared. `${arr[@]+"${arr[@]}"}` is
+    # the portable guard (only expands when the array has at least one
+    # element). Caught 2026-09-17 mid-run: the first relaunch after adding
+    # --authoring-engine passthrough died on this before ever reaching
+    # orchestrate_book.py.
+    ENGINE_ARGS=()
+    if [[ -n "$AUTHORING_ENGINE" ]]; then
+        ENGINE_ARGS=(--authoring-engine "$AUTHORING_ENGINE")
+    fi
     if [[ "$STATUS" == "running" ]]; then
         _log "Stale running state detected — using --retry-phase $PHASE"
-        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --retry-phase "$PHASE" --skip-doctor \
+            ${ENGINE_ARGS[@]+"${ENGINE_ARGS[@]}"} 2>&1 | tee -a "$LOG"
     else
-        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor 2>&1 | tee -a "$LOG"
+        "$PYTHON" "$ORCH" --resume "$SLUG" --skip-doctor \
+            ${ENGINE_ARGS[@]+"${ENGINE_ARGS[@]}"} 2>&1 | tee -a "$LOG"
     fi
 
     RC=${PIPESTATUS[0]}
@@ -359,6 +406,8 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         _log "=== PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ==="
         _log "Fix the issue (commit or stash untracked/modified files), then re-run:"
         _log "  bash scripts/podcast/watch_orchestrator.sh $SLUG"
+        _raise_attention "PRE-FLIGHT REFUSED — $SLUG was not resumed" \
+            "Fix what is listed above (commit or stash the files), then: bash scripts/podcast/watch_orchestrator.sh $SLUG"
         rm -f "$SENTINEL"
         exit 1
     fi

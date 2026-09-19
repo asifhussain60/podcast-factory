@@ -66,7 +66,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 import threading
@@ -76,14 +75,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import _wrangler  # noqa: E402
+from _cloudflare_preflight import prepare_remote  # noqa: E402
 from _listener_book import read_episodes, split_chapters  # noqa: E402
 from _narration_plan import narrate  # noqa: E402
 from _paths import REPO_ROOT, find_content  # noqa: E402
 from _production_publish import (  # noqa: E402
     accept_all_notes,
-    account_ok,
     book_fingerprint,
-    cloudflare_env,
     code_behind,
     count_cards,
     count_unreviewed,
@@ -448,16 +446,11 @@ def main(argv: list[str] | None = None) -> int:
     # would turn the safest publish target into the hardest one to use.
     if has_production_target:
         report.step("Cloudflare account")
-        try:
-            os.environ.update(cloudflare_env())
-        except RuntimeError as error:
-            report.error(str(error))
+        problem = prepare_remote(LISTENER)
+        if problem:
+            report.error(problem)
             return 2
-        ok, who = account_ok(dict(os.environ), LISTENER)
-        if not ok:
-            report.error(who)
-            return 2
-        report.log(f"ok — {who}")
+        report.log("ok — account, database and media bucket all answer")
 
     # --- 1. The Companion cards ---------------------------------------------
     #

@@ -238,3 +238,24 @@ def compute_density(spine_path: Path) -> float:
 def should_skip_with_justification(density: float, *, threshold: float = DENSITY_THRESHOLD) -> bool:
     """Per slide-deck-format.md density gauge: True if density < threshold."""
     return density < threshold
+
+
+def _merge_constraints(prior_findings_block: str, new_findings: list[str]) -> str:
+    """Union an inner authoring retry's fresh findings onto the outer
+    convergence loop's standing ones (`author_deck_pair`'s
+    `prior_findings_block`), never replace.
+
+    Before this fix, a retry set `extra_constraints` to just that attempt's
+    findings, discarding the outer Slide Deck Challenger's content-quality
+    findings (e.g. SL-P1 restatement, SL-P4 diagram-type discipline) the
+    moment the first inner attempt failed the mechanical build validator —
+    which nearly every first attempt does. The deck that finally passed the
+    mechanical validator had then never been asked to fix what the outer
+    loop was iterating to fix, so the same finding came back unchanged next
+    outer iteration and the 2-consecutive-identical-verdicts break fired
+    (isaf-al-talib, 2026-09-18).
+    """
+    new_block = "\n".join(f"- {f}" for f in new_findings)
+    if prior_findings_block and new_block:
+        return f"{prior_findings_block}\n{new_block}"
+    return prior_findings_block or new_block

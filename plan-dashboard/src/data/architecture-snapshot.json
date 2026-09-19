@@ -186,6 +186,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "findings-triager",
+      "name": "Findings Triager",
+      "role": "",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "",
+      "what_it_knows": "See infra/claude-agents/findings-triager.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "html-view-challenger",
       "name": "Html View Challenger",
       "role": "Conformance challenger for HTML views, Astro pages, components, and diagrams on ",
@@ -331,7 +345,7 @@
       "role": "Project-stewardship agent",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-a…",
+      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, etc.), int…",
       "what_it_knows": "See infra/claude-agents/project-steward.md",
       "boundary_in": "",
       "boundary_out": "",

@@ -42,9 +42,9 @@ import "../../../styles/preview.css";
 
 const slug = Astro.params.slug!;
 const bookDir = findContentDirSync(slug);
-const { pageCount } = bookDir
+const { pageCount, error: renderError } = bookDir
   ? ensurePreviewPageImages(bookDir)
-  : { pageCount: 0 };
+  : { pageCount: 0, error: undefined };
 const bookTitle = slugToTitle(slug);
 const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 ---
@@ -91,9 +91,11 @@ const pages = Array.from({ length: pageCount }, (_, i) => i + 1);
 
     <p class="pv-status" id="pv-status" role="status" aria-live="polite">
       {
-        pageCount > 0
-          ? `${pageCount} page${pageCount === 1 ? "" : "s"} — reflecting your saved edits`
-          : ""
+        renderError
+          ? `The preview could not be refreshed, so ${pageCount > 0 ? "the last successful render is shown" : "nothing is shown yet"}. Check that the print browser and Poppler are installed, then reload.`
+          : pageCount > 0
+            ? `${pageCount} page${pageCount === 1 ? "" : "s"} — reflecting your saved edits`
+            : ""
       }
     </p>
 

@@ -82,6 +82,21 @@ def _create_skeleton(book_dir: Path, force: bool) -> None:
     ensure_book_skeleton(book_dir)
 
 
+def _ensure_branch(branch: str) -> str | None:
+    """Create `branch` off develop unless it exists. Returns the name, or None on a failed create."""
+    git = {"cwd": REPO_ROOT, "capture_output": True, "text": True, "timeout": 60}
+    if subprocess.run(["git", "rev-parse", "--verify", branch], **git).returncode == 0:
+        _info(f"==> Branch already exists: {branch} (skipping)")
+        return branch
+    _info(f"==> Creating branch {branch} from develop")
+    r = subprocess.run(["git", "branch", branch, "develop"], **git)
+    if r.returncode != 0:
+        _info(f"    WARN: could not create branch — {r.stderr.strip()}")
+        return None
+    _info(f"    Created. Switch with: git checkout {branch}")
+    return branch
+
+
 def _create_branch(category: str, slug: str) -> str | None:
     """Create the typed content branch off develop. Returns the branch name
     on success, None on warning (we still return for the next-action hint)."""
@@ -89,27 +104,7 @@ def _create_branch(category: str, slug: str) -> str | None:
     from _branching import branch_name
 
     branch = branch_name(category, slug)
-    result = subprocess.run(
-        ["git", "rev-parse", "--verify", branch],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode == 0:
-        _info(f"==> Branch already exists: {branch} (skipping)")
-        return branch
-    _info(f"==> Creating branch {branch} from develop")
-    r = subprocess.run(
-        ["git", "branch", branch, "develop"],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if r.returncode != 0:
-        _info(f"    WARN: could not create branch — {r.stderr.strip()}")
-        return None
-    _info(f"    Created. Switch with: git checkout {branch}")
-    return branch
+    return _ensure_branch(branch)
 
 
 # ---- PDF intake (original) --------------------------------------------------
@@ -427,27 +422,7 @@ def _create_branch_for_work(vol_or_work_slug: str, *, profile: str, create: bool
     branch = branch_for_work(vol_or_work_slug, profile=profile)
     if not create:
         return branch
-    result = subprocess.run(
-        ["git", "rev-parse", "--verify", branch],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode == 0:
-        _info(f"==> Branch already exists: {branch} (skipping)")
-        return branch
-    _info(f"==> Creating branch {branch} from develop")
-    r = subprocess.run(
-        ["git", "branch", branch, "develop"],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
-    if r.returncode != 0:
-        _info(f"    WARN: could not create branch — {r.stderr.strip()}")
-        return None
-    _info(f"    Created. Switch with: git checkout {branch}")
-    return branch
+    return _ensure_branch(branch)
 
 
 # ---- Bundle intake (new) ----------------------------------------------------

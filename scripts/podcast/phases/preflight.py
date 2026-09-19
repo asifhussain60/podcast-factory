@@ -220,6 +220,18 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             # have to wait on them settling.
             "/_system/gloss-coverage.json",
             "/_system/book-comprehension.json",
+            # Translation-edition compose and its gates write these as NEW untracked
+            # files (2026-09-18, isaf-al-talib: three refused resumes, one ~50 min stall).
+            # All derived, never hand-authored. `book/book.md` stays OFF this list.
+            "/_system/arabic-integrity-report.md",
+            "/_system/needs-attention.txt",
+            "/_system/phase-progress.json",  # per-chapter progress + ETA; rewritten after every chapter  # the watchdog's own refusal marker; see watch_orchestrator.sh
+            "/_system/book-coverage-check.json",
+            "/_system/episode-chapter-map.json",
+            "/_system/notebooklm-worklist.md",
+            "/_system/translation-edition-manifest.json",
+            "/book/source-crosswalk.json",
+            "/book/cover.png",
             "scripts/podcast/tighten_source.py",
             ".code-workspace",
         )
@@ -231,6 +243,7 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             f"{book_runtime_prefix}_system/phase-reviews/",
             f"{book_runtime_prefix}_system/slide-challenger-reports/",
             f"{book_runtime_prefix}_system/source/text/_chunks/",
+            f"{book_runtime_prefix}book/_chapters/",
             f"{book_runtime_prefix}chapter-contracts/",
             f"{book_runtime_prefix}chapters/",
             f"{book_runtime_prefix}episodes/",

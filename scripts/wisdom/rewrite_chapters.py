@@ -94,14 +94,6 @@ def _build_live_style_supplement(chapter_txt: Path, book_dir: Path) -> str:
         return ""
 
 
-# Protected content markers — these paragraphs survive verbatim
-_PROTECTED_RE = re.compile(
-    r"(\u0600-\u06ff|\u0750-\u077f|\u08a0-\u08ff)"  # Arabic script
-    r"|bismillah|assalamu|wa alaikum"  # greetings
-    r"|\[Quran|\[Hadith|\[verse",  # explicit citations
-    re.IGNORECASE,
-)
-
 SONNET_SYSTEM = """\
 You are a teaching-text rewriter. Your sole task is to rephrase chapter text
 to match the style guide provided, without adding, inventing, or expanding content.

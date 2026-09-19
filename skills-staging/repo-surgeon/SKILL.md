@@ -203,6 +203,10 @@ by hand what the script already reports.
 | Mirrors | `MI-UNPINNED`, `MI-PIN-GONE`, `MI-PATH` | Every pair the contract says must change together has a fixture that exists |
 | Root | `R1` | Root membership against the contract's exhaustive lists |
 | Retired surfaces | `RS-RESURRECT` | `server/`, `site/`, `shared/`, `wrangler.toml`, `site-worker.js`, `docs/cloudflare/` stay deleted |
+| Hook targets | `HK-MISSING`, `HK-NOT-EXECUTABLE` | every `$CLAUDE_PROJECT_DIR/...` script registered in `.claude/settings.json` exists and is executable; hooks live in tracked `infra/claude-hooks/`, never under the gitignored `.claude/` |
+| Stuck books | `HL-STUCK` | a book failed/halted/pending for over 14 days with no activity (P2 — a halt can be a deliberate wait, but it must be visible) |
+| Findings backlog | `HL-BACKLOG` | P0 findings open over 45 days; triage with `python3 scripts/findings_triage.py` (P2) |
+| Always-loaded doc size | `HL-DOC-BUDGET` | `CLAUDE.md` / `AGENTS.md` / `framework.md` over their byte budget (P2 tripwire; move rationale to `docs/decisions/`) |
 | Agents | `A2` | Canonical specs and their generated `.github` mirrors are the same set |
 | Skills | `A1` | Every `skills-staging/` directory is registered and has a `SKILL.md` |
 | **Project skills** | `A3` | Every skill in `project_skills:` has a canonical `skills-staging/` source AND a generated `.claude/skills/` mirror; no undeclared `.claude/skills/` directory exists with no tracked source |

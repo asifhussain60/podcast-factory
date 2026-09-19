@@ -179,6 +179,36 @@ def _research_card(
     }
 
 
+#: How many times a card is asked for when the reply cannot be read. The model is nondeterministic and a
+#: malformed envelope is usually a one-off; a reply that STAYS unreadable is still a hard failure (the
+#: "unparsed envelope" rule) — bounded, so it can never loop on spend.
+_PARSE_ATTEMPTS = 2
+
+
+def _ask_and_parse(prep: dict[str, Any], *, book_dir: Path, step: str, quote: str, log) -> dict[str, Any] | None:
+    """The explain call plus its parse, asked again once if the reply cannot be read."""
+    from _authoring._core import _run_claude_p_with_retry, pure_text_call_options
+
+    for attempt in range(1, _PARSE_ATTEMPTS + 1):
+        rc, out, err = _run_claude_p_with_retry(
+            f"{prep['system']}\n\n---\n\n{prep['user']}",
+            timeout=_TIMEOUT,
+            book_dir=book_dir,
+            phase="0book-student-reader",
+            step=step,
+            log=log,
+            **pure_text_call_options(),
+        )
+        if rc != 0:
+            log(f"      · scholar failed on {quote[:40]!r}: rc={rc} {err[:120]}")
+            return None
+        try:
+            return parse(raw=out)
+        except ScholarBridgeError as exc:
+            log(f"      · unreadable answer for {quote[:40]!r} (attempt {attempt}/{_PARSE_ATTEMPTS}): {exc}")
+    return None
+
+
 def ask_scholar(
     finding: dict[str, Any], ch: dict[str, str], book_dir: Path, book_title: str, log
 ) -> dict[str, Any] | None:
@@ -218,28 +248,12 @@ def ask_scholar(
     if not prep.get("grounded") and not prep.get("morphology"):
         return _research_card(finding, prep, ch, context, book_title, log)
 
-    rc, out, err = _run_claude_p_with_retry(
-        f"{prep['system']}\n\n---\n\n{prep['user']}",
-        timeout=_TIMEOUT,
-        book_dir=book_dir,
-        phase="0book-student-reader",
-        step=step,
-        log=log,
-        **pure_text_call_options(),
-    )
-    if rc != 0:
-        log(f"      · scholar failed on {quote[:40]!r}: rc={rc} {err[:120]}")
-        return None
-
-    # Read the reply BEFORE tightening it. The tightener is asked to return "the
-    # same explanation, better articulated" — hand it the JSON envelope instead
-    # and it will faithfully rewrite that, so a reply the parser could not read
-    # comes back looking like prose and gets filed as a card made of JSON. That
-    # shipped once on this book (2026-08-06) before the order was fixed.
-    try:
-        parsed = parse(raw=out)
-    except ScholarBridgeError as exc:
-        log(f"      · unreadable answer for {quote[:40]!r}: {exc}")
+    # Read the reply BEFORE tightening it. The tightener is asked to return "the same explanation,
+    # better articulated" — hand it the JSON envelope instead and it will faithfully rewrite that, so a
+    # reply the parser could not read comes back looking like prose and gets filed as a card made of
+    # JSON. That shipped once on this book (2026-08-06) before the order was fixed.
+    parsed = _ask_and_parse(prep, book_dir=book_dir, step=step, quote=quote, log=log)
+    if parsed is None:
         return None
 
     # The tightening pass is an improvement, never a dependency: a failure here

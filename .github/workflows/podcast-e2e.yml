@@ -95,9 +95,12 @@ jobs:
           python3 -m pip install -r requirements.txt
 
       - name: Run the full test suite (pytest over all three test trees)
+        env:
+          # Skipped tests read as passes; fail if more than this many skip (a checkout missing content). See conftest.py.
+          PF_SKIP_BUDGET: "40"
         run: |
           set -euo pipefail
-          python3 -m pytest -q
+          python3 -m pytest -q -rs
 
       - name: Boundary check (P1.1) — scripts/podcast must not write to journal/memoir
         run: |

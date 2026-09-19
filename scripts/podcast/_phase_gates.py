@@ -46,7 +46,8 @@ def _steps(book_dir: Path, phase: str) -> dict[str, dict[str, Any]]:
     """The latest record per step for `phase`, from the most recent run."""
     from _step_ledger import last_by_step, latest_steps
 
-    return last_by_step(latest_steps(book_dir, phase=phase))
+    steps: dict[str, dict[str, Any]] = last_by_step(latest_steps(book_dir, phase=phase))
+    return steps
 
 
 def _derives_from_container(book_dir: Path) -> bool:
@@ -256,7 +257,8 @@ def gate_no_page_altering_step_failed(book_dir: Path) -> tuple[bool, str]:
     """
     from _compose_skips import verdict
 
-    return verdict(book_dir)
+    answer: tuple[bool, str] = verdict(book_dir)
+    return answer
 
 
 def gate_no_new_reading_edition_defects(book_dir: Path) -> tuple[bool, str]:

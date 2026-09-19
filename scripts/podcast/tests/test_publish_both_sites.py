@@ -178,7 +178,7 @@ def test_target_production_leaves_exactly_one_target():
 
 def test_localhost_only_needs_no_cloudflare_and_writes_no_production_stamp(monkeypatch, tmp_path):
     monkeypatch.setattr(P, "find_content", lambda slug: ("Sessions", slug, tmp_path))
-    monkeypatch.setattr(P, "cloudflare_env", lambda: pytest.fail("localhost should not need Cloudflare"))
+    monkeypatch.setattr(P, "prepare_remote", lambda listener: pytest.fail("localhost should not need Cloudflare"))
     monkeypatch.setattr(P, "count_unreviewed", lambda book_dir: 0)
     monkeypatch.setattr(
         P,

@@ -93,7 +93,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
@@ -102,9 +101,9 @@ from typing import Any
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import yaml  # noqa: E402
+from _cloudflare_preflight import prepare_remote  # noqa: E402
 from _listener_book import LISTENER  # noqa: E402
 from _paths import BUCKETS, CONTENT_ROOT, REPO_ROOT  # noqa: E402
-from _production_publish import account_ok, cloudflare_env  # noqa: E402
 from _wrangler import run as wrangler  # noqa: E402
 from publish_to_listener import sql_str  # noqa: E402
 from upload_listener_media import DATABASE, d1  # noqa: E402
@@ -280,14 +279,9 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.remote:
-        try:
-            os.environ.update(cloudflare_env())
-        except RuntimeError as error:
-            print(f"  ! {error}")
-            return 2
-        ok, who = account_ok(dict(os.environ), LISTENER)
-        if not ok:
-            print(f"  ! {who}")
+        problem = prepare_remote(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
             return 2
 
     groups = find_groups()

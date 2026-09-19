@@ -432,8 +432,7 @@ def drive_publish(monkeypatch: pytest.MonkeyPatch, tmp_path: Path, *, pre_checks
         return [{"name": "visible", "ok": live == "published", "detail": f"status is '{live}'"}, *pre_checks]
 
     monkeypatch.setattr(P, "find_content", lambda slug: ("Islamic", slug, directory))
-    monkeypatch.setattr(P, "cloudflare_env", dict)
-    monkeypatch.setattr(P, "account_ok", lambda env, listener: (True, "ok"))
+    monkeypatch.setattr(P, "prepare_remote", lambda listener: None)
     monkeypatch.setattr(P, "run", lambda argv, report, **kw: 0)
     monkeypatch.setattr(P, "narrate", lambda book_dir, args, report: {})
     monkeypatch.setattr(P, "code_behind", lambda root: {"known": True, "behind": 0, "deployed": "abc"})

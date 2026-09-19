@@ -34,6 +34,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from _arabic_coverage import arabic_coverage_shortfall, arabic_run_spans
+from _arabic_placeholders import _TOKEN_NOTE, ArabicPlaceholders
 from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _rules import COMPOSE_RETRY_TIMEOUT_S, COMPOSE_TIMEOUT_S
 from _translation_prompts import _compose_prompt
@@ -41,6 +42,25 @@ from _translation_text import _translation_long_enough, normalize_translation_pr
 
 _COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
 _RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
+
+
+def _protect_spans(body: str, table: dict[str, str]) -> str:
+    """Swap each inline Arabic span for a token (see `_arabic_placeholders`); fills `table`."""
+    shared = ArabicPlaceholders()
+    shared.table = table
+    return shared.protect(body)
+
+
+def _restore_spans(text: str, table: dict[str, str]) -> str:
+    shared = ArabicPlaceholders()
+    shared.table = table
+    return shared.restore(text)
+
+
+def _token_hint(findings: list[str]) -> str:
+    if not any("Arabic script dropped" in f for f in findings):
+        return ""
+    return ". Keep every [[ARn]] placeholder from the source exactly once, unchanged"
 
 
 def _compose_one(
@@ -56,16 +76,23 @@ def _compose_one(
     frame: str = "",
     narrator: str = "",
 ) -> str:
+    table: dict[str, str] = {}
+    protected = _protect_spans(body, table)
+
+    def call(*args, **kwargs):
+        rc_, text_, err_ = _run_claude_p_with_retry(*args, **kwargs)
+        return rc_, _restore_spans(text_ or "", table), err_
+
     prompt = _compose_prompt(
         title,
-        body,
+        protected,
         previous_tail,
         arabic_src=arabic_src,
         quran_anchor=quran_anchor,
         frame=frame,
         narrator=narrator,
-    )
-    rc, out, err = _run_claude_p_with_retry(
+    ) + (_TOKEN_NOTE if table else "")
+    rc, out, err = call(
         prompt,
         timeout=_COMPOSE_TIMEOUT,
         book_dir=book_dir,
@@ -84,7 +111,7 @@ def _compose_one(
     source_words = len(body.split())
     if source_words >= 200 and len(out.split()) < 0.55 * source_words:
         log(f"      {label}: short ({len(out.split())}/{source_words}w) - retry")
-        rc2, out2, _ = _run_claude_p_with_retry(
+        rc2, out2, _ = call(
             prompt + "\n\nYour previous attempt was too compressed. Rewrite faithfully, preserving the full teaching.",
             timeout=_RETRY_TIMEOUT,
             book_dir=book_dir,
@@ -108,11 +135,12 @@ def _compose_one(
             prompt
             + "\n\nYour previous answer failed these integrity checks: "
             + "; ".join(findings[:5])
+            + _token_hint(findings)
             + ". Rewrite now as clean chapter prose only, correcting exactly those failures. "
             "Do not mention instructions, options, source mismatch, inability, the title "
             "selection, or the prompt. Do not emit Markdown headings."
         )
-        rc2, out2, err2 = _run_claude_p_with_retry(
+        rc2, out2, err2 = call(
             retry_prompt,
             timeout=_RETRY_TIMEOUT,
             book_dir=book_dir,
@@ -150,7 +178,7 @@ def _compose_one(
     arabic_retry = arabic_coverage_shortfall(out, arabic_src)
     if arabic_retry:
         log(f"      {label}: Arabic coverage low - retrying with the dropped spans named")
-        rc3, out3, _err3 = _run_claude_p_with_retry(
+        rc3, out3, _err3 = call(
             prompt + arabic_retry,
             timeout=_RETRY_TIMEOUT,
             book_dir=book_dir,

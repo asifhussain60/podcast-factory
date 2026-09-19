@@ -125,7 +125,7 @@ async function main() {
     // it survived the tightening pass afterwards because the tightener happily
     // rewrote the envelope too. A reply that still looks like an envelope is a
     // failure, not a card.
-    if (/^\s*\{[\s\S]*"body"\s*:/.test(parsed.body)) {
+    if (/^\s*(?:```(?:json)?\s*)?\{[\s\S]*"body"\s*:/.test(parsed.body)) {
       emit({ ok: false, error: "reply is an unparsed JSON envelope" }, 1);
       return;
     }

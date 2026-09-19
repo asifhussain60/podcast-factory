@@ -73,5 +73,7 @@ def test_anchor_carries_canonical_arabic():
 
 
 def test_prompt_includes_anchor_when_present():
-    prompt = C._compose_prompt("T", "body", {}, "", "", quran_anchor="ANCHOR-SENTINEL-BLOCK")
+    from _translation_prompts import _compose_prompt  # the LIVE compose prompt
+
+    prompt = _compose_prompt("T", "body", "", quran_anchor="ANCHOR-SENTINEL-BLOCK")
     assert "ANCHOR-SENTINEL-BLOCK" in prompt
