@@ -284,7 +284,7 @@
 .gcp-error {
   /* --c-red, not --c-danger: the latter is declared nowhere in the theme, so this
      rule silently painted its hard-coded #b3261e — a red the palette does not
-     contain — while every sibling error line (.vrp-error and its peers) used the
+     contain — while every sibling error line used the
      theme token. Same token, same red, one palette (REQ-017). */
   color: var(--c-red, #a83232);
 }
