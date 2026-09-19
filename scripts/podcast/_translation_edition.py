@@ -37,6 +37,7 @@ from _book_compose import (
     _slice_source,
 )
 from _book_edits import anchor_key, edited_body, edited_chapter_keys
+from _phase_progress import begin_pass, item_done
 from _pipeline_flags import narrative_frame, narrator_subject
 from _translation_cache import make_is_fresh
 from _translation_chunk import _compose_one as _compose_one
@@ -332,6 +333,7 @@ def author_translation_edition_compose(
     # The per-chapter podcast loop in `phases/chapter_driver.py` carries its own,
     # different reasons for staying serial; see the comment above the loop there.
     # A test pins both so a future well-meaning change fails loudly instead.
+    begin_pass(book_dir, "compose", len(toc.get("chapters", [])))  # per-chapter progress + measured ETA
     for ch in toc.get("chapters", []):
         idx = int(ch.get("bk_index") or len(manifest) + 1)
         title = str(ch.get("title") or f"Chapter {idx}")
@@ -480,6 +482,7 @@ def author_translation_edition_compose(
         chapter_slug = f"ch{idx:02d}-{_slugify(title, label)}"
         chapter_path = chapters_dir / f"{chapter_slug}.txt"
         chapter_path.write_text(f"# {title}\n\n{prose.rstrip()}\n", encoding="utf-8")
+        item_done(book_dir, "compose", idx, title)
 
         # The fold. The source's own opening becomes the first paragraphs of the
         # first numbered chapter, under that chapter's own heading. `manifest` is

@@ -82,6 +82,7 @@ from _book_voice_windows import (
 )
 from _content_profile import source_language as _source_language
 from _narrative import lecture_voice_counts
+from _phase_progress import begin_pass, item_done
 from _pipeline_flags import narrative_frame, narrator_subject
 from _text_transform import _repair_adapter
 from _translation_text import _trim_seam_overlap, subordinate_body_headings
@@ -401,6 +402,7 @@ def _run_pass(
     parts = _CHAPTER_HEADING_RE.split(text)  # [pre, head1, body1, head2, body2, ...]
     out = [parts[0]]
     records: list[dict] = []
+    begin_pass(book_dir, noun, len(parts) // 2)  # per-chapter progress + measured ETA for the status card
     for i in range(1, len(parts), 2):
         head = parts[i]
         body = parts[i + 1] if i + 1 < len(parts) else ""
@@ -443,6 +445,7 @@ def _run_pass(
             repair_fn=repair_fn,
         )
         records.append(record)
+        item_done(book_dir, noun, number, title)
         if asides:
             new_body = new_body.rstrip() + "\n\n" + "\n".join(a.strip() for a in asides)
         out.append(head + "\n\n" + subordinate_body_headings(new_body).strip() + "\n")

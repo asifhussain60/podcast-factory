@@ -224,7 +224,8 @@ def preflight_resume(book_slug: str) -> tuple[Path | None, list[str]]:
             # files (2026-09-18, isaf-al-talib: three refused resumes, one ~50 min stall).
             # All derived, never hand-authored. `book/book.md` stays OFF this list.
             "/_system/arabic-integrity-report.md",
-            "/_system/needs-attention.txt",  # the watchdog's own refusal marker; see watch_orchestrator.sh
+            "/_system/needs-attention.txt",
+            "/_system/phase-progress.json",  # per-chapter progress + ETA; rewritten after every chapter  # the watchdog's own refusal marker; see watch_orchestrator.sh
             "/_system/book-coverage-check.json",
             "/_system/episode-chapter-map.json",
             "/_system/notebooklm-worklist.md",

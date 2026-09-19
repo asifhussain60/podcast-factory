@@ -28,6 +28,19 @@ After ANY orchestrator action (`--resume`, `--retry-phase`, restart), the AI MUS
 3. Per-PID `ps -o etime= -p <pid>` — any subprocess past its 900s budget? Kill -9 it.
 4. Snapshot `ls -la --time-style=+%H:%M:%S` of audit/output dir vs prior tick. If no new files AND no size growth AND parent alive AND all subprocess CPU=0 → suspect stall; check on next tick; kill on two consecutive zero-progress ticks.
 
+**Safe restart — a heartbeat REPORTS and kills stalls; it never resumes on "pending, nothing alive".**
+That state is also what a deliberate halt, a pre-flight refusal and a `manual_fallback` failure look like, and a
+blind `--resume` there re-runs work for nothing (2026-09-18: a retry of the render re-entered compose and re-ran
+the model passes over a whole 33-chapter book). Decide from the evidence, in this order:
+
+| What the tick finds | Action |
+|---|---|
+| `_system/NEEDS-ATTENTION.txt` exists | **Alert the human**; it names the refusal and the fix. Do not resume. |
+| the failed/halted phase has a `manual_fallback` | **Alert the human** with that text. Do not resume. |
+| `phase_status` is `failed` or `halted` with none of the above | Read `last_error`; alert. Resume only after the cause is fixed. |
+| `phase_status` is `running`, no live process, state older than the stale threshold | The run died: `supervise_run.py ensure <slug>` (or `--retry-phase <that phase>`, which never re-enters compose when compose finished). |
+| a live process making progress (see `Pace` on the card) | Nothing. Report the pace. |
+
 **Kill-early discipline**: don't ask for permission to kill stalled processes. Wasted minutes = wasted LLM spend. Log what you killed and why.
 
 ## Phase E — Fast-fail gates + single-actor supervisor (2026-06-09)
