@@ -51,17 +51,16 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _cloudflare_preflight import prepare_remote  # noqa: E402
 from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
 from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
-from _production_publish import account_ok, cloudflare_env  # noqa: E402
 from _wrangler import run as wrangler  # noqa: E402
 
 # The bucket belongs to the uploader; the publish step borrows two of its
@@ -459,14 +458,17 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     if args.remote:
-        try:
-            os.environ.update(cloudflare_env())
-        except RuntimeError as error:
-            print(f"  ! {error}")
+        problem = prepare_remote(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
             return 2
-        ok, who = account_ok(dict(os.environ), LISTENER)
-        if not ok:
-            print(f"  ! {who}")
+
+    if not args.remote and not args.dry_run:
+        from _local_db import ensure_local_migrations
+
+        problem = ensure_local_migrations(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
             return 2
 
     commit = None
@@ -562,7 +564,9 @@ def main(argv: list[str] | None = None) -> int:
             done = len(args.slugs) - len(failed)
             print(f"\n{done} of {len(args.slugs)} written to {target}")
 
-    __import__("audio_parity").check_after_publish(args.slugs, failed, dry_run=args.dry_run, json_mode=args.json)
+    __import__("audio_parity").check_after_publish(
+        args.slugs, failed, dry_run=args.dry_run, json_mode=args.json, remote=args.remote
+    )
     if args.json:
         print(json.dumps({"books": summaries, "failed": failed}, indent=2))
 

@@ -1,0 +1,16 @@
+# Modules held to `mypy --strict` — blocking in `make lint` and CI (the global mypy step stays advisory).
+# GROW-ONLY: add a module once it passes; never remove one to make a build green.
+# Chosen first: the ones where a silent type bug costs money or ships a defective book (the cost ledger, path and
+# branch resolution, the phase gates) plus the modules added by the 2026-09 audit.
+scripts/podcast/_cost_ledger.py
+scripts/podcast/_branching.py
+scripts/podcast/_paths.py
+scripts/podcast/_phase_gates.py
+scripts/podcast/_finalize_failure.py
+scripts/podcast/_cloudflare_preflight.py
+scripts/podcast/_local_db.py
+scripts/podcast/_phase_progress.py
+scripts/podcast/_book_meta.py
+scripts/podcast/_arabic_placeholders.py
+scripts/podcast/_arabic_authoring_guard.py
+scripts/podcast/_playwright_diag.py

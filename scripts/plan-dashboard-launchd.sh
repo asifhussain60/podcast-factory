@@ -20,9 +20,13 @@ ensure_dirs() {
   mkdir -p "${APP_DIR}"
 }
 
-write_plist() {
-  ensure_dirs
-  cat >"${PLIST}" <<PLIST
+# The job runs `zsh -lc` with a minimal PATH, and node lives under nvm, which only nvm.sh puts on PATH. Without
+# this the job exits 127 ("command not found: node") and, with KeepAlive, spun 8,334 times (2026-09-19). Sourcing
+# nvm.sh also selects the user's default alias, so it follows node upgrades instead of pinning a version.
+NVM_PRELUDE='export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] &amp;&amp; . "$NVM_DIR/nvm.sh";'  # XML-escaped: it is pasted into the plist
+
+plist_xml() {
+  cat <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -34,7 +38,7 @@ write_plist() {
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd ${APP_DIR} &amp;&amp; node scripts/regenerate-snapshots.mjs &amp;&amp; npm run dev -- --host 127.0.0.1 --port ${PORT}</string>
+    <string>${NVM_PRELUDE} cd ${APP_DIR} &amp;&amp; node scripts/regenerate-snapshots.mjs &amp;&amp; npm run dev -- --host 127.0.0.1 --port ${PORT}</string>
   </array>
 
   <key>WorkingDirectory</key>
@@ -45,6 +49,10 @@ write_plist() {
 
   <key>KeepAlive</key>
   <true/>
+
+  <!-- A failing start is retried at most every 2 minutes, not every ~10 seconds. -->
+  <key>ThrottleInterval</key>
+  <integer>120</integer>
 
   <key>StandardOutPath</key>
   <string>${OUT_LOG}</string>
@@ -62,6 +70,11 @@ write_plist() {
 </dict>
 </plist>
 PLIST
+}
+
+write_plist() {
+  ensure_dirs
+  plist_xml >"${PLIST}"
 }
 
 is_loaded() {
@@ -135,7 +148,7 @@ uninstall_agent() {
 
 usage() {
   cat <<USAGE
-Usage: $0 <install|start|stop|restart|status|open|logs|uninstall>
+Usage: $0 <install|start|stop|restart|status|open|logs|print-plist|uninstall>
 
 Commands:
   install    Write plist and load launch agent
@@ -145,6 +158,7 @@ Commands:
   status     Show launchctl + port + health status
   open       Open dashboard URL in browser
   logs       Tail launchd logs
+  print-plist  Print the plist that install would write (read-only)
   uninstall  Stop and remove plist
 USAGE
 }
@@ -158,6 +172,7 @@ case "${cmd}" in
   status) status_agent ;;
   open) open_dashboard ;;
   logs) show_logs ;;
+  print-plist) plist_xml ;;
   uninstall) uninstall_agent ;;
   *) usage; exit 1 ;;
 esac

@@ -21,7 +21,14 @@
  * Chromium regardless of content, an unresolved library/browser gap).
  */
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, rmSync, statSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  renameSync,
+  rmSync,
+  statSync,
+} from "node:fs";
 import { join } from "node:path";
 
 const PAGE_RE = /^page-(\d+)\.png$/;
@@ -59,11 +66,21 @@ function sourcesMtimeMs(bookDir) {
  * Ensure book/_preview-cache/page-NNN.png reflects the CURRENT book.md /
  * visual-layout.json / citation-style.json — regenerating the scratch preview
  * PDF (and its page images) only when those sources are newer than the cache.
- * Returns { pageCount, cacheDir, regenerated } — pageCount is 0 when there is
- * no book.md yet. Synchronous; safe to call on every Preview page load (a
+ * Returns { pageCount, cacheDir, regenerated, error? } — pageCount is 0 when there
+ * is no book.md yet. Synchronous; safe to call on every Preview page load (a
  * no-op fs stat comparison when the cache is already fresh).
+ *
+ * The new render is built in a sibling scratch directory and swapped in only
+ * once it has succeeded. A failed render (missing browser build, Poppler
+ * absent, a broken book.md) therefore leaves the previous cache untouched and
+ * comes back as `error` — a page LOAD must never destroy a cache it cannot
+ * rebuild. `run` is the process runner, injectable so the failure path can be
+ * tested without a browser.
  */
-export function ensurePreviewPageImages(bookDir, { dpi = 90 } = {}) {
+export function ensurePreviewPageImages(
+  bookDir,
+  { dpi = 90, run = execFileSync } = {},
+) {
   const mdPath = join(bookDir, "book", "book.md");
   if (!existsSync(mdPath))
     return { pageCount: 0, cacheDir: "", regenerated: false };
@@ -76,25 +93,36 @@ export function ensurePreviewPageImages(bookDir, { dpi = 90 } = {}) {
     statSync(scratchPdf).mtimeMs < sourceMtime ||
     cachedPageFiles(cacheDir).length === 0;
 
+  let regenerated = false;
+  let error;
   if (stale) {
-    rmSync(cacheDir, { recursive: true, force: true });
-    mkdirSync(cacheDir, { recursive: true });
-    // The unified render always honors visual-layout.json + the v2 pagination CSS.
-    execFileSync("node", [RENDER_SCRIPT, mdPath, scratchPdf, THEME_CSS, "1"], {
-      stdio: ["ignore", "ignore", "pipe"],
-    });
-    execFileSync(
-      "pdftoppm",
-      ["-png", "-r", String(dpi), scratchPdf, join(cacheDir, "page")],
-      {
+    const buildDir = `${cacheDir}.building`;
+    rmSync(buildDir, { recursive: true, force: true });
+    mkdirSync(buildDir, { recursive: true });
+    try {
+      const buildPdf = join(buildDir, "preview.pdf");
+      // The unified render always honors visual-layout.json + the v2 pagination CSS.
+      run("node", [RENDER_SCRIPT, mdPath, buildPdf, THEME_CSS, "1"], {
         stdio: ["ignore", "ignore", "pipe"],
-      },
-    );
+      });
+      run(
+        "pdftoppm",
+        ["-png", "-r", String(dpi), buildPdf, join(buildDir, "page")],
+        { stdio: ["ignore", "ignore", "pipe"] },
+      );
+      rmSync(cacheDir, { recursive: true, force: true });
+      renameSync(buildDir, cacheDir);
+      regenerated = true;
+    } catch (e) {
+      rmSync(buildDir, { recursive: true, force: true });
+      error = e instanceof Error ? e.message : String(e);
+    }
   }
   return {
     pageCount: cachedPageFiles(cacheDir).length,
     cacheDir,
-    regenerated: stale,
+    regenerated,
+    ...(error ? { error } : {}),
   };
 }
 

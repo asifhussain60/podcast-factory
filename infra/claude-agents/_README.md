@@ -27,7 +27,7 @@ design — 16 of the 22 agents — so a missing `.toml` is not itself drift.
 
 ---
 
-## Agent registry (22 agents)
+## Agent registry (25 agents)
 
 Alphabetical. Each row has one canonical spec in this directory and a generated
 `.github/agents/<name>.agent.md` mirror.
@@ -35,10 +35,12 @@ Alphabetical. Each row has one canonical spec in this directory and a generated
 | Agent | Purpose |
 |---|---|
 | `book-challenger` | Semantic-fidelity challenger for the reading-edition PDF (augmented companion + articulated translation editions) |
+| `book-editor` | "Copy-editor for a spoken-source book, and the LAST gate before a person is sent to the Book Composer. |
 | `book-publication-reviewer` | Reader-facing review of the rendered PDF — is it understandable, consistent, taught in a sensible order; fixes are orienting BRIDGES only, never a reorder |
 | `book-publisher` | Physical delivery — copies a book's audio (m4a) + reading-edition PDF to a target folder (default: Google Drive) |
 | `book-rearticulator` | On-demand articulation of one stiff or literal chapter against the Book Articulation Standard; convergence action on failure is REVERT |
 | `book-render-challenger` | Print-render challenger for the rendered reading-edition PDF (blank pages, split figures, watermark, page fill) |
+| `findings-triager` | Keeps the findings ledger honest — closes complaints that no longer describe anything live (by three rules, with the reason kept), then groups the survivors and hands systemic patterns to `podcast-trainer` |
 | `html-view-challenger` | Conformance validator for HTML views against the Cortex quality standard (STATIC, source-level) |
 | `noise-auditor` | Cross-surface detector for authorial-apparatus noise (circulation/provenance/colophon) the denoise step never strips; identify-only |
 | `podcast-challenger` | Semantic quality validator for chapters and framings; convergence loop |
@@ -55,6 +57,7 @@ Alphabetical. Each row has one canonical spec in this directory and a generated
 | `repo-surgeon` | Holistic repo auditor — 5-pass sweep (structure, code, architecture, brittleness, plan conformance) |
 | `site-health-sentinel` | Runtime + visual-QA gate for the Astro site — boots a browser, sweeps every route for console errors, screenshots at desktop/mobile across states, judges pixels for visual defects, fixes in-pattern; the runtime peer of `html-view-challenger` |
 | `slide-deck-challenger` | Visual quality validator for slide-deck bundles |
+| `source-fidelity-auditor` | "Narrow, single-pass source-fidelity check for a book's reading edition. |
 | `vacuum` | Post-production filesystem cleanup and file normalization |
 
 **Deprecated (no spec file):** `podcast-blueprint` — agent + skill retired 2026-07-26 when the classifier they wrapped moved inline; the registry above still listed it until the 2026-08-10 infra audit. Its schema models survive as `scripts/podcast/_blueprint_schema.py`, and pipeline-debt F41 (the unwired `POST /api/intake/classify`) still names it — treat those as references to the retired Layer-1 classifier, not to a live agent. `podcast-auditor` — retired 2026-06-02; use `repo-surgeon --scope podcast` instead. `docs-updater` — spec + all three mirrors deleted 2026-08-05 (was declared retired in `framework.md` back on 2026-05-28, but the files themselves were never removed until this audit caught it); its target, `docs/architecture/index.html`, has been gone since that same date. `reconcile` — retired alongside `docs-updater` on 2026-05-28 for the same reason (its worked example also targeted the deleted `docs/architecture/index.html`), but a later "production-readiness sweep" (2026-05-31) accidentally resurrected the canonical spec from its still-orphaned `.github/agents/` mirror, believing the mirror's existence meant the canonical was "missing" rather than deleted-on-purpose. Deleted again 2026-08-05, this time with `.codex/agents/reconcile.toml` cleared too and `sync_codex_agents.py` fixed to delete/fail on that kind of orphan going forward (it previously only printed a NOTE and exited 0 even under `--check`, which is how the zombie went undetected for two months).

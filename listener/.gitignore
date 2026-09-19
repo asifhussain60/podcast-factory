@@ -1,1 +1,5 @@
 .read-aloud-check/
+
+# Generated SQL written by scripts/podcast/publish_to_listener.py on every publish;
+# rebuilt, never hand-edited, and 23 MB of churn if tracked.
+.publish/

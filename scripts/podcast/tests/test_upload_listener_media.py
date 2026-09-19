@@ -75,8 +75,7 @@ def test_upload_stamps_only_after_r2_fetchback() -> None:
         mock.patch.object(ulm, "upload"),
         mock.patch.object(ulm, "object_exists", return_value=False),
         mock.patch.object(ulm, "stamp") as stamp,
-        mock.patch.object(ulm, "cloudflare_env", return_value={}),
-        mock.patch.object(ulm, "account_ok", return_value=(True, "ok")),
+        mock.patch.object(ulm, "prepare_remote", return_value=None),
         mock.patch.object(ulm.subprocess, "run") as run,
     ):
         run.return_value.stdout = "2026-08-13T21:40:00Z\n"

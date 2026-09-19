@@ -31,10 +31,10 @@ pipeline makes.
 
 from __future__ import annotations
 
-import re
 from pathlib import Path
 
 from _arabic_coverage import arabic_coverage_shortfall, arabic_run_spans
+from _arabic_placeholders import _TOKEN_NOTE, ArabicPlaceholders
 from _authoring._core import AuthoringError, _run_claude_p_with_retry, pure_text_call_options
 from _rules import COMPOSE_RETRY_TIMEOUT_S, COMPOSE_TIMEOUT_S
 from _translation_prompts import _compose_prompt
@@ -44,34 +44,17 @@ _COMPOSE_TIMEOUT = COMPOSE_TIMEOUT_S
 _RETRY_TIMEOUT = COMPOSE_RETRY_TIMEOUT_S
 
 
-_SPAN_RE = re.compile("\u27ea(?:ar):([^\u27eb]+)\u27eb")
-_TOKEN_RE = re.compile(r"\[\[AR(\d+)\]\]")
-_TOKEN_NOTE = (
-    "\n\nARABIC PLACEHOLDERS: each token like [[AR1]] in the source stands for a protected Arabic "
-    "quotation. Copy every token into your prose exactly once, unchanged, at the point where the "
-    "quotation belongs. Never translate, expand, drop or renumber a token."
-)
-
-
 def _protect_spans(body: str, table: dict[str, str]) -> str:
-    """Swap each inline Arabic span for a token the model has no reason to touch.
-
-    A model cannot drop or re-spell script it never sees; restoring the exact
-    source span afterwards keeps the quotation letter-for-letter.
-    """
-
-    def _swap(m: re.Match) -> str:
-        key = f"[[AR{len(table) + 1}]]"
-        # Keep only the Arabic: the ⟪ar:…⟫ wrapper is source-side syntax that nothing
-        # downstream strips, so restoring it would print the marker into the book.
-        table[key] = m.group(1)
-        return key
-
-    return _SPAN_RE.sub(_swap, body)
+    """Swap each inline Arabic span for a token (see `_arabic_placeholders`); fills `table`."""
+    shared = ArabicPlaceholders()
+    shared.table = table
+    return shared.protect(body)
 
 
 def _restore_spans(text: str, table: dict[str, str]) -> str:
-    return _TOKEN_RE.sub(lambda m: table.get(m.group(0), m.group(0)), text)
+    shared = ArabicPlaceholders()
+    shared.table = table
+    return shared.restore(text)
 
 
 def _token_hint(findings: list[str]) -> str:

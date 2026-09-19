@@ -133,12 +133,14 @@ def _ok(gate: str, msg: str) -> None:
 
 
 def git_sha() -> str:
-    r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True)
+    r = subprocess.run(["git", "rev-parse", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True, timeout=60)
     return r.stdout.strip()[:12] if r.returncode == 0 else "unknown"
 
 
 def git_branch() -> str:
-    r = subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True)
+    r = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=REPO_ROOT, capture_output=True, text=True, timeout=60
+    )
     return r.stdout.strip() if r.returncode == 0 else "unknown"
 
 
@@ -219,6 +221,7 @@ def gate_g4_build_clean(workspace: Path, slug: str, episodes: list[Path], strict
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
+            timeout=1800,
         )
         p0 = len(re.findall(r"^FLAG \(P0\)", r.stdout + r.stderr, re.MULTILINE))
         p1 = len(re.findall(r"^FLAG \(P1\)", r.stdout + r.stderr, re.MULTILINE))

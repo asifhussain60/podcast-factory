@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 93.62
+    "burn_30d_usd": 33.57
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1932,6 +1932,14 @@
       "title": "Degrees of Excellence",
       "phase": "reader-narration",
       "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "isaf-al-talib",
+      "title": "Is'af al-Talib fi Jami' al-Matalib",
+      "phase": "0book-compose",
+      "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },
@@ -2202,6 +2210,12 @@
       "slug": "where-the-caravans-set-forth",
       "title": "Where the Caravans Set Forth",
       "shipped": "2026-08-13T23:33:43Z",
+      "episodes": 0
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "shipped": "2026-09-12T20:11:18Z",
       "episodes": 0
     }
   ]

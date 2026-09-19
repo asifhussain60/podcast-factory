@@ -99,6 +99,50 @@ test("parse refuses a reply that is still a JSON envelope", async () => {
   assert.match(data.error, /envelope/);
 });
 
+test("parse recovers a card whose JSON has raw line breaks inside the strings", async () => {
+  // isaf-al-talib, chapters 29 and 31: a complete, correct card was dropped as
+  // "unparsed JSON envelope" because the model put literal newlines inside the
+  // string values, which JSON.parse rejects. The words are all there; only the
+  // encoding is wrong, so repair the encoding rather than lose the card.
+  const raw =
+    '{"body": "First paragraph.\n\nSecond paragraph with a line\nbreak.", "etymology": ["a-b-c: the root."]}';
+  const { code, data } = await bridge("parse", {
+    raw: raw.replaceAll("\\n", "\n"),
+  });
+  assert.equal(code, 0);
+  assert.equal(data.ok, true);
+  assert.match(data.body, /First paragraph\.\n\nSecond paragraph/);
+  assert.equal(data.etymology.length, 1);
+});
+
+test("parse recovers a fenced reply with raw line breaks and a trailing comma", async () => {
+  const raw = '```json\n{"body": "One.\nTwo.", "etymology": ["x: y.",],}\n```';
+  const { data } = await bridge("parse", { raw });
+  assert.equal(data.ok, true);
+  // Exactly the card text — not the envelope, not the fence. (Before the repair
+  // this "passed" only because the whole junk reply happened to contain it.)
+  assert.equal(data.body, "One.\nTwo.");
+  assert.deepEqual(data.etymology, ["x: y."]);
+});
+
+test("a FENCED envelope that still cannot be read is refused, not filed", async () => {
+  const { code, data } = await bridge("parse", {
+    raw: '```json\n{"body": "cut off',
+  });
+  assert.notEqual(code, 0);
+  assert.equal(data.ok, false);
+  assert.match(data.error, /envelope/);
+});
+
+test("repair never invents an ending: a truncated envelope is still a failure", async () => {
+  // Closing an unfinished string would file half a sentence as a whole card.
+  const { code, data } = await bridge("parse", {
+    raw: '{"body": "An explanation that was cut off mid-sen',
+  });
+  assert.notEqual(code, 0);
+  assert.equal(data.ok, false);
+});
+
 test("parse still accepts a reply that was never JSON at all", async () => {
   // The fallback is right for a plain-prose reply; only an unread ENVELOPE is
   // a failure. Narrowing this to "must be JSON" would drop good cards.

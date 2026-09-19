@@ -932,7 +932,15 @@ def author_phase_0d(
             f"     episode's prose verbatim. No 12-word verbatim run may be shared between\n"
             f"     two episode chapter files except inside attributed source quotations\n"
             f"     and citation formulas. The challenger's cross-chapter CS check rejects\n"
-            f"     violations.\n\n"
+            f"     violations.\n"
+            f"  7. R-ARABIC-INTEGRITY (never invent Arabic): Arabic script may appear in a chapter\n"
+            f"     ONLY where it is already in the INPUT slice, kept exactly as given. NEVER write\n"
+            f"     Arabic script, and never write an `⟪ar:…⟫` marker, from memory — not a Qur'anic\n"
+            f"     phrase, not a hadith, not a name or term, however sure you are of it. When the\n"
+            f"     source supplies English or a transliteration, write that; when you quote a verse,\n"
+            f"     write its English with the reference. Verified Arabic is injected AFTERWARDS by\n"
+            f"     the pipeline from the mushaf and the curated glossary — that is the only sanctioned\n"
+            f"     way script enters. Anything you add is removed and recorded.\n\n"
             f"NOISE RULE (root denoise contract): front matter about who should read the book,\n"
             f"prefaces, descriptions of the book as a book, author biography/posture, chain of\n"
             f"narrations/transmission, permission-to-read, and book-object provenance are noise.\n"
@@ -1155,6 +1163,12 @@ def author_phase_0d(
                 stdout=stdout or "",
                 stderr=stderr or "",
             )
+
+        # R-ARABIC-INTEGRITY backstop (deterministic, $0): remove any Arabic the model wrote from
+        # memory — recorded in _system/arabic-authoring-scrub.json — before a gate or the done marker.
+        from _arabic_authoring_guard import scrub_authored_chapters
+
+        scrub_authored_chapters(book_dir, expected_chapter_files, slice_text, log)
 
         # R-MAX-CONCEPTS post-write gate (2026-06-10) — deterministic, $0.
         # Count concept-level H2 sections (frames excluded) in every chapter

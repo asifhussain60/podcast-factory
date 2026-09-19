@@ -25,6 +25,7 @@ The skill set here is a STRICT SUBSET of what existed pre-split — the journal 
 | **Ui-designer** | N/A — design system | Active in staging — the Astro site's design system (typography, `--c-*` palette, editorial cards); load for any site design work | `skills-staging/ui-designer/SKILL.md` |
 | **Podcast-factory-deploy** | N/A — ops runbook | Active — project-scoped, discovered by Claude Code directly via `.claude/skills/` (not the Cowork install path the rows above use); build/run/deploy for the two web apps | `skills-staging/podcast-factory-deploy/SKILL.md` → `.claude/skills/podcast-factory-deploy/SKILL.md` |
 | **Challenge-my-request** | N/A — meta/process | Active — project-scoped, discovered by Claude Code directly via `.claude/skills/`; forces critical evaluation of Asif's own requests about the pipeline/tooling before compliance | `skills-staging/challenge-my-request/SKILL.md` → `.claude/skills/challenge-my-request/SKILL.md` |
+| **Dependency-steward** | N/A — ops runbook | Active — project-scoped, discovered by Claude Code directly via `.claude/skills/`; monthly local dependency upkeep for the pipeline, the Astro Site and the Library, one grouped branch per ecosystem, with this repo's lockfile and CI-minute traps written in | `skills-staging/dependency-steward/SKILL.md` |
 
 All skills target **CORTEX Challenger Framework v1.0**. The framework version is implicit unless a row says otherwise.
 

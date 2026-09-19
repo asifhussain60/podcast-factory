@@ -41,10 +41,14 @@ install-skills-dry:  ## Dry-run the skill installer (no files written).
 RUFF := $(shell [ -x .venv/bin/ruff ] && echo .venv/bin/ruff || echo ruff)
 
 .PHONY: lint
-lint:  ## Ruff lint + format check + DR-005 line-count gate (pipeline surface).
+lint:  ## Ruff lint + format check + DR-005 line-count gate + hygiene ratchets + strict typing (pipeline surface).
 	@$(RUFF) check
 	@$(RUFF) format --check
 	@python3 infra/git-hooks/check-dr005.py
+	@python3 scripts/check_hygiene_ratchets.py
+	@if command -v mypy >/dev/null 2>&1; then \
+		mypy --strict --follow-imports=silent --ignore-missing-imports --explicit-package-bases $$(grep -v '^#' infra/mypy-strict-modules.txt | tr '\n' ' '); \
+	else echo "lint: mypy not installed — strict set skipped (CI runs it)"; fi
 	@echo "lint: clean"
 
 .PHONY: lint-fix

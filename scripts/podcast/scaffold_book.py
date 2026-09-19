@@ -235,6 +235,13 @@ def scaffold(
     for path, body in files:
         write_if_absent_or_force(path, body, force, written, skipped)
 
+    # The per-book meta.yml the module docstring always promised. Create-only: a book that already
+    # has one (hand-written, or from a re-scaffold) is never touched, even under --force.
+    from _book_meta import ensure_meta
+
+    created_meta = ensure_meta(book_dir, book_slug, title=title, author=author)
+    (written if created_meta else skipped).append(created_meta or book_dir / "meta.yml")
+
     # Report.
     print(f"Scaffolded {book_dir.relative_to(REPO_ROOT)}")
     if written:

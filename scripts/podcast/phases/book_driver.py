@@ -24,6 +24,7 @@ from _progress import read_state, update_phase
 from phases.scaffold import phase_git_commit
 
 _BOOK_PHASES = ("0book-design", "0book-compose", "0book-illustrate", "0book-slide-import", "0book-render")
+_DESIGN_COMPOSE = ("0book-design", "0book-compose")
 
 
 from _subprocess import err as _err
@@ -73,6 +74,92 @@ def _drive_book_branch(book_dir: Path) -> int:
         raise
 
 
+def _design_and_compose_are_current(book_dir: Path) -> bool:
+    """True when 0book-design and 0book-compose both finished, book.md exists, and nothing that
+    governs the model passes changed since.
+
+    Only these two are the model-spend phases; everything after them (illustrate, slide-import,
+    render) is cheap and re-runnable. So a retry or resume aimed at a LATER phase must enter
+    there, never at design. The earlier guard demanded that EVERY book phase be finished, which a
+    `--retry-phase 0book-render` by definition is not — so the retry re-entered 0book-compose and
+    re-ran the fluency/augment passes over the whole book (2026-09-18: hours of subscription
+    spend, zero textual change; before that 2026-08-18 on sharh-al-masail).
+    """
+    phases = read_state(book_dir).get("phases") or {}
+    if not all((phases.get(ph) or {}).get("status") in ("completed", "skipped") for ph in _DESIGN_COMPOSE):
+        return False
+    if not (book_dir / "book" / "book.md").exists():
+        return False
+    from _compose_scope import needs_model_recompose
+
+    if needs_model_recompose(book_dir):
+        return False
+    _info("book branch: design and compose already finished and nothing model-governing changed — entering after them")
+    return True
+
+
+def _run_design_and_compose(book_dir: Path, slug: str) -> bool:
+    """0book-design then 0book-compose. False when either failed (non-blocking for the podcast)."""
+    # 0book-design
+    update_phase(book_dir, phase="0book-design", status="running")
+    try:
+        author_phase_book_design(book_dir, log=_info)
+    except AuthoringError as e:
+        update_phase(
+            book_dir, phase="0book-design", status="failed", error=str(e), extras={"manual_fallback": e.manual_fallback}
+        )
+        _err(f"0book-design failed (non-blocking): {e}")
+        return False
+    update_phase(book_dir, phase="0book-design", status="completed")
+    phase_git_commit(book_dir, f"book({slug}): 0book-design — book-toc.json")
+
+    # 0book-compose
+    #
+    # The single unified compose path: a faithful base -> optional
+    # source-grounded augment -> optional author re-voice, selected by the two
+    # knobs (book_augmentation, book_voice). This is the only compose route.
+    update_phase(book_dir, phase="0book-compose", status="running")
+    try:
+        from _compose_scope import apparatus_only_retry_advice
+
+        _advice = apparatus_only_retry_advice(book_dir)
+        if _advice:
+            _err(f"WARNING: {_advice}")
+
+        from _book_pipeline_v2 import compose_book_v2
+
+        compose_book_v2(book_dir, log=_info)
+    except AuthoringError as e:
+        update_phase(
+            book_dir,
+            phase="0book-compose",
+            status="failed",
+            error=str(e),
+            extras={"manual_fallback": e.manual_fallback},
+        )
+        _err(f"0book-compose failed (non-blocking): {e}")
+        return False
+    except ValueError as e:
+        # An unrecognised knob value in series-config.yaml. It SHOULD stop the book
+        # — the config does not say which book to make — but it must stop it here,
+        # the way every other book failure does. Uncaught it propagates through the
+        # phase wrapper, out of publish_driver and into the orchestrator, aborting
+        # the run after the entire podcast has already been produced. The book
+        # branch is non-blocking for the podcast; a typo does not get to change that.
+        update_phase(
+            book_dir,
+            phase="0book-compose",
+            status="failed",
+            error=str(e),
+            extras={"manual_fallback": "Fix the knob value in _system/series-config.yaml, then re-run."},
+        )
+        _err(f"0book-compose failed (non-blocking): {e}")
+        return False
+    update_phase(book_dir, phase="0book-compose", status="completed")
+    phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path")
+    return True
+
+
 def _drive_book_branch_body(book_dir: Path) -> int:
     """Design → compose → illustrate → slide-import → render the companion book.
 
@@ -111,96 +198,12 @@ def _drive_book_branch_body(book_dir: Path) -> int:
         )
         return 0
 
-    # Skip the whole design->compose->illustrate->slide-import->render chain
-    # when every one of those phases already finished (completed OR skipped)
-    # on a prior run AND nothing that governs the model passes has changed
-    # since. Without this check the function below always re-executes from
-    # 0book-design, no matter what a resume was actually asked to continue —
-    # cheap for 0book-design (its own "book-toc.json exists" skip), but
-    # 0book-compose has no equivalent: a resume that only needed to continue
-    # past a LATER phase restarted the fluency/augment model passes from
-    # scratch, silently rewriting chapters that were already correct. This
-    # directly contradicted the module's own stated design ("the upstream
-    # 0book phases are artifact-idempotent, so re-entry is effectively
-    # free" — see this file's own docstring above). Confirmed live on
-    # `sharh-al-masail-ghulam-hussain` (2026-08-18): three separate resumes
-    # each re-triggered a full re-compose; two were caught mid-rewrite before
-    # they could be committed. `needs_model_recompose` already existed for
-    # exactly this determination (added 2026-08-08 for the equivalent
-    # `--retry-phase` case) but was only ever used to print an advisory,
-    # never to actually skip anything.
-    _state = read_state(book_dir)
-    _phases_state = _state.get("phases") or {}
-    _all_book_phases_finished = all(
-        (_phases_state.get(ph) or {}).get("status") in ("completed", "skipped") for ph in _BOOK_PHASES
-    )
-    if _all_book_phases_finished and (book_dir / "book" / "book.md").exists():
-        from _compose_scope import needs_model_recompose
-
-        if not needs_model_recompose(book_dir):
-            _info(
-                "book branch: all phases already finished and nothing model-governing "
-                "changed since — skipping design/compose/render re-entry"
-            )
-            return 0
-
-    # 0book-design
-    update_phase(book_dir, phase="0book-design", status="running")
-    try:
-        author_phase_book_design(book_dir, log=_info)
-    except AuthoringError as e:
-        update_phase(
-            book_dir, phase="0book-design", status="failed", error=str(e), extras={"manual_fallback": e.manual_fallback}
-        )
-        _err(f"0book-design failed (non-blocking): {e}")
+    if _design_and_compose_are_current(book_dir):
+        _phases = read_state(book_dir).get("phases") or {}
+        if all((_phases.get(ph) or {}).get("status") in ("completed", "skipped") for ph in _BOOK_PHASES):
+            return 0  # everything finished and nothing changed: nothing to redo
+    elif not _run_design_and_compose(book_dir, slug):
         return 0
-    update_phase(book_dir, phase="0book-design", status="completed")
-    phase_git_commit(book_dir, f"book({slug}): 0book-design — book-toc.json")
-
-    # 0book-compose
-    #
-    # The single unified compose path: a faithful base -> optional
-    # source-grounded augment -> optional author re-voice, selected by the two
-    # knobs (book_augmentation, book_voice). This is the only compose route.
-    update_phase(book_dir, phase="0book-compose", status="running")
-    try:
-        from _compose_scope import apparatus_only_retry_advice
-
-        _advice = apparatus_only_retry_advice(book_dir)
-        if _advice:
-            _err(f"WARNING: {_advice}")
-
-        from _book_pipeline_v2 import compose_book_v2
-
-        compose_book_v2(book_dir, log=_info)
-    except AuthoringError as e:
-        update_phase(
-            book_dir,
-            phase="0book-compose",
-            status="failed",
-            error=str(e),
-            extras={"manual_fallback": e.manual_fallback},
-        )
-        _err(f"0book-compose failed (non-blocking): {e}")
-        return 0
-    except ValueError as e:
-        # An unrecognised knob value in series-config.yaml. It SHOULD stop the book
-        # — the config does not say which book to make — but it must stop it here,
-        # the way every other book failure does. Uncaught it propagates through the
-        # phase wrapper, out of publish_driver and into the orchestrator, aborting
-        # the run after the entire podcast has already been produced. The book
-        # branch is non-blocking for the podcast; a typo does not get to change that.
-        update_phase(
-            book_dir,
-            phase="0book-compose",
-            status="failed",
-            error=str(e),
-            extras={"manual_fallback": "Fix the knob value in _system/series-config.yaml, then re-run."},
-        )
-        _err(f"0book-compose failed (non-blocking): {e}")
-        return 0
-    update_phase(book_dir, phase="0book-compose", status="completed")
-    phase_git_commit(book_dir, f"book({slug}): 0book-compose — unified path")
 
     # Visual policy. Under `book_visuals: manual_only` (the default for a companion
     # edition) the reading edition is a TEXT deliverable and its figures are chosen

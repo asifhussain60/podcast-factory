@@ -500,3 +500,37 @@ def test_without_a_narration_manifest_the_flat_guess_still_applies(tmp_path: Pat
     progress = compute_progress({"phases": {"reader-narration": {"status": "running"}}}, tmp_path)
     row = next(r for r in progress["phases"] if r["phase"] == "reader-narration")
     assert row["fraction"] == 0.5
+
+
+# ─── the per-chapter pace row ─────────────────────────────────────────────────────────────────────
+def _card(pace, status="running"):
+    base = build_card_stub(status)
+    base["item_progress"] = pace
+    return base
+
+
+def build_card_stub(status: str) -> dict:
+    data = compute_progress({**state(**{"0book-compose": status}), "phase": "0book-compose", "phase_status": status})
+    return {"slug": "demo", "title": "Demo Book", "generated_at": "now", "eta": None, "spend_usd": 0.0, **data}
+
+
+def test_a_running_pass_shows_its_chapter_and_time_left() -> None:
+    text = render_card(_card("polish · 12 of 33 · about 2h 10m left · The Pillar"))
+    assert "Pace" in text and "12 of 33" in text and "2h 10m left" in text
+
+
+def test_the_pace_row_is_absent_when_nothing_is_recorded_or_the_phase_is_not_running() -> None:
+    assert "Pace" not in render_card(_card(None))
+    assert "Pace" not in render_card(_card("polish · 12 of 33", status="completed"))
+
+
+def test_build_card_reads_the_recorded_progress(tmp_path) -> None:
+    import _phase_progress as pp
+
+    (tmp_path / "_system").mkdir()
+    (tmp_path / "_system" / "orchestrator-state.json").write_text(
+        json.dumps({"book_slug": "demo", "phases": {"0book-compose": {"status": "running"}}}), encoding="utf-8"
+    )
+    pp.begin_pass(tmp_path, "compose", 4)
+    pp.item_done(tmp_path, "compose", 1, "One")
+    assert "1 of 4" in (build_card(tmp_path).get("item_progress") or "")

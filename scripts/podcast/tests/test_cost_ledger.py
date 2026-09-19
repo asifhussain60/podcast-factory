@@ -185,6 +185,50 @@ class AppendCostRowTests(unittest.TestCase):
         ledger = self.book / "_system" / "cost-ledger.jsonl"
         self.assertEqual(len(ledger.read_text().splitlines()), 1)
 
+    def test_unknown_model_row_is_marked_unpriced_in_the_ledger(self):
+        # A stderr warning vanishes into a subprocess log; the ledger row is what
+        # the cost report reads, so the row itself must say "this $0 is not a real $0".
+        import io
+        from contextlib import redirect_stderr
+
+        with redirect_stderr(io.StringIO()):
+            row = _cost_ledger.append_cost_row(
+                self.book,
+                phase="05-refine-english",
+                step="win-001",
+                model="unknown-model-xyz",
+                input_tokens=1000,
+                output_tokens=500,
+            )
+        self.assertFalse(row.priced)
+        ledger = self.book / "_system" / "cost-ledger.jsonl"
+        self.assertIs(json.loads(ledger.read_text().splitlines()[0])["priced"], False)
+
+    def test_known_model_row_is_marked_priced(self):
+        row = _cost_ledger.append_cost_row(
+            self.book,
+            phase="05-refine-english",
+            step="win-001",
+            model="claude-opus-4-8",
+            input_tokens=1000,
+            output_tokens=500,
+        )
+        self.assertTrue(row.priced)
+
+    def test_rows_written_before_the_field_existed_still_load_as_priced(self):
+        legacy = {
+            "ts": "2026-01-01T00:00:00Z",
+            "phase": "p",
+            "step": "s",
+            "model": "claude-opus-4-8",
+            "input_tokens": 1,
+            "output_tokens": 1,
+            "cache_read": 0,
+            "cache_create": 0,
+            "cost_usd": 0.0,
+        }
+        self.assertTrue(_cost_ledger.CostRow(**legacy).priced)
+
 
 class AppendFromStdoutTests(unittest.TestCase):
     def setUp(self):

@@ -7,15 +7,11 @@ things that are true of *this* repo and that a generic engine cannot know: the
 tracked contract's own accuracy, the retired-surface ban, the four agent mirrors,
 the fixture-pinned TS/Python pairs, the book-pipeline invariants, and the plan.
 
-Why a script and not a prose checklist: the prose version rotted. On 2026-07-27 an
-audit of `skills-staging/repo-surgeon/SKILL.md` found 21 of its 38 rules dead,
-inert, or aimed at directories deleted in the May repo split — and one rule that
-manufactured 35 false findings on every run. Nothing had said so for two months
-because no gate could fail. Every claim this file makes is executable, so the next
-drift is a non-zero exit rather than a slow discovery.
+Why a script and not a prose checklist: the prose version rotted — on 2026-07-27, 21 of its 38 rules were
+dead, inert or aimed at directories deleted in the May split, and nothing said so for two months. Every claim
+this file makes is executable, so the next drift is a non-zero exit rather than a slow discovery.
 
-Findings are sorted deterministically (severity -> id -> file -> line), never by
-discovery order, so two runs on the same tree produce the same report.
+Findings sort deterministically (severity, id, file, line): two runs on one tree give one report.
 
 Usage:
     python3 scripts/repo_surgeon_probe.py              # text report
@@ -47,13 +43,13 @@ except ImportError:  # pragma: no cover - PyYAML is in requirements.txt
     print("repo_surgeon_probe: PyYAML is required (pip install pyyaml)", file=sys.stderr)
     sys.exit(2)
 
-# The surface probes live beside this file. The path insert has to run BEFORE the
-# import, so both are exempted from import-ordering: `isort` would hoist the
-# import above the line that makes it resolvable.
+# The surface probes live beside this file. The path insert must run BEFORE these
+# imports, so they are exempt from import-ordering (isort would hoist them above it).
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import repo_surgeon_checks as surface  # noqa: E402, I001
+import repo_surgeon_health as health  # noqa: E402, I001
+import repo_surgeon_hooks as hooks  # noqa: E402, I001
 import repo_surgeon_specs as specs  # noqa: E402, I001
-
 
 SEVERITY_RANK = {"P0": 0, "P1": 1, "P2": 2, "P3": 3}
 
@@ -830,6 +826,10 @@ CHECKS: tuple = (
     CheckSpec("check_mirror_pins", Probe.check_mirror_pins, ("MI-UNPINNED", "MI-PIN-GONE", "MI-PATH")),
     CheckSpec("check_root", Probe.check_root, ("R1",)),
     CheckSpec("check_retired_surfaces", Probe.check_retired_surfaces, ("RS-RESURRECT",)),
+    CheckSpec("check_hook_targets", hooks.check_hook_targets, ("HK-MISSING", "HK-NOT-EXECUTABLE")),
+    CheckSpec("check_stuck_books", health.check_stuck_books, ("HL-STUCK",)),
+    CheckSpec("check_findings_backlog", health.check_findings_backlog, ("HL-BACKLOG",)),
+    CheckSpec("check_doc_budgets", health.check_doc_budgets, ("HL-DOC-BUDGET",)),
     CheckSpec("check_agent_mirrors", Probe.check_agent_mirrors, ("A2",)),
     CheckSpec("check_skill_registry", specs.check_skill_registry, ("A1",)),
     CheckSpec("check_project_skill_mirrors", specs.check_project_skill_mirrors, ("A3",)),

@@ -38,7 +38,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 import tempfile
@@ -46,9 +45,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from _cloudflare_preflight import prepare_remote  # noqa: E402
 from _listener_book import LISTENER  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
-from _production_publish import account_ok, cloudflare_env  # noqa: E402
 from _wrangler import TRANSFER_TIMEOUT  # noqa: E402
 from _wrangler import run as wrangler  # noqa: E402
 
@@ -335,14 +334,9 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     if args.remote:
-        try:
-            os.environ.update(cloudflare_env())
-        except RuntimeError as error:
-            print(f"  ! {error}")
-            return 2
-        ok, who = account_ok(dict(os.environ), LISTENER)
-        if not ok:
-            print(f"  ! {who}")
+        problem = prepare_remote(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
             return 2
 
     if args.drop_local_audio:

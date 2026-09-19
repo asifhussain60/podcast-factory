@@ -242,6 +242,14 @@ safinaverse.com zone, so anything published there is unreachable."
 fi
 echo "  ok — $ACCOUNT_NAME"
 
+# `whoami` only proves the token can say who it is. On 2026-09-19 a token passed it and then had
+# every D1 and R2 call refused ("Authentication error [code: 10000]") deep into a publish. Probe the
+# database and the media bucket here, read-only, and print the remedy before anything is uploaded.
+if ! probe_out="$(python3 "$REPO_ROOT/scripts/podcast/_cloudflare_preflight.py" 2>&1)"; then
+  die "$probe_out"
+fi
+echo "  ok — database and media bucket answer too"
+
 # --- The database ------------------------------------------------------------
 #
 # BEFORE the Worker, and that order is the whole point: code that reads a table

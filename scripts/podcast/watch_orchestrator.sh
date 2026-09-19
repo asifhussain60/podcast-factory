@@ -84,6 +84,7 @@ else
 fi
 STATE="$BOOK_DIR/_system/orchestrator-state.json"
 SENTINEL="$BOOK_DIR/_system/watchdog.json"
+ATTENTION="$BOOK_DIR/_system/NEEDS-ATTENTION.txt"
 
 LOG_DIR="$REPO_ROOT/_workspace/logs"
 LOG="$LOG_DIR/orchestrator-$SLUG.log"
@@ -91,6 +92,24 @@ LOG="$LOG_DIR/orchestrator-$SLUG.log"
 mkdir -p "$LOG_DIR"
 
 _log() { echo "[watchdog $(date -u +%H:%M:%SZ)] $*" | tee -a "$LOG"; }
+
+# A refusal that only reaches a log file is a silent stall (isaf-al-talib, 2026-09-18: one
+# pre-flight refusal cost ~50 minutes because nothing said so). Leave a marker next to the
+# book carrying the orchestrator's own last words and the fix, and raise a desktop notification
+# where the OS has one. Best-effort: nothing here may fail the watchdog.
+_raise_attention() {
+    local title="$1" fix="$2"
+    {
+        echo "$(date -u +%Y-%m-%dT%H:%M:%SZ)  $title"
+        echo
+        tail -n 15 "$LOG" 2>/dev/null
+        echo
+        echo "$fix"
+    } > "$ATTENTION" 2>/dev/null || true
+    if [[ -z "${PF_NO_NOTIFY:-}" ]] && command -v osascript >/dev/null 2>&1; then
+        osascript -e "display notification \"$title\" with title \"podcast-factory\"" >/dev/null 2>&1 || true
+    fi
+}
 _state() { jq -r "${1}" "$STATE" 2>/dev/null || echo ""; }
 
 # ── Verify book exists ────────────────────────────────────────────────────────
@@ -278,6 +297,9 @@ if _is_iter_cap_halt; then
 fi
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
+# A marker from an earlier refusal must not outlive the problem it reported.
+rm -f "$ATTENTION"
+
 for attempt in $(seq 1 "$MAX_RETRIES"); do
     PHASE="$(_state '.phase')"
     STATUS="$(_state '.phase_status')"
@@ -384,6 +406,8 @@ for attempt in $(seq 1 "$MAX_RETRIES"); do
         _log "=== PRE-FLIGHT FAILURE (rc=1): working tree dirty or required config missing. ==="
         _log "Fix the issue (commit or stash untracked/modified files), then re-run:"
         _log "  bash scripts/podcast/watch_orchestrator.sh $SLUG"
+        _raise_attention "PRE-FLIGHT REFUSED — $SLUG was not resumed" \
+            "Fix what is listed above (commit or stash the files), then: bash scripts/podcast/watch_orchestrator.sh $SLUG"
         rm -f "$SENTINEL"
         exit 1
     fi
