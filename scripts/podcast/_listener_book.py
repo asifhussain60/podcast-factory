@@ -352,7 +352,14 @@ def load_book(slug: str, *, normalise_audio: bool = False) -> Book:
         if done["encoded"] or done["masters"]:
             print(f"  audio normalised: {done['encoded']} re-encoded, {done['masters']} master(s) dropped")
 
-    meta = yaml.safe_load((directory / "meta.yml").read_text(encoding="utf-8")) or {}
+    meta_path = directory / "meta.yml"
+    if not meta_path.exists():
+        raise SystemExit(
+            f"'{slug}' has no meta.yml, so there is no title, author or status to publish it under. "
+            f"Create it from the book's series-config with: python3 scripts/podcast/_book_meta.py {slug} "
+            "(it writes only what is known and never overwrites)."
+        )
+    meta = yaml.safe_load(meta_path.read_text(encoding="utf-8")) or {}
 
     book_md_path = directory / "book" / "book.md"
     if not book_md_path.exists():
