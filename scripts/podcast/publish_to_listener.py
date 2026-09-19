@@ -463,6 +463,14 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  ! {problem}")
             return 2
 
+    if not args.remote and not args.dry_run:
+        from _local_db import ensure_local_migrations
+
+        problem = ensure_local_migrations(LISTENER)
+        if problem:
+            print(f"  ! {problem}")
+            return 2
+
     commit = None
     try:
         commit = subprocess.run(
