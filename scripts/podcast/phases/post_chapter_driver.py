@@ -142,6 +142,8 @@ def drive_post_chapter(
     except Exception as _e:  # never block finalize on a best-effort restore
         _err(f"finalize: Arabic auto-restore skipped (non-fatal): {_e}")
 
+    from _finalize_failure import finalize_fallback
+
     validate_script = Path(__file__).resolve().parents[1] / "validate_ship_ready.py"
     rc, vout, verr = _run([sys.executable, str(validate_script), book_slug])
     print(vout)
@@ -151,7 +153,11 @@ def drive_post_chapter(
             phase="finalize",
             status="failed",
             error="G1-G7 gates failed; see stdout for the failing gate",
-            extras={"validator_stdout": vout[-2000:], "validator_stderr": verr[-1000:]},
+            extras={
+                "validator_stdout": vout[-2000:],
+                "validator_stderr": verr[-1000:],
+                "manual_fallback": finalize_fallback(book_slug, vout),
+            },
         )
         _err(
             "finalize halt — at least one G1-G7 gate failed. "
