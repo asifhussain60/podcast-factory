@@ -1,0 +1,22 @@
+{
+  "total_words": 3500,
+  "strategy": "doctrinal",
+  "points": 470,
+  "retained": 96,
+  "essential": 94,
+  "draft_words": 5855,
+  "coverage": {
+    "essential": 94,
+    "shortlisted": 0,
+    "missing": [],
+    "percent": 100.0
+  },
+  "repair_rejected": [
+    "over the hard word limit (5415>3500 words)"
+  ],
+  "accepted": false,
+  "reasons": [
+    "over the hard word limit (5855>3500 words)"
+  ],
+  "words": 5855
+}

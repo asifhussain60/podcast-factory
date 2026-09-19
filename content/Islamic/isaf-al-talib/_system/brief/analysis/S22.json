@@ -1,0 +1,135 @@
+{
+  "title": "22. Forgetting, Doubting, and Beginning Again",
+  "purpose": "It compiles the law of omission (sahw), doubt, and interruption in prayer from responsa, council teachings, and reports, establishing when the two prostrations of omission are owed, when the prayer must be repeated, and how intention governs validity.",
+  "points": [
+    {
+      "text": "The author distinguishes omission from doubt: the one who commits an omission is certain of what he omitted, while the doubter is not certain of what he doubts — a confusion said to trouble many jurists.",
+      "kind": "distinction",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "omission (sahw)",
+        "doubt"
+      ]
+    },
+    {
+      "text": "The two prostrations of omission are called al-marghamatan ('the two that rub down the nose') because they rub down the nose of the devil when the corruption of forgetfulness is repaired by them.",
+      "kind": "definition",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "المرغمتان",
+        "two prostrations of omission"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya councils enumerate seven places of omission in prayer, in six of which the two prostrations are proper — including omitting a prostration, forgetting the first or second tashahhud, saluting after two rakahs of a four-rakah prayer, and rising to a fifth rakah — while the seventh, omission behind the Imam, requires none because the Imam bears it.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Mustansiriyya councils"
+      ]
+    },
+    {
+      "text": "Doubt in prayer falls into twelve cases: where the doubt concerns an act still ahead or unsettled (bowing, number of rakahs) the worshipper builds on what is certain — the lesser — and prostrates for omission; but where the doubt arises after the act has been passed (doubting the takbir after bowing, recitation after bowing, or anything after the salaam) nothing is due.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "doubt"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib is quoted from his four hundred manners: whoever is certain of something and is then struck by doubt should act on his certainty, for doubt neither dispels nor diminishes certainty.",
+      "kind": "evidence",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "four hundred manners"
+      ]
+    },
+    {
+      "text": "If the doubter is certain of nothing at all — not knowing whether he added to or fell short of his prayer — he begins the prayer again from the beginning, and so likewise does the Imam.",
+      "kind": "resolution",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "book of questions"
+      ]
+    },
+    {
+      "text": "The responsa hold that intention resides in the heart and that utterance with the tongue is merely a verbal expression, so that an act intended in the heart is complete even if the intention is never spoken — cited as stated in the Pillars, against the text that deeds are accepted only with intentions.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "niyya",
+        "Pillars of Islam",
+        "الأعمال لا تقبل الا بالنيات"
+      ]
+    },
+    {
+      "text": "The prostration of omission is not multiplied: one who omits several obligations, or commits omissions repeatedly in a single prayer, owes only the two prostrations.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "prostration of omission"
+      ]
+    },
+    {
+      "text": "Where there is no explicit text stipulating a prostration of omission — as with neglecting the first tashahhud but remembering before the salaam, or repeating a single surah after the Opening — the worshipper is not required to prostrate, though he should not do such things deliberately.",
+      "kind": "caveat",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Yemeni summoners",
+        "Indian questioners"
+      ]
+    },
+    {
+      "text": "Some omissions void the prayer outright rather than being repaired: failing to sit after each pair of rakahs, adding a bowing before sitting for the tashahhud, and neglecting the bowing or the opening takbir behind the Imam, which the Imam does not bear.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Book of Purity"
+      ]
+    },
+    {
+      "text": "On interruption, the Prophet's reported saying that three things interrupt the prayer — a woman, a donkey, and a black dog — is set beside his own account of seeing these pass before him, when he said nothing interrupts the prayer of a believer but 'ward off what you are able'; and Ali is quoted that smiling does not interrupt the prayer while loud laughter does.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "the Prophet",
+        "Ali ibn Abi Talib",
+        "black dog"
+      ]
+    },
+    {
+      "text": "The latecomer who reaches the Imam in the bowing, before the Imam raises his head, attains that rakah with a single takbir serving for both opening and bowing, provided he contracts the intention in his heart — as stated by Muhammad ibn Fahd in his epistle The Broad Road of the Path of Guidance for the Rightly Guided.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Muhammad ibn Fahd",
+        "The Broad Road of the Path of Guidance for the Rightly Guided",
+        "Mukhtasar al-Musannaf"
+      ]
+    },
+    {
+      "text": "One who joins the Imam even only for the opening takbir before the salaam must perform the two prostrations for his Imam's omission, and one praying the remainder alone prostrates for his own errors.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Imam",
+        "latecomer"
+      ]
+    }
+  ],
+  "fingerprint": "c776adbc42f2378a"
+}

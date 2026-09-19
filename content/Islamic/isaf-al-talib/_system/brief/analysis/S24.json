@@ -1,0 +1,153 @@
+{
+  "title": "24. Eclipse, Fear, Rain, and the Night Vigil",
+  "purpose": "It compiles question-and-answer rulings and book citations governing the eclipse, fear, rain, witr, dawn, supererogatory and night-vigil prayers, and the Quranic prostration.",
+  "points": [
+    {
+      "text": "Responding to perplexity over a solar eclipse observed early in a month (Dhu al-Qadah 837) against the Brethren of Purity's claim that solar eclipses occur only at month's end, the answer transmitted from the author of the letters and the pure Imams is that lunar eclipses fall at the dawn of the 15th or 16th while solar eclipses may occur at the beginning or the end of the month, the matter being in God's hand.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Brethren of Purity",
+        "Dhu al-Qadah 837",
+        "eclipse prayer"
+      ]
+    },
+    {
+      "text": "A latecomer who joins the imam's eclipse prayer counts his joining as the start of his own prayer, prostrates and bows along with the imam, sits poised rather than settled during the imam's testimony, and after the imam's salutation rises to complete the remaining bowings, qunut, prostration, testimony and salutation, not counting the first two prostrations made with the imam.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "eclipse prayer"
+      ]
+    },
+    {
+      "text": "The book of purity rules that the eclipse prayer is prayed only when the eclipse is actually seen with the eye, never on the word of an astrologer or anyone else, and not if cloud or another veil intervenes.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "كتاب الطهارة",
+        "astrologer"
+      ]
+    },
+    {
+      "text": "In the prayer of fear, when swords cross and spears are thrust, prayers are reduced to takbir — one takbir in place of each bowing — and the takbir is itself shortened as shortening is obligatory in it; مختصر المصنف adds that the fear prayer requires at least three men praying with three standing guard, since the word 'party' does not apply to fewer than three.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "prayer of fear",
+        "مختصر المصنف"
+      ]
+    },
+    {
+      "text": "If eclipse prayer, funeral prayer and fear coincide for the imam, he prays over the funeral and prays both the eclipse prayer and the prayer of fear.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "prayer of fear",
+        "funeral prayer"
+      ]
+    },
+    {
+      "text": "For the rain prayer the cited books prescribe a hundred takbirs facing the people, a hundred glorifications to the right, a hundred declarations of oneness to the left, all aloud, then a hundred praises; two sermons as at the two feasts, delivered leaning on an Arabian bow as the Messenger of God did; going out on a day other than Monday is harmless, and whoever preaches before the prayer must pray and then preach again.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "prayer for rain",
+        "كتاب الاقتصار",
+        "المنتخبة",
+        "مختصر المصنف"
+      ]
+    },
+    {
+      "text": "The qunut is a supplication not to be abandoned deliberately: deliberate omission in the witr requires repetition, while forgetting it requires no repetition (there being no prostrations of forgetfulness in sunnah prayers), and its minimum is three glorifications or three takbirs; it is recited after the words 'Our Lord, to You belongs all praise.'",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "qunut",
+        "witr"
+      ]
+    },
+    {
+      "text": "On whether the witr may be divided by salutation, the answer cites Judge al-Numan's المنتخبة that the witr may be separated by the salutation without actions or speech, though unavoidable brief speech does no harm.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "al-Qadi al-Numan",
+        "المنتخبة",
+        "witr"
+      ]
+    },
+    {
+      "text": "The shaf and witr may validly be prayed during the first dawn (called by the Arabs ذنب السرحان) so long as the true dawn has not spread across the sky.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "shaf",
+        "witr",
+        "ذنب السرحان"
+      ]
+    },
+    {
+      "text": "Muhammad ibn Fahd rules in لاحبة سبيل الهدى للمهتدين that one who prayed shaf, witr and then dawn only to learn it was still night keeps his shaf and witr and must repeat both sunnah and obligation of dawn, unless dawn was close upon him, in which case the sunnah also stands — because the books of the friends of God permit praying it before dawn for an inner meaning.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn Fahd",
+        "لاحبة سبيل الهدى للمهتدين"
+      ]
+    },
+    {
+      "text": "معالم الدين holds the witr obligatory with no dispensation for abandoning it, counting it among the appendages of the obligatory prayers even though it is a sunnah.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "معالم الدين",
+        "witr"
+      ]
+    },
+    {
+      "text": "Praying tarawih behind an imam for the sake of protective concealment (taqiyyah) is permitted with the intention of a voluntary prayer, but the believers do not take him as a leader, and anything of the sunnah omitted for concealment must be made up; reliance in such matters is upon الدعائم as the gathering place of the questions.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "tarawih",
+        "taqiyyah",
+        "الدعائم",
+        "كتاب الشواهد والبيان"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sulayman rules that Mawlana al-Sadiq gave a text for the prayer of Umm Daud only for the month of Rajab, plus the day of 'Arafah (especially when it falls on a Friday), so Qasim ibn Fir's command to his Daudi followers to pray, fast and supplicate with it in Rabi al-Awwal and Ramadan of 1042 lacks a supporting text — no practice being valid without a text, since 'little practice in a sunnah is better than much practice in an innovation.'",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Umm Daud",
+        "Jafar ibn Sulayman",
+        "Qasim ibn Fir",
+        "al-Sadiq",
+        "Rajab",
+        "'Arafah"
+      ]
+    },
+    {
+      "text": "Hibat Allah ibn Ibrahim answered from Yemen to Hind in 1135 that the prayer of the prophets and Imams at times of calamity — praise and thanksgiving for what God disclosed to them, knowing nothing occurs save by decree — may be prayed by their followers at all times when sunnah and voluntary prayers are permitted, prohibition applying only to the forbidden times.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Hibat Allah ibn Ibrahim",
+        "Yemen",
+        "Hind"
+      ]
+    },
+    {
+      "text": "Regarding the Quranic prostration, the binding verses oblige prostration even when recited within a supplication and oblige all present to prostrate (though not a second time for a repeat in the same place), whereas for the remaining verses prostration is optional though better, and a teacher passing over the places while instructing boys has a choice.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "prostration of the Quran",
+        "مختصر المصنف"
+      ]
+    }
+  ],
+  "fingerprint": "078b21323e06a294"
+}

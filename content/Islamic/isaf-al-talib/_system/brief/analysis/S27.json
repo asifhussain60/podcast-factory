@@ -1,0 +1,144 @@
+{
+  "title": "27. The Wealth That Is Not Yours",
+  "purpose": "It opens the Book of Zakat, assembling the transmitted rulings on zakat's merit, its categories, recipients, conditions, and the obligation to render it to the Imam.",
+  "points": [
+    {
+      "text": "The section begins the Book of Zakat, gathering what has been handed down on the merit of giving zakat and its attendant matters.",
+      "kind": "context",
+      "weight": 2,
+      "entities": [
+        "Book of Zakat"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman, in the book of inward nursing, cites the Prophet's word that charity is not lawful for him nor for the people of his house.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "Ahl al-Bayt"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman states that one whose role in the call, after discharging what is incumbent, is that his excellence appear outwardly through abundance of wealth, pays from his wealth what he wills — apart from the fitra — of obligatory rights and voluntary giving.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "fitra"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman draws the distinction that paying the khums excuses one from the tithe except voluntarily, while paying the tithe alone does not excuse the khums, because the tithe does not encompass the khums as the khums encompasses the tithe.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "khums",
+        "tithe"
+      ]
+    },
+    {
+      "text": "The Prophet is cited as saying there is no prayer for one who does not pay zakat, and that the one who withholds zakat is in the Fire.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Prophet Muhammad"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad, in the Hidden Epistle, lists ten things on which God imposed zakat: gold, silver, camels, cows, sheep, dates, raisins, wheat, barley, and grains.",
+      "kind": "framework",
+      "weight": 2,
+      "entities": [
+        "Zayd ibn Muhammad",
+        "Hidden Epistle"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib in his Four Hundred Counsels says to treat the sick with charity and fortify wealth with zakat.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Counsels"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya Councils' twelfth council teaches that zakat has seven obligations and twelve sunnahs, matching the number of the clauses of the testimony and its letters, and that zakat must be received by the Imam and is taken from seven things: gold, silver, camels, cows, sheep, crops, and minerals.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [
+        "S26-P01"
+      ],
+      "entities": [
+        "Mustansiriyya Councils",
+        "Imam"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya Councils enumerate the eight named recipients falling into seven divisions — the poor and needy, the collectors, those whose hearts are reconciled, the freeing of necks, the debt-burdened among the people of allegiance, the way of God as an obligation of sufficiency, and the wayfarer understood as those cut off from the road of guidance.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Mustansiriyya Councils"
+      ]
+    },
+    {
+      "text": "The twelve sunnahs include the passing of a year, nisabs of twenty dinars of gold, two hundred dirhams of silver, five grazing camels, thirty grazing cows and forty sheep, taking from the middling livestock, not joining what is separate nor dividing what is joined, not taking the stud animal, giving from crops below the five-awsaq nisab by bundle and handful on the day of harvest per the Quranic verse, and no zakat on dwellings, ornaments, or things for use.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "nisab",
+        "awsaq"
+      ]
+    },
+    {
+      "text": "In the questions-and-answers book arranged after Daaim al-Islam, the ruling on concealing zakat from the imam is said to concern one who brings out only part of it, whereas one who withholds it entirely has abandoned the obligation altogether.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Daaim al-Islam"
+      ]
+    },
+    {
+      "text": "Asked whether the Prophet's saying that charity is unlawful for 'we, the people of the House' refers to the Imams or to all his descendants through Fatima, the answer given is that it refers to the Imams.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "Fatima",
+        "Imams"
+      ]
+    },
+    {
+      "text": "The hamala, named among the five for whom charity is lawful in Daaim al-Islam, is explained as either a penalty imposed by a tyrannical ruler or the bearing of blood money on behalf of the 'aqila.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "hamala",
+        "'aqila"
+      ]
+    },
+    {
+      "text": "Interpreting Ali's covenant to Muhnaf ibn Sulaym, the answer holds that zakat is not demanded from one seized by the enemy who is not of the Shia holding to the allegiance, and that handing zakat to other than the one God commanded does not suffice, even if it is later plundered or stolen, until it reaches the guardian of the affair or his appointee.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Muhnaf ibn Sulaym",
+        "Ali ibn Abi Talib",
+        "guardian of the affair"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya Councils hold that one who keeps the outward prayer and believes its inner reality yet does not spend the zakat of his wealth, the khums of his earnings, the purchase of his own self, and the redemption of his pledge falls short of those God describes as spending from what He provided them.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [
+        "S26-P01"
+      ],
+      "entities": [
+        "Mustansiriyya Councils",
+        "khums"
+      ]
+    }
+  ],
+  "fingerprint": "e9b3b19c4a012874"
+}

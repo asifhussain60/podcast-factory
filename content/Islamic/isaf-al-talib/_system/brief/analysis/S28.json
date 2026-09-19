@@ -1,0 +1,182 @@
+{
+  "title": "28. Gold, Herds, and Harvest",
+  "purpose": "It compiles the legal rulings on zakat and khums for monetary wealth, livestock, and agricultural produce, drawn from fatwa responsa and Ismaili juristic sources, and sets out the order of precedence among the obligations owed from a deceased person's estate.",
+  "points": [
+    {
+      "text": "In the responsa attributed to our master Idris, the obligations owed from a deceased person's estate are discharged in a fixed order: zakat first (because it is a debt upon him and not part of his wealth), then the Hajj, then the khums, then the expiation, then al-Shurwa.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Idris",
+        "zakat",
+        "khums",
+        "al-Shurwa",
+        "Hajj"
+      ]
+    },
+    {
+      "text": "The answer holds that the Hajj takes precedence over inheritance because it is a debt, and debt comes before inheritance; the remaining obligatory duties bind likewise if the wealth suffices for them and something still remains for the heir.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Hajj",
+        "inheritance"
+      ]
+    },
+    {
+      "text": "Khums must be brought out of the capital even where no bequest was made, and if the heirs are God-fearing it is their duty to discharge it for the deceased and so purify the wealth — but if they refuse, the answer invokes 'There is no compulsion in religion' rather than coercion.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "khums",
+        "la ikraha fi al-din"
+      ]
+    },
+    {
+      "text": "The limit of 'means' (for al-Shurwa liability) is defined as ownership of wealth on which zakat falls due after the hawl, namely two hundred dirhams or twenty gold dinars, with each dirham reckoned at fourteen and two-fifths carats of silver and each dinar at twenty-four carats, converted into Arab and Gujarati weights.",
+      "kind": "definition",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "al-Shurwa",
+        "nisab",
+        "dinar",
+        "dirham",
+        "hawl",
+        "Gujarat"
+      ]
+    },
+    {
+      "text": "Because the relative price of gold and silver varies by age according to people's desire, the answer counsels that the believer holding to his religion should reckon his nisab by whichever of the two coinages is the lesser in price.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "gold",
+        "silver",
+        "nisab"
+      ]
+    },
+    {
+      "text": "Once khums has been paid from the capital, no khums is owed on profit except on what remains in hand; paying khums on the whole profit is declared a merit, not a binding obligation.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "khums"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Musannaf rules that an undivided estate is not assessed for zakat as a whole but share by share — each heir whose share reaches a nisab pays, and one whose share does not (and who has no other wealth) owes nothing — and that a debtor pays zakat only on the excess of his wealth over his debt.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "nisab"
+      ]
+    },
+    {
+      "text": "Al-Akhbar reports that there is no zakat in the wealth of an orphan or of one lacking his reason, and Tawil al-Daaim interprets this to mean no zakat is due from the owner holding it for himself, while whatever of it is held for trade is valued and does bear zakat.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "al-Akhbar",
+        "Tawil al-Daaim",
+        "orphan"
+      ]
+    },
+    {
+      "text": "Tawil al-Sharia reports that Imam al-Muizz li-Din Allah taught that zakat is five dirhams for five classes of poor and that it is mutual consolation, all creation being as a single soul whose limbs turn to heal an afflicted limb — adding that if anyone were untouched by defect, death would never reach him.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Tawil al-Sharia",
+        "al-Muizz li-Din Allah",
+        "zakat"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman, in the Book of the Inner Nursing, enumerates five zakats paralleling the five prayers: the khums of earnings, the zakat of already-khums-paid wealth (one dinar in forty, owed to the Hujja while the khums is for the Imam), the tenth of crops, one head in forty of livestock, and the zakat of the soul (shurwa and fitra).",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "Book of the Inner Nursing",
+        "Hujja",
+        "Imam",
+        "fitra"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad in al-Risala al-Maknuna sets out the graduated livestock scales — camels from five (a sheep) through bint makhad, bint labun, hiqqa and jadha, cattle at tabi and musinna, and sheep from forty — with the rule that nothing defective and not the flock's ram is taken in charity.",
+      "kind": "framework",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Zayd ibn Muhammad",
+        "al-Risala al-Maknuna",
+        "bint makhad",
+        "bint labun",
+        "hiqqa",
+        "jadha",
+        "tabi",
+        "musinna"
+      ]
+    },
+    {
+      "text": "On the nisab of grains, the answer distinguishes two positions: the Pillars holds that zakat is due from everything the earth brings forth (and the masters' practice, to be followed, took the tenth from little and much), while the Sharia sets the nisab at five awsaq, the wasq being sixty sa.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Pillars of Islam",
+        "Sharia",
+        "awsaq",
+        "sa"
+      ]
+    },
+    {
+      "text": "Al-Akhbar distinguishes land of the tenth (Arab land not advanced upon with horse or beast, and mountain land cultivated by its own people without great-river water, plus land whose warring people submitted while still on it) from land of kharaj (Sudanese and mountain lands taken and cultivated by force), and holds that a land's ruling does not change with the religion of its purchaser because the obligation attaches to the produce, not the owner.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "al-Akhbar",
+        "land of the tenth",
+        "kharaj",
+        "dhimmi"
+      ]
+    },
+    {
+      "text": "The Book of the Inner Nursing treats the tenth as an outward ruling by which the Messenger judged, and holds that one who truly pays a tenth while keeping back only nine tenths has discharged his outward obligation even unasked by the ruler, whereas one who withholds and keeps more than nine tenths has not truly rendered obedience to the ruler over his outward affairs.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Book of the Inner Nursing",
+        "the tenth",
+        "zahir"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad cites Q. 8:41 to identify five stations to which the khums is directed — God and the Messenger, the near of kin, the orphans, the needy, and the wayfarer — and states that khums is taken from mines, treasures, and spoils, with al-Sadiq reporting that the Prophet took his share of spoils and divided the rest among those categories.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Zayd ibn Muhammad",
+        "khums",
+        "Jafar ibn Muhammad al-Sadiq",
+        "Quran 8:41"
+      ]
+    }
+  ],
+  "fingerprint": "6fd54ab2af8d3b32"
+}

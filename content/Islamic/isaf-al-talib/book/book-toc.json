@@ -2,7 +2,7 @@
   "book_title": "Iṣāf al-Ṭālib fī Jamīʿ al-Maṭālib (The Student's Aid in All Demands)",
   "voice": "modern author first-person",
   "preface": {
-    "include": true,
+    "include": false,
     "title": "A Compiler's World: How to Read This Book",
     "source_line_ranges": [
       [
@@ -17,7 +17,7 @@
       "title": "The Eight Levels of Faith",
       "source_line_ranges": [
         [
-          59,
+          37,
           79
         ]
       ],

@@ -1,0 +1,123 @@
+{
+  "title": "16. Where a Muslim Stands to Pray",
+  "purpose": "It assembles, from a question-and-answer compilation arranged on the order of Daaim al-Islam and from allied Ismaili juristic sources, the rulings governing the place of prayer — mosques, their dedication, their greeting prayer, the qibla, and forbidden locations.",
+  "points": [
+    {
+      "text": "The compilation cites the Prophet's saying that the earth has been made a place of prayer and a means of purification except the bathhouse, the cemetery, and the latrine, and the answer affirms that in the outward sense of the Sharia one does not pray in those places at all and no mosque is built beside graves.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Sharia",
+        "bathhouse",
+        "cemetery",
+        "latrine"
+      ]
+    },
+    {
+      "text": "A decisive distinction is drawn between a mosque given over to public use (waqf) and one kept private: a private mosque within a house may be pulled down, relocated or absorbed into the house, while a publicly dedicated mosque may not be demolished by its owner, though nothing is owed if it collapses on its own.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "mosque",
+        "public use"
+      ]
+    },
+    {
+      "text": "A man building a congregational or other mosque on his own property does as he wishes and need not seek the governor's permission.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "congregational mosque",
+        "governor"
+      ]
+    },
+    {
+      "text": "The 'neighbor of the mosque' is defined as one who hears the call to prayer, and while the prayer of any man without congregation counts as a single prayer, it is specifically disliked for the neighbor of the mosque to pray alone at home without an excuse.",
+      "kind": "definition",
+      "weight": 3,
+      "entities": [
+        "neighbor of the mosque",
+        "call to prayer"
+      ]
+    },
+    {
+      "text": "The greeting prayer of the mosque is owed only in a mosque open to the people, not in a private place of prayer, and not while an obligatory prayer is owed or outside the times when supererogatory prayer is permitted.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "greeting of the mosque",
+        "Sunnah of the dawn"
+      ]
+    },
+    {
+      "text": "The compilation's answer holds that one who leaves the mosque for a need and returns prays the greeting again, whereas Muhammad ibn al-Fahd rules in his epistle that going out only to the mosque's courtyard or forecourt does not require repeating it, since those areas lie within the mosque's bounds.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn al-Fahd",
+        "courtyard",
+        "forecourt"
+      ]
+    },
+    {
+      "text": "Two imams do not lead the same prayer at one time in one assembly, and the leading of prayer is not held in one mosque more than once — except that an imam whose state is broken may appoint a substitute, and a separate congregation praying on the roof is permitted.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "imam",
+        "congregation"
+      ]
+    },
+    {
+      "text": "Both the Q&A compilation and Muhammad ibn al-Fahd resolve the grave-and-mosque problem by order of construction: if the mosque or domed structure was built first and burial followed, prayer in it is permitted, but if it was built on account of a pre-existing grave it takes the ruling of a cemetery and prayer in it is never permitted.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "Muhammad ibn al-Fahd",
+        "domed structure",
+        "grave"
+      ]
+    },
+    {
+      "text": "One ignorant of the qibla exerts his judgment and prays; if he learns of his error during the prayer and time is short he turns toward the House and completes it provided he was between east and west, but if his back was to the Kaaba only repetition suffices — and if two (or four) directions are equally confused he prays toward both together.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "qibla",
+        "Kaaba"
+      ]
+    },
+    {
+      "text": "Tawil al-Daaim rules that bringing weapons into mosques is not permitted in the outward sense except for the imam of the mosque on Friday, while Ali is quoted forbidding praying with a sword before one because the qibla is a place of safety.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Tawil al-Daaim",
+        "Ali ibn Abi Talib",
+        "Friday"
+      ]
+    },
+    {
+      "text": "Majalis al-Bayan lists twelve places where prayer is disliked: cemetery, slaughterhouse, bathhouse, latrine, resting places of camels, facing a sleeping person, without a screen, wet impure ground, upon food, places of worship, churches, and Magian houses unless sprinkled with water.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Majalis al-Bayan",
+        "Magians",
+        "churches"
+      ]
+    },
+    {
+      "text": "Al-Majalis al-Mustansiriyya grades prayer in seven ascending ranks of merit: the house counts as one prayer, the market mosque twelve, the tribal mosque twenty-five, the congregational mosque one hundred, the Farthest Mosque one thousand, the Mosque of the Messenger ten thousand, and the Sacred House of God one hundred thousand.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "al-Majalis al-Mustansiriyya",
+        "Farthest Mosque",
+        "Mosque of the Messenger",
+        "Sacred House of God"
+      ]
+    }
+  ],
+  "fingerprint": "7ff7650f1b019954"
+}

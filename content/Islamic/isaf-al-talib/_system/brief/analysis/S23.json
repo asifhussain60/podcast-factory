@@ -1,0 +1,132 @@
+{
+  "title": "23. Children, Travelers, and the Sick",
+  "purpose": "It gathers the rulings, questions and answers governing when boys are held to prayer, when a traveler shortens or completes prayer and fast, and how the sick and incapacitated are to pray.",
+  "points": [
+    {
+      "text": "Amir al-Muminin Ali ibn Abi Talib is reported to have instructed that boys be taught the prayer and held to it when they reach eight years, and taught that by which God will benefit their teachers.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Ibrahim ibn Husayn al-Hamidi in عبارة البشارة reports from Amir al-Muminin that a boy sheds his milk teeth at seven, reaches maturity at fourteen, completes his physical growth at twenty-one, and completes his intellect at twenty-eight.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Ibrahim ibn Husayn al-Hamidi",
+        "عبارة البشارة"
+      ]
+    },
+    {
+      "text": "مختصر الآثار directs that children be separated in their sleeping places at that stage, as a precaution since they have neared maturity and the stirring of desire.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "مختصر الآثار"
+      ]
+    },
+    {
+      "text": "The governing rule for the traveler is that he shortens the prayer and breaks the fast from leaving his dwelling until he re-enters it, provided he is pressing on in the journey, as stated in مختصر الآثار by al-Numan.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "مختصر الآثار",
+        "al-Numan"
+      ]
+    },
+    {
+      "text": "A traveler completes (does not shorten) his prayer and fast by stopping five prayer times with a blood relative of lineage or with his resident wife, but not through his wife's relatives nor through kin by nursing.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "mahram",
+        "blood kin"
+      ]
+    },
+    {
+      "text": "Travel distances are defined: the barid is four farsakhs, the farsakh three miles, and the mile three thousand cubits, being a thousand even paces of a single leg.",
+      "kind": "definition",
+      "weight": 3,
+      "entities": [
+        "barid",
+        "farsakh",
+        "mile"
+      ]
+    },
+    {
+      "text": "The limit of residence that obliges praying in full is ten days, and Muhammad ibn Fahd rules in لاحبة سبيل الهدى للمهتدين that one who travels a barid intending return should commit to ten days and pray in full, and may still return earlier without invalidating those prayers.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn Fahd",
+        "لاحبة سبيل الهدى للمهتدين"
+      ]
+    },
+    {
+      "text": "Whoever enters Mecca prays in full and does not shorten, on the basis of the Quranic words 'the resident and the visitor stand equal' — though Sayyidina Ismail ibn Hiba held that full prayer applies only within the sanctuary of the House of God and that in Mecca itself the prayer is shortened.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Mecca",
+        "Ismail ibn Sayyidina Hiba",
+        "Sacred Mosque"
+      ]
+    },
+    {
+      "text": "أنس الأفئدة المنيبة records Amir al-Muminin ruling that six categories do not shorten prayer or fast: circuit-traveling collectors, merchants moving market to market, princes touring their emirate, hunters, shepherds seeking rain-watered land, and warriors who cut the road.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "أنس الأفئدة المنيبة",
+        "Amir al-Muminin"
+      ]
+    },
+    {
+      "text": "A traveler may lead residents (saluting after two rakahs while they rise to complete) and a mutayammim may lead those who performed ablution, but both dispensations are particular to the people of the high ranks and do not extend to the rest of the hudud.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "hudud",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sayyidina Sulayman's performing tayammum in Haraz, after descending from the fortress of Tayba, and then leading the congregation is cited as the precedent establishing that dispensation when a weighty matter requires it for the good of the dawa.",
+      "kind": "example",
+      "weight": 2,
+      "entities": [
+        "Jafar ibn Sayyidina Sulayman",
+        "Haraz",
+        "Tayba"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman states in كتاب الرضاع الباطن that shortening applies to the three four-rakah prayers — the first, the afternoon, and the late evening — reducing twelve rakahs by six.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "كتاب الرضاع الباطن"
+      ]
+    },
+    {
+      "text": "The sick man prays according to his capacity in a descending scale: seated or cross-legged with bowing and prostration, then gesturing with the head, then with the eyes, and if unable even that, with the heart.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "Book of Purity"
+      ]
+    },
+    {
+      "text": "مختصر المصنف rules that one who loses his reason through something he drank or did to himself must repeat the prayers missed in that state, whether the act was obedient or disobedient.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "مختصر المصنف"
+      ]
+    }
+  ],
+  "fingerprint": "052c7a3ad2b223ef"
+}

@@ -1,0 +1,149 @@
+{
+  "title": "6. What Must Be Learned, What Must Be Concealed",
+  "purpose": "It assembles transmitted rulings and answers defining what knowledge is obligatory, from whom knowledge may be taken, which books and secrets are restricted, and the ban on analogical reasoning in religion.",
+  "points": [
+    {
+      "text": "Ali ibn Abi Talib, in his four hundred maxims of conduct, forbids silence until nightfall except in the remembrance of God, forbids reverting to desert life after the migration, and holds that a man of sound mind does not recite the Quran in a state of ritual impurity until he purifies himself for it.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four hundred maxims of conduct",
+        "Quran"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib warns believers not to let the Murjiah overcome them with their opinion, marking a category of teachers whose word must be refused.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Murjiah",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "In the book of questions of Sheikh Shamoun ibn Muhammad Ghori al-Hindi answered by Badr al-Din Hasan ibn Idris, the questioner asks whether al-Sadiq's reported licensing of al-Shafii — cited from Hamid al-Din's al-Hadi wal-Mustahdi, al-Numan's al-Daaim, and Idris ibn al-Hasan's Zahr al-Maani — meant al-Shafii later changed like al-Mughirah and Abu al-Khattab, or whether ignorant men falsely claimed his school as others falsely claimed the Imamate of Muhammad ibn al-Hanafiyya and Abdullah ibn Muawiyah.",
+      "kind": "context",
+      "weight": 3,
+      "entities": [
+        "Shamoun ibn Muhammad Ghori al-Hindi",
+        "Badr al-Din Hasan ibn Idris",
+        "al-Sadiq",
+        "al-Shafii",
+        "Hamid al-Din",
+        "al-Qadi al-Numan",
+        "Zahr al-Maani",
+        "al-Mughirah",
+        "Abu al-Khattab"
+      ]
+    },
+    {
+      "text": "The answer given is qualified, not general: al-Sadiq had indeed granted al-Shafii license, but solely on account of al-Shafii's acknowledgment of the excellence of the Ahl al-Bayt and for no other reason.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "al-Sadiq",
+        "al-Shafii",
+        "Ahl al-Bayt"
+      ],
+      "depends_on": []
+    },
+    {
+      "text": "Asked how the Prophet's saying that whoever looks into his brother's book without permission is as one looking into the Fire can stand when members of a school freely read one another's books, the answer distinguishes the book of inner truth (haqiqa), which may be looked into only by permission of the one who granted access, from all other books, where refraining is mere good manners and not binding.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "book of inner truth (haqiqa)",
+        "the Prophet"
+      ]
+    },
+    {
+      "text": "A borrower who finds damage or disorder in a borrowed Quran or other book may repair it without the owner's permission, but is under no obligation to do so.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Quran"
+      ]
+    },
+    {
+      "text": "Books of the dawah left by a deceased man may not be used to settle his debts even when his other goods are insufficient, because they belong to the dawah and are not inherited property.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "dawah"
+      ]
+    },
+    {
+      "text": "Yemeni callers answering Indian sheikhs rule that those licensed to read religious benefits may read to women through a screen so the woman hears without being seen, and that no man may be alone with a woman unless another woman is with her or another man with him.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "al-mafsuhin (the licensed)",
+        "callers of Yemen"
+      ]
+    },
+    {
+      "text": "The obligatory knowledge no believer may leave unlearned is enumerated as: knowledge of God's oneness and His transcendence above likeness, above the stripping of attributes, and above nonexistence; acknowledgment of all messengers first to last and of their delivery of the message; acknowledgment of Muhammad as Seal of the Prophets and affirmation of what he brought; acknowledgment of the Imams of his progeny whose guardianship and obedience God joined to His own in 'Obey God, and obey the Messenger, and those vested with authority among you'; and recognition of the Imam of the age with submission to his command and taking knowledge from him.",
+      "kind": "framework",
+      "weight": 5,
+      "entities": [
+        "Imam of the age",
+        "Ahl al-Bayt",
+        "Muhammad",
+        "Quran 4:59"
+      ]
+    },
+    {
+      "text": "This obligatory knowledge rests on the premise that God has never left the earth without a proof against His servants and an Imam calling to His obedience, supported by 'On the day We shall call every people by their Imam' and 'You are only a warner, and for every people there is a guide'; whoever affirms this is bound to follow the guide, ask the people of remembrance, and take from them, and his rank is raised in proportion to what he then learns.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "hujja (proof)",
+        "Imam",
+        "Quran 17:71",
+        "Quran 13:7",
+        "Quran 16:43",
+        "Quran 58:11"
+      ]
+    },
+    {
+      "text": "Ali holds that the worth of every man is what he has mastered of knowledge, and the Messenger of God holds that seeking knowledge is an obligation on every Muslim man and woman.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "the Messenger of God"
+      ]
+    },
+    {
+      "text": "Ali forbids measuring religion by analogy, declaring that a people will come who do so and that they are religion's enemies, the first analogical reasoner having been Iblis; instead, discourse one does not recognize must be referred back to the Imams and suspended there.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "qiyas (analogy)",
+        "Iblis",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Al-Qadi al-Numan in Mafatih al-Nimah reports al-Sadiq drawing a distinction between referring an obscure teaching back to the Imams — bringing it to them so they may establish its proof and disclose its interpretation — and throwing it back at them by calling it false and turning away.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "al-Qadi al-Numan",
+        "Mafatih al-Nimah",
+        "al-Sadiq"
+      ]
+    },
+    {
+      "text": "On concealment and precaution, Ali warns that whoever divulges the Imams' secret will be made by God to taste the cold of iron.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "taqiyya (precaution)",
+        "Ali ibn Abi Talib"
+      ]
+    }
+  ],
+  "fingerprint": "2cf467e2ad328973"
+}

@@ -4,10 +4,10 @@
   "category": "books",
   "branch": "Islamic/isaf-al-talib",
   "status": "draft",
-  "phase": "0book-design",
+  "phase": "0book-compose",
   "phase_status": "completed",
-  "last_completed_phase": "0book-design",
-  "next_phase": "0book-compose",
+  "last_completed_phase": "0book-compose",
+  "next_phase": "0book-illustrate",
   "last_error": null,
   "phases": {
     "pre-flight": {
@@ -348,8 +348,16 @@
       }
     },
     "0book-compose": {
-      "status": "pending",
-      "ts_started": "2026-09-18T16:06:35Z"
+      "status": "completed",
+      "ts_started": "2026-09-18T16:06:35Z",
+      "ts_completed": "2026-09-19T03:48:57Z",
+      "review": {
+        "verdict": "PHASE-SOUND",
+        "failed": 0,
+        "crashed": 0,
+        "total": 11,
+        "blocking_fail": null
+      }
     },
     "0book-illustrate": {
       "status": "pending"
@@ -383,7 +391,7 @@
   },
   "wall_clock_sec": 0,
   "ts_started": "2026-09-17T23:49:23Z",
-  "ts_updated": "2026-09-18T19:51:07Z",
+  "ts_updated": "2026-09-19T03:48:57Z",
   "challenger_version": "2.6",
   "orchestrator_version": "1.2",
   "config": {
@@ -393,8 +401,7 @@
   "unattended": true,
   "run_id": "20260918T195107Z-7feeff",
   "phase_attempts": {
-    "finalize": 4,
-    "0book-compose": 1
+    "finalize": 4
   },
   "slide_decks": {
     "imamate-in-prayer": {

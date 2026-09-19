@@ -1,0 +1,123 @@
+{
+  "title": "2. Three Questions from the King of Rum",
+  "purpose": "It establishes, through Qur'anic exegesis and narrated test-cases, that 'Ali and his descendants possess an exclusive divinely-derived knowledge that authenticates their guardianship (wilaya) over the community.",
+  "points": [
+    {
+      "text": "Jafar ibn Mansur al-Yaman, in the Book of the Foster-Suckling, reads the Qur'anic phrase 'God is his master, and Gabriel, and the righteous of the believers' as designating 'Ali ibn Abi Talib, the Imam of every believing man and woman.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "Book of the Foster-Suckling",
+        "'Ali ibn Abi Talib",
+        "Gabriel"
+      ]
+    },
+    {
+      "text": "On the same authority, 'and their father was righteous' is taken to mean an Imam, and 'the earth is inherited by My righteous servants' to mean the Imams among God's servants, so that 'the righteous' in scripture is a technical designation for the Imams.",
+      "kind": "definition",
+      "weight": 4,
+      "entities": [
+        "Imams",
+        "Qur'an"
+      ]
+    },
+    {
+      "text": "The Imam al-Muizz li-Din Allah, in a Friday sermon, likened himself in the physical world to the Pen in the spiritual world, setting four ranks beneath him each preceded by a spiritual rank guiding it upward, so that the earthly hierarchy faces and inscribes what it derives from the spiritual world as a pen inscribes a tablet.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "al-Muizz li-Din Allah",
+        "Pen",
+        "Tablet"
+      ]
+    },
+    {
+      "text": "In the account from Uns al-Afidah al-Muniba, the king of Rum sends a messenger with money to test Muhammad's successor with three questions: what is not God's, what is not with God, and what God does not know.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "King of Rum",
+        "Uns al-Afidah al-Muniba",
+        "Medina"
+      ]
+    },
+    {
+      "text": "Abu Bakr and 'Umar both fail the test and, rather than admitting ignorance, accuse the questioner of disbelief — a failure 'Abdullah ibn Abbas explicitly criticises before directing the company to 'Ali.",
+      "kind": "event",
+      "weight": 4,
+      "entities": [
+        "Abu Bakr",
+        "'Umar",
+        "'Abdullah ibn Abbas"
+      ]
+    },
+    {
+      "text": "'Ali answers that what is not God's is a partner, what is not with God is injustice, and what God does not know is that the Messiah is His son — citing 'Do you inform God of what He does not know?' — the point being that what does not exist is not an object of divine knowledge.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "'Ali ibn Abi Talib",
+        "the Messiah"
+      ]
+    },
+    {
+      "text": "The Roman envoy responds by professing that there is no god but God, that Muhammad is His Messenger, and that 'Ali is his guardian (wali), and 'Ali has al-Hasan and al-Husayn distribute the money among the Muslims.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "text": "In the narration from Abu al-Jarud via al-Harith al-Awar, Muawiya secretly sends a Syrian to 'Ali in al-Rahba with eleven questions relayed from Ibn al-Asfar, who had promised to follow and pay tribute to whoever could answer them.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "Abu al-Jarud",
+        "al-Harith al-Awar",
+        "Muawiya",
+        "Ibn al-Asfar",
+        "al-Rahba"
+      ]
+    },
+    {
+      "text": "'Ali detects the stranger as an outsider before he speaks, grants him safety for wartime acts on the principle that 'when war lays down its burdens, there is no harm in it,' and denounces Muawiya and the nation that severed his kinship and denied him his right.",
+      "kind": "event",
+      "weight": 3,
+      "entities": [
+        "'Ali ibn Abi Talib",
+        "Muawiya"
+      ]
+    },
+    {
+      "text": "'Ali defers the answering to al-Hasan, who resolves all eleven questions — including that truth and falsehood are four fingers apart (what the eye sees is true, what the ear hears is largely false), that the moon's light was once like the sun's until God erased it per the verse on the two signs, and that the hardest of ten things ascends from stone through iron, fire, water, cloud, wind, angel, Angel of Death, death, to the command of God.",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "al-Hasan",
+        "Angel of Death"
+      ]
+    },
+    {
+      "text": "Ibn al-Asfar, receiving the answers through Muawiya, testifies that they could only come from the mine of prophecy and the seat of the message and refuses Muawiya even a single dirham — a foreign witness against Muawiya's claim.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Ibn al-Asfar",
+        "Muawiya"
+      ]
+    },
+    {
+      "text": "In a further narration, 'Ali resolves 'Umar's four unasked questions: true dreams occur while the soul is loosed in the kingdom and false ones as it returns (per the verse on God taking souls in sleep), instinctive love and hatred trace to souls created two thousand years before bodies that knew or rejected one another in the air, and forgetting comes from a film over the heart like the film of the moon — after which 'Umar concedes 'You have spoken truly, O Abu al-Hasan.'",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "'Umar ibn al-Khattab",
+        "'Ali ibn Abi Talib"
+      ]
+    }
+  ],
+  "fingerprint": "1da4c826b0b91d0c"
+}

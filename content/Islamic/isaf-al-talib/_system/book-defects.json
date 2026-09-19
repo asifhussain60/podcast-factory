@@ -1,0 +1,1100 @@
+{
+  "schema": "book.defects/v1",
+  "counts": {
+    "duplicated-arabic": 0,
+    "english-rtl": 0,
+    "romanized-arabic": 3,
+    "romanized-honorific": 0,
+    "stray-emphasis": 0,
+    "quote-line-noise": 0,
+    "honorific-overuse": 68,
+    "prophet-wrong-honorific": 98,
+    "translation-outside-card": 4,
+    "translation-leads-a-paragraph": 4,
+    "translation-fused-with-prose": 5,
+    "bare-arabic": 64,
+    "orphaned-heading": 0,
+    "stale-provenance": 1
+  },
+  "previous": {},
+  "findings": {
+    "duplicated-arabic": [],
+    "english-rtl": [],
+    "romanized-arabic": [
+      [
+        "21. Friday and the Two Festivals",
+        "tafattarat al-ard wa-infatarat"
+      ],
+      [
+        "21. Friday and the Two Festivals",
+        "fatara nab al-bair"
+      ],
+      [
+        "21. Friday and the Two Festivals",
+        "fatara Allah al-khalq"
+      ]
+    ],
+    "romanized-honorific": [],
+    "stray-emphasis": [],
+    "quote-line-noise": [],
+    "honorific-overuse": [
+      [
+        "1. The Eight Levels of Faith",
+        "(no name attached)",
+        4
+      ],
+      [
+        "1. The Eight Levels of Faith",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "Faithful",
+        7
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "Ali ibn Abi Talib",
+        5
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "Messenger of God",
+        4
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "Husayn",
+        2
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "Muhammad",
+        2
+      ],
+      [
+        "3. The Grammar of Peace",
+        "(no name attached)",
+        4
+      ],
+      [
+        "3. The Grammar of Peace",
+        "Muhammad",
+        2
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "(no name attached)",
+        3
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "Allah",
+        3
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "Imams",
+        3
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "Amir al-Muminin Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "Muhammad",
+        2
+      ],
+      [
+        "5. Parents, Kin, and the Neighbor at Your Side",
+        "Amir al-Muminin Ali ibn Abi Talib",
+        3
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "Amir al-Muminin Ali ibn Abi Talib",
+        4
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "Sadiq",
+        2
+      ],
+      [
+        "8. The Manners of the Washing Place",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "9. Major Impurity and the Cleanliness of Things",
+        "Ali ibn Abi Talib",
+        3
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "(no name attached)",
+        4
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "Ali ibn Abi Talib",
+        4
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "God",
+        3
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "Ibrahim",
+        2
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "(no name attached)",
+        2
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Prophet",
+        6
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "(no name attached)",
+        5
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Messenger of God",
+        5
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Ali",
+        2
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Allah",
+        2
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Faithful",
+        2
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "Husayn",
+        2
+      ],
+      [
+        "15. Eight Proofs for the Best of Human Beings",
+        "Moses",
+        3
+      ],
+      [
+        "15. Eight Proofs for the Best of Human Beings",
+        "(no name attached)",
+        2
+      ],
+      [
+        "15. Eight Proofs for the Best of Human Beings",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "Prophet",
+        4
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "Messenger of God",
+        3
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "Prophet",
+        3
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "House",
+        2
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "Jafar ibn Muhammad",
+        2
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "Prophet",
+        5
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "Messenger of God",
+        3
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "Ali",
+        2
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "Amir al-Muminin Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "22. Forgetting, Doubting, and Beginning Again",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "23. Children, Travelers, and the Sick",
+        "God",
+        2
+      ],
+      [
+        "23. Children, Travelers, and the Sick",
+        "Muminin",
+        2
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "(no name attached)",
+        2
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "Ali ibn Abi Talib",
+        2
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "Messenger of God",
+        2
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "(no name attached)",
+        3
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "Ali ibn Abi Talib",
+        3
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "Faithful",
+        2
+      ],
+      [
+        "26. Washing, Shrouding, Carrying, Burying",
+        "Ali ibn Abi Talib",
+        3
+      ],
+      [
+        "26. Washing, Shrouding, Carrying, Burying",
+        "House",
+        2
+      ],
+      [
+        "26. Washing, Shrouding, Carrying, Burying",
+        "Messenger of God",
+        2
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "Prophet",
+        13
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "Messenger of Allah",
+        4
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "Gabriel",
+        3
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "(no name attached)",
+        2
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "Prophet",
+        4
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "(no name attached)",
+        2
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "Prophet",
+        30
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "Messenger of Allah",
+        7
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "Speaker",
+        3
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "(no name attached)",
+        2
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "Foundation",
+        2
+      ]
+    ],
+    "prophet-wrong-honorific": [
+      [
+        "2. Three Questions from the King of Rum",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "3. The Grammar of Peace",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "3. The Grammar of Peace",
+        "the Prophet (ع)"
+      ],
+      [
+        "3. The Grammar of Peace",
+        "Prophet Muhammad (ع)"
+      ],
+      [
+        "3. The Grammar of Peace",
+        "prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "The Prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "The Messenger of God (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Prophet (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "the Prophet (ع)"
+      ],
+      [
+        "15. Eight Proofs for the Best of Human Beings",
+        "prophet Muhammad (ع)"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "the Prophet (ع)"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "the Prophet (ع)"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "the Prophet (ع)"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "the Prophet (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Prophet (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Prophet (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "the Prophet (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "The Prophet (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "The Prophet (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "the Prophet (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "The Prophet (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "The Messenger of God (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "the Prophet (ع)"
+      ],
+      [
+        "20. What the Worshipper Wears and Stands Upon",
+        "the Prophet (ع)"
+      ],
+      [
+        "22. Forgetting, Doubting, and Beginning Again",
+        "the Prophet (ع)"
+      ],
+      [
+        "22. Forgetting, Doubting, and Beginning Again",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "24. Eclipse, Fear, Rain, and the Night Vigil",
+        "the Prophet (ع)"
+      ],
+      [
+        "26. Washing, Shrouding, Carrying, Burying",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "26. Washing, Shrouding, Carrying, Burying",
+        "the Messenger of God (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "The Messenger of Allah (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "The Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "The Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Prophet (ع)"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "The Prophet (ع)"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "the Prophet (ع)"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "the Prophet (ع)"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Messenger of Allah (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "The Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "the Prophet (ع)"
+      ]
+    ],
+    "translation-outside-card": [
+      [
+        "2. Three Questions from the King of Rum",
+        "'And We made the night and the day two signs, and We erased the sign of the night and made the sign of the day visible.'"
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "'God takes the souls at the time of their death, and those that have not died, during their sleep. He keeps those for whom He has decreed death and releases the others until an appointed term.'"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "'Establish the prayer at the declining of the sun,'"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "'If it is obscured from you, then count thirty days,'"
+      ]
+    ],
+    "translation-leads-a-paragraph": [
+      [
+        "3. The Grammar of Peace",
+        "'Repel with that which is better, and then the one between whom and you there was enmity will become as though he were a close friend.'"
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "\"Prayer is the offering of every godfearing person.\""
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "\"So woe to those who pray — those who are neglectful of their prayer.\""
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "\"Do not approach prayer while you are intoxicated.\""
+      ]
+    ],
+    "translation-fused-with-prose": [
+      [
+        "2. Three Questions from the King of Rum",
+        "'Do you inform God of what He does not know?'\""
+      ],
+      [
+        "22. Forgetting, Doubting, and Beginning Again",
+        "\"Peace be upon you, O Prophet, and the mercy of God and His blessings; peace be upon us and upon the righteous servants of God\" — his prayer is permitted, and he does not repeat it."
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "'Abdullah has spoken the truth. What is the matter with your dead, that they should be made to suffer by the words of your living?"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "\"O you who believe, fasting is prescribed for you as it was prescribed for those before you, so that you may be mindful of God, for a counted number of days; and whoever among you is sick or on a journey, then a number of other days\" — up to His saying, mighty and majestic:"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "\"If it is obscured from you, then count thirty days\" — upon consideration, it can scarcely be held that what he intended by it was the sighting of the eye. For fasting by the sight of the eye, when the impediments of cloud and the like are lifted, can hardly ever yield months of thirty days; a month may well be twenty-nine days. And if that is so, it is not permissible that the Prophet (ع) should bind his community, in one of the commands of Allah Almighty, to a rule in which doubt may arise — making this the cause of an addition to an obligation or a subtraction from it, and leaving his community to perform it as though walking in the dark. Nor is it permissible that he should command his community to fast an added day in one of the deficient months on account of cloud, when, had the cloud not been there, it would have been known that fasting on that day is forbidden and that breaking the fast is required. For fasting is worship of Allah Almighty, and it belongs to the religion by which Allah is served; His servants are commanded to sincerity in it, by the saying of Allah Almighty:"
+      ]
+    ],
+    "bare-arabic": [
+      [
+        "1. The Eight Levels of Faith",
+        "أَوَّلُهَا الْإِحْسَانُ بِالْوَالِدَيْنِ ، وَبِذِي الْقُرْبَى ، وَالْيَتَامَى ، وَالْمَسَاكِينِ ، وَالْجَارِ ذِي الْقُرْبَى ، وَالْجَارِ الْجُنُبِ ، وَالصَّاحِبِ ذِي الْجَنْبِ ، وَابْنِ السَّبِيلِ وَمَا مَلَكَتْ أَيْمَانُكُمْ"
+      ],
+      [
+        "2. Three Questions from the King of Rum",
+        "رضي الله عنه"
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "لوّاحة للبشر عليها تسعة عشر\n\nلَوَّاحَةٌ لِّلْبَشَرِ عَلَيْهَا تِسْعَةَ عَشَرَ"
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "وبالإحدى عشر الساجدين وبالاثنى عشر المعدودين الراكعين"
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "من أراد منكم أن يعلم کیف منزلته عند الله تعالى فلينظر کیف منزلة الله منه عند الذنوب"
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "من احبنا فليعمل عملنا ويستعين بالورع فانه أفضل ما يُستعان به في الدنيا والآخرة ولا تجالسوا لنا عايبا ولا تمدحوننا معلنين عند عدوّنا فيظهر حبنا ويستر بغضنا وتذلوا انفسكم عند سلطانهم ألزموا الصّدق فانه منجاة ارغبوا فيما عند الله وأطلبوا مرضاته وطاعته واصبروا عليها ما اقبح بالمؤمن أن يدخل الجنّة وهو مهنوك الستر لا تعبونا بالطلب والشفاعة لكم يوم القيامة بسبب ما قدمتم ولا تفضحوا أنفسكم عند عدؤكم يوم القيامة ولا تجعلوا أنفسكم عندهم في منزلتهم عند الله بالحقير من الدنيا تمسّكوا بما أمركم الله تعالى به فما بين أحدكم وبين أن يغتبط ويرى ما يحب الآ أن يحضره رسول الله صلى الله عليه وعلى آله وما عند الله خير وأبقى وتأتيه البشارة والله لتقرّن عينه وليحينّ لقاء الله"
+      ],
+      [
+        "4. Guardians, Proofs, and the Limits of Praise",
+        "فاستمعوا الآن ما نذكره مما أمر الله به من صلة القرابة وفيها سبعة واثنى عشر فأمّا السبعة فصلة من أمر الله بصلته من قرابةٍ رسول الله صلى الله عليه وآله لقوله تعالى قل لا أسألكم عليه أجراً الا المودة في القربى وهم أئمة الدين صلوات الله عليهم وعدّتهم سبعة يترددون كأيام الجمعة"
+      ],
+      [
+        "5. Parents, Kin, and the Neighbor at Your Side",
+        "بنوا العلاّت"
+      ],
+      [
+        "5. Parents, Kin, and the Neighbor at Your Side",
+        "ولا يمين في قطيعة رحم\n\nلا يمين في قطيعة رحم"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "لَا صَمْتَ إِلَى اللَّيْلِ اِلَّا فِي ذِكْرِ اللَّهِ ، لَا تَعَرَّبْ بَعْدَ الْهِجْرَةِ"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "نعم قد كان أطلق له لاقراره فضل أهل البيت عَلَيْهِمُ السَّلَامُ لا غير"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "هذا في كتاب الحقيقة لا ينظر الإنسان الا بأذن من أطلق له ذلك وأما في غيرها فأدب وليس بلازم"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "إن كانت الكتب من كتب الدعوة فليس له ذلك لأنها للدعوة لا تورث"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "إذا كان بين الرجل والمرأة سترة قراء عليها بحيث تسمع قوله ولا يراها ولا يخلو رجل بامرأة الاّ أن يكون معها غيرها أو معه غيره"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "وأمّا ما سألت من العلم الواجب الذي لا يسع جهله فهو ما تعهّد الله عزّ وجل العباد به من معرفته وتوحيده وتنزيهه عن التشبيه والتعطيل والعدم ثم الإقرار برسله أوّلهم وآخرهم والشهادة بالبلاغ لهم والإقرار بمحمد خاتم النبيين وسيد المرسلين والتصديق بما جاء به والإقرار بالأئمة من ذريته الذين أمر الله عزّ وجل بتوليهم وردّ المسألة إليهم ووصل في كتابه طاعته وطاعة رسوله بطاعتهم فقال عزّ وجل أطيعوا الله وأطيعوا الرسول وأولي الأمر منكم ومعرفة إمام الزمان واعتقاد إمامته وولايته والتسليم لأمره والأخذ عنه وأن الله عزّ وجل لم يخل الأرض من حجة له على عباده وإمام يدعوهم إلى طاعته لقوله لا شريك له يوم ندعوا كلّ أناس بإمامهم وقال لمحمد صلى الله عليه وآله إنما أنت منذر ولكل قوم هاد فمن علم هذا وأعتقده وأقرّ به وصدّقه وجب علينا اتباع الدليل واقتفاء اثار الرسول وسؤالهم والأخذ عنهم قال الله أصدق القائلين فاسألوا أهل الذكر إن كنتم لا تعلمون فبقدر ما يعلم المؤمن بعد الإقرار والتصديق ترفع درجّه وتعلو منزلّه قال الله تعالى يرفع الله الذين آمنوا منكم والذين أتوا العلم درجات"
+      ],
+      [
+        "6. What Must Be Learned, What Must Be Concealed",
+        "لا تقيسوا الدين فأنه لا يقاس وسيأتي قوم يقيسون الدين وهم أعداءه وأول من قاس إبليس"
+      ],
+      [
+        "7. Water and Intention: The Anatomy of Ablution",
+        "إذا أراد أحدكم الخلاء فليقل بسم الله اللهم أمط عني الأذى وأعذني من الشيطان الرجيم الحمد لله الذي أطعمنيه في عافية وأخرج مني أذاه في عافية"
+      ],
+      [
+        "8. The Manners of the Washing Place",
+        "أمرني جبرئيل عليه السلام عن ربي أن اغسل فنكي عند الوضوء"
+      ],
+      [
+        "9. Major Impurity and the Cleanliness of Things",
+        "ورخصوا الأئمة صلوات الله عليهم في الصلاة في الثياب التي يعملها المشركين ما لم يلبسوها أو تظهر فيها النجاسة"
+      ],
+      [
+        "9. Major Impurity and the Cleanliness of Things",
+        "ولا يتغوّطنّ أحدكم على الحجة ولا يبل في سطح الهواء ولا في ماء راكد فمن فعل فأصابه شيء فلا يلومنّ الا نفسه فان للماء أهلاً وللهواء أهلاً فإذا بال أحدكم فلا يطمحنّ ببوله ولا يستقبل به الربح"
+      ],
+      [
+        "9. Major Impurity and the Cleanliness of Things",
+        "ولا ينا منّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على وجهه فانبهوه"
+      ],
+      [
+        "10. Tooth-Stick, Dust, and the Purity of Food",
+        "السواك مرضاة للرب عز وجل ومطيبة للفم وهو من السّنّة"
+      ],
+      [
+        "10. Tooth-Stick, Dust, and the Purity of Food",
+        "حتى إذا لم يرى شيئا طار"
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "إذا أراد أحدكم أن يتزوج امرأة فيسأل عن شعرها كما يسأل عن وجهها فان الشعر أحد الجمالين"
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "وقالوا يعني الأئمة من أهل بيت النبوة عَلَيْهِمُ السَّلَامُ في المرأة إذا تطهرت إنها تنقض شعرها الا أن تكون تعلم أن الماء يصل إلى بشرة رأسها ويبل شعرها كله وذلك أن تكون أظفار شعرها رخوة"
+      ],
+      [
+        "11. Bodies, Hair, and the Reform of Custom",
+        "أسرعوا بختان أولادكم فأنه أطهر لهم"
+      ],
+      [
+        "12. Skins, Blood, and Waiting Periods",
+        "ولا يجز الشعر من المعز الا بعد الذبح فان جز وهو حيّ فهو ميّة"
+      ],
+      [
+        "12. Skins, Blood, and Waiting Periods",
+        "مَا لَكَ أَنْفَسْتَ ؟ قالت نعم"
+      ],
+      [
+        "12. Skins, Blood, and Waiting Periods",
+        "الولد للفراش وللعاهر الحجر\n\nالْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ"
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "ولا يقومنّ الرجل إلى الصلاة متكاسلاً ولا متناعساً وليقلل العبد الفكر إذا قام بين يدي الله عز وجل فإنما له من صلاته ما أقبل عليه ولا تدعوا ذكر الله في كل مكان على كل حال ولا يلتفتنّ أحدكم في صلاته فإن العبد إذا التفت فيها قال الله عز وجل"
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "لا يعبث أحدكم بلحيته في الصلاة ولا بما يشغله عنها"
+      ],
+      [
+        "13. The Pillar of Religion and Its Appointed Hours",
+        "إذا اشتد الحر فأبردوا بالظهر فإن شدة الحر من لفح جهنم"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "أني مخلف فيكم ما أن تمسكتم به لن تضلوا كتاب الله وعترتي أهل بيتي كسفينة نوح من ركبها نجى ومن تخلف عنها غرق"
+      ],
+      [
+        "14. The Disputed Words of the Call",
+        "ذرهما فنعم المطي مطيهما ونعم الراكبان هما وأبوهما خير منهما"
+      ],
+      [
+        "16. Where a Muslim Stands to Pray",
+        "ولا يصلي أحدكم وبين يديه سيف، فإن القبلة آمن"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ القرآن فأفقههم وان استووا في علم الفقه فأكبرهم سناً وصاحب المسجد أحق بمسجده والإمام عليه السلام ومن أقامه أحق من جميعهم والمرأة تصلي بالنساء ولا تتقدمهن بل يقفن عن يمينها وشمالها"
+      ],
+      [
+        "17. Who May Lead, and Who May Not",
+        "ينبغي للصفوف أن تكون تامة متواصلة بعضها إلى بعض فيكون بين كل صفين قدر مسقط جسد الإنسان إذا سجد فان لم يصلوا مثل هذا لم تكن لهم صلاة"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "ومن يبتع غير الإسلام ديناً فلن يقبل منه وهو في الآخرة من الخاسرين"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "لا تقرأ وأنت راكع ولا تحركوا الحصى في الصلاة ولا تلتفتوا التّغات الثعلب ولا تقعوا اقعاء القرد ولا تنقروا نقر الغراب"
+      ],
+      [
+        "18. The Shape of the Prayer Itself",
+        "يا شعيب أصلواتك تأمرك أن نترك ما يعبد آبائنا"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "عِنْدَ نُزُولِ الْغَيْثِ ٢"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "وَعِنْدِ الزَّحْفِ ٣"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "وَعِنْدَ الْأَذَانِ ٤"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "وَعِنْدَ قِرَاءَةِ الْقُرْآنِ ٥"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "وَعِنْدَ زَوَالِ الشَّمْسِ ٦"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "الدعاء يرد القضاء المبرم فادعوه واستعجلوه"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "ادفعوا داعي البلاء بالدعاء وعليكم به قبل نزول البلاء فوالذي فلق الحبة وبرأ النسمة للبلاء أسرع إلى المؤمن من السيل من أعلى الجبل إلى أسفلها ومن ركض البراذين"
+      ],
+      [
+        "19. Supplication, Speech, and Silence",
+        "من قرأ قل هو الله أحد إلى أن تطلع الشمس عشر مرات وإنا أنزلناه في ليلة القدر لم يصب ذنبا ولو اجتهد إبليس"
+      ],
+      [
+        "20. What the Worshipper Wears and Stands Upon",
+        "لا يصلي الرجل في قميص متوشحاً فأنه فعل قوم لوط"
+      ],
+      [
+        "21. Friday and the Two Festivals",
+        "فِي يَوْمِ الْجُمُعَةِ سَاعَةَ زَوَالِ الشَّمْسِ ٢"
+      ],
+      [
+        "21. Friday and the Two Festivals",
+        "وَحِينَ تَهبُّ الرِّيَاحُ وَتُفْتَحُ أَبْوَابُ السَّمَاءِ وَتَنْزِلُ الرَّحْمَةُ ٣"
+      ],
+      [
+        "21. Friday and the Two Festivals",
+        "وإذا السماء انفطرت"
+      ],
+      [
+        "22. Forgetting, Doubting, and Beginning Again",
+        "من كان على يقينه فأصابه شك فليمض على يقينه فان الشك لا يدفع اليقين ولا ينقصه"
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "ولا ينامنّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على وجهه فانتبهوه ولا تنام المرأة مستلقية على ظهرها"
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "أسأل الله العافية من جهد البلاء فان جهد البلاء ذهاب للدين"
+      ],
+      [
+        "25. The Sickbed and the Sound of Mourning",
+        "إن حضرت المرأة امرأة تحسن إخراجه فهو الواجب إذا قدر أو في ستة أشهر فما فوقها ويرجى له الحياة وان لم فلا تقبر أمه حتى يتحقق موته والله أعلم"
+      ],
+      [
+        "27. The Wealth That Is Not Yours",
+        "لا تحل الصدقة لي ولا لأهل بيتي"
+      ],
+      [
+        "31. The Quarrel Over the Crescent",
+        "فللموت تغذوا الوالدات عيالها"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "ألم ترى ربك كيف مد الظل"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "ألم ترى كيف فعل ربك بأصحاب الفيل"
+      ],
+      [
+        "32. Two Kinds of Sight",
+        "ويسألونك عن الأهلة قل هي مواقيت للناس"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "من شهد منكم الشهر فليصمه"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "فلا أقسم بمواقع النجوم وأنه قسم لو تعلمون عظيم"
+      ],
+      [
+        "33. The Sun, the Moon, and the Order of Obedience",
+        "فهل يستوي الظلمات والنور أم هل يستوي الأعمى والبصير أم هل يستوي الذين يعلمون والذين لا يعلمون إنما يتذكر أولوا الألباب"
+      ]
+    ],
+    "orphaned-heading": [],
+    "stale-provenance": [
+      [
+        "2. Three Questions from the King of Rum",
+        "رضي الله عنه"
+      ]
+    ]
+  }
+}

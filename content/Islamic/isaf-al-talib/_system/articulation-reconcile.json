@@ -1,0 +1,128 @@
+{
+  "schema": "podcast.articulation-reconcile/v1",
+  "chapters": {
+    "The Eight Levels of Faith": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-01-part-05: abridged re-voice (56<67 words)",
+            "fluency-01-part-05: repair still failed: abridged re-voice (56<67 words)"
+          ],
+          "at": "2026-09-19T01:59:24.561840+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-01-part-05: abridged re-voice (54<67 words)",
+            "reconcile-01-part-05: repair still failed: abridged re-voice (56<67 words)"
+          ],
+          "at": "2026-09-19T02:56:37.656295+00:00"
+        }
+      ]
+    },
+    "What Must Be Learned, What Must Be Concealed": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-06-part-13: abridged re-voice (54<69 words)",
+            "fluency-06-part-13: repair still failed: abridged re-voice (55<69 words)"
+          ],
+          "at": "2026-09-19T01:59:24.563439+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-06-part-05: protected structural artifacts missing: [[ARTIFACT_001]]",
+            "reconcile-06-part-05: Arabic runs dropped (16<23)",
+            "reconcile-06-part-05: Arabic script dropped (3 run(s)) \u2014 replaced or removed: \u0628\u0623\u0646; \u0648\u0644\u064a\u0633; \u064a\u0635\u0644\u062d\u0647",
+            "reconcile-06-part-05: repair still failed: protected structural artifacts missing: [[ARTIFACT_001]]",
+            "reconcile-06-part-05: repair still failed: Arabic runs dropped (16<23)",
+            "reconcile-06-part-05: repair still failed: Arabic script dropped (3 run(s)) \u2014 replaced or removed: \u0628\u0623\u0646; \u0648\u0644\u064a\u0633; \u064a\u0635\u0644\u062d\u0647"
+          ],
+          "at": "2026-09-19T02:56:37.658060+00:00"
+        }
+      ]
+    },
+    "The Pillar of Religion and Its Appointed Hours": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-13-part-03: abridged re-voice (71<96 words)",
+            "fluency-13-part-03: repair still failed: abridged re-voice (87<96 words)"
+          ],
+          "at": "2026-09-19T01:59:24.564681+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-13-part-03: abridged re-voice (70<96 words)",
+            "reconcile-13-part-03: repair still failed: abridged re-voice (87<96 words)"
+          ],
+          "at": "2026-09-19T02:56:37.659991+00:00"
+        }
+      ]
+    },
+    "Supplication, Speech, and Silence": {
+      "resolved": true,
+      "needs_human": false,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-19-part-04: abridged re-voice (35<59 words)",
+            "fluency-19-part-04: repair still failed: abridged re-voice (33<59 words)"
+          ],
+          "at": "2026-09-19T01:59:24.565854+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "adapted",
+          "gate_findings": [],
+          "at": "2026-09-19T02:56:37.661318+00:00"
+        }
+      ]
+    },
+    "The Sickbed and the Sound of Mourning": {
+      "resolved": false,
+      "needs_human": true,
+      "log": [
+        {
+          "attempt_kind": "pass",
+          "status": "partial",
+          "gate_findings": [
+            "fluency-25-part-11: abridged re-voice (55<74 words)",
+            "fluency-25-part-11: repair still failed: abridged re-voice (54<74 words)"
+          ],
+          "at": "2026-09-19T01:59:24.566987+00:00"
+        },
+        {
+          "attempt_kind": "second-attempt",
+          "status": "partial",
+          "gate_findings": [
+            "reconcile-25-part-09: abridged re-voice (20<47 words)",
+            "reconcile-25-part-09: repair still failed: abridged re-voice (20<47 words)",
+            "reconcile-25-part-11: abridged re-voice (51<74 words)",
+            "reconcile-25-part-11: repair still failed: abridged re-voice (53<74 words)"
+          ],
+          "at": "2026-09-19T02:56:37.662603+00:00"
+        }
+      ]
+    }
+  }
+}

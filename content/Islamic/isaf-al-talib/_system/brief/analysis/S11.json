@@ -1,0 +1,150 @@
+{
+  "title": "11. Bodies, Hair, and the Reform of Custom",
+  "purpose": "It assembles fatwa-answers and a reforming epistle to regulate circumcision, hair, henna and bodily adornment, correcting Indian and Yemeni customs against the rulings of Daaim al-Islam.",
+  "points": [
+    {
+      "text": "The section is built from a question-and-answer compilation arranged according to the chapter order of Qadi al-Numan's Daaim al-Islam, supplemented by letters and rulings of later dignitaries.",
+      "kind": "context",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Daaim al-Islam",
+        "Qadi al-Numan"
+      ]
+    },
+    {
+      "text": "On circumcision the rule given is that no uncircumcised person is left so in Islam even at eighty years of age, and the same insistence is extended to the circumcision of girls (khafd) for a woman who has grown old.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "khafd",
+        "circumcision"
+      ]
+    },
+    {
+      "text": "Qadi al-Numan, answering his district governor al-Khattab ibn Wasim, qualifies the rule: a man born circumcised — as some prophets are reported to have been — is exempt, and one whose glans or most of it is already exposed is not compelled, though it is recommended for a young man that remaining skin be cut away.",
+      "kind": "caveat",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Qadi al-Numan",
+        "al-Khattab ibn Wasim"
+      ]
+    },
+    {
+      "text": "A reported saying of Ali instructs women not to take the girls' circumcision to the utmost but to leave something of it, which the answer glosses as better for the husband's inclination toward her; a further opinion holds that the prayer and the marital intercourse of an uncircumcised woman are nonetheless valid, the sunna being merely to hasten to it.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Hair of the head must be parted into two halves from front to back — the Indian custom of parting toward the middle is rejected — and deliberate defiance of this ruling is said to corrupt the prayer, while mere negligence does not.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "India"
+      ]
+    },
+    {
+      "text": "Trimming is permitted only from the two sides of the beard (al-aridayn) and body hair may be shaved, shortened or plucked freely, but nothing may be removed from the beard itself.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "beard",
+        "al-aridayn"
+      ]
+    },
+    {
+      "text": "Defined terms are supplied for the Prophet's prohibition on a menstruating woman taking up a qassa or jumma: the jumma is hair plaited from the side locks to the nape, the qassa is cutting the head's hair leaving about a quarter at the front, and the qunzua — hair gathered with portions left standing — is likewise forbidden.",
+      "kind": "definition",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "qassa",
+        "jumma",
+        "qunzua"
+      ]
+    },
+    {
+      "text": "Engraving the skin with henna dye is forbidden, but dyeing the teeth, filing uneven teeth level (for women), and piercing the ears of women and infant girls for ornaments are all permitted, and Indian popular scruples about spouses sharing one comb or about combing on Friday night are dismissed as having no reliance placed upon them.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "henna",
+        "India"
+      ]
+    },
+    {
+      "text": "Henna for a man is not sinful but is judged unfitting: it is better for him to leave it absent a cause, since henna, like jewelry, was appointed for women.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "henna"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sulayman, writing from Yemen in his letter al-Sayf al-aqta fi ibtal al-bida, argues that God placed men's adornment in the beard and women's in the length of their head hair, so that a woman's shaving of her head — or even of the edges around the crown and the temples — is a disfigurement of her form and an inversion of the divinely appointed order.",
+      "kind": "thesis",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman",
+        "al-Sayf al-aqta fi ibtal al-bida",
+        "Yemen"
+      ]
+    },
+    {
+      "text": "Jafar's proof for that prohibition is an a fortiori argument from Qadi al-Numan's ihram rulings: since the bald man passes the razor over his head while the woman released from ihram only cuts from the ends of her hair and shaves none of it, shaving can never be lawful for her as a standing custom.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman",
+        "Qadi al-Numan",
+        "ihram"
+      ]
+    },
+    {
+      "text": "Jafar condemns a double inversion of practice: girls are being circumcised within ten to forty days when Ali forbade it before seven years, while boys' circumcision — commanded to be hastened, ideally on the seventh day — is deferred, in some regions to nearly twenty years, a delay shamed by the People of the Book who circumcise on the seventh day in obedience to Moses.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman",
+        "Ali ibn Abi Talib",
+        "Moses",
+        "People of the Book"
+      ]
+    },
+    {
+      "text": "Jafar rules that girls' circumcision must be done in concealment — known only to the girl, the operator and a few household women — and that the public gatherings, hospitality and call to prayer used for it in Yemen belong only to the purification of male children and offend against modesty, which the Prophet made part of faith.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman"
+      ]
+    },
+    {
+      "text": "The author reports that he himself put questions from the Island of Hind to Jafar in Yemen, who ruled that a girl dying below seven is not to be circumcised since the set limit may not be transgressed — a ruling Muhammad ibn Fahd al-Mukarrami independently confirms — whereas a male child who dies uncircumcised is, by preferred sunna, circumcised after death.",
+      "kind": "resolution",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman",
+        "Muhammad ibn Fahd al-Mukarrami",
+        "Island of Hind",
+        "Yemen"
+      ]
+    }
+  ],
+  "fingerprint": "aee9b92d5264bc72"
+}

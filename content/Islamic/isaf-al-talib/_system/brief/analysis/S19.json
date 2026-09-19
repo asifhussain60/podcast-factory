@@ -1,0 +1,132 @@
+{
+  "title": "19. Supplication, Speech, and Silence",
+  "purpose": "It assembles the rulings and teachings on supplication following prayer, on speech and incidental acts during prayer, and on the enumerated constituent 'doors' of prayer.",
+  "points": [
+    {
+      "text": "A question-and-answer book arranged by the chapters of the Pillars of Islam reports that, per the books of the guiding call, no supplication — neither the supplication of drawing near nor any other — is recited after the afternoon prayer, yet whoever does supplicate incurs no sin.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Pillars of Islam",
+        "supplication of drawing near"
+      ]
+    },
+    {
+      "text": "The same source rules that wiping the face at the place of prostration is permitted only after the afternoon and dawn prayers, as the masters commanded and as received from the pure Imams, and that supplication after the afternoon prayer is not prolonged though prolonging it incurs nothing.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "pure Imams"
+      ]
+    },
+    {
+      "text": "The book on the interpretation of the Sharia sets the rule that daytime prayers are recited quietly while night prayers — including dawn, offered in the last darkness — are recited aloud.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "interpretation of the Sharia"
+      ]
+    },
+    {
+      "text": "The author of the Mustansiriyya Councils, in the Eleventh Council, follows the jurisprudence of prayer — where the outward gets exposition and the inward its sign and intimation — with the closing supplication and its seven and its twelve.",
+      "kind": "context",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Mustansiriyya Councils",
+        "Eleventh Council"
+      ]
+    },
+    {
+      "text": "The seven are bodily postures of supplication: asking (palms facing the face), seeking refuge (backs of palms facing the face), humble submission (grasping the shoulders, done only in solitude), devotion (pointing with the index finger), entreaty (moving the finger), fervent appeal (both palms spread and raised to the sky), and abasement in the dust (turning the cheeks on the ground).",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "دعاء المسألة",
+        "دعاء الاستعاذة",
+        "دعاء الاستكانة",
+        "دعاء التبتل",
+        "دعاء التضرع",
+        "دعاء الابتهال",
+        "دعاء التعفير"
+      ]
+    },
+    {
+      "text": "Each of the seven supplications has a corresponding mention in the Quran, to be brought forward later, since what has been set down so far is only roots awaiting branches and fruit.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Quran"
+      ]
+    },
+    {
+      "text": "The twelve are the foundations on which answered supplication is built: prefacing it with repentance, charity, fasting or prayer (per 'To Him ascends the good word, and the righteous deed raises it'), purifying intention, praising God, blessing the Prophet at start, middle and end, drawing near through the imams of religion up to the imam of one's age, seeking access through them, asking the good of both worlds, seeking refuge from the evil of both, and then asking whatever one wills.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "imam of the age"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib, in his Four Hundred Etiquettes, teaches that God answers supplication when He is remembered, that the gates of heaven open at six times (rainfall, the advance in battle, the call to prayer, Quranic recitation, the sun's decline, and daybreak), that supplication turns back even a firmly settled decree, that it should be used to repel affliction before it descends, and that one who supplicates without deeds is an archer with no bowstring.",
+      "kind": "evidence",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Etiquettes"
+      ]
+    },
+    {
+      "text": "Ali also states that whoever recites Sura al-Ikhlas ten times and Sura al-Qadr before sunrise will be touched by no sin however hard Iblis strives.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "al-Ikhlas",
+        "al-Qadr",
+        "Iblis"
+      ]
+    },
+    {
+      "text": "The question-and-answer book rules on incidental acts in prayer: deliberate throat-clearing without excuse cuts off the prayer (the imam must instead be alerted by words of glorification or a gesture) and habitual deliberate throat-clearing requires repeating the prayer; a woman may not occupy herself in prayer with carrying her child to quiet him; food placed in the mouth out of necessity for pain incurs nothing; a braid wound inside the turban is permissible since the forbidden binding is turning the hair back on its root to the middle of the head.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": []
+    },
+    {
+      "text": "Holding a gemstone, dirham or similar in the mouth or hand does not void the prayer if it does not prevent proper formation of the letters or fulfilment of the prayer's limits, though being free of all such things is more fitting; and the abridgment of the compiled book holds that eating or drinking in prayer, whether forgetful or deliberate, cuts off the prayer.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": []
+    },
+    {
+      "text": "The interpretation of the Sharia further holds that recitation precedes bowing, that one must not raise his voice above the imam's, that noon and afternoon are recited quietly and the night prayer aloud, that the Prophet forbade wiping over leather socks and forbade omitting the audible basmala, and that once the opening magnification is pronounced the worshipper does not speak until the salutation.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "basmala",
+        "interpretation of the Sharia"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman, in his book on the inward nursing, enumerates fourteen indispensable 'doors' of prayer — ablution, opening, call to prayer, standing call, turning toward God, recitation, bowing, praise, glorification, prostration, testimony, salutation, the supplication of the standing invocation, and the supplication of the odd-numbered prayer — which are its supporting pillars and without which prayer is incomplete.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Mansur al-Yaman"
+      ]
+    }
+  ],
+  "fingerprint": "85d0d570f140f63c"
+}

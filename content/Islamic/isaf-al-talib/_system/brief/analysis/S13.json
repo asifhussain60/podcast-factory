@@ -1,0 +1,183 @@
+{
+  "title": "13. The Pillar of Religion and Its Appointed Hours",
+  "purpose": "It opens the Book of Prayer by compiling the merits of prayer, its forbidden and disliked conditions, and the detailed law of prayer times, ordering of missed (qada) and current (ada) prayers, and the status of one who abandons prayer.",
+  "points": [
+    {
+      "text": "The author cites Ali ibn Abi Talib's 'four hundred precepts' to establish prayer's merits and conditions: night prayer benefits body and earns God's pleasure, the worshipper receives only that portion of prayer to which he attended, and laziness, drowsiness, looking aside, and toying with the beard are to be avoided.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "four hundred precepts",
+        "qiyam al-layl"
+      ]
+    },
+    {
+      "text": "Quoting Ali, prayer is 'the offering (qurban) of every godfearing person' and no deed is more beloved to God than prayer, so worldly affairs must not distract from its appointed times, God having reproached in Q107 those 'neglectful of their prayer' — i.e., heedless of its times.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "qurban",
+        "Surat al-Ma'un"
+      ]
+    },
+    {
+      "text": "From a book of legal riddle-questions the author reports three cases: the drunkard for whom prayer is impermissible (Q4:43) yet who is not excused for omitting it; the emigrant whose prayer behind a bedouin (a'rabi) is invalid since bedouins are harder in disbelief and hypocrisy; and the swimmer unable to reach land, who owes an obligatory prayer without bowing or prostration.",
+      "kind": "example",
+      "weight": 3,
+      "entities": [
+        "a'rabi",
+        "Q4:43",
+        "riddle-questions"
+      ]
+    },
+    {
+      "text": "On precedence, the answer given is that one who remembers missed prayers (al-fawa'it) during a current prayer's time must pray the missed ones first if time allows, and he sins if, with room in the time and no hindrance, he neglects them for the current prayer.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "al-fawa'it",
+        "qada"
+      ]
+    },
+    {
+      "text": "The section systematically distinguishes ada (performance within its time) from qada (making up after the time has passed), applying the distinction to sunnah and nafilah prayers — e.g., remaining sunnah is made up once its time (before the obligatory prayer) has passed, and the optional prayer is ada so long as its time has not lapsed.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "ada",
+        "qada",
+        "sunnah",
+        "nafilah"
+      ]
+    },
+    {
+      "text": "The sunnah of Maghrib is the stated exception to the rule that sunnah precedes the obligatory prayer: it is prayed after the obligatory Maghrib and still counts as ada, provided nothing separates the two, or if a slight interruption occurred and the congregation had not finished it.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "Maghrib",
+        "sunnah of Maghrib"
+      ]
+    },
+    {
+      "text": "One who abandons the prescribed prayer for a long period without excuse is 'not counted a Muslim' during that period and none of his lawful deeds is accepted — citing the Prophet's 'between the servant and disbelief is only the abandonment of prayer' and Ali's 'prayer is the pillar of religion, the first deed God examines' and 'no share in Islam for one who abandons prayer'.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "'amud al-din"
+      ]
+    },
+    {
+      "text": "The author qualifies that 'disbelief' here means only that his deeds are not accepted, since he stands in a disbeliever's position; in practice — poll tax, killing, enslaving his offspring, ritual impurity, his slaughtered meat — his ruling remains that of a Muslim, because the two testimonies place him within the rulings of Islam.",
+      "kind": "caveat",
+      "weight": 5,
+      "depends_on": [
+        "S13-P07"
+      ],
+      "entities": [
+        "shahadatayn",
+        "jizya"
+      ]
+    },
+    {
+      "text": "Upon sincere repentance (tawba nasuh, Q66:8) the abandoner becomes truly Muslim and his deeds are accepted; he need not make up the prayers missed before repenting (though he is rewarded if he does), but deliberately broken Ramadan fasts from that period require both making up and expiation.",
+      "kind": "resolution",
+      "weight": 4,
+      "depends_on": [
+        "S13-P07"
+      ],
+      "entities": [
+        "tawba nasuh",
+        "Q66:8",
+        "Ramadan"
+      ]
+    },
+    {
+      "text": "A contrasting case is drawn: one otherwise constant in prayer who misses obligatory prayers out of necessity may not perform the sunnah or optional prayers of the current time until he has first made up the missed obligatory prayer.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [
+        "S13-P09"
+      ],
+      "entities": [
+        "qada"
+      ]
+    },
+    {
+      "text": "Prayer at the end of the time with certainty is better than at its beginning with doubt; prayer performed before the time has entered must be repeated; missed prayers may be made up whenever remembered except at sunrise, the meridian, and sunset, and voluntary prayer at those moments is makruh on Friday and other days alike.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "makruh",
+        "Mukhtasar al-Musannaf"
+      ]
+    },
+    {
+      "text": "Al-Qadi al-Nu'man ibn Muhammad, in the book of the interpretation of the Sharia, defines the five times by hidden indications — Dhuhr when a shadow equals its object, 'Asr when double, Maghrib at the setting of the disc, Isha' al-Akhirah at the vanishing of the white twilight, Fajr from daybreak to near sunrise — and notes the times are hidden while the prayers are manifest, making ten: five outward and five inward.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "al-Qadi al-Nu'man ibn Muhammad",
+        "Isha' al-Akhirah",
+        "Dhuhr",
+        "'Asr"
+      ]
+    },
+    {
+      "text": "Al-Nu'man further sets prayer's four boundaries — time, qibla, wudu, intention — and its seven obligatory elements: takbir, recitation, bowing, prostration, glorification, tashahhud, and sealing.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "qibla",
+        "wudu",
+        "niyyah",
+        "takbir",
+        "tashahhud"
+      ]
+    },
+    {
+      "text": "Imam al-Mu'izz li-Din Allah is reported as ruling that the Fajr prayer belongs neither to the night nor the day prayers — for if it were of the night the faster could still eat, and if of the day its recitation would not be aloud — it being the middle prayer of five, and no prayer follows it because it is a call after a call with no call after it.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "al-Mu'izz li-Din Allah",
+        "Fajr",
+        "middle prayer"
+      ]
+    },
+    {
+      "text": "Ja'far ibn Mansur al-Yaman, in the Book of the Inward Nursing, gives the witr as three units with fixed surahs (al-A'la, al-Kafirun, al-Ikhlas) and the qunut after rising from bowing, followed after a separation by two units prayed seated reciting al-Falaq and al-Nas specifically, then the dawn prayer of four units — two voluntary and two obligatory — identified as the middle prayer of Q2:238.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Ja'far ibn Mansur al-Yaman",
+        "witr",
+        "qunut",
+        "al-salat al-wusta"
+      ]
+    },
+    {
+      "text": "Hibat Allah ibn Ibrahim, answering Muhammad 'Ali ibn Salih al-Badri from Yemen to Hind in 1145 AH, rules that making up prayer follows the rule of the fast — only men make up on behalf of men — and that an aged man too weak to make up prays what he can while another makes up on his behalf with expiation.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Hibat Allah ibn Ibrahim",
+        "Muhammad 'Ali ibn Salih al-Badri",
+        "1145 AH"
+      ]
+    },
+    {
+      "text": "Muhammad ibn al-Fahd ibn Salah's epistle rules that a bequest for making up a deceased's missed worship is applied in order — obligatory prayer portions, then shaf' and witr, then the sunan — with prayer advanced before the obligatory fast if the wage is insufficient.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn al-Fahd ibn Salah",
+        "shaf'",
+        "witr"
+      ]
+    }
+  ],
+  "fingerprint": "12cb3d560cf1c400"
+}

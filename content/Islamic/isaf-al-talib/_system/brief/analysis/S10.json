@@ -1,0 +1,154 @@
+{
+  "title": "10. Tooth-Stick, Dust, and the Purity of Food",
+  "purpose": "It compiles Tayyibi Ismaili rulings — drawn chiefly from a question-and-answer collection arranged on the plan of Da'a'im al-Islam, plus Sharh al-Akhbar, Ta'wil al-Da'a'im, Mukhtasar al-Musannaf and al-Muntakhaba — on the tooth-stick, dry ablution (tayammum), and the ritual purity of foods and drinks.",
+  "points": [
+    {
+      "text": "The author reports that using a split bamboo cane or similar to scrape the tongue after the siwak, as most people of India do, is permitted, since the siwak itself is the mainstay; he also records that one must not clean between the teeth with a knotted stalk of dried grass, and that using the siwak while in janaba (major ritual impurity) is disliked.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "siwak",
+        "India",
+        "janaba"
+      ]
+    },
+    {
+      "text": "The author cites Sharh al-Akhbar defining rayhan as every fragrant plant, with the myrtle (al-as) singled out by that name, and Ta'wil al-Da'a'im defining it as the tips of sweet-scented plants at blossoming — a comprehensive name for fragrant plants, most often given to myrtle because it is the most lasting and strongest.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "rayhan",
+        "myrtle (al-as)",
+        "Sharh al-Akhbar",
+        "Ta'wil al-Da'a'im"
+      ]
+    },
+    {
+      "text": "The author quotes Ali ibn Abi Talib's four hundred points of etiquette that the tooth-stick pleases the Lord, sweetens the mouth, and belongs to the sunna.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "siwak"
+      ]
+    },
+    {
+      "text": "Tayammum requires dust: on a smooth rock fixed in the ground it is valid only if dust lies on it, not otherwise.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "tayammum"
+      ]
+    },
+    {
+      "text": "The author draws the distinction that tayammum is not permitted to a settled (non-traveling) person except for cause, whereas a traveler far from water, or unable to reach it before the prayer time lapses, or endangered in person or property by going to it, performs tayammum.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "tayammum"
+      ]
+    },
+    {
+      "text": "A traveler who forgets an owed ghusl from a night of Ramadan and finds no water may use tayammum for both prayer and fast; likewise a woman purified from menses before sunset in Ramadan, or a man with a nocturnal emission, who fear harm from washing, may perform tayammum and fast without making up the day.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "ghusl",
+        "Ramadan",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "The author records a series of tayammum cases: one who dies on a journey without water is given tayammum; one who fears illness from ablution performs tayammum; a menstruating traveler's wife once pure may do tayammum and become lawful to her husband; an imam in janaba with water for only one may do tayammum and lead others who have done so; a man with water only for ablution but impurity on his garment washes the garment and does tayammum; a junub with water insufficient for ghusl does tayammum at noon and uses the water for ablution at afternoon prayer since he is by then pure; where a corpse and a junub compete for one washing's water, the junub washes and the corpse is given tayammum; and a Christian or Zoroastrian wife purified from menses on a journey is taught the tayammum by her husband.",
+      "kind": "example",
+      "weight": 2,
+      "entities": [
+        "tayammum",
+        "janaba",
+        "imam"
+      ]
+    },
+    {
+      "text": "Citing Mukhtasar al-Musannaf, the author adds that finding water breaks the tayammum and returns the man to janaba, that a new convert without water performs tayammum and prays, that one made impure while sleeping in the Prophet's mosque should perform tayammum before passing through it or the sanctuary, and that a sound person performs tayammum on behalf of an invalid who cannot.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "Prophet's mosque",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "The author records that one in minor impurity may do tayammum for the funeral prayer if he fears missing it; that one who prayed with tayammum while forgetting water in his baggage repeats with ablution if time remains but is discharged if the time has gone out; that al-Muntakhaba directs one who finds no earth to beat felts and garments and use that dust even if none is seen to fly; and that Ta'wil al-Da'a'im requires a man trapped in a crush to pray with tayammum and then repeat the prayer once he can reach water.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "al-Muntakhaba",
+        "Ta'wil al-Da'a'im",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "In a reported case two men performed tayammum together and only one prayer was valid: the man who asked to be taught prayed validly, while his teacher, who struck the earth for him, did not, because he formed no intention for himself — establishing that intention (niyya) is indispensable.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "niyya"
+      ]
+    },
+    {
+      "text": "The author rules that the dung of any animal not lawful to eat is impure, so neem oil pressed from stones passed through crows' droppings may not be eaten, sold, or bought, even though no impurity is visible in it.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "neem oil",
+        "crows"
+      ]
+    },
+    {
+      "text": "Where a liquid such as honey, clarified butter, olive oil or sesame oil holds an animal with flowing blood that has died in it, it may not be eaten nor fed to animals lawful to eat, though soap may be made from it and sold only if the buyer is told of its corruption, and a garment washed with such soap must be rinsed with pure water; reports add that it may be fed to dogs and non-edible beasts, that a pot with a dead mouse has its broth poured off and its meat washed and eaten, and that food is still edible if one or two grains of mouse droppings are removed but not if three come out.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "mouse",
+        "soap",
+        "clarified butter"
+      ]
+    },
+    {
+      "text": "The author reconciles the report that the leavings of a menstruating woman, a Jew, a Christian, beasts of prey and riding animals do no harm with the ruling that a dog's lapping is impure by appealing to moisture and to water above the legal limit, and elsewhere holds that the leavings of a Jew, Christian, Magian or cat falling into a small vessel leave it valid for purification so long as no saliva is apparent.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "dog",
+        "Jew",
+        "Christian",
+        "Magian"
+      ]
+    },
+    {
+      "text": "On unbelievers' foodstuffs the author distinguishes the prohibition of their slaughtered animals — forbidden only because God's name is not pronounced and the animal is not turned to the qibla — from their other food, which is lawful in itself but defiled wherever they have touched it with their moisture or wet implements, so that avoidance is obligatory when an alternative exists but need removes the restriction except for their slaughter and their moisture.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "People of the Book",
+        "qibla",
+        "unbelievers"
+      ]
+    },
+    {
+      "text": "The author cites Hasan ibn Nuh's questions to Husayn ibn Idris that the slaughter of the People of the Book may be eaten if a Muslim observed the qibla and the divine name, and cites the Yemeni masters' answers to Hasan al-Hindi that eating the cooking of a serving girl careless about ritual purity is permitted; and holds that betel with a small harmless amount of lime, like water with a little earth, is not forbidden unless gross and harmful.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Hasan ibn Nuh",
+        "Husayn ibn Idris",
+        "Hasan al-Hindi",
+        "betel",
+        "lime (al-nura)"
+      ]
+    }
+  ],
+  "fingerprint": "832449a9025c61ae"
+}

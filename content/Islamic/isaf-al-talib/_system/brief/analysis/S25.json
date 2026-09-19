@@ -1,0 +1,158 @@
+{
+  "title": "25. The Sickbed and the Sound of Mourning",
+  "purpose": "It assembles the compiler's dossier on the law and ethics of illness, dying, and mourning — visiting the sick, fixed lifespans, remembrance of death, and above all the boundary between permitted weeping and forbidden wailing.",
+  "points": [
+    {
+      "text": "The compiler defines the dying state (al-naz') as the moment when death draws near and the passage from this world to the hereafter is at hand, citing the book of the interpretation of the pillars.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "book of the interpretation of the pillars"
+      ]
+    },
+    {
+      "text": "Asked by Shaykh Yusuf ibn Isma'il al-Samiti al-Hindi whether people may move from place to place fleeing epidemic and plague, the master Idris ibn Hasan answered that they may go wherever they wish, since the matter is in Allah's hand.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Idris ibn Hasan",
+        "Yusuf ibn Isma'il al-Samiti al-Hindi",
+        "plague"
+      ]
+    },
+    {
+      "text": "Ja'far ibn Sulayman's epistle 'The Sharpest Sword in the Nullifying of Innovations', written to admonish his heedless people among those of the island of Yemen after he settled among them, is the compiler's main source here for rebuking communal faults.",
+      "kind": "context",
+      "weight": 3,
+      "entities": [
+        "Ja'far ibn Sulayman",
+        "The Sharpest Sword in the Nullifying of Innovations",
+        "Yemen"
+      ]
+    },
+    {
+      "text": "Against slowness in visiting the sick, the epistle cites the Pillars of Islam on the authority of the Commander of the Faithful that seventy thousand angels pray for a Muslim who visits a sick person from the hour of the visit until sunset or sunrise.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Pillars of Islam",
+        "'Ali"
+      ]
+    },
+    {
+      "text": "The Prophet forbade a visitor to eat in the sick person's presence, Allah rendering such a visit (in another wording, its reward) worthless, because the visitor burdens one already burdened and galls a household possibly of slender means; whoever knows this must teach those who do not.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "'Ali",
+        "sick visitation"
+      ]
+    },
+    {
+      "text": "Asked whether lifespans are fixed with Allah without increase or decrease despite books speaking of both, the answer given is that lifespans are appointed and neither increase nor decrease, while the sense of increase and decrease is valid in that what is diminished in the past cycle is added in the future one.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "lifespan (ajal)",
+        "cycles (adwar)"
+      ]
+    },
+    {
+      "text": "Asked about the saying that the wretched is he whom the Hour overtakes alive and not yet dead, the answer is that what is intended is the Hour overtaking him while he is still in the animal (bahimi) condition — not yet passed into the angelic life.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "the Hour",
+        "animal condition",
+        "angelic life"
+      ]
+    },
+    {
+      "text": "Husayn ibn Idris, answering Hasan ibn Nuh's tenth question, ruled that if a pregnant woman dies with a living formed child, a skilled woman present must extract it when possible or when the child is six months or more with hope of life; otherwise the mother is not buried until the child's death is confirmed.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Husayn ibn Idris",
+        "Hasan ibn Nuh"
+      ]
+    },
+    {
+      "text": "From 'Ali's four hundred points of conduct the compiler gathers counsels on death: remember death often so calamities sit lightly; fever is death's forerunner and Allah's prison that strips sins as hair is stripped from the camel's pores; and no Shi'i who has departed from a prohibition dies before an affliction in wealth, child, or self purges his sins, so that hardship at death is itself expiation and the dead of the Shi'a is a truthful witness.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "'Ali ibn Abi Talib",
+        "four hundred points of conduct",
+        "Shi'a"
+      ]
+    },
+    {
+      "text": "Practices around the corpse such as placing weapons beside the dead or treating the night-vigil beside the body as obligatory are dismissed in the questions-and-answers book as having no reliance placed upon them, and the abridged compendium forbids shaving hair, lighting lamps, or cutting nails for the dead.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "abridged compendium"
+      ]
+    },
+    {
+      "text": "Ja'far ibn Sulayman condemns as innovation the organized wailing over the dead — women gathering for nights and days as if it were a divine prescription, with singing, diversion and play exceeding even the limits allowed at weddings — disgracing the community before Allah and His friends though they are the cream and kernel of the world.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Ja'far ibn Sulayman",
+        "niyaha (wailing)"
+      ]
+    },
+    {
+      "text": "The prohibition is supported by Ja'far ibn Muhammad's deathbed bequest that no cheek be struck and no collar torn for him (a woman who tears her collar has a rent in Hell enlarged each time she adds to it), by 'Ali's letter to Rifa'ah ibn Shaddad his judge over al-Ahwaz to forbid wailing where he holds authority, and by the Prophet's saying that two voices are accursed — howling at calamity and a voice raised at a blessing, meaning wailing and singing.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Ja'far ibn Muhammad",
+        "Rifa'ah ibn Shaddad",
+        "al-Ahwaz"
+      ]
+    },
+    {
+      "text": "The story of 'Abdullah ibn Rawahah shows the dead and dying are punished by the living's laments: he saw an angel with a fiery iron mace that struck at his head whenever a woman shrieked 'O my mountain!' or 'O my strength!' unless he answered that Allah, not he, was her mountain — the Prophet confirming, 'What ails your dead, that they suffer by the words of your living?'",
+      "kind": "anecdote",
+      "weight": 4,
+      "entities": [
+        "'Abdullah ibn Rawahah",
+        "the Prophet"
+      ]
+    },
+    {
+      "text": "The decisive distinction drawn is that weeping is permitted while wailing and lamentation are forbidden: the Prophet wept at his child's death and explained he forbade only nawh and 'awil, weeping being tenderness and mercy Allah places in hearts; he licensed weeping at calamity, saying the soul is stricken, the eye tearful, the loss recent — but say what pleases Allah and do not speak obscenely.",
+      "kind": "distinction",
+      "weight": 5,
+      "entities": [
+        "the Prophet",
+        "weeping",
+        "nawh and 'awil"
+      ]
+    },
+    {
+      "text": "Correspondingly, singing is forbidden except in the licensed case of banquets and weddings, where the tambourine publicizes marriage and distinguishes lawful nikah from sifah — the Prophet approving music at the Banu Zurayq wedding and saying there is no secret marriage until smoke is seen or a tambourine heard.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "Banu Zurayq",
+        "tambourine (duff)",
+        "nikah and sifah"
+      ]
+    },
+    {
+      "text": "The proper mourning conduct commanded is that households speak well over their dead, following Fatimah, who when the daughters of Hashim mourned with her at her father's death said 'Grieve with restraint and hold fast to supplication'; and whoever strikes his thigh at a calamity forfeits his reward.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "Fatimah",
+        "daughters of Hashim",
+        "'Ali"
+      ]
+    }
+  ],
+  "fingerprint": "853fbbef4f17bd09"
+}

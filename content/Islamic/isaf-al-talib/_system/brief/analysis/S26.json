@@ -1,0 +1,172 @@
+{
+  "title": "26. Washing, Shrouding, Carrying, Burying",
+  "purpose": "It compiles, from the Ismaili legal corpus and from the author's own correspondence with his teachers, the rulings governing washing, shrouding, perfuming, carrying, praying over and burying the dead.",
+  "points": [
+    {
+      "text": "The washing of the dead requires the ablution to be performed three times along with three washings, though performing the ablution at the last washing suffices, as stated in the Book of Reports; and one wounded who is not lifted from his place and lives on for a time is not washed.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Book of Reports"
+      ]
+    },
+    {
+      "text": "When water is scarce, the man in a state of janabah takes the water and the dead is given tayammum; yet a washer in janabah may still wash the dead, performing tayammum first if washing would harm him, when no one else is available.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "janabah",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Per the Mukhtasar of al-Musannif the nearest person present has the best right to wash the dead, a martyr in janabah is washed on that account, a dead man found unmarked is washed, treated with hanut and shrouded, and no hair is shaved nor nail trimmed from a corpse.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar of al-Musannif",
+        "hanut"
+      ]
+    },
+    {
+      "text": "The Mukhtasar al-Athar rules that the drowned, the burned, and any severed part without which a man could not have lived are washed; detached limbs are washed, each set in its place, and buried with the body.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Athar"
+      ]
+    },
+    {
+      "text": "Answering the author from Yemen to Hind, Jafar ibn Sulayman ruled that the Pillars prescribes only an izar from navel to knee with water passed beneath it and the private parts washed by a cloth-wrapped hand, so the Daudi group's manner of drawing the wrapper between the thighs — which they impose and denounce others for omitting — is rejected because it prevents the prescribed washing.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "Jafar ibn Sulayman",
+        "izar",
+        "Daudi group",
+        "The Pillars of Islam",
+        "Yemen",
+        "Hind"
+      ]
+    },
+    {
+      "text": "The best shroud, per Jafar ibn Muhammad in The Pillars of Islam, is three garments — a shirt neither buttoned nor hemmed, a wrapping sheet, and a waist wrapper — and the better course is that washing, above all of a woman, be done within a covering.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Muhammad",
+        "sitarah"
+      ]
+    },
+    {
+      "text": "The 'ajrah mentioned by al-Qadi al-Numan is defined as gathering the shirt at the navel and tucking it into the izar's fastening, serving, like the head covering, as a mark of distinction between men and women.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "ajrah",
+        "al-Qadi al-Numan",
+        "Book of Purity"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib's Four Hundred Counsels require washing for whoever touches the corpse after it grows cold, which the questions-and-answers book explains as meaning after death has come and the sunnah washing has been done, because the corpse's moisture renders a living person impure.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Counsels"
+      ]
+    },
+    {
+      "text": "For conjoined twins, separation is permitted only when slight and safe; if one dies, whatever adheres to the living is cut from the dead provided the living feels no pain, but if pain is felt their life and death are counted as one.",
+      "kind": "example",
+      "weight": 2,
+      "entities": [
+        "Hind",
+        "Yemeni peninsula"
+      ]
+    },
+    {
+      "text": "The shroud and outfitting are the first charge on the estate — before debt and bequest — and must be taken according to the deceased's station even if the debt exceeds the estate.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Book of Reports"
+      ]
+    },
+    {
+      "text": "Hanut is any perfume, placed on the places of prostration and named parts of the body, with wars and saffron excluded for men but used for women; camphor accompanies it, and Quran is recited seven days for people of rank and three for others.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "hanut",
+        "Hasan ibn Idris",
+        "Book of Purity"
+      ]
+    },
+    {
+      "text": "Per the Tawil al-Daaim only the shroud and the place of washing are incensed, and Ali's Counsels forbid incensing or perfuming the dead with anything but camphor because the dead man is in the position of one consecrated for pilgrimage — hence one who died in ihram has head and face uncovered and no perfume brought near.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Tawil al-Daaim",
+        "Four Hundred Counsels",
+        "camphor",
+        "ihram"
+      ]
+    },
+    {
+      "text": "Walking before the bier is disliked only for an enemy of the family, because angels of wrath attend it, while for believers any position is permissible since angels of mercy encompass it — though walking behind remains more excellent; the call to prayer at the bier was disliked but announcing the death without a public call was permitted.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Book of Reports"
+      ]
+    },
+    {
+      "text": "The funeral prayer is a communal obligation on every Muslim who knows of it, may be offered anywhere and even in the disliked hours or at an eclipse, with the supplication between takbirs optional for the follower; it is offered over martyrs, grave sinners, the executed, and even the suicide.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Majalis al-Bayan",
+        "Mukhtasar al-Athar",
+        "Mukhtasar of al-Musannif"
+      ]
+    },
+    {
+      "text": "In the absence of the imam of the age, precedence in the funeral prayer belongs to his appointed judge or officeholder, then to the highest in station among those he has advanced, and only if none is present to the most entitled guardian; and a man's prayer accords better with the teaching of the People of the House than a woman leading women.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Tawil al-Daaim",
+        "imam of the age",
+        "People of the House"
+      ]
+    },
+    {
+      "text": "The dead is buried in the town where he dies and not carried elsewhere, except from open wilderness to the nearest burial ground; burial in another's land requires his leave, but once done he may claim only the value of the grave plots and may not have the bodies removed.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": []
+    },
+    {
+      "text": "Baked brick, stone or whatever is available may be placed over the dead despite the dislike of the people of the outward sense, and this is to be relied on except where prudent concealment requires otherwise.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "taqiyya/prudent concealment",
+        "people of the outward sense"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib counselled visiting the graves of those who have a claim upon one and seeking provision there, since the dead rejoice at such visits, a man asking his need at his parents' graves after praying for them.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Counsels"
+      ]
+    }
+  ],
+  "fingerprint": "0fdac9594e88b74b"
+}

@@ -1,0 +1,196 @@
+{
+  "title": "9. Major Impurity and the Cleanliness of Things",
+  "purpose": "It compiles, in question-and-answer form from Ismaili dais' responses plus cited books and traditions, the rulings on ghusl from janabah and on the purity of bodies, garments, ground and vessels.",
+  "points": [
+    {
+      "text": "The section's material is drawn from a compiled book of questions and answers arranged according to the chapters of Daaim al-Islam, with further material from Mukhtasar al-Musannaf, al-Risala al-Maknuna, Tawil al-Shariah, and the Four Hundred Manners of Ali ibn Abi Talib.",
+      "kind": "context",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Daaim al-Islam",
+        "Mukhtasar al-Musannaf",
+        "al-Risala al-Maknuna",
+        "Tawil al-Shariah",
+        "Four Hundred Manners",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Against the report in some Shariah books that one who performs tayammum out of fear of cold must later wash and repeat the prayer, the answering dai rules that whoever fears water will harm him — resident or traveler, weak man or sick — performs tayammum, prays, and owes nothing further and no repetition.",
+      "kind": "resolution",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "tayammum",
+        "ghusl",
+        "janabah"
+      ]
+    },
+    {
+      "text": "Doubt itself triggers obligation: one who revives from unconsciousness not knowing his condition, and one who wakes finding traces of semen (wet or dry) without recalling emission, must perform the ghusl.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "ghusl",
+        "janabah"
+      ]
+    },
+    {
+      "text": "Asked for the inner likeness of ghusl from janabah, since marital relations are a likeness of imparting and receiving, the answer given is that the washing is a likeness of the removal of doubt, and doubt arises only at the moment of imparting and receiving.",
+      "kind": "framework",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "ghusl",
+        "janabah",
+        "tawil"
+      ]
+    },
+    {
+      "text": "For the one in janabah and the menstruating or post-natally bleeding woman, removing hair or nails is disliked — better left until purification — and neither may deliberately recite the Quran, nor Quranic matter embedded in supplications or books, nor the basmalah with the intention of Quranic recitation.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "janabah",
+        "basmalah",
+        "menstruating woman"
+      ]
+    },
+    {
+      "text": "Al-Risala al-Maknuna grounds ghusl in Quran 'if you are junub, purify yourselves' and the Prophet's 'beneath every hair is janabah', and glosses junub as 'one far from a thing', concluding that the obedience of one in janabah is void and false.",
+      "kind": "definition",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "al-Risala al-Maknuna",
+        "junub",
+        "janabah"
+      ]
+    },
+    {
+      "text": "Ali is reported in the Four Hundred Manners as forbidding the Muslim to sleep while junub or without purity (using tayammum if no water), because the believer's spirit ascends to God, who blesses it and either forms it beautifully if its term has come or returns it to the body with trusted angels.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Manners"
+      ]
+    },
+    {
+      "text": "Vomit does not render impure what it falls upon (though washing the place is better), and ground once urinated upon becomes ruled pure for prayer and tayammum when the impurity's substance and smell are gone — since sun and light purify it — provided it is not ground set aside as a privy.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "tayammum",
+        "vomit"
+      ]
+    },
+    {
+      "text": "Ali's ruling that touching a corpse 'after it has grown cold' obliges ghusl is interpreted to mean after it has become impure, so contact with its moisture makes the living person impure, while the corpse-washer's own washing is from the Sunnah.",
+      "kind": "definition",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "ghusl"
+      ]
+    },
+    {
+      "text": "Items that cannot be rubbed or wrung three times are purified by passing the hand over them until impurity and smell are gone, then lifting from the water and letting it drip, repeated three times; heavier items are trodden with the feet and pressed out, likewise three times.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "purification of garments"
+      ]
+    },
+    {
+      "text": "A Muslim nursing woman's milk is pure for her and others (Walid Izz al-Din Maad ibn Abdullah ibn Ali), since milk is like saliva and every Muslim's saliva is pure; and small amounts of impurity — wet hair, the milk or butter of filth-eating animals, egg white — are excused.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Izz al-Din Maad ibn Abdullah ibn Ali"
+      ]
+    },
+    {
+      "text": "Despite the verse 'the polytheists are nothing but impurity', the Imams permitted prayer in garments polytheists have made so long as they have not worn them or visible impurity has not appeared — including cloth sprinkled with impure water during weaving that has since dried — whereas what they have bleached or washed with soap is pure only by washing.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "polytheists",
+        "al-Daaim",
+        "the Imams"
+      ]
+    },
+    {
+      "text": "Against the common people's view that a large garment whose ends do not move together may be prayed upon at its pure part, the dai rules that prayer upon a partly impure garment or bedding is not permitted at all; tayammum covers ritual impurity, not impure garments, and the sick man must have his garments washed by another.",
+      "kind": "resolution",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Idris ibn al-Hasan, answering Sheikh Yusuf ibn Ismail al-Samti al-Hindi, rules that whatever ground tayammum is not valid from may not be prayed upon (citing 'the earth has been made for me a place of prostration and a purification'), and that the Indian scruple against sweeping houses and shops at night is unreliable and blameless to violate.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Idris ibn al-Hasan",
+        "Yusuf ibn Ismail ibn Ibrahim al-Samti al-Hindi",
+        "India"
+      ]
+    },
+    {
+      "text": "A vessel licked by a dog — and likewise by a pig — is washed seven times, one of them with earth; and if impurity falls into one of two indistinguishable vessels, neither may be used and one performs tayammum and prays.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "Tawil al-Shariah"
+      ]
+    },
+    {
+      "text": "Ali's Four Hundred Manners are cited for a body of cleanliness practices as Sunnah and purification — trimming the mustache and nails, washing the head with mallow, depilatory paste every fifteen days, plucking the armpits, feast-day bathing, washing garments, avoiding dogs, not relieving oneself on roads or into standing water or the wind (for water and air have their folk), and cleansing foul odor since God hates the servant who offends those sitting near him.",
+      "kind": "example",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Manners"
+      ]
+    },
+    {
+      "text": "In answers of Badr al-Din Hasan ibn Idris to Sheikh Shimon ibn Muhammad Ghori al-Hindi, Ali's saying 'whomever the sea does not purify, may God not purify him' is interpreted esoterically: water purifies and is not itself purified, and so is the knowledge of the Imam — whomever it does not purify, God does not purify.",
+      "kind": "turn",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Hasan ibn Idris",
+        "Badr al-Din",
+        "Shimon ibn Muhammad Ghori al-Hindi",
+        "Ali ibn Abi Talib",
+        "the Imam"
+      ]
+    },
+    {
+      "text": "On long uncombed hair, Hasan ibn Idris rules there is no defect if it is parted into two halves, though leaving it unparted is unfitting, and doing so deliberately in defiance of the ruling voids the prayer.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Hasan ibn Idris"
+      ]
+    }
+  ],
+  "fingerprint": "55d563eb17dc0693"
+}

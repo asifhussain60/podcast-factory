@@ -1,0 +1,156 @@
+{
+  "title": "4. Guardians, Proofs, and the Limits of Praise",
+  "purpose": "It assembles transmitted sayings of the Imams and Ismaili authorities to define the ranks (hudud) beneath the Imams, the Quranic warrant for Imamate, and the prohibitions of exaggeration and shortfall in praising them.",
+  "points": [
+    {
+      "text": "Jafar bin Mansour al-Yemen, in the book of the Esoteric Nursing, interprets the Quranic verse 'the earth is inherited by My righteous servants' as referring to the Imams among God's servants.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Jafar bin Mansour al-Yemen",
+        "Esoteric Nursing",
+        "Quran"
+      ]
+    },
+    {
+      "text": "On the verse promising to make 'those made weak in the land' Imams and heirs, Jafar bin Mansour al-Yemen identifies 'those made weak' as the descendants of Ali ibn Abi Talib, weakened in the person of Ali himself, who is the proof (hujja) of Muhammad, the earth being his likeness.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Muhammad",
+        "hujja"
+      ]
+    },
+    {
+      "text": "Al-Muizz li Din Allah, in his Sunday supplication, ranks beneath the Foundation (al-Asas) the Terminus (al-Mutimm) facing Israfil, beneath the Terminus the After (al-Lahiq) facing Michael, and beneath the After the Wing (al-Janah) facing Gabriel.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "al-Muizz li Din Allah",
+        "al-Asas",
+        "al-Mutimm",
+        "al-Lahiq",
+        "al-Janah",
+        "Israfil",
+        "Michael",
+        "Gabriel"
+      ]
+    },
+    {
+      "text": "Al-Muizz states that these three ranks deliver to the respondents from the Speaker and the Foundation in the corporeal world, just as three deliver from the two principles — the Pen and the Tablet — in the spiritual world; the author glosses these three as the Grandfather (al-Jadd), the Opener (al-Fath), and the Imagination (al-Khayal), identified with Israfil, Michael, and Gabriel.",
+      "kind": "definition",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "al-Jadd",
+        "al-Fath",
+        "al-Khayal",
+        "Pen",
+        "Tablet",
+        "Speaker",
+        "Foundation"
+      ]
+    },
+    {
+      "text": "In his Friday supplication al-Muizz enumerates the hudud as Speaker, Foundation, Terminus, After, Wing, Authorized (ma'dhun) and Respondent (mustajib), together with twelve proofs ranked across twelve regions (jaza'ir), which the author links to the Quranic 'over it are nineteen.'",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "hudud",
+        "ma'dhun",
+        "mustajib",
+        "twelve jaza'ir",
+        "Quran 74:30"
+      ]
+    },
+    {
+      "text": "Sayings ascribed to Ali in the supplication of victory and awe invoke numbered groups — six transmitted, seven beheld, nine signs, ten words, twenty-one, eight encircling the Throne, eleven prostrating, twelve bowing — and seven Imams, seven successors, seven witnesses, seven substitutes.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "supplication of victory and awe"
+      ]
+    },
+    {
+      "text": "Ali is reported in the Four Hundred Manners as saying that whoever holds fast to the Imams joins the truth and whoever holds to another way is undone.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Four Hundred Manners",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Ali prohibits exaggeration (ghuluw) concerning the Imams, requiring believers to say 'we are servants under a Lord' while permitting them to say of the Imams' excellence whatever they wish — a boundary that condemns excess without limiting praise of merit.",
+      "kind": "distinction",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "ghuluw",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Ali teaches that both errors are remediable through the Imams: the one who exaggerates returns to them, and they themselves raise up the one who falls short (al-muqassir).",
+      "kind": "resolution",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "al-muqassir",
+        "ghuluw"
+      ]
+    },
+    {
+      "text": "Ali's commandments to the Imams' followers require working as the Imams work, relying on pious restraint (wara'), avoiding those who revile them, not praising them openly before the enemy, truthfulness, patience, and not burdening the Imams with intercession on the Day of Resurrection.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "wara'",
+        "taqiyya",
+        "Four Hundred Manners"
+      ]
+    },
+    {
+      "text": "Further maxims from the Four Hundred Manners warn that disputation bequeaths doubt, that speech is to be reckoned among deeds, that sin withholds sustenance, that the best deed of the believer is awaiting the relief (intizar al-faraj), and that blessed is he admonished by another's example.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "intizar al-faraj",
+        "Four Hundred Manners"
+      ]
+    },
+    {
+      "text": "Muhammad bin Tahir's supplication seeks nearness to God through the Imams' gates, proofs, preachers, authorized ones, respondents of their cycles, and all who follow or shelter with them.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Muhammad bin Tahir",
+        "du'at",
+        "abwab"
+      ]
+    },
+    {
+      "text": "The nineteenth Mustansiriya council divides the commanded ties of kinship into seven and twelve, identifying the seven as the Imams of the religion — the 'kin' whose affection the Quran names as the Prophet's only reward — recurring like the days of Friday.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Mustansiriya councils",
+        "al-mawadda fi'l-qurba",
+        "Imams of the religion"
+      ]
+    }
+  ],
+  "fingerprint": "de9408b08d5da88a"
+}

@@ -1,0 +1,37 @@
+{
+  "schema": "book.seam-dedup/v1",
+  "removed": [
+    {
+      "pass": "final",
+      "rule": "adjacent-echo",
+      "chapter": "4. Guardians, Proofs, and the Limits of Praise",
+      "words": 7,
+      "removed_text": "المؤمن في تعب، والناس في راحة منه.",
+      "kept_neighbour_head": "> المؤمن نفسه منه في تعب والناس منه في راحة"
+    },
+    {
+      "pass": "final",
+      "rule": "adjacent-echo",
+      "chapter": "9. Major Impurity and the Cleanliness of Things",
+      "words": 16,
+      "removed_text": "\"الأئمة رخّصوا في الصلاة في الثياب التي يعملها المشركون ما لم يلبسوها أو يظهر فيها نجاسة.\"",
+      "kept_neighbour_head": "> ورخصوا الأئمة صلوات الله عليهم في الصلاة في الثياب التي يعملها المشركين ما لم يلبسوها أو تظهر فيها النجاسة"
+    },
+    {
+      "pass": "final",
+      "rule": "adjacent-echo",
+      "chapter": "15. Eight Proofs for the Best of Human Beings",
+      "words": 10,
+      "removed_text": "مَا يُقَالُ لَكَ إِلَّا مَا قَدْ قِيلَ لِلرُّسُلِ مِن قَبْلِكَ",
+      "kept_neighbour_head": "> مَا يُقَالُ لَكَ إِلَّا مَا قَدْ قِيلَ لِلرُّسُلِ مِن قَبْلِكَ"
+    },
+    {
+      "pass": "final",
+      "rule": "adjacent-echo",
+      "chapter": "15. Eight Proofs for the Best of Human Beings",
+      "words": 7,
+      "removed_text": "إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ",
+      "kept_neighbour_head": "> إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ"
+    }
+  ]
+}

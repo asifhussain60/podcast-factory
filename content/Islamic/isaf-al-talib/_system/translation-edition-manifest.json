@@ -355,6 +355,84 @@
       ],
       "source_words": 1297,
       "output_words": 1451
+    },
+    {
+      "index": 28,
+      "title": "Gold, Herds, and Harvest",
+      "chapter_file": "book/_chapters/ch28-gold-herds-and-harvest.txt",
+      "source_line_ranges": [
+        [
+          1650,
+          1696
+        ]
+      ],
+      "source_words": 3610,
+      "output_words": 3979
+    },
+    {
+      "index": 29,
+      "title": "The Charity of the Head",
+      "chapter_file": "book/_chapters/ch29-the-charity-of-the-head.txt",
+      "source_line_ranges": [
+        [
+          1697,
+          1714
+        ]
+      ],
+      "source_words": 1171,
+      "output_words": 1319
+    },
+    {
+      "index": 30,
+      "title": "A Shield Against the Fire",
+      "chapter_file": "book/_chapters/ch30-a-shield-against-the-fire.txt",
+      "source_line_ranges": [
+        [
+          1715,
+          1734
+        ]
+      ],
+      "source_words": 988,
+      "output_words": 1168
+    },
+    {
+      "index": 31,
+      "title": "The Quarrel Over the Crescent",
+      "chapter_file": "book/_chapters/ch31-the-quarrel-over-the-crescent.txt",
+      "source_line_ranges": [
+        [
+          1735,
+          1825
+        ]
+      ],
+      "source_words": 3192,
+      "output_words": 3602
+    },
+    {
+      "index": 32,
+      "title": "Two Kinds of Sight",
+      "chapter_file": "book/_chapters/ch32-two-kinds-of-sight.txt",
+      "source_line_ranges": [
+        [
+          1826,
+          1955
+        ]
+      ],
+      "source_words": 5070,
+      "output_words": 5760
+    },
+    {
+      "index": 33,
+      "title": "The Sun, the Moon, and the Order of Obedience",
+      "chapter_file": "book/_chapters/ch33-the-sun-the-moon-and-the-order-of-obedience.txt",
+      "source_line_ranges": [
+        [
+          1956,
+          2069
+        ]
+      ],
+      "source_words": 5896,
+      "output_words": 7067
     }
   ],
   "source_crosswalk": "book/source-crosswalk.json"

@@ -1,0 +1,1494 @@
+{
+  "schema": "podcast.book-fluency/v5",
+  "narrative_frame": "first_person_author",
+  "adapted": 33,
+  "reverted": 0,
+  "overwritten_by_replay": 0,
+  "chapters": [
+    {
+      "title": "The Eight Levels of Faith",
+      "base_words": 2071,
+      "output_words": 2053,
+      "windows": 11,
+      "windows_kept": 10,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 4,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 10,
+      "status": "partial",
+      "gates": [
+        "reconcile-01-part-05: abridged re-voice (54<67 words)",
+        "reconcile-01-part-05: repair still failed: abridged re-voice (56<67 words)"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-01-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-02: protected source artifact copied verbatim",
+        "reconcile-01-part-04: protected source artifact copied verbatim",
+        "reconcile-01-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-07: protected source artifact copied verbatim",
+        "reconcile-01-part-09: protected source artifact copied verbatim",
+        "reconcile-01-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-01-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "assembled chapter is partial \u2014 10/11 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the paragraph beginning \"And upon the servant of his faithful successor,\" it is unclear whether Muhammad ibn al-Fahd is being identified as the one who serves as Jafar's faithful successor, or whether a structurally distinct third figure is being introduced and then identified as Muhammad ibn al-Fahd."
+      ],
+      "comprehension_flags": [
+        "A general reader will not recognize that \"the seven oft-repeated verses\" refers to Surat al-Fatiha, that \"Rajab al-Asabb\" is a traditional epithet for the month of Rajab, or that \"the great thousand\" places the composition in 1051 AH.",
+        "Modern readers unfamiliar with this tradition may not know who \"the trust of the Imam, the banner of Islam\" designates, or what body the Mustansiriyya Councils were; a footnote in the book's apparatus would serve them."
+      ],
+      "terminology_notes": [
+        "\"guardian of my favor\" \u2014 the rendering of \u0648\u0644\u064a\u0651 \u0646\u0639\u0645\u062a\u064a should be confirmed and standardized throughout the book; \"dawa\" \u2014 the book's house style should confirm whether this term is italicized and how its plural is handled consistently.",
+        "\"trust of the Imam\" \u2014 the underlying honorific title should be rendered consistently throughout the book."
+      ]
+    },
+    {
+      "title": "Three Questions from the King of Rum",
+      "base_words": 2339,
+      "output_words": 2321,
+      "windows": 3,
+      "windows_kept": 3,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-02-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 0,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the al-Muizz sermon paragraph, the referent of \"it\" shifts throughout \u2014 between the pen, the ranks, and the Imam himself \u2014 and this passage may be genuinely unclear even in the source; the articulation preserves the ambiguity faithfully without resolving it.",
+        "\"It is also narrated from him that he said\" \u2014 the antecedent of \"him\" is unclear; it could refer to al-Hasan (\u0639) or the Commander of the Faithful (\u0639)."
+      ],
+      "comprehension_flags": [
+        "\"The son of the liver-eater\" is a well-known epithet for Muawiya, whose mother Hind is said to have eaten the liver of Hamza after the Battle of Uhud; a modern reader without this background may not recognize the referent.",
+        "\"The mine of prophecy and the seat of the message\" are Arabic formulaic expressions that may not be immediately transparent to a general reader.",
+        "\"he is in the kingdom\" may puzzle a modern reader unfamiliar with the term as a reference to the divine or spiritual realm (al-malak\u016bt)."
+      ],
+      "terminology_notes": [
+        "\"valley of Dab\" and \"spring called Salma\" \u2014 these proper names appear without explanation and may warrant a footnote or glossary entry if they are not treated elsewhere in the book.",
+        "Shaytan \u2014 confirm whether the book standardizes this as \"Shaytan\" or \"Satan\" throughout."
+      ]
+    },
+    {
+      "title": "The Grammar of Peace",
+      "base_words": 1567,
+      "output_words": 1554,
+      "windows": 5,
+      "windows_kept": 5,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 5,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-03-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 3,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The exact placement and phrasing of the dropped Arabic runs \u0622\u0644\u060c \u0639\u0644\u0649\u060c \u064a\u0627\u0633\u064a\u0646 within the prose is uncertain from the source alone, as the source does not make their inline positions entirely clear beyond the artifact and placeholder context.",
+        "The phrase \"some of the saints of the religion, may God sanctify their souls, said\u2026 in his prayer on Sunday\" shifts from a plural subject to a singular possessive throughout the attributed prayers, leaving the identity of this single figure unclear from the source.",
+        "The pronoun \"He\" opening the citation (\"He said in the book of the question\") is unclear in the source \u2014 it may refer to the narrator, to our master Badr al-Din, or to Sheikh Shamoun; I have resolved it as the narrator speaking in first person per the narrative-frame requirement."
+      ],
+      "comprehension_flags": [
+        "\"The greeting of the book\" likely refers to a written or epistolary greeting but may puzzle modern readers without a note.",
+        "\"The twenty-fourth assembly of it\" will puzzle a general reader, as \"assembly\" (likely a majlis) and the unidentified referent \"it\" presuppose knowledge of the broader text being studied across these gatherings.",
+        "The ninth division \u2014 \"the one standing initiates the greeting and then returns it\" \u2014 may puzzle modern readers who expect a single rule per item, as it assigns two roles to the standing person simultaneously; a clarifying editorial note would help but is outside this pass's scope.",
+        "\"The most growing\" in Monday's supplication is an unusual English phrase \u2014 likely a literal rendering of a superlative meaning \"most multiplying in virtue or merit\" \u2014 and may puzzle modern readers without alteration the current pass is not authorized to make.",
+        "The final answer's qualification \u2014 \"except in returning a greeting in general, whether aloud or silently\" \u2014 appears to carve out an obligation for greetings while exempting the sneezing-blessing, but the logical boundary between the two is not explained, and a modern reader may find this abrupt."
+      ],
+      "terminology_notes": [
+        "\"good proclaimers\" and \"righteous borders\" \u2014 these appear to be technical terms specific to this work; their standard book-wide renderings should be confirmed.",
+        "\"the Sabbath\" (used in the saints' prayer section) vs. \"Saturday\" (used in al-Muizz's prayers) \u2014 both appear to render the same Arabic day name and should be standardized to one form book-wide.",
+        "The concept rendered variously as \"peace,\" \"greeting,\" and \"salutation\" throughout this passage corresponds to the Arabic sal\u0101m; a book-wide standard for its English rendering would improve consistency."
+      ]
+    },
+    {
+      "title": "Guardians, Proofs, and the Limits of Praise",
+      "base_words": 1786,
+      "output_words": 1685,
+      "windows": 18,
+      "windows_kept": 18,
+      "windows_cached": 0,
+      "windows_repaired": 4,
+      "windows_source_preserved": 4,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 18,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-04-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-04-part-05: protected source artifact copied verbatim",
+        "fluency-04-part-13: protected source artifact copied verbatim",
+        "fluency-04-part-15: protected source artifact copied verbatim",
+        "fluency-04-part-17: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 21,
+        "stage_directions": 2
+      },
+      "lecture_voice_after": {
+        "reader_address": 17,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "It is unclear whether \"And by the hudud\u2026\" is still part of the Friday supplication or is the narrator's explanatory gloss following > \u0648\u0628\u0627\u0644\u062d\u062f\u0648\u062f \u0627\u0644\u062a\u064a \u0647\u064a \u0627\u0644\u0646\u0627\u0637\u0642 \u0648\u0627\u0644\u0623\u0633\u0627\u0633 \u0648\u0627\u0644\u0645\u062a\u0645 \u0648\u0627\u0644\u0644\u0627\u062d\u0642 \u0648\u0627\u0644\u062c\u0646\u0627\u062d \u0648\u0627\u0644\u0645\u0623\u0630\u0648\u0646 \u0648\u0627\u0644\u0645\u0633\u062a\u062c\u064a\u0628 \u0648\u0627\u0644\u062d\u062c\u062c \u0627\u0644\u0623\u062b\u0646\u0649 \u0639\u0634\u0631 \u0627\u0644\u0645\u0631\u062a\u0628\u0629 \u0641\u064a \u0627\u0644\u062c\u0632\u0627\u0626\u0631 \u0627\u0644\u0627\u062b\u0646\u0649 \u0639\u0634\u0631; the rendering treats it as the narrator's continuation, but if it belongs inside the supplication the list formatting should be removed.",
+        "The clause \"so that our love may be made plain and hatred of us concealed, and so that you may humble yourselves before their authority\" is syntactically ambiguous \u2014 \"so that\" can read as a desired purpose or as an undesired consequence to be avoided, and the intended meaning shifts substantially between those two readings."
+      ],
+      "comprehension_flags": [
+        "\"Terminus,\" \"After,\" and \"Wing\" are technical cosmological station-names whose referents are not explained in this passage; a reader unfamiliar with Ismaili thought may not grasp their hierarchy or nature.",
+        "\"The After,\" \"the Wing,\" and \"the Authorized\" are technical hierarchical titles that general readers will not recognize and may warrant glossary entries.",
+        "\"The respondents of their cycles\" is a technical phrase likely referring to the designated representatives active during each Imam's era; a modern reader may not grasp this without contextual explanation this pass is not authorized to add.",
+        "\"his covering torn away\" refers to the veil of honor and dignity being stripped before God and creation on the Day of Resurrection, a concept a general reader unfamiliar with Islamic theological idiom may not grasp.",
+        "The simile \"recurring like the days of Friday\" may puzzle modern readers who do not immediately connect it to the seven-day Islamic week centered on Friday; no contextual gloss is authorized in this pass."
+      ],
+      "terminology_notes": [
+        "Terminus, After, Wing \u2014 confirm these are the book's established English renderings of the corresponding Arabic cosmological terms and are used consistently throughout.",
+        "hudud \u2014 confirm the book's established spelling and capitalization for this term throughout.",
+        "\"God-fearing restraint\" \u2014 confirm the book-established rendering for this term (likely translating \u062a\u0642\u0648\u0649, taqw\u0101) and standardize it across all occurrences."
+      ]
+    },
+    {
+      "title": "Parents, Kin, and the Neighbor at Your Side",
+      "base_words": 1997,
+      "output_words": 2027,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 2,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-05-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-02: protected source artifact copied verbatim",
+        "fluency-05-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-05-part-05: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 23,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 24,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "The text announces \"twelve manners\" of righteousness toward parents but the passage lists only eleven \u2014 the editor should verify against the Arabic original whether one manner has been omitted in transmission.",
+        "\"I said in the twentieth council of the Mustansiriya councils\" renders a source third-person tag in the first person to maintain the narrative frame; an editor should confirm the author is indeed citing his own earlier work."
+      ],
+      "comprehension_flags": [
+        "\"His four hundred manners\" is likely a reference to a specific collection of Ali ibn Abi Talib's teachings or sayings; a modern reader may not recognize this as a titled work or corpus, and a book-wide editorial note may be warranted on its first occurrence.",
+        "The concepts of \"two parents in religion\" and \"two fathers of this community\" are technical doctrinal terms belonging to a specific theological tradition; a general reader will not understand them without a footnote or glossary entry.",
+        "\"neighbors of religion and neighbors of the world\" is left unglossed; a modern reader may not immediately grasp the distinction between neighbors bound by shared faith and those bound only by proximity or worldly association."
+      ],
+      "terminology_notes": [
+        "\"the Imam of the age\" \u2014 this rendering should be confirmed as the book-standard phrase for the living Imam so it is used consistently throughout the edition.",
+        "'awrah \u2014 retained with the source's parenthetical gloss; confirm the book-wide spelling and whether the gloss should appear on every occurrence or only the first."
+      ]
+    },
+    {
+      "title": "What Must Be Learned, What Must Be Concealed",
+      "base_words": 1827,
+      "output_words": 1810,
+      "windows": 13,
+      "windows_kept": 12,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 3,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 12,
+      "status": "partial",
+      "gates": [
+        "reconcile-06-part-05: protected structural artifacts missing: [[ARTIFACT_001]]",
+        "reconcile-06-part-05: Arabic runs dropped (16<23)",
+        "reconcile-06-part-05: Arabic script dropped (3 run(s)) \u2014 replaced or removed: \u0628\u0623\u0646; \u0648\u0644\u064a\u0633; \u064a\u0635\u0644\u062d\u0647",
+        "reconcile-06-part-05: repair still failed: protected structural artifacts missing: [[ARTIFACT_001]]",
+        "reconcile-06-part-05: repair still failed: Arabic runs dropped (16<23)",
+        "reconcile-06-part-05: repair still failed: Arabic script dropped (3 run(s)) \u2014 replaced or removed: \u0628\u0623\u0646; \u0648\u0644\u064a\u0633; \u064a\u0635\u0644\u062d\u0647"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-06-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-06-part-06: protected source artifact copied verbatim",
+        "reconcile-06-part-08: protected source artifact copied verbatim",
+        "reconcile-06-part-10: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-06-part-11: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-06-part-12: protected source artifact copied verbatim",
+        "reconcile-06-part-13: output near-identical to base \u2014 copied, not re-voiced",
+        "assembled chapter is partial \u2014 12/13 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 16,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In \"al-Sadiq (\u0639) had granted al-Shafii license while he kept it concealed,\" the pronoun \"he\" is ambiguous \u2014 it may refer to al-Sadiq keeping the license concealed, or to al-Shafii keeping his allegiance concealed."
+      ],
+      "comprehension_flags": [
+        "\"Do not turn back to the desert after the migration\" may be opaque to modern readers unfamiliar with the hijra as a defining spiritual threshold, and with \"the desert\" as a figure for pre-Islamic life and ignorance.",
+        "\"The stripping away of His attributes\" is a technical theological concept (the school of negating God's positive attributes) and \"He who has no partner\" is a distinctive divine title; both may read as opaque constructions to a general reader without a note this pass cannot add.",
+        "\"And he said in it:\" \u2014 the pronoun \"it\" refers to the four hundred maxims of conduct introduced in the preceding passage; a reader encountering this passage in isolation may not immediately identify the antecedent.",
+        "\"His legatee\" assumes the reader knows this refers to the Prophet's designated successor; modern general readers outside the tradition may not recognize the referent.",
+        "\"The cold of iron\" is an image for the sword and implies execution by the blade \u2014 a modern reader may not recognize this without a gloss this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "Dai \u2014 confirm the book's preferred spelling (Dai / Da'i / D\u0101\u02bf\u012b) for consistent use throughout.",
+        "stripping away of His attributes \u2014 confirm this is the book's established English rendering of the concept of ta'\u1e6d\u012bl so it can be standardized throughout.",
+        "legatee \u2014 should be confirmed as the book-wide rendering for the Arabic \u0648\u0635\u064a (was\u012b), as variant renderings (vicegerent, executor, trustee) circulate in Islamic literature."
+      ]
+    },
+    {
+      "title": "Water and Intention: The Anatomy of Ablution",
+      "base_words": 1324,
+      "output_words": 1291,
+      "windows": 5,
+      "windows_kept": 5,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 5,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-07-part-02: protected source artifact copied verbatim",
+        "fluency-07-part-04: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 12,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 12,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "The word \"likewise\" in the Tawil al-Daaim citation refers to something in the preceding context not visible in this passage window, so its antecedent cannot be confirmed here."
+      ],
+      "comprehension_flags": [
+        "List items 10 and 11 of the practices of the greater purity are grammatical fragments (\"The night of the twenty-first,\" \"The night of the twenty-third\") that depend on item 9 for their meaning; they are preserved exactly as the source enumerates them, but a reader may find them unclear without that context.",
+        "\"When sleep mingles with the heart\" is a literal rendering of a technical jurisprudential phrase describing the onset of drowsiness during ritual states; readers unfamiliar with Islamic law may not recognize this as a reference to a nullifier of ablution."
+      ],
+      "terminology_notes": [
+        "dawah \u2014 confirm the book-wide standard spelling and capitalization of this term throughout the volume."
+      ]
+    },
+    {
+      "title": "The Manners of the Washing Place",
+      "base_words": 3762,
+      "output_words": 3657,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-08-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-08-part-07: protected source artifact copied verbatim",
+        "fluency-08-part-08: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 26,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 23,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The placeholders \u0639\u0644\u064a\u0647\u0645 and \u0627\u0644\u0633\u0644\u0627\u0645 appear inside the answer about Imams concealing themselves in water \u2014 it is unclear whether they are proper names of specific Imams or a descriptive phrase; the surrounding context does not specify.",
+        "\"The order \u2014 that one begins with what God began with in His mention\" refers to the sequence of body parts as listed in the Quranic verse on wudhu (al-Ma'idah 5:6), but the verse is not cited, which may leave the referent unclear to a reader who does not recognize the allusion."
+      ],
+      "comprehension_flags": [
+        "\"These two are the neglected place\" may puzzle a modern reader who does not know why this location in ablution is traditionally overlooked; the text offers no further explanation beyond identifying its position.",
+        "The \"two recording angels\" (the kiraman katibin, who record a person's deeds) are not explained in the source and may be unfamiliar to modern general readers.",
+        "\"Letting the eyes drink of the water\" is a recognized expression for passing wet fingers over the eyelids during wudhu; a modern general reader may not immediately identify it as a physical act.",
+        "\"The Speaker\" is almost certainly the Ismaili technical term *al-n\u0101\u1e6diq* (the law-giving prophet who delivers a new divine dispensation), which a general reader will not recognize without explanation."
+      ],
+      "terminology_notes": [
+        "istinja, wudhu, ghusl, qiblah \u2014 confirm and standardize the rendering of these terms throughout the book.",
+        "istinja \u2014 confirm this is the book-standard spelling throughout, as variant forms (istinjaa, istinj\u0101\u02be) appear in other Islamic works and the rendering should be uniform.",
+        "ghusl \u2014 confirm that the book uses consistent lowercase throughout, since the source alternates in register between \"ghusl\" as a standalone noun and as part of compound phrases.",
+        "Speaker \u2014 if this renders *al-n\u0101\u1e6diq* throughout the book, the rendering should be standardized; \"the lesser world\" (microcosm of the human being) may similarly recur and warrants a consistent rendering."
+      ]
+    },
+    {
+      "title": "Major Impurity and the Cleanliness of Things",
+      "base_words": 3564,
+      "output_words": 3453,
+      "windows": 14,
+      "windows_kept": 14,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 14,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-09-part-02: protected source artifact copied verbatim",
+        "fluency-09-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-09-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-09-part-09: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-09-part-10: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 13,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "After the hadith citation, \"Then he said: whoever does not do that is junub\" \u2014 the pronoun \"he\" is ambiguous between the Prophet (just quoted) and the author of *al-Risala al-Maknuna* (the section's stated speaker); the source leaves this unresolved.",
+        "The phrase \"people of response\" in the honorific address to the questioner may refer either to lay questioners or to fellow scholars who give legal opinions; a subject-matter expert should verify which is intended."
+      ],
+      "comprehension_flags": [
+        "The phrase \"the obedience of the one in janabah is void and false\" may puzzle a modern reader, as \"obedience\" here denotes ritual acts of worship performed while in that state.",
+        "The elaborate honorific address forms in the questions (\"O best of those who have commanded us to endure with patience the decree of God and His judgment,\" etc.) may puzzle modern readers, but they reflect the source's formal epistolary register and have been preserved exactly as written.",
+        "A modern reader may not understand why bleached or soap-washed garments require an additional washing to establish purity while made-but-unworn garments do not; no gloss has been added, per scope.",
+        "The passage moves from the answer about night sweeping directly into hadiths on dog impurity and then a saying on grooming, with no explicit connective argument; a modern reader may not follow the logical thread, and this may warrant editorial annotation in a later pass."
+      ],
+      "terminology_notes": [
+        "janabah \u2014 glossed as \"major ritual impurity\" on its first occurrence in Question 2 but unglossed on all subsequent occurrences; the book should standardize whether to gloss on first use only or consistently throughout.",
+        "\"the Walid\" \u2014 this title in the answer on women's milk likely renders Arabic \"\u0627\u0644\u0648\u0627\u0644\u062f\" meaning \"the Father\" as an honorific for a senior figure; the book should standardize whether to translate or retain this form consistently throughout.",
+        "\"radiant Shariah\" \u2014 confirm this is the book's established rendering of the honorific al-Shar\u012b\u02bfah al-gharr\u0101\u02be for consistent use throughout.",
+        "tayammum \u2014 used consistently here; confirm this spelling is standardized book-wide."
+      ]
+    },
+    {
+      "title": "Tooth-Stick, Dust, and the Purity of Food",
+      "base_words": 2704,
+      "output_words": 2641,
+      "windows": 3,
+      "windows_kept": 3,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The pronoun \"he\" in \"I record what he stated\" has no clear antecedent within this passage \u2014 the referent is presumably a named scholar introduced earlier in the work.",
+        "The attribution \"From another\" appears twice in the passage \u2014 once within the answer to the fourth question and once introducing the extended block after the seventh answer \u2014 without identifying which source or authority is meant; the source leaves this unglossed and it has been preserved exactly as given.",
+        "The answer to the second question states both that the vessel \"is impure\" and that \"there is no harm in selling it nor in buying it,\" then compares it to carrion hide \"which it is not lawful to sell\" \u2014 the apparent contradiction likely reflects a nuanced legal distinction that cannot be resolved without the Arabic original."
+      ],
+      "comprehension_flags": [
+        "\"The mosque of the Prophet\" and \"the sanctuary\" designate specific holy sites (al-Masjid al-Nabawi in Medina and al-Masjid al-Haram in Mecca) that a modern general reader may not recognize without a glossary note or footnote.",
+        "\"The primary ruling concerns water that is above the limit\" will be opaque to readers unfamiliar with the jurisprudential principle that a sufficiently large body of water is not rendered impure by contact."
+      ],
+      "terminology_notes": [
+        "janaba \u2014 confirm the book-wide standard spelling and whether a gloss (\"major ritual impurity\") is retained on every occurrence or only the first.",
+        "junub / janaba \u2014 these Arabic terms for major ritual impurity are used untranslated throughout; a book-wide glossary entry is recommended so the general reader is not left without guidance on first encounter.",
+        "\"people of association\" \u2014 should be confirmed as the book's standard rendering for the Arabic term for polytheists and used consistently throughout."
+      ]
+    },
+    {
+      "title": "Bodies, Hair, and the Reform of Custom",
+      "base_words": 4085,
+      "output_words": 3863,
+      "windows": 13,
+      "windows_kept": 13,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 3,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 13,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-11-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-11-part-04: protected source artifact copied verbatim",
+        "fluency-11-part-06: protected source artifact copied verbatim",
+        "fluency-11-part-08: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 46,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 44,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The expression \"better for the face\" in Ali (\u0639)'s saying and in the follow-up question receives only an indirect answer in the passage, leaving the intended physiological or aesthetic meaning unclear.",
+        "In the Friday-night combing question, \"leaving it is a binding necessity\" is unclear \u2014 \"it\" may refer either to the practice of combing or to leaving the hair uncombed, making the Indians' belief difficult to pin down.",
+        "The referent of \"he\" in the closing clause \"And he said also, may God sanctify his soul:\" is not identified in this passage; it appears to differ from Ali (\u0639), who carries the (\u0639) marker throughout, but the passage ends before the referent is named or quoted.",
+        "The label \"Section:\" appears mid-passage within Jafar's attributed speech; it is unclear whether it is a structural section heading belonging to the book's layout or a rhetorical marker within Jafar's own address."
+      ],
+      "comprehension_flags": [
+        "The phrase \"May I be your ransom\" closing Question 6 is a traditional Arabic honorific of deference that modern readers may find puzzling; \"the outward sense\" is likewise a technical jurisprudential term (for the literal or apparent meaning of a text) that may not be self-evident without a note or glossary entry.",
+        "\"One of the two beauties\" is cited without explanation, and \"the Island of Yemen\" is an unusual geographical designation; both may stop a modern reader without context this pass is not authorized to add.",
+        "\"the people of the guiding dawa\" is a technical Ismaili term for the community of the Fatimid da'wa; a modern general reader may not recognize it without a note this pass is not authorized to add.",
+        "\"The days falling short of ten\" may puzzle a modern reader who does not know this refers to the first days of a newborn girl's life, before she reaches ten days of age.",
+        "\"The forbidden prayer with the call to prayer and the summons\" may be unclear to general readers \u2014 it describes a ceremony in which an adhan and iqama are unlawfully performed on the occasion of a girl's circumcision, a practice the passage explicitly condemns.",
+        "The phrase \"the friends of their ages\" \u2014 referring to the awliya' or saints of each era \u2014 may not be immediately clear to a general reader without context established earlier in the chapter.",
+        "\"Island of Yemen\" and \"Island of Hind\" are technical Ismaili organizational terms (jaz\u012bra, meaning regional administrative divisions of the da'wa), not literal islands; a modern reader encountering these for the first time may be confused."
+      ],
+      "terminology_notes": [
+        "\"outward sense\" \u2014 should be verified as the book-wide standard rendering of the Arabic technical term for the literal or apparent meaning of a text, and standardized accordingly throughout.",
+        "\"engraving of dye\" \u2014 confirm this as the book's established rendering of the forbidden tattooing-with-henna practice and standardize it across all occurrences.",
+        "dawa \u2014 the source renders this as \"dawa\"; should be confirmed as the book's standard transliteration, since variants \"da'wa\" and \"dawah\" also appear in Islamic scholarly literature.",
+        "mawla \u2014 confirm the book-wide rendering; kept as \"mawla\" here to match the source.",
+        "\"the summons\" \u2014 if this renders *iqama*, consider standardizing the term book-wide for consistency.",
+        "\"protected communities\" \u2014 the book should standardize its rendering of the Arabic term for the dhimmis across all chapters.",
+        "dawa \u2014 the book should standardize whether this term is rendered as \"dawa,\" \"da'wa,\" or \"the Call\" on every occurrence; the source uses \"dawa\" here."
+      ]
+    },
+    {
+      "title": "Skins, Blood, and Waiting Periods",
+      "base_words": 3598,
+      "output_words": 3481,
+      "windows": 7,
+      "windows_kept": 7,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 7,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-12-part-03: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 14,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 14,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "In the fourth answer, the source's \"it has become impure\" is syntactically ambiguous \u2014 \"it\" could refer to the food placed in the vessel or to the vessel itself; I read it as referring to the food item placed inside, which is the natural reading in context."
+      ],
+      "comprehension_flags": [
+        "\"the time of the sun's decline\" refers to the onset of the Dhuhr (midday) prayer window, which a general reader may not recognize without a gloss this pass is not authorized to add.",
+        "\"mushaf\" is used without explanation; a general reader may not recognize it as the physical written copy of the Quran.",
+        "\"Nothing is cast into the womb that has no right in the inheritance\" is a technical legal formula whose precise meaning (barring an unqualified fetal heir from a share) may not be immediately clear to a general reader.",
+        "\"Deflowered by the seller\" presupposes a slave-sale context that modern readers will not recognize without explanation this pass is not authorized to add."
+      ],
+      "terminology_notes": [
+        "tahlil, takbir, tahmid, tasbih, basmala, tayammum, mawla, mustahadah, istihadah, nifas, janaba \u2014 all appear here as untranslated technical terms and should be standardized in spelling and treatment throughout the book.",
+        "\"withdraws\" \u2014 used consistently here for the husband's or wife's abstention during istibra; should be confirmed as the book-wide rendering for this term."
+      ]
+    },
+    {
+      "title": "The Pillar of Religion and Its Appointed Hours",
+      "base_words": 5869,
+      "output_words": 5849,
+      "windows": 16,
+      "windows_kept": 15,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 4,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 15,
+      "status": "partial",
+      "gates": [
+        "reconcile-13-part-03: abridged re-voice (70<96 words)",
+        "reconcile-13-part-03: repair still failed: abridged re-voice (87<96 words)"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-13-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-13-part-02: protected source artifact copied verbatim",
+        "reconcile-13-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-13-part-07: protected source artifact copied verbatim",
+        "reconcile-13-part-11: protected source artifact copied verbatim",
+        "reconcile-13-part-13: protected source artifact copied verbatim",
+        "assembled chapter is partial \u2014 15/16 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 21,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 21,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "\"The first prayer falls at the seventh hour of the day\" \u2014 in the Hidden Epistle, \"the first prayer\" appears to refer to the Zuhr (midday) prayer, yet it follows the description of Fajr, creating a potential ordering confusion that an editorial footnote may need to resolve."
+      ],
+      "comprehension_flags": [
+        "The phrases \"the time of drawing near and of glorification\" and \"the prayer of the declining\" are technical Islamic legal terms whose meanings will not be immediately clear to a general reader without an explanatory note.",
+        "\"three letters' weight of gold\" \u2014 the unit \"letters'\" is opaque to a modern reader and may be a specialized unit of measurement (possibly a transliteration artifact for a term such as mithqal) that could benefit from a glossary entry or footnote added by the editor.",
+        "The phrase \"one is not prevented from the 'Asr prayer within it in the presence\" is unclear to a modern reader \u2014 \"in the presence\" likely refers to congregational or physical attendance before an authority, but the precise meaning is not recoverable from this passage alone.",
+        "The phrase \"a call that comes after a preceding call, yet with no call after it\" may be opaque to modern readers unfamiliar with the two pre-Fajr adhans and the absence of a subsequent call, which the text uses to explain why no voluntary prayer is performed after Fajr.",
+        "\"The prayer of the darkness\" appears as a category distinct from both Isha' and the night prayer; modern readers may be uncertain which prayer this designates and how the three categories relate.",
+        "The question about women making up prayer \"on behalf of men\" concerns the Islamic practice of proxy performance of qada' (missed religious duties) for the deceased, a context modern readers may not recognize without a note."
+      ],
+      "terminology_notes": [
+        "\"Malik al-Jami\" \u2014 the spelling and transliteration of this scholar's name should be verified and standardized throughout the book.",
+        "\"shaf\" \u2014 the book-wide spelling of this term (the paired night prayer before witr) should be confirmed and standardized, as it may appear elsewhere as \"shaf'\" with an apostrophe marking the Arabic hamza or 'ayn.",
+        "qibla, wudu, takbir, tashahhud, tashahhud, sealing \u2014 confirm book-wide standardized spellings and whether any of these require a brief gloss the first time they appear in the full work.",
+        "units \u2014 confirm whether the book renders rak'ah/rak'ahs as \"units,\" \"cycles,\" or another term consistently throughout.",
+        "\"Book of the Inward Nursing\" \u2014 the book-wide rendering of this title should be confirmed against its established Arabic original and standardized throughout.",
+        "making up \u2014 confirm \"making up\" as the book's standard rendering for qada' (missed prayers and fasts) throughout."
+      ]
+    },
+    {
+      "title": "The Disputed Words of the Call",
+      "base_words": 3007,
+      "output_words": 2825,
+      "windows": 11,
+      "windows_kept": 11,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 11,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-14-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-14-part-08: protected source artifact copied verbatim",
+        "fluency-14-part-10: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 24,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 19,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The inhabited palace\" appears to render a specific Arabic toponym, and it is unclear whether it should be treated as a translated description or as a proper place name that ought to be transliterated."
+      ],
+      "comprehension_flags": [
+        "\"The people of the call\" likely carries a specific technical meaning in the Ismaili tradition (ahl al-da'wa, the da'wa community) that a general reader may not recognize as such.",
+        "A modern reader unfamiliar with Islamic history may not know what the Day of Ghadir refers to, but no explanatory context is authorized to be added here.",
+        "\"The Peace\" is the divine name al-Sal\u0101m; a reader unfamiliar with the ninety-nine names of God may read it as an abstract noun rather than a divine title.",
+        "\"The women of the worlds\" (rendering of \u0646\u0633\u0627\u0621 \u0627\u0644\u0639\u0627\u0644\u0645\u064a\u0646) may puzzle general readers who expect the singular \"world\"; it is established Islamic theological phrasing and should remain, but a series-level glossary entry would help."
+      ],
+      "terminology_notes": [
+        "port levy \u2014 this rendering of what appears to be a specific fiscal term should be confirmed and standardized across the book.",
+        "\"dai\" \u2014 the term for the Ismaili summoner or missionary appears here without diacritics; its transliteration (dai, da'i, or d\u0101'\u012b) should be confirmed and standardized book-wide.",
+        "legatee \u2014 confirm this is the book's fixed rendering of \u0648\u0635\u064a throughout, and standardize all occurrences accordingly.",
+        "dai \u2014 the transliteration form of this technical term (variant: *d\u0101'\u012b*) should be confirmed and standardized book-wide."
+      ]
+    },
+    {
+      "title": "Eight Proofs for the Best of Human Beings",
+      "base_words": 4639,
+      "output_words": 4471,
+      "windows": 19,
+      "windows_kept": 19,
+      "windows_cached": 0,
+      "windows_repaired": 3,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 19,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-15-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-15-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-15-part-14: protected source artifact copied verbatim",
+        "fluency-15-part-19: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 29,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 25,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The honorifics \"the blessings of God be upon him\" and \"may God bless him and his family\" appear in close succession and their referents \u2014 Ali and the Prophet respectively \u2014 may not be immediately clear to a general reader."
+      ],
+      "comprehension_flags": [
+        "A modern reader may not immediately recognize that \"his guardian, the most honorable of guardians\" is a devotional epithet for Ali ibn Abi Talib, functioning here as a title rather than a relational description.",
+        "A modern reader may not recognize \"guardian and friend\" as a rendering of a theologically weighted Arabic term (wal\u012b) whose meaning carries more force than these ordinary English words convey.",
+        "The abbreviation (\u0639) following \"Moses\" stands for \u0639\u0644\u064a\u0647 \u0627\u0644\u0633\u0644\u0627\u0645 (peace be upon him) and may be unfamiliar to readers without Arabic; if the book introduces this convention elsewhere, no action is needed here.",
+        "\"granted to him and to the other\" leaves both referents implicit; a modern reader may not immediately identify who \"him\" and \"the other\" are (the Messenger and Ali ibn Abi Talib respectively) without recalling the earlier context of the chapter.",
+        "Three Quranic allusions appear as unmarked prose \u2014 \"anyone who has a heart, or who gives ear while he is a witness\" (50:37), \"the best community brought forth for humankind\" (3:110), and \"falsehood does not come from before it nor from behind it, a revelation from One who is Wise, Praiseworthy\" (41:42) \u2014 and a reader unfamiliar with the Quran may not recognize them as scriptural quotations.",
+        "\"Proofs that expand the breast\" is a recognized Islamic idiom for spiritual and intellectual reassurance; a modern general reader may not grasp its full sense without a note the current pass is not authorized to add.",
+        "\"the rest of the five and al-Mishkat\" refers to canonical Sunni hadith collections; a reader unfamiliar with Islamic hadith scholarship may not know what \"the five\" designates or that al-Mishkat is al-Mishkat al-Masabih."
+      ],
+      "terminology_notes": [
+        "guardian \u2014 confirm this is the book's established rendering for the theological concept of wal\u012b as applied to Ali; alternatives such as \"master\" or \"protector\" may be in use elsewhere in the work.",
+        "wal\u012b \u2014 the book should standardize a single rendering (\"guardian,\" \"friend,\" \"ally,\" or \"master\") used consistently throughout.",
+        "\"enabling grace\" \u2014 this phrase renders a technical term (likely \u062a\u0648\u0641\u064a\u0642) and should be confirmed as the book's established rendering before the text is finalized.",
+        "\"the most truthful of speakers\" \u2014 if this is a recognized epithet for God or the Prophet, the book-wide rendering should be confirmed and standardized.",
+        "\"the people of truth\" \u2014 confirm this is the book's established rendering of the self-designation used throughout, and standardize it consistently."
+      ]
+    },
+    {
+      "title": "Where a Muslim Stands to Pray",
+      "base_words": 2961,
+      "output_words": 2932,
+      "windows": 4,
+      "windows_kept": 4,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 4,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-16-part-04: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 18,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 18,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The answer about the shelter of Moses (\"It means that this is not like the plastered shelter of Moses\") is terse and its logical relationship to the Prophet's saying may be unclear to a reader without prior knowledge of the context."
+      ],
+      "comprehension_flags": [
+        "\"The doubled prayer\" appears repeatedly but is never defined in this passage; a modern reader unfamiliar with the Islamic prayer schedule may not understand what it refers to.",
+        "\"likenesses of wisdom\" (from the al-Majalis al-Mustansiriyya quote) may puzzle modern readers unfamiliar with this term for allegorical or symbolic interpretations; no gloss was added per contract.",
+        "\"Offensive foods\" \u2014 a modern reader may not know this refers to strong-smelling foods such as garlic and onions; a footnote may be warranted elsewhere in the book."
+      ],
+      "terminology_notes": [
+        "\"licensed men of the mission\" \u2014 this rendering of a specific organizational or juristic role should be confirmed and standardized book-wide.",
+        "\"binding\" vs. \"obligatory\" \u2014 the source uses both words for the same concept; this rendering standardizes to \"obligatory\" throughout, but the book-wide preference should be confirmed."
+      ]
+    },
+    {
+      "title": "Who May Lead, and Who May Not",
+      "base_words": 4756,
+      "output_words": 4454,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 3,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-17-part-03: protected source artifact copied verbatim",
+        "fluency-17-part-06: protected source artifact copied verbatim",
+        "fluency-17-part-08: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 31,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 28,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The nasib is set aside if he has led them from the side\" uses \"nasib\" as an untranslated technical term whose referent is not explained in the passage and cannot be reliably inferred from context."
+      ],
+      "comprehension_flags": [
+        "The honorific (\u0639) following \"the Prophet\" may be unfamiliar to general readers accustomed to a written-out form such as \ufdfa; the book's editorial policy on honorifics should be applied consistently.",
+        "\"Set straight,\" applied repeatedly to the blind man, likely means he is oriented toward the qibla by another person before leading prayer, but this is nowhere explained in the passage and may puzzle modern readers.",
+        "\"The people of the summons,\" \"the summoners of Yemen,\" and \"the People of the House\" are community-specific terms that general readers are unlikely to recognize without contextual notes authorized elsewhere in the book.",
+        "\"the sanctified state\" denotes the consecrated condition a worshipper enters upon the opening takb\u012br of prayer; general readers unfamiliar with Islamic liturgical vocabulary may benefit from a glossary entry."
+      ],
+      "terminology_notes": [
+        "\"the book of the interpretation of the Shariah of our master al-Muizz\" \u2014 the full title and its rendering should be standardized wherever this work is cited throughout the book.",
+        "\"set straight\" \u2014 confirm this is the book's established rendering for the act of orienting the blind imam toward the qibla, so it can be used consistently throughout.",
+        "\"sanctified state\" \u2014 confirm this is the book's established rendering for the opening of the prayer (the state entered upon by the takbir); \"granted licence\" / \"licensed man\" \u2014 confirm this is the book's standard rendering for the holder of an ijaza or appointment, as it is an unusual English construction that should be consistent throughout.",
+        "hujja \u2014 a technical Ismaili term for the imam's designated deputy; the rendering \"hujja\" has been preserved here and should be standardized consistently throughout the book.",
+        "Daudis \u2014 verify consistent spelling of this group's name across the book; the source spelling \"Daudis\" has been retained here."
+      ]
+    },
+    {
+      "title": "The Shape of the Prayer Itself",
+      "base_words": 3782,
+      "output_words": 3699,
+      "windows": 11,
+      "windows_kept": 11,
+      "windows_cached": 0,
+      "windows_repaired": 3,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 11,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-18-part-07: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-18-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-18-part-09: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 27,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 30,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The \"Section:\" label that opens Jafar ibn Sulayman's quoted passage is ambiguous \u2014 it may be a section heading within his epistle *al-Sayf al-Aqta fi Ibtal al-Bida* or a structural marker belonging to the present chapter; context suggests the former, but the book's editorial convention should confirm this.",
+        "The referent of \"he\" in \"Then he said: it is because the outward prayer neither forbids nor commands\" cannot be determined from this passage alone and may require the preceding context to identify the speaker."
+      ],
+      "comprehension_flags": [
+        "The term \"khafd\" denotes a specific legal and physical practice; a general reader will not recognize it, and this pass is not authorized to gloss it.",
+        "The phrase \"as though they had sprung from the well\" is an Arabic figurative expression whose precise cultural meaning may not be immediately clear to modern English readers.",
+        "\"He who warns has given excuse\" is an Islamic legal and moral idiom meaning the warner has fully discharged his obligation and is free of blame before God; a general reader may misread it as an apology or justification.",
+        "The gloss following > \u062a\u0627\u0631\u0643 \u0633\u0646\u062a\u064a \u0645\u0644\u0639\u0648\u0646 \u2014 \"meaning the one who abandons my legatee is one banished from the mercy of God\" \u2014 applies an esoteric reading that equates \"my sunnah\" with \"my legatee\"; a modern reader may not follow this interpretive leap without a note this pass is not authorized to add.",
+        "\"The prayer of the oft-returning\" designates a specific named prayer that most modern readers will not recognize without a footnote or gloss.",
+        "\"His friend and his full moon\" is a poetic invocation whose referents are likely familiar to the original audience but may be opaque to a general modern reader; a footnote may be warranted."
+      ],
+      "terminology_notes": [
+        "khafd \u2014 spelling should be confirmed and standardized throughout the book.",
+        "\"people of tribal temper\" \u2014 the Arabic concept underlying this phrase should be standardized book-wide to whichever English rendering the editorial team adopts.",
+        "walaya \u2014 confirm book-wide standardization of this spelling against any alternate rendering (e.g., wilaya) used elsewhere in the volume.",
+        "legatee \u2014 confirm this is the book-established rendering for the designated successor concept and standardize throughout.",
+        "shaf \u2014 the transliteration should be verified against the book's established spelling, as common alternatives include \"shaf'\" with a final ayn marker.",
+        "\"hinder part\" \u2014 rendered here as \"haunches\"; recommend confirming this rendering is used consistently wherever this instruction recurs in the book.",
+        "\"surahs of refuge\" \u2014 confirm this is the book-wide rendering for the technical term \u0627\u0644\u0645\u0639\u0648\u0630\u062a\u0627\u0646 (al-mu\u02bfawwidhatayn)."
+      ]
+    },
+    {
+      "title": "Supplication, Speech, and Silence",
+      "base_words": 1844,
+      "output_words": 1840,
+      "windows": 8,
+      "windows_kept": 8,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 8,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-19-part-02: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-19-part-03: protected source artifact copied verbatim",
+        "reconcile-19-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-19-part-05: protected source artifact copied verbatim",
+        "reconcile-19-part-08: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 11,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 5,
+        "stage_directions": 1
+      },
+      "editorial_queries": [],
+      "comprehension_flags": [
+        "\"the standing invocation\" and \"the odd-numbered prayer\" are likely the qunut and witr respectively, but a modern general reader may not recognize either term without their Arabic equivalents."
+      ],
+      "terminology_notes": [
+        "\"the inward nursing\" \u2014 the title of Jafar ibn Mansur al-Yaman's cited book should be confirmed and standardized book-wide."
+      ]
+    },
+    {
+      "title": "What the Worshipper Wears and Stands Upon",
+      "base_words": 2169,
+      "output_words": 2087,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-20-part-03: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-20-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-20-part-06: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-20-part-08: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The fourth question groups hens with filth-eating camels, cattle, and sheep but does not state explicitly that the hens also feed on filth; the source leaves this unclear."
+      ],
+      "comprehension_flags": [
+        "The ruling that obligatory prayer is not permitted upon stone or unbaked brick \u2014 while supererogatory and sunna prayer is \u2014 may be surprising to modern readers unfamiliar with this school's jurisprudence, but no inline explanation is authorized here.",
+        "\"Shift and head-veil\" may be opaque to modern readers unfamiliar with classical Islamic dress categories; no explanation can be added at this pass."
+      ],
+      "terminology_notes": [
+        "\"the Daaim\" \u2014 confirm book-wide rendering of this title (some editions use \"Daaim al-Islam\" in full on first reference); verify whether \"the interpretation of the Daaim\" is a consistent title throughout the book.",
+        "du'at \u2014 rendered here as \"callers\"; should be standardized book-wide against whatever rendering the rest of the chapter establishes."
+      ]
+    },
+    {
+      "title": "Friday and the Two Festivals",
+      "base_words": 3198,
+      "output_words": 3142,
+      "windows": 9,
+      "windows_kept": 9,
+      "windows_cached": 0,
+      "windows_repaired": 2,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 9,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-21-part-05: protected source artifact copied verbatim",
+        "fluency-21-part-06: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 12,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The \"he\" cited throughout the \"He says in the book\u2026\" series is not named in this passage; the book's continuity text should confirm or establish who this unnamed author is.",
+        "\"The cycles that have passed\" is theologically specific and its referent \u2014 whether cosmic cycles, liturgical seasons, or historical epochs \u2014 is unclear from context alone."
+      ],
+      "comprehension_flags": [
+        "\u0627\u0644\u0646\u0627\u0635\u0628 (one who bears enmity toward the Ahl al-Bayt) and \u0627\u0644\u062d\u0631\u0648\u0631\u064a (a Kharijite, named after Harura) are technical sectarian designations a general modern reader may not recognize without a footnote.",
+        "The terms \"respondents,\" \"summoner,\" \"give suck,\" and \"suckling\" are Ismaili initiatory hierarchy concepts that a general reader will not recognize without a glossary entry.",
+        "A modern reader may not understand why knowing Friday's excellence leads to one's affairs being gathered on \"the day of the Sabbath\" \u2014 the relationship between the two days in this context may warrant an editorial footnote in the published edition.",
+        "The reference to \"the five speakers, the possessors of firm resolve,\" \"the ten spiritual ranks,\" \"the ten bodily ranks,\" \"the speaker of the cycle,\" and \"his executor\" is Ismaili theological terminology that a general reader will find opaque without background explanation this pass is not authorized to provide.",
+        "\"The four magnifications\" refers to the repeated takb\u012br formula opening that sermon; a reader unfamiliar with Islamic liturgical practice may not recognize the term."
+      ],
+      "terminology_notes": [
+        "\u0627\u0644\u0646\u0627\u0635\u0628 \u2014 the book-wide rendering should be standardized to one consistent English form throughout.",
+        "respondents / summoner \u2014 the rendering of the Ismaili hierarchy terms (mustajib\u016bn, d\u0101\u02bf\u012b) should be verified and standardized book-wide to a single consistent English form.",
+        "tashriq \u2014 used throughout as an untranslated technical term; the book should standardize whether to gloss it on first use or leave it as a standing term.",
+        "\"four magnifications\" \u2014 confirm whether the book uses a consistent rendering for the takb\u012br\u0101t throughout."
+      ]
+    },
+    {
+      "title": "Forgetting, Doubting, and Beginning Again",
+      "base_words": 3787,
+      "output_words": 3702,
+      "windows": 6,
+      "windows_kept": 6,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-22-part-02: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 18,
+        "stage_directions": 1
+      },
+      "lecture_voice_after": {
+        "reader_address": 16,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "In the eleventh question, \"yet he did not intend the prayer\" is ambiguous \u2014 it is unclear whether \"he\" refers to the Imam or to the follower.",
+        "The sentence linking \"whoever forgets a prayer and does not know whether he prayed two, three, or four rakahs\" with \"the Imam who prays aloud in what is prayed silently, has done ill\" is syntactically ambiguous \u2014 it is unclear whether \"has done ill\" and the subsequent ruling apply to both persons or only to the Imam, and no explicit ruling for the first person is stated in this passage.",
+        "\"he reverts accordingly\" (rendering \"returns to what is otherwise\") is contextually intelligible but not explicit about whether the man corrects his rakah count, his position, or both."
+      ],
+      "comprehension_flags": [
+        "\"The salaam of the dhikr\" in the eleventh question is a technical term that a modern reader may not recognize without further context.",
+        "The phrase \"a surah taken from above\" in the twenty-sixth issue uses positional language that may be opaque to modern readers unfamiliar with the convention of ordering surahs by their relative standing in the Quran.",
+        "\"the summoners of Yemen\" is a technical honorific title for Ismaili da'is that a general modern reader may not recognize as a formal designation.",
+        "A modern reader may find it puzzling that a black dog specifically interrupts prayer while a dog of another color does not \u2014 the hadith's legal and theological background is not explained in the passage.",
+        "A modern reader may not recognize \"say the glorification to him\" as the established practice of uttering \u0633\u0628\u062d\u0627\u0646 \u0627\u0644\u0644\u0647 to alert the Imam to an error in the prayer."
+      ],
+      "terminology_notes": [
+        "prostration of omission \u2014 the source alternates between the singular form and \"the two prostrations of omission\"; a consistent rendering should be confirmed book-wide.",
+        "\"ranks\" (of the island of India) \u2014 this appears to be a technical term for members of the Ismaili da'wa hierarchy; a book-wide standard rendering should be confirmed.",
+        "summoners \u2014 the rendering of the Ismaili title (Arabic: \u0627\u0644\u062f\u0639\u0627\u0629) should be confirmed and standardized throughout the book.",
+        "\"builds upon his prayer\" \u2014 a technical term for continuing a prayer from the point of interruption rather than restarting; the book-wide rendering should be standardized.",
+        "\"the contracting of the intention\" \u2014 confirm whether this is the book's established rendering of \u0639\u0642\u062f \u0627\u0644\u0646\u064a\u0629 so it can be standardized throughout."
+      ]
+    },
+    {
+      "title": "Children, Travelers, and the Sick",
+      "base_words": 4409,
+      "output_words": 4265,
+      "windows": 6,
+      "windows_kept": 6,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-23-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-23-part-02: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 29,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 29,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"The divorced women in India\" refers to an unexplained legal category whose precise jurisprudential meaning and connection to the rules on prayer-shortening and fasting is not apparent from the text as given.",
+        "\"Yet does not dwell there, and she has settled as a resident\" appears self-contradictory in the same sentence \u2014 it is unclear whether \"settled as a resident\" refers to the father's house or to another location, and the legal ruling that follows may depend on which reading is correct.",
+        "\"the author of this book\" may refer to the author of the cited work \u063a\u0631\u0641\u0627\u062a \u0627\u0644\u062c\u0646\u0627\u0646 or to the author of the present volume being read; the referent is unclear from context alone."
+      ],
+      "comprehension_flags": [
+        "\"The collector\" is introduced without explanation; a modern reader will not know whether this is a tax official, a religious dues collector, or another role, or why his company might affect a traveler's prayer obligations.",
+        "A modern reader will not readily understand why reaching a village where a wife's kin reside causes the traveler to shorten prayer, nor why specific categories of relative (mahram, blood kin) alter a traveler's status \u2014 a brief explanatory note elsewhere in the book would help.",
+        "\"hudud\" is used here to mean regional jurisdictions or territories, not its more common meaning of fixed penal sanctions; a general reader may misread the term.",
+        "\"barid\" (a unit of travel distance), \"tayammum\" (dry ablution with earth or dust), and \"hudud\" in its Ismaili technical sense may be unfamiliar to a general reader and would benefit from a book glossary.",
+        "\"the warrior who cuts the road\" is a translated Arabic idiom whose precise meaning \u2014 whether blocking roads, patrolling them, or raiding \u2014 a modern reader will not grasp without a note."
+      ],
+      "terminology_notes": [
+        "\"the collector\" \u2014 standardize this rendering book-wide if the underlying Arabic term appears elsewhere in the text.",
+        "mahram \u2014 confirm this is the standard rendering used throughout the book; also confirm that barid, farsakh, rakah, sunnah, and supererogatory are rendered consistently in every chapter.",
+        "duat \u2014 confirm the book-standard spelling and whether it should be italicized consistently on every occurrence.",
+        "\"hudud\" \u2014 rendered as given throughout, but the term is used here in its specialized Ismaili sense of \"ranks within the dawa hierarchy,\" distinct from its more widely known legal meaning; the book-wide rendering and whether a standing gloss is needed should be confirmed at the editorial level.",
+        "mahram \u2014 verify this is the book's standard spelling, as some editions use *mahrem* or italicize the term."
+      ]
+    },
+    {
+      "title": "Eclipse, Fear, Rain, and the Night Vigil",
+      "base_words": 4374,
+      "output_words": 4338,
+      "windows": 7,
+      "windows_kept": 7,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 7,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 20,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 20,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The closing description of the correct practice in the prayer of glorification offers two alternatives (\"then rises for the next \u2014 or, after the second, makes the testimony following the glorification\") whose structural relationship to each other is unclear in the source; rendered faithfully without resolution.",
+        "The pronoun shift in \"he made it known to her by that mentioned prayer\" \u2014 the referent of \"her\" is unclear in context and may reflect a manuscript anomaly or scribal error in the source draft."
+      ],
+      "comprehension_flags": [
+        "\"The book of purity\" is cited repeatedly as a legal source without any identification; a modern reader may not know which work is being referenced.",
+        "The distinction between the first dawn (the false dawn) and the second dawn (the true dawn) carries specific legal weight here; a modern reader unfamiliar with Islamic prayer-time divisions may not grasp why the two are treated differently, nor what \"the greeting of the mosque\" designates as a ritual act.",
+        "\"The maimed and blinded Daudi faction\" is a polemical epithet that modern readers unfamiliar with the sectarian history may find opaque; no gloss has been added per this pass's scope.",
+        "The phrase \"then little practice\" is terse and may puzzle a modern reader; its sense \u2014 that one should confine oneself to minimal worship when no authorizing text exists \u2014 is presumably completed by the hadith preserved in > \u0639\u0645\u0644 \u0642\u0644\u064a\u0644 \u0641\u064a \u0633\u0646\u0651\u0629 \u062e\u064a\u0631 \u0645\u0646 \u0639\u0645\u0644 \u0643\u062b\u064a\u0631 \u0641\u064a \u0628\u062f\u0639\u0629.",
+        "The phrase \"its prayer is upon that\" is a retained calque whose referent (\"that\" = the manner of prayer previously described) may not be immediately clear to a modern reader without additional context from the surrounding chapter."
+      ],
+      "terminology_notes": [
+        "shaf \u2014 this term for the even-numbered supererogatory prayer paired with the witr appears once without explanation; the book should decide on a consistent rendering or gloss policy for this term.",
+        "shaf \u2014 confirm this is the book's standard spelling for the two-rakat prayer preceding the witr, and verify consistent use throughout.",
+        "shaf \u2014 confirm whether \"shaf\" is the book's established spelling for the two-rakat prayer preceding witr, or whether a diacritical form such as \"shaf'\" is used elsewhere in the volume.",
+        "friends of God \u2014 confirm whether this is the book's standard rendering of the term in \u0639\u0644\u064a\u0647\u0645 \u0627\u0644\u0633\u0644\u0627\u0645, or whether \"saints\" or a transliteration is used elsewhere.",
+        "protective concealment \u2014 confirm this is the established book-wide rendering for taqiyya, as it appears repeatedly across this passage."
+      ]
+    },
+    {
+      "title": "The Sickbed and the Sound of Mourning",
+      "base_words": 2931,
+      "output_words": 2931,
+      "windows": 28,
+      "windows_kept": 26,
+      "windows_cached": 0,
+      "windows_repaired": 2,
+      "windows_source_preserved": 11,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 26,
+      "status": "partial",
+      "gates": [
+        "reconcile-25-part-09: abridged re-voice (20<47 words)",
+        "reconcile-25-part-09: repair still failed: abridged re-voice (20<47 words)",
+        "reconcile-25-part-11: abridged re-voice (51<74 words)",
+        "reconcile-25-part-11: repair still failed: abridged re-voice (53<74 words)"
+      ],
+      "assembly_gates": [],
+      "warnings": [
+        "reconcile-25-part-02: protected source artifact copied verbatim",
+        "reconcile-25-part-04: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-25-part-06: protected source artifact copied verbatim",
+        "reconcile-25-part-08: protected source artifact copied verbatim",
+        "reconcile-25-part-10: protected source artifact copied verbatim",
+        "reconcile-25-part-12: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-25-part-13: protected source artifact copied verbatim",
+        "reconcile-25-part-15: protected source artifact copied verbatim",
+        "reconcile-25-part-18: protected source artifact copied verbatim",
+        "reconcile-25-part-20: protected source artifact copied verbatim",
+        "reconcile-25-part-21: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-25-part-22: protected source artifact copied verbatim",
+        "reconcile-25-part-25: protected source artifact copied verbatim",
+        "reconcile-25-part-26: output near-identical to base \u2014 copied, not re-voiced",
+        "reconcile-25-part-27: protected source artifact copied verbatim",
+        "reconcile-25-part-28: output near-identical to base \u2014 copied, not re-voiced",
+        "assembled chapter is partial \u2014 26/28 windows kept; review voice continuity"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 40,
+        "stage_directions": 2
+      },
+      "lecture_voice_after": {
+        "reader_address": 39,
+        "stage_directions": 2
+      },
+      "editorial_queries": [
+        "It is not entirely clear whether the paragraphs beginning \"Is there not\u2026\" and \"The learned among you\u2026\" are part of the Prophet's direct speech or are the author's own commentary; the source provides no closing quotation marker or explicit narrative break between them."
+      ],
+      "comprehension_flags": [
+        "\"The island of Yemen\" may puzzle modern readers, as Yemen is a mainland territory; the phrase likely refers to a specific island community or uses \"island\" in a regional sense that a footnote or glossary entry should clarify.",
+        "The terms \"sensory, animal life,\" \"angelic life,\" and \"animal condition\" are technical concepts from Islamic philosophy distinguishing the lower (\u1e25ayaw\u0101n\u012b) from the higher (malak\u012b) mode of existence; a general reader may not grasp their meaning without an explanatory gloss.",
+        "\"The island of Yemen\" is an unusual geographical designation that modern readers may not recognize; it may render an Arabic phrase meaning a peninsula or a known regional term, and no gloss has been added here.",
+        "\"He also records in it\" and \"I also record in it\" both depend on antecedents \u2014 the identity of \"He\" and the work referred to as \"it\" \u2014 that must be established earlier in the chapter or clarified by an editorial note.",
+        "The phrase \"the prayer he made to his Lord\" appears to reference a specific supplication known to the original audience; a modern reader may not know which prayer is meant.",
+        "\"The noble book I have already named\" assumes the reader has encountered the title earlier in the chapter; a reader opening at this point will not know which book is meant.",
+        "The referent of \"him (\u0639)\" is not identified within this passage; a modern reader unfamiliar with Islamic hadith citation conventions may not know whose saying is being introduced.",
+        "\"The accursed voice at a blessing\" may puzzle a modern reader unfamiliar with the classical legal framing in which singing is characterized as ordinarily reprehensible yet permitted at celebratory occasions; no clarification has been added, as this pass is not authorized to do so."
+      ],
+      "terminology_notes": [
+        "mawla / mawlana \u2014 the book should standardize whether these terms are kept in transliteration, rendered in English, or handled in combination, and that rendering should be applied consistently throughout.",
+        "mawlana \u2014 confirm the book's preferred rendering (one word, no hyphen) is applied consistently throughout.",
+        "\"he has attained\" \u2014 the object of attainment is unspecified in the source; a book-wide editorial note may be needed to clarify what this phrase denotes in its original context.",
+        "\"accursed voice at a blessing\" \u2014 if the source Arabic carries a fixed technical phrase here, the book-wide rendering should be confirmed and standardized."
+      ]
+    },
+    {
+      "title": "Washing, Shrouding, Carrying, Burying",
+      "base_words": 3774,
+      "output_words": 3606,
+      "windows": 6,
+      "windows_kept": 6,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 1,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 6,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-26-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-26-part-04: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 22,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 21,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"it was asked in the same book\" at the start of the burial-and-graves section leaves unclear which book is being referenced; the source is equally ambiguous at this transition."
+      ],
+      "comprehension_flags": [
+        "The term \"hanut\" is used without explanation and will be opaque to general readers \u2014 it refers to a camphor-based preparation applied to the body of the dead during washing.",
+        "The term \"wars\" denotes a yellow plant (\u0648\u0631\u0633) used in classical Islamic practice as a perfume and dye; modern readers are unlikely to recognize it without a gloss.",
+        "\"the disliked hours,\" \"the rightly guiding summons,\" and \"prudent concealment\" are technical terms that a general reader unfamiliar with Islamic jurisprudence and Ismaili doctrine may not recognize."
+      ],
+      "terminology_notes": [
+        "'ajrah \u2014 the source renders this with an initial apostrophe in running prose (\"the 'ajrah\") but without it in the parenthetical transliteration beside the Arabic placeholder (\"(ajrah)\"); a single book-wide spelling should be established.",
+        "hanut \u2014 this established book term for the perfumed substances applied to the deceased should be verified for consistent spelling throughout the volume.",
+        "takbirs \u2014 verify the book-standard rendering (with or without diacritics) and whether the singular form takbir should be used consistently throughout."
+      ]
+    },
+    {
+      "title": "The Wealth That Is Not Yours",
+      "base_words": 1451,
+      "output_words": 1437,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The phrase \"scope in the call\" is a technical term from the da'wa hierarchy whose precise meaning \u2014 rank, station, or degree of responsibility within the mission \u2014 should be confirmed by the volume editor before finalizing.",
+        "The clause \"zakat is not demanded from one whom the enemy has seized who is not of the Shia who hold to the allegiance\" is syntactically ambiguous \u2014 it is unclear whether the exemption applies to those seized by the enemy who happen not to be Shia (leaving the Shia still obligated), or to those who are Shia but do not hold to the allegiance; the former reading is more consistent with what follows, but the phrasing could mislead a careful reader."
+      ],
+      "comprehension_flags": [
+        "The twelve sunnahs list in the source skips from item 6 directly to item 8, omitting item 7; this numbering is preserved exactly from the source but may appear to readers as a typographical error, and the volume editor should verify whether a lacuna exists here.",
+        "\"The purchase of his own self and the redemption of his pledge\" are technical jurisprudential obligations that modern readers will not understand without footnote-level explanation, which lies outside this pass's scope."
+      ],
+      "terminology_notes": [
+        "nisab \u2014 book-wide spelling should be standardized (nisab or nis\u0101b); awsaq \u2014 book-wide spelling should be confirmed; tithe \u2014 the Arabic term being rendered as \"tithe\" should be confirmed consistent throughout the volume.",
+        "hamala \u2014 confirm book-wide rendering; 'aqila \u2014 confirm book-wide rendering."
+      ]
+    },
+    {
+      "title": "Gold, Herds, and Harvest",
+      "base_words": 3979,
+      "output_words": 3888,
+      "windows": 3,
+      "windows_kept": 3,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-28-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 9,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 8,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"the two hundred are two covenants\" in the al-Risala al-Maknuna passage is a theological claim whose meaning is not explained in the source and may require a book-wide gloss."
+      ],
+      "comprehension_flags": [
+        "\"wal\" and \"kadiyana\" are regional weight units cited without definition; modern readers unfamiliar with Arab or Gujarati weights will not be able to verify or visualize the quantities described. Additionally, \"clear his neck\" is an idiomatic phrase for discharging obligations that may not be immediately transparent to a general reader."
+      ],
+      "terminology_notes": [
+        "\"al-Shurwa\" / \"shurwa\" \u2014 the source uses the article-bearing form in all standalone occurrences but the bare form within list item 5; the book-wide capitalization and article convention should be confirmed and applied consistently."
+      ]
+    },
+    {
+      "title": "The Charity of the Head",
+      "base_words": 1319,
+      "output_words": 1269,
+      "windows": 2,
+      "windows_kept": 2,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 2,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [],
+      "lecture_voice_before": {
+        "reader_address": 5,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 4,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The unidentified \"He\" who opens the citation sequence (\"He stated in the first book of questions and answers\") is never named in this passage; it is unclear whether this refers to a single recurring authority or shifts between authorities across the paragraph cluster."
+      ],
+      "comprehension_flags": [
+        "The closing sentence of the Zayd ibn Muhammad citation \u2014 \"if the child is born after the Fitr, the fitra is paid before the Fitr\" \u2014 appears self-contradictory without wider context and may confuse a modern reader.",
+        "The ruling that a polytheist retains his own zakat when no Muslim is available to receive it may seem counterintuitive to general readers unfamiliar with this area of Islamic jurisprudence."
+      ],
+      "terminology_notes": [
+        "\"fitra\" / \"zakat al-fitr\" \u2014 both terms appear throughout for the same institution; a book-wide decision on their respective uses would strengthen consistency."
+      ]
+    },
+    {
+      "title": "A Shield Against the Fire",
+      "base_words": 1168,
+      "output_words": 1169,
+      "windows": 3,
+      "windows_kept": 3,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 3,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-30-part-03: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 1,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "In the clause \"according to what is known among you and whose glory and form are recognized,\" the referent of \"whose\" is not made explicit \u2014 it most likely refers to the honorific practice of placing a word before a name, but this is not stated directly in the text."
+      ],
+      "comprehension_flags": [
+        "\"The one who speaks by this noble book\" is an idiom modern readers may not immediately parse; it appears to mean one who invokes or professes to follow the book while not acting on its contents.",
+        "A modern reader unfamiliar with Islamic jurisprudence may not recognize \"zihar,\" \"tamattu,\" \"itikaf,\" and \"the three white days\" as established technical terms and may find them opaque without background the text does not supply."
+      ],
+      "terminology_notes": [
+        "\"the measures of the crescents\" \u2014 this technical expression, referring to crescent-visibility calculation or schedules used to determine the start of Ramadan, should be rendered consistently throughout the book.",
+        "\"of the practice and commended\" \u2014 confirm this is the book's established rendering for the category of sunnah and mustahabb fasts, and standardize it throughout."
+      ]
+    },
+    {
+      "title": "The Quarrel Over the Crescent",
+      "base_words": 3602,
+      "output_words": 3453,
+      "windows": 11,
+      "windows_kept": 11,
+      "windows_cached": 0,
+      "windows_repaired": 1,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 11,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-31-part-01: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-31-part-04: protected source artifact copied verbatim",
+        "fluency-31-part-05: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-31-part-06: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 48,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 33,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "The opening phrase \"what runs along the same course\" is opaque and its referent \u2014 whether neighboring chapters, related legal topics, or parallel traditions \u2014 is not made explicit in this passage.",
+        "\"He, may God exalt his sanctity\" opens the narrative section with a third-person reference that, given the distinct honorific and the later naming of \"Our master al-Muayyad fil-Din, may God sanctify his soul,\" appears to identify the same figure \u2014 but the two different honorifics may cause readers to wonder whether two different persons are meant."
+      ],
+      "comprehension_flags": [
+        "A modern reader may not grasp why the Prophet's independence from crescent-sighting follows as a logical necessity from Gabriel's daily visits; the argument assumes familiarity with the principle that certain knowledge renders probabilistic inquiry redundant.",
+        "The terms \"complete\" and \"deficient\" applied to months (meaning thirty-day and twenty-nine-day months respectively) and the phrase \"what runs in their course\" (describing terrain of comparable elevation to mountain summits) may both require a footnote for a modern general reader.",
+        "\"Something other than the known sighting\" functions here as a technical phrase for a specific jurisprudential position on crescent-sighting; a modern general reader may not recognize it as a term of art without a note authorized by a later editorial pass.",
+        "\"Those before you\" may puzzle a modern reader who does not know this refers to earlier communities similarly prescribed fasting, as established in verse 2:183 \u2014 no inline gloss is added here pending authorization.",
+        "A modern reader may not recognize that al-Lazima is a separate, newly introduced text whose content begins after this passage rather than a continuation of the current argument."
+      ],
+      "terminology_notes": [
+        "mawlana \u2014 confirm book-wide spelling convention and whether the phrase \"master and mawlana\" is the established compound form throughout.",
+        "Iraq al-Ajam \u2014 confirm book-wide spelling and whether a gloss (\"the Persian Iraq\") is to be supplied at first occurrence.",
+        "(\u0639) \u2014 in most traditions this honorific is reserved for Imams rather than the Prophet, who typically receives \ufdfa or (\u0635); this may be book-established usage but should be confirmed and standardized book-wide.",
+        "\"lam of outcome\" \u2014 confirm this is the book's established rendering of \u0644\u0627\u0645 \u0627\u0644\u0639\u0627\u0642\u0628\u0629 (l\u0101m al-\u02bf\u0101qiba), as it may need standardizing throughout.",
+        "mawlana \u2014 confirm this is the book's standard rendering throughout, as \"our master\" is also used in the same passage for the same figures."
+      ]
+    },
+    {
+      "title": "Two Kinds of Sight",
+      "base_words": 5760,
+      "output_words": 5669,
+      "windows": 10,
+      "windows_kept": 10,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 0,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 10,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-32-part-05: output near-identical to base \u2014 copied, not re-voiced"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 28,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 28,
+        "stage_directions": 1
+      },
+      "editorial_queries": [
+        "It is unclear whether \"the people of the guiding call,\" \"the people of the dawah,\" and \"the people of the true call\" represent three deliberate authorial variants or three renderings of one Arabic phrase that should be standardized to a single English term."
+      ],
+      "comprehension_flags": [
+        "\"Pure Presence\" \u2014 a term for the Imam's court or administrative authority \u2014 may not be immediately recognizable to general modern readers without contextual support elsewhere in the book.",
+        "\"Those charged with the Command\" is a technical Islamic concept (often rendered from \u0623\u0648\u0644\u0648 \u0627\u0644\u0623\u0645\u0631) referring to legitimate religious-political authority; a modern general reader may not grasp who is meant without established context from earlier in the book.",
+        "\"an evil saying\" is an unusual English rendering that may puzzle modern readers; it likely translates a technical Arabic phrase meaning an evil verdict or condemnation pronounced upon a person.",
+        "The pronoun \"it\" in \"fasting it is an obligation\" most likely refers to Ramadan specifically, meaning fasting in Ramadan is obligatory; a general reader may not catch this without a gloss.",
+        "\"The people of the outward\" is a technical designation for those who follow the exoteric, literal interpretation of religious texts; a modern general reader may not immediately grasp the contrast being established with the two kinds of sight.",
+        "\"The people of the call\" is a technical designation whose referent \u2014 likely scholars or religious authorities who determine the start of the lunar month by astronomical calculation \u2014 may be unclear to a modern general reader without a footnote.",
+        "Modern readers may not recognize \"the people of the stars\" as meaning astronomers, nor \"the conjunction\" as the technical term for the moment when sun and moon share the same celestial longitude.",
+        "The geometric figure referenced in the passage (\"as we have set forth in the figure\") is described in the text but not reproduced here; a modern reader following the argument about points \u0628, \u062c, and \u0623 will need that diagram to be present in the typeset page."
+      ],
+      "terminology_notes": [
+        "Pure Presence \u2014 confirm this is the book's established rendering of the Arabic title for the Imam's court, so it can be applied consistently throughout.",
+        "\"those charged with the Command\" \u2014 should be verified and standardized book-wide to match the rendering already established in earlier chapters.",
+        "\"vision of the soul\" \u2014 the book-wide rendering of this term should be confirmed and standardized, as it is likely the translation of a single recurring Arabic technical term.",
+        "\"the greatest luminary\" \u2014 confirm this is the book-established rendering for the sun and standardize throughout if so.",
+        "\"dawah\" \u2014 if this denotes the same community as \"guiding call\" and \"true call,\" a single English equivalent should be established and applied consistently throughout the book.",
+        "\"vision of the soul\" / \"apprehension belonging to the soul\" \u2014 these two phrases appear to denote the same concept and should be checked for consistency book-wide against the Arabic source term."
+      ]
+    },
+    {
+      "title": "The Sun, the Moon, and the Order of Obedience",
+      "base_words": 7067,
+      "output_words": 6897,
+      "windows": 15,
+      "windows_kept": 15,
+      "windows_cached": 0,
+      "windows_repaired": 0,
+      "windows_source_preserved": 2,
+      "model_failures": 0,
+      "fresh_calls_disabled": false,
+      "pre_assembly_windows_kept": 15,
+      "status": "adapted",
+      "gates": [],
+      "assembly_gates": [],
+      "warnings": [
+        "fluency-33-part-08: output near-identical to base \u2014 copied, not re-voiced",
+        "fluency-33-part-12: protected source artifact copied verbatim",
+        "fluency-33-part-14: protected source artifact copied verbatim"
+      ],
+      "lecture_voice_before": {
+        "reader_address": 7,
+        "stage_directions": 0
+      },
+      "lecture_voice_after": {
+        "reader_address": 10,
+        "stage_directions": 0
+      },
+      "editorial_queries": [
+        "\"conferring nothing before that designation\" \u2014 the pronoun referent is unclear: it may mean the Foundation himself conferred nothing upon others before being formally designated, or that the Prophet conferred nothing upon him publicly before that moment."
+      ],
+      "comprehension_flags": [
+        "The phrase \"the proofs already established from the apparent\" may be opaque to modern readers; \"the apparent\" appears to be a technical term for the outward or literal evidence already marshaled earlier in the chapter, and a book-wide gloss may help.",
+        "\"the seven repetitions\" (\u0627\u0644\u0645\u062b\u0627\u0646\u064a \u0627\u0644\u0633\u0628\u0639\u0629) and \"end of the cycle\" invoke Ismaili cyclical cosmology that a reader unfamiliar with this tradition may not follow without annotation elsewhere in the book.",
+        "\"The assembly of interpretation ascribed to the Foundation\" and \"the Foundation\" are Ismaili technical titles (likely \u0645\u062c\u0644\u0633 \u0627\u0644\u062a\u0623\u0648\u064a\u0644 and \u0627\u0644\u0623\u0633\u0627\u0633) that a general reader will not recognize without a footnote or glossary entry this pass is not authorized to supply.",
+        "\"The year four hundred\" is 400 AH; a general reader may not recognize this as a Hijri calendar date, and no conversion has been added since none appears in the source.",
+        "A modern reader may not recognize \"sighting by knowledge\" and \"sighting by the eye\" as established jurisprudential terms for astronomical calculation versus physical moon-sighting, both of which are central to the chapter's argument.",
+        "\"The world of generation and corruption\" is a classical Aristotelian-Islamic cosmological term; a modern general reader may not recognize it without a footnote authorized at a later editorial stage."
+      ],
+      "terminology_notes": [
+        "\"the Foundation\" \u2014 confirm as the book's established rendering of \u0627\u0644\u0623\u0633\u0627\u0633 / \u0627\u0644\u0623\u0633\u0627\u0633 and standardize throughout.",
+        "\"the Speaker\" \u2014 confirm as the book's established rendering of \u0627\u0644\u0646\u0627\u0637\u0642 and standardize throughout.",
+        "\"The people of truth\" and \"the people of disagreement\" \u2014 these sectarian designations recur; the book should standardize their rendering consistently throughout.",
+        "\"sighting by knowledge\" / \"sighting by the eye\" \u2014 these renderings should be verified as the book's standardized forms for the two methods of moon-determination.",
+        "hudud \u2014 this technical term (rendered untranslated throughout) should be confirmed as the book-wide standard spelling and left-unexplained or glossed uniformly.",
+        "\"friends\" (rendering of \u0623\u0648\u0644\u064a\u0627\u0621) \u2014 should be standardized book-wide; common alternatives include \"saints,\" \"allies,\" and \"close servants of God.\"",
+        "\"inner sight\" (rendering of \u0628\u0635\u0627\u0626\u0631) \u2014 should be confirmed as the book-established rendering for this term throughout the volume."
+      ]
+    }
+  ]
+}

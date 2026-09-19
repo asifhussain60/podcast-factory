@@ -1,0 +1,127 @@
+{
+  "title": "20. What the Worshipper Wears and Stands Upon",
+  "purpose": "It compiles the Ismaili juristic rulings, drawn from question-and-answer collections and doctrinal sources, on the worshipper's clothing, coverings, and the surfaces on which prayer and prostration are valid.",
+  "points": [
+    {
+      "text": "A collection of questions and answers arranged according to the chapters of the Daaim al-Islam (Pillars of Islam) supplies the first body of rulings on dress and prayer surfaces.",
+      "kind": "context",
+      "weight": 2,
+      "entities": [
+        "Daaim al-Islam",
+        "Pillars of Islam"
+      ]
+    },
+    {
+      "text": "On figured rugs and garments the section preserves two differing answers: one respondent permits prayer so long as the image does not occupy the worshipper's attention (except that he does not pray toward images), while another answer states that prayer on or in figured cloth is not permitted when the figures are seen, and permitted only when they are not seen.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "prayer mat",
+        "images"
+      ]
+    },
+    {
+      "text": "Dyed garments and deep red cloth belong to the domain of etiquette (adab) and do not invalidate the prayer of either a man or a woman, with the sole exception that pure silk is disliked for men.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "safflower",
+        "pure silk"
+      ]
+    },
+    {
+      "text": "Because the whole of a woman is 'awra, any exposure of her awra during prayer invalidates it, whether she knew of the ruling or was ignorant of it — a ruling applied explicitly to the women of the people of the dawa in India who do not wear the long shift and head-veil.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "'awra",
+        "dawa in India"
+      ]
+    },
+    {
+      "text": "The abridgment of the Musannaf draws a distinction by sex: a man who prays with his awra uncovered unknowingly repeats the prayer only once he learns of it, whereas a free or slave woman's prayer is spoiled whether she knew or not.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Musannaf",
+        "'awra"
+      ]
+    },
+    {
+      "text": "Prayer is valid only in pure garments, and impurity requires stripping it off; one who has only an impure garment and no water prays in it and repeats when a clean garment or water is found, and one with two garments, one impure but unidentified, must pray the prayer in each with the intention of fulfilling the obligation.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "ritual purity"
+      ]
+    },
+    {
+      "text": "One who prays and afterwards finds his garment was impure must repeat the prayer, whether or not its time has passed, if he had known of the impurity beforehand.",
+      "kind": "caveat",
+      "weight": 2
+    },
+    {
+      "text": "On head covering the sources differ in emphasis: one ruling says a man should not pray bareheaded without turban or mantle but may do so if he finds neither, while Jafar ibn Mansur al-Yaman states in the book of the obligations and limits of religion that it is lawful for a man to uncover his head and pray bareheaded.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman"
+      ]
+    },
+    {
+      "text": "Slave women, women under a contract of manumission, women freed at their master's death, and girls who have not yet menstruated may pray without a head covering, but one freed without knowing it must repeat every prayer she prayed uncovered after her freedom.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Musannaf"
+      ]
+    },
+    {
+      "text": "Idris ibn al-Hasan, answering Shaykh Yusuf ibn Ismail ibn Ibrahim al-Samati al-Hindi, grounds the surface rule in the Prophet's saying that the earth was made a place of prostration and a means of purification, concluding that prayer is not valid upon anything of the earth with which dry ablution (tayammum) is not permitted.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Idris ibn al-Hasan",
+        "Yusuf ibn Ismail al-Samati al-Hindi",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Obligatory prayer is not permitted upon stone, unbaked brick and the like — only supererogatory and sunna prayer — while there is no harm in prostrating upon plaster over which carrion was burned, since the fire has purified it, and the interpretation of the Sharia holds there is no prayer except upon the earth or what grows from it.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "plaster",
+        "prostration"
+      ]
+    },
+    {
+      "text": "The interpretation of the Daaim glosses disputed phrases of the source text: praying in a single thick belted shirt so that the private part does not appear when bowing; the garment worn 'like the two wings of the swallow' when nothing else is found; and the forbidden ishtimal al-samma' wrap, which is rejected because it physically prevents placing the palms, bowing, prostrating and raising the hands, leaving the prayer incomplete.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "ishtimal al-samma'",
+        "interpretation of the Daaim"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib, in his four hundred counsels of etiquette, forbids standing before God except in a clean garment, forbids praying in a loosely draped shirt as the practice of the people of Lot, forbids prostrating upon an image or a rug containing one, forbids knotting an image-bearing dirham into the garment while praying (though coins in a clean money belt or cloth are permitted), and forbids prostrating upon heaps of wheat, barley, any edible thing, or bread.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "people of Lot"
+      ]
+    },
+    {
+      "text": "Minor supplementary rulings are recorded: carrying wrought or unwrought gold and silver in the waistband does not affect the prayer; something in the mouth or hand is harmless if it does not impede the letters or the limits of prayer though being free of it is better; henna for adornment is commanded for women and better left by men without being sinful; prayer is invalid in camel resting places but permitted in sheep folds once swept and sprinkled; a net does not substitute for a mantle since shift and veil suffice only if thick; and a small amount of milk, butter or egg white from filth-fed animals is permitted.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "henna",
+        "money belt"
+      ]
+    }
+  ],
+  "fingerprint": "b53a247b3572f5e8"
+}

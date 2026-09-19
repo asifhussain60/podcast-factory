@@ -1,0 +1,142 @@
+{
+  "title": "8. The Manners of the Washing Place",
+  "purpose": "It compiles from Ismaili and allied sources the etiquette of the privy and washing place, the rules of valid and invalid purifying water, and the obligatory versus Sunnah elements of wudhu and ghusl, closing with an esoteric reading of ablution as inward purification by knowledge.",
+  "points": [
+    {
+      "text": "A ruling reported in the question-and-answer book arranged by the chapters of Daaim al-Islam holds that prayer is not permitted while a man knowingly carries impurity, so one who prayed having forgotten the istinja must wash and repeat the prayer.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Daaim al-Islam",
+        "istinja"
+      ]
+    },
+    {
+      "text": "The same source rules that uncovering oneself for wudhu or washing in a screened place where no one sees is permissible and the purity obtained is valid, the concealment reported of some Imams being a matter of excellence of manners rather than obligation.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Imams"
+      ]
+    },
+    {
+      "text": "Tawil al-Shariah lists twelve manners of the wudhu governing the privy, including entering with sandals and the left foot first, covering the head, not facing or turning the back to the qiblah, leaning on the left leg, not lingering, cleansing with the left hand using three fresh stones rather than dung or worn bone, keeping silent within, and leaving with the right foot first.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Tawil al-Shariah",
+        "qiblah"
+      ]
+    },
+    {
+      "text": "Kitab al-Idah reports the Prophet saying Gabriel commanded him on God's behalf to wash the two hollows beside the chin in ablution — the sides of the tuft below the lower lip — these being \"the neglected place.\"",
+      "kind": "evidence",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "Kitab al-Idah",
+        "Gabriel"
+      ]
+    },
+    {
+      "text": "The author reports sayings of Ali ibn Abi Talib from his Four Hundred Manners on purification, including that rinsing the mouth and drawing in water is Sunnah purification of mouth and nose, that istinja with cold water cuts off piles, that ablution after purity is ten good deeds, and that one should say the basmalah and the prayer to be among the repentant and the purified before touching water.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Manners"
+      ]
+    },
+    {
+      "text": "The questions and answers distinguish the istinja as both a Sunnah practice that must not be deliberately abandoned — whose omission through forgetfulness does not spoil wudhu or require repeating a prayer already performed — and as obligatory insofar as the removal of impurity is itself obligatory.",
+      "kind": "distinction",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "istinja"
+      ]
+    },
+    {
+      "text": "For one with a wound or boil that water cannot touch, the answer given is that he wipes over bandages and coverings for wudhu, and performs tayammum if removal would harm him through cold or injury or if he is sick; for the greater purification he pours water in a stream, and performs tayammum if he fears for himself, whether traveling or at home.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "tayammum",
+        "ghusl"
+      ]
+    },
+    {
+      "text": "On water, the rulings hold that abundant water above the Shariah measure which overpowers impurity remains purifying, whereas a vessel whose water has shown a quality of impurity becomes impure and is not restored by pouring more water in a stream unless it rises above the measure after the vessel is purified; running water and a pool eight cubits in length and breadth remain valid.",
+      "kind": "distinction",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Shariah"
+      ]
+    },
+    {
+      "text": "Used water and used dust are declared pure and purifying, so that purification with them is permitted once and many times, against the practice of ordinary people who do not permit a second use.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "tayammum"
+      ]
+    },
+    {
+      "text": "The saying \"whoever the sea does not purify, may God not purify him\" is interpreted to mean that water purifies and is not itself purified, and likewise the knowledge of the Imam: whomever it does not purify, nothing else will.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Imam"
+      ]
+    },
+    {
+      "text": "Majalis al-Bayan enumerates seven obligations of wudhu (pure water, intention, washing face, washing hands, wiping head, wiping feet, and the Quranic order), twelve of its Sunnah acts, seven obligatory forms of ghusl, twelve Sunnah forms of ghusl, and twelve places where prayer is disliked.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Majalis al-Bayan"
+      ]
+    },
+    {
+      "text": "Tawil al-Shariah reports the Prophet forbidding wiping over the socks and forbidding the abandonment of saying the basmalah aloud, and Ali is quoted that there is no dissimulation in drinking intoxicants or in wiping over the socks.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "taqiyyah",
+        "Ali ibn Abi Talib",
+        "Tawil al-Shariah"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad ibn al-Fadl in al-Risalah al-Maknunah divides purity and filth into two kinds: outward purity by outward water cleansing urine and excrement, and inward purity by inward water — which is knowledge — cleansing the inward filth of doubt and ignorance.",
+      "kind": "thesis",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Zayd ibn Muhammad ibn al-Fadl",
+        "al-Risalah al-Maknunah"
+      ]
+    },
+    {
+      "text": "The same author reads the seven elements of wudhu as seven bounds — three Sunnah (rinsing the mouth, drawing in water, istinja), two washings and two wipings, one of each bounded and one unbounded — and takes the face, containing the seven openings, as bearing the meaning of the Speaker, since a person is known by his face just as no one is known except through his prophet and there is no deliverance except by turning toward him.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Speaker",
+        "Zayd ibn Muhammad ibn al-Fadl"
+      ]
+    }
+  ],
+  "fingerprint": "01da6e5e3b7cb09c"
+}
