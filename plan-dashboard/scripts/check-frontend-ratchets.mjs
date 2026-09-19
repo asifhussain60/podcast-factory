@@ -24,6 +24,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, relative, join } from "node:path";
+import { countSubFloorFontSizes } from "./lib/font-floor.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SITE_DIR = resolve(__dirname, "..");
@@ -104,9 +105,26 @@ function fileSizes() {
   return sizes;
 }
 
+/** Sub-floor `font-size` declarations per tracked stylesheet — see lib/font-floor.mjs. */
+function subFloorCounts() {
+  const tracked = execFileSync("git", ["ls-files", "src"], {
+    cwd: SITE_DIR,
+    encoding: "utf-8",
+  })
+    .split("\n")
+    .filter((p) => p.endsWith(".css"));
+  const out = {};
+  for (const p of tracked) {
+    const n = countSubFloorFontSizes(readFileSync(join(SITE_DIR, p), "utf-8"));
+    if (n) out[p] = n;
+  }
+  return out;
+}
+
 const baseline = readBaseline();
 const counts = lintCounts();
 const sizes = fileSizes();
+const floorNow = subFloorCounts();
 const failures = [];
 
 // ---- gate 1: lint warnings, per rule ---------------------------------------
@@ -147,9 +165,31 @@ for (const [path, lines] of Object.entries(sizes)) {
   }
 }
 
+// ---- gate 3: sub-floor font sizes, per stylesheet ---------------------------
+// The reading-floor lint only inspects prose selectors; this counts EVERY sub-1.2rem declaration so class selectors
+// cannot quietly accumulate more. Frozen per file: a file may fall, never rise, and a file with no entry may not gain
+// any. Chips and badges are legitimately small — this judges nothing, it only refuses growth.
+for (const [file, now] of Object.entries(floorNow)) {
+  const allowed = baseline.subFloorFontSizes?.[file] ?? 0;
+  if (baseline.subFloorFontSizes && now > allowed) {
+    failures.push(
+      `font floor: ${file} has ${now} sub-1.2rem font-size declaration(s), budget is ${allowed}. ` +
+        `Use a size at or above the reading floor, or reduce another declaration in this file first.`,
+    );
+  }
+}
+
 if (UPDATE) {
   const next = {
     ...baseline,
+    subFloorFontSizes: Object.fromEntries(
+      Object.entries(floorNow)
+        .map(([f, n]) => [
+          f,
+          Math.min(baseline.subFloorFontSizes?.[f] ?? Infinity, n),
+        ])
+        .sort(([a], [b]) => a.localeCompare(b)),
+    ),
     lintWarnings: Object.fromEntries(
       Object.entries({ ...baseline.lintWarnings, ...counts })
         .map(([rule, _]) => [
@@ -192,5 +232,6 @@ const warnTotal = Object.values(counts).reduce((a, b) => a + b, 0);
 console.log(
   `frontend ratchets: clean — ${warnTotal} lint warning(s) within budget, ` +
     `${Object.keys(grandfathered).length} file(s) within their size ceiling` +
-    `${enforced ? `, new files capped at ${ceiling} lines` : ""}.`,
+    `${enforced ? `, new files capped at ${ceiling} lines` : ""}, ` +
+    `${Object.values(floorNow).reduce((a, b) => a + b, 0)} sub-floor font size(s) frozen.`,
 );

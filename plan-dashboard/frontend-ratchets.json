@@ -20,16 +20,16 @@
     "before it has to argue with the gate."
   ],
   "lintWarnings": {
-    "@typescript-eslint/no-explicit-any": 43,
+    "@typescript-eslint/no-explicit-any": 38,
     "react-hooks/exhaustive-deps": 22,
     "react-hooks/refs": 11,
-    "react-hooks/set-state-in-effect": 20
+    "react-hooks/set-state-in-effect": 19
   },
   "fileSize": {
     "ceiling": 1000,
     "enforced": true,
     "grandfathered": {
-      "scripts/lib/book-html.mjs": 1249,
+      "scripts/lib/book-html.mjs": 1235,
       "src/components/DbArchitecture.tsx": 1566,
       "src/components/NarrativeScroll.tsx": 3229,
       "src/components/studio/editor/StudioEditor.tsx": 2315,
@@ -38,5 +38,47 @@
       "src/pages/studio/[slug]/compose.astro": 1020,
       "src/scripts/book-composer.ts": 4271
     }
+  },
+  "subFloorFontSizes": {
+    "src/styles/about.css": 19,
+    "src/styles/annotation-ops.css": 1,
+    "src/styles/arabic-reveal.css": 2,
+    "src/styles/arabic-review.css": 29,
+    "src/styles/architecture.css": 3,
+    "src/styles/book-composer.css": 100,
+    "src/styles/book-print.css": 21,
+    "src/styles/book-reader.css": 6,
+    "src/styles/book-styles.css": 13,
+    "src/styles/chapter-viewer.css": 115,
+    "src/styles/claude-plans.css": 11,
+    "src/styles/companion-card.css": 14,
+    "src/styles/compose-print.css": 6,
+    "src/styles/corpus-morphology.css": 10,
+    "src/styles/corpus.css": 48,
+    "src/styles/db-schema.css": 9,
+    "src/styles/gem-companion.css": 1,
+    "src/styles/intake.css": 36,
+    "src/styles/intelligence.css": 24,
+    "src/styles/library.css": 30,
+    "src/styles/narrative.css": 23,
+    "src/styles/panel-text-size.css": 3,
+    "src/styles/pipeline-overview-rail.css": 13,
+    "src/styles/pre-upload.css": 2,
+    "src/styles/preview.css": 3,
+    "src/styles/pronunciation.css": 30,
+    "src/styles/quality.css": 1,
+    "src/styles/quote-typography.css": 1,
+    "src/styles/select-menu.css": 2,
+    "src/styles/snag-list.css": 15,
+    "src/styles/stage-timeline.css": 15,
+    "src/styles/studio-editor-core.css": 63,
+    "src/styles/studio-editor-popovers.css": 43,
+    "src/styles/studio-editor-tools.css": 43,
+    "src/styles/studio-pipeline.css": 65,
+    "src/styles/supplication-print.css": 10,
+    "src/styles/theme-components.css": 36,
+    "src/styles/transformation-dashboard.css": 13,
+    "src/styles/wisdom.css": 26,
+    "src/styles/workbench.css": 23
   }
 }
