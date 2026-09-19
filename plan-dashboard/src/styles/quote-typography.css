@@ -84,8 +84,8 @@
      sits in rather than carrying a colour of its own.
 
      ALL FOUR ARE FONT AWESOME FREE 6.5.0 (Asif, 2026-08-11), chosen by him from a
-     sheet of twenty (kept at `design-samples/quote-icons.html`, deliberately outside
-     `public/` so it is not served), which now shows only what he picked. That version is the one this repo already vendors and the one its own
+     sheet of twenty at `/_specimen-quote-icons.html`, which now shows only what he
+     picked. That version is the one this repo already vendors and the one its own
      CDN link serves, so these and the Composer's toolbar glyphs are the same
      drawings. Licence CC BY 4.0.
 

@@ -331,7 +331,7 @@
       "role": "Project-stewardship agent",
       "icon": "robot",
       "tone": "neutral",
-      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, `podcast-a…",
+      "plain": "Project-stewardship agent. Explicitly invoked via `/steward <scope>` — NOT autonomous. Plans and prioritizes work for the podcast-factory project by composing existing agents (`repo-surgeon`, `podcast-challenger`, `reconcile`, etc.), int…",
       "what_it_knows": "See infra/claude-agents/project-steward.md",
       "boundary_in": "",
       "boundary_out": "",
