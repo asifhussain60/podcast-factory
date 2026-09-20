@@ -8,7 +8,7 @@
       "body": "The chapter does not pause to argue the identification — it inserts it as a gloss, almost in passing. The phrase reads: marriages were contracted without a guardian or two witnesses, *that is*, temporary marriage (المتعة). That confident 'that is' deserves attention, because the logic behind it is jurisprudential rather than historical.\n\nIn classical Islamic law, what separates permanent marriage from temporary is precisely the presence or absence of formal requirements — the guardian (الولي) and witnesses (الشهود). Permanent marriage requires both; temporary marriage does not. So when the Prophet's saying — 'There is no marriage except with a guardian and two witnesses' — rules out marriages that lacked these conditions, the author reads it as **targeting the one known practice that fit the description**: mut'a. The definition of mut'a is its own evidence.\n\nThere is also a structural reason the author reaches for this example. The argument throughout the chapter is that every pillar of Islam was once in a looser state before the Prophet issued a ruling that tightened it and attached it to a qualified authority:\n\n- Fasting was set free, then bound to the Imam's sighting.\n- Religious discourse was open, then bound to silence before the Foundation.\n- Marriage was informal, then bound to a guardian and two witnesses.\n\nMut'a fits this pattern perfectly — it is the historically recognized form of informal union from the early period. The author is not making an independent legal judgment about mut'a; he is borrowing a fact that his audience already accepted and pressing it into an analogy.\n\nThe chapter gives us the conclusion without the proof-text. It does not cite a hadith that names mut'a as the target of that ruling, nor does it quote a jurist. The identification rests on shared legal knowledge and on the rhetorical needs of the analogy being built.",
       "anchor": "that is, temporary marriage (اَلْمُتْعَة) — however people wished, in…",
       "quote": "that is, temporary marriage (اَلْمُتْعَة) — however people wished, in the early days of Islam",
-      "review": "proposed",
+      "review": "kept",
       "source": {
         "provider": "scholar",
         "label": "Ismaili Scholar",
@@ -20,9 +20,9 @@
         "الشهود (witnesses): from the root ش-ه-د, meaning to be present, to see, and to testify. A شَاهِد is one who was there — whose presence at the event is what qualifies his testimony. The same root gives us شَهَادَة (testimony or martyrdom) and مَشْهَد (a scene or witnessed event). Witnessing in Islamic law is inseparable from presence: you cannot testify to what you did not attend."
       ],
       "createdAt": "2026-09-19T09:21:39Z",
-      "updatedAt": "2026-09-19T09:21:39Z"
+      "updatedAt": "2026-09-20T17:07:22Z"
     }
   ],
-  "updatedAt": "2026-09-19T09:21:39Z",
+  "updatedAt": "2026-09-20T17:07:22Z",
   "studentReaderFingerprint": "67a0c3f0b43765e2"
 }

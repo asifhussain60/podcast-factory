@@ -8,7 +8,7 @@
       "body": "The answer's two halves seem to contradict each other, but they address two entirely different legal questions. **The first asks whether the material is ritually defiling; the second asks whether it meets the ritual condition required for prayer.** The ruling is only a paradox if we collapse them into one.\n\nA person waking from sleep needs ablution (وضوء) before prayer, even though nothing defiling has touched them overnight. That ablution is not washing away a stain — it is conferring a **positive status of ritual purity (طهارة)**. The same logic applies to shorn wool.\n\nThe wool or hair taken from a living lawful animal carries no active defilement. But it has left the animal's body without the legal event that Ismaili law sets as the threshold for animal materials to qualify for worship: proper slaughter (ذبح). That act is not merely about ending a life — it is the **sanctifying threshold** that moves animal matter into a fully qualified ritual status. Without it, the material occupies a middle ground: not impure (نجس), but not yet in the positive state of ritual purity (طهارة) that prayer demands.\n\nThe washing closes that gap, not by scrubbing away something bad, but by **completing the material's transition into a state fit for the sacred act of prayer (صلاة)**.",
       "anchor": "prayer is not permitted in it until it has been washed, yet the mater…",
       "quote": "prayer is not permitted in it until it has been washed, yet the material itself is not impure",
-      "review": "proposed",
+      "review": "kept",
       "source": {
         "provider": "scholar",
         "label": "Ismaili Scholar",
@@ -20,7 +20,7 @@
         "ذبح (proper slaughter): from root ذ-ب-ح, meaning to cut at the throat with precision. The root captures a deliberate, decisive act of severance. In ritual law, ذبح is more than the ending of life — it is the legal threshold that transforms the status of animal matter from ambiguous to ritually qualified."
       ],
       "createdAt": "2026-09-19T05:16:44Z",
-      "updatedAt": "2026-09-19T05:16:44Z"
+      "updatedAt": "2026-09-20T17:07:22Z"
     },
     {
       "id": "student:034b9144dd2fbfce",
@@ -28,7 +28,7 @@
       "body": "The grammatically general Arabic construction 'whoever misses' covers any believer, for any reason — but its placement inside a dense discussion of menstruation is **anything but accidental**. A woman who menstruates during the days surrounding the Feast of Ghadir (عيد الغدير) cannot pray or fast, and one of the most sacred days of the year has just slipped past her through no fault of her own. The compiler, working through a chain of practical ritual obligations, placed this ruling exactly where the need for it would be felt most.\n\nThe phrase 'Another matter' signals a digression that grows directly from the case preceding it: what does a woman who has lost the feast to menstruation owe for it? The ruling answers that question, then deliberately opens its scope wider, using 'whoever' to cover illness, travel, ritual impurity, or any other obstacle — a specific case prompting a general principle.\n\nThe mechanism prescribed is make-up (قضاء) — the settling of a missed obligation — performed at the time of the sun's decline, which mirrors the original hour of the feast prayer. That insistence on the precise time is the ruling's real weight: it demands **recovery in the feast's own form**, not a vague gesture toward what was missed. عيد الغدير is the day Maulana Ali was designated by the Prophet as the culmination of his mission, and no circumstance — not even menstruation — is permitted to simply erase it.",
       "anchor": "whoever misses the prayer of the Feast of Ghadir and its fast makes t…",
       "quote": "whoever misses the prayer of the Feast of Ghadir and its fast makes them up after that day, on whatever day it may be",
-      "review": "proposed",
+      "review": "kept",
       "source": {
         "provider": "scholar",
         "label": "Ismaili Scholar",
@@ -39,7 +39,7 @@
         "قضاء (make-up): from the root ق-ض-ي, meaning to decide, pronounce, or settle finally. A قاضي (judge) settles disputes; قضاء of a missed prayer or fast is the settling of a spiritual debt owed to Allah — the believer 'pronounces' the obligation fulfilled, however late the fulfillment comes."
       ],
       "createdAt": "2026-09-19T05:16:44Z",
-      "updatedAt": "2026-09-19T05:16:44Z"
+      "updatedAt": "2026-09-20T17:07:22Z"
     },
     {
       "id": "student:7f6722eb38740dd0",
@@ -47,7 +47,7 @@
       "body": "The hadith at the center of this discussion reads:\n\nالْوَلَدُ لِلْفِرَاشِ، وَلِلزَّانِي الْحَجَرُ\nThe child belongs to the lawful bed; for the fornicator, the stone.\n\nThe word الحجر is where the disagreement lives. In the dominant classical reading, it points to stoning — the prescribed corporal punishment for fornication. The Ismaili text from كِتَابُ الزِّينَةِ says something different: what is meant is only that the fornicator has **no right in the child's lineage**. The stone, in this reading, is not thrown at him; it is placed before the door of filiation.\n\nThe context the passage builds around the hadith supports this. The text is not treating criminal sanctions; it is navigating civil questions — inheritance, lineage, and legal filiation. The case placed immediately after confirms it: a man who fornicates with a slave girl and then purchases her cannot claim the child of that union, even as its biological father, because the lawful bed (الفراش) holds the prior legal claim. The hadith functions here as **a rule of filiation**, not a penalty clause.\n\nThe root of الحجر carries both possibilities, and the text exploits this deliberately. One branch yields الحَجَر — the stone as physical object. The other yields الحَجر — legal interdiction, the **blocking of legal capacity**: the term محجور عليه means a person's right to act is sealed off entirely. The Ismaili reading draws on this second branch: the fornicator (الزاني) is not stoned but interdicted, his path to the child's lineage permanently foreclosed.\n\nThis reading belongs to the تأويل tradition, which holds that the outward letter always carries an inner legal and spiritual meaning. The outer text says الحجر; the inner reality it conveys is exclusion from filiation — **the most irreversible legal barrier** a father can face.",
       "anchor": "what is meant is only that the fornicator has no right in the lineage…",
       "quote": "what is meant is only that the fornicator has no right in the lineage of the child",
-      "review": "proposed",
+      "review": "kept",
       "source": {
         "provider": "scholar",
         "label": "Ismaili Scholar",
@@ -59,9 +59,9 @@
         "الزاني (the fornicator): from the root ز-ن-ي, meaning to transgress a boundary unlawfully. الزاني is the active participle — the one committing fornication. The root's sense of crossing a forbidden line maps directly onto both the moral violation and the legal exclusion the word carries in this ruling."
       ],
       "createdAt": "2026-09-19T05:16:44Z",
-      "updatedAt": "2026-09-19T05:16:44Z"
+      "updatedAt": "2026-09-20T17:07:22Z"
     }
   ],
-  "updatedAt": "2026-09-19T05:16:44Z",
+  "updatedAt": "2026-09-20T17:07:22Z",
   "studentReaderFingerprint": "7578274439fb11be"
 }
