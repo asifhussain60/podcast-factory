@@ -138,15 +138,15 @@ By this is meant an Imam. And His words:
 
 By this are meant the Imams from among His servants.
 
-Mawlana the Imam al-Muizz li-Din Allah (ع) said in the Friday sermon, likening himself in the physical world to a pen in the spiritual world. He set four ranks beneath it, each one preceded by a spiritual rank that guides it toward the rank beyond. In this way he established the foundation facing the tablet, engraving into it what he derived from the spiritual world, just as a pen engraves upon a tablet.
+Mawlana the Imam al-Muizz li-Din Allah (ع) said in his supplication for Sunday, likening himself in the physical world to a pen in the spiritual world. He set four ranks beneath it, each one preceded by a spiritual rank that guides it toward the rank beyond. In this way he established the foundation facing the tablet, engraving into it what he derived from the spiritual world, just as a pen engraves upon a tablet.
 
 I now record the answers given by the Commander of the Faithful, 'Ali ibn Abi Talib (ع), to questions he was asked, and what followed from them.
 
 It is stated in the book Uns al-Afidah al-Muniba, in the account of some of the cases of the Commander of the Faithful 'Ali ibn Abi Talib (ع) and his remarkable rulings:
 
-The king of Rum sent a messenger to Medina with a sum of money and instructed him: "Go to Muhammad. If he does not agree with you, then ask about his successor, and put to him proof." The messenger was to ask three questions, and if he received answers, he was to hand over the money.
+The king of Rum sent a messenger to Medina with a sum of money and instructed him: "Go to Muhammad. If you do not reach him, then ask about his successor, and put to him proof." The messenger was to ask three questions, and if he received answers, he was to hand over the money.
 
-The man arrived in Medina and was brought before the Messenger of God (ع). He asked about his successor and was directed to Abu Bakr. Abu Bakr was brought forward, and the man asked him: "Tell me what is not God, what is not with God, and what God does not know." Abu Bakr grew angry and said to him: "Woe to you. By saying this you have added to your disbelief." The man left his presence. He was then directed to 'Umar, who responded in much the same way.
+The man arrived in Medina, but the Messenger of God (ع) had already passed away. He asked about his successor and was directed to Abu Bakr. Abu Bakr was brought forward, and the man asked him: "Tell me what is not God, what is not with God, and what God does not know." Abu Bakr grew angry and said to him: "Woe to you. By saying this you have added to your disbelief." The man left his presence. He was then directed to 'Umar, who responded in much the same way.
 
 Then 'Abdullah ibn Abbas said: "What kind of men are these? They could not answer his questions, and yet they did not simply say, We do not know.' Instead they accused him of knowing falsehood. I know who knows the answer." He was asked, "Who is he?" He said, "'Ali ibn Abi Talib." They said, "Take us to him," and they all set out together with the man and knocked on his door.
 
@@ -162,7 +162,7 @@ The man said: "I bear witness that there is no god but God, that Muhammad is the
 
 It is also narrated from Abu al-Jarud, from al-Harith al-Awar, that while the Commander of the Faithful (ع) was in al-Rahba with the people pressing around him — some seeking a ruling, others seeking help — a man stood and addressed him: "Peace be upon you, O Commander of the Faithful, and the mercy and blessings of God." The Commander of the Faithful (ع) looked at him and said: "And upon you peace, and the mercy and blessings of God. Who are you?" He said: "A man from your flock and from the people of your country."
 
-He said to him, "Are you from my flock or from the people of my country? If you had greeted me for a single day, you would not be hidden from me." Then he said to those around him: "Do you know this man?" No one knew him. So he said to the man, "These are the people of your country, and they do not know you. Had I seen you for a single day, you would not be hidden from me." The man said, "Safety, O Commander of the Faithful." He said, "Have you committed any transgression in this land of mine since you entered it?" He said, "No." He said, "Perhaps during the days of war?" He said, "Yes." He said, "When war lays down its burdens, there is no harm in it."
+He said to him, "You are neither of my flock nor of the people of my country. If you had greeted me for a single day, you would not be hidden from me." Then he said to those around him: "Do you know this man?" No one knew him. So he said to the man, "These are the people of your country, and they do not know you. Had I seen you for a single day, you would not be hidden from me." The man said, "Safety, O Commander of the Faithful." He said, "Have you committed any transgression in this land of mine since you entered it?" He said, "No." He said, "Perhaps during the days of war?" He said, "Yes." He said, "When war lays down its burdens, there is no harm in it."
 
 The man said: "Muawiya sent me to you and commanded me to come to you unannounced, to ask you about things that Ibn al-Asfar sent to him to inquire about. He says to him: if you are the rightful guardian of this matter and the claimant of the caliphate after Muhammad, then answer me these things, for if you answer me I will follow you and send you the tribute. And when the messenger saw that he had no answer to them, he sent me to you to ask you about them."
 
@@ -218,13 +218,13 @@ At that, 'Umar said, "You have spoken truly, O Abu al-Hasan. May God not keep me
 
 I turn now to the guardianship of the Imams from the family of the Messenger of Allah (ع), and to the obligation of praying for Muhammad and the family of Muhammad (عَلَيْهِمُ السَّلَامُ) — together with what pertains to that prayer: the good proclaimers, the righteous borders, their stations, the command to return peace, and the reply to the greeting of the book.
 
-In the twenty-third council of the Mustansiriya councils — may God's peace be upon the author of the book — he said: he had finished treating the Sunnah that we had set out to discuss, namely the revelation of peace. Above, it divides into seven sections — those that came from God and from His angels; below, it divides into twelve sections — those that came from human beings.
+In the twenty-third council of the Mustansiriya councils — may God's peace be upon the author of the book — he said: he had finished treating the Sunnah that we had set out to discuss, namely the spreading of the greeting of peace. Above, it divides into seven sections — those that came from God and from His angels; below, it divides into twelve sections — those that came from human beings.
 
 1. The first — the highest, the most particular, the most exalted, and the most sincere — is the word of God Almighty:
 
-> ⟪سَلَامٌ عَلَيْكُمْ⟫
+> ⟪سَلَامٌ قَوْلًا مِنْ رَبٍّ رَحِيمٍ⟫
 >
-> "Peace be upon you."
+> "Peace — a word from a Merciful Lord."
 
 2. The second, which carries a figurative quality, is His saying:
 
@@ -262,19 +262,19 @@ In the twenty-third council of the Mustansiriya councils — may God's peace be 
 >
 > "Peace be upon the family of Ya Sin."
 
-And ياسين is our Prophet Muhammad (ع), and the family of ياسين is the family of Muhammad — آل على (عَلَيْهِمُ السَّلَامُ).
+And ياسين is our Prophet Muhammad (ع), and the family of ياسين is the family of Muhammad (عَلَيْهِمُ السَّلَامُ).
 
 He said in the twenty-fourth assembly of it:
 
-Know that the revelation of peace is an obligatory Sunnah of Islam, one that speaks of affection and submission, and Salam is one of the names of the One possessed of majesty and honor. You have heard what we have read to you from what it contains regarding the seven sections, and this is followed by the twelve divisions, which concern the greeting exchanged between human beings.
+Know that spreading the greeting of peace is an obligatory Sunnah of Islam, one that speaks of affection and submission, and Salam is one of the names of the One possessed of majesty and honor. You have heard what we have read to you from what it contains regarding the seven sections, and this is followed by the twelve divisions, which concern the greeting exchanged between human beings.
 
 The first of these is the greeting of the people of the right hand to the faithful prophet (ع) and his noble family. He says, and He is the most truthful of speakers:
 
-> ⟪سَلَامٌ عَلَيْكُم بِمَا صَبَرْتُمْ⟫
+> ⟪فَأَمَّا إِنْ كَانَ مِنْ أَصْحَابِ الْيَمِينِ فَسَلَامٌ لَكَ مِنْ أَصْحَابِ الْيَمِينِ⟫
 >
-> "Peace be upon you for your patience."
+> "And if he is of the companions of the right hand, then peace to you from the companions of the right hand."
 
-For if they are among the people of the right hand, then (عَلَيْهِمُ السَّلَامُ) from the people of the right hand.
+So if he is among the people of the right hand, peace is his from the people of the right hand.
 
 The second is the greeting upon entering the mosque with peace, for the Almighty says:
 
@@ -296,7 +296,7 @@ The fifth through the ninth, as the Sunnah specifies, concern the order of prece
 6. The rider on a horse initiates to the rider on a donkey.
 7. The rider on a donkey initiates to the one walking.
 8. The one walking initiates to the one standing.
-9. The one standing initiates the greeting and then returns it.
+9. The one standing greets first the one sitting.
 
 The return of the greeting falls into three kinds: the virtuous reply, the complete reply, and the just reply. The virtuous reply is to greet whoever initiates with something better than what they offered. The complete reply is to respond in kind, as God Almighty said:
 
@@ -314,7 +314,7 @@ And our master Amir al-Muminin (ع) said in his Four Hundred Counsels: "When som
 
 > ⟪ادْفَعْ بِالَّتِي هِيَ أَحْسَنُ فَإِذَا الَّذِي بَيْنَكَ وَبَيْنَهُ عَدَاوَةٌ كَأَنَّهُ وَلِيٌّ حَمِيمٌ⟫
 
-'Repel with that which is better, and then the one between whom and you there was enmity will become as though he were a close friend.' And he said therein: 'If your brother says, "May God greet you with peace," then say: You are the peace of God, and the finest of abodes and stations.'"
+'Repel with that which is better, and then the one between whom and you there was enmity will become as though he were a close friend.' And he said therein: 'If your brother says, "May God greet you with peace," then say: May God greet you with peace and settle you in the abode of permanence.'"
 
 I cite here from the book of questions — composed by the late Sheikh Shamoun ibn Muhammad Ghori al-Hindi (رض) — and of answers, which are from our master Badr al-Din, our master Hasan (حَسَن) ibn our master Idris ibn Sayyidna al-Hasan ibn Sayyidna Abdullah al-Alaf, may God sanctify him and grant us his intercession and his companionship.
 
@@ -389,6 +389,8 @@ And he appointed beneath the Terminus the After, set facing Michael, and he appo
 Then he said:
 
 > فَكَانَ هَؤُلَاءِ الثَّلَاثَةُ فِي الْأَدَاءِ إِلَى الْمُسْتَجِيبِينَ عَنِ النَّاطِقِ وَالْأَسَاسِ فِي الْعَالَمِ الْجِسْمَانِيِّ كَمَا كَانَتِ الثَّلَاثَةُ فِي الْأَدَاءِ عَنِ الْأَصْلَيْنِ الَّذِينَ هُمَا الْقَلَمُ وَاللَّوْحُ فِي الْعَالَمِ الرُّوحَانِيِّ
+>
+> "These three, in conveying to those who respond on behalf of the Speaker and the Foundation in the bodily world, were as the three who conveyed on behalf of the two origins, the Pen and the Tablet, in the spiritual world."
 
 By this he (ع) means the Grandfather (الْجَدّ), the Opener (الْفَتْح), and the Imagination (اَلْخَيَال) — that is, Israfil, Michael, and Gabriel. He (ع) also said in his supplication of Friday:
 
@@ -439,10 +441,14 @@ Whoever among you wishes to know his station with God Almighty, let him look at 
 And he said in it:
 
 > اَلْمُؤْمِنُ نَفْسُهُ مِنْهُ فِي تَعَبٍ وَالنَّاسُ مِنْهُ فِي رَاحَةٍ
+>
+> "The believer: his own self is wearied by him, while people are at rest from him."
 
 And he said in it:
 
 > أَنَّ أَهْلَ الْجَنَّةِ لَيَنْظُرُونَ إِلَىٰ مَنَازِلِ شِيعَتِنَا كَمَا يَنْظُرُ أَحَدُكُمْ إِلَىٰ الْكَوْكَبِ الدُّرِّيِّ فِي السَّمَاءِ
+>
+> "The people of Paradise look at the stations of our Shia as one of you looks at the shining star in the sky."
 
 I turn now to the prohibition of exaggeration, of falling short, and of what resembles these two.
 
@@ -481,6 +487,8 @@ Reckon your speech as part of your deeds, and your speech will become little sav
 And he said in it:
 
 > بَادِرُوا بِعَمَلِ الْخَيْرِ قَبْلَ أَنْ تُشْغَلُوا عَنْهُ بِغَيْرِهِ لِيَكُنْ جُلُّ كَلَامِكُمْ ذِكْرَ اللَّهِ عَزَّ وَجَلَّ اِحْذَرُوا الذُّنُوبَ فَأِنَّ الْعَبْدَ يُذْنِبُ الذَّنْبَ فَيُحْبَسُ عَنْهُ الرِّزْقُ
+>
+> "Hasten to do good before other things occupy you. Let most of your speech be the remembrance of God, Mighty and Majestic. Beware of sins, for a servant commits a sin and provision is withheld from him."
 
 And he said in it:
 
@@ -3532,9 +3540,9 @@ Question: Regarding a man who omits one obligation — should he prostrate the t
 
 The answer is: the prostration of omission is not multiplied.
 
-Question: Regarding a man who prays behind an Imam and makes it clear that he intends in his prayer to be a follower — if the Imam delivers the salaam of the dhikr yet he did not intend the prayer, is his prayer valid or not?
+Question: Regarding a man who prays behind an Imam and forgets to intend in his prayer that he is a follower — if the Imam delivers the salaam of the dhikr and the man then remembers that he did not intend to follow him, is his prayer valid or not?
 
-The answer is: if the Imam intends the prayer on his behalf, then it is so; if he does not, the prayer lapses.
+The answer is: if his intention was to follow the Imam, his prayer is complete, even though he did not utter it.
 
 Question: What is transmitted from Jafar ibn Muhammad (ع), who said:
 
@@ -4034,6 +4042,8 @@ They may go wherever they wish. The matter is in the hand of Allah, exalted be H
 I turn next to what our master and mawlana Jafar ibn Sayyidina Sulayman — may Allah sanctify him and grant us his intercession and his nearness — set down in his noble epistle, which he named The Sharpest Sword in the Nullifying of Innovations. He wrote it to counsel his people and to rouse those among them who had grown heedless and slept too long — among the people of the island of Yemen — after he had settled and dwelt among them. In one section of it, he says that it has been reported of some of you that you are slow in visiting the sick, though the reward for it has its established place in the noble book of the pillars of Islam, where it is recorded on the authority of your mawla the Commander of the Faithful (ع) that he heard the Messenger of Allah say:
 
 > مَا مِنْ عَبْدٍ مُسْلِمٍ يَعُودُ مَرِيضًا إِلَّا صَلَّى عَلَيْهِ سَبْعُونَ أَلْفِ مَلَكٍ مِنْ سَاعَتِهِ الَّتِي يَعُودُ فِيهَا إِنْ كَانَ نَهَارًا حَتَّى تَغْرُبَ الشَّمْسُ أَوْ لَيْلًا حَتَّى تَطْلُعَ
+>
+> "No Muslim servant visits a sick person but seventy thousand angels pray for him from the very hour he visits, until the sun sets, if by day, or until it rises, if by night."
 
 I also find recorded there, from the Commander of the Faithful (ع), that he said:
 
@@ -4047,7 +4057,7 @@ Our mawlana the Commander of the Faithful 'Ali ibn Abi Talib (ع) said in his fo
 
 > ولا ينامنّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على وجهه فانتبهوه ولا تنام المرأة مستلقية على ظهرها
 
-Let none of أحدكم sleep in that posture, nor upon his face. Whomever you see sleeping upon his face, wake him. And let المرأة not sleep stretched out upon her back.
+Let none of you sleep in that posture, nor upon his face. Whomever you see sleeping upon his face, wake him. And let a woman not sleep stretched out upon her back.
 
 And he said in it:
 
@@ -4062,6 +4072,8 @@ Question: What is your view on the lifespans of people? Are they fixed with Alla
 Answer:
 
 > أَنَّهَا أَعْمَارٌ مُؤَجَّلَةٌ لَا تَزِيدُ وَلَا تَنْقُصُ وَأَمَّا مَعْنَى الزِّيَادَةِ وَالنُّقْصَانِ فَهُوَ صَحِيحٌ بِمَعْنَى أَنَّ الَّذِي يَنْقُصُ فِي الدَّوْرِ الْمَاضِي يَزِيدُ فِي الْمُسْتَقْبَلِ فِيهِ
+>
+> "They are appointed lifespans that neither increase nor decrease. Increase and decrease is sound in this sense: what falls short in the past cycle is added in the coming one."
 
 Question: What do you say concerning his saying (ع):
 
@@ -4106,6 +4118,8 @@ Fever is the forerunner of death — Allah's prison on earth, through which He c
 And he said in it:
 
 > مَا مِنْ شِيعَتِنَا أَحَدٌ يُفَارِقُ أَمْرًا نَهَيْنَا عَنْهُ فَيَمُوتُ حَتَّىٰ يُبْتَلَىٰ بِبَلِيَّةٍ تُمَحِّصُ ذُنُوبَهُ أَمَّا فِي مَالِهِ أَوْ وَلَدِهِ أَوْ فِي نَفْسِهِ حَتَّىٰ يَلْقَى اللَّهَ بِمُحِبِّنَا وَمَا لَهُ مِنْ ذَنْبٍ وَأَنَّهُ لَا يَبْقَىٰ عَلَيْهِ شَيْءٌ مِنْ ذُنُوبِهِ فَيُشَدَّدُ عَلَيْهِ عِنْدَ مَوْتِهِ وَيُمَحَّصُ مِنْ ذُنُوبِهِ وَالْمَيِّتُ مِنْ شِيعَتِنَا صِدِّيقٌ شَهِيدٌ صَدَّقَ بِأَمْرِنَا وَأَحَبَّ فِينَا وَأَبْغَضَ فِينَا
+>
+> "None of our Shia leaves what we forbade and dies until he is afflicted with a trial that purges his sins, in his property, his children or his person, so that he meets God loving us with no sin against him. Nothing of his sins remains upon him, so he is pressed hard at his death and purged of his sins. The dead among our Shia is a truthful one and a martyr: he believed in our cause, loved for our sake, and hated for our sake."
 
 I turn now to condolences and patience — to the weeping that is permitted and the wailing that is forbidden — and to everything that falls within these subjects.
 
@@ -4148,6 +4162,8 @@ By this I mean wailing and singing. Whoever wails for his dead calls down upon h
 He said:
 
 > يَا رَسُولَ اللهِ رَأَيْتُ مَلَكًا مِنَ الْمَلَائِكَةِ بِيَدِهِ مِقْمَعَةٌ مِنْ حَدِيدٍ تَأَجَّجُ نَارًا وَكُلَّمَا صَرَخَتْ صَارِخَةٌ يَا جَبَلَاه أَهْوَى بِهَا لِهَامَتِي وَقَالَ أَنْتَ جَبَلُهَا فَأَقُولُ لَا بَلِ اللهُ فَيَكُفُّ بَعْدَ أَهْوَائِهَا فَإِذَا صَرَخَتْ صَارِخَةٌ يَا عِزَّاه أَهْوَى بِهَا لِهَامَتِي وَقَالَ أَنْتَ عِزُّهَا فَأَقُولُ لَا بَلِ اللهُ فَيَكُفُّ بَعْدَ أَهْوَائِهَا
+>
+> "O Messenger of God, I saw an angel with an iron mace blazing with fire. Whenever a wailing woman cried, 'O my mountain!' he raised it at my head and said, 'Are you her mountain?' I said, 'No — God is.' Then he held back what he had swung. And when a wailing woman cried, 'O my might!' he raised it at my head and said, 'Are you her might?' I said, 'No — God is.' Then he held back what he had swung."
 
 The Messenger of Allah said:
 
@@ -4166,6 +4182,8 @@ The Messenger of Allah wept at the death of one of his children. Someone said to
 And from him (ع), he said:
 
 > رَخَّصَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَآلِهِ فِي الْبُكَاءِ عِنْدَ الْمُصِيبَةِ وَقَالَ النَّفْسُ مُصَابَةٌ وَالْعَيْنُ دَامِعَةٌ وَالْعَهْدُ قَرِيبٌ وَقُولُوا مَا أَرْضَى اللَّهَ وَلَا تَقُولُوا الْهُجْرَ
+>
+> "The Messenger of God, God's blessings be upon him and his family, permitted weeping at calamity, and said: The soul is stricken, the eye is tearful, and the loss is recent. Say what pleases God, and do not speak indecent words."
 
 Let this, then, be your practice — in what you keep hidden and in what you make open alike. As for the accursed voice at a blessing — namely, singing — the noble book I have already named has likewise made clear what is permitted of it at banquets and weddings, so that lawful marriage may be distinguished from fornication and the permitted from the forbidden. These are the words of its author, whose pen has already dried upon them — may Allah sanctify his soul — narrating from the Messenger of Allah that he once passed by the Banu Zurayq, heard music, and said, "What is this?" They said, "O Messenger of Allah, so-and-so has married." He said:
 
