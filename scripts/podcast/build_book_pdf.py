@@ -73,7 +73,9 @@ def _edition_title(book_dir: Path) -> str:
         try:
             title = (json.loads(toc.read_text(encoding="utf-8")).get("book_title") or "").strip()
             if title:
-                return title
+                from _latin_plain import plain_title
+
+                return plain_title(title)  # a file name is never allowed to carry diacritics
         except Exception:
             pass
     return _series_title(book_dir)

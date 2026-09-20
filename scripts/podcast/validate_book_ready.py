@@ -43,6 +43,10 @@ reproducible on identical input:
                           must carry no Arabic embedded mid-sentence; the
                           Arabic belongs in its own quotation block, once
                           (``_book_translation_purity``).
+  B11 latin-plain — every title, table-of-contents entry and heading is plain
+                          English letters (no diacritics, no ayn/hamza marks, no
+                          transliteration apostrophes such as "Is'af"), and the
+                          prose carries no diacritic letters (``_latin_plain``).
 
 USAGE
 
@@ -537,6 +541,15 @@ def validate_book(book_dir: Path, *, strict: bool = False) -> dict:
     gates.append({"gate": "B10", "name": "translation-purity", "passed": ok10, "note": why10})
     if not ok10:
         blocking_fail = blocking_fail or f"B10 translation-purity: {why10}"
+
+    from _latin_plain import book_latin_findings
+
+    latin = book_latin_findings(book_dir)
+    ok11 = not latin
+    why11 = "titles, contents and prose use plain English letters" if ok11 else "; ".join(latin[:3])
+    gates.append({"gate": "B11", "name": "latin-plain", "passed": ok11, "note": why11})
+    if not ok11:
+        blocking_fail = blocking_fail or f"B11 latin-plain: {why11}"
 
     verdict = "BOOK-SOUND" if blocking_fail is None else "BOOK-BROKEN"
     summary = f"reading edition sound ({len(gates)} gates checked)" if blocking_fail is None else blocking_fail

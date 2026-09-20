@@ -199,6 +199,9 @@ def author_phase_book_design(book_dir: Path, *, log=print, force: bool = False) 
             phase="0book-design", message="book-toc.json has no chapters[].", manual_fallback="Re-run the phase."
         )
 
+    from _latin_plain import sanitize_toc
+
+    sanitize_toc(toc)  # the model writes "Iṣāf al-Ṭālib fī Jamīʿ": names stay plain English letters
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(toc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     log(
