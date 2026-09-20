@@ -1,0 +1,239 @@
+chapter_ref: ch23-fasting-duties-and-the-crescent-question
+slug: fasting-duties-and-the-crescent-question
+source_type: book-chapter
+book_slug: isaf-al-talib
+source_chapter_ref: 23
+section_index: 23
+episode_number: 23
+title: The Month That Cannot Shrink
+audience: 'Thoughtful adult listeners continuing a faithful translation-edition series on Is''af al-Talib, arriving at the book''s one sustained argument against a widely held practice — where a report about watching for the new moon is granted, re-read against the occasion on which it was spoken, and answered with astronomy, with an argument about what the Prophet could not have failed to know, with a courtroom scene in Shiraz, and with an arithmetic drawn from the law of expiation.
+
+  '
+angle: faithful_exposition
+angle_note: 'The slice is a refutation and is rendered as one, but the treatment stays expository rather than critical: the episode expounds the source''s dispute without adjudicating it from outside. The opposing position is stated in its own words with its own evidence, and the source''s reply proceeds by re-reading that evidence rather than by setting it aside. The episode keeps the distinctions the argument turns on: between the month beginning and a person finding out that it has, between a provision made for absence and a standing rule for presence, between a quantity that is counted and a quantity that is watched for, between a month with a true middle night and a month without one, and between a verb meaning ocular sight and a verb meaning reception. Passages the manuscript has damaged — the astronomical sentence that runs degrees and stations together, the tally promising three counts that delivers them unlabelled, the compressed clause about the Hajj, the attribution introducing the Shiraz scene, the broken narration from al-Sadiq Ja''far ibn Muhammad, and the term read as reception — are rendered as they stand and named as damaged rather than repaired.
+
+  '
+episode_format: debate
+debate:
+  proposition: 'The month of Ramadan is never deficient, and reliance on sighting the crescent is a concession granted only in the Imam''s absence, not the essence of the fast.
+
+    '
+  host_a:
+    role: scholar
+    position: 'The long-serving preacher, joined by Mawlana Suleiman bin Hassan''s astronomy, settles the case: sighting is a matter of necessity during the Imam''s absence, and the disputed report''s verb may be one of reception rather than eyesight.
+
+      '
+    source_moves:
+      - 'Distinguishes necessity-in-absence from the rule itself, since the Imam who knows the crescent''s appointed times removes the need for sighting.
+
+        '
+      - 'Brings the astronomical calculation showing the moon meets the sun at thirty degrees, so the month is counted complete.
+
+        '
+      - 'Reinterprets the disputed hadith''s verb as reception of news rather than physical eyesight, citing the Prophet''s certain knowledge from Gabriel.
+
+        '
+      - 'Puts the settled case formally to the scholars of all the people of Islam.
+
+        '
+  host_b:
+    role: debater
+    position: 'The opposing party holds that Ramadan is sometimes complete and sometimes short, and that fasting depends solely on sighting the crescent moon.
+
+      '
+    source_moves:
+      - 'Cites the hadith "Fast upon seeing it and break your fast upon seeing it... complete thirty days."
+
+        '
+      - 'Claims the Prophet himself relied on sighting.
+
+        '
+      - 'Presents the Zaydi nobleman''s finger-counting demonstration before King Abu Kalijar al-Daylami.
+
+        '
+  resolution: host_b_concedes
+format_rationale: 'The spine of the slice is a contest, and the opposing party is named, quoted and answered point by point. The proposition under contest is stated by them: that the month of Ramadan is sometimes complete and sometimes short and that fasting depends on the sighting of the crescent, evidenced by the Prophet''s report "Fast upon seeing it and break your fast upon seeing it; if it is obscured from you, then complete thirty days." Their side is carried in three voiced forms — the claim with its hadith, the claim that the Prophet himself sighted, and the Zaydi nobleman''s finger-counting demonstration delivered aloud in the court of King Abu Kalijar al-Daylami — and the reply is delivered against each in turn by the long-serving preacher, with a second questioner putting the case to the scholars of all the people of Islam. The resolution enum that matches is `host_b_concedes`: the opposing champion is answered in the room, stands up stumbling in his clothes and leaves under laughter, which is a concession by rout rather than by agreement. Deep_dive was rejected because a named party contests the proposition throughout; narrative was rejected because the one narrated episode serves the argument rather than the reverse.
+
+  '
+essential: core
+essential_rationale: 'It is the only place in the series where the scoping of crescent-sighting stated in the previous chapter is actually defended, and it carries the astronomy of the month, the occasion-of-utterance reading of the sighting report, the argument from the Prophet''s access and from the gradations of sighting, the completeness proofs from "a number of days", the alternating calendar, the middle-night proof and the sixty-day expiation — none of which appears anywhere else.
+
+  '
+host_dynamic: advocate_a + advocate_b + arbiter
+host_dynamic_rationale: 'Advocate_a voices the party that ties the fast to the sighting — the claim that Ramadan is sometimes complete and sometimes short, the hadith they rest it on, the claim that the Prophet himself sighted, and the Zaydi nobleman''s demonstration that the community is unlettered and does not count; advocate_b voices the refutation from the forty-second council of the long-serving preacher who supports the religion of God, joined by the astronomy of our master and Mawlana Suleiman bin Hassan and by the formal question one of the preachers puts to the scholars of all the people of Islam; the arbiter delivers the settlements the source itself reaches — that sighting is a matter of necessity during absence, that the month of Ramadan is never deficient, and that the verb in the disputed report may be one of reception rather than eyesight.
+
+  '
+length_target: 5500-6000
+key_tensions:
+  - 'The material on crescent-sighting is not denied or called weak; it is granted and given back its occasion, and the re-reading is what defeats the claim built on it.
+
+    '
+  - 'The companions'' question was about absence — what to do when the man whose fast they matched departs — so the answer to it cannot be the standing rule for presence.
+
+    '
+  - 'The obligation is said to run through following a person rather than through the moon, which makes the dispute about crescents a dispute about whether the fast''s beginning is a private detection or a communal act with a head.
+
+    '
+  - 'The moon''s catching-up with the sun is an event that follows from two regular motions, so astronomers count the month while others wait to see it.
+
+    '
+  - 'A man who receives the news of the heavens morning and evening has nothing to gain by scanning the dusk, and would have been contradicting himself in public if seen to do it.
+
+    '
+  - 'The visibility of the new moon varies with where a person stands — mountain peaks sooner, low ground later — and this was not hidden from the Prophet.
+
+    '
+  - 'The same day cannot belong to Sha''ban for a man who cannot see the crescent and to Ramadan for a man who can, so an obligation laid on all people cannot be indexed to a local horizon.
+
+    '
+  - 'The fast is prescribed on the pattern of those before, whose fasting was reckoned rather than sighted.
+
+    '
+  - 'A quantity called "a number of days" is one already determined, in the same way that nobody describes a varying amount as a few dirhams.
+
+    '
+  - 'Sha''ban''s fifteenth night is a genuine middle with fourteen either side, which proves twenty-nine; no night of Ramadan can do the same work, which is the proof it is thirty.
+
+    '
+  - 'The expiation for one deliberately broken day is fixed at sixty — days fasted or poor people fed — and a twenty-nine-day month would have made it fifty-eight.
+
+    '
+  - 'A champion argues that the community is unlettered and counts on its fingers; the reply completes his own picture as a shepherd counting cattle and sheep.
+
+    '
+  - 'A formal question is put to the scholars of all the people of Islam and this slice carries none of its answers, so the chapter ends with its questions standing.
+
+    '
+  - 'Scholars divide over whether *al-shahr* means the crescent or the set of days, and the revelation is said to have come down within numbered days rather than upon a crescent.
+
+    '
+  - 'The waiting period for the month is asked as thirty, twenty-nine or twenty-eight days — and the third figure is given no explanation anywhere.
+
+    '
+  - 'A report attributed to the Prophet is to be presented to the Book of Allah, and the sighting report is run through that test by the party that holds it fails.
+
+    '
+  - 'The verb in the disputed report is finally read as reception rather than ocular sight, which would mean it never told anyone to watch the sky at all.
+
+    '
+tone_constraints:
+  - 'Open with a curiosity hook on two believers a night''s ride apart, one of whom can see the new moon while the other cannot — not neutral stage-setting.
+
+    '
+  - 'Use only brief callbacks for doctrines already taught in earlier chapters: the levels of faith, guardianship and knowledge, peace and belonging, sacred ranks, disciplined loyalty, affection as law, bodily purity, purity under conditions, inner water, major washing, material purity, tayammum paths, food and contact, grooming boundaries, Ja''far''s admonition, hair, skin, and bone, menstruation and nifas, disavowal and waiting, attentive prayer, missed obligations, sacred times, the summons, the adhan''s witness, the discussion letter, the remaining proofs, unequal errors, the first testimony, public dedication, entering the mosque, guarded direction, standing behind, ranked leadership, following without fracture, shared boundaries, the admonition, prayer''s shape, the answerable plea, speech and motion, garment and ground, Friday''s gathered order, Eid''s revealed interior, certainty and omission, prayer that does not break, the latecomer''s entry, the forming of children, the journey and its licence, kinship that completes the prayer, intention, return, and dispensation, sickness, eclipse, fear, and drought, Witr, qunut, and the dawn, voluntary devotion and its limits, the visit and its restraint, the measure of a lifespan, remembering death, the wailing admonition, washing and shrouding the dead, procession, prayer, and grave, khums above tithe, the twelfth council''s reckoning, concealment and misdirection, coin, debt, and the threshold, grazing herds and watered ground, the charity of the head, the crescent and the name, and seven obligations, twelve devotions.
+
+    '
+  - 'Three callbacks in particular are spent in a clause each and never re-argued: the crescent scoping stated once in the previous chapter, which is the clause this episode exists to defend; the locus of knowledge established in the opening chapter, which that scoping presupposes; and the expiation of sixty days from the previous chapter''s obligatory list, which is reused here as an arithmetical proof rather than re-taught as a ruling.
+
+    '
+  - 'Preserve the Arabic and Islamic technical terms, titles and names supplied by the source, including Ramadan, Sha''ban, Muharram, Safar, Rabi'', Jumada al-Ula, Jumada al-Ukhra, Rajab, Dhu al-Hijjah, Hajj, takbir, Eid al-Fitr, dirhams, *al-shahr*, *lamas*, the Book of Clarification, the Ijdiyyah, the Ahmadiyyah secrets, the Asjadiyyah jewels, the Zaydi school, Iraq al-Ajam, and the names Suleiman bin Hassan, Abu Kalijar al-Daylami, al-Sharif, and al-Sadiq Ja''far ibn Muhammad.
+
+    '
+  - 'Render the refutation as a contest: state the opposing claim in its own words with its own evidence before answering it, and keep the source''s own method visible — the sighting report is granted, never called weak, and defeated by re-reading rather than by dismissal.
+
+    '
+  - 'Present the source-era arguments on the fixed length of Ramadan, on the Prophet''s access to the news of the heavens, on the gradations of sighting, on the alternating calendar and on the expiation arithmetic as the source''s own claims, without modern astronomical, legal or apologetic expansion, and without importing answers this slice does not contain.
+
+    '
+  - 'Name the damaged passages rather than repairing them: the astronomical sentence that runs degrees and stations together and cannot be checked from inside itself; the tally promising "three counts: two legal and rational, and one other" whose third member arrives unlabelled; the compressed clause tying the fasting obligation to the obligation of Hajj on the same single basis; the attribution introducing the Shiraz scene, which reads as a saying but delivers an occasion; the broken narration from al-Sadiq Ja''far ibn Muhammad, whose content is lost and only its conclusion survives; and the term *lamas*, which cannot be securely traced.
+
+    '
+  - 'Record the twenty-eight-day figure in the questioner''s list as the source leaves it — asked alongside thirty and twenty-nine, with no explanation anywhere in the slice — rather than silently dropping it or accounting for it.
+
+    '
+  - 'Close on the unfinished state of the slice: a formal question whose answers do not arrive here, and lines of poetry cited in support of the reception reading that the slice breaks off before quoting.
+
+    '
+  - 'Quranic quotations carry plain-English references only where the verse is unambiguous: the prescription of fasting (chapter 2, verse 183), the phrase "a number of days" (chapter 2, verse 184), the compressed passage quoted in the preacher''s question (chapter 2, verses 183 to 185), the phrase "the month of Ramadan in which the Quran was revealed" (chapter 2, verse 185), and the twelve months in the Book of Allah (chapter 9, verse 36). Assign no reference to anything the source leaves uncertain.
+
+    '
+anchor_passages:
+  - 'In the Book of Clarification, the discussion of fasting and the sighting of the crescent moon, along with what is mentioned in this chapter and the two chapters before it, is directed to those who are absent from the Imam''s presence — for it is he who knows the appointed times of the crescent moons.
+
+    '
+  - 'When the moon has travelled twenty-eight degrees after separating from the sun, it needs to traverse the first two stations again in order to catch up with the sun, because during that period the sun has advanced two full stations and a step into the third — so that the moon meets the sun at thirty degrees. The astronomers therefore count this as one month.
+
+    '
+  - '"Fast upon seeing it and break your fast upon seeing it; if it is obscured from you, then complete thirty days."
+
+    '
+  - '"O Messenger of Allah, we used to fast with your fasting and break our fast with your breaking of the fast — so what will our situation be in your absence?"
+
+    '
+  - 'Fasting upon the sighting of the crescent is therefore one of the matters of necessity only during the absence of the Messenger and the Imam who takes his place.
+
+    '
+  - 'Since Gabriel would come to him morning and evening with news from the heavens, the Prophet had no need to turn his face toward the sky in search of the crescent, for he had one who brought him certain news.
+
+    '
+  - '"I know the pathways of heaven as you know the pathways of the earth."
+
+    '
+  - 'The earth''s positions differ: some are elevated enough to sight the crescent faster, such as the peaks of mountains and what follows the same course, while others are lower and slower in sighting.
+
+    '
+  - 'It cannot be right that one day is counted as belonging to Sha''ban by those who cannot see it, and as belonging to Ramadan by those who can.
+
+    '
+  - '"Fasting is prescribed for you as it was prescribed for those before you, so that you may be pious." (chapter 2, verse 183)
+
+    '
+  - 'A numbered count of days is one that is already determined and requires neither sighting nor looking.
+
+    '
+  - '"Sha''ban is short, not Ramadan."
+
+    '
+  - 'If it were possible that Ramadan is twenty-nine days, then the expiation would allow for feeding fifty-eight poor people rather than sixty.
+
+    '
+  - 'So praise be to Allah, O believers — be aware of the completeness of your religion and your success in faithfulness to it, by holding to the cords of faith through following your guardians, the guardians of the Most Merciful.
+
+    '
+  - 'He gathered his five fingers and said: "We are unlettered and do not count," repeating the gesture until he had completed thirty counts with his fingers.
+
+    '
+  - 'God forbid that the Prophet — peace and blessings of Allah be upon him and his family, whom God honoured and who could see beyond the veil with full awareness and consciousness — should be described as unlettered to the point of being unable to distinguish thirty from twenty-nine with his tongue, such that he would need to resort to counting on fingers and moving his hand in the manner of a shepherd counting cattle and sheep.
+
+    '
+  - 'From the shame of this answer, the man stood up while stumbling in his clothes until the people rose in the courtroom.
+
+    '
+  - '"Whatever reaches you attributed to me, present it to the Book of Allah; if the Book of Allah does not agree with it, then I did not say it and I am not contradicted by it."
+
+    '
+  - 'It is clear and true that the completion of a month is thirty days.
+
+    '
+  - 'In light of what the scholars of language have mentioned regarding the term *lamas*, we found this *lamas* to be one of reception.
+
+    '
+adaptation_mode: faithful
+phonetic_overrides: {}
+sermon:
+  present: false
+  section_title: null
+show_notes:
+  blurb: 'Two believers stand a night''s ride apart; one sees the new moon and the other does not. Have they begun different months? The previous chapter settled the crescent in a single clause — that the reports about watching for it address those who cannot reach a determination — and this chapter spends itself defending that clause against the party who ties the fast to the sighting and holds that Ramadan is sometimes thirty days and sometimes twenty-nine. The method is the same throughout: the report they rest on is granted, never called weak, and re-read until it says something narrower. It is given back its occasion — companions facing the Prophet''s departure, asking what to do without the man whose fast they had always matched — which makes it a provision for absence rather than a definition of the month. It is set beside an astronomy in which the moon separates from the sun and catches it again at a computable interval, so astronomers count the month instead of watching for it. It is set against a Prophet who had the news of the heavens twice a day and said he knew its pathways as his listeners knew their own roads, and from whom the gradations of sighting — mountain peaks sooner, low ground later — could not have been hidden, which makes it untenable that the same day should be Sha''ban for one man and Ramadan for another because of a ridge or a cloud. The same case is then argued aloud in the court of King Abu Kalijar al-Daylami in Shiraz, against a champion who counts the month out on his fingers and is answered with the picture of a shepherd counting cattle; he leaves the room stumbling in his clothes. Then the arithmetic: a fast prescribed on the pattern of people who calculate, days called a number because a number is already known, an alternating calendar in which Sha''ban is short and Ramadan complete, a middle night that proves twenty-nine and cannot be found in thirty, and an expiation fixed at sixty that has been assuming a thirty-day month all along. The chapter breaks off unfinished, with a formal question put to the scholars of all Islam and none of its answers yet given, and with one last suggestion: that the verb everyone has read as seeing may mean receiving.
+
+    '
+  related_episodes:
+    - the-obligation-and-meaning-of-fasting
+    - foundations-of-faith-and-guardianship
+    - zakat-on-wealth-livestock-crops-and-fitr
+    - prayer-virtue-and-sacred-times
+  references:
+    - The Book of Clarification — that the discussion of fasting and crescent-sighting in this chapter and the two before it addresses those absent from the Imam's presence, since it is he who knows the appointed times of the crescent moons.
+    - 'Our master and Mawlana Suleiman bin Hassan — may God sanctify him in the chambers of the Gardens of Eden — in his first honoured message bearing the tag of the Ijdiyyah, with the Ahmadiyyah secrets and the Asjadiyyah jewels: the moon''s separation from the sun, its traverse of the stations, and its meeting with the sun at thirty degrees, which the astronomers count as one month.'
+    - 'Our master the long-serving preacher who supports the religion of God — may He be exalted above all — in the forty-second council of the first hundred of his honoured supporting councils, bearing the tag of wisdom in response to those who base fasting on the sighting of the crescent: the occasion of the sighting report, the three counts against the claim that the Prophet sighted, the argument from ''a number of days'', the alternating calendar with the middle-night proof, and the expiation of sixty.'
+    - The court of King Abu Kalijar al-Daylami, ruler of Shiraz, Iraq al-Ajam — the Zaydi nobleman's finger-counting demonstration and the answer of our master the Supporter of Religion, may God sanctify his soul.
+    - One of the preachers — may God sanctify their souls — putting to the learned scholars of all the people of Islam the questions on 'so that you may be pious', 'those before', 'a number of days', 'witnessing the month', and 'complete the count' (chapter 2, verses 183 to 185), with the division of the lexicographers over *al-shahr* and the twelve months in the Book of Allah (chapter 9, verse 36).
+    - 'A narration from the Prophet — peace and blessings of Allah be upon him and his family — reported by al-Sadiq Ja''far ibn Muhammad, peace and blessings of Allah be upon him: transmitted here in damaged form, carrying the conclusion that the completion of a month is thirty days and the reading of the disputed term as one of reception.'
+thesis_relevance: 'This chapter advances the book''s central claim that the pillars and rulings of Islam must be understood through faithful knowledge, action, and the authoritative guidance of the Ahl al-Bayt by taking the one pillar whose starting date is publicly contested and showing that the contest is really about where knowledge sits — arguing that the month has a determinable course, that the Prophet never needed to look for it, and that the instruction to watch the sky was a provision for people out of reach of the one who knows, so that the believer''s fast begins by following rather than by squinting at a horizon.
+
+  '
+session_index: 23
+session_title: The Month That Cannot Shrink
+session_slug: fasting-duties-and-the-crescent-question
+session_episode: 1
+session_episode_count: 1

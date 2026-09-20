@@ -1,0 +1,588 @@
+# Friday, Eid, and Prayer Corrections
+
+## Where this episode opens
+
+Diagram type: Comparison matrix. The three subjects and their tests.
+
+Rows: Friday prayer, the two Eid prayers, the prostration of omission.
+Columns: what it tests | what it refuses | its governing question.
+- Friday prayer: public authority and lawful attendance | that Friday is a private noon prayer with a larger audience | is the community gathered around the right public center.
+- The two Eid prayers: outward festivity against inward disclosure | that Eid is a decorative festival after fasting or after sacrifice | does celebration reveal what was hidden.
+- The prostration of omission: the border between a real error and an unsettled mind | that the prostration patches every anxious doubt | is this an established defect or a passing uncertainty.
+
+Cell commitment: all three ask one question. Under pressure, how does the community know where the valid act is.
+
+Diagram type: Hierarchy. Doctrines assumed, not reopened.
+
+- Level 1: The call to prayer
+  - Level 2: The summons
+    - Level 3: The adhan's witness, the iqama's nearness
+- Level 1: The prayer itself
+  - Level 2: Attentive prayer
+    - Level 3: Presence, refusal of distraction
+  - Level 2: Prayer's shape
+    - Level 3: Standing, recitation, bowing, prostration, testimony, salutation
+  - Level 2: Speech and motion
+    - Level 3: What may be said and done inside the shape
+  - Level 2: Garment and ground
+    - Level 3: What is worn, carried, what receives the forehead
+- Level 1: The order of the congregation
+  - Level 2: Sacred times
+    - Level 3: The windows that open and close
+  - Level 2: Ranked leadership
+    - Level 3: Who may stand in front, on what authority
+  - Level 2: Following without fracture
+    - Level 3: What the follower owes, what the leader carries
+  - Level 2: Shared congregational boundaries
+    - Level 3: Where one gathering ends and another begins
+
+Annotation: the chapter adds edges to each level and re-teaches none.
+
+Diagram type: Process flow. The source's method of accumulation.
+
+Start: a ruling is stated.
+  Down to: a condition is attached, then an exception carved from it.
+  Down to: an inward meaning is disclosed.
+  Loop back to start: the next ruling enters.
+End state: density, and beneath it the pattern. Prayer is preserved by measure.
+Transitions named: no staged debate. The forms are question and answer rulings, abbreviated legal summaries, transmitted reports, interpretive readings of the Sharīʿa, hidden epistles, and sayings of earlier authorities.
+
+Diagram type: Visual metaphor. One gate with three thresholds set behind each other.
+
+- First threshold, distance and center: three miles, one authorized mosque, one preacher, one pulpit, one adhan, one sermon.
+- Second threshold, emergence: takbir, ghusl, khutbah, and the name of fitr.
+- Third threshold, repair: the worshipper who has forgotten, added, doubted, arrived late, or risen into an extra rak'ah.
+
+Reading: each threshold puts one three-way verdict to the act. A defect that breaks it, a defect that is repaired, or not a defect at all.
+
+## Friday's Gathered Order
+
+Diagram type: Annotated structure. The three-mile measure as one line.
+
+Whole: the distance between two congregations.
+The measuring line: three miles.
+Parts, with position and ruling:
+- Three miles or more, one city or two. Position: beyond the line. Ruling: Friday may be held in each.
+- Less than three miles, a single city. Position: inside the line. Ruling: only one holds the Friday prayer.
+- Less than three miles, two cities, the case the questioner raises. Position: inside the line. Ruling: not in both, whether in one city or two.
+
+Annotation: the measure overrides the city boundary, so Friday is not multiplied because people can gather in more than one place.
+
+Diagram type: Contrast pair. Rightful following, against protective accommodation.
+
+Column A: Rightful following
+- Who stands in front: leadership established by rank, not by position in the room
+- What the follower gives: obedience proper to the act
+- What the standing establishes: that this figure is a rightful imam
+
+Column B: Following under taqiyya
+- Who stands in front: a figure of injustice whose presence is endured
+- What the follower gives: presence, not recognition
+- What the standing establishes: nothing about the figure's right to lead
+
+Excluded from both: making a Nasibi or a Haruri one's imam.
+
+Shared row: contempt for the sermon does not become casual withdrawal, and attendance does not become surrender to every leader.
+
+> Whoever deliberately abandons the Friday sermon or treats it with contempt without valid excuse, whether the imam is just or unjust, will not be gathered by God.
+Attribution: al-Mu'ayyad, may Allah sanctify him.
+
+> Do not make a Nasibi or a Haruri an imam in prayer; rather, stand at the pillars of the mosque and recite to yourself as though praying alone.
+Attribution: the Sharīʿa, from Mawlana al-Baqir Muhammad ibn 'Ali, may Allah's blessings be upon him.
+
+> Taqiyya is my religion and the religion of my fathers.
+Attribution: the saying preserved by the source.
+
+Diagram type: Process flow. The transmitted case of al-Husayn ibn 'Ali.
+
+Start: the prayer for al-Hasan ibn 'Ali, peace be upon him.
+  Down to: al-Husayn ibn 'Ali, peace be upon him, places the agent of Mu'awiya before him.
+  Down to: he states that were it not for the sunna, he would have placed him ahead.
+  Branch, the explanation supplied: the sunna of the Ahl al-Bayt of praying behind such figures in taqiyya. No second path is offered.
+End state: precedence in the room is separated from authority over the act.
+
+Diagram type: Process flow. What a community does about an unjust preacher.
+
+Start: a preacher who has openly displayed injustice and transgression.
+  Condition: the public circumstance in which prayer behind such a person becomes obligatory.
+  Down to: the people observe this.
+  Down to: they refer the matter to the guardian.
+  Down to: they await his response.
+End state: worship held, order intact, judgment deferred rather than dissolved into panic.
+Blocked transitions: observation to withdrawal, and observation to private verdict.
+
+> O righteous people, investigate and do not become doubtful after certainty, for you have taken refuge in the strong fortress of God.
+Attribution: the admonition preserved in the source.
+
+Diagram type: Hierarchy. Where the authorized center stands.
+
+- Level 1: The Imam of the Muslims
+  - Level 2: Friday prayer behind him
+    - Level 3: Better than prayer behind his deputies
+- Level 1: The deputies
+  - Level 2: When they act
+    - Level 3: When the Imam is delayed by a matter of Muslim welfare
+  - Level 2: Where they pray
+    - Level 3: In nearby mosques, on his behalf
+- Level 1: The places
+  - Level 2: His mosque, designated for prayer before all others
+    - Level 3: Takes precedence
+  - Level 2: Nearby mosques
+    - Level 3: Where the deputies' prayer is held
+
+Annotation: the question is not whether a prayer occurs, but where the authorized center stands.
+
+## Friday's Gathered Order, Continued: Pulpit, Silence, and the Two Lights
+
+Diagram type: Annotated structure. The Friday act in its parts.
+
+Whole: the Friday prayer as a public form.
+Parts, in performed order, with annotation:
+- The Imam ascends the pulpit. Annotation: the muezzin before the pulpit gives the adhan after the ascent.
+- The preacher sits in the place from which he delivers the sermon. Annotation: the binding adhan for the one bound to Friday is the adhan given at that sitting.
+- The preacher greets the people. Annotation: silence becomes obligatory from this moment.
+- The first sermon. Annotation: praise, exhortation, supplication, and a statement from the Lord of Manifestation, which is warning.
+- The sitting between the two sermons. Annotation: the separation between the upper light and the lower light.
+- The second sermon. Annotation: the sermon comes before the prayer, never after it.
+- The prayer, two rak'ahs. Annotation: recitation aloud distinguishes Friday from the noon prayer of other days.
+- The preacher's support throughout. Annotation: he leans on his sword in the book of narrations, and on a staff if he does not draw it.
+
+Annotation on the whole: the sound is not floating in the city. It is attached to pulpit and sermon.
+
+Diagram type: Contrast pair. Friday prayer against the noon prayer of other days.
+
+Column A: Friday prayer
+- Rak'ahs: two
+- What occupies the other two: the sermon, which replaces them
+- Recitation: aloud
+- Sermon: two parts with a sitting between, before the prayer
+- First rak'ah: Surah al-Jumu'ah after the Opening
+- Second rak'ah: the Opening followed by Surah al-Munafiqun, before the bowing
+- Attendance: bound to one authorized center, silence, and a named congregation
+
+Column B: The noon prayer of other days
+- Rak'ahs: four
+- What occupies the other two: nothing is replaced
+- Recitation: not distinguished by being raised
+- Sermon: none, and no fixed surahs
+- Attendance: not bound to the public weekly form
+
+Shared row: the sermon is not a preliminary speech before the real prayer. The public word does what bodily prayer ordinarily does.
+
+Diagram type: Visual metaphor. A gate with two invitations and two lights.
+
+Abstract relation: what the Friday prayer points to.
+Metaphor: a gate with two doorways, and two lights divided by a sitting.
+Element assignments:
+- The gate: Muhammad, peace be upon him and his family, the gate of Paradise
+- The outward doorway: the invitation to the exoteric dimension of his Sharīʿa
+- The inward doorway: the invitation to the esoteric interpretation of his law
+- The upper light and the lower light: what stands above and below the separation
+- The separation: the sitting between the two sermons
+Reading: the one reminded of this stands and says peace upon the two lights.
+Attribution: our master Zayd ibn Muhammad ibn al-Fadl, may Allah honor him, in his hidden epistle.
+
+Annotation: the outward rulings preserve a form whose inward meaning depends on visible order.
+
+Diagram type: Hierarchy. The discipline of listening during the khutbah.
+
+- Level 1: When the preacher mounts the pulpit and greets the people
+  - Level 2: Silence becomes obligatory
+    - Level 3: No one may speak
+    - Level 3: No one may act without listening and attending to him
+- Level 1: When the imam recites
+  - Level 2: Listening is the sole obligation
+    - Level 3: Turning away is not permissible
+- Level 1: What the respondent may not do
+  - Level 2: Prompt the preacher
+    - Level 3: As though the preacher needed correction from below
+  - Level 2: Question him about every kind of knowledge
+    - Level 3: As though the sermon were cross-examination
+
+> The preacher knows how to raise his children.
+Attribution: the reason the source gives for the respondent's restraint.
+
+Diagram type: Genealogy chain. The Friday form as the pattern the council of the da'i takes from it.
+
+Friday congregation behind the imam → the sunna of respondents in the council of the da'i
+Preacher speaking from an elevated place → the da'i addressing his council
+Obligatory silence → the attending silence of the respondents
+Reading: the congregation is a disciplined household of instruction, and the resemblance runs from the Friday form to the council.
+
+Diagram type: Comparison matrix. The ceremony's contingencies.
+
+Rows: the cases the source puts.
+Columns: the ruling | the deciding fact.
+- The two officers accept the pledge of allegiance at the appointed time: the transaction is not cancelled | it does not compete with the prayer's time.
+- The imam is thirsty on the pulpit: he may drink | bodily need does not break the ceremony.
+- He delivers the khutbah, descends, performs ablution: he may repeat the sermon or proceed to pray, both rewarded | the sermon delivered is not voided.
+- Distress interrupts the sitting between the two sermons: the ruling turns on whether that sitting was completed | completion, not the distress.
+- A man enters the mosque door, disrupting sermon and prayer: the preacher owns him, he has become his follower, and may not come before his master or pray without him | entry into the Friday space during the public act.
+- Whoever remains in another mosque that day: he has erred, and if deliberate he is penalized and commanded to perform the Friday ghusl | the call is given only in the mosque.
+
+Cell commitment: the ceremony is kept from becoming brittle, but not shapeless. Ownership is not softened into informality.
+
+Diagram type: Process flow. The collapse of the congregation.
+
+Start: the imam delivers the Friday sermon.
+  Branch 1, the people leave and one man remains: that man prays four rak'ahs.
+  Branch 2, he prays two rak'ahs with them, then all leave and he remains alone:
+    Condition, he opened the prayer and they departed before he bowed: he prays four rak'ahs of noon prayer.
+  Branch 3, after finishing the second rak'ah he rises and then sits back down: he says the testimony and performs the two prostrations of forgetfulness.
+  Branch 4, a man sleeps while waiting and his purity does not allow him to join the imam in time: he must repeat it four times.
+End states, two only: the act is still Friday and an internal error is repaired, or the public condition has failed and the act has become Dhuhr.
+
+Reading: either the imam erred within the act, or the act lost the condition that made it Friday. Sleep gives no second Friday.
+
+Diagram type: Timeline. The three hours of petition, in the order given.
+
+Position 1, Friday, when the sun begins to set: the hour named for the one who has a need to petition God.
+Position 2, when the wind blows: the gates of heaven open and mercy descends.
+Position 3, the final hour of night at daybreak: two angels call out.
+Period band across all three: Friday's virtue, commanded to be known until God reunites the people on Saturday.
+Attribution: the saying attributed to Amir al-Mu'minin.
+
+> Is there anyone who repents? Is there anyone who seeks forgiveness and is forgiven? Is there anyone who asks for something? So answer the call of God.
+Attribution: the call of the two angels at the final hour of night.
+
+## Eid's Revealed Interior
+
+Diagram type: Comparison matrix. The opening Eid questions.
+
+Rows: the questions put to the source.
+Columns: the ruling | the reason supplied.
+- Does Tashriq refer to the Eid prayer, given that the traveler is not obligated to attend the mosque except in Egypt: Tashriq takes place only in Egypt, meaning the mosque of a city | the two Eid prayers are performed there at sunrise, and such a worshipper is called radiant.
+- Someone forgets one or more of the Eid takbirs: he completes them before bowing | the repair is fixed to the stage of prayer, not to unease.
+- He has passed bowing and is certain he omitted them: he performs the two prostrations of omission | certainty, not suspicion, triggers the repair.
+- How many takbirs run from 'Arafah to the last day of Tashriq, when the questioner's country adds one to make twenty-four: twenty-three | take what you have received and be grateful.
+
+Cell commitment: a forgotten takbir is repaired by place in the prayer, never by anxiety.
+
+Diagram type: Annotated structure. The twenty-three takbirs.
+
+Whole: the twenty-three takbirs of the days from 'Arafah to the last day of Tashriq.
+Parts, with annotation:
+- The five pronouncements of the first intentions. Annotation: aligned with the five prayers.
+- The spiritual ten hudud. Annotation: one of the counted sets.
+- The ten corporeal hudud. Annotation: its counterpart.
+- The male of the presiding speaker and his guardian. Annotation: ordered authority entering the count.
+Annotation on the whole: even a festival takbir count carries worship's inner grammar, and is not extended by local practice to twenty-four.
+
+Diagram type: Comparison matrix. Eid's boundaries, and the conditions the source declines to create.
+
+Rows: the cases.
+Columns: the ruling | the condition refused.
+- Eid is prayed while a makeup of Fajr is still owed: valid, not repeated | the makeup does not invalidate Eid.
+- The same with the funeral prayer: the same ruling | a neighbouring duty is not a precondition.
+- Eid is prayed before Zakat al-Fitr is distributed: no repetition, and it may be given afterward | the order of the two duties is not a validity test.
+- The ghusl for the two Eids: a Sunnah from daybreak until the Eid prayer ends | a valid excuse permits praying before the time ends.
+- The abridgment of the Musannaf on the same ghusl: an annual Sunnah, from dawn until the prayer lapses | the same window, second authority.
+
+Cell commitment: the source is not careless about order, and refuses to make every neighbouring duty an invalidating condition.
+
+> O God, forgive me, have mercy on me, and pardon me in religion and in life; You are over all things Most Powerful.
+Attribution: the qunut preserved in the transmitted reports.
+
+Diagram type: Hierarchy. Who is bound to witness the Eid prayer.
+
+- Level 1: Bound
+  - Level 2: Inhabitants of a city
+    - Level 3: Within two leagues or less, witnessing is binding
+- Level 1: Meritorious but not bound
+  - Level 2: People from outlying valleys
+    - Level 3: Witnessing Eid is good and meritorious
+  - Level 2: Travelers who choose to attend
+    - Level 3: Witnessing Eid is good and meritorious
+- Level 1: The congregation itself
+  - Level 2: Its number
+    - Level 3: Five, one of whom is the Imam, as with Friday prayer
+  - Level 2: Its obligation
+    - Level 3: Obligatory in the presence of the custodians, as Friday is obligatory
+
+Diagram type: Process flow. The takbirs of Eid.
+
+Start: the completion of the fast.
+  Down to: the Sunnah of takbir begins and continues until the prayer ends.
+  Down to: whoever prays Eid raises his hands with each takbir.
+  Branch, a takbir is forgotten:
+    Path A, he has not yet bowed: he completes them before bowing.
+    Path B, he has passed bowing and is certain: he performs the two prostrations of omission.
+  Branch, he missed a rak'ah and joined the second with the Imam: he adds another rak'ah with the additional takbirs.
+End state: celebration does not dissolve discipline; the feast's excess is begun, ended, and repairable at each stage.
+
+Diagram type: Annotated structure. Mina, which refuses the ordinary Eid congregation.
+
+Whole: Eid prayer across sacred geography.
+Parts:
+- The city mosque. Position: the ordinary case. Annotation: the two Eid prayers at sunrise, in congregation.
+- Mina. Position: the exception. Annotation: Eid is not performed there in congregation but prayed individually, each person on his own.
+Attribution: Qadi al-Nu'man ibn Muhammad, may God sanctify his soul, in his interpretation of the Pillars as verified by Sayyiduna Idris ibn Hassan, may God be pleased with his holiness.
+Annotation: the ruling refuses an automatic transfer of ordinary Eid congregation into every sacred setting.
+
+Diagram type: Contrast pair. Eid al-Fitr against Eid al-Adha.
+
+Column A: Eid al-Fitr
+- Adhan and iqama: neither is given
+- Position of the khutbah: after the prayer
+- Recitation: aloud
+- Opening of the sermon: praise, as every sermon begins
+- Marital relations: permissible on the night of Eid al-Fitr and before the prayer
+- Fasting after it: permissible to fast the following day
+- What it discloses: what fasting kept silent and hidden
+
+Column B: Eid al-Adha
+- Its day: the day of al-Adha, the day of the Hajj
+- Opening of the sermon: disputed, and the day of sacrifice begins with four takbirs rather than praise
+- Fasting after it: not permissible in the same way
+- What the differing opening signals: that the matter appears differently from what was hidden in the depths
+Attribution for the fasting rulings: Ja'far ibn Mansur of Yemen, may God sanctify him, in the Book of Suckling. Attribution for the marital ruling: the question and answer book.
+
+Shared row: the law differentiates the feasts rather than making them one holiday category. The opening of sermons is proof, not ornament.
+
+Diagram type: Genealogy chain. The word fitr traced through the source's witnesses, each arrow reading as yields the sense of.
+
+The earth cracks, fatarat → what was within it appears
+The tree fatarat → its concealed fruit appears
+The camel's tusk fatara → it emerges through the surface
+The sky was split open, chapter 84, verse 1 → a cracking through which what was within comes forth
+The new mushroom → the same emergence in a further witness
+The fitr of God → the beginning of His creation of them in one day
+Breaking the fast, fitr → the appearance of interior realities and hidden knowledge
+Attribution: Zayd ibn Muhammad ibn al-Fadl.
+
+Reading: the common thread at every node is the appearance of what was hidden. Fasting is silence and secrecy; fitr is the day what was within appears.
+
+> I have vowed to the Most Merciful a fast, so I shall not speak to anyone today.
+Attribution: chapter 19, verse 26, the story of Mary, read by the source as meaning that she will not reveal what she carries within her.
+
+Diagram type: Contrast pair. The one who attains the feast, against the one who gains nothing.
+
+Column A: The one who attains
+- What he did: fasted the days of Ramadan
+- What he knows: the meaning of fasting and its proper limits
+- What he attains: al-Fitr, the feast, and divine pleasure
+
+Column B: The one who gains nothing
+- What he did: the outward exertion only
+- What he does not know: the meaning of fasting and its proper limits
+- What he attains: nothing from God
+
+Shared row: the warning image of one who prays over a blazing fire, a sign that outward exertion without inward knowledge becomes loss rather than gain.
+
+Reading: the takbirs, the ghusl, the sunrise prayer, and the city congregation all point toward emergence. The feast is worship at that point, not release from worship into festivity.
+
+## Certainty And Omission
+
+Diagram type: Named-axis 2x2. The governing test for whether the prostration of omission applies.
+
+Axes:
+- Horizontal: the worshipper's state regarding the lapse (Uncertain → Established)
+- Vertical: where the prayer stands when the lapse is recognised (Structure intact → Structure failed)
+
+Quadrants:
+- Top-right, Established and structure intact: the prostration of omission applies, because the one who omits is certain of what he omitted and the act can still carry the repair.
+- Top-left, Uncertain and structure intact: nothing is required, or he acts on certainty and continues, because the doubter is not certain of what he doubts.
+- Bottom-right, Established and structure failed: the prayer is repeated, because a missing opening takbir is not a repairable slip.
+- Bottom-left, Uncertain and structure failed: he restarts, and so does the imam, because nothing is secured.
+
+Reasoning for the axes: feeling decides neither. The horizontal is decided by establishment, the vertical by which pillars were secured.
+
+> If it is established that he has indeed committed an omission, he prostrates for it; otherwise he does not.
+Attribution: the answer given to the one who stands in for another and does not know all the places requiring prostration of omission.
+
+Diagram type: Comparison matrix. Invalidating, repairable, and unrequiring lapses.
+
+Rows: the cases the source puts.
+Columns: the verdict | the deciding fact.
+- The opening takbir is not pronounced, or is left deliberately or ignorantly: repeat the prayer | it is a pillar, and its absence is not repairable.
+- He forgets to open the prayer after every two rak'ahs in four and six rak'ah prayers, without sitting after each pair: invalidated | the structure itself has failed.
+- He adds an extra bowing without having sat for the tashahhud: repeat the prayer | the addition falls before the order is secured.
+- He adds a bowing or prostration after sitting for the tashahhud and completing two rak'ahs: he has done so in order | the completed pair secures the sequence.
+- He adds an extra prostration: complete the prayer and perform the two prostrations | the addition is repairable.
+- He forgets a prostration and remembers before the salaam: he prostrates | the act has not closed.
+- He forgets a prostration and has already left the prayer: no recourse | the act has closed.
+- He recites the obligatory prayer in reverse order: no prostrations of omission | not a stipulated repair.
+- He realizes after the salaam that he prayed only three rak'ahs of Dhuhr: he prays the missed rak'ah, recites tashahhud, gives salaam, and performs the two prostrations | a missing unit is completed before the repair.
+
+Cell commitment: prayer is not repaired because the worshipper feels sorry, and not invalidated because an extra movement occurred.
+
+Diagram type: Hierarchy. The lapses the source declines to legislate.
+
+- Level 1: No explicit text requires a prostration
+  - Level 2: The first tashahhud is neglected
+    - Level 3: The final tashahhud is recited and he remembers before the salaam
+  - Level 2: A single surah is repeated after the Opening
+    - Level 3: No stipulation covers it
+  - Level 2: Recitation is neglected after the first rak'ah and a surah recited from the beginning in the second
+    - Level 3: Neither stipulated nor deliberate, answered to the scholars of al-Hind and the preachers of Yemen
+- Level 1: The repair is not multiplied
+  - Level 2: One obligation is omitted
+    - Level 3: Two prostrations cover it
+  - Level 2: Three obligations are omitted
+    - Level 3: Two prostrations still cover them
+- Level 1: The principle beneath both
+  - Level 2: Lack of stipulation is not filled by devotional nervousness
+    - Level 3: More omissions do not mean repeated repair rites
+
+Diagram type: Contrast pair. What the Imam carries and what he does not.
+
+Column A: Carried by the Imam
+- Pillars neglected while following: the Imam bears responsibility
+- The follower's position: he is carried through the lapse
+- The council's seventh place: whoever follows an imam bears no responsibility for omission
+
+Column B: Not carried by the Imam
+- The bowing: excepted, and the follower must not neglect it
+- The opening takbir: excepted, and the follower must not neglect it
+- The follower's position: these are the acts that make his participation real
+
+Shared row: the earlier teaching on following without fracture is applied, not reopened.
+
+Diagram type: Contrast pair. Where the intention lives.
+
+Column A: The heart
+- What it does: contracts the intention
+- Status: the place where intention resides
+- If the tongue is silent while the heart holds it: the action is valid
+- Authority: repeated in the questions to the scholars of India and the letters to the preachers of Yemen
+
+Column B: The tongue
+- What it does: expresses what the heart contracted
+- Status: an expression, not the place where intention lives
+- If the imam deliberately expresses his intention verbally: his prayer is void
+- If he does not say it deliberately: it stands
+
+Shared row: deeds are accepted only with intentions, and the source still refuses to make verbal declaration the essence of intention.
+
+Diagram type: Process flow. The follower's intention against the Imam's.
+
+Start: a man praying behind an Imam makes it clear he intends to be a follower.
+  Down to: the Imam gives the salaam of the dhikr while not intending the prayer.
+  Branch: if the Imam intends the prayer on his behalf, it is so and the prayer stands; if not, the prayer lapses.
+End state: the follower's declared intention does not by itself constitute the act.
+
+## Certainty And Omission, Continued: The Seven Places and the Twelve Doubts
+
+Diagram type: Contrast pair. Omission against doubt.
+
+Column A: Omission
+- The worshipper's state: certain of what he omitted
+- What occurred: a known lack
+- The repair: the prostration of omission, after the salaam
+- Why the two prostrations are so named: they force the devil's nose down when he causes forgetfulness
+
+Column B: Doubt
+- The worshipper's state: not certain of what he doubts
+- What occurred: bewilderment, which resembles omission without being it
+- The repair: sometimes a prostration, often nothing at all
+- What it may never do: displace a certainty already held
+
+Shared row: doubt is said to be rooted in the prostration of omission because it causes bewilderment, and many cases resemble omission without being it.
+
+> In the name of Allah, and Allah is great, and I bear witness that there is no god but Allah, and may Allah bless Muhammad and his family.
+Attribution: the brief testimony recited after the prostration of omission.
+
+> Whoever is upon certainty and is then visited by doubt should proceed upon his certainty, for doubt does not displace certainty or diminish it.
+Attribution: the line attributed to Amir al-Mu'minin.
+
+Diagram type: Hierarchy. The seven places of omission named by the Mustansiriyya council.
+
+- Level 1: Places where the two prostrations are performed
+  - Level 2: The prostration itself is neglected
+    - Level 3: He remembers it and performs the two prostrations
+  - Level 2: The first tashahhud is forgotten and he stands for the third rak'ah
+    - Level 3: If he has not knelt, he sits, testifies, and prostrates at the salaam
+  - Level 2: The omission exceeds the first tashahhud and accumulates
+    - Level 3: He prostrates, completes the prayer most completely, and the two prostrations are upon him
+  - Level 2: The second tashahhud is neglected before the salutation
+    - Level 3: He must perform the two prostrations
+  - Level 2: He inattentively prays only two rak'ahs
+    - Level 3: He prays two more after them and performs the two prostrations
+  - Level 2: He inattentively rises from the final tashahhud to add a fifth rak'ah
+    - Level 3: He must perform the two prostrations
+- Level 1: The seventh place, where no prostration falls on him
+  - Level 2: He follows an imam
+    - Level 3: He bears no responsibility; the Imam bears that
+
+Annotation: the repair is small, embodied, decisive, and does not reopen the prayer unless the structure has failed.
+
+Diagram type: Comparison matrix. The twelve situations of doubt.
+
+Rows: the doubts named by the council.
+Columns: the verdict | the reason.
+- Doubts whether he has bowed, while still in prayer: he bows, and the prostration is upon him | the pillar is still reachable.
+- Doubts one rak'ah or two: he acts on the lesser certainty | the lower count is held.
+- Doubts two or three: he acts on certainty | the same rule again.
+- Doubts three or four: he sits and performs the two prostrations | secured count, then repair.
+- Doubts two or four: he gives salaam, prays two rak'ahs standing, and performs the two prostrations | the gap is filled, then repaired.
+- Doubts the opening takbir, after bowing: he continues, nothing required | the stage has passed.
+- Doubts whether he recited, after bowing: nothing required | the stage has passed.
+- Doubts whether he bowed, after prostrating: nothing required | the stage has passed.
+- Doubts the first prostration, after the second: nothing required | the stage has passed.
+- Doubts prostrating, after the tashahhud: nothing required | the stage has passed.
+- Doubts something after the salutation: nothing required | the act has closed.
+- Doubts and does not know what he has prayed: he acts on certainty and performs the two prostrations after the salutation | certainty remains the footing.
+
+Cell commitment: not how troubling the doubt feels, but whether the doubted act is still reachable at the prayer's current stage.
+
+Diagram type: Process flow. The fifth rak'ah, branching on two facts.
+
+Start: a man rises at the fifth position.
+  Branch on the first fact, did he witness the fourth:
+    Path A, he witnessed it: he gives salaam while standing and departs.
+    Path B, he did not: he sits, gives the testimony, and performs the two prostrations of omission.
+  Branch on the second fact, when did memory return:
+    Path A, he remembered after bowing, having witnessed the fourth: his prayer is sound and the additional rak'ah becomes voluntary.
+    Path B, he did not witness the fourth and did not sit the length of the testimony: he repeats the prayer.
+End state: the same outward fact carries four rulings.
+Attribution: the Mukhtasar al-Musannaf.
+
+Reading: whether the fourth was secured, whether the testimony-length sitting occurred, and when memory returned are what decide.
+
+Diagram type: Comparison matrix. Doubt bound to time, and to count.
+
+Rows: the time-bound and count-bound doubts.
+Columns: the ruling | what he acts on.
+- Enough of 'Asr remains when the doubt arises: he acts within that time | the time available.
+- The sun has set and only then does doubt arise: no need to make it up | the closed window.
+- Doubt about Fajr or Maghrib: he prays them | the duty, still reachable.
+- The same prayer is repeated without cause: no prostration | no omission occurred.
+- He does not know whether he missed two, three, or four prayers: he follows the imam in praying aloud what is prayed silently, and his prayer is complete | the imam's lead.
+- He does so deliberately: he performs the prostration of omission | deliberateness.
+- He does so from uncertainty: nothing is obligatory upon him | the absence of deliberateness.
+- Settled prayer and travel: the same law applies | the ruling does not vary with the setting.
+- He is certain of nothing and does not know how many rak'ahs he has missed: he restarts from the beginning, and so does the imam | no secured footing.
+
+Cell commitment: the worshipper acts on what time, certainty, and duty make available.
+
+Diagram type: Annotated structure. The doubter who has omitted nothing.
+
+Whole: a prayer in which doubt arises but no obligatory act has been omitted, whether he leads or prays supererogatory prayer.
+Parts:
+- He stood for what was written, then realizes he has been excused and believes it voluntary. Annotation: he treats it as voluntary.
+- Negligence in that case. Annotation: it does not harm him.
+- He rises for a voluntary prayer. Annotation: it counts as voluntary.
+Annotation on the whole: a real omission has a repair, invalidation has repetition, intention lives in the heart, and certainty is not displaced by doubt.
+
+## What this episode lands
+
+Diagram type: Comparison matrix. The three movements and their answers.
+
+Rows: Friday, Eid, omission.
+Columns: what it asked | what it answered | the edge it tested.
+- Friday: whether the community is gathered around the right public center | the center is fixed by measure, by authority, and by visible order | the public sermon, the second congregation, the unjust preacher.
+- Eid: whether celebration reveals the hidden meaning of fasting and sacred emergence | the feast is worship at the point of emergence | the Eid takbir, the city obligation, the setting that refuses congregation.
+- Omission: whether an established defect can be told from a passing uncertainty | the defect is repaired, the failed structure repeated, the uncertainty answered by certainty | the missed tashahhud, the doubtful rak'ah, the unspoken intention.
+
+Cell commitment: all three are disciplined worship under pressure, and all three are answered by measure.
+
+Diagram type: Visual metaphor. A balance beam.
+
+Abstract relation: how worship is preserved under pressure.
+Metaphor: a balance beam with two loaded pans.
+Element assignments:
+- The left pan: private improvisation, where the worshipper arranges the act to suit himself
+- The right pan: frightened repetition, where every unease reopens the act
+- The centre, held: ordered action, carried by authority, by meaning, and by certainty
+- The fulcrum: measure
+Reading: prayer's summons, shape, leadership, time, attention, and material boundaries are tested at their hardest edges, and the answer is the same at each.

@@ -1,0 +1,157 @@
+{
+  "title": "27. The Wealth That Is Not Yours",
+  "purpose": "It opens the Book of Zakat, assembling from Ismaili and Shia authorities the merit, categories, recipients, conditions and severity of zakat, with the governing rule that it must be rendered to the Imam.",
+  "points": [
+    {
+      "text": "The Prophet is cited as saying that charity (sadaqa) is not lawful for him nor for the people of his house, and a later answer specifies that 'people of the House' here refers to the Imams.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Prophet Muhammad",
+        "Ahl al-Bayt",
+        "Imams",
+        "sadaqa"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman teaches that whoever pays the khums is thereby excused from the tithe except voluntarily, but paying the tithe alone does not excuse the khums, because the tithe does not encompass the khums as the khums encompasses the tithe.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "khums",
+        "tithe"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman also holds that one whose standing in the call, after his obligations are discharged, is shown by outward abundance of wealth pays from it what he wills, apart from the fitra, of obligatory rights and voluntary giving.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "fitra",
+        "the call"
+      ]
+    },
+    {
+      "text": "The Prophet is quoted as saying there is no prayer for one who does not pay zakat, and that the withholder of zakat is in the Fire.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Prophet Muhammad",
+        "zakat"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad, in the Hidden Epistle, lists ten things upon which God imposed zakat: gold, silver, camels, cows, sheep, dates, raisins, wheat, barley, and grains.",
+      "kind": "framework",
+      "weight": 2,
+      "entities": [
+        "Zayd ibn Muhammad",
+        "Hidden Epistle"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib, in the Four Hundred Counsels, says: treat your sick with charity and fortify your wealth with zakat.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Counsels"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya Councils place zakat after the jurisprudence of guardianship, purity and prayer, as one of the rights of the testimony, and assign it seven obligations and twelve sunnahs, matching the number of the clauses and letters of the testimony.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [
+        "S26-P01"
+      ],
+      "entities": [
+        "Mustansiriyya Councils",
+        "shahada",
+        "zakat"
+      ]
+    },
+    {
+      "text": "According to the Mustansiriyya Councils, zakat must be received by the Imam and is taken from seven things: gold, silver, camels, cows, sheep, crops, and minerals.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Mustansiriyya Councils",
+        "Imam"
+      ]
+    },
+    {
+      "text": "The Councils name eight recipients falling into seven divisions — the poor and needy, the collectors (as wage), those whose hearts are reconciled (as bond of protection), the freeing of necks, the debt-burdened among the people of allegiance, the way of God as a struggle of sufficiency, and the wayfarer understood as those cut off from the road of guidance.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Mustansiriyya Councils"
+      ]
+    },
+    {
+      "text": "The twelve sunnahs of zakat include waiting for the year to run its course, nisabs of twenty dinars for gold, two hundred dirhams for silver, five grazing camels, thirty grazing cows and forty sheep, taking the middling livestock rather than the best or poorest, not joining what is separate nor dividing what is joined, exempting the stud animal, giving from crops below the nisab of five awsaq by bundle and handful on the harvest day per Qur'an 6:141, and no zakat on dwellings, ornaments, or things for use.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "nisab",
+        "awsaq",
+        "Qur'an 6:141"
+      ]
+    },
+    {
+      "text": "In the question-and-answer book arranged after Daaim al-Islam, the prohibition on concealing zakat from one's imam is explained as applying to one who brings out only part of the zakat, whereas one who withholds it entirely has abandoned the obligation altogether.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Daaim al-Islam",
+        "Imam"
+      ]
+    },
+    {
+      "text": "The same source explains that the 'hamala' which makes charity lawful for a recipient means either a penalty imposed by a tyrannical ruler or the bearing of blood money on behalf of the 'aqila.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "hamala",
+        "'aqila",
+        "Daaim al-Islam"
+      ]
+    },
+    {
+      "text": "Ali's covenant to Muhnaf ibn Sulaym forbids a resident of his domain to pay charity to the enemy, and the answer interprets the exemption for territory not encompassed by his horsemen as meaning zakat is not demanded from one seized by the enemy who is not of the Shia holding the allegiance.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Muhnaf ibn Sulaym",
+        "Daaim al-Islam"
+      ]
+    },
+    {
+      "text": "It is transmitted from the people of the House that zakat handed to other than the one God commanded does not suffice, even if it is afterwards plundered or stolen, until it is handed to the guardian of the affair or one who receives it by his command.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Ahl al-Bayt",
+        "wali al-amr",
+        "Daaim al-Islam"
+      ]
+    },
+    {
+      "text": "The Mustansiriyya Councils hold that one who keeps the outward prayer and believes its inner reality but does not spend the zakat of his wealth, the khums of his earnings, the purchase of his own self and the redemption of his pledge falls short of the one God praises as spending from what He provided.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [
+        "S26-P01"
+      ],
+      "entities": [
+        "Mustansiriyya Councils",
+        "khums",
+        "zakat"
+      ]
+    }
+  ],
+  "fingerprint": "fb6ff83f7d6c23fb"
+}

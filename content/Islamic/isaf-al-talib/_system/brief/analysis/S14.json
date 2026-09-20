@@ -1,0 +1,127 @@
+{
+  "title": "14. The Disputed Words of the Call",
+  "purpose": "It assembles the legal and doctrinal material on the adhan and iqama, focusing on the disputed Shi'i formulas testifying to Ali's walaya and the superiority of Muhammad and Ali over all humankind, and defends them by tradition, argument and Fatimid precedent.",
+  "points": [
+    {
+      "text": "A question-and-answer book arranged by the chapter order of Daa'im al-Islam records that a man of the call appointed by a tyrannical sultan as imam, muezzin or teacher and paid from the port levy or jizya may lawfully consume such pay only if the public treasury (bayt al-mal) is administered by the judgment of one appointed by the friends of God, and not otherwise.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Daa'im al-Islam",
+        "bayt al-mal",
+        "jizya",
+        "port levy"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Idah reports from Ja'far ibn Muhammad ibn Ali that giving the call while walking or mounted is permissible provided one faces the qibla at the moment of the testimony, while the author states that the books attributed to the Ahl al-Bayt agree that the iqama is invalid unless the person is standing upon the ground.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Mukhtasar al-Idah",
+        "Ja'far al-Sadiq",
+        "iqama",
+        "qibla"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Musannaf holds that the muezzin should say inwardly 'I bear witness that Ali is the friend of God' after each testimony to Muhammad's messengership, and 'the family of Muhammad are the best of humankind' after each 'Come to the best of deeds'.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "hayya ala khayr al-amal",
+        "Ali"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Musannaf further rules that no one in the mosque should leave after the call before praying, except for a necessity or to perform ablution with the intention and expectation of returning, and that one who misses the congregation prays alone or with another congregation without fault.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Musannaf"
+      ]
+    },
+    {
+      "text": "Tawil al-Shari'a rules that the adhan may be given without ritual purity but the iqama only by one who is pure, that the muezzin faces the qibla and forms intention first, and that the obligatory prayer is prayed at the iqama while the supererogatory is joined to the adhan and comes first.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Tawil al-Shari'a",
+        "adhan",
+        "iqama"
+      ]
+    },
+    {
+      "text": "Idris ibn Sayyidina Hasan records in the sixth part of Uyun al-Akhbar that under the caliph al-Hakim bi-Amr Allah the muezzins publicly proclaimed 'I bear witness that our mawla Ali is the friend of God' and 'Muhammad and Ali are the best of humankind and their kindred the best of kindred', in confirmation of the Prophet's Ghadir declaration.",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "Idris ibn al-Hasan",
+        "Uyun al-Akhbar",
+        "al-Hakim bi-Amr Allah",
+        "Ghadir Khumm"
+      ]
+    },
+    {
+      "text": "The author argues from Ibn Abbas's answer that the 'near kindred' are Ali, Fatima, al-Hasan and al-Husayn, and rejects the report from Abu Bakr that 'we are the kindred of the Messenger of God' on the ground that Abu Bakr's only tie was remote Qurashi lineage.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Abdullah ibn Abbas",
+        "Abu Bakr",
+        "itra",
+        "al-Kumayt"
+      ]
+    },
+    {
+      "text": "The objection of many common people — that Muhammad may be granted best of humankind but not Ali, since prophets are among humankind — is answered by the author as obstinate and self-refuting, since all Muslims accept that Muhammad's community is 'the best community brought forth for the people' though earlier communities contained prophets.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Quran 3:110"
+      ]
+    },
+    {
+      "text": "The author supports Ali's pre-eminence with the Prophet's hadith of the two weighty things and the ark of Noah, and the saying 'Ali is the best of humankind, and whoever refuses this has disbelieved'.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Hudhayfa ibn al-Yaman",
+        "hadith al-thaqalayn"
+      ]
+    },
+    {
+      "text": "The narrated anecdote of al-Hakim at al-Gharafa has him settle a dispute at Atfih between a preacher who rejected the new call and the dai who gave it, by a chain of reports the preacher himself concedes sound.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "al-Hakim bi-Amr Allah",
+        "Atfih",
+        "al-Gharafa",
+        "Ali ibn al-Husayn al-Qari"
+      ]
+    },
+    {
+      "text": "Al-Hakim's argument runs: al-Hasan and al-Husayn are masters of the youth of the people of the Garden, the people of the Garden are youths who never age and include Adam, Noah, Abraham, Moses and Jesus, and the Prophet said their father is better than the two of them — therefore Ali is the best of humankind alongside the Prophet; the preacher then professes belief and al-Hakim tells the dai to give the call as he wishes, since none will oppose him.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "al-Hakim bi-Amr Allah",
+        "al-Hasan",
+        "al-Husayn",
+        "Ali"
+      ]
+    },
+    {
+      "text": "The author announces that he will next reproduce in full the epistle al-Muriba 'amma jarat bihi al-mubahatha by his sayyid and father Muhammad ibn Fahd, which debates whether the formula 'Muhammad and Ali are the best of humankind' is an illicit innovation or a thing commanded by the Noble Book and upheld by obedience to those whose command must be obeyed.",
+      "kind": "turn",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn Fahd",
+        "al-Muriba 'amma jarat bihi al-mubahatha"
+      ]
+    }
+  ],
+  "fingerprint": "9a4deaf73d44766d"
+}

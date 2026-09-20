@@ -1,0 +1,132 @@
+{
+  "title": "15. Eight Proofs for the Best of Human Beings",
+  "purpose": "It defends, through eight Quran-based proofs and a rebuttal of objections, the Ismaili adhan formula declaring Muhammad and Ali the best of human beings and their kindred the best of kindred.",
+  "points": [
+    {
+      "text": "The section is framed as a recorded debate in which one jurist challenges another over the call-to-prayer formula 'Muhammad and Ali are the best of human beings, and their kindred are the best of kindred,' noting no other Islamic group says it.",
+      "kind": "framework",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "adhan",
+        "Muhammad",
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "The respondent's first reply is that, per Q 41:46 and Q 6:164, a righteous act benefits only its doer and a wrong burdens only its doer, so the formula harms no one else; the questioner accepts this but demands a plain proof that Ali equals the Prophet in excellence, conceding the Prophet's primacy as master of the messengers is already established.",
+      "kind": "turn",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Quran 41:46",
+        "Quran 6:164"
+      ]
+    },
+    {
+      "text": "Proof one: the purification verse (Q 33:33) establishes the people of the household as equal to the Prophet in purity, and since Ali is the most excellent of them and the Prophet's guardian and successor, likeness to the Prophet is established for him.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Ayat al-Tathir",
+        "ahl al-bayt",
+        "Ali"
+      ]
+    },
+    {
+      "text": "Proof two: 'Peace be upon the family of Yasin' (Q 37:130) refers to the Messenger's household, and only the best of human beings could be the most excellent of that family, which is Ali, whom the Prophet chose as guardian over his community.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Quran 37:130",
+        "Al Yasin"
+      ]
+    },
+    {
+      "text": "Proof three: 'You are the best community brought forth for humankind' (Q 3:110) is read as addressed specifically to the Prophet's household, and since Ali is first and most excellent among them, he is the best of human beings after and alongside the Prophet.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Quran 3:110"
+      ]
+    },
+    {
+      "text": "Proof four: because Moses' request for Aaron as minister, back-strengthener and partner in his task was granted (Q 20:29-36, 28:34-35), and because God's way admits no change or alteration and Muhammad is told to follow earlier prophets' guidance, the Prophet was obliged to appoint Ali as his minister, brother and partner — confirmed by the hadith 'Ali stands to me in the station of Aaron to Moses, except that there is no prophet after me.'",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Moses",
+        "Aaron",
+        "hadith al-manzila"
+      ]
+    },
+    {
+      "text": "Proof five: the guardianship verse (Q 5:55) — 'Your guardian is only God, His Messenger, and those who believe who give alms while bowing' — designates Ali as the Messenger's partner in guardianship over the believers, reinforced by the Ghadir Khumm declaration 'whoever's master I am, this Ali is his master.'",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Ayat al-Wilaya",
+        "Ghadir Khumm"
+      ]
+    },
+    {
+      "text": "Proofs six, seven and eight argue respectively that Q 98:7 makes the household 'the best of creation,' that Q 3:33-34's election of Abraham's and Imran's families implies the Prophet's family surpasses them since he surpasses Adam and Noah, and that Q 44:30-32's choosing of the Children of Israel over the worlds shows the Prophet's kindred are best not only in their era but over all prior eras.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Quran 98:7",
+        "Quran 3:33",
+        "Quran 44:32"
+      ]
+    },
+    {
+      "text": "An objection is reported: that Umar's removal of 'hayya ala khayr al-amal' from the adhan is unproven from the opponents' books, was in any case a legitimate exercise of judgment, and that if it were an error then the added testimony 'I bear witness that our master Ali is the guardian of God' would equally be an error, since adding to the adhan is like subtracting from it.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Umar ibn al-Khattab",
+        "hayya ala khayr al-amal"
+      ]
+    },
+    {
+      "text": "The author answers that even conceding error in both, adder and subtractor are not of equal degree, for four reasons: the subtractor misled vastly more people; he preceded the alleged addition by over four hundred years; he not only subtracted but also added the feeble sentence 'prayer is better than sleep'; and he dropped the Prophet's phrase from all five prayers while attaching his own only to the dawn prayer.",
+      "kind": "resolution",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "al-salat khayr min al-nawm"
+      ]
+    },
+    {
+      "text": "The author rejects as void slander the ascription of the wilaya testimony to al-Hakim bi-Amr Allah — noting the Twelver Shia use it despite differing from him in school — and instead traces the phrase to Ali himself testifying to his own guardianship after the Prophet, as the Prophet testified to his own prophethood and God testifies to His own oneness (Q 3:18).",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "al-Hakim bi-Amr Allah",
+        "Twelver Shia",
+        "Ali"
+      ]
+    },
+    {
+      "text": "The author dismisses the appeal to the opponents' books (Sahih al-Bukhari, the five, al-Mishkat) on the ground that their own scholars dispute those books' soundness and they contain fabrications, and holds that al-Qadi al-Numan's narration from Jafar al-Sadiq predates their compilation and was likely suppressed by them to avoid censure.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Sahih al-Bukhari",
+        "al-Mishkat",
+        "al-Qadi al-Numan",
+        "Jafar al-Sadiq"
+      ]
+    }
+  ],
+  "fingerprint": "d6aada8fcb8f314b"
+}

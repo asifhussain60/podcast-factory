@@ -1,0 +1,439 @@
+{
+  "schema": "podcast.translation-edition/v1",
+  "mode": "translation_edition",
+  "augmentation": "forbidden",
+  "visual_style": "black_white",
+  "chapters": [
+    {
+      "index": 1,
+      "title": "The Eight Levels of Faith",
+      "chapter_file": "book/_chapters/ch01-the-eight-levels-of-faith.txt",
+      "source_line_ranges": [
+        [
+          59,
+          79
+        ]
+      ],
+      "source_words": 422,
+      "output_words": 2137,
+      "folded_opening_words": 1515
+    },
+    {
+      "index": 2,
+      "title": "Three Questions from the King of Rūm",
+      "chapter_file": "book/_chapters/ch02-three-questions-from-the-king-of-r-m.txt",
+      "source_line_ranges": [
+        [
+          80,
+          133
+        ]
+      ],
+      "source_words": 2276,
+      "output_words": 2339
+    },
+    {
+      "index": 3,
+      "title": "The Grammar of Peace",
+      "chapter_file": "book/_chapters/ch03-the-grammar-of-peace.txt",
+      "source_line_ranges": [
+        [
+          134,
+          162
+        ]
+      ],
+      "source_words": 1589,
+      "output_words": 1567
+    },
+    {
+      "index": 4,
+      "title": "Guardians, Proofs, and the Limits of Praise",
+      "chapter_file": "book/_chapters/ch04-guardians-proofs-and-the-limits-of-praise.txt",
+      "source_line_ranges": [
+        [
+          163,
+          194
+        ]
+      ],
+      "source_words": 1291,
+      "output_words": 1786
+    },
+    {
+      "index": 5,
+      "title": "Parents, Kin, and the Neighbor at Your Side",
+      "chapter_file": "book/_chapters/ch05-parents-kin-and-the-neighbor-at-your-side.txt",
+      "source_line_ranges": [
+        [
+          195,
+          234
+        ]
+      ],
+      "source_words": 1668,
+      "output_words": 1997
+    },
+    {
+      "index": 6,
+      "title": "What Must Be Learned, What Must Be Concealed",
+      "chapter_file": "book/_chapters/ch06-what-must-be-learned-what-must-be-concealed.txt",
+      "source_line_ranges": [
+        [
+          235,
+          284
+        ]
+      ],
+      "source_words": 1413,
+      "output_words": 1842
+    },
+    {
+      "index": 7,
+      "title": "Water and Intention: The Anatomy of Ablution",
+      "chapter_file": "book/_chapters/ch07-water-and-intention-the-anatomy-of-ablution.txt",
+      "source_line_ranges": [
+        [
+          286,
+          334
+        ]
+      ],
+      "source_words": 1303,
+      "output_words": 1324
+    },
+    {
+      "index": 8,
+      "title": "The Manners of the Washing Place",
+      "chapter_file": "book/_chapters/ch08-the-manners-of-the-washing-place.txt",
+      "source_line_ranges": [
+        [
+          335,
+          410
+        ]
+      ],
+      "source_words": 3445,
+      "output_words": 3762
+    },
+    {
+      "index": 9,
+      "title": "Major Impurity and the Cleanliness of Things",
+      "chapter_file": "book/_chapters/ch09-major-impurity-and-the-cleanliness-of-things.txt",
+      "source_line_ranges": [
+        [
+          411,
+          468
+        ]
+      ],
+      "source_words": 3008,
+      "output_words": 3564
+    },
+    {
+      "index": 10,
+      "title": "Tooth-Stick, Dust, and the Purity of Food",
+      "chapter_file": "book/_chapters/ch10-tooth-stick-dust-and-the-purity-of-food.txt",
+      "source_line_ranges": [
+        [
+          469,
+          516
+        ]
+      ],
+      "source_words": 2666,
+      "output_words": 2704
+    },
+    {
+      "index": 11,
+      "title": "Bodies, Hair, and the Reform of Custom",
+      "chapter_file": "book/_chapters/ch11-bodies-hair-and-the-reform-of-custom.txt",
+      "source_line_ranges": [
+        [
+          517,
+          595
+        ]
+      ],
+      "source_words": 3798,
+      "output_words": 4085
+    },
+    {
+      "index": 12,
+      "title": "Skins, Blood, and Waiting Periods",
+      "chapter_file": "book/_chapters/ch12-skins-blood-and-waiting-periods.txt",
+      "source_line_ranges": [
+        [
+          596,
+          663
+        ]
+      ],
+      "source_words": 3301,
+      "output_words": 3598
+    },
+    {
+      "index": 13,
+      "title": "The Pillar of Religion and Its Appointed Hours",
+      "chapter_file": "book/_chapters/ch13-the-pillar-of-religion-and-its-appointed-hours.txt",
+      "source_line_ranges": [
+        [
+          664,
+          778
+        ]
+      ],
+      "source_words": 5094,
+      "output_words": 6124
+    },
+    {
+      "index": 14,
+      "title": "The Disputed Words of the Call",
+      "chapter_file": "book/_chapters/ch14-the-disputed-words-of-the-call.txt",
+      "source_line_ranges": [
+        [
+          779,
+          826
+        ]
+      ],
+      "source_words": 2633,
+      "output_words": 3007
+    },
+    {
+      "index": 15,
+      "title": "Eight Proofs for the Best of Human Beings",
+      "chapter_file": "book/_chapters/ch15-eight-proofs-for-the-best-of-human-beings.txt",
+      "source_line_ranges": [
+        [
+          827,
+          911
+        ]
+      ],
+      "source_words": 3874,
+      "output_words": 4639
+    },
+    {
+      "index": 16,
+      "title": "Where a Muslim Stands to Pray",
+      "chapter_file": "book/_chapters/ch16-where-a-muslim-stands-to-pray.txt",
+      "source_line_ranges": [
+        [
+          912,
+          976
+        ]
+      ],
+      "source_words": 2563,
+      "output_words": 2961
+    },
+    {
+      "index": 17,
+      "title": "Who May Lead, and Who May Not",
+      "chapter_file": "book/_chapters/ch17-who-may-lead-and-who-may-not.txt",
+      "source_line_ranges": [
+        [
+          977,
+          1064
+        ]
+      ],
+      "source_words": 4341,
+      "output_words": 4756
+    },
+    {
+      "index": 18,
+      "title": "The Shape of the Prayer Itself",
+      "chapter_file": "book/_chapters/ch18-the-shape-of-the-prayer-itself.txt",
+      "source_line_ranges": [
+        [
+          1065,
+          1103
+        ]
+      ],
+      "source_words": 3320,
+      "output_words": 3782
+    },
+    {
+      "index": 19,
+      "title": "Supplication, Speech, and Silence",
+      "chapter_file": "book/_chapters/ch19-supplication-speech-and-silence.txt",
+      "source_line_ranges": [
+        [
+          1104,
+          1143
+        ]
+      ],
+      "source_words": 1544,
+      "output_words": 1903
+    },
+    {
+      "index": 20,
+      "title": "What the Worshipper Wears and Stands Upon",
+      "chapter_file": "book/_chapters/ch20-what-the-worshipper-wears-and-stands-upon.txt",
+      "source_line_ranges": [
+        [
+          1144,
+          1201
+        ]
+      ],
+      "source_words": 1842,
+      "output_words": 2169
+    },
+    {
+      "index": 21,
+      "title": "Friday and the Two Festivals",
+      "chapter_file": "book/_chapters/ch21-friday-and-the-two-festivals.txt",
+      "source_line_ranges": [
+        [
+          1202,
+          1248
+        ]
+      ],
+      "source_words": 2711,
+      "output_words": 3198
+    },
+    {
+      "index": 22,
+      "title": "Forgetting, Doubting, and Beginning Again",
+      "chapter_file": "book/_chapters/ch22-forgetting-doubting-and-beginning-again.txt",
+      "source_line_ranges": [
+        [
+          1249,
+          1306
+        ]
+      ],
+      "source_words": 3522,
+      "output_words": 3787
+    },
+    {
+      "index": 23,
+      "title": "Children, Travelers, and the Sick",
+      "chapter_file": "book/_chapters/ch23-children-travelers-and-the-sick.txt",
+      "source_line_ranges": [
+        [
+          1307,
+          1424
+        ]
+      ],
+      "source_words": 4228,
+      "output_words": 4409
+    },
+    {
+      "index": 24,
+      "title": "Eclipse, Fear, Rain, and the Night Vigil",
+      "chapter_file": "book/_chapters/ch24-eclipse-fear-rain-and-the-night-vigil.txt",
+      "source_line_ranges": [
+        [
+          1425,
+          1513
+        ]
+      ],
+      "source_words": 4055,
+      "output_words": 4374
+    },
+    {
+      "index": 25,
+      "title": "The Sickbed and the Sound of Mourning",
+      "chapter_file": "book/_chapters/ch25-the-sickbed-and-the-sound-of-mourning.txt",
+      "source_line_ranges": [
+        [
+          1514,
+          1553
+        ]
+      ],
+      "source_words": 2574,
+      "output_words": 3255
+    },
+    {
+      "index": 26,
+      "title": "Washing, Shrouding, Carrying, Burying",
+      "chapter_file": "book/_chapters/ch26-washing-shrouding-carrying-burying.txt",
+      "source_line_ranges": [
+        [
+          1554,
+          1625
+        ]
+      ],
+      "source_words": 3448,
+      "output_words": 3774
+    },
+    {
+      "index": 27,
+      "title": "The Wealth That Is Not Yours",
+      "chapter_file": "book/_chapters/ch27-the-wealth-that-is-not-yours.txt",
+      "source_line_ranges": [
+        [
+          1626,
+          1649
+        ]
+      ],
+      "source_words": 1297,
+      "output_words": 1451
+    },
+    {
+      "index": 28,
+      "title": "Gold, Herds, and Harvest",
+      "chapter_file": "book/_chapters/ch28-gold-herds-and-harvest.txt",
+      "source_line_ranges": [
+        [
+          1650,
+          1696
+        ]
+      ],
+      "source_words": 3610,
+      "output_words": 3979
+    },
+    {
+      "index": 29,
+      "title": "The Charity of the Head",
+      "chapter_file": "book/_chapters/ch29-the-charity-of-the-head.txt",
+      "source_line_ranges": [
+        [
+          1697,
+          1714
+        ]
+      ],
+      "source_words": 1171,
+      "output_words": 1319
+    },
+    {
+      "index": 30,
+      "title": "A Shield Against the Fire",
+      "chapter_file": "book/_chapters/ch30-a-shield-against-the-fire.txt",
+      "source_line_ranges": [
+        [
+          1715,
+          1734
+        ]
+      ],
+      "source_words": 988,
+      "output_words": 1168
+    },
+    {
+      "index": 31,
+      "title": "The Quarrel Over the Crescent",
+      "chapter_file": "book/_chapters/ch31-the-quarrel-over-the-crescent.txt",
+      "source_line_ranges": [
+        [
+          1735,
+          1825
+        ]
+      ],
+      "source_words": 3192,
+      "output_words": 3602
+    },
+    {
+      "index": 32,
+      "title": "Two Kinds of Sight",
+      "chapter_file": "book/_chapters/ch32-two-kinds-of-sight.txt",
+      "source_line_ranges": [
+        [
+          1826,
+          1955
+        ]
+      ],
+      "source_words": 5070,
+      "output_words": 5760
+    },
+    {
+      "index": 33,
+      "title": "The Sun, the Moon, and the Order of Obedience",
+      "chapter_file": "book/_chapters/ch33-the-sun-the-moon-and-the-order-of-obedience.txt",
+      "source_line_ranges": [
+        [
+          1956,
+          2069
+        ]
+      ],
+      "source_words": 5896,
+      "output_words": 7067
+    }
+  ],
+  "source_crosswalk": "book/source-crosswalk.json"
+}

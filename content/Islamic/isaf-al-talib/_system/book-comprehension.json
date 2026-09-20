@@ -1,0 +1,328 @@
+{
+  "schema": "book.comprehension/v1",
+  "pages": 400,
+  "terms_tracked": 44,
+  "prerequisite_gaps": [
+    {
+      "term": "Fatima",
+      "first_use_page": 10,
+      "explained_page": 357,
+      "pages_carried": 347,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Zayd",
+      "first_use_page": 89,
+      "explained_page": 269,
+      "pages_carried": 180,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Idah",
+      "first_use_page": 75,
+      "explained_page": 208,
+      "pages_carried": 133,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ibrahim",
+      "first_use_page": 9,
+      "explained_page": 117,
+      "pages_carried": 108,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ali",
+      "first_use_page": 6,
+      "explained_page": 24,
+      "pages_carried": 18,
+      "kind": "explained-late"
+    },
+    {
+      "term": "al-Daaim",
+      "first_use_page": 57,
+      "explained_page": 75,
+      "pages_carried": 18,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Ismail",
+      "first_use_page": 9,
+      "explained_page": null,
+      "pages_carried": 6,
+      "kind": "never-explained"
+    },
+    {
+      "term": "Jafar",
+      "first_use_page": 7,
+      "explained_page": 11,
+      "pages_carried": 4,
+      "kind": "explained-late"
+    },
+    {
+      "term": "Yusuf",
+      "first_use_page": 10,
+      "explained_page": null,
+      "pages_carried": 4,
+      "kind": "never-explained"
+    }
+  ],
+  "naming_drift": [],
+  "referent_collisions": [],
+  "dense_pages": [
+    {
+      "page": 10,
+      "term_count": 11,
+      "terms": [
+        "Fatima",
+        "Hasan",
+        "Husayn",
+        "Ishaq",
+        "Ismail",
+        "Jafar",
+        "Muhammad",
+        "Sulayman",
+        "Yusuf",
+        "al-Hasan"
+      ]
+    },
+    {
+      "page": 20,
+      "term_count": 8,
+      "terms": [
+        "Abbas",
+        "Ali",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "Umar",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 100,
+      "term_count": 7,
+      "terms": [
+        "Hasan",
+        "Ibrahim",
+        "Ismail",
+        "Mukhtasar",
+        "Yusuf",
+        "al-Hasan",
+        "al-Musannaf"
+      ]
+    },
+    {
+      "page": 173,
+      "term_count": 8,
+      "terms": [
+        "Abbas",
+        "Ali",
+        "Fatima",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 174,
+      "term_count": 8,
+      "terms": [
+        "Abbas",
+        "Ali",
+        "Fatima",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 177,
+      "term_count": 7,
+      "terms": [
+        "Abbas",
+        "Fatima",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 178,
+      "term_count": 7,
+      "terms": [
+        "Ali",
+        "Fatima",
+        "Hasan",
+        "Husayn",
+        "Khadija",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 180,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Ali",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 231,
+      "term_count": 7,
+      "terms": [
+        "Adam",
+        "Hasan",
+        "Jafar",
+        "Mukhtasar",
+        "Sulayman",
+        "al-Daaim",
+        "al-Musannaf"
+      ]
+    },
+    {
+      "page": 266,
+      "term_count": 6,
+      "terms": [
+        "Ali",
+        "Hasan",
+        "Husayn",
+        "Muhammad",
+        "al-Hasan",
+        "al-Husayn"
+      ]
+    },
+    {
+      "page": 367,
+      "term_count": 6,
+      "terms": [
+        "Jafar",
+        "Muhammad",
+        "Mukhtasar",
+        "Zayd",
+        "al-Daaim",
+        "al-Musannaf"
+      ]
+    }
+  ],
+  "long_sentences": [
+    {
+      "page": 163,
+      "words": 254,
+      "text": "He said: SAYING ‫ َأِل َّنَه ا َل َكاَنْت ِم‬،‫اَل ِم َص اَل ِة الَّل ِل اَل ِم َص اَل ِة الَّنَه اِر‬ ‫ْو‬ ‫ْي َو ْن‬ ‫ْن‬ ‫ْأ‬ ‫ِل‬ ‫ َو َلْو‬، ‫َص اَل ِة الَ"
+    },
+    {
+      "page": 32,
+      "words": 200,
+      "text": "And admit us into all the good into which You have admitted them, and spare us from every evil from which You have spared them.\" And he said in his supplication"
+    },
+    {
+      "page": 103,
+      "words": 200,
+      "text": "Major Impurity and the Cleanliness of Things ‫َتْق ِليُم اَأْلَظاِفِر َيْم َنُع الَّد اَء اَأْلْع َظ َم َو َيْج ِلُب الِّر ْزَق َو َيُد ُّر ُه‬ \"Trimming the na"
+    },
+    {
+      "page": 122,
+      "words": 196,
+      "text": "The Prophet has said concerning this that which removes the rust from hearts, where he said: SAYING ‫إذا أراد أحدكم أن يتزوج امرأة فيسأل عن شعرها كما يسأل عن‬ ‫"
+    },
+    {
+      "page": 326,
+      "words": 195,
+      "text": "In one section of it, he says that it has been reported of some of you that you are slow in visiting the sick, though the reward for it has its established plac"
+    },
+    {
+      "page": 146,
+      "words": 189,
+      "text": "The Pillar of Religion and Its Appointed Hours And he said in it: SAYING ‫َالَّص اَل ُة ُقْر َباٌن ِلُك ِّل َتِق‬ ‫ٍّي‬ SAYING ‫ٍّي‬ ‫َالَّص اَل ُة ُقْر َباُن ُ"
+    },
+    {
+      "page": 172,
+      "words": 189,
+      "text": "The Disputed Words of the Call Our sayyid and mawla Idris ibn Sayyidina Hasan recorded in his book known as Uyun al-Akhbar — in its sixth part, on the matter of"
+    },
+    {
+      "page": 194,
+      "words": 186,
+      "text": "This is among the clearest of matters, admitting no ambiguity, for it rests upon the words of the glorious Quran — to which falsehood does not come from before "
+    },
+    {
+      "page": 160,
+      "words": 185,
+      "text": "The Pillar of Religion and Its Appointed Hours of the doors of goodness and righteousness — then above all the Hajj, concerning which our master al-Sadiq, Imam "
+    },
+    {
+      "page": 15,
+      "words": 184,
+      "text": "Our lord and master, the trust of the Imam, the banner of Islam — may God exalt his sanctity and grant us his intercession and his company — said, in the fourth"
+    },
+    {
+      "page": 347,
+      "words": 182,
+      "text": "Washing, Shrouding, Carrying, Burying From the Tawil al-Daaim, and of that is what is related of the Messenger of God (‫)ع‬: SAYING ‫َنَظ َر ِإَلى الِّنَس اِء َ"
+    },
+    {
+      "page": 72,
+      "words": 181,
+      "text": "Praise be to God, who fed me in good health and expelled its harm from me in good health.\" SAYING ‫ِإَذ ا َنَظ َر َأَح ُد ُك ْم ِإَلٰى َح َد ِثِه َبْع َد َفَر ا"
+    },
+    {
+      "page": 14,
+      "words": 180,
+      "text": "The Eight Levels of Faith I find it stated in some of the noble books: SAYING ‫ِخ‬ ‫ِا‬ ‫ِت‬ ‫ْع َلْم َيا َأ ي ِإَّن اِإْل يَم اَن َثَم اُن َم َر ا َب‬ \"Know, m"
+    },
+    {
+      "page": 95,
+      "words": 180,
+      "text": "Major Impurity and the Cleanliness of Things The Commander of the Faithful, our master Ali ibn Abi Talib (‫)ع‬, said in his Four Hundred Manners: SAYING ‫اَل َي"
+    },
+    {
+      "page": 42,
+      "words": 176,
+      "text": "Guardians, Proofs, and the Limits of Praise‬‬ ‫‪) said in his Four Hundred‬ع( ‪Maulana Amir al-Muminin Ali ibn Abi Talib‬‬ ‫‪Manners:‬‬ ‫‪SAYING‬‬ ‫من احبنا فلي"
+    },
+    {
+      "page": 62,
+      "words": 175,
+      "text": "What Must Be Learned, What Must Be Concealed‬‬ ‫‪Among the questions I have already mentioned, it is said:‬‬ ‫‪SAYING‬‬ ‫وأّم ا ما سألت من العلم الواجب الذي ال "
+    },
+    {
+      "page": 179,
+      "words": 172,
+      "text": "The Disputed Words of the Call ‫َه َذ اِن اْلَح َس ُن َو اْلُح َس ْي ُن َع ُّم ُه َم ا َج ْع َف ُر ْب ُن َأِبي َطاِلٍب َوَع َّم ُتُه َم ا‬ ‫ُأُّم َه اِنٍي ِبْن "
+    },
+    {
+      "page": 331,
+      "words": 169,
+      "text": "And he said in it: SAYING ‫َم ا ِم ِش يَع ِتَنا َأَح ٌد ُيَف اِرُق َأْم ا َنَه َنا َع ْن ُه َف ُم وُت َح َّت ُيْبَتَل ِب ِل ٍة‬ ‫ًر ْي‬ ‫ْن‬ ‫ٰى َب َّي‬ ‫َي‬ ‫ٰ"
+    },
+    {
+      "page": 271,
+      "words": 168,
+      "text": "Friday and the Two Festivals Mawlana Amir al-Muminin Ali ibn Abi Talib (‫ )ع‬said in his Four Hundred Points of Conduct: SAYING ‫ ِفي‬-١ : ‫َم ْن َكاَنْت َلُه ِ"
+    },
+    {
+      "page": 124,
+      "words": 162,
+      "text": "Bodies, Hair, and the Reform of Custom \"When the woman is released from her ihram, she takes from the ends of the plaits of her head.\" And he said also, may God"
+    }
+  ],
+  "summary": {
+    "never_explained": 2,
+    "explained_late": 7,
+    "referent_collisions": 0
+  }
+}

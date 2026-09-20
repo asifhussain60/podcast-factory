@@ -1,0 +1,30 @@
+{
+  "vowelled": 4,
+  "marks_added": 24,
+  "already": 51,
+  "refused": 5,
+  "refusals": [
+    {
+      "term": "جرح",
+      "reason": "empty"
+    },
+    {
+      "term": "فطر ناب البعير",
+      "reason": "letters changed, not just marks (first difference at character 4: source \" ناب البعير\" vs proposal \"\")"
+    },
+    {
+      "term": "بنوا العلاّت",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"ا العلات\" vs proposal \" العلات\")"
+    },
+    {
+      "term": "تفطرت الأرض وانفطرت",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" الأرض وانفط\" vs proposal \"\")"
+    },
+    {
+      "term": "تفطّرت الشجرة",
+      "reason": "letters changed, not just marks (first difference at character 6: source \" الشجرة\" vs proposal \"\")"
+    }
+  ],
+  "in_chars": 393,
+  "out_chars": 107
+}

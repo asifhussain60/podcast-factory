@@ -1,0 +1,22 @@
+{
+  "schema": "book.duplication-check/v1",
+  "findings": [
+    {
+      "chapter": "33. The Sun, the Moon, and the Order of Obedience",
+      "lag": 1,
+      "first_copy_paragraphs": [
+        15,
+        16
+      ],
+      "second_copy_paragraphs": [
+        16,
+        17
+      ],
+      "paragraphs": 2,
+      "min_ratio": 0.529,
+      "min_shared_words": 6,
+      "first_copy_opens": "- **Prayer:** Since this prayer is not obligatory except by day, the day is its preceding general cause — a cause for this prayer and for the other prayers perf",
+      "second_copy_opens": "- **Zakat:** Since zakat is not obligatory except upon wealth, wealth is the cause of the obligation of zakat, and it is a preceding general cause. Then, since "
+    }
+  ]
+}

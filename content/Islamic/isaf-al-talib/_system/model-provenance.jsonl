@@ -1,0 +1,897 @@
+{"phase": "0d", "step": "toc", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "0d", "step": "toc", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-001", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-002", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-003", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-004", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-005", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-006", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-007", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-008", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-009", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-010", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-011", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-012", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-013", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-014", "model": "codex/gpt-5.5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-015", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-016", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-017", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-018", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-019", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-020", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-021", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-022", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-023", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-024", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-025", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-026", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-027", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0d", "step": "sc-028", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/imamate-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/prayer-virtue-and-sacred-times/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/imamate-in-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-travellers-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/imamate-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-travellers-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/supplication-conduct-and-dress-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/prayer-virtue-and-sacred-times/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/imamate-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/the-travellers-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/prayer-virtue-and-sacred-times", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/imamate-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/prayer-virtue-and-sacred-times/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/prayer-virtue-and-sacred-times/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-travellers-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/supplication-conduct-and-dress-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/prayer-virtue-and-sacred-times", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/adhan-and-iqama/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-travellers-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-obligation-and-meaning-of-fasting/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-form-of-the-prayer-summons/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/adhan-and-iqama/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-obligation-and-meaning-of-fasting/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-form-of-the-prayer-summons/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-on-wealth-livestock-crops-and-fitr/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/adhan-and-iqama", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/the-form-of-the-prayer-summons", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/the-obligation-and-meaning-of-fasting", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-form-of-the-prayer-summons/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/adhan-and-iqama/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/adhan-and-iqama/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-on-wealth-livestock-crops-and-fitr/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-form-of-the-prayer-summons/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/the-form-of-the-prayer-summons", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/congregation-and-shared-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-obligation-and-meaning-of-fasting/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/the-obligation-and-meaning-of-fasting/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/congregation-and-shared-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ramadan-foundation-and-obedient-knowledge", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/the-obligation-and-meaning-of-fasting", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/bodily-substances-and-disavowal", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ranks-loyalty-and-communal-affection", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ramadan-foundation-and-obedient-knowledge", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/astronomy-calculation-and-religious-obligation/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/astronomy-calculation-and-religious-obligation/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/mosques-and-sacred-space/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ranks-loyalty-and-communal-affection", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/mosques-and-sacred-space", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/astronomy-calculation-and-religious-obligation", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/astronomy-calculation-and-religious-obligation/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foods-cleanliness-and-everyday-purity/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/astronomy-calculation-and-religious-obligation", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/mosques-and-sacred-space/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/mosques-and-sacred-space/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foods-cleanliness-and-everyday-purity/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/mosques-and-sacred-space", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/scripture-counted-days-and-the-complete-month", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/missed-rakahs-and-learning-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/missed-rakahs-and-learning-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/scripture-counted-days-and-the-complete-month", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/special-prayers-and-voluntary-devotion/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/special-prayers-and-voluntary-devotion/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/fasting-duties-and-the-crescent-question/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/special-prayers-and-voluntary-devotion", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/special-prayers-and-voluntary-devotion/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/special-prayers-and-voluntary-devotion/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/condolence-mourning-and-burial/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/fasting-duties-and-the-crescent-question/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/condolence-mourning-and-burial/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/special-prayers-and-voluntary-devotion", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/condolence-mourning-and-burial", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foundations-of-faith-and-guardianship/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/condolence-mourning-and-burial/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foundations-of-faith-and-guardianship/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/condolence-mourning-and-burial", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/major-washing-and-material-purity/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/zakat-obligation-and-intention", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/sickness-epidemic-and-remembering-death/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/purity-through-ablution/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/major-washing-and-material-purity/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/zakat-obligation-and-intention", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/purity-through-ablution/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/major-washing-and-material-purity", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/sickness-epidemic-and-remembering-death/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/major-washing-and-material-purity/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/major-washing-and-material-purity/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/sickness-epidemic-and-remembering-death", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/sickness-epidemic-and-remembering-death/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/major-washing-and-material-purity", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/sickness-epidemic-and-remembering-death", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/congregation-and-shared-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/purity-through-ablution/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foundations-of-faith-and-guardianship/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foundations-of-faith-and-guardianship/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/zakat-obligation-and-intention", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/scripture-counted-days-and-the-complete-month", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/friday-eid-and-prayer-corrections", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/foundations-of-faith-and-guardianship", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/zakat-obligation-and-intention/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/zakat-obligation-and-intention", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/foundations-of-faith-and-guardianship/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/scripture-counted-days-and-the-complete-month/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/bodily-substances-and-disavowal/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/supplication-conduct-and-dress-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/two-sightings-and-higher-meaning", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/supplication-conduct-and-dress-in-prayer/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/friday-eid-and-prayer-corrections/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ranks-loyalty-and-communal-affection/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/two-sightings-and-higher-meaning/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/supplication-conduct-and-dress-in-prayer", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/friday-eid-and-prayer-corrections", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ranks-loyalty-and-communal-affection", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/condolence-mourning-and-burial/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/ramadan-foundation-and-obedient-knowledge/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/astronomy-calculation-and-religious-obligation/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/condolence-mourning-and-burial", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/astronomy-calculation-and-religious-obligation/attempt-2", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/ramadan-foundation-and-obedient-knowledge", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/condolence-mourning-and-burial/attempt-1", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "11b-slide-challenger", "step": "slide-challenger/astronomy-calculation-and-religious-obligation", "model": "claude-opus-4-8", "fallback": false, "divergence": false}
+{"phase": "11b-slide-authoring", "step": "pair/prayer-virtue-and-sacred-times/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "11b-slide-authoring", "step": "pair/adhan-and-iqama/attempt-1", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-design", "step": "segment", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-preface", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-01-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-02-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-03-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-04-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-05-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-09", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-10", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-10-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-11", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-12", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-12-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-13-part-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-13-part-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-14-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-15", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-16", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-16-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-17", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-17-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-18", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-18-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-19", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-19-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-20", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-20-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-21", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-22", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-22-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-23", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-24", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-24-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-25", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-25-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-26", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-26-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-27", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-27-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-29", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-29-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-30", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-31", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-32-part-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-32-part-01-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-32-part-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-32-part-02-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-33-part-01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-33-part-02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-33-part-03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "translation-bk-33-part-03-integrity-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-01-part-05-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-01-part-10-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-01-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-01-part-11-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-02-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-02-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-02-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-03-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-03-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-04-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-04-part-03-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-04-part-07-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-04-part-10-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-04-part-18", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-05-part-03-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-05-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-05-part-09-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-06-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-06-part-05-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-06-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-06-part-13-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-07-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-07-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-07-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-08-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-08-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-09-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-09-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-10-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-10-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-10-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-11-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-12-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-12-part-07-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-13-part-03-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-13-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-13-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-14-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-15-part-07-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-15-part-10-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-15-part-12-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-17", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-18", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-15-part-19", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-16-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-16-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-16-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-16-part-03-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-16-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-17-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-18-part-07-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-18-part-08-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-18-part-09-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-18-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-19-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-19-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-20-part-06-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-20-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-21-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-21-part-07-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-21-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-22-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-22-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-22-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-22-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-22-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-23-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-24-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-24-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-25-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-25-part-09-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-25-part-11-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-25-part-15-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-17", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-25-part-17-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-19", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-21", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-23", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-24", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-26", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-25-part-28", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-26-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-26-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-26-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-26-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-26-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-26-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-27-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-27-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-28-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-28-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-28-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-29-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-29-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-30-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-30-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-30-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "fluency-31-part-02-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-31-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-32-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "fluency-33-part-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-01-part-05-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-01-part-10-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-01-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-06-part-05-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-06-part-13", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-13-part-03-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-13-part-05-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-10", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-15", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-13-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-02", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-19-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-06", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-19-part-08", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-01", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-03", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-04", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-25-part-04-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-05", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-07", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-09", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-25-part-09-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-11", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-25-part-11-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-12", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-14", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-16", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-17", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-19", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-21", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-23", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-24", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-26", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-fluency", "step": "reconcile-25-part-28", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "rearticulate", "step": "reconcile-25-part-28-repair", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-frontmatter", "step": "edition-introduction-retry", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S09", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S10", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S11", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S12", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S13", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S15", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S16", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S17", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S18", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S19", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S20", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S21", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S22", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S23", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S24", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S25", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S26", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S27", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S29", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S30", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S31", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S32", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S33", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "draft", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "repair", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0c-glossary-fill", "step": "ocr-grounded-b1", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0c-glossary-fill", "step": "ocr-grounded-b2", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0c-glossary-fill", "step": "lexicon-fallback-b1", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-annotation-policy", "step": "classify-glossary", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-etymology", "step": "generate", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "5a-glossary-vowel", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the eight levels of fait", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-As for fulfillin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-As for fulfillin-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-These twelve are", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the eight levels o-These twelve are-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-three questions from the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-three questions fr-the first thing ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-three questions fr-the first thing -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the grammar of peace", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the five \u2014 the s", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the five \u2014 the s-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the seven procla", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the grammar of pea-the seven procla-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-guardians, proofs, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-guardians, proofs,-he is the proof ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-guardians, proofs,-he is the proof -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-parents, kin, and the ne", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what must be learned, wh", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-The first to rea", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-The first to rea-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-God will give hi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what must be learn-God will give hi-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-water and intention: the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the manners of the washi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-the two recordin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-the two recordin-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Water purifies a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Water purifies a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Of the two washi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-Of the two washi-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-The face bears t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the manners of the-The face bears t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-major impurity and the c", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-The washing is a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-The washing is a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-for the water ha", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-for the water ha-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-Water purifies a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-major impurity and-Water purifies a-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-tooth-stick, dust, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-tooth-stick, dust,-The primary ruli", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-tooth-stick, dust,-if three grains ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-bodies, hair, and the re", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-bodies, hair, and -the one whom the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-bodies, hair, and -the one whom the-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-skins, blood, and waitin", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -prayer is not pe", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -prayer is not pe-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -whoever misses t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -whoever misses t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -what is meant is", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-skins, blood, and -what is meant is-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the pillar of religion a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-because the bedo", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-because the bedo-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the Messenger of", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the Messenger of-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-parents, kin, and the ne", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -seven that corre", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -seven that corre-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -The seal of this", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-parents, kin, and -The seal of this-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-water and intention: the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-its seven letter", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-its seven letter-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-When sleep mingl", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-water and intentio-When sleep mingl-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the pillar of religion a", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the bedouins are", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-the bedouins are-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-then the shaf an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-then the shaf an-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-her release and -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-if it belonged t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the pillar of reli-if it belonged t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the disputed words of th", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the disputed words-if it is adminis", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the disputed words-if it is adminis-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-eight proofs for the bes", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-Likeness to the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-Likeness to the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-the family of Ya", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-the family of Ya-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-is an address fr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-this phrase and ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eight proofs for t-this phrase and -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-where a muslim stands to", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-one of the licen", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-one of the licen-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-he prays toward ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-he prays toward -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-prayer has seven", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-where a muslim sta-prayer has seven-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-who may lead, and who ma", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -one granted lice", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -one granted lice-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the nasib is set", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the nasib is set-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the imam's hujja", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-who may lead, and -the imam's hujja-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the shape of the prayer ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-whoever abandons", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-whoever abandons-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-the one who aban", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-the one who aban-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-it is because th", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-it is because th-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-every prayer in ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the shape of the p-every prayer in -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-supplication, speech, an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-the supplication", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-the supplication-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-Supplication tur", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-supplication, spee-Supplication tur-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-what the worshipper wear", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-Obligatory praye", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-Obligatory praye-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-A man is not to ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-what the worshippe-A man is not to -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-friday and the two festi", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-Do not count the", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-Do not count the-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-that preacher is", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-that preacher is-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-it is a likeness", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-friday and the two-it is a likeness-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-forgetting, doubting, an", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-the Imam deliver", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-the Imam deliver-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-a surah taken fr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-a surah taken fr-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-he delivers the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-he delivers the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-Three things int", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-forgetting, doubti-Three things int-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-children, travelers, and", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-they are to be s", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-If he has land o", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-If he has land o-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-This is particul", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-children, traveler-This is particul-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-eclipse, fear, rain, and", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-A statement has ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-A statement has -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-it is permissibl", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-it is permissibl-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-when I asked him", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-eclipse, fear, rai-when I asked him-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the sickbed and the soun", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-sleep in that po", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-sleep in that po-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-calls down upon ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sickbed and th-calls down upon -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-washing, shrouding, carr", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-he is likewise n", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-he is likewise n-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-if the man in ja", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-if the man in ja-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-neither wars nor", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-neither wars nor-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-the dead man is ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-washing, shrouding-the dead man is -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the wealth that is not y", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-seven obligation", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-seven obligation-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-the purchase of ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the wealth that is-the purchase of -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-gold, herds, and harvest", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-expiation, al-Sh", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-He begins with t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-He begins with t-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-the poor are of ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-upon whoever own", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-gold, herds, and h-upon whoever own-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the charity of the head", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-if the child is ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-a man among the ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the charity of the-a man among the -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-a shield against the fir", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-a shield against t-fasting becomes ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-a shield against t-fasting becomes -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the quarrel over the cre", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the quarrel over t-it would be poss", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the quarrel over t-it would be poss-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-two kinds of sight", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-commands issued ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-commands issued -tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the seeing of kn", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the seeing of kn-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the sense of lam", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-the sense of lam-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-two kinds of sight-we say: we have ", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "student-the sun, the moon, and t", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sun, the moon,-that is, tempora", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-student-reader", "step": "scholar-the sun, the moon,-that is, tempora-tighten", "model": "claude-sonnet-4-6", "fallback": true, "divergence": true}
+{"phase": "0book-frontmatter", "step": "edition-introduction", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S01", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S02", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S03", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S04", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S05", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S06", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S07", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S08", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S09", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S10", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S11", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S12", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S13", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S14", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S15", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S16", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S17", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S18", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S19", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S20", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S21", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S22", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S23", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S24", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S25", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S26", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S27", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S28", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S29", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S30", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S31", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S32", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "analyse-S33", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "draft", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-brief", "step": "repair", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-compose", "step": "5a-glossary-vowel", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}

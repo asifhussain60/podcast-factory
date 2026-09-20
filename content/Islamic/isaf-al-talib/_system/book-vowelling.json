@@ -1,0 +1,184 @@
+{
+  "vowelled": 21,
+  "marks_added": 1019,
+  "already": 501,
+  "quranic": 5,
+  "from_mushaf": 0,
+  "refused": 42,
+  "recovered": 0,
+  "transferred": 7,
+  "in_chars": 10954,
+  "out_chars": 10367,
+  "mushaf_pairs": [],
+  "refusals": [
+    {
+      "run": "من أراد منكم أن يعلم کیف منزلته عند الله تعالى فلينظر کیف من",
+      "reason": "letters changed, not just marks (first difference at character 22: source \"کیف منزلته ع\" vs proposal \"كيف منزلته ع\")"
+    },
+    {
+      "run": "لوّاحة للبشر عليها تسعة عشر\n\nلَوَّاحَةٌ لِّلْبَشَرِ عَلَيْهَ",
+      "reason": "letters changed, not just marks (first difference at character 27: source \" لواحة للبشر\" vs proposal \"\")"
+    },
+    {
+      "run": "ولا يمين في قطيعة رحم\n\nلا يمين في قطيعة رحم",
+      "reason": "letters changed, not just marks (first difference at character 22: source \" لا يمين في \" vs proposal \"\")"
+    },
+    {
+      "run": "لَا صَمْتَ إِلَى اللَّيْلِ اِلَّا فِي ذِكْرِ اللَّهِ ، لَا ت",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "نعم قد كان أطلق له لاقراره فضل أهل البيت عَلَيْهِمُ السَّلَا",
+      "reason": "letters changed, not just marks (first difference at character 21: source \"اقراره فضل أ\" vs proposal \"إقراره فضل أ\")"
+    },
+    {
+      "run": "لا تقيسوا الدين فأنه لا يقاس وسيأتي قوم يقيسون الدين وهم أعد",
+      "reason": "letters changed, not just marks (first difference at character 18: source \"أنه لا يقاس \" vs proposal \"إنه لا يقاس \")"
+    },
+    {
+      "run": "فاستمعوا الآن ما نذكره مما أمر الله به من صلة القرابة وفيها ",
+      "reason": "letters changed, not just marks (first difference at character 70: source \"ى عشر فأما ا\" vs proposal \"ا عشر فأما ا\")"
+    },
+    {
+      "run": "أَوَّلُهَا الْإِحْسَانُ بِالْوَالِدَيْنِ ، وَبِذِي الْقُرْبَ",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "أمرني جبرئيل عليه السلام عن ربي أن اغسل فنكي عند الوضوء",
+      "reason": "letters changed, not just marks (first difference at character 36: source \"اغسل فنكي عن\" vs proposal \"أغسل فنكي عن\")"
+    },
+    {
+      "run": "إذا كان بين الرجل والمرأة سترة قراء عليها بحيث تسمع قوله ولا",
+      "reason": "letters changed, not just marks (first difference at character 34: source \"اء عليها بحي\" vs proposal \"أ عليها بحيث\")"
+    },
+    {
+      "run": "من احبنا فليعمل عملنا ويستعين بالورع فانه أفضل ما يُستعان به",
+      "reason": "letters changed, not just marks (first difference at character 4: source \"احبنا فليعمل\" vs proposal \"أحبنا فليعمل\")"
+    },
+    {
+      "run": "ولا يتغوّطنّ أحدكم على الحجة ولا يبل في سطح الهواء ولا في ما",
+      "reason": "letters changed, not just marks (first difference at character 95: source \"الا نفسه فان\" vs proposal \"إلا نفسه فإن\")"
+    },
+    {
+      "run": "حتى إذا لم يرى شيئا طار",
+      "reason": "letters changed, not just marks (first difference at character 14: source \"ى شيئا طار\" vs proposal \" شيئا طار\")"
+    },
+    {
+      "run": "وأمّا ما سألت من العلم الواجب الذي لا يسع جهله فهو ما تعهّد ",
+      "reason": "letters changed, not just marks (first difference at character 582: source \"ا كل أناس بإ\" vs proposal \" كل أناس بإم\")"
+    },
+    {
+      "run": "ورخصوا الأئمة صلوات الله عليهم في الصلاة في الثياب التي يعمل",
+      "reason": "letters changed, not just marks (first difference at character 107: source \"\" vs proposal \".\")"
+    },
+    {
+      "run": "ذرهما فنعم المطي مطيهما ونعم الراكبان هما وأبوهما خير منهما",
+      "reason": "letters changed, not just marks (first difference at character 60: source \"\" vs proposal \".\")"
+    },
+    {
+      "run": "وقالوا يعني الأئمة من أهل بيت النبوة عَلَيْهِمُ السَّلَامُ ف",
+      "reason": "letters changed, not just marks (first difference at character 87: source \"الا أن تكون \" vs proposal \"إلا أن تكون \")"
+    },
+    {
+      "run": "ولا يصلي أحدكم وبين يديه سيف، فإن القبلة آمن",
+      "reason": "letters changed, not just marks (first difference at character 8: source \"ي أحدكم وبين\" vs proposal \" أحدكم وبين \")"
+    },
+    {
+      "run": "يا شعيب أصلواتك تأمرك أن نترك ما يعبد آبائنا",
+      "reason": "letters changed, not just marks (first difference at character 42: source \"ئنا\" vs proposal \"ؤنا\")"
+    },
+    {
+      "run": "يؤم القوم أقدمهم هجرة فان استووا فأقرأهم فان استووا في حفظ ا",
+      "reason": "letters changed, not just marks (first difference at character 24: source \"ان استووا فأ\" vs proposal \"إن استووا فأ\")"
+    },
+    {
+      "run": "عِنْدَ نُزُولِ الْغَيْثِ ٢",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "وَعِنْدَ الْأَذَانِ ٤",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "وَعِنْدَ زَوَالِ الشَّمْسِ ٦",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "وَعِنْدَ قِرَاءَةِ الْقُرْآنِ ٥",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "ولا ينا منّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على",
+      "reason": "letters changed, not just marks (first difference at character 73: source \"\" vs proposal \".\")"
+    },
+    {
+      "run": "أني مخلف فيكم ما أن تمسكتم به لن تضلوا كتاب الله وعترتي أهل ",
+      "reason": "letters changed, not just marks (first difference at character 18: source \"أن تمسكتم به\" vs proposal \"إن تمسكتم به\")"
+    },
+    {
+      "run": "ومن يبتع غير الإسلام ديناً فلن يقبل منه وهو في الآخرة من الخ",
+      "reason": "letters changed, not just marks (first difference at character 8: source \"ع غير الإسلا\" vs proposal \"غ غير الإسلا\")"
+    },
+    {
+      "run": "وَعِنْدِ الزَّحْفِ ٣",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "فِي يَوْمِ الْجُمُعَةِ سَاعَةَ زَوَالِ الشَّمْسِ ٢",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "وَحِينَ تَهبُّ الرِّيَاحُ وَتُفْتَحُ أَبْوَابُ السَّمَاءِ وَ",
+      "reason": "adds no vowel marks"
+    },
+    {
+      "run": "ادفعوا داعي البلاء بالدعاء وعليكم به قبل نزول البلاء فوالذي ",
+      "reason": "letters changed, not just marks (first difference at character 156: source \"\" vs proposal \".\")"
+    },
+    {
+      "run": "أسأل الله العافية من جهد البلاء فان جهد البلاء ذهاب للدين",
+      "reason": "letters changed, not just marks (first difference at character 34: source \"ان جهد البلا\" vs proposal \"إن جهد البلا\")"
+    },
+    {
+      "run": "لا تحل الصدقة لي ولا لأهل بيتي",
+      "reason": "letters changed, not just marks (first difference at character 31: source \"\" vs proposal \".\")"
+    },
+    {
+      "run": "ألم ترى كيف فعل ربك بأصحاب الفيل",
+      "reason": "letters changed, not just marks (first difference at character 7: source \"ى كيف فعل رب\" vs proposal \" كيف فعل ربك\")"
+    },
+    {
+      "run": "لا تقرأ وأنت راكع ولا تحركوا الحصى في الصلاة ولا تلتفتوا الت",
+      "reason": "letters changed, not just marks (first difference at character 82: source \"اقعاء القرد \" vs proposal \"إقعاء القرد \")"
+    },
+    {
+      "run": "ألم ترى ربك كيف مد الظل",
+      "reason": "letters changed, not just marks (first difference at character 7: source \"ى ربك كيف مد\" vs proposal \" ربك كيف مد \")"
+    },
+    {
+      "run": "ولا ينامنّ أحدكم على الحجة ولا على وجهه فمن رأيتموه نام على ",
+      "reason": "letters changed, not just marks (first difference at character 80: source \"ام المرأة مس\" vs proposal \"م المرأة مست\")"
+    },
+    {
+      "run": "إن حضرت المرأة امرأة تحسن إخراجه فهو الواجب إذا قدر أو في ست",
+      "reason": "letters changed, not just marks (first difference at character 95: source \"ان لم فلا تق\" vs proposal \"إن لم فلا تق\")"
+    },
+    {
+      "run": "فلا أقسم بمواقع النجوم وأنه قسم لو تعلمون عظيم",
+      "reason": "letters changed, not just marks (first difference at character 25: source \"أنه قسم لو ت\" vs proposal \"إنه لقسم لو \")"
+    },
+    {
+      "run": "لا يصلي الرجل في قميص متوشحاً فأنه فعل قوم لوط",
+      "reason": "letters changed, not just marks (first difference at character 31: source \"أنه فعل قوم \" vs proposal \"إنه فعل قوم \")"
+    },
+    {
+      "run": "من شهد منكم الشهر فليصمه",
+      "reason": "letters changed, not just marks (first difference at character 1: source \"من شهد منكم \" vs proposal \"ألشهر\")"
+    },
+    {
+      "run": "فلا أقسم بمواقع النجوم وأنه قسم لو تعلمون عظيم",
+      "reason": "empty"
+    }
+  ],
+  "lexical": 3
+}

@@ -1,0 +1,410 @@
+{
+  "schema": "book.annotation-policy/v1",
+  "classified": 66,
+  "skipped": 0,
+  "by_class": {
+    "teach": 11,
+    "familiar": 14,
+    "name": 8,
+    "silent": 14,
+    "work_title": 19
+  },
+  "proposals": [
+    {
+      "phonetic": "Abbas",
+      "class": "familiar",
+      "english_equivalent": "Ibn Abbas",
+      "reason": "Well-known Companion recognized in English."
+    },
+    {
+      "phonetic": "Abu Bakr",
+      "class": "familiar",
+      "english_equivalent": "Abu Bakr",
+      "reason": "First caliph, familiar English form."
+    },
+    {
+      "phonetic": "Adam",
+      "class": "familiar",
+      "english_equivalent": "Adam",
+      "reason": "Scriptural figure with standard English name."
+    },
+    {
+      "phonetic": "al-Hasan",
+      "class": "familiar",
+      "english_equivalent": "Hasan",
+      "reason": "Son of Ali, recognized figure of early Islam."
+    },
+    {
+      "phonetic": "al-Husayn",
+      "class": "familiar",
+      "english_equivalent": "Husayn",
+      "reason": "Son of Ali, widely recognized in English."
+    },
+    {
+      "phonetic": "Ali",
+      "class": "familiar",
+      "english_equivalent": "Ali",
+      "reason": "Famous early caliph and imam known in English."
+    },
+    {
+      "phonetic": "Fatima",
+      "class": "familiar",
+      "english_equivalent": "Fatima",
+      "reason": "Daughter of the Prophet, standard English spelling."
+    },
+    {
+      "phonetic": "Ibrahim",
+      "class": "familiar",
+      "english_equivalent": "Abraham",
+      "reason": "Major prophet with established English form."
+    },
+    {
+      "phonetic": "Ishaq",
+      "class": "familiar",
+      "english_equivalent": "Isaac",
+      "reason": "Scriptural patriarch with English form."
+    },
+    {
+      "phonetic": "Ismail",
+      "class": "familiar",
+      "english_equivalent": "Ishmael",
+      "reason": "Scriptural prophet with English equivalent."
+    },
+    {
+      "phonetic": "Khadija",
+      "class": "familiar",
+      "english_equivalent": "Khadija",
+      "reason": "Prophet's wife, recognized in English."
+    },
+    {
+      "phonetic": "Maryam",
+      "class": "familiar",
+      "english_equivalent": "Mary",
+      "reason": "Scriptural figure with standard English name."
+    },
+    {
+      "phonetic": "Muhammad",
+      "class": "familiar",
+      "english_equivalent": "Muhammad",
+      "reason": "The Prophet, standard English form."
+    },
+    {
+      "phonetic": "Umar",
+      "class": "familiar",
+      "english_equivalent": "Umar",
+      "reason": "Second caliph, established English form."
+    },
+    {
+      "phonetic": "Dawud",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Dawud ibn Ajab, a minor local authority."
+    },
+    {
+      "phonetic": "Hasan",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Later scholar in a chain, not the famous imam."
+    },
+    {
+      "phonetic": "Husayn",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Husayn ibn Idris, an obscure local figure."
+    },
+    {
+      "phonetic": "Jafar",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Local figure in a lineage without a familiar English form."
+    },
+    {
+      "phonetic": "Nuh",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Here a scholar Hasan ibn Nuh, not the prophet Noah."
+    },
+    {
+      "phonetic": "Sulayman",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Genealogical figure, not the prophet Solomon."
+    },
+    {
+      "phonetic": "Yusuf",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Genealogical ancestor, not the prophet Joseph."
+    },
+    {
+      "phonetic": "Zayd",
+      "class": "name",
+      "english_equivalent": "",
+      "reason": "Local summoner without familiar English form."
+    },
+    {
+      "phonetic": "ajrah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Lexical gloss explained in the prose itself."
+    },
+    {
+      "phonetic": "al-lam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Letter name in a grammatical aside."
+    },
+    {
+      "phonetic": "al-mushriq",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Minor label glossed in place, occurring once."
+    },
+    {
+      "phonetic": "al-shahr",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Ordinary lexical word explained in prose."
+    },
+    {
+      "phonetic": "fatara nab al-bair",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Idiomatic phrase translated in running prose."
+    },
+    {
+      "phonetic": "full brothers",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "English kinship rendering, no apparatus needed."
+    },
+    {
+      "phonetic": "ha",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Letter name in an orthographic note."
+    },
+    {
+      "phonetic": "lam",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Grammatical letter name explained in running prose."
+    },
+    {
+      "phonetic": "major ritual impurity",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "English gloss already given beside the Arabic."
+    },
+    {
+      "phonetic": "maternal half-brothers",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "English kinship rendering in running prose."
+    },
+    {
+      "phonetic": "paternal half-brothers",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "English kinship rendering in running prose."
+    },
+    {
+      "phonetic": "ra'",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Letter name in a spelling remark."
+    },
+    {
+      "phonetic": "tafattarat al-ard wa-infatarat",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Lexical illustration already translated in running prose."
+    },
+    {
+      "phonetic": "tafattarat al-shajarah",
+      "class": "silent",
+      "english_equivalent": "",
+      "reason": "Grammatical example glossed inline."
+    },
+    {
+      "phonetic": "'awra",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term of modesty law."
+    },
+    {
+      "phonetic": "ada",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Paired legal term with qada."
+    },
+    {
+      "phonetic": "al-fawait",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical term for missed prayers."
+    },
+    {
+      "phonetic": "al-fitr",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Technical festival term the text defines and a reader may look up."
+    },
+    {
+      "phonetic": "basmalah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named liturgical formula a reader may wish to look up."
+    },
+    {
+      "phonetic": "bayt al-mal",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Institutional term readers may cite."
+    },
+    {
+      "phonetic": "izar",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Named garment recurring as a technical item."
+    },
+    {
+      "phonetic": "makruh",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Legal category worth naming once."
+    },
+    {
+      "phonetic": "nafilah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Standard term for supererogatory prayer."
+    },
+    {
+      "phonetic": "qada",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Core legal term for making up a missed obligation."
+    },
+    {
+      "phonetic": "sitarah",
+      "class": "teach",
+      "english_equivalent": "",
+      "reason": "Ritual object named as the book's own technical vocabulary."
+    },
+    {
+      "phonetic": "al-Akhbar",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Daaim",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Short title of a cited work."
+    },
+    {
+      "phonetic": "al-Idah",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Ikhtisar",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Majalis al-Mustansiriyya",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Mujzi",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Musannaf",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Rida al-Batin",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "al-Risala al-Maknuna",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Daaim al-Islam",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Hidden Epistle",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Cited work given by its English title."
+    },
+    {
+      "phonetic": "Majalis al-Bayan",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Majalis al-Mustansiriyya",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Mukhtasar",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "Short title of a cited work."
+    },
+    {
+      "phonetic": "Mukhtasar al-Athar",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Mukhtasar al-Musannaf",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Tawil al-Daaim",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Tawil al-Sharia",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    },
+    {
+      "phonetic": "Tawil al-Shariah",
+      "class": "work_title",
+      "english_equivalent": "",
+      "reason": "A cited book."
+    }
+  ]
+}

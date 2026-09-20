@@ -1859,7 +1859,7 @@
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 15.32
+    "burn_30d_usd": 33.57
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1932,6 +1932,14 @@
       "title": "Degrees of Excellence",
       "phase": "reader-narration",
       "phase_status": "completed",
+      "cost_to_date_usd": 0,
+      "kind": "islamic_scholarly"
+    },
+    {
+      "slug": "isaf-al-talib",
+      "title": "Is'af al-Talib fi Jami' al-Matalib",
+      "phase": "0book-compose",
+      "phase_status": "running",
       "cost_to_date_usd": 0,
       "kind": "islamic_scholarly"
     },

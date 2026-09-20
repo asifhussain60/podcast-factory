@@ -1,0 +1,452 @@
+# Two Sightings and Higher Meaning
+
+## Where this episode picks up
+
+Annotated structure, the chapter as one object in three parts.
+
+Whole: a letter finishing one proof and then widening its claim to the whole religion.
+
+Parts, in order of appearance:
+- Part 1, the sun's decline. Position: opening. Annotation: completes the geometrical argument the previous chapter left standing mid-proof, and does it without the figure that was supposed to carry it.
+- Part 2, the obscured sky. Position: middle. Annotation: takes the strongest objection on record, a hadith rather than a philosophical point, and answers it in two limbs.
+- Part 3, the pillars held in trust. Position: close. Annotation: drops the moon entirely and states a rule covering prayer, fasting, zakat, Hajj, and jihad at once.
+
+Cross-part reading: Parts 1 and 2 argue about an instrument. Part 3 argues about an owner. The hinge between them is a single word, entrusted.
+
+Process flow, the opening question the chapter puts to the reader.
+
+Start: the noon prayer becomes obligatory at the sun's decline.
+  Down to: the decline is a turn at the top of the arc.
+  Down to: at that turn the shadow stops shortening and starts lengthening.
+  Down to: around the turn, neither change is large enough for an eye to register.
+  Branch:
+  - Path A, the eye. Waits for visible lengthening, then reports. Arrives after the event.
+  - Path B, knowledge. Locates the crossing at the arc's midpoint. Arrives at the event.
+End state: the community has timed this prayer by knowledge every day without noticing that this is what it was doing.
+
+Comparison matrix, what each movement inherits and what it adds.
+
+Rows: The decline no eye catches, Obscured skies and two ranks, The pillars held in trust
+Columns: Inherited from earlier chapters | New in this chapter | Instrument under test | Verdict reached
+
+- The decline no eye catches: the division of the two visions, and the opponent's noon-prayer example | the tangent geometry, and the naming of the arc's midpoint as the true trigger | natural vision against the vision of the soul | the opposing view is invalidated
+- Obscured skies and two ranks: that a man bound at dawn is bound whether or not he can see the sky | the rank of the select over the general public, and the apparent and hidden dimensions of all things | the literal reading of the thirty-day instruction | the report is either unsound or means the soul's sighting
+- The pillars held in trust: the congregational prayer chapters, and the chapters on the alms | Hajj and jihad, treated here for the first time, and the principle gathering all five | the individual's private judgement | an obligation is deposited with a community, not issued to a person
+
+Contrast pair, the two parties as the chapter opens.
+
+Column A: The opponent, quoted but never named
+- Trigger of the noon prayer: the visible decline, a shadow seen to lengthen
+- Trigger of the month: a crescent caught by somebody's eye
+- Status of eyesight: the instrument the law names
+- Best evidence: the Prophet's instruction to count thirty days when the sky is obscured
+- Treatment received in the letter: objection stated fairly and at length before any answer
+
+Column B: The letter
+- Trigger of the noon prayer: the crossing at the arc's midpoint, which nobody has watched
+- Trigger of the month: the sighting of the rational soul
+- Status of eyesight: a real foundation, and the junior of two
+- Best evidence: the daily practice of the opponent himself, five times over
+- Treatment offered to the opponent: no straw man, the hadith is real and well known and on its face says what he says it says
+
+Shared row: both agree that nobody prays before the sun has declined. They disagree entirely about why.
+
+Annotated structure, the kind of document this remains.
+
+Whole: one voice arguing, with an opponent in the room.
+Parts:
+- The arguing voice, centre. Annotation: states its rule at full generality, then supplies instances.
+- The unnamed opponent, opposite. Annotation: quoted, never identified, never caricatured.
+- The damaged manuscript, at the margin. Annotation: intrudes three times in this chapter, and is named as damage each time rather than repaired.
+
+## The decline no eye catches
+
+Annotated structure, the wreckage of the lost figure.
+
+Whole: a spill of labels that once sat around the edge of a drawing. Nothing can honestly be reconstructed from them.
+
+Parts, as they stand:
+- a phrase about something being on this line
+- a single bare letter
+- a fragment about something coming out
+- a fragment about disappearance
+- a broken clause carrying the words for altitude and arc
+- the word for the east
+- a fragment reading only, the land that
+- a stray feminine pronoun
+- the word for the centre
+- a westward direction that has reached us as the name of a country rather than as a direction of the compass, already noted in the previous chapter
+
+Annotation on the whole: a repaired label is an invented one, and an invented label inside a proof about the limits of human certainty would be a peculiar thing to hand a reader. What survives whole is the reasoning the drawing was meant to illustrate.
+
+Process flow, the sun's day as the shadow reports it.
+
+Start: sunrise in the east.
+  Down to: the sun climbs, shadows shorten, the shortening is visible.
+  Down to: elevation along the arc keeps the shadow's change large enough to see. A stick in the ground reports the morning passing.
+  Down to: the sun approaches the highest point of its daily arc.
+  Down to: the rate of change collapses. Decrease and increase become imperceptible.
+  Down to: the senses grow weary of perceiving the sun's course and movement. Motion becomes hidden from them and absent from them.
+  Branch at the summit:
+  - Path A, the untrained observer: supposes the sun has stopped.
+  - Path B, the letter's reading: the sun has not stopped, it has entered the flat stretch of its circuit.
+  Down to: the sun crosses the intersection of the circle and the tangent.
+  Down to: displacement becomes apparent, the shadow comes into existence and lengthens.
+End state: the eye finally reports a decline that already happened.
+
+Annotated structure, the geometry recovered without the figure.
+
+Whole: the circle of the sun's daily path, with a straight line running across it.
+Parts:
+- The circle, the sun's daily circuit. Annotation: the path along which rising and falling produce the shadow's visible change.
+- The tangent, a straight line touching the circle and extending east to west from the position where the two intersect. Annotation: along this stretch there is neither rise nor fall to speak of.
+- The summit point, top of the arc. Annotation: the sun's greatest remove from the position it rose over, having climbed above that position.
+- The first line, perceived by the vision of the soul. Annotation: marks the halfway point of the daily arc.
+- The second line, perceived by natural vision. Annotation: corresponds to more than half of that arc.
+Reading of the layout: motion along the flat stretch is still motion. What it is not is motion that changes the shadow by an amount an eye can catch.
+
+Contrast pair, the two lines.
+
+Column A: The first line, the soul's line
+- What perceives it: the vision of the soul, which is knowledge
+- Position on the arc: the halfway point, exactly
+- Kind of statement it makes: a definition. Half is half
+- Varies with the observer: no
+- Varies with season, latitude, clarity of air: no
+- Relation to the obligation: this crossing is the true disappearance that makes the prayer obligatory
+- Detectable by the senses at the moment it happens: no, because the sun there is travelling along the flat stretch
+
+Column B: The second line, the eye's line
+- What perceives it: natural vision, working through the shadow
+- Position on the arc: more than half, by an amount nobody has fixed
+- Kind of statement it makes: a description of a delay
+- Varies with the observer: yes, with how sharp a particular pair of eyes is
+- Varies with conditions: yes, with the length of shadow the marker casts, the steadiness of the ground, and how much change a person needs before he is willing to call it change
+- Relation to the obligation: the delayed announcement of an event already past
+- Detectable by the senses: yes, which is the whole of its appeal
+
+Shared row: the same reasoning applies to the sun's rays as to seeing the sun itself. By the time the rays report the change, the shadow has had to come into existence, and the crossing that produced it is already behind us.
+
+Named-axis 2x2, what a report is actually about.
+
+Axes:
+- Horizontal: subject of the report (about the sky, to, about the watcher)
+- Vertical: how it presents itself (as a fact about the watcher, to, as a fact about the sky)
+
+Quadrants:
+- Bottom-left, about the sky and presented as about the sky: the crossing at the arc's midpoint. Honest and invisible.
+- Top-left, about the sky and presented as about the watcher: not occupied here. A fact about the sky stated modestly would still be the same fact.
+- Top-right, about the watcher and presented as about the sky: the eye's line. This is the letter's charge against the opposing view, a fact about the watcher wearing the costume of a fact about the sky.
+- Bottom-right, about the watcher and presented as about the watcher: the honest concession the opponent never makes, that his threshold is his own.
+
+Reading: the charge here is the same charge the previous chapter laid against the party who would not let a month begin until somebody's eye had caught the crescent, transposed from the moon to the sun.
+
+Process flow, the practical consequence for a worshipper.
+
+Start: the noon prayer is obligatory from the decline of the sun.
+  Down to: the decline is the geometrical crossing at the exact midpoint of the arc.
+  Down to: no one has ever seen that crossing.
+  Branch:
+  - Path A, the man who waits for visual confirmation: sees a shadow that has already begun to lengthen. Prays late every day of his life, on his own principle.
+  - Path B, the man who prays on time: times his prayer by something other than his eyes. A marked stick, a table, the muezzin's call, or the habit of a lifetime.
+End state for Path B: whatever instrument he uses, its authority does not come from having watched the sun turn, because nobody watches the sun turn.
+
+Contrast pair, two men under one trigger, from a sentence the manuscript has compressed or damaged and which is left as it stands.
+
+> The worshipper is in his prayer as the crescent is inhabited and perceived by the senses, and the fasting person is in his fast, both being cautious in fulfilling their obligations.
+
+Column A: The man praying
+- Duty: the prayer
+- Trigger: a fact about the sun's position in the sky
+- How the fact reaches him: by knowledge rather than a witnessed instant
+- Posture named in the letter: cautious
+
+Column B: The man fasting
+- Duty: the fast
+- Trigger: a fact about the moon's position in the sky
+- How the fact reaches him: by knowledge rather than a witnessed instant
+- Posture named in the letter: cautious
+
+Shared row: the careful person is not the one squinting at the horizon.
+
+The declared result, quoted.
+
+> With these testimonies, the opposing view is invalidated.
+
+Annotated structure, how the ground shifted under the opponent.
+
+Whole: the opponent's own chosen example, turned around.
+Parts:
+- His claim, as raised. Annotation: the noon prayer is a case where the law plainly waits for something visible, and abstract geometry is beside the point.
+- The concession granted. Annotation: the letter agrees that no one prays early.
+- The reversal. Annotation: the reason no one prays early has nothing to do with sight.
+- The result. Annotation: his daily practice, five times over, becomes the clearest instance in the religion of a duty timed by knowledge.
+Cross-reading: this is a callback to the division of the two visions set out in the previous chapter, not a re-argument of it. The senior instrument is the one that does not err, and it has now been shown working in the most ordinary case there is.
+
+## Obscured skies and two ranks
+
+The objection, quoted in full.
+
+> If the matter is as you have described, and fasting is obligatory on the basis of the soul's sighting as you maintain, then what is the meaning of the Prophet's words (peace and blessings of Allah be upon him): "If you are obscured, then count thirty days"?
+
+Process flow, why the objection has force.
+
+Start: the saying presupposes a sky you are trying to look at.
+  Down to: a sky that can be blocked.
+  Down to: a remedy supplied for the nights when looking fails.
+  Down to: therefore looking was the instrument.
+End state, as the objector frames it: a doctrine that says the month is settled by knowledge should have no use for clouds at all.
+
+Process flow, the reply's first move, which refuses the frame.
+
+Start: the letter declines the premise.
+  Down to: quoted, that is not an objection against psychic vision.
+  Down to: the soul's sighting has been established by the evidence already presented.
+  Down to: it is more honourable and more appropriate to apply it in the fulfilment of obligatory duties.
+  Down to: quoted, we therefore did not restrict the ruling to naked-eye vision alone, because both modes of vision are foundational in performing obligatory duties, and one is superior to the other.
+End state: the thirty-day instruction is not a rival doctrine to be explained away. It is provision made for the junior foundation.
+
+Hierarchy, the structure of rank set out in this chapter.
+
+- Level 1: Vision as a foundation for discharging an obligation
+  - Level 2: The superior mode, the sighting of the soul
+    - Level 3: Held by the select, who are advanced in knowledge and are the first to understand
+    - Level 3: Duty attached, the select are obliged to act upon what they have learned
+  - Level 2: The junior mode, naked-eye sighting
+    - Level 3: Held by the general public, who are obliged to follow the people of knowledge
+    - Level 3: Limitation named, they lack the insight to distinguish between the two modes of vision
+    - Level 3: Duty attached, the common people are obliged to act upon what they have come to know
+    - Level 3: Provision made, look, and if you cannot see, count thirty
+
+Annotation on the whole: the public are not described as wrong, or lazy, or disobedient. They are described as unable to tell the two visions apart, and a person who cannot tell them apart cannot be given a rule that requires him to choose between them. Rank here is not privilege, it is the measure of what you are answerable for.
+
+Visual metaphor, the two modes rendered as the two permitted times of one prayer.
+
+Abstract relation: a superior and a junior way of discharging the same obligation, both valid.
+Metaphor: a spectrum running across the permitted window of a single prayer.
+Element assignments:
+- Left end, the earlier time: the sighting of the soul. Superior.
+- Right end, the later time: naked-eye sighting followed by counting. Valid.
+- The window itself: the obligation, which is one obligation throughout.
+Reading: the man who prays at the later time has not sinned, has not incurred a debt, and does not repeat. Transferred onto the month, the man who waits for the sky to clear and then counts is not a man in error, he is a man praying at the later time. What the letter denies is not the validity of his practice but the claim that his practice is the only one the law recognises, and more pointedly the claim that his instrument defines when the obligation begins.
+
+Hierarchy, the generalisation stated flatly and without hedging.
+
+- Level 1: All things, which have two dimensions
+  - Level 2: The hidden dimension
+    - Level 3: Known only by those of virtue
+  - Level 2: The apparent dimension
+    - Level 3: Known by the select and the general public alike
+
+Annotation: nobody in this scheme is excused from action, and nobody is given knowledge that carries no duty. This is the epistemology the earlier chapters on guardianship and knowledge assumed without setting out, and it is set out here in two sentences.
+
+Genealogy chain, the accepted case the letter borrows.
+
+The astronomer's hidden knowledge → knowledge that dawn has arrived → eating, drinking, and marital relations are now forbidden → fasting has begun → the person ignorant of dawn's timing follows his guidance → nobody objects
+
+Parallel chain, the one the letter asks be accepted on the same terms.
+
+The scholar's hidden knowledge → knowledge of the moon's position → the month has begun → fasting becomes obligatory → the ignorant must follow the scholar in this
+
+Reading across the two chains: the community has always accepted that one end of the fasting day is settled by a person who knows rather than by every individual's own inspection of the horizon. The earlier chapters of this book have already granted that a man bound at dawn is bound whether or not he can see the sky. If a knowledgeable man's calculation can start your fast this morning, the letter asks, why can a knowledgeable man's calculation not start your month.
+
+Comparison matrix, the second limb, four failures of the literal reading.
+
+Rows: Weather dependence, The forbidden day, Geographical divergence, The circular count
+Columns: What the literal reading produces | Why it fails | Counter-authority cited
+
+- Weather dependence: fasting by sight depends on obstacles clearing away, which can leave a month standing at twenty-nine days rather than thirty | it leaves the community holding one of Allah's commands under a rule that may generate doubt, performing a divine duty haphazardly | sincerity stands apart from doubt and suspicion
+- The forbidden day: the Prophet would have been commanding his nation to fast an additional day in a month that had in fact fallen short | but for that command it would have been known that fasting on that day is forbidden and breaking the fast is required | the sharpest point in the passage, a fallback that can order a believer to fast on a day the law forbids
+- Geographical divergence: in Kirman, where overcast skies prevail, the fast differs from the fast of Shiraz, where the sky may be clear | fasting becomes obligatory for some people on one day and for other people on the next, and run on the prayer it is worse still | a prayer time comes in which the whole community is obliged to establish the prayer together, and whoever delays it and abandons it has neglected an obligation
+- The circular count: counting requires someone to count and knowledge of the first day of the month | in most months the crescent cannot be sighted at the outset at all, particularly where the air is turbid, in Tabaristan, in the mountain regions, along the coasts, in the islands of the sea | the fallback needs the very thing it exists to replace
+
+Citations, preserved with attribution.
+
+> And they were not commanded except to worship Allah, sincere to Him in religion (chapter 98, verse 5).
+
+> and complete the number (chapter 2, verse 185).
+
+> Allah does not burden a soul beyond what it can bear (chapter 2, verse 286).
+
+Process flow, the circular count shown as a loop.
+
+Start: the sky is obscured at the beginning of Sha'ban.
+  Down to: the crescent cannot be sighted at the outset.
+  Down to: the first day of Sha'ban is unknown.
+  Down to: the instruction says to count the days of Sha'ban.
+  Loop back to: counting requires knowledge of the first day.
+  Exit attempted: proceed to Ramadan.
+  Down to: Ramadan's beginning has never been established either, and the end of the fast is determined by counting the days of Ramadan.
+End state: whoever counts the days of a month without knowing its beginning and without having seen the crescent cannot fulfil the duty at all.
+
+Contrast pair, where error can fall.
+
+Column A: Naked-eye sighting
+- Error: can fall in it
+- Source of the answer: an instrument held by each person
+- Answer under cloud: unavailable
+- Count produced: may increase or decrease
+
+Column B: The sighting of the soul
+- Error: does not fall in it, because it is knowledge
+- Source of the answer: knowledge, the same for the man who worked it out and the man who accepted it from him
+- Answer under cloud: unchanged
+- Count produced: neither increases nor decreases
+
+Shared row: the permissibility of an incomplete month under naked-eye sighting, along with the doubt attached to it, was only ever meant to point toward the sighting of the soul.
+
+Process flow, the closing fork.
+
+Start: to read the report literally is to say that the Prophet (peace and blessings of Allah be upon him) and his family led the community into perplexity and called them to what they are unable to do.
+  Down to: attributing incapacity-imposing legislation to the Prophet is inconceivable. He is far above burdening the servants of Allah with what they cannot do, or casting them into dispute.
+  Branch, two prongs only:
+  - Prong 1: the report is not correct.
+  - Prong 2: he and his family said it in a sense that is sound, that settles the matter properly and without ambiguity for him and for everyone else.
+  Selection: the letter takes Prong 2.
+End state: the testimonies confirm what the whole argument has been driving at. What creation has been entrusted to is the sighting of the rational soul.
+
+## The pillars held in trust
+
+Annotated structure, the turn on one word.
+
+Whole: the sentence that ends the crescent argument and opens the doctrine.
+Parts:
+- The word entrusted, at the join. Annotation: abrupt enough that it is easy to read past, and it is where the chapter turns.
+- Behind it, the subject just closed. Annotation: naked-eye sighting is not what was intended, the general public who possess knowledge must follow accordingly, and the opposing view has been invalidated.
+- Ahead of it, the subject just opened. Annotation: any pillar of Islam brought by Muhammad (peace and blessings of Allah be upon him) and his family, whether prayer, fasting, zakat, Hajj, or jihad, is entrusted to the infallible community that is safeguarded from error.
+
+Two load-bearing phrases, annotated:
+- Any pillar. Annotation: the letter is not arguing outward from the fast by cautious analogy, one step at a time. It states the rule at full generality first, then supplies the instances.
+- Safeguarded from error. Annotation: this is what licenses the arrangement. A duty can only be deposited with a holder reliable enough to keep it, and the argument of the last three chapters has been that the instrument which errs cannot be the instrument that times an obligation. The same test is now applied to the holder rather than to the faculty, and it yields the same kind of answer.
+
+Contrast pair, two accounts of what an obligation is.
+
+Column A: The private commission
+- Issued to: each believer individually
+- Discharged by: his own judgement, his own calculation, his own senses
+- Role of the community: a convenient setting in which he happens to perform it
+- Test of success: correct private performance
+- Timing: kept privately and synchronised with others as a courtesy
+
+Column B: The deposited trust
+- Issued to: a body, the community safeguarded from error
+- Discharged by: the body's act, under a leader standing in the Prophet's place
+- Role of the individual: participation in that act
+- Test of success: position relative to the leader
+- Timing: taken from the leader, not kept privately
+
+Shared row: the letter walks the five pillars one at a time to show that this is not a novel doctrine but a description of what every one of them already looks like.
+
+Comparison matrix, the five pillars under one rule.
+
+Rows: Prayer, Fasting, Zakat, Hajj, Jihad
+Columns: Who holds the office | What the individual does | The failure mode named | Treated earlier in this series
+
+- Prayer: the Imam who stands in the place of the Prophet (peace and blessings of Allah be upon him) in leading the people | follows in the opening magnification, the recitation, the bowing, the prostration, and submission to the Imam | introducing or delaying an act on his own initiative, which is deviation | yes, the congregational prayer and the ranks behind the leader
+- Fasting: the same standing office, through the knowledge that times the month | fasts when the time comes for the community to fast | keeping a private trigger, an eye, and so a private start date | yes, this is the pillar the whole letter has been arguing about
+- Zakat: the standing Imam in the place of the Prophet (peace and blessings of Allah be upon him), who collects | responds to him, and does not route the payment elsewhere | giving alms to an authority other than the one holding the Prophet's office, which requires rendering it again, properly | yes, the chapters on the alms set out who collects and how
+- Hajj: an Imam who leads the group so that they follow him in the rites | performs the rites in the order of the body he belongs to | performing a rite ahead of the others or behind them, which disrupts the order, and an individual Hajj is not valid | no, this series has not treated the pilgrimage before
+- Jihad: whoever takes charge of the Muslims, preserving their order and all their affairs, advancing them in the fighting, withdrawing them from it, pursuing their interests in truces and in battle alike | follows the command of Allah rather than his own desires, in peace as in war | fighting without his command and shedding blood without his knowledge | no, the struggle in the path of Allah is new to this series
+
+Annotated structure, the fault in the prayer, examined closely.
+
+Whole: the act of a follower who moves at the wrong moment.
+Parts:
+- What he does. Annotation: the man who bows early is bowing, the man who rises late is rising. Every action he performs is an action the prayer requires.
+- What is wrong. Annotation: the fault is entirely in the timing, the right act at the wrong moment relative to the person he is following.
+- Why it matters here. Annotation: the entire crescent dispute has been an argument about timing, and at the level of the daily prayer, timing is precisely the thing the follower surrenders.
+Reading: he does not keep a private schedule and synchronise it with the congregation as a courtesy. He takes his moments from the leader.
+
+Process flow, the alms and where they may go.
+
+Start: a man owes the alms.
+  Branch:
+  - Path A: he responds to the standing Imam in the place of the Prophet (peace and blessings of Allah be upon him). The Imam receives it, and may not distribute what he receives without the community's involvement, as was the case in the Prophet's own days. End state: the obligation is discharged.
+  - Path B: he gives the correct sum to a needy recipient by another route, under an authority other than the one holding the Prophet's office. End state: he would have been required to render it again, properly, exactly as a man who paid his alms to the wrong hand during the Prophet's lifetime would have had to pay it again to him in the appropriate manner.
+Annotation the earlier chapters did not make: the payment is not simply a transfer of wealth from a person who has too much to a person who has too little. On this reading the duty is an act of attachment to an office, and the sum is the occasion of the attachment rather than the substance of it. The right amount into the wrong hand leaves the obligation exactly where it was.
+
+Annotated structure, the damaged phrase in the passage on fighting.
+
+Whole: the description of the man who fights outside the order.
+Parts:
+- What is legible. Annotation: he acts without the leader's command and sheds blood without his knowledge, and he is condemned for it.
+- What is damaged. Annotation: the image the letter chose for him reaches us as a man on a leash, and is rendered as it stands and named as damaged rather than repaired into something tidier.
+- What is not claimed. Annotation: the exact image is lost, and the confident sense is only that such a man is acting outside the order.
+
+Visual metaphor, the private instrument against the shared trigger.
+
+Abstract relation: why an instrument that returns a different answer to every holder cannot time a duty deposited with a community.
+Metaphor: one congregation standing behind one leader, against a room of people each keeping his own count of the bowings.
+Element assignments:
+- The congregation with one leader: the shared trigger, knowledge. What the scholar knows about the moon's position is the same in Kirman as in Shiraz, on a clear night and under cloud, and the same for the man who worked it out and the man who accepted it from him.
+- The room of private counters: naked-eye sighting. Each person's sky belongs to him. The cloud over Kirman is not over Shiraz.
+Reading: the objection to the eye was never really that eyes are weak. Weakness alone would only mean eyes need help. The deeper problem is that eyes are private, and a shared obligation needs a shared trigger.
+
+Quadrant map, the five pillars positioned by how much of each pillar this series has already shown.
+
+Space: coverage across the series against the force of the statement made here.
+- Top-left, long covered and lightly restated: prayer, given its own chapters, named here in a few lines.
+- Bottom-left, long covered and quietly recast: zakat, whose collection was already set out, now described as attachment to an office.
+- Centre, the subject of the whole letter: fasting, argued for three chapters and now simply placed in the list.
+- Top-right, new and stated most uncompromisingly: Hajj, where an individual pilgrimage is declared not valid at all.
+- Bottom-right, new and stated most severely: jihad, where acting outside the order draws condemnation.
+Reading: the two pillars that had never appeared are the two that carry the hardest statements, and the principle gathering all five was never stated until this page.
+
+## What this episode lands
+
+Process flow, the chapter from ruin to doctrine.
+
+Start: a lost figure, of which a handful of broken labels survive and nothing else.
+  Down to: the argument it was meant to prove survives intact. Near the top of its arc the sun's motion produces no shadow change an eye can register.
+  Down to: the senses fall silent, and a person who does not know might think the sun has halted.
+  Down to: it has not halted. It is crossing.
+  Down to: the obligation of the prayer sits at that crossing, the midpoint of the arc, available to the soul, and not at the later moment when the lengthening shadow announces what already happened.
+  Down to: the objection arrives, the strongest available, a hadith that seems to legislate for failed eyesight.
+  Down to: the answer does not deny the hadith. It ranks it.
+  Down to: the literal reading is dismantled on its own terms.
+  Down to: the word entrusted is taken seriously, and the question becomes who holds the trust.
+End state: every pillar is deposited with the community under the leader standing in the Prophet's place.
+
+Comparison matrix, the four charges against the literal reading, recapped.
+
+Rows: Weather, The forbidden day, Two towns, The missing first day
+Columns: What it does to a divine command | The verdict
+
+- Weather: makes the command depend on whether the sky happens to clear | worship performed in uncertainty about whether it is even owed is not the thing the verse on sincerity describes
+- The forbidden day: can order a fast on a day that would otherwise be forbidden | the sharpest point in the passage
+- Two towns: starts Ramadan in one town and not the next | the prayer would never tolerate this for a moment
+- The missing first day: tells you to count from a first day it has no way of giving you, in places where the air is never clear enough to see one | it asks of people what they cannot do, and no soul is charged beyond its capacity
+
+Hierarchy, the scheme of duty the answer leaves standing.
+
+- Level 1: The obligation, one obligation
+  - Level 2: The learned
+    - Level 3: Know the hidden side
+    - Level 3: Must act on what they have learned
+  - Level 2: Everyone else
+    - Level 3: Know the apparent side
+    - Level 3: Must act on what they have come to know
+Annotation: nobody is idle in this scheme.
+
+Annotated structure, the four closing instances.
+
+Whole: the doctrine shown in cases rather than argued again.
+Parts:
+- The alms paid to the wrong office. Annotation: not paid.
+- The pilgrimage performed alone. Annotation: not performed.
+- The fighter who draws blood outside the order. Annotation: condemned.
+- The man in prayer who moves early. Annotation: every act correct, and he has still deviated, because what he owed was not the bowing but the bowing with.
+
+Contrast pair, the final verdict on the eye.
+
+Column A: The reason the eye fails, as usually assumed
+- Charge: it is weak
+- Remedy implied: help it, with better conditions, better watchers, a clearer night
+- Consequence for the doctrine: none, the instrument stands
+
+Column B: The reason the eye fails, as this chapter argues
+- Charge: it is private, and each person's sky belongs to him
+- Remedy implied: none available, because no improvement makes a private answer shared
+- Consequence for the doctrine: the eye could never have been the instrument
+
+Shared row: the duty is not yours alone, and the closing line of the chapter puts the two facts side by side. Not because it is weak. Because it is yours alone, and the duty is not.

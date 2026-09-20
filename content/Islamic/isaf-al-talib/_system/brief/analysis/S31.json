@@ -1,0 +1,137 @@
+{
+  "title": "31. The Quarrel Over the Crescent",
+  "purpose": "It assembles Ismaili arguments — chiefly from al-Muayyad fil-Din — that the fast of Ramadan rests on fixed calculation under the Imam rather than on sighting the crescent, and that Ramadan is always thirty days.",
+  "points": [
+    {
+      "text": "The author reports from the Book of Clarification that the transmitted rulings tying fasting to the sighting of the crescent are addressed only to those absent from the Imam's presence and ignorant of the crescents' measures.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Book of Clarification",
+        "Imam"
+      ]
+    },
+    {
+      "text": "Sulayman ibn Hasan, in his epistle the Ijadiyya, explains that after the moon parts from the sun and travels twenty-eight stations it must cross two more to overtake the sun, since the sun has itself advanced two stations and a degree, so the meeting occurs at thirty stations, which reckoners count as one month.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Sulayman ibn Hasan",
+        "Ijadiyya"
+      ]
+    },
+    {
+      "text": "Al-Muayyad fil-Din, in the forty-second of his Wisdom Sessions, refutes those who make fasting depend on sighting the crescent and argues that Ramadan is always complete and never deficient.",
+      "kind": "thesis",
+      "weight": 4,
+      "entities": [
+        "al-Muayyad fil-Din",
+        "Majalis al-Hikma",
+        "Ramadan"
+      ]
+    },
+    {
+      "text": "The opponents' proof is the Prophet's saying 'Fast when it is seen and break your fast when it is seen; if it is hidden, complete thirty,' which they take to make Ramadan sometimes twenty-nine days.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Prophet"
+      ]
+    },
+    {
+      "text": "The reply is that the hadith was spoken in answer to companions asking how to act in the Prophet's absence, so sighting is only an emergency rule when neither the Messenger nor the Imam standing in his place is present; when either is present one fasts by his fasting.",
+      "kind": "turn",
+      "weight": 4,
+      "entities": [
+        "Imam",
+        "Prophet"
+      ]
+    },
+    {
+      "text": "Al-Muayyad argues on two legal grounds that the Prophet never fasted by sighting: Gabriel came to him morning and evening with certain news, making search unnecessary, and he declared he knew the roads and stations of the sky better than others know those of the earth.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Gabriel",
+        "Prophet"
+      ]
+    },
+    {
+      "text": "The rational ground is that the Prophet knew crescent risings differ by place and elevation, so he could not have imposed a single sighting-standard on all people, nor can one and the same day be Shaban in one place and Ramadan in another.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Shaban",
+        "Ramadan"
+      ]
+    },
+    {
+      "text": "Quranic proof is drawn from 'fasting is prescribed for you as it was prescribed for those before you' — taken to mean the Christians, who fast by calculation not sighting — and from 'a counted number of days,' which implies a fixed, unvarying number.",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "Quran 2:183-184",
+        "Christians"
+      ]
+    },
+    {
+      "text": "Further arguments for Ramadan's completeness: the year alternates six complete and six deficient months so that Ramadan falls complete; the Prophet said 'Shaban is never complete and Ramadan never deficient'; Shaban alone has a true middle night (the fifteenth) while Ramadan has none; and the expiation for breaking the fast is sixty days or sixty poor persons, matching two complete thirty-day months.",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "Shaban",
+        "Ramadan",
+        "expiation"
+      ]
+    },
+    {
+      "text": "In an anecdote from his autobiography, al-Muayyad debates a Zaydi sharif before King Abu Kalijar al-Daylami of Shiraz, who cited the hadith 'We are unlettered, we do not reckon' with the gathered fingers; al-Muayyad answered that the Prophet, honored with the ascension, could not have been unable to say 'thirty' or 'twenty-nine' and gestured like a herdsman, and the Alid withdrew in shame amid laughter.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "al-Muayyad fil-Din",
+        "Abu Kalijar al-Daylami",
+        "Zaydis",
+        "Shiraz"
+      ]
+    },
+    {
+      "text": "Some summoners frame the case as a formal question to all Muslim scholars, asking who 'those before you' are, how many the counted days are, what 'witnessing the month' means, and whether the completed count is thirty, twenty-nine or twenty-eight, invoking the Prophet's rule that reports contradicting the Book are not his.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "summoners",
+        "Quran",
+        "Prophet"
+      ]
+    },
+    {
+      "text": "Grammatically, the lam in 'fast for its sighting' is read as the lam of anticipation or outcome (as in 'mothers nourish their children for death' and 'for the Day of Reckoning'), so the hadith means: let the crescent rise while you are already fasting, and while you are already breaking the fast.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "lam al-aqiba"
+      ]
+    },
+    {
+      "text": "Zayd ibn Muhammad, in the epistle al-Maknuna on the eclipse prayer, teaches that God made the first creation a proof for the last age, setting the moon's eclipse at fourteen nights (sometimes thirteen) and its concealment at twenty-eight nights, absent forty-eight hours before rising again.",
+      "kind": "context",
+      "weight": 2,
+      "entities": [
+        "Zayd ibn Muhammad",
+        "al-Maknuna"
+      ]
+    },
+    {
+      "text": "The section closes by introducing the next text: the epistle al-Lazima on the fast of Ramadan and its proper time, by Ahmad Hamid al-Din al-Kirmani, proof of al-Hakim bi-Amr Allah.",
+      "kind": "turn",
+      "weight": 2,
+      "entities": [
+        "al-Lazima",
+        "Hamid al-Din al-Kirmani",
+        "al-Hakim bi-Amr Allah"
+      ]
+    }
+  ],
+  "fingerprint": "99ae63d2d56c3c3d"
+}

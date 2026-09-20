@@ -1,0 +1,136 @@
+{
+  "title": "9. Major Impurity and the Cleanliness of Things",
+  "purpose": "It compiles fatwa-style questions and answers, hadith and Imami sayings governing the ghusl from janabah and the purity of bodies, garments, ground and vessels, together with their esoteric interpretations.",
+  "points": [
+    {
+      "text": "The answers given hold that one who fears harm from water — whether resident or traveler, weak or sick — performs tayammum and prays, and is NOT required to repeat the prayer later, contrary to the ruling in certain Shariah books that he must wash and repeat it.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "ghusl",
+        "janabah"
+      ]
+    },
+    {
+      "text": "The esoteric interpretation given is that the washing from janabah is a likeness of the removal of doubt, since marital relations are a likeness of imparting and receiving, and doubt arises precisely at the moment of imparting and receiving.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "janabah",
+        "tawil"
+      ]
+    },
+    {
+      "text": "Doubt itself triggers obligation: one who revives from unconsciousness not knowing his condition, and one who wakes finding traces of semen without recalling an emission, must perform the ghusl.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "ghusl",
+        "janabah"
+      ]
+    },
+    {
+      "text": "The one in janabah, the menstruating woman and the woman in post-natal bleeding are ruled alike: it is better that they leave off removing hair or nail until purified, and neither may deliberately recite the Quran, nor Quranic matter within supplications or books, nor the basmalah with the intention of Quranic recitation.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "janabah",
+        "menstruating woman",
+        "basmalah",
+        "Quran"
+      ]
+    },
+    {
+      "text": "Procedural rulings from Mukhtasar al-Musannaf: one who forgets the ablution until after the ghusl simply performs it with no penalty; and if minor impurity occurs mid-ghusl, he completes the ghusl and performs the ablution afterward for prayer.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "ghusl",
+        "wudu"
+      ]
+    },
+    {
+      "text": "Yemeni summoners answering Indian dignitaries ruled that when water suffices for only one of a living junub and a corpse, the living one in janabah performs the ghusl and tayammum is performed for the deceased.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Yemen",
+        "India",
+        "janabah",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "The author of al-Risala al-Maknuna grounds the ghusl in Quran 'and if you are junub, purify yourselves' and the Prophetic saying 'beneath every hair there is janabah,' and defines junub etymologically as 'the one far from a thing,' concluding that the obedience of one in janabah is void and false.",
+      "kind": "definition",
+      "weight": 4,
+      "entities": [
+        "al-Risala al-Maknuna",
+        "junub",
+        "janabah"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib, in his Four Hundred Manners, forbids the Muslim to sleep while junub or without purity, prescribing tayammum with earth if no water is found, because the believer's spirit ascends to God who receives and blesses it — keeping it in the finest form if its term has come, or returning it by trusted angels if not.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Manners",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "On material purity the answers hold: vomit does not render impure what it falls upon (though washing is better); ground is pure once the impurity's substance and smell are gone, since sun and light purify it, unless it is ground set aside as a privy; and a small amount of impurity — wet hair, the produce of filth-eating animals — is excused.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "najasa",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Ali's ruling that touching a corpse after it has grown cold necessitates ghusl is interpreted to mean 'after it has become impure' — the corpse's moisture transmits impurity to the living — while the corpse-washer's own washing is Sunnah.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "ghusl",
+        "corpse"
+      ]
+    },
+    {
+      "text": "Garments made by polytheists are pure until the polytheist has worn them or visible impurity appears, per al-Daaim's dispensation; but the answer of the master insists that what polytheists have bleached and washed with soap is not pure except by washing, while cloth merely sprinkled with impure water during weaving and then dried may be prayed in.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Daaim al-Islam",
+        "polytheists",
+        "najasa"
+      ]
+    },
+    {
+      "text": "Against the common people's claim that a garment large enough that moving one end does not move the other may be prayed upon at its pure portion, the answer rules that prayer upon such a mixed garment is not permitted at all; likewise prayer is not complete without a pure garment, tayammum being prescribed for ritual impurity and never for the impurity of garments.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "salat"
+      ]
+    },
+    {
+      "text": "The section closes by interpreting Ali's saying 'whomever the sea does not purify, may God not purify him' esoterically: water purifies and is not itself purified, and so likewise is the knowledge of the Imam — whomever it does not purify, God does not purify.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Imam",
+        "tawil",
+        "Hasan ibn Idris"
+      ]
+    }
+  ],
+  "fingerprint": "b64006cc51859d67"
+}

@@ -1,0 +1,13 @@
+slug: isaf-al-talib
+title: "Is'af al-Talib fi Jami' al-Matalib"
+title_arabic: "كتاب إسعاف الطالب في جميع المطالب"
+title_english: "The Student's Aid in All Demands"
+original_title_language: ar
+author: "Faidh Ali bin Sayyidna Sulaiman (Shams al-Kiyan)"
+study_track: shariah
+
+series:
+  enable_book_branch: true
+
+publication:
+  status: draft

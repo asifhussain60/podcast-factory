@@ -1,0 +1,511 @@
+# Condolence, Mourning, and Burial
+
+## Where this episode picks up
+
+Process flow. The distance one body travels.
+
+- Start: the deathbed, where the previous chapter stopped.
+  - Down to: condolence. What shape grief may take.
+  - Down to: washing. Who may touch the body, with what water.
+  - Down to: embalming. Camphor on the sites of prostration.
+  - Down to: shrouding. Three garments, paid for ahead of every creditor.
+  - Down to: the walk out. Where to stand, where to sit, who may follow.
+  - Down to: the prayer. Where it is said, who is owed it, who stands in front.
+  - Down to: burial. Whose ground, which locality, what may be laid on top.
+- End: the grave, and a counsel that sends the reader back to it.
+- Question at every node: who decides what happens to a body that can no longer decide anything?
+- Claim at every node: what the living do at the edge of a death lands on somebody. The chapter opens on a man lying unconscious, an angel over him with an iron club heated in fire, raising it once per cry from the women at the bed, and he lives to describe it.
+
+Hierarchy. The source stack.
+
+- Level 1: the bulk of the chapter
+  - Level 2: the first book of questions and answers already cited in this series
+    - Level 3: arranged according to the chapters of *Arkan al-Islam*, the Pillars of Islam
+- Level 1: supporting books
+  - Level 2: *al-Mukhtasar al-Musannaf*, the summary of the classification
+  - Level 2: the summary of the effects
+  - Level 2: the book of purity
+  - Level 2: the interpretation of the Pillars
+  - Level 2: the Book of Reports
+- Level 1: the epistle behind the opening section
+  - Level 2: *The Sharpest Sword in Nullifying Innovations*
+    - Level 3: already taught in full by this series
+    - Level 3: reopened here for one passage not yet quoted
+
+Genealogy chain. Material arriving by sea. One chain per line.
+
+Chain 1: the author of this book, island of Hind → question by sea → our master and Mawlana Ja'far ibn Sayyidina Sulayman, may Allah sanctify their souls in the chambers of the heavens, island of Yemen → answer back to Hind.
+Chain 2: scholars of India → a book of questions → preachers of the Yemeni peninsula, may Allah sanctify them and grant us their intercession and blessing → answer.
+Chain 3: Ja'far ibn Sayyidina Sulayman, settled in Yemen → *The Sharpest Sword in Nullifying Innovations* → his own people, the heedless and deeply negligent among them → the compiler marks the seam → the passage below.
+
+Contrast pair. Who is addressed.
+
+Column A: The previous chapter, at the doorway
+- The person: still alive, able to answer
+- Settled: what is owed to someone who can still be visited
+- Addressed: the visitor at the sickbed
+
+Column B: This chapter, past the crossing
+- The person: gone, and one narration exists only because a man came back to speak
+- Settled: what may be done to a body, and by whom
+- Addressed: the women in the house, the washer, whoever carries the bier, leads the prayer, or owns the ground
+
+Shared row: six source headings, one journey. The address widens, its subject quietens.
+
+## The Wailing Admonition
+
+Annotated structure. Two items from *al-Mukhtasar al-Musannaf*.
+
+Whole: the body as an object that may not be altered.
+Parts:
+- No hair shaved over the deceased.
+- No nail cut for him.
+Note: stated twice here. In a book this compressed, a rule stated twice was expected to be broken.
+
+Process flow. The question about weapons.
+
+- Start: certain weapons placed on the deceased at home, while others hold it obligatory to sit in attendance over him.
+  - Down to: the answer. Such a practice has no reliable basis.
+  - Down to: the respondent points to where it is already settled, and the chapter hands over its longest passage.
+
+Verbatim, the noble epistle, the compiler's seam marked as among what he made known to his community:
+
+> Among you there are those who have taken up the practice of wailing for the dead, with all the innovations that accompany it. Groups of women gather from their various places, mourning the dead through their nights and successive days, as though it were a scripture from your Lord, exalted be He, accompanied by singing and its consequences of amusement and play beyond the bounds of permissibility, even in the days of weddings. The distinction between what is forbidden and what is lawful has become so blurred that what is unlawful is not made permissible even if your adversaries from among the people of this noble school of thought have far more right to such restraint than you. So do not exhaust yourselves in ways that only stand against you before Allah, exalted be He, and before His guardians, peace be upon them. May Allah bless you in your time, this fleeting, perishing world, for you are the cream and the essence of all creation, so how is it that you are not deterred by your own failings, and do not guard yourselves against falling into ruin? May Allah protect you from this henceforth, and from any return to it, if you are believers.
+
+Attribution: Mawlana Ja'far ibn Sayyidina Sulayman, *The Sharpest Sword in Nullifying Innovations*.
+
+Annotated structure. Three charges inside that address.
+
+Whole: one paragraph of rebuke, three accusations.
+Parts, with position:
+- Charge 1. Centre. The mourning has acquired a form: nights and successive days, women arriving from their various places, treated as though it were a scripture from your Lord. The complaint is not that mourners feel too much, but that the grief behaves like revelation.
+- Charge 2. Sideways, out of the funeral entirely. Wailing at a death paired with amusement at a wedding in one breath, which is why a section on funerals ends on tambourines.
+- Charge 3. The sting at the end. Called the cream and the essence of all creation, told next that adversaries they consider beneath them keep the discipline they dropped. Rank is an accusation here, not a comfort.
+
+Comparison matrix. The four proofs.
+
+Rows: the dying instruction, the administrative order, the prophetic pairing, the doctrinal claim.
+Columns: speaker | addressee | kind of authority.
+- Dying instruction: Ja'far ibn Muhammad, may Allah's blessings be upon him, cited in *Arkan al-Islam* with intent and deliberation | those who will bury him | a man arranging his own funeral, not legislating for others.
+- Administrative order: Ali, may Allah bless him and grant him peace | Rifa'ah ibn Shaddad, his judge over al-Ahwaz | an instruction to a judge about a province.
+- Prophetic pairing: the Messenger of Allah, may Allah's peace and blessings be upon him and his family | the community | a curse on a category of sound.
+- Doctrinal claim: established from the Prophet | the mourner | consequence, not prohibition.
+
+Commitment, row four: whoever wails over the dead thereby inflicts on the deceased the causes of the torment by which his soul is afflicted.
+Commitment, row one: no woman should tear her garment in grief, for every tear is a crack in Hell that only grows wider.
+
+Verbatim, Ja'far ibn Muhammad at the time of his own death:
+
+> No one should wail for me and no garment should be torn.
+
+Verbatim, Ali to his judge:
+
+> Forbid wailing over the dead in whatever land you govern.
+
+Verbatim, the Messenger of Allah:
+
+> Two voices are cursed and hateful to Allah: a voice at the time of calamity, meaning wailing, and a voice at the time of blessing, meaning singing.
+
+Process flow. The narration of ʿAbdullah, whose father's name the manuscript leaves incomplete, from the Holy Book above. It loops.
+
+- Start: a man ill and expected to recover, found in severe pain, unconscious, the women wailing.
+  - Down to: the Messenger of Allah calls to him three times. No answer.
+  - Down to: he prays for him as he prayed to his Lord Almighty, then turns away.
+  - Down to: ʿAbdullah feels a lightness within himself and regains consciousness.
+  - Loop, once per cry: a woman names what she has lost, the angel raises the club, the description is handed back.
+- End: the loop breaks not at the angel and not at the mourner, but at the man on the bed refusing the attribution.
+
+Verbatim, the exchange:
+
+> O Messenger of Allah, I saw an angel of the kings holding an iron club ignited with fire. Every time a woman wailed, O my grief, O my courage, he would raise it toward me.
+
+> You were brought to it.
+
+> No, but Allah restrained her after her outburst.
+
+> Is she not your pride?
+
+> No, but Allah, and He restrained her after her outburst.
+
+Annotated structure. Attribution rather than punishment.
+
+Whole: one sentence cried out in a sickroom.
+Parts:
+- What the mourner says. My courage. My strength. My pride.
+- What it asserts. That this man was the source of those things.
+- What the angel does. Treats the claim as chargeable to the man it names.
+- What the man does. Hands every description back.
+Note: the wailing endangers him for what it says about him, at the moment he is least able to correct the record. He corrects it anyway.
+
+Verbatim, the Messenger of Allah confirming the account:
+
+> What is the matter with your deceased, that they afflict one another?
+
+Annotated structure. The warning that follows, unevenly rendered.
+
+Whole: a passage carried forward damaged rather than repaired.
+Parts, as they survive:
+- A greeting, offering something beyond this.
+- A measure, that far less than this suffices for a lifetime.
+- A supposition, that the world has been explained, its rites and landmarks made clear.
+- A consequence, a course toward an end not within a person's control and not encompassing him.
+- A verdict, that what a person conceals from himself by dwelling on his household is a breach of the covenant of Allah he has imitated, reverting from his knowledge to his ignorance.
+
+Contrast pair. Why this is not a ban on grief.
+
+Column A: Weeping
+- Status: permitted, and defended by the Messenger of Allah's own tears, reported by Ali
+- Called: tenderness and mercy that Allah places in the hearts of whomever He wills
+- Origin: placed in a person
+- Conceded: the soul is grieved and the eye is tearful, and the parting is near
+
+Column B: Wailing and lamenting
+- Status: forbidden, by the same answer, which draws a line not previously drawn
+- Called: an outburst, and in the narration above a cause of torment
+- Origin: performed by a person
+- Refused: say only what pleases Allah, and do not say what constitutes abandonment, for that will be your deed, hidden from you
+
+Shared row: the boundary falls not on the tears but on what is said. Grief is permitted its body and denied its script.
+
+Verbatim, the objection and the answer:
+
+> O Messenger of Allah, you wept, yet you forbade us from weeping?
+
+> I did not forbid you from weeping, I forbade you from wailing and lamenting. But this is tenderness and mercy that Allah, Mighty and Exalted, places in the hearts of whomever He wills among His creation. And Allah has mercy on whomever He wills, He has mercy on the most merciful of His servants.
+
+2x2 matrix. The rule underneath both halves of the section.
+
+Axes:
+- Horizontal: the occasion, calamity left to blessing right.
+- Vertical: the voice, restrained bottom to raised top.
+
+Quadrants:
+- Top-left, calamity and raised: wailing. Cursed and hateful to Allah, and by the narration above it reaches the dead.
+- Bottom-left, calamity and restrained: weeping. Tears, a grieved soul, good words over the dead.
+- Top-right, blessing and raised: singing, with its amusement and play beyond the bounds of permissibility.
+- Bottom-right, blessing and restrained: the tambourine at a wedding. Permitted, because it performs a legal function rather than an amusement.
+
+Axis note: one fault with two occasions. The voice raised past where it is saying anything.
+
+Process flow. How the tambourine becomes lawful.
+
+- Start: the Messenger of Allah hears music played, and asks what it is.
+  - Down to: so and so has gotten married.
+  - Down to: he has completed his religion.
+  - Down to: this marriage is not like secret liaisons, it is not a secret union until smoke is seen or the sound of a tambourine is heard.
+  - Down to: the distinction between marriage and illicit union is the beating of the tambourine.
+- End: the noise is not amusement. It publishes the marriage.
+- Boundary node: whoever goes beyond what the author permits has those matters counted against him.
+- Position marker: the position of the author on which his pen has dried, may Allah sanctify his soul. The permitted occasions, banquets and weddings, are explained in the same Holy Book, so the forbidden and the lawful can be told apart.
+
+Verbatim, the closing address:
+
+> In this is a reminder for whoever has a heart, or lends an ear while being present of mind. Whoever does good, it is for himself; whoever offends, it is against himself, and your Lord is not unjust to His servants.
+
+Comparison matrix. Four closing instructions, each a replacement.
+
+Rows: the family's speech, the daughters of Hashim, the thigh, the gesture in general.
+Columns: speaker | removed | put in its place.
+- The family's speech: Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him | lamenting | command your family to say good things over your dead.
+- The daughters of Hashim: the Messenger of Allah, who prevented Fatimah bint Muhammad from wailing and summoned them | the gathering's wailing | more supplication and less lamenting.
+- The thigh: the same authority | striking the thigh at a calamity | forfeit of the reward.
+- The gesture in general: the section as a whole | the performance of grief | grief that keeps a face and tears.
+
+Commitment: even the gesture is covered. Nothing here removes the feeling.
+
+## Washing and Shrouding the Dead
+
+Process flow. The ordinary washing.
+
+- Start: the man who washes the dead. Ablution three times, with three washings, per the Book of Reports, and at the final washing he divides them.
+- End: the body is ready for the shroud.
+- Side branch: a person injured and not moved from his place, who regains consciousness for an hour, two hours, or a day, then dies.
+  - Down to: he must still be washed, because he was not removed from his place.
+- Commitment: the washing follows the place, not the interval of consciousness.
+
+2x2 matrix. Three hard cases, answered by what is scarce.
+
+The three cases: a person dies while travelling with no water; a man dies among women with no man present; a woman dies with neither husband nor another woman to wash her. The questioner proposes leaving them unwashed, with dry ablution in dust.
+
+Axes:
+- Horizontal: water supply, sufficient left to scarce right.
+- Vertical: who is present, a washer with nothing against him at the top to nobody qualified at the bottom.
+
+Quadrants:
+- Top-left, sufficient water, clear washer: the ordinary rite, three washings, divided at the last.
+- Top-right, scarce water, clear washer: the living man's purification for prayer outranks the dead man's washing.
+- Bottom-left, sufficient water, nobody qualified: the first among those present has the right to wash him, even if himself in major ritual impurity, per the summary of the classification. Presence beats purity: a body waiting while the qualified are sent for is worse than one washed by the imperfect man already in the room.
+- Bottom-right, scarce water, nobody qualified: the washer performs *tayammum*, dry ablution, then washes the deceased. Permitted only when nobody else is available and he would otherwise harm himself.
+
+The analogy governing the right-hand column: where a person in *janabah* and a deceased person are in the same situation with water enough for one, the living person washes and the deceased is handled accordingly.
+Axis note: every quadrant is decided by who is harmed, not what is ideal. If the living person needs washing more than the deceased, it is permissible.
+
+Annotated structure. The body that arrives incomplete.
+
+Whole: remains from drowning, burning, dismemberment.
+Parts:
+- A part found, belonging to a person known to have perished. Treated accordingly.
+- Whatever falls away. Washed and prepared with the rest, even a wound or part of one.
+- Each wound. Washed in its place.
+- The part. Shrouded, and buried.
+- The hair. Not shaved.
+- The nails. Not cut.
+Note: the body is not to be edited in either direction. A severed part receives the full rite because it belongs to the person, and a hair may not be removed for the same reason.
+
+Contrast pair. The *zar* method against the Book of Pillars, from the Yemen to Hind correspondence.
+
+Column A: The *zar* method, as the questioner describes it
+- The cloth: the tip passed behind her, over the pudendum and between the thighs, until the other end emerges behind her, forming a bundle
+- Who uses it: unbelievers and certain Muslims alike
+- Named community: the Dawoodi community, which regards those who do not as being in error
+- Extent: insisted upon for the shroud as well as the washing
+- Second item: the *sarah*, covering the deceased while washing. Only that, or may she be washed uncovered while a man is present?
+
+Column B: The Book of Pillars, as the reply describes it
+- The cloth: over the deceased, covering navel to knees, the water passing beneath
+- The washer's hand: wrapped in a cloth, reaching beneath the covering
+- What is washed that way: the pudendum, and whatever other private parts are not beneath the prohibition
+- Extent: nothing is mentioned in the Book of Pillars except this
+- Verdict: what I have described is contrary to the method you mentioned
+
+Shared row: set aside not as indecent but because the Book of Pillars describes something else in enough detail to leave no room for it.
+
+Hierarchy. The shroud, from Ja'far ibn Muhammad, peace be upon him, in *The Pillars of Islam*.
+
+- Level 1: the shroud
+  - Level 2: three garments
+    - Level 3: a shirt, neither buttoned nor closed
+    - Level 3: a wrap
+    - Level 3: a covering cloth
+- Level 1: the pleasant practice in washing, regarding sanctity
+  - Level 2: the most important thing is that it be done in a garment
+
+Annotated structure. One queried word.
+
+Whole: the term *'ajar*, used of a woman at the end of the section on washing the dead, in the book on purity of our master Qadi al-Nu'man ibn Muhammad, may Allah sanctify him and grant us his intercession and blessing.
+Parts of the answer:
+- The usage. The well known *'ajrah* in Arab usage is a gathered shirt.
+- The mechanics. The portion from the navel downward collected and secured.
+- The fastening. The clothing and its fullness tucked into the *zar* fastening.
+Note: the distinction between men and women, as the face veil, the *niqab*, marks it.
+
+Process flow. Consequences reaching the washer, from the *Four Hundred Counsels* of Ali ibn Abi Talib, peace be upon him.
+
+- Start: a person touches the body after it has cooled.
+  - Down to: ghusl is required.
+  - Query node: what does after it has cooled mean? Not what a reader expects. It means after the deceased has been washed.
+- Second track: whoever washes a deceased person and is then clothed must wash after the shrouding.
+  - Loop: if he touches the deceased afterward, ghusl again.
+- End node: the body has become impure, so a living person in contact with it becomes impure through its moisture. This is the meaning of ghusl established by contact.
+
+Process flow. The conjoined children, from the scholars of India answered by preachers of the Yemeni peninsula.
+
+- Start: a woman gives birth to two conjoined children, and one dies.
+  - Opening node: Allah Almighty creates what He wills.
+  - Branch A, the adhesion can be separated without harm or fear for either: it should be separated.
+  - Branch B, separation carries high risk, and their life and death are one, that is, they cannot survive independently: Allah knows best and does what He wills.
+  - Down to, one dead without the other: the dead one is separated from what connects it to the living one, insofar as the living one does not feel his parts being severed.
+  - Branch C, that is possible: the dead one is buried and the other left, even if pain is felt from the body of the other.
+  - Branch D, the answer runs out: and Allah knows best.
+- Commitment: every branch turns on the living child's sensation, not the urgency of burial. Where the answer runs out it says so twice.
+
+## Embalming and the Shroud
+
+Hierarchy. Claims on the estate, from the Book of Reports.
+
+- Level 1: first claim
+  - Level 2: the shroud and its preparation
+- Level 1: second claim
+  - Level 2: the debt
+- Level 1: third claim
+  - Level 2: the bequest
+Test case: the debt exceeds what the deceased left. Does the shroud still take precedence, however great the cost?
+Answer node: obligatory to take out the shroud and its preparation first, regardless of the amount.
+Note: a creditor with a valid claim waits behind a length of cloth, for money he will never see.
+
+Annotated structure. The body as a mapped surface, three books placing material on it.
+
+Whole: the prepared body, read as named sites.
+Sites for the embalming preparation, a small amount of oil and camphor mixed with a little water:
+- Forehead, nose, knees, between the big toe and the next. The sites of prostration.
+- Navel, armpits, chest. The trunk.
+- Mouth, eyes, ears. The openings of the face.
+- Hands, palms, knees. The limbs.
+Sites from the book of purity, for the camphor:
+- Forehead, nose, inside the hands, knees, backs of the feet. The sites of prayer prostration.
+Sites from the book of purity, for the cotton, when available:
+- Face, under the armpits, between the knees, the legs, the feet.
+Note from the summary of the effects: musk and saffron are excluded for men, permitted for women.
+Note from the interpretation of the Pillars: the deceased is not personally incensed, nor his procession. His shroud is perfumed, as is the place where he was washed and shrouded, nothing beyond.
+
+Timeline. After the earth is closed.
+
+Axis: nights and days counted from the burial.
+- Night three: water poured on the grave.
+- Days one through seven, for a person of rank: the Quran recited over his grave.
+- Days one through three, for others: the Quran recited over the grave.
+Period bands: people of rank, seven | others, three.
+Practice note: this is what our followers did, may Allah extend their lives.
+Parallel track, on the authority of Sayyiduna Hasan ibn Idris, may Allah grant him His grace: seven recitations for the people of rank and three for others, whether in the mosque, at the grave, at home, or elsewhere.
+Axis note: the same two numbers govern both tracks, one counting days, one recitations.
+
+Visual metaphor. The sentence underneath this whole section.
+
+Abstract relation: why the body may receive camphor and nothing else fragrant.
+Metaphor: the dead man is dressed as a pilgrim.
+Elements:
+- The state: *ihram*.
+- Forbidden by it: perfume, and the ordinary comforts of the living.
+- Admitted by it: camphor.
+- The body: treated as already inside that state.
+
+Verbatim, Ali ibn Abi Talib, peace be upon him, in his *Four Hundred Counsels*:
+
+> Do not fear your dead, and do not touch them with anything fragrant except camphor, for the dead is like one in a state of ihram.
+
+Reading: the last case resolves itself. A man died in *ihram* for *hajj*, head and face uncovered, no embalming applied. Since he died a pilgrim in *ihram*, his head and face stay uncovered and nothing fragrant is applied, forbidden for the span of those days.
+Reading of the first half: everything this section requires assumes people willing to touch a body.
+
+## Procession, Prayer, and Grave
+
+Contrast pair. Where to walk, from the Book of Reports.
+
+Column A: The funeral of a *nasib*
+- Company at the bier: the angels of wrath
+- Walking in front: disliked, because of that company
+
+Column B: The funeral of a believer
+- Company at the bier: the angels of mercy, surrounding it
+- Walking in front: it does not matter where one walks, though behind is better
+
+Shared row: the space around a bier is occupied, and the ruling navigates that company rather than the mourners' manners.
+
+Comparison matrix. Three rules governing the street.
+
+Rows: the call at a funeral, standing for a passing bier, setting the bier down.
+Columns: source | rule | boundary drawn.
+- The call: the Reports | the *adhan* at funerals is disliked, though notifying people of a death without making the call is permitted | the announcement may not borrow the form of the summons to prayer.
+- Standing: the interpretation of the Pillars | obligatory not to remain seated when a funeral passes, except for one who intends to follow it, and not to sit until the deceased is placed at the edge of the grave | required of a bystander who may not know the dead man at all.
+- Setting down: the summary of the monuments | the bier set down crosswise, the deceased laid on his back, right side to the qibla and left away | the direction a worshipper would stand.
+
+Process flow. The women following a procession.
+
+- Start: the Messenger of Allah, peace and blessings be upon him, sees women following a funeral, and stands.
+  - Question 1: will you pray over the deceased? No.
+  - Question 2: will you carry it? No.
+  - Question 3: will you find it with the one who would protect it? No.
+  - Verdict: then return, bearing a burden of sin and no reward.
+- End: three questions, one test, and the test is function. Attendance that neither prays nor carries nor sees the body through is harmful, not merely insufficient.
+
+Process flow. The carrying, from the summary of the effects, narrated from the Imams of the family of the Messenger of Allah.
+
+- Start: the shrouding finished, the deceased laid on the bier.
+  - Branch A, men present: carried on their shoulders.
+  - Branch B, not possible: placed on an animal, or whatever is available.
+  - Down to, either branch: the shroud covered from above by a garment if one is found.
+  - Down to: a coffin placed over the bier as a canopy, covered with a garment, the body secured if there is fear it might fall.
+- End: the bier reaches the graveyard.
+
+Comparison matrix. The funeral prayer, four questions of permission.
+
+Rows: who may say it, where, when, who is obliged.
+Columns: the question | the answer | the reasoning given.
+- Who: a man dies where only women are present. May they pray over him, or should men pray and then bury him? | a man's prayer is more in accordance with the madhhab of the Ahl al-Bayt, may Allah bless them | none. The preference is stated by naming the school.
+- Where: after he is carried from the place of preparation, or only at the graveyard? | wherever one wishes, in the graveyard, in his home, or elsewhere | none needed.
+- When: are there hours it may not be said? | permissible even at times generally disliked for prayer, and during an eclipse | recommended during the regular prayer times, unless one fears missing an obligatory prayer, which comes first, per the Reports from narrators who transmitted from the Ahl al-Bayt, peace be upon them.
+- Obliged: on whom does it fall? | on those Muslims who know of it, until one has performed it, after which it is voluntary for the rest, per the councils of the statement | owed by everyone, discharged by anyone.
+
+Recitation option, stated twice and identical both times: whoever wishes may recite supplications between the takbirs, and whoever wishes may leave that to the imam. The question from the correspondence between the islands, on a follower content with the imam's recitation by day, is sent back to that settled answer.
+
+Hierarchy. Who has the greater right to lead the funeral prayer, from the interpretation of the Pillars.
+
+- Level 1: public authority
+  - Level 2: whoever oversees or is delegated authority over the affairs of the Muslims
+    - Level 3: if a group close to the deceased attend by order of the imam, or the imam attends, this raises their standing
+- Level 1: delegated guardianship
+  - Level 2: if only one attends, the guardian of the deceased
+    - Level 3: whether appointed by the imam
+    - Level 3: or acting in one of the general affairs of the Muslims
+- Level 1: established prayer leadership
+  - Level 2: whoever is established to lead people in prayer, if he attends
+- Level 1: the guardians themselves
+  - Level 2: if none attend, then they take precedence in praying over the deceased
+Note: the right to stand in front of a dead man belongs to public authority before family.
+
+Annotated structure. Who may be prayed over, from the summary of antiquities.
+
+Whole: the class of the dead over whom the prayer is offered.
+Parts, named:
+- The martyr.
+- Those who committed major sins.
+- Those killed by hadd punishment.
+- Those killed by retaliation.
+Note: given flat, and the widest statement in the chapter.
+Adjacent items, from a short book and from Ali:
+- The reciter lowers his voice in supplication by day, raises it at night.
+- Ali prayed over himself.
+- From him: his shroud knot tied, then loosened, his right hand brought out from beneath his side, his cheek pressed to the earth.
+- If a woman dies and the child in her womb has reached six months, it should be delivered if possible. The previous chapter reached this by another route; here it is a line of procedure.
+
+## Burial and Graves
+
+Comparison matrix. Burial, four questions of ownership and place.
+
+Rows: what falls from a living body, another man's land, the distance to the grave, the woman with no lawful male relative.
+Columns: the question | the answer | what it protects.
+- What falls from a living body: established in the Shari'ah that it be buried in the earth. Anywhere, or only the cemetery? And if he loses it, has he sinned? | wherever he wishes, and nothing is wrong with him if he loses it | an obligation real and light.
+- Another man's land: others buried their dead there without his permission, and he wants the graves removed | not permissible without his consent, for he has nothing but the value of the grave plots, and it is not permissible to exhume them | the graves, against the owner.
+- Distance: the dead are buried where they die and not transported. What if the burial place is far? | buried in the graveyard of that locality, not taken to another country. If he dies in the wilderness, he may be carried to the nearest burial place | the locality of death, against the family's ground.
+- The woman with no lawful male relative: who lowers her into the grave? | if no male relative's gaze is lawful upon her, those closest to her among the people shall bury her, and failing that, the injustice of necessity applies | the burial, at an admitted cost.
+
+Commitment, last row: the necessity is permitted and named an injustice in the same clause.
+
+Annotated structure. The last question, reproduced with its damage.
+
+Whole: a question from the books of the Calm Call, may Allah's peace be upon its owner.
+Parts of the question, as they survive:
+- Placing milk on the deceased, or wood, or whatever they wished, then dust over it.
+- Placing wages, stones, and other existing materials upon the grave.
+- The note that the people of the apparent path dislike it.
+Note on the manuscript: damaged here, and reproduced as it stands.
+Parts of the answer, which is clear enough:
+- It is permissible to place these materials upon the grave.
+- Rely on this and pay no attention to anything else.
+- Except what is required for *taqiyyah*.
+Note: the permission is doctrinal, the restraint circumstantial. The one reason to refrain is protecting the community the practice would expose.
+
+Visual metaphor. The closing counsel, reversing the chapter's direction.
+
+Abstract relation: who benefits from a visit to a grave.
+Metaphor: two arrows over one plot of ground.
+Elements:
+- Arrow 1, expected: the living person walks to the grave and receives.
+- Arrow 2, added by the counsel: the inhabitants visit their own graves, seek provision there, and are glad of the visit.
+- Ordering rule across both: pray first, then ask.
+
+Verbatim, Mawlana the Commander of the Faithful, Ali ibn Abi Talib, peace be upon him, in his four hundred points of conduct:
+
+> Attend to the graves that you need, their inhabitants visit them and seek provision there; they will be glad of your visit.
+
+Reading: a man seeks what he needs at the grave of his father and mother after praying for them. The visit benefits them, not only the visitor.
+
+## What this episode lands
+
+Quadrant map. The three domains, by the question each uses.
+
+Space: what decides a ruling once a person can no longer decide anything.
+- Left: grief. Decided by speech, not feeling. Weeping and good words permitted, wailing refused because it reaches the dead.
+- Centre: the body. Decided by who is harmed. The first present washes even in major impurity, a shroud outranks a creditor, no hair is cut.
+- Right: the journey out. Decided by function. The prayer anywhere, at any hour, led by public authority before family, refused to attendance that will not pray or carry.
+Reading: the deciding question moves outward from the mouth to the body to the street, and never rests on what anyone feels.
+
+Visual metaphor. The chapter's direction of travel.
+
+Abstract relation: distance managed, then undone.
+Metaphor: a path walked out and walked back.
+Elements:
+- Outward: the Book of Funerals begins at a sickbed, with a term that could not be lengthened.
+- Along the way: condolence, washing, embalming, shrouding, procession, prayer, burial.
+- The far end: a grave, closed. Two passages reach it damaged, the warning to ʿAbdullah's household and the question about what may be laid on a grave, and both are carried forward rather than smoothed.
+- The return: do not fear your dead. Attend the graves you need, because their inhabitants come to them too and are glad to find you there. Pray for your father and your mother first, and then ask.
+Reading: the chapter closes a grave and, in the same breath, gives the reader a reason to walk back to it.

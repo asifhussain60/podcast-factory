@@ -1,0 +1,151 @@
+{
+  "title": "33. The Sun, the Moon, and the Order of Obedience",
+  "purpose": "It completes the treatise's argument by ranking the two sightings, refuting objections to the 'count thirty' hadith and to astronomy, and mapping the sun/moon onto the ranks of Prophet (Speaker) and Foundation, so that the fast becomes an image of the order of obedience.",
+  "points": [
+    {
+      "text": "The author holds that both sightings — the hidden vision of the soul (knowledge) and the sighting of the eye — are valid foundations for discharging obligatory duties, but the vision of the soul is the more excellent and belongs to the possessors of knowledge, while the eye's sighting belongs to the generality, who must follow the learned, the relation between them being like the first and second times of a prayer.",
+      "kind": "distinction",
+      "weight": 5,
+      "depends_on": [
+        "S32-P01"
+      ],
+      "entities": [
+        "رؤية العين",
+        "الرؤية النفسانية",
+        "أولوا العلم"
+      ]
+    },
+    {
+      "text": "The author generalizes that every matter is either hidden (known only to the select) or apparent (known to select and common alike), and each group is bound to act on what it knows — as with the one at the pre-dawn meal who knows dawn has broken while the ignorant must follow the learned.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "fasting",
+        "dawn"
+      ]
+    },
+    {
+      "text": "Against reading 'if it is obscured from you, count thirty days' as referring to eye-sighting, the author argues that eye-sighting yields months of twenty-nine days, so that reading would have the Prophet binding his community to a doubtful rule that adds or subtracts an obligation, contradicting the Quranic demand for sincerity in worship ('they were commanded only to worship Allah, sincere to Him in religion').",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "فإن غم عليكم فعدوا ثلاثين يوماً",
+        "إخلاص"
+      ]
+    },
+    {
+      "text": "The author concludes that the Prophet's fixing the month at the full count without deficiency points instead to the vision of the soul, whose numbers neither increase nor decrease, in line with 'and that you may complete the count.'",
+      "kind": "resolution",
+      "weight": 5,
+      "entities": [
+        "ولتكملوا العدة"
+      ]
+    },
+    {
+      "text": "The author objects that eye-sighting makes the fast differ between regions — cloud in Kirman versus clear sky in Shiraz — whereas, just as a prayer's time binds the whole community once it arrives regardless of individuals, so the fast's time binds the community as one.",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "Kirman",
+        "Shiraz"
+      ]
+    },
+    {
+      "text": "A second argument: counting thirty requires knowing a month's first day, yet crescents are often unseen in turbid regions like Tabaristan, the mountains, coasts and islands, so the eye-reading would make the Prophet burden his community beyond capacity, contrary to 'Allah does not burden a soul beyond its capacity' — hence either the report is unsound or must be read as the vision of the soul.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Tabaristan",
+        "لا يكلف الله نفسا إلا وسعها"
+      ]
+    },
+    {
+      "text": "The author argues from the other pillars — prayer, zakat, Hajj, jihad, all entrusted to the Imam standing in the place of the Messenger, with the community bound to follow and not to advance or delay — that it is inadmissible for the fast alone to be left to the community's own ijtihad, which he calls presumption against Allah.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "Imam",
+        "zakat",
+        "Hajj",
+        "jihad",
+        "خداج"
+      ]
+    },
+    {
+      "text": "To the objection that on the conjunction-and-separation principle a single day would be part Shaban and part Ramadan, the author answers with a doctrine of two causes for every obligation — a preceding general cause and a second specific cause that fixes its time (day/declining sun; wealth/passing year; ability/the greatest day at Mecca; opposition/the commanding head) — so that fasting's general cause is the moon's separation from the sun and its specific cause is the dawn that follows.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [
+        "S32-P02"
+      ],
+      "entities": [
+        "conjunction",
+        "separation",
+        "dawn"
+      ]
+    },
+    {
+      "text": "The author presents an interpretive correspondence in which the sun — noblest and most luminous body, source of light, cause of growth and of all causes — indicates the rank of the Prophet/Speaker, and the moon — below the sun, receiving most of its light, giving light in darkness, intermediary in generation — indicates the rank of the Foundation (الأساس), who receives from the Speaker and expounds his sealed symbols and parables to the community.",
+      "kind": "framework",
+      "weight": 5,
+      "entities": [
+        "الناطق",
+        "الأساس",
+        "سنريهم آياتنا في الآفاق"
+      ]
+    },
+    {
+      "text": "The moon's successive states are read as stages of the Foundation's affair: illumination at conjunction as the Prophet's instruction of the Foundation ('I am the city of knowledge and Ali is its gate'), hiddenness beneath the sun's light as his rank known only to the elect, the crescent's appearance as the explicit designation near the Prophet's death, absence of moonlight by day as his having no affair during the Speaker's life, initial faintness and dispute over sighting as the disagreement over his Imamate, and fullness at fourteen days as his Imamate's universal recognition at the passing of the seven repetitions at the cycle's end.",
+      "kind": "framework",
+      "weight": 5,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "المثاني السبعة",
+        "Imamate"
+      ]
+    },
+    {
+      "text": "Ramadan, noblest of months, is taken to stand for the Foundation, and the author reads 'the month of Ramadan in which the Quran was sent down' interpretively — since the Quran descended over twenty-three years, not all in Ramadan — while 'whoever witnesses the month, let him fast it' is read as the command to attend the Foundation's assembly in silence, with the sick-or-traveling exception covering the doubter or learner who speaks to gain benefit.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Ramadan",
+        "شهر رمضان الذي أنزل فيه القرآن",
+        "لا ترفعوا أصواتكم فوق صوت النبي",
+        "المتعة"
+      ]
+    },
+    {
+      "text": "As a worked case the author defends the people of truth's entering the Ramadan fast of the year 400 two days before the eye-sighting: conjunction fell on Monday night, the moon stood only about six degrees from the sun at sunset (beneath the ray, invisible), the Shawwal conjunction fell Wednesday night making Wednesday the festival, so breaking earlier would have left only twenty-nine days — whereas 'Shaban is never complete and Ramadan never deficient' and 'the day of your fasting is the day of your sacrifice,' the sacrifice at Mecca having fallen on Monday.",
+      "kind": "example",
+      "weight": 4,
+      "entities": [
+        "year 400",
+        "Shawwal",
+        "يوم صومكم يوم نحركم",
+        "ما تم شعبان ولا نقص رمضان"
+      ]
+    },
+    {
+      "text": "Answering the charge that this reasoning is the forbidden science of the stars, the author replies that it would be an unjust division (قسمة ضيزى) to permit astronomical determination of the qibla and prayer times but forbid it for the fast, and that the prohibition applies only to one who takes up astronomy before the divine and revealed sciences and so falls into the position of Ptolemy's followers and those who deify the heavenly bodies — whereas after the religious sciences it increases certainty in Allah's oneness, as the Quran's oaths by the stars attest.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "قسمة ضيزى",
+        "Ptolemy",
+        "الحدود"
+      ]
+    },
+    {
+      "text": "The treatise closes by concluding that the Prophet's ل in 'لرؤيته' means the sighting of knowledge — requiring that the people already be fasting when the crescent is seen by eye — and seals with praise, prayer upon Muhammad, Ali, the pure Imams as 'moons amid the darkness,' and upon the Imam of the age al-Hakim bi-Amr Allah, affirming that knowledge descends and obedience ascends, meeting in the one whom Allah appoints.",
+      "kind": "resolution",
+      "weight": 5,
+      "entities": [
+        "لرؤيته",
+        "الحاكم بأمر الله",
+        "Imam of the age"
+      ]
+    }
+  ],
+  "fingerprint": "a514bb3932df05e5"
+}

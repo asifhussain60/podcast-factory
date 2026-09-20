@@ -1,0 +1,529 @@
+# Major Washing and Material Purity
+
+## Where this episode opens
+
+Annotated structure. Whole: one chapter of Iṣāf al-Ṭālib that tests purity against the material world, in question-and-answer form, without restating the previous teaching on wudhu'.
+
+Parts, with position and annotation:
+- Top band, the body under major impurity: janabah, menstruation, fainting, sleep, semen traces, hair and nails, recitation. Annotation: the whole body is implicated, not a limb.
+- Second band, the scarce resource: one supply of water, a living claimant and a deceased claimant, a travelling imam and his followers, a garment that needs the water more than the body does. Annotation: scarcity forces ordered judgment, never abandonment.
+- Third band, the material field: vomit, urine, dried land, carpets, mats, milk, hair, animal products, garments made by polytheists, floor-coverings, stones, plaster, vessels, dogs. Annotation: purity as a discipline of traces.
+- Fourth band, the shared world: roads, still water, companions who sit nearby, sweeping at night, grooming, siwak. Annotation: filth harms others before it harms worship.
+- Floor beneath all four: bodily purity trains the soul toward knowledge, established in the previous chapter. Annotation: assumed here, recalled once, never re-argued.
+
+Cross-axis reading: depth runs from the body outward to the shared world, width runs from the certain case to the uncertain.
+
+Comparison matrix. Rows are the domains this chapter judges. Columns are the deciding criterion and the verdict pattern.
+
+| Domain | Deciding criterion | Verdict pattern |
+|---|---|---|
+| The body in janabah | Doubt about one's own state | Ghusl obligatory even without visible trace |
+| The garment | Visible trace, and whether it was worn while impure | Washing, not suspicion |
+| Land and open ground | Removal of physical trace and smell by sun, wind, water | Pure, unless it is a passage used for need |
+| Absorbent objects | Whether water can be moved through and pressed out | Adapted washing, three repetitions |
+| Vessels | Whether the impure one can be identified | Two unknown vessels, approach neither |
+| Water in scarcity | Who or what cannot be served by tayammum | Water to the impurity, tayammum to the person |
+| Dust | Whether dust is actually present on the surface | Flat bare stone fails, dusty stone serves |
+| The worshipper's intention | Whether the act was intended for oneself | Outward motion without intention does not purify |
+
+Reading: no answer comes from a category alone. Each names the material fact that decides it.
+
+Process flow. The chapter's three movements, as stated by the source.
+
+Start: ghusl from janabah as major purification.
+  Down to: urgency preserved under cold, sickness, doubt, sleep, menstruation, and death.
+  Down to: material purity as a discipline of traces, what must be washed, what counts as removed, what remains suspect.
+  Down to: cleanliness, siwak, and tayammum gathered as movement through a world where water may be absent.
+End gate: intention decides whether a lesson in purification actually purifies the one who teaches it.
+
+Contrast pair. What the previous chapter settled, against what this chapter adds.
+
+Column A: The previous teaching on wudhu'
+- Subject: minor impurity, the ordered limbs, the interrupted ablution, the judgment of water.
+- Scale: a limb at a time, a vessel at a time.
+- Inner reading: outward water for visible filth, inner water for doubt and ignorance.
+- Question answered: how the seeker becomes fit to stand in prayer.
+
+Column B: This chapter's contribution
+- Subject: major impurity, and the purity of garments, earth, carpets, vessels, animals, and the dead.
+- Scale: the whole body, the whole object, the shared road, the scarce supply.
+- Inner reading: the same, recalled once as a callback, not re-taught.
+- Question answered: how that fitness holds when the material world resists it.
+
+Shared row: both refuse to let purity become either panic or laxity. The first trains the act, the second trains the judgment.
+
+Quadrant map. Space: how the chapter positions a case between certainty and doubt, and between the body and the object.
+
+- Top-left, body and certainty: the semen trace seen on waking. The material sign is present, so memory is not needed.
+- Top-right, body and doubt: the man who fainted for days and may have been in janabah. Doubt about one's own state obliges ghusl.
+- Bottom-left, object and certainty: vomit, blood, and pus fallen on a place. Wash the affected area.
+- Bottom-right, object and doubt: one of two vessels holds impurity and nobody knows which. Approach neither and pray.
+
+Reasoning for the split: the body under doubt is held to a searching certainty, the unidentified object is released by stepping away from both. Two different problems, not one rule applied twice.
+
+## Major washing
+
+Comparison matrix. Rows are the opening cases of ghusl under hardship. Columns are the question, the answer, and the operative criterion.
+
+| Case | Ruling | Operative criterion |
+|---|---|---|
+| Fear of cold while requiring ghusl, resident or traveller | Tayammum and pray | Fear that water will harm, near or far |
+| A weak man afflicted by janabah, prayer time arrived | Tayammum and pray, no repetition required | The lawful substitute is not a placeholder |
+| Fainting for several days, possible janabah, no visible trace | Ghusl obligatory | Doubt about one's own bodily state |
+| Waking to a semen trace on the garment, wet or dry, no remembered dream | Ghusl obligatory | The material trace, not the memory |
+| Forgetting a state requiring ablution until after ghusl | The ghusl suffices | The greater washing includes the lesser |
+| Cutting hair or nails while in janabah or menstruation | Leave it until pure | The state extends to parts that might be removed |
+
+Reading: hardship never abolishes purity. The truthful form of purification under harm is tayammum, and the prayer performed through it stands.
+
+Contrast pair. Two readings of the fear-of-cold case, both preserved by the source.
+
+Column A: The rule as found in books of Shari'ah
+- Act under fear: tayammum, then pray.
+- Later, when water is usable: wash.
+- The earlier prayer: repeated.
+- Implied status: the first prayer awaits completion.
+
+Column B: The answer given to the weak man
+- Act under fear: tayammum, then pray.
+- Later, when water is usable: wash.
+- The earlier prayer: not repeated.
+- Implied status: prayer under the lawful substitute is already prayer.
+
+Shared row: neither position abandons prayer, and neither pretends the person can wash. The source lets both phrasings stand.
+
+Annotated structure. Whole: the meaning given to ghusl when the question asks what major washing signifies.
+
+Parts, with annotation:
+- The act: washing of the whole body after intercourse and in similar cases.
+- The comparison offered: removal of doubt and uncertainty.
+- The condition of that removal: it occurs only when clarification and benefit are given.
+- The relation to the earlier teaching: knowledge purifies doubt, already established.
+- What is new here: major washing carries the same pattern in a more forceful form.
+
+Annotation across the parts: janabah is not treated as a small residue. It is a condition whose removal is compared to the removal of uncertainty by clarifying benefit.
+
+Hierarchy tree. What the chapter forbids to the person in janabah and the menstruating woman, and what it leaves open.
+
+- Level 1: Forbidden
+  - Level 2: Deliberate recitation of any part of the Quran
+    - Level 3: In prayer
+    - Level 3: In books
+  - Level 2: The basmalah recited with the intention of reciting Quran
+- Level 1: Not forbidden by the wording of the answer
+  - Level 2: Takbir, praise, and glorification as expressions
+    - Level 3: Even where the wording overlaps with Quranic wording
+  - Level 2: The basmalah recited without that intention
+- Level 1: Deferred until purity
+  - Level 2: Cutting hair
+  - Level 2: Cutting nails
+
+Reading: the line is drawn at intention and recognition, not at vocabulary. Purity governs how sacred speech is approached, not every word scripture also contains.
+
+## Scarcity and sleep
+
+Genealogy chain. How the janabah-before-the-dead ruling reaches the chapter.
+
+Scholars from the Indian lands pose the question → some preachers of Yemen answer → the person in janabah performs ghusl, tayammum is performed for the deceased → the owner of the hidden message supports the seriousness of janabah → the Quranic command is cited → the Prophetic saying on the roots of the hair is cited.
+
+> "If you are in a state of janabah, then purify yourselves"
+> Quran 5:6, cited by the owner of the hidden message
+
+> Beneath every hair is janabah.
+> The Prophet, peace be upon him and his family, meaning that janabah reaches the roots of the hair, so one must purify oneself
+
+Reading of the chain: whoever neglects this is negligent and far from what he claims. To live willingly under janabah is described as falling into ruin and falsehood. The body confirms or betrays what the tongue says.
+
+Process flow. The night journey of the soul, as reported from Ali ibn Abi Talib, peace be upon him, with its branch.
+
+Start: a Muslim prepares for sleep.
+  Gate: do not sleep while in janabah, do not sleep except purified.
+    Branch, water present: perform ghusl.
+    Branch, no water found: perform tayammum.
+  Down to: the soul of the believer ascends to Allah Almighty.
+  Down to: Allah receives it and blesses it.
+  Branch at the appointed time:
+    - A place prepared for it: He places it in the finest form.
+    - The appointed time not yet arrived: He sends it back to the body with His guardian angels.
+End: sleep is a threshold, not a pause. Tayammum marks the person as one who has not surrendered to impurity.
+
+Contrast pair. The scarcity case where one supply of water meets two claims, preserved by the source in two phrasings.
+
+Column A: One passage
+- Recipient of the water: the bath for the living.
+- Recipient of tayammum: the deceased.
+- Grounding: janabah reaches the roots of the hair and must be purified.
+- Effect: the living body's obligation takes the scarce water.
+
+Column B: Another passage
+- Recipient of the water: the deceased, washed with it.
+- Recipient of tayammum: by implication, the living.
+- Grounding: the obligation of washing the dead is not waived by scarcity.
+- Effect: the burial rite takes the scarce water.
+
+Shared row: the two reports are not harmonized. Scarcity does not erase purification, it forces ordered judgment about who receives water and who receives tayammum.
+
+Comparison matrix. Rows are the Ramadan and travel cases. Columns are the obstacle, the act performed, and the consequence for the fast.
+
+| Case | Obstacle | Act performed | Consequence |
+|---|---|---|---|
+| Needs ghusl on a night of Ramadan, forgets, then travels | No water found | Tayammum | Prayer and fasting complete |
+| Woman pure from menstrual blood before Maghrib in Ramadan | Fears harm from ghusl | Tayammum | Fast kept, no day made up |
+| Man with a nocturnal emission in Ramadan | Ghusl at night endangers health | Tayammum | Fasts, no day made up |
+| A man dies while travelling | No water | Tayammum performed over him | Burial proceeds |
+
+Reading: the law does not confuse hardship with lawlessness. It gives a purified way through hardship.
+
+Annotated structure. Whole: what the first movement establishes about ghusl.
+
+Parts, with annotation:
+- Required by trace: even when memory is absent.
+- Required by doubt: when the body itself is under serious uncertainty.
+- Required under janabah: even when cold or sickness forces tayammum in place of water.
+- Reaching: sleep, recitation, hair and nails, prayer, fasting, and death.
+- Relieved by: a truthful substitute when water would harm, when travel prevents washing, or when water cannot be found.
+
+Annotation across the parts: major impurity cannot be wished away, and it is not meant to be survived by pretending.
+
+## Material purity
+
+Comparison matrix. Rows are the opening material cases. Columns are the ruling and the criterion that produces it.
+
+| Case | Ruling | Operative criterion |
+|---|---|---|
+| Vomit falling on a place, as blood and pus do | It renders the place impure, wash the affected area | Visible contact |
+| Land where children urinated and defecated, dried until smell and trace vanish | Treated as pure, prayer permitted | Trace removed, and not a passage used for need |
+| Land struck by impurity, washed by flowing water, then dried | Prayer permissible and valid | Sun and wind have purified it, trace and smell gone |
+| Dry places where camels and sheep are penned | Usable for prayer | Same criterion, drying and removal of trace |
+| Touching a dead body after it has cooled | Washing is Sunnah | Unless the body has already been washed by bathing |
+
+Reading: the basic grammar of material purity is trace, smell, drying, sun, wind, water, and use. Land is not frozen forever by the memory of impurity.
+
+Process flow. How impurity travels from the cooled body, as the answer defines it.
+
+Start: the body has cooled, which the answer glosses as the body having become impure.
+  Condition: moisture is present between the body and what is adjacent.
+    If moist: the adjacent thing becomes impure, and this is the meaning of the obligation to wash.
+    If dry: no transmission is established by the wording.
+  Exception branch: the body has already been washed by bathing, so the washing after touching is not required.
+End: contact is not magic. Moisture is the path by which impurity moves.
+
+Process flow. Purifying what cannot be wrung out three times: the scalp, mats, rugs, mosque quilts, mattresses.
+
+Start: the object is submerged or wetted.
+  Step: run the hand over the object until impurity and smell are gone.
+  Step: lift it from the water until it stops dripping.
+  Loop: repeat the above three times.
+Alternative path, for what the hand cannot work:
+  Step: tread on it with the feet as described.
+  Step: remove it from the water.
+  Step: press it until water comes out.
+  Loop: return it three times.
+End: washing and repetition survive where ordinary wringing is impossible. Material form determines method, not the need for purification.
+
+Hierarchy tree. What the chapter declines to call impure, grouped by the reasoning that releases it.
+
+- Level 1: Pure by analogy with saliva
+  - Level 2: The milk of a Muslim breastfeeding woman fallen on clothing
+    - Level 3: Pure for her and for others
+    - Level 3: Grounded in the purity of every Muslim's saliva, which does not make impure what it touches
+- Level 1: Permitted in the easier position
+  - Level 2: Hair from a wet shaved head falling onto a garment or body
+- Level 1: Permitted in small amount by analogy with the first issue
+  - Level 2: Milk of jallalah animals
+  - Level 2: Fat of jallalah animals
+  - Level 2: Eggs of jallalah animals
+
+Reading: bodily substances and animal products are not all treated alike. Some contacts are pure, some excused in small quantity, some require washing. Generalized disgust is refused.
+
+Contrast pair. Two answers about the person who cannot wash, and what separates them.
+
+Column A: The traveller or sick person with impure clothes
+- Ruling: prayer should not be performed except with a pure garment.
+- Reason for strictness: clothing directly accompanies prayer.
+- Remedy: the sick person instructs those around him to wash his clothes.
+- What this shows: inability has a social remedy, purity is not the isolated person's private task.
+
+Column B: The traveller with only enough water for ablution and an impure garment
+- Ruling: wash the garment with that water.
+- Reason: tayammum is no substitute for removing that impurity.
+- Remedy: the person then performs tayammum and prays.
+- What this shows: water goes where only water can act, the body takes the dry purification.
+
+Shared row: in both, the garment's claim is honoured first, because the garment stands in the prayer with the worshipper.
+
+## Garments and shared space
+
+Comparison matrix. Rows are the garments associated with polytheists. Columns are the condition and the ruling.
+
+| Condition of the garment | Ruling |
+|---|---|
+| Made by a polytheist, never worn, no impurity visible | Pure, prayer permitted by the Imams |
+| Made by a polytheist and worn by him while impure | Impure |
+| Dyed by a polytheist, worn by him, not while impure | Pure |
+| Impurity visibly present on it | Impure |
+| Cut and washed by them, before wearing | Not considered pure except by washing them |
+| Splashed with impure water during weaving and stitching, then dried, then sold and bought | Prayer in them permitted |
+
+> "The polytheists are impure"
+> Quran 9:28, cited within the question
+
+Reading: a scriptural category is held together with a rule about material evidence. Manufacture alone does not make a garment impure, wearing matters only as specified, visible impurity matters. Those who heard the statement about cut and washed garments did not grasp the root of the question.
+
+Contrast pair. Open land against the single wide floor-covering, two objects that behave differently under partial impurity.
+
+Column A: Open land, part struck by impurity
+- Purifying agents: sun, wind, flowing water, time.
+- Test: has physical trace and smell been removed.
+- Ruling once the test passes: prayer permitted and valid.
+- Why: the ground is not one bounded object, and the purified area stands on its own.
+
+Column B: A wide floor-covering, partly pure and partly impure
+- Purifying agents: none applied to the impure portion.
+- Test: the common people ask whether one part moves without the other end moving.
+- Ruling: one may not pray on the purified portion.
+- Why: it remains one object whose impurity affects its use for prayer.
+
+Shared row: neither case permits selecting a clean-looking patch. The object's unity, not its appearance, settles it.
+
+Comparison matrix. Rows are the shorter material rulings gathered in this movement.
+
+| Case | Ruling |
+|---|---|
+| Prayer in the clothes of boys prone to impurity | Permissible unless impurity is known, a small amount of discharge is excusable |
+| Praying in innocent houses | One should not stop, though doing so is not recommended |
+| Prayer on stones or plaster | Permissible only within the Prophetic principle on the earth |
+| Ground over which tayammum is not permissible | Cannot be prayed upon as ground |
+| Sweeping houses at night, avoided by some people in India | Not a reliable prohibition, nothing wrong with doing it |
+| A vessel licked by a dog | Seven washings, one with dirt |
+| A vessel touched by a pig | Treated the same |
+| One of two vessels holds impurity, which is unknown | Approach neither, and pray |
+
+> The earth has been made for me a mosque and a means of purification.
+> The Prophet, peace and blessings be upon him and his family
+
+Reading: where the impure object cannot be identified and both vessels are implicated by doubt, the worshipper does not gamble with one. He leaves both and turns to prayer.
+
+Comparison matrix. Rows are the grooming and cleanliness sayings from the Four Hundred Precepts. Columns are the practice and what it is said to accomplish.
+
+| Practice | What it accomplishes |
+|---|---|
+| Trimming the mustache | Clean, and Sunnah |
+| Washing the head with sidr | Removes illness, belongs to the Sunnah, removes filth |
+| Light | A tonic and purification for the body |
+| Trimming nails | Wards off severe disease, brings sustenance, brings increase |
+| Plucking the armpits | Removes offensive odor, a Sunnah purification |
+| Washing on feast days | Purifies the one seeking his needs before God and following the Sunnah |
+| Washing clothes | Removes worry, suppresses the enemy, purifies for prayer |
+
+Counter-note preserved by the source: do not shorten the mustache, because it is a light for the Muslim. A young man in appearance but old in Islam will have a light on the Day of Resurrection.
+
+Reading: hair, nails, head, armpits, clothes, scent, disease, and feast-day washing belong to the moral texture of a purified life. Bodily signs, age in faith, and light touch one another.
+
+Hierarchy tree. The warnings about shared space, grouped by what each protects.
+
+- Level 1: The shared road and the shared water
+  - Level 2: Let no one relieve himself on the road
+  - Level 2: Let no one urinate into still water
+    - Level 3: If something then befalls him, he has only himself to blame
+- Level 1: The person's own body
+  - Level 2: Do not urinate in a way that splashes back
+  - Level 2: Do not let urine return upon oneself
+  - Level 2: Whoever is seen sleeping on his face should be warned
+- Level 1: The companions who sit nearby
+  - Level 2: Purify oneself with water from foul-smelling wind, and keep to this
+    - Level 3: God hates the filthy servant who repels those who sit with him
+- Level 1: Contact with dogs
+  - Level 2: Dogs should be avoided
+  - Level 2: A dry dog touching one's garment, sprinkle water on it
+  - Level 2: A wet dog touching one's garment, wash it
+
+Reading: filth is not merely a private embarrassment. It can harm others, repel others, and misuse what is shared.
+
+Annotated structure. Whole: the case of the unparted hair, from the Indian question-and-answer material.
+
+Parts, with annotation:
+- The condition described: a man lets his hair grow and does not part it every day.
+- The qualifying fact: the hair falls in two halves.
+- The ruling: he should not leave it unparted.
+- The aggravating factor: doing so deliberately.
+- The consequence: the ruling invalidates his prayer.
+
+Annotation: inside the chapter's logic this belongs to ordered bodily presentation before worship. The body prepared for prayer is not careless in form.
+
+Visual metaphor. Abstract relation: the purifier is not itself purified by what stands below it.
+
+Metaphor: two vessels of water, one outward and one inward, drawn as the same shape at two depths.
+- Upper vessel, the sea: water purifies and is not itself purified.
+- Lower vessel, the knowledge of the Imam: the same relation carried inward.
+- Element assignment: whoever does not purify the sea stands to the sea as whoever does not purify that knowledge stands to God.
+- Reading: water teaches this outwardly, knowledge teaches it inwardly.
+
+> Whoever does not purify the sea, God will not purify him.
+> Saying recorded in the chapter, with the answer that just as water purifies and is not itself purified, so too is the knowledge of the Imam
+
+Position of this moment: a callback, not a re-teaching. It arrives after garments, land, dogs, vessels, hair, and shared water.
+
+## Tayammum paths
+
+Contrast pair. Siwak against the secondary cleaning tool used in India.
+
+Column A: Siwak
+- Standing: better, and from the Sunnah.
+- Attributed effect, from Ali ibn Abi Talib, peace be upon him: pleasing to God Almighty, good for the mouth.
+- Scope: the mouth that recites, remembers, greets, eats, and breathes.
+
+Column B: The piece of oud, bamboo, or similar material used with the tongue after the siwak
+- Standing: permitted, there is nothing wrong with doing that.
+- Attributed effect: removal of remaining dirt.
+- Scope: a local custom that serves cleanliness.
+
+Shared row: the preferred practice stays preferred, the permitted practice is not blamed. The chapter neither forbids every local practice nor flattens the Sunnah into any convenient substitute.
+
+Annotated structure. Whole: the compressed notes on scented plants that sit between siwak and tayammum.
+
+Parts, with annotation:
+- The breach with a knot of hashish: some say one should not disturb it.
+- Seeking it at Uhud while in janabah: others say it is disliked.
+- A book of explaining reports: basil is every pleasant-scented plant.
+- The interpretation of the pillars: basil, in the tongue, means the tips of every plant made pleasant when wind passes over it.
+- Myrtle: scholars especially cared for it, one should keep it and hold it close.
+
+Annotation: the material belongs to the chapter's concern with bodily nearness, mouth, scent, breath, and the practices that make a worshipper fit to stand before God and among people.
+
+Hierarchy tree. What makes tayammum lawful, and what does not.
+
+- Level 1: Valid causes
+  - Level 2: Absence of water
+    - Level 3: Far from water while travelling, unable to perform ablution before the prayer time is missed
+    - Level 3: No water found after a Ramadan night on which ghusl was needed
+  - Level 2: Harm from water
+    - Level 3: Fear of cold, whether resident or traveller
+    - Level 3: Sickness, where water is present but harm is feared
+  - Level 2: Danger in reaching water
+    - Level 3: Fear for oneself
+    - Level 3: Fear for one's property
+  - Level 2: Practical inaccessibility
+    - Level 3: Pressed by a crowd and unable to reach water, from Ta'wil al-Da'im
+  - Level 2: A limited supply already claimed by another impurity
+    - Level 3: Water spent washing an impure garment
+- Level 1: Not a valid cause
+  - Level 2: Mere inconvenience within the travel limit while water is reachable
+
+Reading: absence, distance, time, fear for life, and fear for property define the permission. Water that exists but cannot be reached is judged by actual access, not by abstract existence.
+
+Comparison matrix. Rows are the surface and material conditions for tayammum.
+
+| Condition | Ruling | Criterion |
+|---|---|---|
+| Flat stone with dust on it | Tayammum valid | Dust present |
+| Flat stone with no dust on it | Tayammum not valid | Dust absent |
+| No soil to be found, from the Muntakhab | Shake garments and clothes | Whatever dust may be present suffices, even if nothing visible clings |
+| A small amount of water, enough only for some limbs | The purest available thing serves when there is a cause | Absence of water is such a cause, and is the meaning of tayammum |
+
+Reading: not every hard natural surface counts alike. The garment may become the place from which the necessary dust is brought forth.
+
+Process flow. Assigning a single insufficient supply of water.
+
+Start: one supply, more than one claim.
+  Branch, a group of travellers with an imam and water enough for one man's ablution:
+    - One phrasing: the imam performs tayammum before them and leads them in prayer.
+    - Another phrasing: all perform tayammum, and he leads them.
+  Branch, one man with water enough for ablution and impurity on his garment:
+    - Step: wash the garment with that water.
+    - Step: perform tayammum.
+    - Step: pray.
+End: the water is given to the impurity for which tayammum is no substitute, and dry purification is given to the person.
+
+Timeline. One resident, one limited supply, across the prayers of a single day.
+
+Noon: water sufficient for ablution but not for ghusl. He performs tayammum and prays.
+Afternoon: that same water is still with him. He uses it for ablution and does not repeat tayammum, because he is already purified from janabah.
+Water found after tayammum, prayer time remaining: he returns to water only if he has not yet washed.
+Prayed while travelling, water found later, time remaining: he may prefer to perform ablution and repeat the prayer.
+Prayed while travelling, water found later, time passed: he is rewarded, and may pray again.
+Period reading: tayammum is not a permanent identity. It answers a condition, and when that condition changes while time remains, water returns. The prayer already performed under valid tayammum is not worthless.
+
+Comparison matrix. Rows are the social and interreligious cases, and the cases of sacred space.
+
+| Case | Ruling |
+|---|---|
+| A non-believer embraces Islam and cannot find water | He prays as he is |
+| A man travels with a Christian or Zoroastrian woman who menstruates, becomes pure, and finds no water | The husband teaches her complete tayammum, and she acts accordingly |
+| A man sleeps in the Prophet's mosque in major impurity and wakes still in that state | Recommended that he not pass through the Sacred Mosque until he has exited it |
+| The same condition within the Haram | The same applies |
+| A traveller who is sick, water present, harm feared | He completes his prayer |
+
+Reading: entry into prayer is not postponed indefinitely by lack of water, and instruction in tayammum becomes part of enabling another person to worship under constraint. Sacred space intensifies the concern, and the body in janabah does not move casually through the holiest precincts.
+
+Contrast pair. The closing case of two men who prayed in one place because they could not find water.
+
+Column A: The learner
+- Words spoken: "Teach me tayammum."
+- Knowledge before the act: absent.
+- Outward performance: the companion struck the ground on his behalf.
+- Intention for himself: present.
+- Verdict: his prayer was valid.
+
+Column B: The teacher
+- Words spoken: the instruction itself.
+- Knowledge before the act: complete.
+- Outward performance: he struck the ground, for the other.
+- Intention for himself: absent.
+- Verdict: his prayer was not valid.
+
+Shared row: both men performed the same visible motion in the same place at the same time. Knowledge of the procedure is not the same as purified intention, and helping another person perform tayammum is not automatically performing tayammum oneself.
+
+Annotated structure. Whole: the precision the chapter has been moving toward, gathered as one figure.
+
+Parts, with annotation:
+- Ghusl: requires more than hoping one's state is clean.
+- Garments: require more than assuming no impurity matters.
+- Land: requires the removal of trace and smell.
+- Rugs: require adapted washing.
+- Vessels: require caution when impurity cannot be identified.
+- Siwak: remains better even when another cleaning tool is permitted.
+- Tayammum: requires dust, cause, access, and intention.
+
+Annotation across the parts: purity is neither panic nor laxity. It is disciplined judgment before God.
+
+## What this episode lands
+
+Named-axis 2x2. The chapter's closing judgment, placed on two axes.
+
+Axes:
+- Horizontal: treatment of the unknown, from anxious excess on the left to carelessness on the right.
+- Vertical: treatment of the known condition, from pretending at the bottom to truthful naming at the top.
+
+Quadrants:
+- Top-left, anxious excess with truthful naming: the worshipper who names his state honestly but calls every dried surface, local custom, and crowded road impossible. The chapter refuses this, because sun, wind, drying, and analogy actually release cases.
+- Top-right, carelessness with truthful naming: the worshipper who knows his state and shrugs at the compromised garment or the unidentified vessel. The chapter refuses this, because trace, wet contact, and doubt each oblige an act.
+- Bottom-left, anxious excess with pretending: paralysis, where nothing is judged and nothing is performed. The chapter refuses this by giving procedures for rugs, garments, dust, and scarce water.
+- Bottom-right, carelessness with pretending: tayammum without cause, or without intention. The chapter refuses this in its closing story, where the teacher's own prayer failed.
+- Center, where the chapter places the purified worshipper: he learns to judge the actual condition honestly, uses the means appointed for it, and enters prayer without pretending.
+
+Comparison matrix. Rows are the states the chapter ran through. Columns are what forces the case and what the law supplies.
+
+| State | What forces the case | What the law supplies |
+|---|---|---|
+| Janabah | The whole body is implicated | Ghusl, or tayammum under harm |
+| Menstruation | Purity and the limits on recitation | Deferred acts, tayammum where ghusl harms |
+| Fainting | Doubt about one's own state | Ghusl despite the absence of trace |
+| Sleep | The soul's ascent, received and returned | Purity before sleeping, tayammum where no water is found |
+| Semen traces | A material sign without memory | Ghusl on the trace alone |
+| Recitation | Intention toward Quranic speech | A line drawn at deliberate recitation |
+| Scarcity of water | More claims than the supply can serve | Ordered assignment, tayammum for the remainder |
+| Death | Washing the deceased, and touching the body | Tayammum over the dead, Sunnah washing after contact |
+
+Annotated structure. Whole: what material purity is shown to depend upon.
+
+Parts, with annotation:
+- Trace: whether a physical residue is present.
+- Smell: whether the sign has actually gone.
+- Moisture: the path by which impurity moves between adjacent things.
+- Washing: the act that removes what is present.
+- Drying: sun and wind doing what water does, over open ground.
+- Actual contact: whether the thing was touched, worn, or splashed at all.
+- The status of the object: one bounded floor-covering against unbounded ground.
+
+Annotation across the parts: seven tests, not one rule. The refusal of both carelessness and anxious excess rests on applying the right test to the right material.

@@ -1,0 +1,62 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "per-chapter",
+  "verdict": "PHASE-BROKEN",
+  "blocking_fail": "PPC1 every-chapter-has-an-episode: 0 episode text(s) for 27 chapter(s) — the lane is short",
+  "counts": {
+    "total": 7,
+    "failed": 2,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PPC1",
+      "name": "every-chapter-has-an-episode",
+      "kind": "own",
+      "passed": false,
+      "note": "0 episode text(s) for 27 chapter(s) — the lane is short"
+    },
+    {
+      "gate": "PPC2",
+      "name": "completed-slugs-cover-contracts",
+      "kind": "own",
+      "passed": false,
+      "note": "27 chapter(s) never shipped and never failed: adhan-and-iqama, astronomy-calculation-and-religious-obligation, bodily-substances-and-disavowal, condolence-mourning-and-burial, congregation-and-shared-prayer …"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (521,369 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (533,632 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 96% of the source (96,702 of 100,783 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (36 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "27 chapter contract(s)"
+    }
+  ]
+}

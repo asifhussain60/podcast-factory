@@ -1,0 +1,655 @@
+# Missed Rak'ahs and Learning Prayer
+
+## Where this episode picks up
+
+Diagram type: Contrast pair. The previous chapter's question against this chapter's question.
+
+Column A: The previous chapter
+- What was assumed: the prayer is standing
+- What was in doubt: whether an error inside it required repair
+- What it refused: letting an unsettled mind manufacture a defect
+- What it taught the worshipper: act on what you are certain of
+
+Column B: This chapter
+- What is assumed: nothing
+- What is in doubt: whether the prayer is standing at all
+- What it refuses: treating discomfort, embarrassment, or lateness as grounds to tear the prayer down
+- What it asks of every case: is there still a prayer here, and whose is it
+
+Shared row: both movements test one act under pressure, and neither hunts for invalidity.
+
+Diagram type: Annotated structure. The roster of cases the chapter puts to the source.
+
+Whole: one question asked eight times in different words, is there still a prayer here, and whose is it.
+Parts, each with the fact that arrives and the thing it threatens:
+- Impurity reaches the garment mid-prayer. Threatens: purity, a condition of the act, failing mid-course.
+- Blood runs from the nose. Threatens: the body's ability to stay in the shape while it is cleaned.
+- The stomach turns. Threatens: the same, by vomiting rather than bleeding.
+- Wind passes. Threatens: the state of ritual purity, and the threshold of evidence for it.
+- A body crosses in front of the worshipper. Threatens: nothing the worshipper controls.
+- A man laughs. Threatens: the voice that belongs to the recitation.
+- A latecomer arrives at a congregation already half over. Threatens: whether he has a congregational prayer at all.
+- A child of eight is told to line up beside his father. Threatens: whether an act can be entered before its meaning is understood.
+
+Annotation on the whole: the first six ask whether a prayer survives, the seventh asks how little may be caught, the eighth asks how early a person may be put in.
+
+Diagram type: Comparison matrix. The chapter's three movements.
+
+Rows: what interrupts prayer, the worshipper who has been preceded, the age at which boys are commanded to pray.
+Columns: what the movement gathers | what it settles | its governing question.
+- What interrupts prayer: the rulings on impurity, blood, vomit, wind, passing bodies, laughter, and a change of act | that very little actually interrupts | can this defect be undone from inside the prayer.
+- The worshipper who has been preceded: the latecomer at the final sitting, the latecomer at the bowing, the general rule of joining, the imam who was preceded in knowledge | that a man who catches almost nothing may still have attained the congregational prayer | was the door still open when he arrived.
+- The age at which boys are commanded to pray: the command to pray at eight, the seven-year developmental scheme, the household precaution | that a child is put into the act long before he is finished as a person | must the mind be complete before the act may begin.
+
+Cell commitment: the three are unusually well matched, and each returns a verdict more generous than a nervous worshipper expects.
+
+Diagram type: Genealogy chain. Each authority and the ruling it supplies, one chain per line, the arrow reading as supplies.
+
+The first question-and-answer book arranged according to the chapters of the Pillars of Islam → impurity on the garment, and the latecomer at the final tashahhud
+The book of purity → the nosebleed and the vomiting, decided by the face and the qibla
+The reports → the threshold of evidence for passing wind, and the imam corrected from behind
+The book on the interpretation of prayer → the saying that three things interrupt the prayer
+The four hundred manners attributed to Amir al-Mu'minin, peace be upon him → smiling against laughter, and the command to pray at eight
+Sheikh Shimun ibn Muhammad Ghuri al-Hindi, the late, asks → Badr al-Din Hasan ibn Idris, our master, answers → the man who bowed with the arriving imam must repeat the prayer
+The summary of the classification → the two takbirs owed at the bowing, and the concession of one for both
+Muhammad ibn Fahd, our master and Mawlana, in an honorable epistle → the single takbir, and the intention formed in the heart
+Ibrahim ibn Husayn al-Hamidi, the great preacher, in The Phrase of Good News, reporting from the Commander of the Believers → the developmental scheme that closes the chapter
+
+Reading: the source-shape is the one the book has used throughout. A named questioner, a named authority, an abridged legal summary, a transmitted report, a saying of an earlier figure set down beside it.
+
+Diagram type: Hierarchy. Doctrines assumed by this chapter, and not reopened.
+
+- Level 1: Purity
+  - Level 2: Bodily purity
+    - Level 3: Taught in its own chapter, applied here to an act in progress
+  - Level 2: Material purity
+    - Level 3: Taught in its own chapter, applied here to a garment soiled mid-prayer
+  - Level 2: The event of ritual impurity
+    - Level 3: Named here only at its threshold of evidence
+- Level 1: Orientation
+  - Level 2: The guarded direction
+    - Level 3: Taught in its own chapter, applied here at the hardest possible moment
+- Level 1: Congregation
+  - Level 2: What standing behind an imam means
+    - Level 3: Taught already, pressed here on a different nerve
+  - Level 2: What the follower owes and the leader carries
+    - Level 3: Assumed, and extended to correction arriving from behind
+- Level 1: Intention
+  - Level 2: Intention resides in the heart
+    - Level 3: The tongue merely expresses it
+  - Level 2: Proceeding upon certainty
+    - Level 3: Established in the previous chapter, spent here without restatement
+- Level 1: The body's boundaries
+  - Level 2: Conditions of purity and the limits of the body
+    - Level 3: Assumed by the closing household precaution
+
+Annotation: the chapter adds edges to each level and re-teaches none of them.
+
+Diagram type: Contrast pair. The collision on the opening page.
+
+Column A: The saying quoted
+- Source: the book on the interpretation of prayer
+- Attribution: the Prophet, peace and blessings be upon him
+- Content: three named things interrupt the prayer
+- The force a worried reader gives it: a passing animal or person can undo the act
+
+Column B: The report narrated immediately afterward
+- Source: the same page of the chapter
+- Attribution: the Messenger of Allah, may Allah's peace and blessings be upon him, in the act of praying
+- Content: the three walk past him in order and the prayer does not fall
+- The force it carries: nothing interrupts the prayer of a believer
+
+Shared row: the source does not adjudicate between them in so many words. It places them together and adds one instruction, do what you are able.
+
+Diagram type: Visual metaphor. One line drawn across a spectrum.
+
+Abstract relation: the difference between a prayer that has been disturbed and a prayer that has been destroyed.
+Metaphor: a single cut line across a spectrum, with the traffic of ordinary misfortune on one side and the short list of fatal defects on the other.
+Element assignments:
+- Far left, disturbed and absorbed: the passing dog, the donkey, the woman, the bleeding nose, the turning stomach, the arriving imam
+- Near the line, disturbed and remedied from inside: impurity washed with water at hand, blood washed without turning, a takbir spent on two thresholds
+- Just across the line, destroyed and repeated: an impurity with no water near, a face that left the qibla, a laugh, a change of act made without a new opening
+- Far right, never reached: the prayer torn down for a suspicion the worshipper cannot pin to anything
+Reading: the tradition is protective of the act. It looks for the way to let a prayer continue, says so plainly when continuation is impossible, and does not soften that requirement.
+
+## Prayer That Does Not Break
+
+Diagram type: Process flow. Impurity reaching the garment of a man praying in purity.
+
+Start: a man is praying in a state of purity, and impurity reaches his garment while he is praying.
+  Branch on one fact about the room, is water nearby:
+    Path A, water is nearby: he washes it, and the prayer goes on.
+    Path B, water is not nearby: his prayer is invalidated, so he washes his garment, and then he prays.
+  Down to, a second branch on place in the prayer:
+    Path A, he encounters this before the tashahhud: he must repeat the prayer.
+    Path B, he encounters it after the tashahhud has been spoken: his prayer is permissible and he does not repeat it.
+End states, two only: the prayer continues, or the obligation survives the prayer and is paid in proper order.
+Blocked transition: the arrival of impurity to the end of the prayer. The ruling never takes that step.
+Attribution: the first question-and-answer book arranged according to the chapters of the Pillars of Islam.
+
+Diagram type: Contrast pair. Two men, the same misfortune, two verdicts.
+
+Column A: The man praying near water
+- The defect: impurity on the garment, mid-prayer
+- The garment: the same
+- The prayer: the same
+- What differs: a fact about the room he is standing in
+- Verdict: wash it, continue, no repetition
+
+Column B: The man praying far from water
+- The defect: impurity on the garment, mid-prayer
+- The garment: the same
+- The prayer: the same
+- What differs: the remedy is out of reach
+- Verdict: the prayer is invalidated, he washes, then he prays
+
+Shared row: the ruling is not measuring the gravity of the defect. It is measuring whether the defect can be undone from inside the prayer.
+
+Reading: the obligation does not evaporate with the prayer that failed. Starting again is the ordinary sequence restored to its proper order, not a punishment.
+
+Diagram type: Annotated structure. The tashahhud as a boundary in time.
+
+Whole: the prayer as an act with an interior geography, not a single undifferentiated block.
+The boundary: the sentence of the tashahhud, spoken.
+Parts, with position and what trouble arriving there can do:
+- Before the boundary. Position: the open interior. Annotation: still reachable by invalidation, so the prayer is repeated.
+- At the boundary. Position: the crossing itself. Annotation: an address completed, turning toward the Prophet, then toward the worshippers, then toward the righteous servants of Allah, and closing.
+- After the boundary. Position: sealed. Annotation: what happens here cannot reach back and undo what came before.
+Annotation on the whole: the source does not say after he has begun the tashahhud, and does not say in the final sitting. It quotes the sentence.
+
+> Peace be upon you, O Prophet, and the mercy and blessings of Allah, peace be upon us and upon the righteous servants of Allah.
+Attribution: the words the source names as the crossing, quoted in the ruling on impurity reaching the garment.
+
+Diagram type: Process flow. The nosebleed and the vomiting.
+
+Start: a man is afflicted with a nosebleed while praying, or with vomiting.
+  Condition tested at every step: does his face turn away from the qibla.
+  Path A, he washes the blood and stops it, or rinses away the vomit, without turning his face from the qibla: he does so and continues building on his prayer.
+  Path B, he turns away from the qibla: he repeats the prayer from the beginning.
+End states, two only: a structure still under construction, or a thread cut.
+Attribution: the book of purity.
+
+Reading: the hinge is not the blood. The hinge is the face. The same man, doing the same washing, breaks the prayer the moment his face leaves the direction.
+
+Diagram type: Named-axis 2x2. The governing test of the first movement.
+
+Axes:
+- Horizontal: can the defect be undone from inside the act (No → Yes)
+- Vertical: where the prayer stands when the defect arrives (Before the tashahhud → After the tashahhud)
+
+Quadrants:
+- Top-right, Yes and after the tashahhud: nothing to decide. The prayer is sealed and the remedy is available anyway.
+- Top-left, No and after the tashahhud: the prayer is permissible and is not repeated, because the act's business is finished and trouble cannot reach back.
+- Bottom-right, Yes and before the tashahhud: the remedy is applied and he continues building on his prayer. Water at hand, blood washed without turning.
+- Bottom-left, No and before the tashahhud: the prayer falls and is repeated. No water near, or a face that left the qibla.
+
+Reasoning for the axes: the horizontal is decided by reach, not by the gravity of what happened. The vertical is decided by position in the act, not by how the worshipper feels about it.
+
+Diagram type: Annotated structure. The threshold of evidence for passing wind.
+
+Whole: the event of ritual impurity, as the reports establish it.
+Parts admitted as evidence, with annotation:
+- A smell perceived. Annotation: something actually registered.
+- A sound heard by the worshipper. Annotation: the same, by the other sense.
+- A sound heard from him by another person. Annotation: evidence admitted from outside the worshipper's own body.
+Parts refused as evidence, with annotation:
+- Suspicion. Annotation: not the event.
+- Sensation without a smell or a sound. Annotation: not the event.
+- The worry that something may have happened. Annotation: formless anxiety, which the tradition has already refused to legislate for.
+Annotation on the whole: the compression is legal rather than delicate. The event has to be established before the prayer answers for it.
+
+Reading: what settles the matter is not how sure the worshipper feels but whether something registered, to him or to someone beside him. A prayer is not dismantled on a suspicion he cannot pin to anything.
+
+Diagram type: Process flow. The demonstration on the chapter's most arresting page.
+
+Start: the saying is set down, that three things interrupt the prayer, a woman, a donkey, and a black dog.
+  Down to: the Messenger of Allah, may Allah's peace and blessings be upon him, is standing in prayer.
+  Down to: a dog passes before him.
+  Down to: then a donkey.
+  Down to: then a woman passes by while he is praying.
+  Down to: he does not deny having seen them. He says he saw what everyone else saw.
+  Down to: he states that it changed nothing.
+End state: the saying is left standing on the page beside the report that empties it of the force a worried reader would give it, and one instruction is added.
+Blocked transition: the three things named walking past to the prayer falling. The report closes that path.
+
+> Three things interrupt the prayer: a woman, a donkey, and a black dog.
+Attribution: the Prophet, peace and blessings be upon him, as mentioned in the book on the interpretation of prayer.
+
+> I saw what you saw, yet nothing interrupts the prayer of a believer.
+Attribution: the Messenger of Allah, may Allah's peace and blessings be upon him, after the dog, the donkey, and the woman passed before him at prayer.
+
+> Do what you are able.
+Attribution: the instruction the source adds immediately after placing the saying and the report together.
+
+Diagram type: Contrast pair. What the worshipper governs, against what walks past him.
+
+Column A: Governed by the worshipper
+- His direction: the qibla, which the rulings enforce at the hardest moment
+- His purity: restored from inside the act when water is at hand
+- His attention: what the previous chapters taught
+- His effort: named in the instruction, do what you are able
+- Status in the chapter: these are what the rulings actually govern
+
+Column B: Not governed by the worshipper
+- What walks in front of him: a dog, a donkey, a person
+- The street outside the prayer: public and uncontrolled
+- His own discomfort or embarrassment: real, and not a legal fact
+- Status in the chapter: refused a place on the list of what breaks a prayer
+
+Shared row: the instruction is not permission to be careless. It is a refusal to let the passing world be given power over a believer's worship.
+
+Diagram type: Contrast pair. Smiling against laughter.
+
+Column A: Smiling
+- What the body does: nothing audible
+- Relation to the praying posture: stays inside it
+- Relation to the recitation: the voice is undisturbed
+- Moral seriousness: a man may smile at exactly the thing he would laugh at
+- Verdict: does not interrupt prayer
+
+Column B: Laughter
+- What the body does: breaks into sound
+- Relation to the praying posture: leaves it
+- Relation to the recitation: interrupts the voice that belongs to it
+- Moral seriousness: identical to the smile
+- Verdict: interrupts prayer
+
+Shared row: the difference is not moral seriousness. It is whether the body has broken into speech.
+
+> Smiling does not interrupt prayer, but laughter does.
+Attribution: the four hundred manners attributed to Amir al-Mu'minin, peace be upon him.
+
+Diagram type: Hierarchy. The chapter's test for interruption, consistent across unlike cases.
+
+- Level 1: Not a ground for interruption
+  - Level 2: What the worshipper feels
+    - Level 3: Anxiety, embarrassment, unease, suspicion about his own body
+  - Level 2: What happens near him
+    - Level 3: The dog, the donkey, the woman, the arriving imam
+- Level 1: A ground for interruption
+  - Level 2: The body has left the shape of the act
+    - Level 3: The face has left the qibla
+    - Level 3: The voice has broken into laughter
+  - Level 2: A condition has failed beyond restoration from inside
+    - Level 3: Impurity with no water nearby
+  - Level 2: The act has changed identity without a new entrance
+    - Level 3: An individual prayer continued as a following, with no new opening takbir
+
+Annotation: one test carries all of it. Not feeling, not proximity, but whether the worshipper's own body has left the shape.
+
+Diagram type: Process flow. The case at the seam, where nothing external went wrong.
+
+Start: a man enters into the obligatory prayer with the opening takbir, as an individual.
+  Down to: he begins reciting.
+  Down to: the imam arrives.
+  Down to: the man steps forward to stand.
+  Down to: when the imam bows, he bows with him.
+  Condition that decides everything: he does not specify a new opening takbir.
+End state: he must repeat it.
+Blocked transitions: nothing dirtied him, nothing crossed in front of him, he did not turn from the qibla, he did not laugh, he did not bleed. None of these is the reason.
+Attribution: the book of questions, from the late Sheikh Shimun ibn Muhammad Ghuri al-Hindi, answered by our master Badr al-Din Hasan ibn Idris, may Allah sanctify them both, grant us their intercession, and forgive them.
+
+> He must repeat it.
+Attribution: the whole of the answer given.
+
+Reading: he began an obligatory prayer as an individual and finished it as a follower, and he made the change without marking it. To become a follower is to enter a different prayer, and a different prayer requires its own door.
+
+## The Latecomer's Entry
+
+Diagram type: Process flow. The man who joins at the final tashahhud.
+
+Start: a worshipper joins the imam during the final tashahhud of one of the five prayers.
+  Down to: he intends to pray as a follower.
+  Down to: he sits with the imam during his sitting, and prays the supplication.
+  Down to: the imam salutes and completes his prayer.
+  Down to: the latecomer rises.
+  Down to: he completes his missed rak'ahs.
+End state: his prayer is valid, and he has thereby attained the congregational prayer.
+The definition that carries the verdict: the tashahhud is the concluding limit of prayer.
+Attribution: the first question-and-answer book arranged according to the chapters of the Pillars of Islam.
+
+Diagram type: Contrast pair. Two ways of counting the same man.
+
+Column A: Counting by shared actions
+- Rak'ahs shared: none
+- Bowing shared: none
+- Prostration shared: none
+- Recitation shared: none
+- What he did: sat down beside a congregation in its last moments and stood up again when it was over
+- Verdict by this counting: he missed the prayer
+
+Column B: Counting by the source's definition
+- The prayer's outer edge: the tashahhud, its concluding limit
+- His position relative to the edge: inside it
+- What made him a participant: intention and presence
+- What he owed afterward: the missed rak'ahs, paid standing
+- Verdict by this counting: he attained the congregational prayer
+
+Shared row: belonging to a congregation is not a quantity. A man is inside it or outside it, and the door was still open.
+
+Diagram type: Annotated structure. One line doing two opposite jobs.
+
+Whole: the single definition, the tashahhud is the concluding limit of prayer.
+Parts, each the use the chapter makes of it:
+- First movement, trouble arriving. Position: looking backward from the edge. Annotation: impurity arriving after the tashahhud can no longer invalidate, because the act's business is finished.
+- Second movement, a man arriving. Position: looking forward at the edge. Annotation: a latecomer arriving before the edge closes is admitted, because he is inside the act.
+- The shared fact. Position: the edge itself. Annotation: anything inside the edge is inside the prayer.
+Annotation on the whole: one line answers two opposite questions, which is the sign that the source is not improvising. It has a shape for the prayer, and it reads both trouble and lateness off the same shape.
+
+Diagram type: Process flow. The more common case, joining while the imam bows.
+
+Start: a person joins the imam while he is bowing.
+  Down to: he says the opening takbir, which enters the prayer.
+  Down to: he says the takbir of bowing, which enters the bowing.
+  Down to: that rak'ah is counted for him.
+  Branch, he fears missing the bowing: he is rewarded with one takbir for both the opening and the bowing.
+End state: two thresholds crossed, the door used once.
+Blocked transition: the opening takbir being skipped. The concession says the two may coincide, never that one may be dropped.
+Attribution: a book, in the summary of the classification.
+
+Reading: the reward is named, not merely the validity. His haste toward the congregation is not counted against him.
+
+Diagram type: Comparison matrix. The latecomer's cases and what each yields.
+
+Rows: joins during the final tashahhud, joins while the imam is bowing, joins fearing he will miss the bowing, joins in whatever state and can build upon it, joins in whatever state and cannot build upon it, joins with the imam's head not yet raised from bowing.
+Columns: what he does | what it counts as | what remains owed.
+- Joins during the final tashahhud: intends to follow, sits, prays the supplication, rises at the imam's salutation | the congregational prayer, attained | the missed rak'ahs, completed alone.
+- Joins while the imam is bowing: opening takbir, then the takbir of bowing | that rak'ah, counted for him | the rak'ahs that preceded him.
+- Joins fearing he will miss the bowing: one takbir for both thresholds | the rak'ah, counted, and the reward named | the same remainder.
+- Joins in whatever state and can build upon it: enters with the imam as he finds him | what he builds upon is counted for him | what he missed, made up afterward.
+- Joins in whatever state and cannot build upon it: enters anyway | voluntary prayer, which is a real thing with its own worth | the whole obligation, still owed.
+- Joins with the imam's head not yet raised from bowing: a single takbir | that rak'ah, attained with him, the intention formed in the heart by entering | the rak'ahs already past.
+
+Cell commitment: no case is dismissed and no case is inflated. Every row names both what was gained and what is still owed.
+
+> Whoever joins the imam having been preceded should enter with him in whatever state he is in.
+Attribution: the general rule as the source states it.
+
+Diagram type: Contrast pair. The obligation built upon, against the volunteer.
+
+Column A: What can be built upon
+- The man's standing: a follower discharging an obligation
+- What is credited: the obligation, in part, with the remainder made up
+- The image the source uses: what he builds upon is counted for him
+- What he does next: he prays what he manages to catch and makes up what he missed
+- The ledger: one entry closed, one remainder paid
+
+Column B: What cannot be built upon
+- The man's standing: a volunteer
+- What is credited: voluntary prayer, named without embarrassment
+- What is not credited: the obligation, which is untouched
+- What he does next: he pays the obligation entire
+- The ledger: nothing closed, and nothing wasted either
+
+Shared row: his presence is not wasted and it is not fraudulent.
+
+Diagram type: Visual metaphor. Two ledgers kept open at once.
+
+Abstract relation: how the source refuses two opposite errors about a latecomer.
+Metaphor: two ledgers on the same desk, both open, neither allowed to absorb the other.
+Element assignments:
+- The left ledger, worship performed: what he prayed is worship and is credited as worship
+- The right ledger, obligation owed: what he owed is still owed
+- The entry that closes the right ledger: the remainder, paid afterward, in the same standing, by the same man, alone
+- The error of collapsing the right into the left: a man walks out of the mosque believing he discharged a duty he did not, and every later reckoning is wrong
+- The error of collapsing the left into the right: a man who ran to join a congregation is told his running counted for nothing, which is false and teaches him not to run next time
+Reading: there is no ceremony around the making-up, no penalty attached to it, and no suggestion that a prayer completed after the congregation disperses is a lesser prayer. It is the remainder, and he pays it.
+
+Diagram type: Process flow. The imam who does not know what he was preceded in.
+
+Start: something happens before him, and he does not know what the imam missed before him.
+  Down to: he continues upon his certainty.
+  Down to: he waits, rather than resolving it by introspection or by stopping.
+  Down to: he is informed by someone behind him.
+  Down to: he returns to the correct position.
+End state: no repetition, no collapse of the prayer, just a return.
+Direction of correction: from behind, forward. The line of followers holds the knowledge the leader lacks in that moment.
+Attribution: the reports.
+
+Reading: the first half is the principle the previous chapter established about proceeding on what one is sure of. The second half is new. The congregation standing behind the leader is expected to speak.
+
+Diagram type: Annotated structure. The epistle of Muhammad ibn Fahd, three things settled at once.
+
+Whole: the answer to the latecomer who cannot form the intention by uttering it with his tongue, given in an honorable epistle bearing the title From Him: With Love for the Path of Guidance for the Converted.
+Parts, with annotation:
+- The threshold. Content: the imam's head has not yet come up from bowing. Annotation: named as a fact about a body rather than a unit of time, because a man hurrying into a mosque can see a bowed back and cannot see a clock.
+- The instrument. Content: a single takbir. Annotation: one word does the entering.
+- The intention. Content: formed in the heart by the act of entering. Annotation: the man who cannot say it with his tongue has already made it.
+Annotation on the whole: the questioner says he also put this question before Allah Almighty, seeking His pleasure, which marks it as a real anxiety rather than a technicality.
+
+> You too must pray in this, with the help of Allah Almighty, for it is true and correct, as it has come down in the books of the saints of Allah, peace be upon them.
+Attribution: our master and Mawlana Muhammad ibn Fahd, may Allah sanctify him, answering the latecomer who cannot utter the intention.
+
+Reading: this book has taught elsewhere that intention resides in the heart while the tongue merely expresses it. That principle is not restated here so much as spent, cashed out for a man running toward a bowed imam with no breath left for a formula.
+
+Diagram type: Contrast pair. The man refused entry, against the man admitted.
+
+Column A: The man who must repeat everything
+- Where he came from: he was already praying
+- What he had: fluency, an opening takbir already spent, no external misfortune
+- What he did: stepped forward into following and bowed with the imam
+- What he omitted: a new opening takbir for the new act
+- Verdict: repeat the whole prayer
+
+Column B: The man admitted to a rak'ah in progress
+- Where he came from: the street
+- What he had: one takbir and no words of intention available to him
+- What he did: entered while the imam's head was still down in bowing
+- What he supplied: everything he had
+- Verdict: he attains that rak'ah, and the intention is counted as formed in his heart
+
+Shared row: the difference is not effort or fluency. The first changed the identity of his act without passing through the door. The second passed through the door with everything he had.
+
+Diagram type: Visual metaphor. A narrow door in a wide room.
+
+Abstract relation: why the tradition is strict about the takbir and generous about everything after it.
+Metaphor: a single narrow door set in the wall of a wide room.
+Element assignments:
+- The door: the opening takbir, the act by which a particular prayer is entered
+- The wall: the boundary between not praying and praying, and between one prayer's identity and another's
+- The room: the interior of the act, where the dog passes, the nose bleeds, the stomach turns, and the prayer holds
+- What the door refuses: a man who changes which prayer he is in without passing through it
+- What the door grants: a rak'ah already in progress, to a man with one takbir and no breath
+Reading: the takbir is not a formality that a sincere man may skip and an anxious man must fuss over. It is the entrance, and the tradition is exacting about the entrance precisely so that it can be generous about everything inside.
+
+## The Forming Of Children
+
+Diagram type: Annotated structure. The instruction in three parts.
+
+Whole: the saying of the four hundred manners attributed to Amir al-Mu'minin on children and prayer.
+Parts, in the order given, with annotation:
+- Teach your children what Allah will benefit you with. Annotation: the benefit is named as returning to the one who gave the instruction, not to the child.
+- Command your children to pray. Annotation: the clause that requires a sentence, and nothing more.
+- Accompany them in it when they reach the age of eight years. Annotation: the clause that decides the instruction's character, and the only one that costs the adult's own day.
+Annotation on the whole: the child is not handed an obligation and left to discharge it. He is put beside someone already praying.
+
+> Teach your children what Allah will benefit you with, and command your children to pray and accompany them in it when they reach the age of eight years.
+Attribution: the four hundred manners attributed to Amir al-Mu'minin, peace be upon him.
+
+Diagram type: Contrast pair. Command alone, against accompaniment.
+
+Column A: A child taught by command
+- What is required of the adult: a sentence
+- What the child receives: a rule
+- What it costs: nothing standing
+- What it transmits: the content of the obligation
+
+Column B: A child accompanied in it
+- What is required of the adult: being there, at that hour, in that posture, for as long as it takes a child to learn it
+- What the child receives: a rule, and the sight of someone keeping it
+- What it costs: a standing obligation on the adult's own day
+- What it transmits: the act itself, by being performed beside him
+
+Shared row: the source has chosen the second. Nothing in the passage suggests the eight-year-old's prayer is expected to be excellent. What is expected is that he is in it, beside someone who is in it too.
+
+Diagram type: Genealogy chain. One mechanism appearing three times in the chapter, the arrow reading as is admitted by joining.
+
+The latecomer at the final tashahhud → a congregation already sitting in its last moments
+The latecomer at the bowing → a rak'ah already standing, entered with one takbir
+The child of eight → a household already praying, entered beside his father
+
+Reading: a person who cannot yet carry the act alone is admitted by joining someone who can. None of the three is asked to build from nothing.
+
+Diagram type: Timeline. The developmental scheme, in the intervals given.
+
+Time axis: years of a boy's life, in intervals of seven.
+Position 1, birth to seven: the boy is formed.
+Position 2, fourteen: he reaches it, the second interval closed.
+Position 3, twenty-one: he completes his length, his breadth, and his depth.
+Position 4, twenty-eight: he completes his mind.
+Marked position inside the first band's close: eight, the year immediately after formation, when he is commanded to pray and accompanied in it.
+Period bands: formation | the years of the household precaution | the body filling out its volume | the mind arriving last.
+Attribution: our master the great preacher Ibrahim ibn Husayn al-Hamidi, may Allah sanctify his soul, in the book The Phrase of Good News, reporting from the Commander of the Believers, may Allah's prayers be upon him.
+
+> The boy is formed over seven years, reaches fourteen, and completes his length, breadth, and depth at twenty-one years, and completes his mind at twenty-eight years.
+Attribution: the same.
+
+Reading: the intervals are regular and the sequence is deliberate. The mind is put last and put late, a full seven years after a man has stopped growing.
+
+Diagram type: Annotated structure. Length, breadth, and depth.
+
+Whole: a person described as a solid thing that finishes filling out its place in the world.
+Parts, with annotation:
+- Length. Annotation: the dimension a reader expects, and the only one a phrase about height would have named.
+- Breadth. Annotation: the second dimension, which the source adds.
+- Depth. Annotation: the third, which makes the description volumetric rather than vertical.
+- The governing mind. Annotation: arrives seven years after the volume is complete.
+Annotation on the whole: twenty-one years to occupy your own volume, twenty-eight to have the mind that governs it. Whoever framed this scheme was not in a hurry about human beings and did not expect anyone else to be.
+
+Diagram type: Named-axis 2x2. What the scheme makes of the command to pray at eight.
+
+Axes:
+- Horizontal: is the mind complete (No → Yes)
+- Vertical: is the person in the prayer (Outside it → Inside it)
+
+Quadrants:
+- Bottom-right, mind complete and outside the prayer: the case the chapter never contemplates. Nothing in the source treats a finished mind as permission to stand outside the act.
+- Top-right, mind complete and inside the prayer: the adult who accompanies the child, praying in the same posture with the same words.
+- Top-left, mind incomplete and inside the prayer: the boy of eight, put into the act two decades before he could give an account of it. This is where the tradition puts him.
+- Bottom-left, mind incomplete and outside the prayer: what the tradition refuses, because waiting for the mind would keep almost everyone outside for most of a life.
+
+Reasoning for the axes: the vertical is decided by the command at eight, the horizontal by the scheme's own arithmetic. The scheme is precise enough to make the consequence unavoidable.
+
+Diagram type: Contrast pair. Two accounts of what prayer requires of a mind.
+
+Column A: Prayer as the reward for a finished mind
+- What would qualify a worshipper: completion at twenty-eight
+- Who would be excluded: almost everyone, for most of their life
+- What the eight-year-old would be told: wait
+- Standing in the chapter: refused
+
+Column B: Prayer as what accompanies the mind while it finishes
+- What qualifies a worshipper: being put into the act at the earliest moment after formation
+- Who is included: the boy in the same posture, with the same words, in the same direction
+- What the eight-year-old is told: stand up and pray, and his father is told to stand next to him
+- Standing in the chapter: established, and confirmed by the latecomer who could not speak his intention
+
+Shared row: an inability to articulate does not empty an act performed in earnest. The chapter settled that for the man running toward a bowed imam, and spends it here on a child.
+
+Diagram type: Process flow. The household precaution.
+
+Start: the stage the scheme has just described, the years between formation and the arrival at fourteen.
+  Down to: the same years in which the child is commanded to pray and accompanied in it.
+  Condition named: they are close to one another, and close to puberty and the stirring of desire.
+  Down to: separate them in their beds at this stage, as a precaution.
+  Branch, is there concern:
+    Path A, there is concern: they should be disciplined accordingly.
+    Path B, there is no concern: the precaution stands alone, and nothing further follows.
+End state: a household arrangement and a reason, and then the source stops.
+Blocked transitions: building a case, dwelling, describing what is guarded against beyond naming it. The source takes none of these steps.
+
+> Separate them in their beds at this stage, as a precaution for them when they are close to one another and close to puberty and the stirring of desire and intercourse, lest they become involved in that.
+Attribution: the instruction the source says is mentioned briefly.
+
+Reading: the word used is precaution, and neither instruction is presented as a reaction to anything the child has done. The brevity is part of the method, a practical rule issued to people expected to act on it rather than debate it.
+
+Diagram type: Visual metaphor. A young tree, staked on one side and fenced on the other.
+
+Abstract relation: formation treated as a single project with two halves, issued by the same authorities in the same breath.
+Metaphor: a sapling with a stake beside it and a fence around it.
+Element assignments:
+- The stake, placed alongside: the command to pray at eight, and the father standing next to him
+- The fence, placed around: the separation of beds during the same years
+- What the stake does: puts the child into the act of worship
+- What the fence does: lifts him out of the situation that would work against it
+- What neither is: a punishment, or a response to a fault
+Reading: a rule about where children sleep is issued as part of a chapter on prayer, by the same authorities, in the same breath as the command to pray at eight. Discipline follows only if there is concern, and the condition is a judgment the household must make.
+
+Diagram type: Comparison matrix. The pattern the closing passage completes.
+
+Rows: the six figures the chapter has put on the page, in the order the source gives them.
+Columns: what arrived | what he is told.
+- A man whose garment is soiled: impurity mid-prayer, with water nearby | wash it and continue.
+- A man whose nose bleeds: blood mid-prayer, and an urgent reason to turn | wash without turning your face from the direction.
+- A man whose prayer is crossed by a dog: a dog, a donkey, a woman | nothing interrupts the prayer of a believer.
+- A man who arrives at the last sitting: a congregation in its final tashahhud | you have attained the congregational prayer.
+- A man who cannot speak his intention: a bowed imam and no breath for a formula | your heart has already made it.
+- A boy of eight: an obligation twenty years before his mind is finished | stand up and pray, and his father is told to stand next to him.
+
+Cell commitment: not one of the six is turned away. Every row ends in continuation, admission, or company.
+
+## What this episode lands
+
+Diagram type: Comparison matrix. The three movements and their answers.
+
+Rows: what destroys a prayer, how little may be caught, how early a person may be put in.
+Columns: what it asked | what it answered | what startles in the answer.
+- What destroys a prayer: what can destroy a prayer in progress | a short list, the loss of direction, an impurity that cannot be remedied, a laugh, a change of act made without a new opening | everything else is absorbed, the passing dog, the donkey, the woman, the bleeding nose, the arriving imam.
+- How little may be caught: how little a man may catch and still be counted | the final sitting is enough, a single takbir is enough, an intention that never reached the tongue is enough | a man who shared no rak'ah, no bowing, no prostration, and no recitation is said to have attained the congregation.
+- How early a person may be put in: how early a person may be put into the act | at eight, twenty years before his mind is finished | someone is required to stand beside him while he learns.
+
+Cell commitment: the chapter is about the durability of an act, and all three movements measure it from a different side.
+
+Diagram type: Contrast pair. The short list, against everything absorbed.
+
+Column A: What destroys the prayer
+- Loss of direction: the face leaves the qibla, even while cleaning blood
+- Unremediable impurity: no water nearby
+- A laugh: the body has broken into sound
+- A change of act with no new opening: the identity of the prayer altered without passing the door
+- The verdict in each: repeat
+
+Column B: What the prayer absorbs
+- The dog, the donkey, the woman: passing before the worshipper
+- The nosebleed and the vomiting: washed without turning
+- Impurity with water at hand: washed, and the prayer continues
+- Lateness of every degree: down to the final sitting
+- A suspicion that cannot be pinned to a smell or a sound: not an event at all
+- The verdict in each: continue, or continue building on what stands
+
+Shared row: the strictness and the generosity are the same instinct.
+
+Diagram type: Hierarchy. What the book had taught, and what this chapter tests it against.
+
+- Level 1: The picture the book had already drawn
+  - Level 2: The prayer's shape and its times
+    - Level 3: Taught in their own chapters
+  - Level 2: Its leadership and its congregation
+    - Level 3: Taught in their own chapters
+  - Level 2: Its garments and its grounds
+    - Level 3: Taught in their own chapters
+  - Level 2: The repair of error inside it
+    - Level 3: Taught in the chapter immediately before this one
+- Level 1: The people the picture does not fit cleanly
+  - Level 2: The man whose body fails him mid-prayer
+    - Level 3: Given a remedy to apply
+  - Level 2: The man who missed most of the congregation
+    - Level 3: Given a threshold to cross
+  - Level 2: The child who cannot yet understand what he is doing
+    - Level 3: Given a shoulder to stand beside
+- Level 1: What is done with all three
+  - Level 2: None is turned away
+    - Level 3: The prayer, so carefully defined, is allowed to hold them
+
+Annotation: the chapter takes the finished picture and tests it against the hardest cases the book has produced, and the picture holds.
+
+Diagram type: Visual metaphor. A guarded gate opening onto an unguarded courtyard.
+
+Abstract relation: why guarding the entrance so severely permits leaving the interior unguarded.
+Metaphor: one gate, closely watched, opening onto a courtyard with no further checkpoints.
+Element assignments:
+- The gate: the opening takbir, which makes the act one act, belonging to one intention, facing one direction
+- The guard at the gate: the ruling that a man who bowed with the imam without a new opening takbir must repeat everything
+- The courtyard: the interior of the prayer, crossed by animals, interrupted by bodies, entered late
+- What is not posted in the courtyard: a checkpoint for every accident
+Reading: having guarded the entrance, the tradition has no need to guard the interior against every accident, and it does not. The worshipper who is inside is inside.

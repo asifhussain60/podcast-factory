@@ -1,0 +1,640 @@
+# Congregation and Shared Prayer
+
+## Where this episode opens
+
+Annotated structure, the chapter's position inside the book's teaching on prayer.
+
+Whole: the book's sequence on prayer up to this chapter.
+
+Parts already taught in earlier chapters, not reteaught here:
+- Sacred ranks
+- Bodily purity
+- Attentive prayer
+- Missed obligations
+- Sacred times
+- The summons
+- Entering the mosque
+- Guarded direction
+- Standing behind
+- Ranked leadership
+- Following without fracture
+
+Parts added by this chapter:
+- Where women stand
+- How screens work
+- Catching the congregation at the final tashahhud
+- Why rows must be complete and continuous
+- How a person alone behind the row is treated
+- How the outward characteristics of prayer protect the inner seriousness of worship
+
+Annotation: the earlier layer establishes what prayer is, when it happens, how it is summoned, and who may lead. This layer asks how the gathered body keeps faith with the act after all of that is settled.
+
+Contrast pair, the question each chapter asks.
+
+Column A: The chapter on imamate in prayer
+- Governing question: who may stand at the front
+- Protects: rank, recitation, and repair
+- Unit of concern: the imam and his follower
+
+Column B: This chapter on congregation and shared prayer
+- Governing question: how the congregation itself is assembled and preserved
+- Protects: placement, connection, continuity, and completion
+- Unit of concern: the whole room as one act
+
+Shared row: both treat the shared prayer as a single act rather than parallel private acts.
+
+Comparison matrix, the eight legal questions the source opens with.
+
+Rows: case. Columns: the question asked | the answer given | what the answer protects
+
+- Woman in front: may a man pray while his wife or a mahram stands in front of him | it is not permissible for a woman to stand before a man while he prays behind her | the visible order of the prayer
+- Repeated afternoon prayer: a man of the da'wah repeats 'Asr where taqiyya does not apply, while others of the da'wah follow him under taqiyya before people who do not hold the doctrine of the People of the House | he does this for the sake of taqiyya, and nothing is required of him | the imam against an added burden
+- The solitary man behind the rows: how is the man who prays alone behind the row treated | he is ordered to repeat the prayer | the completeness of the row
+- Voluntary prayer against congregation: may a voluntary prayer be cut short so the congregation is not missed | praying in congregation is better and more obligatory than other prayers | the priority of the obligatory
+- Sliding into the imam's prayer: a man already reciting moves forward and bows with the arriving imam without renewing ihraam | he must repeat the prayer | the lawful threshold of entry
+- The solitary worshipper joined: may a latecomer pray behind a man praying alone who was not known to lead | permissible even if he did not intend to lead anyone | lawful joining without a broken entry
+- The mahram woman's place: where do the man and the woman stand | she prays behind him, or to his right slightly behind him | lawful nearness
+- Non-mahram privacy: is her prayer valid | valid only if a third person is with them | worship against private enclosure
+
+Named-axis 2x2, the chapter's governing tension.
+
+Axes:
+- Horizontal: bodily nearness to the prayer, from distant on the left to near on the right
+- Vertical: lawful folding into the order, from broken at the bottom to intact at the top
+
+Quadrants:
+- Top-right, near and intact: the follower in a complete, continuous row. Body and order agree, so the shared act holds.
+- Bottom-right, near and broken: the man alone behind the row with room beside him, and the reciter who slides into the imam's prayer without renewing ihraam. Both stand inside the room and outside the order.
+- Top-left, distant and intact: the women behind a connected screen who observed the men before ihraam. Distance is bridged by lawful recognition.
+- Bottom-left, distant and broken: the one who claims loyalty yet does not prostrate a single rak'ah.
+
+Reading: nearness alone does not make congregation, and distance alone does not break it.
+
+## Shared Boundaries
+
+Contrast pair, lawful nearness against unsafe seclusion.
+
+Column A: A mahram woman praying with the man
+- Standing in front of him: not permissible
+- Standing behind him: permitted
+- Standing to his right: permitted, slightly behind him
+- Third person required: no
+- What is guarded: the visible order of the prayer
+
+Column B: A non-mahram woman praying with the man
+- Standing in front of him: not permissible
+- Validity of the prayer: only if a third person is with them
+- Third person required: yes
+- Setting without a third person: private enclosure, not communal worship
+- What is guarded: the gathering against seclusion disguised as worship
+
+Shared row: in both cases the man does not pray behind a woman standing before him. The difference is what the setting requires in order to be a shared act at all.
+
+Hierarchy, guarding a mixed gathering in which religious benefits are recited.
+
+- Level 1: Recitation of religious benefits to women, related or unrelated
+  - Level 2: With a screen between the man and the woman
+    - Level 3: He recites across it
+    - Level 3: She listens without seeing him
+  - Level 2: Without a screen, the condition of company
+    - Level 3: She has another woman with her
+    - Level 3: Or he has another person with him
+  - Level 2: Prohibited arrangement
+    - Level 3: A man alone with a woman
+
+Annotation: the concern is not the validity of one posture. It is that religious instruction must not become a pretext for private exposure.
+
+Process flow, the answer of Mawlānā Hibat Allāh to the question from the island of India.
+
+Start: women intend to pray in congregation with men from behind a curtain
+  ↓
+Before ihraam: the women should observe the men
+  ↓
+Branch on the place:
+  - Path A, the place is connected, such as a tent or a shed
+      ↓
+    Prayer may be performed there
+      ↓
+    Looking at the men before ihraam is permissible
+  - Path B, the place is not connected
+      ↓
+    The woman near the men need only glimpse their clothing before ihraam
+      ↓
+    That glimpse suffices for all of them
+  ↓
+At ihraam: the threshold closes
+  ↓
+After ihraam: looking is not permitted. It is prohibited even outside prayer, and therefore more so during prayer, the greatest act of worship
+  ↓
+Looking during bowing, prostration, standing, or sitting after ihraam invalidates the prayer when directed toward what carries sin in that context
+  ↓
+End: connection established before the act, guardedness preserved inside it
+
+Contrast pair, the two readings the same answer holds together.
+
+Column A: The Dawudi position as the answer reports it
+- The woman close to the men prays in a place near them
+- She continues to watch them during bowing and prostration
+- If she does not, the prayer of all is invalid
+
+Column B: The clarification the answer then supplies
+- A connected place, such as a tent or a shed, is a valid place of prayer
+- Looking before ihraam establishes the connection, looking after it does not
+- In an unconnected place a glimpse of clothing beforehand suffices for all
+
+Shared row: connected enough to be entered knowingly, concealed enough to stay guarded.
+
+Timeline, the single threshold that orders the screened congregation.
+
+- Position 1, before ihraam: recognition permitted, observation of the men when the place is connected, a glimpse of clothing when it is not
+- Position 2, at ihraam: the boundary itself, the entry into the act
+- Position 3, after ihraam: directed looking prohibited through standing, bowing, prostration, and sitting
+- Period bands: approach | entry | the act
+
+Annotated structure, the repeated afternoon prayer under taqiyya.
+
+Whole: one prayer performed twice in a setting of mixed company.
+
+Parts and annotations:
+- The man of the da'wah, at the center: he prays 'Asr, then repeats that prayer at a time when taqiyya does not apply
+- The followers, behind him: they follow him under taqiyya and intend him as their imam
+- The onlookers, surrounding: people who do not hold the doctrine of the People of the House
+- The ruling, beneath all three: he does this for the sake of taqiyya, he need not be concerned about their following him, and nothing is required of him in this regard
+
+Annotation: taqiyya was already taught as disciplined conduct under pressure. The narrow point here is that a repeated prayer in such a setting adds no obligation to the imam.
+
+Process flow, voluntary prayer against the obligatory congregation.
+
+Start: the worshipper is inside a voluntary act, the prayer of glorification, another supererogatory prayer, or a sunnah prayer
+  ↓
+Test: what is feared to be missed
+  ↓
+Branch:
+  - Path A, he fears missing the obligatory congregational prayer
+      ↓
+    He cuts the voluntary prayer short
+      ↓
+    Basis: praying in congregation is better and more obligatory than other prayers
+  - Path B, he does not fear missing the obligatory prayer
+      ↓
+    He does not cut it short
+      ↓
+    He completes the voluntary or sunnah act
+  ↓
+End: both values preserved, the lesser act honoured and the greater act unmissed
+
+## Joining, Rows, and the Front Space
+
+Contrast pair, the broken transition against the lawful joining.
+
+Column A: The reciter who slides into the imam's prayer
+- Starting state: already entered the obligatory prayer, reciting the Quran alone
+- Event: the imam arrives
+- Action taken: he moves forward while standing, and bows with the imam
+- What is omitted: he does not renew his ihraam
+- Ruling: he must repeat the prayer
+- Principle: entry into the imam's prayer is a threshold, not a bodily adjustment
+
+Column B: The solitary worshipper joined by a latecomer
+- Starting state: a man prays alone, not known to lead anyone
+- Event: another man joins him, before he bows or after he has bowed
+- Action taken: the latecomer prays behind him
+- What is absent: the first man formed no prior intention to lead
+- Ruling: the prayer is permissible with the imam even so
+- Principle: a valid act may be joined from behind without an initial plan to lead
+
+Shared row: the difference is lawful entry against an invented one, not leniency against strictness.
+
+Process flow, catching the congregation at the final tashahhud.
+
+Start: the imam is in the final tashahhud of the obligatory prayer
+  ↓
+The latecomer reaches him there
+  ↓
+He intends the prayer in a mutually exclusive sense, because the final tashahhud is the last limit of the prayer
+  ↓
+He sits and recites as the imam recites
+  ↓
+The imam gives the salām
+  ↓
+The latecomer stands
+  ↓
+He completes the prayer that remains to him
+  ↓
+End: he has caught the congregation
+
+Reading: catching the congregation is not confined to arriving while the imam stands, bows, or prostrates. The last sitting is still a limit, and the limit can be entered.
+
+Annotated structure, the row as the source measures it.
+
+Whole: a row of worshippers in congregation, related from al-Sadiq Ja'far ibn Muhammad.
+
+Parts, with annotation:
+- Completeness, along the line: the rows should be complete
+- Continuity, between the lines: the rows should be continuous
+- Spacing, in the gap: only as much space between each two rows as a prostrating body requires
+- The measure itself, underneath: the length of a prostrating body means simply that the worshipper has enough room to prostrate
+- The sanction, enclosing all four: if they do not pray in this manner, their prayer is not valid
+
+Annotation: the row is not a crowd and not a scattering. Its form is calibrated to the action of prostration, not to decorative neatness.
+
+Comparison matrix, arrival when the rows are already full.
+
+Rows: the arriving person. Columns: situation | permitted action | basis | outcome
+
+- The ordinary latecomer: the imam prays in congregation, all rows are filled, he finds no place | he prays alone beside the imam and does not enter the imam's row | ordinary necessity | the congregation holds
+- The one who is the argument of the imam: he stands behind the imam and finds no place in the rows | he advances to stand beside the imam and prays with him | the explicit text, and this is not permissible for others | a special rank, not a general licence
+- The man alone behind the row: the Prophet, peace be upon him and his family, saw him praying alone behind the row, neither aligned with the imam nor standing beside him | he is ordered to repeat | the interpretation of the Shari'ah | the form is damaged, the repair is repetition
+
+Reading: the same absence of a place produces three answers, because rank, alignment, and available room are different facts.
+
+Hierarchy, access to the front of the prayer space.
+
+- Level 1: The front space and its thresholds
+  - Level 2: The mihrab
+    - Level 3: No one may approach it except from the foot of the imam when he steps forward
+  - Level 2: Coming forward among the respondents
+    - Level 3: None may come forward except those introduced by the preacher and his family
+  - Level 2: Lining up between the columns
+    - Level 3: Some disapproved of it
+    - Level 3: Others narrated a dispensation
+
+Annotation: the prayer space has a threshold. Movement toward the front is not taken on one's own initiative.
+
+Visual metaphor, what the first concept lands on.
+
+Abstract relation: how many worshippers become one prayer.
+Metaphor: a bounded enclosure with a guarded gate.
+- The wall: the screen, which permits hearing and forbids looking after ihraam
+- The gate: late entry through the proper limit, including the final tashahhud
+- The lines on the floor: rows complete and continuous, spaced by the prostrating body
+- The far end: the front space, approached only by rightful movement
+Reading: congregation is not produced by many people making similar motions in one room. It is produced by the enclosure holding.
+
+## The Admonition
+
+Attribution of the address, given whole because the source gives it whole.
+
+- Author: Mawlānā Ja'far ibn Sulayman, may Allah sanctify him and grant us his intercession and forgiveness
+- Vehicle: his noble letter, marked with the sword as the finest in refuting innovations
+- Occasion: advising one who had fallen into heedlessness among the people of the island of Yemen after settling there and taking comfort
+
+> Many of you have seen men and women who are committed to the mountain of loyalty and who hold fast to the rope of obedience to Allah Almighty from among those obligated to pray, yet they do not prostrate their foreheads to Allah, Glorified be He, with a single prayer rak'ah. This is a degradation from prayer, and from the rak'ahs surrounding it, and it is among the gravest of consequences.
+
+Attribution: Mawlānā Ja'far ibn Sulayman, in the noble letter.
+
+> The distinction between a slave and disbelief is the abandonment of prayer.
+
+Attribution: the Messenger of Allah, may Allah bless him and his family.
+
+> There is no share in Islam for one who has abandoned prayer.
+
+Attribution: the Prince of the Believers, peace be upon him.
+
+> And whoever seeks a religion other than Islam, it will not be accepted from him, and he will be among the losers in the Hereafter.
+
+Attribution: Allah Almighty, in the verses of His Book.
+
+> And the jinn and mankind were not created except to worship Him.
+
+Attribution: Allah Almighty.
+
+> Indeed, those who are too arrogant to worship Me will enter Hell, disgraced.
+
+Attribution: Allah Almighty, in the verses of His Clear Book.
+
+Genealogy chain, the argument of the address, one step per line.
+
+Abandonment of prayer → no distinction remains between the slave and disbelief → no share in Islam → not counted among the number of Muslims when he claims faith → no more than a nail-clipping of Islam
+
+Refusal to prostrate → calling out to Satan → obeying Satan and worshipping the disbeliever → worshipping what he received from his forefathers → already dead in truth
+
+Hierarchy, the two categories of those who abandon prayer, as the address observes them among the people.
+
+- Level 1: Those who abandon prayer
+  - Level 2: Category one, people of a tribe who have turned away from the affairs of religion
+  - Level 2: Category two, people occupied with their desires and with animal concerns
+    - Level 3: Most of them as though they had emerged from the eye
+    - Level 3: Some grown coarse and thick, especially some of the women among them
+    - Level 3: Who neither care to be lean nor feel shame before Allah Almighty, nor before worshipping Him
+
+Annotation: the address then states that these two conditions exist in the doctrines of Islam as they do in the doctrines of all religions, and that no disbeliever in the lands of India is exempt from the arrogance it describes.
+
+Contrast pair, the claim of loyalty with and without prayer.
+
+Column A: Attachment without prayer
+- What is claimed: guardianship of the saints of Allah, held by its firm mountain
+- What is displayed: boasting of their affairs before the people of faith and trust
+- What is absent: the prostration, the rak'ah, the prayer itself
+- Whom it harms: the worshipper, who has destroyed himself and wronged his Creator, who has no need of his worship
+- Where it ends: like one who calls himself in the hereafter to doom and woe, estranged from what he was created for
+
+Column B: Recognition carried into prayer
+- What is recognized: the invitation of the guardian of Allah, peace be upon him
+- What is believed: heaven, hell, punishment, judgment, the balance, the path, the gathering, and the resurrection
+- What follows: sound mind compels adherence to the worship of his Lord through prayer
+- What prayer is called: the pillar of religion and the strength of Islam
+- Where it ends: he reforms himself as the reformers and those who fear Allah do, and those are the successful ones
+
+Shared row: the benefit of worship returns to the worshipper himself and to those like him in the world. The Lord made them servants in worship in order to benefit them by it.
+
+Annotated structure, why the address sits in the middle of a chapter on law.
+
+Whole: the chapter's three movements.
+- Before it, on the left: communal boundaries, placement, screens, rows, and late entry
+- The address, at the center: the warning that a claim of loyalty without prostration is severed from the worship for which the claimant was created
+- After it, on the right: the characteristics and sunnahs of prayer
+
+Annotations:
+- Left: the shared arrangement of the act
+- Center: the reason the arrangement is worth guarding
+- Right: the inherited form of the act
+Cross-reading: the technical lists are the shape of the act that keeps loyalty from becoming mere affiliation. Inward belief that never bends the body is not treated as sufficient. The forehead must touch the ground, and the rak'ah must exist.
+
+## Prayer's Shape
+
+Contrast pair, the recitation of Ibn al-Kowa's rebuke.
+
+Column A: Reading the verse as an opening
+- Claim: the Father of Imams began the prayer with the sūrah containing the verse
+- Status in the source: the answer says no
+
+Column B: Reading the verse as correction
+- Occasion: Ibn al-Kowa repeatedly opposed the Commander of the Believers by raising his voice in prayer
+- The recitation: "So be patient, for the promise of Allah is true."
+- Purpose: to silence and rebuke him
+- Status in the source: this is the answer given
+
+Shared row: not every recitation inside the prayer context is the opening of a sūrah for the prayer. A verse may be brought forward as discipline.
+
+Hierarchy, what breaks the covenant, in the compressed notes on intention and covenant.
+
+- Level 1: Violations of the covenant
+  - Level 2: Abandonment
+    - Level 3: Whoever does not pray without excuse or compelling reason
+  - Level 2: Accusation
+    - Level 3: Whoever accuses a believer, and the accused swears by Allah while the accuser does not believe him
+  - Level 2: Renegacy
+    - Level 3: Whoever commits adultery
+    - Level 3: Whoever kills a believer
+  - Level 2: Refusal of the caller
+    - Level 3: Whoever insults the caller
+    - Level 3: Whoever refuses without excuse when the caller commands the believer to strive with himself and his wealth
+
+Process flow, the threshold of intention.
+
+Start: the worshipper forms the intention to pray
+  ↓
+Branch:
+  - Path A, the intention is carried into entry
+      ↓
+    The prayer rests on a living intention
+  - Path B, the intention is abandoned before entering
+      ↓
+    Cause is immaterial: distraction, forgetfulness, or any other cause
+      ↓
+    He prays afterward
+      ↓
+    That prayer is not valid from him
+  ↓
+Repeated ruling: the same judgment is given again from a summary of the classification
+  ↓
+End: intention is not a mood once held beforehand, it is the threshold of the act
+
+Contrast pair, recitation that counts against recitation that does not.
+
+Column A: Silent thought
+- Organ engaged: none
+- Status: it is not permissible for a man to recite to himself unless he does so with his own tongue
+- Result: silent thought does not replace articulated worship
+
+Column B: Articulated recitation
+- Organ engaged: the tongue, and the ear of the worshipper himself
+- Rule when praying alone: he lets himself hear his own recitation, praise, and takbīr
+- Rule when praying behind the imam: the pattern changes, the principle does not
+- Result: the prayer has sound, bodily act, and ordered form, with mouth, ear, limbs, and intention all participating
+
+Annotated structure, the lowest and least of the prayers.
+
+Whole: the minimal limits by which a prayer is recognized, five in number.
+Parts, in order of performance:
+- Opening with the takbīr
+- Standing, for those able
+- Bowing
+- Prostration
+- Sitting for the witnessing
+Annotations:
+- Whoever performs these five limits and forgets or neglects anything else, having prayed and knowing its limits, has not thereby erased the prayer
+- Whoever deliberately omits something obligatory or from the Sunnah has no prayer, and must repeat what he left in this manner
+- The ignorant person must learn
+
+Contrast pair, the two ways a duty goes unperformed.
+
+Column A: Forgetfulness and ignorance
+- Effect on the prayer: the prayer is not erased
+- Remedy: the ignorant must learn
+
+Column B: Deliberate omission
+- Effect on the prayer: there is no prayer for him
+- Remedy: he must repeat what he left from the prayer in this manner
+
+Shared row: the five limits are not a licence to treat the rest as optional decoration.
+
+## The Transmitted Lists of Duties and Sunnahs
+
+Comparison matrix, three transmitted namings of prayer's obligatory duties.
+
+Rows: source. Columns: the seven duties named | surrounding frame supplied
+
+- The interpretation of the Shari'ah: the opening takbīr, recitation, bowing, prostration, praise, greeting, and submission and surrender | none given here
+- Al-Musnah, the author of the hidden message, the noble Da'i Zayd ibn Muhammad ibn al-Fadl: intention, the opening takbīr, standing, recitation, bowing, prostration, and submission | every day has five prayers, prayer has four limits of place, time, purity, and intention, the rak'ahs of the five prayers are seventeen, and prayer is of two kinds, obligatory and Sunnah
+- The seventh Mustansiriyyah council: intention, facing the Qibla, Takbīr al-iḥrām, reciting the Opening of the Book, bowing, prostration, and sitting for the salutation | each of the five prayers carries these seven, alongside twelve named sunnahs
+
+Reading: the lists are not flattened into one chart. The source preserves several authoritative ways of naming the same anatomy, one emphasizing praise, greeting, and surrender, another intention and standing, another the surrounding limits.
+
+Hierarchy, the seven obligatory prayers named by the sixth Mustansiriyyah council.
+
+- Level 1: Obligatory prayers
+  - Level 2: Prayers of the daily cycle
+    - Level 3: The prayer of residence, seventeen rak'ahs every day and night
+    - Level 3: The prayer of travel, eleven rak'ahs in the day and night
+  - Level 2: Communal and conditional prayers
+    - Level 3: The Friday prayer, performed only when one meets with the imam four times
+    - Level 3: The prayer of fear, part with the imam and the rest alone
+  - Level 2: Prayers attached to the rites
+    - Level 3: The prayer completing the obligatory circumambulation of Hajj
+    - Level 3: The prayer of the obligatory circumambulation of 'Umrah
+    - Level 3: The prayer of the obligatory tawaf of 'Umrah
+  - Level 2: The prayer owed to the dead
+    - Level 3: The funeral prayer, obligatory upon Muslims who know of it, such that if one performs it the rest become volunteers
+
+Framing note from the same council: the obligatory duties of purity and its Sunnahs correspond in number to the chapters of the witnessing and its letters, because purity is one of the rights of the witnessing, and prayer is likewise among its rights.
+
+Hierarchy, the twelve Sunnah prayers named by the sixth council.
+
+- Level 1: Sunnah prayers
+  - Level 2: The two Eids
+    - Level 3: Eid al-Fitr
+    - Level 3: Eid al-Nahr
+  - Level 2: Prayers for signs in the world
+    - Level 3: The solar eclipse
+    - Level 3: The lunar eclipse
+    - Level 3: Rain
+    - Level 3: Earthquake
+    - Level 3: The prayer for occurring signs
+  - Level 2: Prayers of the night and the cycle
+    - Level 3: Intercession and witr
+    - Level 3: The prayer of frequency, performed sitting
+    - Level 3: The two rak'ahs of Fajr that the Prophet, may Allah bless him and his family, made up after sunrise along with the obligatory prayers after them
+    - Level 3: Twenty-eight rak'ahs every day and night, including the Awwabeen after sunset, and prayers between Dhuhr and 'Asr, Maghrib and 'Isha', and after the last 'Isha'
+  - Level 2: The prayer of the place
+    - Level 3: Greeting the mosque upon entering it
+
+Hierarchy, the twelve sunnahs of each obligatory prayer named by the seventh council.
+
+- Level 1: Before the prayer
+  - Level 2: The adhan
+  - Level 2: The iqāma
+- Level 1: At the opening
+  - Level 2: Saying "I have turned my face to the One who created the heavens and the earth" in its complete form
+  - Level 2: Seeking refuge from the accursed devil
+- Level 1: In recitation
+  - Level 2: Reciting a sūrah after the Opening of the Book in the first two rak'ahs of each obligatory prayer
+- Level 1: In bowing
+  - Level 2: Raising the hands when bowing and when descending into bowing
+  - Level 2: The state of bowing
+  - Level 2: The imam saying "Allah has heard those who praise Him" and "Our Lord, praise be to You"
+- Level 1: In prostration
+  - Level 2: Praise during prostration
+- Level 1: In sitting
+  - Level 2: The first sitting and first tashahhud
+  - Level 2: The second tashahhud
+- Level 1: In the prayer that has no first sitting
+  - Level 2: Qunut
+
+Visual metaphor, how the catalog holds together.
+
+Abstract relation: the ordering of duties, limits, and beautifications inside one act.
+Metaphor: concentric rings.
+- Innermost ring: intention, the living threshold of entry
+- Next ring: the five limits by which a prayer is recognized, takbīr, standing, bowing, prostration, sitting
+- Next ring: the seven obligatory duties, which add the Qibla, the recitation of the Opening of the Book, and the salutation
+- Next ring: the twelve sunnahs, opening formula, refuge, added sūrah, raised hands, praise, tashahhud, Qunut
+- Outermost ring: the signs that announce the act, the adhan and the iqāma
+Reading: obligations propagate outward from the intention, and the outer rings beautify rather than replace the inner ones. This is a body of practice, not a pile of disconnected trivia.
+
+## Bodily Discipline and Etiquette
+
+Annotated structure, the body of the worshipper as the source dissects it.
+
+Whole: the praying body, part by part.
+
+Parts and annotations:
+- The hands of a woman, at the thighs: she places her hands above her knees on her thighs and does not lower them too far, so that her thighs rise
+- The legs in sitting: the left leg bent, the right leg raised
+- The feet in standing: neither shifted forward nor back, the foot remains planted
+- The head in bowing: it does not drop below the alignment of the back, head and back parallel and aligned
+- The forehead and the other points of contact: the Prophet, may Allah bless him and his family, said he was commanded to prostrate on seven instruments
+- The covering: the prayer of a woman who is not veiled carries its own ruling, likewise for the man, while the Sunnah is to take the initiative in proper covering
+- The voice behind the imam: when the imam says "Allah heard those who praised Him," those behind him say quietly, "Our Lord, praise be to You," except the one who leads on behalf of the imam when many are praying behind him, and those who hear him speak aloud about it do so openly while those who do not hear do not
+
+Contrast pair, reverent bearing against restless bearing.
+
+Column A: Forbidden bearing, named by animal image
+- Attention: do not turn attention like the fox
+- Descent: do not fall like the monkey
+- Prostration: do not peck like the crow
+- Hands: do not move the pebbles during prayer
+- Speech: do not recite while bowing
+- Movement: do not speak after the opening has been magnified until the submission, and do not move from one's place
+
+Column B: Commanded bearing
+- Alignment: head and back parallel in bowing
+- Contact: prostration on seven instruments
+- Separation: the two rak'ahs separated with a sitting
+- Settling: sit between the two prostrations so the limbs may settle before rising
+- Order with the imam: the one praying behind the imam does not prostrate before the imam prostrates
+- Timing: do not pray the obligatory prayer when permission has been given, and do not pray when the prayer is already being performed
+
+Shared row: the body is disciplined because it is the place where obedience becomes visible. Two further sayings attach here, that the Dhuhr prayer is four rak'ahs, and that whoever prays much at night has his face brightened during the day.
+
+Hierarchy, the Four Hundred Etiquettes of Mawlānā Amīr al-Mu'minīn Ali ibn Abi Talib, peace be upon him, as the chapter draws on them.
+
+- Level 1: Posture and dress
+  - Level 2: The believer does not clasp his hands together while standing in prayer, for that is the practice of the People of the Book
+  - Level 2: If injured during prayer, he covers the wound or conceals it in his garment until he has finished
+- Level 1: Attention
+  - Level 2: Excessive inattention breaks the prayer
+    - Level 3: Whoever falls into it must begin again, with the adhān, the iqāma, and the takbīr
+- Level 1: Proportion in the act
+  - Level 2: Each sūrah is given its due of bowing and prostration
+  - Level 2: One sits between the two prostrations so the limbs may settle before rising
+- Level 1: Order with the imam
+  - Level 2: The one praying behind the imam does not prostrate before the imam prostrates
+- Level 1: Praying alone
+  - Level 2: He lets himself hear his own recitation, praise, and takbīr
+- Level 1: Transition
+  - Level 2: If he moves from one prayer, he does so on his right side
+
+Process flow, the closing question on reciting Sūrat al-Falaq and Sūrat al-Nās in the obligatory prayer.
+
+Start: may the two refuge sūrahs be recited in the obligatory prayer
+  ↓
+The answer seeks success and reward from God alone
+  ↓
+Finding: there is no text from the guardians of God explicitly prohibiting their recitation in the obligatory prayer
+  ↓
+Condition: if the worshipper recites them with full presence, his prayer is complete
+  ↓
+Branch on what was recited in the first rak'ah:
+  - Sūrat al-Nās in the first → repeat it in the second
+  - Sūrat al-Ikhlāṣ in the first → recite al-Falaq in the second
+  ↓
+Limit: one must not deliberately recite what is obligatory while knowing it should be replaced by what is recommended
+  ↓
+End: neither lax nor needlessly harsh, presence and sequence both required
+
+Annotation: the ruling refuses to invent a prohibition where the guardians of God have given no text, and refuses careless substitution in the same breath.
+
+## Closing
+
+Contrast pair, the chapter's two faces, item by item.
+
+Column A: Where the chapter is merciful
+- Late arrival: a latecomer can catch the congregation at the final tashahhud
+- Distance: a screened gathering is still one congregation
+- Recognition: a person behind a curtain can establish connection before ihraam
+- Leading: a solitary worshipper may be followed although he never intended to lead
+- Silence of the texts: no prohibition is invented where the guardians of God have prohibited nothing
+
+Column B: Where the chapter is demanding
+- Late arrival: the latecomer must stand after the salām and complete what remains
+- Distance: the screened worshipper must not look after entering prayer
+- Recognition: the rows must be complete and continuous, spaced by the prostrating body
+- Leading: the voluntary prayer yields when the obligatory congregation would be missed
+- Silence of the texts: the one who claims loyalty must actually prostrate
+
+Shared row: every mercy in this chapter carries a form, and the form is what makes the mercy real.
+
+Visual metaphor, the chapter's sharpest claim.
+
+Abstract relation: why a shared prayer is held to a higher standard than a private one.
+Metaphor: a single load carried by many hands.
+- The load: one act of worship, offered before Allah
+- The hands: every worshipper in the room, bound into the same act
+- One hand slipping: the row breaks, the form is damaged, the repair is repetition
+Reading: congregational prayer is not looser because it is shared. It is more accountable.
+
+Annotated structure, what the chapter's elements serve.
+
+Whole: the claim of faith taking bodily, communal, inherited form before Allah.
+Parts, each serving the same aim:
+- The screen, guarding the gathering
+- The row, ordering the bodies
+- The intention and the takbīr, opening the act
+- The sūrah, filling the standing
+- The bowing back, aligned with the head
+- The settled limbs, between the prostrations
+- The final sitting, closing the act and admitting the latecomer
+- The warning against abandonment, standing over all of them
+Annotation: the shared arrangement, the inherited form, and the admonition are one answer, not three subjects.

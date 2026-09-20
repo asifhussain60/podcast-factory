@@ -1,0 +1,512 @@
+# Bodily Substances and Disavowal
+
+## Where this episode opens
+
+Annotated structure. Whole: one chapter of a book of questions and answers arranged according to the chapters of the book *Pillars of Islam*.
+
+Parts, with position and one-line annotation:
+- Opening chamber, left: hair, skin, wool, bone, dead matter, vessels, soap, commerce. Annotation: what may be used, and by what act it became usable.
+- Middle chamber, center: menstruation, postpartum bleeding, istihadah. Annotation: what the body is doing, and how the law reads the sign.
+- Closing chamber, right: adultery, marriage, pregnancy, inheritance, waiting, ownership, lineage. Annotation: whether a relation may be treated as clear.
+- Floor beneath all three: the earlier chapters on bodily purity, material purity, food contact, grooming, ghusl, tayammum. Annotation: assumed, not re-taught.
+
+Cross-axis reading: outer material, left. Inner body, center. Legal relation, right.
+
+Process flow. Start and end states of the book's argument as this chapter receives it.
+
+Start: purity already taught as bodily washing, material contact, food, and grooming.
+  Down to: the body leaves traces behind, hair, bone, blood, birth, desire, lineage.
+  Branch on which fact is hidden:
+  - Path A, the material's history: how did this enter the circle of use.
+  - Path B, the body's state: which state is this, and what does it suspend.
+  - Path C, the womb's condition: may a marriage, an inheritance, or a sale proceed.
+End: purity as disciplined recognition of states and origins, not as neatness and not as anxious suspicion.
+
+Visual metaphor. Abstract relation: impurity approaching the person by degrees.
+
+Metaphor: concentric rings closing inward on a praying body.
+- Outermost: impure garments and skins of the dead touched by a wet body.
+- Next inward: hair, wool, fleece, and skin worn, prayed in, and prayed upon.
+- Next inward: ghee and oil held in a suspect vessel, then soap, then market.
+- Next inward: bone patched into the living body.
+- Innermost: the womb, whose state governs marriage, inheritance, and lineage.
+
+Reading: each ring is nearer than the last. The question never changes, only its distance from the person.
+
+## Hair, Skin, and Bone
+
+Comparison matrix. Rows are materials. Columns are the act that produced them, prayer usability, whether they transmit impurity, and whether sale is permitted.
+
+| Material | Producing act | Prayer usable | Transmits impurity | Sale permitted |
+|---|---|---|---|---|
+| Goat hair taken after proper slaughter | Lawful slaughter | Yes, worn, prayed in, prayed upon | No | Yes |
+| Goat hair sheared while the animal lives | Shearing during life | No, that shearing is not permissible | Not stated | Not lawful benefit |
+| Wool, fleece, or hair cut from a living animal | Cutting during life | No, not until washed | No, it makes nothing else impure | Not addressed |
+| Skin and bones of a properly slaughtered animal | Lawful slaughter | Yes, free of impurity | No | Yes |
+| Skins of the dead | Death without lawful slaughter | No | Yes, on wet contact | No, barred both ways |
+| Ghee or oil from a vessel that renders contents impure | Storage in that vessel | No, nor a garment soiled by it | Yes | Only if the buyer knows |
+| Soap made from that vessel with lye and soda ash | Manufacture from an impure source | Not stated | Carries its origin | Only if the buyer knows |
+| Hide of a human being | None lawful | No | Not a material at all | No, never in the economy of skins |
+| Pork | Reprehensible to make use of it | No | Excluded from lawful benefit | Excluded |
+
+Contrast pair. Two treatments of the same substance, separated only by when it was taken.
+
+Column A: Hair cut while the animal is alive
+- Legal act behind it: shearing a living goat for benefit, as one shears sheep's wool.
+- Status of that act: not permissible, per the interpretation of the pillars.
+- Prayer in the material: barred until it is washed.
+- Effect on nearby things: none, it does not render a garment or a body impure.
+- What the material carries: the memory of having been taken too early.
+
+Column B: Hair and skin taken after proper slaughter
+- Legal act behind it: lawful slaughter, completed before the material was taken.
+- Status of that act: permitted, and it is what purifies the remainder.
+- Prayer in the material: permitted, in it and upon it.
+- Effect on nearby things: none, hair, skin, and bones are free of impurity.
+- What the material carries: the memory of a lawful act that changed its status.
+
+Shared row: the substance is identical in both columns. Only the timing and the legal act differ, and that difference decides everything.
+
+Annotated structure. Whole: the goat as the chapter identifies it, because the law is applied to a known animal in a known place.
+
+Parts: a species of sheep. A defect beginning from its sin upward. Two horns. A type common in India.
+
+Annotation: local classification enters the legal question directly. The ruling answers people who want to know whether this animal's hair behaves like sheep's wool.
+
+Process flow. The vessel case, from province to market.
+
+Start: skins of water animals in Vaghar, a large province whose inhabitants are mostly non-believers.
+  Down to: a vessel is made from those skins, filled with ghee or oil, and carried to Ahmedabad for sale.
+  Branch on the vessel's nature:
+  - Branch A, it renders its contents impure: the ghee becomes impure, and a garment soiled by it may not be prayed in.
+  - Branch B, onward use: lye and soda ash are mixed with it, and soap is produced.
+  Down to: gate on disclosure.
+  - Gate passed, the buyer knows it is impure: sale and purchase of the ghee or the soap are permitted.
+  - Gate failed, the status is concealed: deception, which the ruling exists to prevent.
+End: a bounded market, where an impure derivative may circulate under disclosure while the skins of the dead may not be sold or bought at all.
+
+Hierarchy. Levels of lawful material for patching a human bone, from the summary of works.
+
+- Level 1: Bone used to patch a living person
+  - Level 2: Permitted source
+    - Level 3: Bone of an animal whose flesh may lawfully be eaten, taken after proper slaughter
+  - Level 2: Forbidden sources
+    - Level 3: Bone of a dead animal
+    - Level 3: Bone of an animal whose flesh is not eaten
+    - Level 3: Bone of a human being
+
+Process flow. Consequences of an unlawful patch, branching on knowledge and on death.
+
+Start: a person has patched a bone from a forbidden source.
+  Branch on knowledge:
+  - Branch A, he knew: he repeats every prayer he prayed with it, and the authority compels him to remove it.
+  - Branch B, he did not know: no repetition is charged while the ignorance stands.
+  Branch on death:
+  - A continued, he learned and removed it: the obligation is discharged.
+  - B continued, he did not know until he died and did not remove it: nothing is removed after his death.
+End: two edges held at once. The body may not be repaired with whatever is available, and the dead body is not violated to correct an unknown error.
+
+Contrast pair. Two bodies, two economies.
+
+Column A: The animal body
+- Hide: lawful or unlawful depending on slaughter, death, and purification.
+- Bone: usable for patching when the flesh is lawful and slaughter was proper.
+- Market position: sold, bought, worn, and prayed upon within limits.
+
+Column B: The human body
+- Hide: one may not benefit from it as one benefits from an animal hide.
+- Bone: barred as patching material.
+- Market position: none, a human body is not placed into the economy of skins.
+
+Shared row: both are bodies whose material outlasts them. The law refuses to treat that shared fact as license.
+
+Annotated structure. Whole: the quilt made from the dead.
+
+Parts:
+- Part one, the material: derived from the dead.
+- Part two, the dry state: it does not adhere, meaning it does not stick to anything pure.
+- Part three, the wet state: one of them is wet, and it therefore becomes a source of impurity.
+
+Annotation: moisture is the hinge. The recurring principle of the whole purity arc returns here in compressed form, because wetness is what carries impurity across a boundary that dryness leaves closed.
+
+Visual metaphor. Abstract relation: the moral history of a material.
+
+Metaphor: each object carrying a legible memory.
+- The goat hair remembers whether it was cut during life or taken after slaughter.
+- The ghee remembers the skin vessel that held it.
+- The soap remembers the impure substance it was made from, even after becoming useful.
+- The patched bone remembers whether its animal was lawful and slaughtered.
+
+Reading: memory here is not superstition in the source's logic. It is legal history, and prayer is not built on a history the worshipper has chosen to ignore.
+
+Verbatim moment, preserved from the source.
+
+> the rays of guidance
+> Attribution: the questioner's phrase in the opening question, on contact with impure garments, skins of the dead, and the seven when the body is wet. The answer: such contact requires washing, and the same applies to whatever polytheists have washed with their hands.
+
+## Material, Timing, and Commerce
+
+Named-axis 2x2. The central tension of the first movement, organized on two independent axes.
+
+Axes:
+- Horizontal: legal status of the substance, running from pure at the left to impure at the right.
+- Vertical: disclosure to the other party, running from declared at the top to concealed at the bottom.
+
+Quadrants:
+- Top-left, pure and declared: hair and skin taken after lawful slaughter. Reasoning: nothing needs hiding, and prayer upon the material is permitted.
+- Top-right, impure and declared: ghee from the skin vessel, and soap made with lye and soda ash. Reasoning: permitted precisely because the buyer knows the status.
+- Bottom-left, pure but concealed: wool from a living animal passed on without saying it is unwashed. Reasoning: it harms nothing it touches, yet the buyer cannot judge whether he may pray in it.
+- Bottom-right, impure and concealed: skins of the dead offered for sale. Reasoning: barred outright, since disclosure cannot rescue a sale the law has excluded.
+
+Reading of the axes: the right column is not uniformly forbidden, the left column is not uniformly safe. Disclosure decides the difference between lawful trade and deception.
+
+Comparison matrix. Rows are duties. Columns are who owes the duty, what must be revealed, and what fails without it.
+
+| Duty | Who owes it | What must be revealed | Failure if withheld |
+|---|---|---|---|
+| Disclosure of impure ghee | The seller | That the vessel rendered the contents impure | The buyer prays in a soiled garment unknowingly |
+| Disclosure of impure soap | The seller | The impure substance it was made from | A useful product circulates as though clean |
+| Exclusion of dead skins | Both parties | Nothing, the sale is barred outright | The forbidden is treated as negotiable |
+| Removal of an unlawful bone patch | The person, compelled by the authority | That he knew the bone's source | Prayers prayed with it stand unrepeated |
+
+Hierarchy. Levels of benefit the chapter recognizes and refuses.
+
+- Level 1: Benefit from material
+  - Level 2: Ordered benefit, what a lawful act has made fit
+    - Level 3: Hair, skin, and bone of a properly slaughtered animal
+    - Level 3: Wool, fleece, or hair once washed
+    - Level 3: Disclosed impure derivatives, traded but not prayed in
+  - Level 2: Disordered benefit, whatever can simply be used
+    - Level 3: Hair sheared from a living goat for gain
+    - Level 3: Skins of the dead offered for sale
+    - Level 3: Human hide and human bone treated as material
+    - Level 3: Use made of pork, recorded as reprehensible in the Book of Reports
+
+Annotation: hair, skin, and bones all have value, and a community may want to harvest them as early as possible. The repeated shearing rule fixes discipline against that pressure.
+
+## Menstruation and Nifas
+
+Comparison matrix. Rows are the three blood states. Columns are the acts each state governs.
+
+| State | Prayer | Fasting | Mosque entry | Touching or reciting Quran | Marital approach | Make-up owed |
+|---|---|---|---|---|---|---|
+| Menstruation, confirmed | Suspended | Suspended | Not entered | Not touched, not recited, not in supplication, not the basmala as recitation | Husband does not approach | Missed prayers are not made up |
+| Postpartum bleeding, nifas | Left for the accustomed days | Suspended as in menstruation | As in menstruation | As in menstruation | Husband does not approach until ghusl | As laid out by habit and by the precaution rule |
+| Istihadah | Prays after purification | Fasts in purity | Enters the mosque | Governed by her purified state | Husband may approach | Ablution required for whatever issues |
+
+Contrast pair. The two bloods, read by character rather than by calendar alone.
+
+Column A: Menstrual blood
+- Character: thick when the menstruation comes.
+- Duration marker: minimum three days, and purity between periods has a minimum of ten days.
+- Effect: suspends prayer, fasting, mosque entry, and marital approach.
+- Ruling on missed prayers: not made up after purification.
+- Status of the woman: menstruating, and her husband does not approach her.
+
+Column B: Istihadah blood
+- Character: thin once the menstrual period has passed, and distinct from menstrual blood although it does not stop.
+- Duration marker: it continues past the point where menstruation would have ended.
+- Effect: no suspension after she purifies herself as from menstruation.
+- Ruling on what issues: ablution is required for it, and that is its ruling.
+- Status of the woman: mustahadah, praying, fasting, entering the mosque, approached by her husband.
+
+Shared row: the outward sign is the same in both columns. The kind of blood is what the law reads, not the fact of blood.
+
+Process flow. The blind woman's determination, from the answers of Qadi al-Nu'man to Khattab bin Waseem.
+
+Start: a blind woman cannot sense her own menstrual state.
+  Down to: she takes a white piece of cotton or cloth.
+  Down to: a woman she trusts in her religion checks it.
+  Branch on the sign:
+  - Sign A, the cloth comes out with color: she is menstruating.
+  - Sign B, the cloth comes out white: she has become pure. She washes, prays, fasts, and allows her husband to come to her.
+  Loop: the same procedure at the beginning of her cycle if she cannot sense it herself.
+End: purity known through a practical method, religious trust, and an observable sign.
+
+Process flow. Ramadan, purity near sunset, and fear of harm from ghusl.
+
+Start: a woman becomes pure from menstrual blood before sunset in Ramadan.
+  Down to: gate, does she fear that ghusl would harm her.
+  - Gate not tripped: she performs ghusl and fasts.
+  - Gate tripped: she performs tayammum and fasts, and owes no make-up.
+  Parallel case: a man has a nocturnal emission in Ramadan and fears illness from washing that night. He fasts without ghusl, and his fast is valid.
+End: tayammum shown as more than a travel or scarcity rule. It protects fasting where ghusl would cost bodily harm.
+
+Process flow. Purity arriving at the edge of a prayer time.
+
+Start: a woman becomes pure from menstruation or postpartum bleeding as a prayer time runs out.
+  Down to: gate, was the ritual bath completed in good time and soundly performed.
+  - Gate passed, and the time expired before she could pray: no make-up is required.
+  - Gate not passed: the ordinary rules of her state apply.
+End: obligation measured against real capacity and real sequence, not against a fantasy in which washing takes no time.
+
+Annotated structure. Whole: the ruling on marital nearness during menstruation.
+
+Parts:
+- The garment: worn from the navel to the knees.
+- Above the garment: the husband may approach her there.
+- Without the garment: he may begin with her entire body, without intercourse in the vulva.
+- The first obligation: he avoids what is beneath the garment.
+
+Annotation: the stated concern is that fluid may reach her womb. The permission is real, and the boundary is drawn at the womb, where the final movement will draw it again.
+
+Timeline. Devotional time missed and recovered, placed inside the menstrual sequence.
+
+- Missed: the Eid al-Ghadir prayer and its fast.
+- Recovery window: any day afterward.
+- Standing of the recovery: as though performed in its proper time.
+
+Period band: it sits beside the menstrual cases because both ask whether a devotional act missed under lawful conditions must be replaced, or may be.
+
+## Blood States and Their Thresholds
+
+Timeline. The numbered thresholds of the movement, on one axis of days.
+
+- Day 3: the minimum of menstruation. Less than this does not complete menstruation, and prayers not prayed in that short span must be repeated.
+- Day 10, purity: the minimum of purity between periods. Ten days of purity separate two states, less than ten days does not.
+- Day 10, bleeding: confirmed menstrual bleeding may run the full ten days, then continue two, three, four, or five more.
+- Day 20: the minimum postpartum period in the books of Shari'ah of the Ahl al-Bayt, prayers of Allah upon them. The postpartum woman is never considered pure before twenty days.
+- Day 40: the middle postpartum period, and the maximum stated in Islamic law by one account.
+- Day 45, counted in nights: the point at which a woman is considered to have completed her waiting period, per the book of transmitted reports.
+- Day 60: the maximum postpartum period. If blood continues beyond this, it does not exceed sixty days.
+- Two months: the outer edge for treating continuing thick blood as postpartum or as menstruation following postpartum. Beyond it she is undoubtedly mustahadah.
+- Nine months: the declared period of discharge the seller must state for a young woman who has reached the age of menstruation.
+
+Period bands: minimums that establish a state, middles that describe a habit, maximums that close a category.
+
+Process flow. Postpartum determination, from Hasan bin Noah and from the author's own clarification.
+
+Start: postpartum bleeding begins.
+  Down to: reckon by what the woman is accustomed to in duration.
+  Down to: gate at twenty days. She is not considered pure before it.
+  Down to: gate, has the bleeding stopped within her habit.
+  - Branch A, it has stopped: she performs ghusl, arrives at prayer, and her husband may approach her.
+  - Branch B, it exceeds her habit: observe whether the blood has changed in character.
+    - B1, changed: it is istihadah.
+    - B2, unchanged: the ruling remains as first described.
+  Down to, on thick blood continuing like postpartum blood: she ceases prayer and fasting and abstains from her husband for two months.
+  Down to: gate at two months. Blood continuing past it makes her undoubtedly mustahadah.
+  Down to: she washes and makes up prayers and fasts omitted after her habitual period, up to exactly two months, as a precaution.
+End: precaution built around an uncertainty the law names rather than resolves, because she may have menstruated following the postpartum period.
+
+Verbatim moment, preserved from the source.
+
+> arrives at prayer, and remains silent
+> Attribution: Hasan bin Noah, describing the postpartum woman once she becomes pure, the blood stops, and she performs ghusl. Terse wording, but the movement is clear, she returns to worship and to lawful relation.
+
+Genealogy chain. Transmission of the rulings in this movement, one chain per line, arrows showing direction of conveyance.
+
+*Pillars of Islam* → the Book of the Interpretation of the Pillars → the chapter's questions on goat hair, shearing, and approach during menstruation
+Qadi al-Nu'man → *The Chosen One*, quoted in verse-like lines → the author's explanation of the two-month precaution
+Qadi al-Nu'man → answers to Khattab bin Waseem → the blind woman's cloth test
+Hasan bin Noah → the reckoning of nifas by habit and by the character of the blood
+The Book of Purity and Souls → the rule on blood seen before birth, and on ghusl when the puerperal blood is cut off
+Shari'ah books of the Ahl al-Bayt, prayers of Allah upon them → twenty, forty, and sixty days → the author, conveying the meaning only
+Shaykh Shimon ibn Muhammad Ghori al-Hindi → questions on supplication containing Quranic wording → Hasan bin Idris → the firm answer
+The Book of Reports → the reprehensibility of making use of pork
+The Messenger of Allah, peace and blessings be upon him → the bed narrative → the definition of the mustahadah
+
+Annotated structure. Whole: the author's own limit on his authority.
+
+Parts:
+- Claim made: the minimum postpartum period is twenty days, the middle is forty, the maximum is sixty.
+- Source cited: several mentions seen in Shari'ah books of the Ahl al-Bayt, prayers of Allah upon them.
+- Gap admitted: he did not find the exact original phrase at the time of writing, and therefore did not write it.
+- Undertaking given: if he lives to receive and find that book, he will write its exact phrase, God willing.
+
+Annotation: a chapter full of authority in which the compiler limits himself. He conveys meaning he has seen and refuses to fabricate a quotation he does not possess.
+
+Named-axis 2x2. The two opposite errors the source resists, and the two correct placements.
+
+Axes:
+- Horizontal: the state the body is actually in, menstruation or nifas at the left, istihadah or purity at the right.
+- Vertical: what the worshipper does, abstains at the top, proceeds at the bottom.
+
+Quadrants:
+- Top-left, menstruating and abstaining: correct. No prayer, no fasting, no mosque, no approach.
+- Bottom-right, mustahadah and proceeding: correct. She purifies as from menstruation, prays, fasts, enters the mosque, is approached, and takes ablution for what issues.
+- Bottom-left, menstruating and proceeding: the first error, worship or approach forced while the state stands.
+- Top-right, mustahadah and abstaining: the second error, kept from prayer and husband after the state has changed.
+
+Reasoning: caution is not automatically pious when it ignores the category assigned to the state. Correct classification is itself obedience.
+
+Hierarchy. The chapter's epistemology of the body, gathered from cases across the movement.
+
+- Level 1: Reading the body truthfully
+  - Level 2: Sight, where sight is available
+    - Level 3: Thickness and thinness, watched by the mustahadah
+    - Level 3: Change in character, watched by the postpartum woman
+  - Level 2: Sight borrowed, where it is not
+    - Level 3: White cotton or cloth as the test surface
+    - Level 3: A woman trusted in her religion as the examiner
+  - Level 2: Count, where signs are ambiguous
+    - Level 3: Minimums of three and ten days
+    - Level 3: Habit, and the twenty, forty, sixty bands
+  - Level 2: Capacity, where the body is at risk
+    - Level 3: Fear of harm from ghusl, answered by tayammum
+    - Level 3: Time spent purifying soundly, answered by exemption from make-up
+
+Annotation: one method, not scattered techniques. Signs that can be checked, in place of embarrassment, concealment, or guesswork.
+
+Comparison matrix. Rows are the parties in the rulings on knowledge and concealment.
+
+| Party | State of knowledge | What is owed | Where the sin falls |
+|---|---|---|---|
+| Husband who approaches knowingly | He knows she is menstruating | Seek God's forgiveness, repent, and give charity despite having sinned | On him |
+| Husband who does not know | Her condition is her own secret | Nothing is upon him | On her, for the concealment |
+| Wife called by her husband | Her own state is known to her | She must obey him | Allocated by knowledge, as above |
+| Wife whose husband dislikes her | Not at issue | Nothing is upon her | Not allocated |
+
+Annotation: responsibility allocated by knowledge and by concealment, presented as the source presents it.
+
+Annotated structure. Whole: the ruling on Quranic wording in a state of menstruation or janabah.
+
+Parts:
+- The question asked: may such a person recite supplications or texts containing Quranic verses, whether aware of the verses or not.
+- The formulas raised: tahlil, takbir, tahmid, tasbih, and the basmala, all of which appear in the Quran.
+- The answer given: a woman in menstruation, or a person in janabah, may not recite the Quran or any portion of it, whether in supplication or in written form.
+- The precision added: nor may such a person recite the basmala with the intention of Quranic recitation.
+- The closing charge: hold firmly to what has been mentioned, and be among the believers who worship their Lord until certainty comes to them.
+
+Annotation: the hinge is intention, not the mere appearance of a phrase in the Quran. Purity of speech, text, body, and intention converge, and a menstruating woman should not touch the Quran.
+
+Verbatim moment, preserved from the source.
+
+> Yes.
+> Attribution: the Messenger of Allah, peace and blessings be upon him, in the narrative illustration where one of his wives was with him in his bed and he confirmed what she herself testified, meaning she had menstruated. The definition of the mustahadah follows from it: one from whom blood does not stop, but whose blood is distinct from menstrual blood.
+
+## Disavowal and Waiting
+
+Verbatim moment, preserved from the source.
+
+> On the Mention of Disavowal
+> Attribution: the title of the chapter's final section. The word is stark, and the cases beneath it are technical rather than denunciatory.
+
+Process flow. Adultery with a virgin woman, and the bar on immediate marriage.
+
+Start: a man commits adultery with a virgin woman.
+  Down to: he wishes to marry her.
+  Down to: gate, has she been discharged.
+  - Gate not passed: he may not contract marriage with her.
+  - Gate passed, the womb is cleared: the contract may be made.
+End: marriage not allowed to cover uncertainty. The logic is classificatory before it is punitive, because any pregnancy or bodily consequence of the unlawful act must not be hidden beneath a new contract.
+
+Comparison matrix. Rows are the mother's legal status. Columns are the inheritance outcome and the waiting requirement, in the case of a wife with a son from another man whose child dies leaving an estate.
+
+| Mother's status | Is the inheritance claim valid | Who takes the estate | Waiting period on her |
+|---|---|---|---|
+| Free Muslim woman | Yes | The inheritance belongs to her, and not to the brothers | She need not observe one in that case |
+| Slave | No, there is no valid inheritance claim | Not her | The husband observes a waiting period from her until her womb is cleared |
+| Polytheist | No, there is no valid inheritance claim | Not her | The husband observes a waiting period from her until her womb is cleared |
+| Pregnant, status permitting | Yes, through the child | The child inherits from the deceased | The waiting stands until the womb is cleared |
+
+Annotation: pregnancy may create an heir, the mother's status decides whether the claim is valid, and waiting protects lineage and property from haste. Clearing the womb is not only a bodily matter, it determines who may inherit.
+
+Timeline. Waiting measured as evidence, on one axis of elapsed time.
+
+- Two months: the waiting period of a free woman, per the summary of legal opinions.
+- Forty-five nights: the point at which a woman is considered to have completed her waiting period, per the book of transmitted reports.
+- Nine months: the discharge the seller must declare for one who is young and has reached the age of menstruation.
+
+Period band across all three: not decorative figures, but attempts to make a hidden bodily possibility visible through elapsed time, so that a buyer, a husband, or a claimant may proceed without fraud.
+
+Verbatim moment, preserved from the source.
+
+> the child belongs to the bed, and the fornicator is entitled to nothing
+> Attribution: the Book of Adornments. He has no claim to the child's lineage, and this principle governs the final case of the chapter.
+
+Process flow. The final case, governed by that principle.
+
+Start: a man commits adultery with a woman.
+  Down to: he purchases her while she is pregnant.
+  Down to: gate, does he approach her before she gives birth.
+  - Gate tripped: outside the case as the source frames it.
+  - Gate not tripped, he does not approach her until she gives birth.
+  Down to: the child may be sold, because the child belongs to the bed and the fornicator has no claim.
+End: illicit sexual action creating no lineage rights for the fornicator. The language reflects institutions of slavery and sale that belong to the source's world and are presented as such, not modernized away.
+
+## Waiting, Disclosure, and Lineage
+
+Contrast pair. Two disclosures, one moral structure.
+
+Column A: The seller of impure soap
+- Object of disclosure: the impure substance the product was made from.
+- Mechanism: a statement made at the point of sale.
+- Consequence of silence: a transaction built on a concealed decisive fact.
+- Domain: material purity.
+
+Column B: The seller who must declare discharge
+- Object of disclosure: that the young woman who has reached menstrual age has been discharged for nine months.
+- Mechanism: a declaration, backed by an elapsed period.
+- Consequence of silence: a relation, a sale, or an inheritance claim treated as clear when it is not.
+- Domain: purity of lineage and relation.
+
+Shared row: a transaction or relation cannot be clean when the decisive fact has been hidden. Time, declaration, and waiting are what the law puts in the service of truth.
+
+Visual metaphor. Abstract relation: the womb as the innermost unknown the outer rulings all circle.
+
+Metaphor: concentric circles with a sealed center.
+- Outermost: commerce, where soap and ghee change hands under disclosure.
+- Next inward: marriage, where a contract may not be laid over an uncleared womb.
+- Next inward: inheritance, where an unborn child may become an heir.
+- Next inward: lineage, where the child belongs to the bed.
+- Center, sealed: the womb itself, whose state no party can see.
+
+Reading: waiting is how the law makes a center no one can inspect finally speak.
+
+Quadrant map. Space: how the chapter positions its cases by hiddenness and by consequence, without committing to measurable axes.
+
+- Top-center, most hidden and most consequential: the womb after unlawful intercourse, governing marriage, sale, and lineage at once.
+- Right-center, hidden but readable by sign: menstruation and nifas, told by color, thickness, habit, and the trusted examiner.
+- Bottom-center, visible but easily ignored: the origin of a material, the vessel, the soap, the sheared hair.
+- Left-center, visible and irreversible: the bone already patched into a living body.
+- Center: disclosure, the one act that moves a case from hidden toward known in every region of the space.
+
+Reasoning for the placements: distance from ordinary inspection sets the vertical position, and how much rides on getting it right sets the emphasis.
+
+## What this episode lands
+
+Hierarchy. Purity as the chapter leaves it, expanded well beyond washing.
+
+- Level 1: Purity
+  - Level 2: Lawful material
+    - Level 3: Taken by the right act, at the right time, from the right body
+  - Level 2: Truthful disclosure
+    - Level 3: Stated impurity in trade, declared discharge before sale
+  - Level 2: Bodily discernment
+    - Level 3: Menstruation, nifas, and istihadah told apart by sign and by count
+  - Level 2: Valid worship
+    - Level 3: Prayer, fasting, and their make-up measured against real capacity
+  - Level 2: Guarded speech
+    - Level 3: Quranic wording withheld where the intention would make it recitation
+  - Level 2: Marital restraint
+    - Level 3: The boundary at the womb, and the allocation of sin by knowledge
+  - Level 2: Lineage clarity
+    - Level 3: Waiting, the bed, and the fornicator's lack of claim
+
+Comparison matrix. The distinctions the source refuses to collapse, each with the error it prevents.
+
+| Distinction held | Collapsed version the source rejects | Error prevented |
+|---|---|---|
+| Unwashed from transmitting | Anything doubtful contaminates everything near it | A law impossible to live in a household |
+| Menstruation from istihadah | All blood means one thing | Worship suspended or resumed at the wrong moment |
+| Habit from excess | One flat number for every woman | A body forced onto a calendar it does not keep |
+| Harm from obligation | Ritual correctness purchased with bodily harm | Ghusl demanded where tayammum is appointed |
+| Known sin from ignorance | Every wrong is charged the same way | Responsibility placed where knowledge was absent |
+| Lawful waiting from concealed confusion | Desire or convenience erases the womb's uncertainty | Marriage, inheritance, and sale built on a hidden fact |
+
+Genealogy chain. Forward motion of the book's argument, one chain per line.
+
+Earlier chapters, bodily purity → material purity → food contact → grooming boundaries → ghusl and tayammum → this chapter's assumed floor
+This chapter, hair, skin, and bone → menstruation and nifas → disavowal and waiting → purity as a grammar for hidden transitions
+The book's larger claim, authoritative knowledge → applied to real conditions → faithful practice, rather than impulse, convenience, or inherited habit
+
+Annotated structure. Whole: the chapter's closing severity, and why it is not random.
+
+Parts:
+- The refusal: hair, skin, bone, blood, birth, recitation, marriage, and lineage are not neutral once their legal conditions are known.
+- The counterweight: no uncertainty is collapsed into panic.
+- The demand: worship and communal life built from recognized states.
+- The exclusion: not from hidden mixtures.
+
+Annotation: the same law that asks whether water, wool, blood, and bone are pure also asks whether a relation, a womb, a marriage, and an inheritance claim can be treated as clear.

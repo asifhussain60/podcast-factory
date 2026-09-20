@@ -1,0 +1,147 @@
+{
+  "title": "20. What the Worshipper Wears and Stands Upon",
+  "purpose": "It assembles, from question-and-answer collections and doctrinal sources, the rulings governing the worshipper's clothing, the purity and covering it must provide, and the surfaces upon which prayer and prostration may lawfully be performed.",
+  "points": [
+    {
+      "text": "The answer in the question-and-answer collection arranged by the chapters of Daaim al-Islam holds that prayer on a mat or cloth bearing depictions is permitted only if the depiction does not occupy the worshipper's attention, with the standing exception that one does not pray toward images.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Daaim al-Islam",
+        "prayer mat",
+        "images"
+      ]
+    },
+    {
+      "text": "A later answer in the same collection states more strictly that prayer in or upon a rug or garment bearing figures is not permitted when the figures are seen, and permitted when they are not seen.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "figures",
+        "rug",
+        "garment"
+      ]
+    },
+    {
+      "text": "Questions of dye and fabric are assigned to the domain of etiquette rather than validity: wearing safflower-dyed or deeply red cloth does not invalidate the prayer of man or woman, and only pure silk is singled out as disliked for men.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "safflower",
+        "silk",
+        "etiquette"
+      ]
+    },
+    {
+      "text": "Because the whole of a woman is 'awra, the answer given is that prayer is not permitted to her if any part of it is exposed, and this holds whether she knew the ruling or was ignorant of it — a ruling applied directly to the women of the people of the dawa in India who do not wear the long shift and head-veil.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "'awra",
+        "dawa in India",
+        "head-veil"
+      ]
+    },
+    {
+      "text": "The abridgment of the Musannaf draws an asymmetry: a man who prays with his 'awra uncovered unknowingly repeats the prayer once he learns of it, whereas a free or slave woman's prayer with uncovered 'awra is spoiled whether she knew or not.",
+      "kind": "distinction",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "abridgment of the Musannaf",
+        "'awra"
+      ]
+    },
+    {
+      "text": "Prayer is valid only in pure garments — the worshipper strips off whatever is impure — yet carrying wrought or unwrought gold and silver in the waistband does not affect the prayer's validity.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "purity of garments",
+        "gold and silver"
+      ]
+    },
+    {
+      "text": "On impure clothing the rule is that one who has only an impure garment and no water prays in it and repeats when a clean garment or water is found, and one who has two garments of which one is impure but unidentified must pray the prayer in each, intending the fulfilment of the obligation.",
+      "kind": "resolution",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "impure garment",
+        "intention"
+      ]
+    },
+    {
+      "text": "Obligatory prayer is not permitted upon stone, unbaked brick, or the like — only supererogatory and sunna prayer — and Idris ibn al-Hasan grounds the general principle in the Prophet's saying that the earth was made a place of prostration and a means of purification, concluding that whatever of the earth is unfit for dry ablution is unfit to pray upon.",
+      "kind": "claim",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Idris ibn al-Hasan",
+        "Yusuf ibn Ismail al-Samati al-Hindi",
+        "tayammum",
+        "stone",
+        "plaster"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman holds in the book of the obligations and limits of religion that a man may lawfully uncover his head and pray bareheaded, and that holding an object in mouth or hand does not void the prayer so long as it does not impair the letters or the required postures, though being free of it is better.",
+      "kind": "claim",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Mansur al-Yaman"
+      ]
+    },
+    {
+      "text": "Another transmitted position holds that a man is not to pray bareheaded without turban and mantle unless he finds neither, and that praying with only a small handcloth on the shoulders is impermissible when another garment is available.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "turban",
+        "mantle",
+        "handcloth"
+      ]
+    },
+    {
+      "text": "The interpretation of the Daaim explains the technical garment terms — belting a single thick shirt so the private part does not show when bowing, the 'two wings of the swallow' wrap used when nothing else is found, and the forbidden ishtimal al-samma, which is invalid because it pins both hands and prevents bowing, prostration, and the raising of the hands.",
+      "kind": "definition",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "ishtimal al-samma",
+        "janahay al-khuttaf",
+        "interpretation of the Daaim"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib's four hundred counsels of etiquette require a clean garment before God, forbid praying in a loosely draped shirt as the practice of the people of Lot, and forbid prostrating upon an image, a rug containing one, a heap of wheat or barley, anything edible, or bread — while allowing coins to be carried in a clean money belt or cloth.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "Ali ibn Abi Talib",
+        "people of Lot",
+        "dirham"
+      ]
+    },
+    {
+      "text": "Ancillary rulings permit prostration on plaster over which carrion was burned because fire purified it, deny validity to prayer in the resting places of camels while allowing it in sheep folds once swept and sprinkled, and tolerate a small amount of milk or butter from animals that feed on filth.",
+      "kind": "claim",
+      "weight": 2,
+      "depends_on": [],
+      "entities": [
+        "plaster",
+        "camels",
+        "sheep folds"
+      ]
+    }
+  ],
+  "fingerprint": "9d224688c63b92a7"
+}

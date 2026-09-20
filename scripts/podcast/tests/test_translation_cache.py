@@ -15,8 +15,11 @@ import sys
 import time
 from pathlib import Path
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+import _translation_cache as tc  # noqa: E402
 from _translation_cache import cache_floor, governing_inputs, make_is_fresh  # noqa: E402
 
 OLD = time.time() - 86_400 * 30
@@ -65,15 +68,20 @@ def test_a_newer_config_invalidates_the_cache(tmp_path: Path) -> None:
     assert make_is_fresh(bd, refined)(chunk) is False, "a config change must invalidate the cache"
 
 
-def test_a_newer_prompt_module_invalidates_the_cache(tmp_path: Path) -> None:
+def test_a_newer_prompt_module_invalidates_the_cache(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     """A prompt fix that changes what the model is told must not leave the
-    pre-fix prose in place, silently, reported as composed."""
+    pre-fix prose in place, silently, reported as composed.
+
+    Hermetic on purpose. This used to assert against the REAL `_translation_prompts.py` being newer than a 10-day-old
+    chunk — true in a fresh clone or CI, false in any working copy where that file had not been touched for ten days,
+    so it failed on a long-lived checkout and passed on a new one. The governing modules now live in a temp folder
+    whose timestamps the test sets."""
     bd, refined = _book(tmp_path)
+    modules = tmp_path / "modules"
+    _touch(modules / "_translation_prompts.py", NEW)
+    monkeypatch.setattr(tc, "_HERE", modules)
     chunk = _touch(bd / "book" / "_chunks" / "translation" / "bk-01.md", MID)
-    prompts = Path(__file__).resolve().parents[1] / "_translation_prompts.py"
-    assert prompts.exists()
-    # The real module is newer than a 10-day-old chunk in any working checkout.
-    assert cache_floor(bd, refined) >= prompts.stat().st_mtime - 1
+    assert cache_floor(bd, refined) >= NEW - 1
     assert make_is_fresh(bd, refined)(chunk) is False
 
 

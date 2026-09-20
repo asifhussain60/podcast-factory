@@ -1,0 +1,145 @@
+{
+  "title": "12. Skins, Blood, and Waiting Periods",
+  "purpose": "It compiles, from a question-and-answer compendium and the classical Ismaili legal books, the rulings on the purity of animal skins, hair, bone and wool, on menstruation, postpartum bleeding and istihadah, and on the clearing of the womb.",
+  "points": [
+    {
+      "text": "The author draws this section's rulings chiefly from a previously mentioned book of questions and answers arranged according to the chapters of Daʿāʾim al-Islām, supplemented by Taʾwīl al-Daʿāʾim, Mukhtaṣar al-Muṣannaf, Mukhtaṣar al-Āthār, Kitāb al-Akhbār, al-Iqtiṣār and Kitāb al-Zīna.",
+      "kind": "context",
+      "weight": 3,
+      "entities": [
+        "Daʿāʾim al-Islām",
+        "Taʾwīl al-Daʿāʾim",
+        "Mukhtaṣar al-Muṣannaf",
+        "Kitāb al-Akhbār",
+        "al-Iqtiṣār",
+        "Kitāb al-Zīna",
+        "Mukhtaṣar al-Āthār"
+      ]
+    },
+    {
+      "text": "The answer given is that impure garments, the skins of carrion, the skins of beasts of prey, or garments washed by polytheists' hands transmit impurity to the body when contact occurs while either is wet, so the body must then be washed.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "carrion skins",
+        "polytheists"
+      ]
+    },
+    {
+      "text": "Taʾwīl al-Daʿāʾim rules that the goat, unlike the sheep, is not shorn while alive — hair shorn from a living goat counts as carrion — but its hair, skin, flesh and bones become lawful and pure if taken after proper slaughter, so prayer upon them is permitted.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Taʾwīl al-Daʿāʾim",
+        "goat",
+        "sheep"
+      ]
+    },
+    {
+      "text": "Regarding wool, fleece or hair shorn from a lawful animal while it is alive, the text is reported as holding that prayer in it is not permitted until it is washed, yet the material is not itself impure — a qualified position, not a declaration of impurity.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "wool",
+        "fleece"
+      ]
+    },
+    {
+      "text": "On vessels made of carrion skins in Waghar used to carry ghee or oil to Ahmedabad, the answer is that the contents become impure and a garment they touch cannot be prayed in, but the ghee and the soap made from it may be sold and bought provided the buyer is told they are impure, whereas the carrion skins themselves may never be sold or bought.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Waghar",
+        "Ahmedabad",
+        "ghee",
+        "soap"
+      ]
+    },
+    {
+      "text": "Mukhtaṣar al-Muṣannaf rules that a broken human bone may be patched only with the bone of a properly slaughtered edible animal; one who used carrion bone, inedible-animal bone or human bone must remove it and repeat every prayer prayed, and the ruling authority compels him if the case becomes known — but it is not removed after death if it was unknown and he himself did not know.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Mukhtaṣar al-Muṣannaf"
+      ]
+    },
+    {
+      "text": "On menstruation, the answer permits the husband to touch his menstruating wife's whole body short of intercourse, but holds it better that he avoid what is beneath the wrapper worn from navel to knees, lest fluid reach her womb.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "menstruating woman"
+      ]
+    },
+    {
+      "text": "The reported norms are that the least of menstruation is three days, the least of purity is ten days, and the most of menstruation is ten days; if bleeding exceeds ten days the woman is a mustahadah, distinguished by the fact that menstrual blood is thick and turbid while istihadah blood is thin.",
+      "kind": "definition",
+      "weight": 4,
+      "entities": [
+        "mustahadah",
+        "istihadah",
+        "menstruation"
+      ]
+    },
+    {
+      "text": "The mustahadah does not pray, does not enter the mosque and is not approached by her husband while the menstrual blood is present; when it departs and the flow thins she purifies herself, prays, fasts, enters the mosque and her husband may come to her, performing ablution whenever blood appears, since it is an ailment.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "mustahadah"
+      ]
+    },
+    {
+      "text": "On the term of nifas the authorities differ: Hasan ibn Nuh and Mukhtaṣar al-Muṣannaf make it depend on the woman's customary duration; the Sharia texts give forty or sixty days; Hasan ibn Idris answers that it may be less than forty days though forty must be reckoned; and a book of the people of the House sets the least at twenty days, the middle at forty and the most at sixty.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "nifas",
+        "Hasan ibn Nuh",
+        "Hasan ibn Idris",
+        "Shimon ibn Muhammad Ghuri al-Hindi"
+      ]
+    },
+    {
+      "text": "The author himself concludes decisively that the postpartum woman is pure once clean of blood after twenty days, thereafter relying on her custom, and that if blood exceeds her custom she judges by whether it has changed — changed blood being istihadah, unchanged blood keeping the original ruling.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "nifas",
+        "istihadah"
+      ]
+    },
+    {
+      "text": "Citing al-Nuʿman's al-Muntakhaba, the author rules that when postpartum blood turbid, thick and foul exceeds her custom she abstains from prayer, fasting and her husband until two months pass; if it continues beyond two months she is unquestionably a mustahadah, washes, and makes up the abandoned prayers and fasts from her customary term to the two months by way of precaution, since menstruation may have followed the nifas.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "al-Nuʿman",
+        "al-Muntakhaba",
+        "mustahadah"
+      ]
+    },
+    {
+      "text": "Hasan ibn Idris answers that neither the menstruating woman nor the one in janaba may recite any portion of the Quran, whether in supplications or books, nor recite the basmala with the intention of Quranic recitation, and the menstruating woman does not touch the mushaf.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "janaba",
+        "basmala",
+        "mushaf",
+        "Hasan ibn Idris"
+      ]
+    },
+    {
+      "text": "On istibra, the clearing of the womb: a marriage contract with a woman one has fornicated with is invalid until her womb is cleared; Mukhtaṣar al-Muṣannaf sets the withdrawal at two months; Kitāb al-Akhbār transmits forty-five nights for a mature woman who has not menstruated and nine months for such a virgin deflowered by the seller; and by the maxim al-walad lil-firāsh wa-lil-ʿāhir al-ḥajar the fornicator has no claim on the child's lineage.",
+      "kind": "definition",
+      "weight": 3,
+      "entities": [
+        "istibra",
+        "Kitāb al-Akhbār",
+        "al-walad lil-firāsh"
+      ]
+    }
+  ],
+  "fingerprint": "a0cec214d150cb9d"
+}

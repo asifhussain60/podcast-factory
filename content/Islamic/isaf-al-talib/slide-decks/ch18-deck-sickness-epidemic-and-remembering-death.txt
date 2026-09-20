@@ -1,0 +1,560 @@
+# Sickness, Epidemic, and Remembering Death
+
+## Where this episode picks up
+
+Annotated structure. The whole: the source heading, dissected into its three named parts.
+
+Whole: visiting the sick, the clinics, and the dying
+- Part 1, visiting the sick. Position: the doorway. Annotation: conduct owed by everyone who is not the patient.
+- Part 2, the clinics. Position: the household under strain. Annotation: the cost of hospitality performed by a frightened family.
+- Part 3, the dying. Position: the threshold. Annotation: defined first, because every later ruling is measured against it.
+Reading: the Book of Funerals opens not at a grave but at a doorway.
+
+Annotated structure. The whole: the definition of the dying state, dissected into the two phrases that carry it.
+
+> The dying state is the presence of death and the imminence of transition from this world to the hereafter.
+> The book Tafsir al-Arkan
+
+Whole: the dying state, as defined
+- Part: the presence of death. Annotation: death is placed in the room, already arrived.
+- Part: the imminence of transition. Annotation: the crossing has not happened yet and is about to.
+- Absent part: any word for ending or termination. Annotation: what the definition refuses to say is what everything later depends on.
+Cross-reading: death is a crossing, not a terminus. Measured against this sentence: the fixed term, the wretched man overtaken by the Hour, the fever that announces.
+
+Genealogy chain. Provenance of the rulings, direction marked, one chain per line.
+
+Chain 1, the main body of rulings:
+Sheikh Yusuf ibn Isma'il al-Samati al-Hindi, compiler → our master Idris ibn Hasan, may Allah be pleased with him, respondent → the volume of questions and answers → the rulings on flight, on lifespans, on the Hour
+
+Chain 2, the reward for visiting:
+Arkan al-Islam, may Allah sanctify his soul → our master the Commander of the Faithful, peace be upon him → the Messenger of Allah, may Allah's peace and blessings be upon him → the seventy thousand angels
+
+Chain 3, the hardest case:
+Sheikh Hasan ibn Nuh, questioner → our master Husayn ibn Idris, may Allah sanctify his soul, respondent → Issue Ten → the woman who dies pregnant
+
+Chain 4, the voice standing behind the sickroom:
+Our master and Mawlana Ja'far ibn Sayyidina Sulayman, may Allah sanctify him → his noble letter, titled The Sharpest Sword in Nullifying Innovations → written to advise his people and warn the heedless among the people of the island of Yemen → named here, not re-opened
+
+Annotation on Chain 1: the volume follows the order of Arkan al-Islam, so a reader with the Pillars open finds the disputed corner of any ruling.
+
+Contrast pair. Who the rulings address, before and here. The camera turns around.
+
+Column A: Before
+- Subject: the worshipper himself, as the one who prays
+- Question: what his prayer becomes when its conditions are taken away, a body that cannot stand, a sun that goes dark, an enemy too close
+- Status: settled. What the sick man owes has been decided.
+
+Column B: Here
+- Subject: everybody except the patient, as the ones who visit
+- Question: what is owed to him, and on account of him
+- Persons in view: the neighbour at the door, the scholar who knows what the neighbour does not, the family in the next room, the woman deciding whether a burial may proceed
+- Status: unsettled.
+
+Shared row: the same sick body stands at the centre of both. Only the direction of obligation reverses.
+
+Visual metaphor. The one instinct running under everything that follows.
+
+> The matter is in the hands of Allah Almighty.
+> Our master Idris ibn Hasan, may Allah be pleased with him
+
+Abstract relation: where authority over death sits
+Metaphor: a jurisdiction line, human action on the near side, outcome held on the far side
+Element assignments:
+- Near side, permitted: a family packs and moves, a visitor sets out, a household nurses, a scholar warns
+- The line itself: stated in the very first answer, not as consolation but as jurisdictional fact
+- Far side, reserved: the term of a life, the moment of a death, the outcome of an epidemic
+Consequences propagating outward from the line:
+- A man may move, because his movement decides nothing
+- A visitor is rewarded from the hour he sets out, because the reward is not a payment for arriving
+- A burial waits on a certainty, because nobody present may presume the moment of a death
+
+## The Visit and Its Restraint
+
+Annotated structure. The whole: the first question, dissected to show what it concedes before the answer arrives.
+
+> What is your ruling on people who move from place to place out of fear of epidemic and plague, thinking they can escape it, is this permissible or not?
+> Sheikh Yusuf ibn Isma'il al-Samati al-Hindi
+
+Whole: the question as put
+- Part: people who move out of fear of epidemic and plague. Annotation: the action, described neutrally.
+- Part: thinking they can escape it. Annotation: the belief, held as a thought rather than reported as a fact.
+- Part: is this permissible or not. Annotation: the only thing actually asked.
+- Absent part: any request for a verdict on whether flight works.
+Reading: two things are separated that people under threat almost never separate, whether an action is lawful and whether it achieves what its doer believes.
+
+Named-axis 2x2. The central shape, used three times. Both axes named, all four quadrants populated.
+
+Axes:
+- Horizontal: the ACTION, from Forbidden to Permitted
+- Vertical: the BELIEF behind the action, from Denied to Endorsed
+
+Quadrants:
+- Top-right, Permitted action plus Endorsed belief: flight as escape. Refused. It would make survival the traveller's own achievement and a death the dead man's own failure.
+- Bottom-left, Forbidden action plus Denied belief: flight as sin. Refused. It would load the terror of an epidemic with guilt.
+- Bottom-right, Permitted action plus Denied belief: the actual ruling. A man may take his family to cleaner air, and may not think he has outrun an appointment.
+- Top-left, Forbidden action plus Endorsed belief: incoherent, named only to complete the grid. Nothing occupies it.
+
+Reading of the occupied quadrant: permission granted at the level of action, denied at the level of explanation. You may do the thing. You may not believe what you believe about it.
+
+Recurrence, three sites:
+- Site 1, the fleeing family. Action permitted, explanation withdrawn.
+- Site 2, the warned visitor. Excused before the warning, not after.
+- Site 3, the delayed burial. Assumption almost certainly correct, still not permitted.
+
+Contrast pair. The two halves of the answer, read against each other.
+
+Column A: First half, they may go wherever they wish
+- Mood: permission
+- Conditions attached: none. No waiting period, no advice to seek, no distinction between strong and frail, no obligation to stay and serve.
+- Effect: the family is released
+
+Column B: Second half, for the matter is in the hands of Allah Almighty
+- Mood: statement of fact
+- What it withdraws: the reason they were going
+- Status of the road out of town: not an exit, simply a road
+- Status of survival: not an achievement. Of a death: not a failure.
+- Effect: the family is disarmed of the theory
+
+Shared row: joined by the word for, so the permission rests on the very fact that empties it of power.
+
+Comparison matrix. The seventy thousand angels. Rows: the three details easy to read past.
+
+> No Muslim slave visits the sick without seventy thousand angels praying over him from the hour he sets out, if it is daytime, until the sun sets, if it is at night, until dawn.
+> The Messenger of Allah, may Allah's peace and blessings be upon him, reported in Arkan al-Islam on the authority of the Commander of the Faithful, peace be upon him
+
+| Detail | Where it starts or stops | What it rules out | Consequence for the visitor |
+|---|---|---|---|
+| When the reward begins | At the hour he sets out | Arrival, admittance, length of visit, comfort given | A visit turned away at the door has still happened, and so has one that ends in silence |
+| The unit of measure | A span of time, not a quantity of merit | Any accumulation the visitor controls | The reward runs to the edge of the daylight and stops |
+| The boundary of the span | The sky, sunset by day and dawn by night | Any mechanism for maximising it | A man who goes early is accompanied longer than one who goes an hour before sunset, not because he was more generous but because the day was |
+
+Annotation on the matrix: the reward is attached to a whole day, and the next ruling shows it can be undone in a moment.
+
+## The Refused Meal and the Duty to Publish
+
+Process flow. What a plate of food does to a day's reward. Both branches carried to an end state.
+
+> The Messenger of Allah forbade eating the food of the sick man in his home, for Allah will thereby nullify his reward. In another narration, Allah will nullify his reward and even set it against him.
+> The Commander of the Faithful, peace be upon him
+
+Start: seventy thousand angels praying, from the hour he set out
+  ↓
+The visitor arrives. Food is offered in the sick man's home.
+  ↓
+Branch:
+  - Path A, he refuses: the reward stands, to sunset or dawn.
+  - Path B, he accepts: the reward is nullified.
+    ↓
+    Second narration, harsher: nullified AND set against him.
+    ↓
+    End state B: the credit is turned around and counted against him. The visit does not merely fail to earn. It becomes a debt.
+
+Annotation: the only act of worship here that reverses polarity, and its cause is not an obvious sin. It is eating what you were offered, when refusing a host's food is itself a small insult.
+
+Annotated structure. The whole: the household the ruling is built out of, parts named by who bears what cost.
+
+> Eating and drinking in the sick man's home harms him and his family, given the difficulty of his situation. He may be weak and become distressed on account of it, as may his family.
+> Our master Idris ibn Hasan, may Allah be pleased with him
+
+Whole: a house with an illness in it
+- Part, the sick man. Position: the centre, lying ill. Annotation: weak already, made to feel the expense.
+- Part, the family. Position: the surrounding rooms. Annotation: frightened and short of sleep, now performing hospitality on top of nursing.
+- Part, the three jobs nobody is free to do. Position: the kitchen and the door. Annotation: find the food, cook it, serve it, in a house where the person who would ordinarily do all three is the patient.
+- Part, the visitor. Position: the doorway, looking in. Annotation: sees none of the above, because a household being hospitable is by definition concealing its cost.
+Reading: the decision leaves the household's hands. The food is refused not because it is unclean, but because accepting it takes what these people cannot afford to give and cannot say so.
+
+Hierarchy. Who carries the duty to circulate the ruling, all siblings named.
+
+> Whoever is knowledgeable of this must make it known to those who are not, for not everyone is a scholar, yet among the scholars is the one who warns about it. The one who has been warned is excused, and truth has come while falsehood has perished.
+> Our master Idris ibn Hasan, may Allah be pleased with him
+
+Level 1: The community
+  Level 2: Those who do not know. Stated as a fact, not a complaint.
+    Level 3: The uninformed visitor. Eats the food. Covered by the excuse. Reward intact.
+  Level 2: Those who know
+    Level 3: The scholar who stays silent. Duty undischarged. Leaves people in a state where their good deeds quietly cancel.
+    Level 3: The scholar who warns. Duty discharged. The sibling the sentence singles out.
+
+Process flow. The warning as a transfer of liability.
+
+Start: a man who has never heard the ruling, eating at the sick man's table
+  ↓
+Status: inside an excuse. He has not been warned.
+  ↓
+A scholar warns him. Status changes at the warning, not at the next meal.
+  ↓
+End: outside the excuse. The ignorant are covered. The informed are not.
+
+Annotation: the violation is committed with good intentions by people who never heard the rule. The visitor who eats is being polite, and destroying his own reward as he does it.
+
+Contrast pair. Why a discipline of sleep sits inside material about sickness.
+
+> Let none of you sleep on his back or face down. If you see someone sleeping face down, wake him. And a woman should not sleep lying on her back.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him, in his four hundred points of conduct
+
+Column A: Reading one, the bystander
+- Giveaway clause: if you see someone sleeping face down, wake him
+- Addressee: not the person the rule concerns, but whoever is in the room
+- What it authorises: an intrusion made duty, waking a sleeping man in his own house
+- Pairing: the visitor forbidden a meal is here required to interrupt a sleeper
+
+Column B: Reading two, the posture
+- Giveaway: the position of the body, prescribed for the night
+- Relation to the subject: sleep is the posture death borrows
+- Why it comes first: readers about to be told to remember death are told how to lie down at night
+- Pairing: the regulated sleeping body and the remembered dying body are one body in two states
+
+Shared row: both place the duty on whoever has the knowledge, not on whoever has the need, and both assume a community in which people are in each other's rooms.
+
+Contrast pair. The closing prayer set against the opening permission.
+
+> I ask Allah for well-being from the severity of calamity, for the severity of calamity is a trial for one's religion.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him
+
+Column A: The opening permission, to move
+- What is done: a man relocates his household
+- Directed at: circumstance
+- What it does not claim: that the relocation decides the outcome
+
+Column B: The closing prayer, to be spared
+- What is done: a man asks for well-being from the severity of calamity
+- Directed at: God
+- What it does not claim: that the asking decides the outcome
+
+Shared row: neither is a failure of trust, because neither pretends to decide the outcome. The danger named is not to the body but to the religion of the man undergoing it, and it is permissible to ask not to be tested that way.
+
+## The Measure of a Lifespan
+
+Annotated structure. The whole: the questioner's problem, a contradiction in the literature rather than an abstract puzzle.
+
+> What do you say about people's lifespans, are they fixed with Allah Almighty, neither increasing nor decreasing? And if so, what is the meaning of the statements found in books that lifespans increase and decrease?
+> Sheikh Yusuf ibn Isma'il al-Samati al-Hindi
+
+Whole: two shelves of books the questioner respects
+- Shelf A: a term is appointed and cannot be moved.
+- Shelf B: lifespans grow and shrink. A charity lengthens a life, a severed tie shortens one.
+- His position: between them, having read both.
+- NOT asking: which shelf to discard.
+- IS asking: how both can be saying something true.
+
+Visual metaphor. The answer, made spatial. The load-bearing image.
+
+> There are deferred lifespans that neither increase nor decrease. But the meaning of increase and decrease is sound in the sense that what decreases from the past portion increases in what remains of the future.
+> Our master Idris ibn Hasan, may Allah be pleased with him
+
+Abstract relation: a fixed total containing a moving division
+Metaphor: a bar of fixed length with a single sliding boundary on it
+Element assignments:
+- The bar, end to end: the deferred term. Fixed, immune to movement either way.
+- The boundary on it: the present moment, the only thing that travels.
+- Left of the boundary: the portion already spent. Decreases.
+- Right of the boundary: the portion still to come. Increases by exactly what the left has lost.
+- The two ends: not touchable by any human act.
+Reading: increase and decrease are movements WITHIN the term, not movements OF it. Lengthening describes the division, a fixed appointment describes the total, and the two are not measuring the same thing.
+
+Comparison matrix. What each of the two clauses governs.
+
+| Clause | Names | Governs | Leaves untouched | Answers which shelf |
+|---|---|---|---|---|
+| Deferred lifespans that neither increase nor decrease | A category, the deferred term | The total | The division | Shelf A |
+| What decreases from the past portion increases in what remains of the future | A movement, the sliding boundary | The division | The total | Shelf B |
+
+Practical effect, as a two-node flow:
+Nothing a person does moves the end.
+  ↓
+What his actions bear on is the standing of the portion he is still inside.
+
+Link back: a man who leaves a plagued town has changed his address and not his term, which is why he may go wherever he wishes and why his going settles nothing.
+
+## The Hour and the Animal State
+
+Annotated structure. The whole: the questioner's proposed reading, which the answer then confirms.
+
+> What is your understanding of the words of the Prophet, may peace be upon him, regarding the wretched and dissolute person who is overtaken by the Hour while still alive and not yet dead, does this mean he is more severely punished than those who have already died, and that in the state of his sensory, animal life he has not yet made the transition to the spiritual life?
+> Sheikh Yusuf ibn Isma'il al-Samati al-Hindi
+
+Whole: the question, with the answer's brevity as its verdict
+- Part: the subject, the wretched and dissolute person, overtaken by the Hour while still alive.
+- Part: the proposed reading, that he is more severely punished than those who have already died.
+- Part: the phrase the whole thing turns on, the animal state, meaning sensory bodily life, the life a man shares with everything else that breathes.
+- Part: the answer. If the Hour comes upon him while he is still in the animal state, that is the case.
+Annotation on the brevity: the shortness of the answer says the questioner has understood correctly.
+
+Contrast pair. Two lives, with the crossing between them.
+
+Column A: Sensory life, the animal state
+- What it is: bodily life, shared with everything that breathes
+- Where it belongs: this world
+- Status after the Hour: caught on the wrong side, holding a life with no use where he now finds himself
+- Relation to death: the side death moves a person OUT of
+
+Column B: Spiritual life
+- What it is: the life on the far side of the transition
+- Where it belongs: the hereafter
+- Status after the Hour: he has made the crossing everyone else has made
+- Relation to death: the side death moves a person INTO
+
+Shared row: the definition from Tafsir al-Arkan. Death is not the thing that ends a person. It is the thing that moves him.
+
+Named-axis 2x2. The inversion performed on ordinary intuition.
+
+Axes:
+- Horizontal: STATE OF THE BODY at the Hour, from Already dead to Still alive
+- Vertical: ORDINARY INTUITION about that state, from Unfortunate to Spared
+
+Quadrants:
+- Top-right, Still alive plus judged Spared: where intuition puts the dissolute man still walking about at the end. Emptied.
+- Bottom-left, Already dead plus judged Unfortunate: where intuition puts the people in the graves. Emptied.
+- Bottom-right, Still alive plus judged Unfortunate: the wretched man. He has not been spared. He has been caught short.
+- Top-left, Already dead plus judged Spared: the people in the graves. They have made the transition that matters.
+
+Reading: the hinge. Two consequences:
+- The remembrance of death commanded next is a rehearsal of that transition, not a morbid exercise.
+- The fever, the bereavement, and the loss in the closing sayings are appointments kept early, not punishments arriving late.
+
+## Issue Ten: The Living Child
+
+Annotated structure. The whole: the ruling of Issue Ten, three conditions and one prohibition.
+
+> Regarding a woman who dies pregnant with a fully formed, living child in her womb, should the fetus be left inside her or removed?
+> Sheikh Hasan ibn Nuh, Issue Ten
+
+> If a woman is available to extract it, it is obligatory to do so if it is possible, or if the fetus is six months or older and shows signs of life. The mother should not be buried until the child's death is confirmed. And Allah knows best.
+> Our master Husayn ibn Idris, may Allah sanctify his soul
+
+Whole: the ruling, four parts
+- Condition 1, WHO. If a woman is available to extract it. Annotation: propriety in handling a body is not suspended by the emergency. The duty is not an override, but an obligation arising when it can be discharged properly.
+- Condition 2, WHETHER IT CAN BE DONE. If it is possible. Annotation: sometimes it cannot.
+- Condition 3, THE CHILD'S OWN STANDING. Six months or older, showing signs of life. Annotation: viability plus evidence that somebody is in fact there to extract. Together they convert a desperate act into an obligatory one.
+- Prohibition. The mother should not be buried until the child's death is confirmed. Annotation: the part that reveals the mind behind the ruling.
+
+Contrast pair. Two ways of ending the delay, one refused and one required.
+
+Column A: Presumption, refused
+- Basis: the child is almost certainly dead
+- Standard met: reasonable assumption
+- Who holds the knowledge: nobody in the room
+- Verdict: not permitted. Nobody standing there may assume what they are almost certainly right about.
+
+Column B: Confirmation, required
+- Basis: the child's death is confirmed
+- Standard met: knowledge
+- Who holds the knowledge: whoever can establish the fact
+- Verdict: this and only this releases the body for burial
+
+Shared row: burial is urgent here and delay is not treated lightly. The urgency is overruled, and by a requirement of knowledge rather than a competing urgency.
+
+Visual metaphor. Why the delay follows from the lifespan ruling. The jurisdiction line, third appearance.
+
+Abstract relation: what a household may decide about a death it is standing next to
+Metaphor: the same jurisdiction line, drawn now through the room where the burial is being prepared
+Element assignments:
+- Near side, available to those present: the woman's hands, the possibility of the act, the signs of life, the grave
+- Far side, reserved: the length of this child's term
+- The formula marking the edge: and Allah knows best, the respondent marking the limit of what he knows, in an answer entirely about knowing against presuming
+Reading: a burial performed on a reasonable assumption decides something in a jurisdiction belonging to somebody else. The principle that let a frightened family flee without claiming an escape forbids a grieving household from proceeding without a certainty.
+
+Process flow. The test of attendance. A question asked in a doorway, both branches carried out.
+
+> Hold fast to what Allah Almighty has commanded you. Let none of you be present at something he loves unless the Messenger of Allah would also attend it, otherwise it holds no good. Stay, and good news will come to you.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him, in his four hundred points of conduct
+
+Start: a man finds himself drawn to a gathering
+  ↓
+He stands in the doorway and asks: would the Messenger of Allah be at this?
+  ↓
+Branch:
+  - Yes: he may be present.
+  - No: otherwise it holds no good. No list of forbidden gatherings is supplied.
+    ↓
+    Instruction, two words: Stay.
+    ↓
+    End: and good news will come to you.
+
+Annotation: what is examined is not the event, but the man's attraction to it.
+
+Contrast pair. Two kinds of movement, one permitted at the opening and one refused here.
+
+Column A: Movement away from a plague
+- Direction: outward, from danger. Motive: fear.
+- Ruling: permitted. They may go wherever they wish.
+- Why: the going settles nothing, so nothing is at stake in it
+
+Column B: Movement toward what a man loves
+- Direction: inward, toward attraction. Motive: desire.
+- Ruling: refused unless the doorway test is passed. Stay.
+- Why: this movement does settle something, because what is at stake is the man himself
+
+Shared row: where the opening permitted people to move, this is the counterweight, addressed to a different kind of movement.
+
+## Remembering Death
+
+Annotated structure. The whole: the first saying, dissected to show that its stated purpose is present-tense.
+
+> Remember death often on the day you emerge from your graves and on the day of your resurrection before Allah, this will make your calamities easier to bear.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him, who swore by Allah to make it clear
+
+Whole: a command with a stated purpose attached
+- Part, the oath. Annotation: part of the report, marking emphasis rather than doubt. The speaker is insisting.
+- Part, the practice. Remember death often.
+- Part, the days named. The day you emerge from your graves, and the day of your resurrection before Allah.
+- Part, the purpose. This will make your calamities easier to bear. Annotation: the benefit is present-tense, measured in what a person can carry.
+Reading: remembrance of death is commanded not as preparation for dying but as a remedy for living.
+
+Timeline. Which day is actually named, on the axis of one person's passage.
+
+Axis: one person, from the sickbed forward
+- Position 1: the present calamity.
+- Position 2: the moment of dying. NOT named, though this is what remembering death usually means.
+- Position 3: the day of emergence from the grave. NAMED.
+- Position 4: the day of standing before Allah. NAMED.
+Period bands: this world, the crossing, the far side
+Reading: what is prescribed is remembrance of the appointment after the body's end. Both named days sit on the far side of the crossing.
+
+Contrast pair. Two responses to severity, and why they are not alternatives.
+
+Column A: The prayer
+- Words: I ask Allah for well-being from the severity of calamity
+- Direction: addressed to God. Mode: petition.
+- What it seeks: to be spared the severe trial
+
+Column B: The practice
+- Words: remember death often
+- Direction: performed by the man. Mode: discipline.
+- What it seeks: to reduce severity from the inside. A man who holds the day of emergence beside the thing that just happened to him measures his loss against a horizon that makes most losses finite.
+
+Shared row: the permission and the practice are not alternatives. One is addressed to God and one is work.
+
+Annotated structure. The whole: the second saying, three images in one sentence, each doing different work.
+
+> Fever is the herald of death. Allah imprisons in the earth whomever He wills among His servants, and it wipes away sins as thistles are removed from camel fur.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him
+
+Whole: one sentence, three images
+- Image 1, the herald. Annotation: a herald arrives before the event, sent by the one whose arrival he announces. Illness is not a random malfunction of the body. It is a notice, belonging to the same order as the thing it announces.
+- Image 2, the imprisonment. Annotation: the verb is deliberate and hard. Being held in the ground is a detention, done by God's will, to whom He wills.
+- Image 3, the thistles. Annotation: the image that carries the argument.
+
+Consequence of Image 1: the visitor with his seventy thousand angels stands beside a notification already delivered, not an accident, and his refusal of the food recognises that this is no ordinary room.
+
+Consequence of Image 2: the jurisdiction line, a third time. Nobody escapes an epidemic because nobody holds the keys.
+
+Visual metaphor. Image 3, unpacked concretely, because the picture does the work.
+
+Abstract relation: what an illness does to a believer
+Metaphor: burrs pulled from a camel's coat
+Element assignments:
+- The burrs: sins. They collect, they work their way in, they hurt, and they do not come out on their own.
+- The hand that pulls: the fever.
+- The pain of the pulling: not incidental to the cleaning. It IS the cleaning.
+- The animal underneath: unharmed. The thing removed had no business being there.
+- The animal afterward: better.
+Reading: a believer on a sickbed is groomed, not punished, and the visitor has walked in on a process, not a verdict.
+
+Comparison matrix. The third saying, extending the accounting past illness into everything else a person can lose. Rows ascend by cost.
+
+> None of our Shia will leave behind something we have forbidden, and then die, without being struck by a calamity that purges his sins, whether in his wealth, his child, or even in his own person, so that he meets our love with none of his sins remaining upon him. He is pressed at the moment of death, and his sins are purged.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him
+
+| Site of the calamity | What is lost | Rank in cost | Verb used | Outcome |
+|---|---|---|---|---|
+| His wealth | Property | Lowest | Purges | Sins cleaned |
+| His child | A bereavement | Middle | Purges | Sins cleaned |
+| His own person | An affliction of the body | Highest | Purges | Sins cleaned |
+| At the moment of death | Whatever remains | Final | Purged under pressing | The accounting closes |
+
+Annotation on the opening clause: it admits more than one reading in English, whether the man abandoned the forbidden thing or failed to. The architecture holds either way, because the outcome is identical. No one arrives at the meeting carrying a debt.
+
+Annotation on the verb: purges, not punishes and not balances, but cleans, the same verb the thistles image supplied. That is why the two sayings sit together.
+
+Process flow. The purpose clause, which is why this belongs with death rather than hardship.
+
+Start: a believer holding sins
+  ↓
+A calamity falls. Site: wealth, or child, or his own person.
+  ↓
+The sins are purged. The calamity is not the end of the process.
+  ↓
+Remainder, if any, carried to the moment of death
+  ↓
+He is pressed at the moment of death, and the remainder is purged. The pressing is not described further than the report does.
+  ↓
+End: he meets our love with none of his sins remaining. He carries no remainder across.
+
+Annotation: everything painful is subordinated to that final encounter. The teaching of this book on affection and allegiance as a binding relationship rather than a sentiment is spent here as an established term, not re-argued.
+
+Annotated structure. The whole: the last sentence, and the one that reverses everything.
+
+> The dead among our Shia is a martyr, one who believed in our cause, loved us, and allied with us.
+> Mawlana the Commander of the Faithful Ali ibn Abi Talib, peace be upon him
+
+Whole: three conditions and one verdict
+- Condition 1: believed in our cause.
+- Condition 2: loved us.
+- Condition 3: allied with us.
+Annotation: the three taught from the opening chapters of this book, the doctrines of affection and disciplined loyalty, here simply invoked. Nothing in them is new.
+- The verdict: he is a martyr. Annotation: this is what is new. Not that he dies well, or is forgiven, or is received kindly. That he is a martyr.
+
+Contrast pair. Who the word normally belongs to, against who receives it here.
+
+Column A: The martyr as ordinarily understood
+- Place of death: a battlefield. Circumstance: mid-act.
+- Manner: violent. Witnesses: an army.
+
+Column B: The martyr as this sentence assigns it
+- Place of death: a bed. Circumstance: illness.
+- Manner: a fever. Witnesses: a house where the neighbours are trying not to accept a plate of food.
+
+Shared row: the same verdict, unaltered, transferred from the first column to the second.
+
+Process flow. Read backwards from the last sentence, the arrangement complete.
+
+Start at the end: the believer who dies is a martyr
+  ↑
+The losses of wealth and child and body were a purge, with a meeting at the end
+  ↑
+The illness was a cleaning, the fever was a herald
+  ↑
+Death is the completion of a relationship, not the interruption of a life
+  ↑
+End at the beginning: the fleeing family might go wherever they wished
+
+Reading: there was never anything out there to escape to, and nothing here a believer needs to escape.
+
+## What this episode lands
+
+Comparison matrix. Four rulings on conduct, each addressed to somebody other than the patient.
+
+| Ruling | Addressed to | What is permitted or required | What is withheld or denied |
+|---|---|---|---|
+| Flight from an epidemic | A household | May move away freely, wherever it wishes | May not think the movement changed anything |
+| The visit | A neighbour | Seventy thousand angels from the hour he sets out | No control over the length, which runs to sunset or dawn |
+| The refused meal | The visitor at the table | Must refuse the food offered | Acceptance turns the day's reward into a liability |
+| The duty to publish | Anyone who knows the ruling | Obliged to publish it | Silence keeps the uninformed inside an excuse |
+
+Annotation: a short discipline of the sleeping body sits among these, addressed, like them, to whoever is in the room.
+
+Hierarchy. Three settlements, nested under the principle they serve.
+
+Level 1: The matter is in the hands of Allah Almighty
+  Level 2: Settlement one, the term
+    Level 3: A term is deferred and fixed.
+    Level 3: Books speaking of lifespans lengthening describe the division, not the total.
+  Level 2: Settlement two, the transition
+    Level 3: Death is a transition from sensory life to spiritual life.
+    Level 3: The man the Hour catches in the animal state is caught short, not spared.
+  Level 2: Settlement three, the certainty
+    Level 3: A woman who dies carrying a living, formed child is not buried until that child's death is confirmed.
+    Level 3: Burial overruled not by another urgency but by a requirement of certainty.
+Cross-level reading: three times over, nobody present may presume what belongs to God.
+
+Timeline. Where the Book of Funerals stands, and what is ahead.
+
+Axis: the Book of Funerals, from its opening forward
+- Covered: the dying state defined.
+- Covered: the doorway regulated.
+- Covered: what to hold in mind while standing in it.
+- Still ahead: the grave itself.
+- Still ahead: the rites owed to a body once the transition has been made.
+Period bands: the doorway, the grave
+Annotation: the Book of Funerals has only just been opened.

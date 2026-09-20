@@ -1,0 +1,90 @@
+{
+  "schema": "podcast.phase-review/v1",
+  "phase": "0book-compose",
+  "verdict": "PHASE-SOUND",
+  "blocking_fail": null,
+  "counts": {
+    "total": 11,
+    "failed": 0,
+    "crashed": 0
+  },
+  "gates": [
+    {
+      "gate": "PC1",
+      "name": "book-md-present",
+      "kind": "own",
+      "passed": true,
+      "note": "book.md present (625,218 bytes)"
+    },
+    {
+      "gate": "PC2",
+      "name": "apparatus-steps-all-ran",
+      "kind": "own",
+      "passed": true,
+      "note": "all 28 apparatus step(s) recorded"
+    },
+    {
+      "gate": "PC3",
+      "name": "no-page-altering-step-failed",
+      "kind": "own",
+      "passed": true,
+      "note": "compose recorded no skipped steps"
+    },
+    {
+      "gate": "PC4",
+      "name": "book-md-covers-toc",
+      "kind": "own",
+      "passed": true,
+      "note": "33 heading(s) for 33 declared chapter(s)"
+    },
+    {
+      "gate": "PC5",
+      "name": "no-new-reading-edition-defects",
+      "kind": "own",
+      "passed": true,
+      "note": "first scan — 247 defect(s) recorded as the baseline"
+    },
+    {
+      "gate": "RA1",
+      "name": "source-text-still-present (from 0a)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "raw-extract.md present (521,369 bytes)"
+    },
+    {
+      "gate": "RB1",
+      "name": "refined-text-still-present (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined-english.md present (533,632 bytes)"
+    },
+    {
+      "gate": "RB2",
+      "name": "refined-still-covers-source (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "refined text is 96% of the source (96,702 of 100,783 words)"
+    },
+    {
+      "gate": "RB3",
+      "name": "window-cache-intact (from 0b)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "window cache intact (36 window(s))"
+    },
+    {
+      "gate": "RD1",
+      "name": "chapter-contracts-still-exist (from 0d)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "27 chapter contract(s)"
+    },
+    {
+      "gate": "RG1",
+      "name": "book-toc-still-parses (from 0book-design)",
+      "kind": "recheck",
+      "passed": true,
+      "note": "book-toc.json declares 33 chapter(s)"
+    }
+  ]
+}

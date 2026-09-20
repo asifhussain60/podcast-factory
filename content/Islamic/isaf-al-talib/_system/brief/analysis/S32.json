@@ -1,0 +1,140 @@
+{
+  "title": "32. Two Kinds of Sight",
+  "purpose": "It presents an epistle defending the Shia/da'wah practice of beginning the Ramadan fast by calculated knowledge rather than eye-sighting of the crescent, by arguing that 'sight' in the Prophet's command includes the vision of the soul.",
+  "points": [
+    {
+      "text": "The author writes in response to a brother's request to justify the Shia practice — and specifically the command issued from the Pure Presence in the year 400 requiring the fast to begin two days before the crescent was visible to the eye — against opponents who reproach them for fasting before the general public.",
+      "kind": "context",
+      "weight": 4,
+      "entities": [
+        "Ramadan",
+        "year 400",
+        "Pure Presence",
+        "Shia",
+        "Commander of the Faithful"
+      ]
+    },
+    {
+      "text": "The author frames the opponents' disagreement not as honest error but as arrogance, envy, and refusal to obey those charged with the Command to whom Quran 4:59 and 4:83 direct disputed matters to be referred.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Quran 4:59",
+        "ulu al-amr"
+      ]
+    },
+    {
+      "text": "The disputed proof-text, accepted by nearly all Muslim sects and relied on by the people of the outward, is the Prophet's saying 'Fast at its sighting and break the fast at its sighting.'",
+      "kind": "evidence",
+      "weight": 4,
+      "entities": [
+        "hadith 'sumu li-ru'yatihi'",
+        "people of the outward"
+      ]
+    },
+    {
+      "text": "Because Allah created all things in pairs — and the Prophet made pairing the governing principle of the law (prayer/alms, adhan/iqama, Hajj/Umrah, Safa/Marwa) — sight too must be of two kinds: natural vision and vision of the soul.",
+      "kind": "framework",
+      "weight": 5,
+      "entities": [
+        "pairs",
+        "tawhid"
+      ]
+    },
+    {
+      "text": "Natural vision occurs by the eye and apprehends only colors and shapes; vision of the soul occurs by way of knowledge through heart and soul and apprehends causes hidden from the eye, as in the Quranic 'Have you not seen what your Lord did with the companions of the elephant?' addressed to a Prophet who did not witness that event.",
+      "kind": "definition",
+      "weight": 5,
+      "entities": [
+        "natural vision",
+        "vision of the soul",
+        "companions of the elephant",
+        "Quran 53:11"
+      ]
+    },
+    {
+      "text": "The author concludes that vision of the soul is prior, more exalted and subtler, and that in discharging Allah's obligations one is bound to take the more excellent instrument, since settling for the lesser when the greater is present is a judgment of ignorance.",
+      "kind": "thesis",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "vision of the soul"
+      ]
+    },
+    {
+      "text": "By analogy with the man who knows the prayer time without hearing the adhan, and the man eating before dawn who knows dawn has broken though a barrier blocks his eye, the fast becomes binding once knowledge is obtained that its cause — the moon's separation from the sun after conjunction — has occurred, whatever bars sight: light, cloud, dust, or mountain.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "conjunction",
+        "separation",
+        "dawn"
+      ]
+    },
+    {
+      "text": "The author argues that the sun's light is itself merely a barrier like cloud or a wall — proven by stars becoming visible during a solar eclipse — so the crescent genuinely exists after separation even when unseen, and the soul is not barred from seeing it as it truly is.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "solar eclipse",
+        "crescent"
+      ]
+    },
+    {
+      "text": "Against the opponents' principle that a man knows nothing until his sight falls upon it, the author raises three refutations: they affirm Allah whom they have not seen; they judge the world originated in time by proof not sight; and they permit breaking the fast after thirty days without sighting the crescent — each forcing them back to the vision of knowledge.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "origination of the world",
+        "thirty days"
+      ]
+    },
+    {
+      "text": "Since the soul receives and retains the image of a sensed thing at first apprehension and thereafter needs no second sensing, and since the crescent's shape, color, thinness and thickness are no condition of the fast, what is sought in 'seeking the crescent' is knowledge that it now lies west before the sun — a fact grasped by the soul, not by sight, which apprehends only shapes and colors.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "soul as instrument of perception",
+        "crescent"
+      ]
+    },
+    {
+      "text": "The author argues from the Arabic letter lam in 'li-ru'yatihi' — parallel to 'set this in order for so-and-so's arrival' and 'work for the Hereafter' — that the act must precede that for which it is done, so the hadith means the community should already be fasting when the crescent is sighted.",
+      "kind": "claim",
+      "weight": 5,
+      "entities": [
+        "lam",
+        "li-ru'yatihi",
+        "eloquence of the Prophet"
+      ]
+    },
+    {
+      "text": "To the objection that the lam in 'Establish the prayer at the declining of the sun' does not require the prayer to precede the declining, the author replies with a geometric figure distinguishing point ب, the true declining seen by the soul, from point ج, the later sensible declining — so that here too the worshipper is already praying when sense perceives the shadow turn.",
+      "kind": "resolution",
+      "weight": 4,
+      "entities": [
+        "Quran 17:78",
+        "dulūk al-shams",
+        "point ب",
+        "point ج"
+      ]
+    },
+    {
+      "text": "The author notes that eyesight errs about things as they truly are — seeing large as small, thin as thick — whereas the seeing of knowledge scarcely errs, so the people of the true call have taken hold of the non-erring instrument.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "people of the dawah"
+      ]
+    },
+    {
+      "text": "To the final objection that the Prophet's 'If it is obscured from you, then count thirty days' requires eye-sighting, the author begins by reasserting that the vision of the soul has been established as the nobler of the two.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "hadith of counting thirty days"
+      ]
+    }
+  ],
+  "fingerprint": "a893dbb98a012cfb"
+}

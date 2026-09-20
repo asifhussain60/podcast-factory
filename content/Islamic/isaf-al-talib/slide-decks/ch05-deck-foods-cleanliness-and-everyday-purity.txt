@@ -1,0 +1,549 @@
+# Foods, Cleanliness, and Everyday Purity
+
+## Where this episode opens
+
+Annotated structure. The sites where purity is actually tested.
+
+Whole: ordinary life, not the edge of the prayer mat
+- The marketplace. Goods arrive with a history the buyer cannot see.
+- The kitchen. Traces and dead animals enter real food.
+- The comb. Household custom hardens into assumed law.
+- The child. Timing of a bodily rite becomes a communal display.
+- The haircut. Gendered form is reshaped by local fashion.
+- Inherited custom. Repeated so long that no one asks whether it is lawful.
+
+Process flow. What this episode inherits, and what it adds.
+
+Start: purity already taught in earlier chapters, and not re-taught here. Established there: purity is not mere neatness, and not mere suspicion.
+  ↓
+This chapter's question: how that discipline enters ordinary matter, across six domains, food, wet contact, grooming, gendered adornment, circumcision, public modesty
+  ↓
+End: a community either lets authoritative teaching shape its habits, or lets habit slowly become its own law
+
+Contrast pair. The two failure modes the chapter steers between.
+
+Column A: Carelessness
+- Posture toward evidence: ignores a named process of contamination
+- Treatment of custom: lets inherited habit stand as law
+
+Column B: Hysteria
+- Posture toward evidence: invents contamination without a medium
+- Treatment of custom: adds prohibitions that have no reliable basis
+
+Shared row: both abandon the actual question, which is what has happened to this food, this vessel, this garment, this body.
+
+Hierarchy. The chapter's three movements and what each governs.
+
+- Movement 1, food and contact: what may be eaten, sold, washed, reused, buried, fed to animals, or avoided
+- Movement 2, grooming and bodily alteration: circumcision, hair parting, beard trimming, combs, henna, tattooing, filing teeth, piercing ears
+- Movement 3, Ja'far ibn Sulayman's formal warning: communal practice among the people of Yemen and Hind, rendered as sustained admonition because the source itself shifts from answers into address
+
+## Food and Contact
+
+Process flow. The Nimi oil case, traced by pathway rather than by appearance.
+
+Start: Nimi pits on the tree, eaten by crows and only by crows
+  ↓
+Pass out through the birds' droppings
+  ↓
+Dried in the sun, collected, bought and sold
+  ↓
+Pressed into oil
+  ↓
+Final state: the oil shows no detectable impurity
+  ↓
+Question posed: may it be sold, purchased, handled, touched, used
+  ↓
+Ruling: whatever is not permissible to eat is impure, and what is impure may not be eaten, sold, or bought
+
+Annotation on the ruling: the final cleanliness of appearance does not erase the path by which the substance arrived. The condition here is not vague suspicion but a named process.
+
+Named-axis 2x2. The wet-contact rule that resolves the apparent conflict in the book of purity.
+
+Axes:
+- Horizontal: state of the contact, Dry on the left, Wet on the right
+- Vertical: status of the thing contacted, Pure at the bottom, Impure at the top
+
+Quadrants:
+- Top-right, Wet and Impure: impurity transmits. The garment, body, or vessel that touched it must be washed. This is the only quadrant that contaminates.
+- Top-left, Dry and Impure: no impurity arises merely from handling. Dry contact with the dog, or with an impure substance, does not transmit.
+- Bottom-right, Wet and Pure: no issue, because moisture alone is not a contaminant.
+- Bottom-left, Dry and Pure: no issue.
+
+Reasoning: moisture is the medium. Without a medium, impurity has no route to travel, which is how the chapter keeps the law from becoming either careless or hysterical.
+
+Comparison matrix. The touch cases the book of purity does not object to, set against the case it does.
+
+Rows: menstruating woman, Jew, Christian, Sabian, animals generally, the dog
+Columns: touch objected to | resolution
+
+- Menstruating woman: no objection | touch does not contaminate
+- Jew: no objection | moisture from the practices of shirk is impure, so wash what it touched
+- Christian: no objection | moist contact with their food makes it impure
+- Sabian: no objection | touch does not contaminate
+- Animals generally: no objection | touch does not contaminate
+- The dog: this is the contested case, declared impure | wet contact transmits, dry handling does not
+
+Comparative note carried by the source: the skin of a dead animal may not be sold, while the first ruling applies to water above the threshold.
+
+Process flow. The dead mouse in honey, clarified butter, oil, or liquid fat.
+
+Start: an animal dies in a liquid substance
+  ↓
+Test 1: may it be eaten. No.
+  ↓
+Test 2: may it be fed to a carnivorous animal. No, because that would be forbidden.
+  ↓
+Branch, by disposal route:
+  - Route A: buried
+  - Route B: fed to dogs and to animals whose meat is not eaten. Permitted by a related report.
+  - Route C: made into soap, placed on a mat. Permitted.
+  ↓
+Route C continues:
+  May the soap be sold or given away, condition attached
+  ↓
+  Condition: the buyer must be told of its impurity
+  ↓
+  End: a garment washed with that impure soap must be rinsed again with pure water
+
+Annotated structure. The three interests the soap ruling holds together at once.
+
+Whole: one ruling, three protected interests
+- Interest 1, use. The substance is not simply wasted. It may be transformed.
+- Interest 2, market honesty. Its impurity is not hidden, the buyer must not be deceived, and disclosure becomes part of lawful exchange.
+- Interest 3, ritual consequence. The garment that benefits from the soap still needs pure water afterward.
+
+Hierarchy. The animal categories the source refuses to flatten into one.
+
+- Level 1: animals as recipients of the impure substance
+  - Level 2: carnivorous animals
+    - Level 3: feeding forbidden, because that would be forbidden consumption
+  - Level 2: animals whose meat is not eaten, including dogs
+    - Level 3: feeding permitted by the related report
+  - Level 2: animals whose meat is eaten
+    - Level 3: governed by the prohibition on introducing forbidden consumption
+
+Questions asked before deciding: what the animal is, whether its meat is eaten, and whether feeding it introduces forbidden consumption.
+
+Visual metaphor. The droppings threshold, rendered as a graduated scale rather than a list.
+
+Abstract relation: how many removable traces convert a food from edible to prohibited
+Metaphor: a four-stop scale, left to right, with a hard stop at the last position
+
+- Position 0, dead mouse in a pot of broth: the meat is washed, and it may be eaten
+- Position 1, one grain of the mouse's droppings: the grain is removed, the food is eaten
+- Position 2, two grains: the same applies, removed and eaten
+- Position 3, three grains: the person may not eat it. Hard stop.
+
+Reading: the scale does not tell the worshipper to ignore visible contamination. It sets a threshold for small traces removable without condemning the whole food, teaching judgment under the conditions of real household life.
+
+Contrast pair. Impurity against ordinary smallness, the distinction the next cases turn on.
+
+Column A: Impurity, a legal category
+- Trigger: a named process, a dead animal, a transmitted substance
+- Test applied: has impurity actually moved through a medium
+- Effect on the whole: the food is forbidden
+- Examples here: Nimi oil, liquids in which a mouse died
+
+Column B: Ordinary smallness, not a legal category
+- Trigger: small foreign matter, dust
+- Test applied: is the matter foul, harmful, and meaningfully present
+- Effect on the whole: permissible to eat or use with the rest
+- Examples here: small foreign matter in a squirrel that is eaten, a small amount of dust in the water of a vessel
+
+Shared row: a tiny harmless presence does not automatically forbid the whole, and dust in water is not treated like filth. Allah and His guardians know best.
+
+Also raised briefly in this stretch: the milk of an animal that has drunk impure liquid.
+
+## Food and Contact: Market Goods, Slaughter, and Witnessed Invocation
+
+Hierarchy. Goods sold by disbelievers in Muslim markets, sorted by category rather than by seller.
+
+- Level 1: goods offered in the market by disbelievers
+  - Level 2: sacrificial and slaughtered animals
+    - Level 3: definitively forbidden
+    - Level 3: reason one, the name of Allah is not mentioned over them
+    - Level 3: reason two, they are not slaughtered facing the qibla
+  - Level 2: other foodstuffs and wet goods, including clarified butter, oil, sugar, honey
+    - Level 3: if not handled with their hands or impure implements, no objection to selling, buying, eating, or being served by them
+    - Level 3: if handled, avoidance is obligatory when an alternative exists
+    - Level 3: their moisture is impure
+
+Opening of the answer, preserved:
+
+> By Allah, success comes from Him.
+
+Process flow. The caution the same answer then adds, step by step.
+
+Start: goods appear in the market
+  ↓
+Observation: their work is rarely free of impurity, because they are unclean and their implements touch wet goods
+  ↓
+Obligation: avoid what they have handled when an alternative exists
+  ↓
+Branch on contact:
+  - Branch A: moisture from the practices of the people of shirk falls on a garment → wash whatever touched the garment or body
+  - Branch B: wet food is known to have been defiled → wash whatever touched the garment or body
+  - Branch C: no wet handling, no known defilement, alternative unavailable → no objection
+  ↓
+End: strictness operates through contact, moisture, and evidence rather than through one undifferentiated fear
+
+Comparison matrix. The variables the ruling turns on, held apart from the identity of the seller.
+
+Rows: slaughtered animals | large vessel touched | food touched by moisture
+Columns: decisive variable | condition that changes the ruling
+
+- Slaughtered animals: invocation and qibla orientation | a Muslim witnesses qibla-facing slaughter with Allah's name invoked, and then they and the rest of their food are permissible, as stated in the text of the Holy Book
+- Large vessel touched by a Jew, a Christian, a Magian, or a cat: evident saliva | purification with it remains permissible unless saliva is evident, which narrows the concern to a detectable medium
+- Food touched by their moisture: moisture | it becomes impure. Allah knows best.
+
+Genealogy chain. The question that produced the People of the Book distinction.
+
+Sheikh Hasan ibn Nuh → questions put to Husayn ibn Idris → the further distinction on the slaughtered animals of the People of the Book
+
+Reading: the People of the Book are not treated in only one way. The legal imagination is concrete about who witnessed, what words were invoked, which direction was faced, and what moisture touched the food.
+
+Annotated structure. The closing food case, from the exposition of the Shari'ah.
+
+Whole: eating the cooking of a slave girl who is not careful about ritual purity
+- Part 1, the ruling: permissible
+- Part 2, the check it supplies: carelessness is not automatically treated as proven impurity in every prepared meal
+- Part 3, the resulting posture: severe where impurity is known, transmitted, or materially present, permissive where the concern remains general
+
+Closing reading for the food movement: the law is not teaching revulsion. It is teaching the worshipper to ask what has actually happened to the food, the vessel, the garment, and the body before God.
+
+## Grooming Boundaries
+
+Comparison matrix. The circumcision rulings gathered in this movement, before the letter revisits them.
+
+Rows: man reaching eighty | woman grown old, not reduced | man married and uncircumcised | man born already circumcised | man whose glans is exposed | young man with remaining skin | person who dies uncircumcised
+Columns: ruling | stated reason or condition
+
+- Man reaching eighty: may not abandon circumcision | described as the lowest obligatory act in Islam, and age does not cancel it
+- Woman grown old, not reduced: it should be reduced and not left unreduced | the answer extends the ruling to the female case as the source frames it
+- Man married, fathered children, ignorant and uncircumcised: the most ignorant person in Islam is not left uncircumcised, even at eighty | response of Qadi al-Nu'man to al-Khattab ibn Wasim
+- Man born already circumcised: excepted | some prophets, peace be upon them, were narrated to have been born in that state
+- Man whose glans is exposed: not compelled | the relevant part is already exposed
+- Young man with remaining skin: recommended to roll back the foreskin and cut away whatever skin remains over the glans | youth allows a remaining correction
+- Person who dies uncircumcised, child or adult: the Sunnah recommends circumcision after death | others say the prayer of a woman who has not been reduced, and her position with her husband, are valid, as with a man
+
+Preserved tension: the obligation is weighty, yet validity is not simply erased in every unresolved case. The source keeps more than one report.
+
+Timeline. Law as something revealed in time, taken from the Abraham question.
+
+Position 1: before Abraham's eightieth year, this ruling and what follows had not been revealed
+Position 2: Abraham's eightieth year, he is commanded to purify himself, and he is the first to be circumcised, peace be upon him
+Position 3: after that point, later communities inherit it as settled obligation
+Period bands: before the command | the command given to Abraham | inherited obligation
+
+Reading of the answer: this is apparently the case, because Abraham was not commanded to purify himself until he reached eighty years of age.
+
+Contrast pair. Grooming permitted against grooming forbidden, attribute by attribute.
+
+Column A: Permitted care
+- The beard, uneven hairs: trim so the shorter hairs are leveled with the longer ones, intending to improve appearance, because it is permissible to trim some offerings in such a way
+- Body hair other than the beard: nothing need be done with it
+- Hair parting: part the front hair down to the nape
+
+Column B: Forbidden or bounded alteration
+- The beard, beyond leveling: trimming is not permissible otherwise, and nothing may be removed from the beard
+- Hair parting: one should not deliberately leave the back unparted
+- Prohibited hair-cutting styles in menstruation: named below
+- Engraving with pigments, dyeing the teeth: forbidden
+
+Shared row: care is allowed, erasure is not, and the source identifies specific governed areas while leaving the rest alone.
+
+Annotated structure. The terms explained in the ruling on a menstruating woman and her hair.
+
+Whole: the Prophet's words that it is not for a menstruating woman to take a qaṣṣa or a qaṣṣa
+- Part 1, the nail of a thing: the portion from the temples to the nape of the neck
+- Part 2, al-qaṣṣa, first sense: cutting the hair of the head and leaving a quarter of it at the front
+- Part 3, al-qaṣṣa, second sense: taking the hair and leaving some of it out, and this too is forbidden
+
+Reading: the ruling links menstruation, hair-cutting, and prohibited styles, continuing the chapter's concern that bodily form not be casually reshaped in states the law forbids.
+
+Contrast pair. Law against custom, the correction that runs in both directions.
+
+Column A: Custom too lax, corrected upward
+- Case: hair parted only from the front of the head to the middle in India, not down to the nape
+- Correction: part it down to the nape, and do not deliberately leave the back unparted
+- Principle: bodily order is not left to inherited custom when the Shari'ah has attached meaning to it
+
+Column B: Custom forbidding without evidence, corrected downward
+- Case one: some Indians dislike a man and his wife sharing one comb
+- Case two: most people in India think it is necessary to leave combing out on Friday night
+- Correction for both: there is no reliable basis for that
+- Principle: not every inherited aversion is law
+
+Shared row: some customs are corrected because they are too lax, others because they forbid without evidence. The same authority does both.
+
+## Grooming Boundaries: Adornment, Gender, and Bodily Alteration
+
+Quadrant map. Adornment sorted by who performs it and how the source receives it.
+
+Space: bodily adornment as a religious act, positioned by gender assignment and by severity of judgment
+
+- Top-left, forbidden to all: engraving the palms and feet with pigments, dyeing the teeth red or with other materials. The Shari'ah says engraving with dye is forbidden, and the answer confirms both.
+- Top-right, commanded for women: women are commanded to adorn themselves.
+- Bottom-left, discouraged for men without condemnation: a man who tattoos his hands and feet for adornment, without benefit. Not permissible for a man to do so for adornment, leaving such adornment is better for men without a reason, and the one who does it is not condemned outright.
+- Bottom-right, permitted for women: filing uneven teeth level with stone, iron, or another material, and piercing the ears of women and of infant daughters so they can wear ornaments. There is nothing wrong with that.
+
+Reasoning for the placements: the vertical distinguishes forbidden form from permitted form, the horizontal distinguishes the body for which an adornment is assigned. The source is not only asking whether this is beautiful. It asks what kind of person, body, gendered role, and religious discipline the act performs. The allowances in the bottom row prevent the chapter from reading as a blanket rejection of adornment.
+
+Process flow. The hair-parting ruling and the one route by which grooming reaches the prayer.
+
+Start: a man takes the hair of his head, with a comb or without one
+  ↓
+Question: does not parting it every day create deficiency in his prayer
+  ↓
+Branch on the state of the hair:
+  - Branch A: hair parted in two halves → no deficiency
+  - Branch B: hair left without a parting → it should not be left so
+  - Branch C: deliberately left unparted for the purpose of ruling → the prayer is invalidated
+  ↓
+End: deliberate bodily disorder, when tied to defiance of the rule, reaches the prayer itself
+
+Blockquote preserved with attribution, the Prophet's reported instruction about female reduction:
+
+> O women who have circumcised, if you reduce your daughters, do not go to excess, and leave something of it, for it is better for the face and more pleasing to the husband.
+
+Annotated structure. The bounds the answer places on that instruction.
+
+Whole: the answer to the question about going to excess and about the meaning of better for the face
+- Part 1, the instruction: one should act upon what has been mentioned
+- Part 2, the bound: moderation is better for the husband's sake, and that is taken for granted
+- Part 3, the frame: not a free field of bodily control, because it is explicitly bounded by moderation and by a warning not to go to excess
+
+Reading: the source regulates even practices the community might otherwise perform by inherited habit.
+
+Closing reading for this movement: the judgments are bodily, not merely verbal. They ask what is present, what is absent, what has been done, and what correction is still possible.
+
+## Ja'far's Admonition
+
+Genealogy chain. The authority the letter stands on, generation by generation.
+
+The Prophet, peace be upon him and his family → Ali ibn Abi Talib, prayers of God be upon him → Qadi al-Nu'man ibn Muhammad, may God sanctify his soul, in the noble Pillars of Islam → Mawlana Ja'far ibn Sulayman, may God sanctify him and grant us his intercession → the people of the Island of Yemen and the Island of Hind
+
+Second chain, the female circumcision age: Ali ibn Abi Talib, peace be upon him → Qadi al-Nu'man in Pillars of Islam → Ja'far's letter → Maluka's questions from the Island of Hind
+
+Third chain, the ihram cutting rule: Ali ibn Abi Talib on al-Aqra', that the Musa passes over his head → Qadi al-Nu'man's formulation → Ja'far's argument from the lesser case to the greater
+
+Annotated structure. The letter's own architecture, section by section.
+
+Whole: a noble letter written to refute innovations, warning his people and admonishing those who had grown heedless among the people of the Island of Yemen
+- Section 1: women shaving their heads
+- Section 2: women removing hair without fully shaving
+- Section 3: hastening the circumcision of maidservants and girls
+- Section 4: publicizing a circumcision
+- Section 5: delaying the circumcision of male children
+- Section 6: men imitating women in henna
+
+Contrast pair. The adornment God assigned to each, as the letter states it.
+
+Column A: The adornment of men
+- Assigned form: the growth of their beards
+- Care: their grooming and their care
+- Quality: their masculinity
+- Proverb the letter cites: the adornment of men is conduct and character
+
+Column B: The adornment of women
+- Assigned form: the growth of their hair
+- Care: its combing and its lengthening
+- Quality: its beauty
+- Proverb the letter cites: the adornment of women is gold
+
+Shared row: the face and head are adorned differently according to gender, and whoever reflects on this will see the command clearly.
+
+Blockquotes preserved with attribution, on women's hair.
+
+> If one of you wishes to marry a woman, let him inquire about her hair just as he inquires about her face, for hair is one of the two beauties.
+
+Attribution: the Prophet, peace be upon him and his family.
+
+> Beautiful hair is among the garments of God, and whoever strips his body of this garment of his Lord Almighty, with which He has clothed him, has disfigured his own form. Whoever disfigures his form is cursed in this world and the next.
+
+Attribution: narrated from him, peace be upon him and his family.
+
+Further established in the hadiths, as the letter reports: the shaved head of a woman is a source of shame for her, covering her head is obligatory except in illness, and the Prophet said words to the effect that this removes the reverence of God from hearts.
+
+Process flow. The argument from the lesser case to the greater, which Ja'far calls one of the clearest proofs.
+
+Start: the rulings on trimming hair at the end of ihram, and the distinction between men and women in the purified Shari'ah
+  ↓
+Men: the bald man and the one with close-cropped hair have the Musa passed over their heads
+  ↓
+Women: when she exits her ihram, she takes from the tips of her braids, cutting something from the ends, and does not shave any of it
+  ↓
+Observation: even that small cut is restricted, and many are prevented from substituting shaving for it
+  ↓
+Inference: if shaving may not substitute for the smallest cut at the height of ihram, then full shaving is even more strictly prohibited
+  ↓
+End: their heads must never be shaved at all, and they may only cut from them what they cut
+
+Ja'far's astonishment, stated as a structure rather than as prose.
+
+- Fact 1: some have permitted this among themselves and within their law
+- Fact 2: others have not been forbidden from it within theirs
+- Fact 3: all of them have learned what Pillars of Islam says concerning the hair of women's heads
+- Conclusion: that teaching indicates the prohibition of shaving women's hair for the people of the Rightly Guided Da'wah and those who dwell within its reach
+
+Reported in Pillars of Islam from the Imams of the Household of Prophethood, peace be upon them: when a woman purifies herself she should loosen her hair, unless she is certain that water reaches the skin of her head and wets all of her hair, which is possible when her hair is soft and fine.
+
+Annotated structure. The partial-shaving case, and why the letter treats it as the same violation.
+
+Whole: women among them who remove their hair without fully shaving it
+- Part 1, what is done: they shave only to the tips of their heads, at the circles of the head, and shave the nape as well
+- Part 2, the verdict: God Almighty is not pleased with this, and such a person is heading toward perdition
+- Part 3, the ground: Qadi al-Nu'man ibn Muhammad has already narrated the ihram rule, that the woman cuts something from the ends and does not shave any of it
+- Part 4, the exception: whoever is certain that no such garment exists, young or old, is not included in this prohibition if he follows the path of guidance and removes the mark
+
+Refrain closing both hair sections, preserved:
+
+> Whoever desires a religion other than that of Abraham has only wronged himself.
+
+Attribution: the letter, which adds that such clarification is set forth only for the people of religion.
+
+## Ja'far's Admonition: Circumcision, Timing, and Public Display
+
+Named-axis 2x2. The reversal the letter names, as a matrix of timing against subject.
+
+Axes:
+- Horizontal: who is circumcised, maidservants and girls on the left, male children on the right
+- Vertical: the community's actual practice, Hastened at the top, Delayed at the bottom
+
+Quadrants:
+- Top-left, girls hastened: what the community does, in fewer than ten days, or up to forty days at most, made the limit in public and private practice. Contrary to the Shari'ah of the Prophet and to the two pillars of Islam.
+- Bottom-right, boys delayed: what the community does. Most of them delay the circumcision of male children, even though the hadith commands hastening.
+- Top-right, boys hastened: what is commanded. Hasten the circumcision of your children, for it is purer for them.
+- Bottom-left, girls not before seven: what is commanded. Do not circumcise the maidservant before she is seven years old.
+
+Reasoning: the commanded diagonal runs top-right to bottom-left, and the community's practice occupies the opposite diagonal, so they have reversed the matter in both cases, acting contrary to the command of the Dominant and the Righteous.
+
+Blockquotes preserved with attribution, on circumcision timing.
+
+> Hasten the circumcision of your children, for it purifies them.
+
+Attribution: Ali ibn Abi Talib, peace be upon him, narrated by Qadi al-Nu'man ibn Muhammad in the noble Pillars of Islam.
+
+> Do not circumcise the maidservant before she is seven years old.
+
+Attribution: the same narration. Ja'far calls this a clear prohibition that calls only to guidance.
+
+> Hasten the circumcision of your children, for it is purer for them.
+
+Attribution: one of the Imams, peace be upon them.
+
+> Circumcise your children on the seventh day, and let no cold prevent you, for it is a purification of the body, and the earth is filled, by God, from the urine of the uncircumcised upon it.
+
+Attribution: Ali ibn Abi Talib, peace be upon him.
+
+> Modesty is from faith, and whoever has no modesty has no religion.
+
+Attribution: the Prophet, peace be upon him and his family.
+
+> Whatever the Messenger has brought you, take it; and what he has forbidden you, refrain from it.
+
+Attribution: chapter 59, verse 7.
+
+Visual metaphor. Who may witness a circumcision, rendered as concentric circles with a hard outer boundary.
+
+Abstract relation: the privacy the letter requires for purity of male children and circumcision of maidservants
+Metaphor: concentric circles with a sealed perimeter
+
+- Innermost circle: the one being circumcised
+- Next circle: the one performing the circumcision
+- Next circle: the women of the household
+- Perimeter, sealed: no one beyond this
+- Outside the perimeter, what the letter forbids: family and neighbors gathered, hospitality offered, the call to prayer made, prayers established for those who remain, news carried to those near and far, including both parents
+
+Reading: whoever publicizes it has violated the laws of his religion and compounded that violation, acting against modesty. That gathering is not part of the matter, and the circumcision of the maidservant carries one of the intended meanings in the matters of his dear religion.
+
+Contrast pair. The protected communities against the community Ja'far addresses.
+
+Column A: People from protected communities
+- Practice: rush to circumcise their children very quickly, on the seventh day
+- Basis: compliance with what was prescribed for them in the law given by God Almighty to Moses, the Word of God, peace be upon him
+- Duration: continued across thousands of years
+- Cost borne: the hardship it imposes on their children at such a young age
+
+Column B: The community Ja'far addresses
+- Practice: delays what the Prophet commanded to be hastened, and hastens for maidservants
+- Basis: none given, the command runs the other way
+- Proximity: closer to the era of its Prophet, peace be upon him, and subject to his command
+- Ja'far's response: glory be to the great God, how tremendous is their affair in this
+
+Shared row: God admonishes them never to return to the like of it if they are believers. God has made His verses clear, and God is All-Knowing, All-Wise.
+
+Annotated structure. The henna case, and the analogy the letter uses to judge it.
+
+Whole: men imitating women of their households by dyeing their hands with henna, and some dyeing their hands and feet as well, learned and narrated from some callers in the mountain regions
+- Part 1, the status: not permissible by the law of the Prophet, peace be upon him and his family, nor by the religion of Islam
+- Part 2, the assignment: this practice was made for women and not for men, and it belongs to the adornments of women and in no case to men
+- Part 3, the analogy: a man who does this as adornment imitates them, like one who adorns himself with ornaments of silver or gold that belong only to women and chooses this for himself
+- Part 4, the judgment on the analogy: no one of sound mind would do so
+- Part 5, the remedy: beware of it, because it is among the acts of disobedience to God Almighty, and replace it with fear of Him, for they reach what they hope for only through that fear
+- Part 6, the promised outcome: the opposites of the Guiding Da'wah have already done what they were obligated to do, and He will not let them persist in that detestable deed, granting from that a whitening of faces on the Day when faces whiten and faces turn black
+
+Hierarchy. The scope the letter claims for the principle of not transgressing God's bounds.
+
+- Level 1: the rule. It is not permissible to act against God's will or transgress His command in what He has bounded
+  - Level 2: all matters, their branches and their roots
+  - Level 2: every tangible matter whose rational counterpart is knowable
+  - Level 2: every parable that is manifest with its inner meaning
+- Level 1: the consequence
+  - Level 2: whoever departs from the path in this has invalidated it and veered from the way
+  - Level 2: it is not permissible at all, as indicated by the guardians of God, peace be upon them, the guardians of their times, who warn
+- Level 1: the transgression clause
+  - Level 2: it is among the limits of God Almighty, the Arbitrator, blessed are His names
+  - Level 2: whoever transgresses the limits has wronged himself
+
+Comparison matrix. The answers preserved after the letter, on the girl who dies before seven.
+
+Rows: Maluka's question from the Island of Hind | Muhammad ibn Fahd al-Mukarrami's answer | the governing limit
+Columns: the case | the response
+
+- Maluka's question, answered by Ja'far: a girl below seven dies, is she circumcised as male children are when they had not been circumcised in life, or buried as she is | if there is a prescribed age for her circumcision, that limit may not be transgressed
+- Muhammad ibn Fahd al-Mukarrami: should a girl who dies before reaching seven be circumcised | no, according to the questioner, because she has not reached the age of circumcision
+- The governing limit: seven years for maidservants, from the purified Shari'ah books | not to be transgressed in either direction
+
+Annotated structure. The pattern of reversal the formal address lands on.
+
+Whole: one pattern, five inversions
+- Inversion 1: hastened what should not be hastened, the circumcision of girls
+- Inversion 2: delayed what should be hastened, the circumcision of male children
+- Inversion 3: publicized what should be private, the circumcision gathering
+- Inversion 4: permitted what should be forbidden, the shaving of women's heads and henna on men
+- Inversion 5: turned local bodily practices into rival law
+
+Reading: the letter's severity belongs to that pattern. Ja'far is not treating hair, henna, and circumcision as isolated etiquette. He treats them as signs that a community may still quote the Shari'ah while letting custom govern its body.
+
+## What this episode lands
+
+Comparison matrix. The two domains and the criteria each is judged by.
+
+Rows: foods | grooming
+Columns: judged by
+
+- Foods: process, contact, moisture, visible trace, lawful slaughter, disclosure, harm
+- Grooming: obligation, gendered adornment, bodily form, reliable textual basis, the difference between permitted beautification and forbidden alteration
+
+Annotated structure. The ordinary objects through which the chapter makes its claim.
+
+Whole: everyday purity as disciplined obedience in the ordinary places where habit feels strongest
+- A pot of broth: the threshold of removable traces
+- A market jar of oil: the process by which a substance arrived
+- A shared comb: an aversion with no reliable basis
+- A child's circumcision: timing and privacy
+- A woman's hair: gendered adornment as assigned form
+- A man's henna: adornment inverted
+- A garment touched by moisture: the medium that carries impurity
+
+Reading: each is a place where the community learns whether it will be ruled by evidence and authoritative guidance or by inherited impulse.
+
+Process flow. The forward motion from the earlier purity chapters.
+
+Start: earlier chapters teach what purification is
+  ↓
+This chapter: purity is applied to food, contact, grooming, adornment, and communal practice
+  ↓
+End: the listener sees how purity disciplines daily life, and why the book does not separate legal detail from communal formation

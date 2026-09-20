@@ -1,0 +1,115 @@
+{
+  "title": "30. A Shield Against the Fire",
+  "purpose": "It opens the Book of Fasting by compiling authoritative citations on the obligation, inner scope, nomenclature, and classification of fasts.",
+  "points": [
+    {
+      "text": "Mukhtasar al-Musannaf is cited as stating that fasting is a shield from the Fire covering the tongue, hearing, eyes and all limbs, so that it is not about food and drink alone: every limb has its portion, and whoever abandons part of it diminishes the merit of his fast proportionally.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Mukhtasar al-Musannaf"
+      ]
+    },
+    {
+      "text": "Per the same source, fasting Ramadan is obligatory on every Muslim, male and female, who is of age, sound of mind, healthy and resident, and there is no fasting for a hypocrite disobedient to God.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ramadan"
+      ]
+    },
+    {
+      "text": "The book al-Idah qualifies the rulings on fasting by sighting the crescent: they apply only to one absent from the presence of the Imam who does not know the measures of the crescents.",
+      "kind": "caveat",
+      "weight": 3,
+      "entities": [
+        "al-Idah",
+        "the Imam"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sulayman, in his epistle The Sharpest Sword in Nullifying Innovations addressed to the people of Yemen, rebukes them for failing to honor the month as God and His Messenger prescribed.",
+      "kind": "context",
+      "weight": 2,
+      "entities": [
+        "Jafar ibn Sulayman",
+        "The Sharpest Sword in Nullifying Innovations",
+        "Yemen"
+      ]
+    },
+    {
+      "text": "His specific charge is that the month must be named with the word 'month' placed before it, as in the Quranic 'shahr Ramadan', whereas the people say 'Ramadan' alone, which neither intellect nor guidance approves, since one does not address a beloved person without a title before his name.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "shahr Ramadan"
+      ]
+    },
+    {
+      "text": "He supports this by al-Qadi al-Numan's Mukhtasar al-Athar al-Sharif, reporting Imam al-Baqir Muhammad ibn Ali as saying: do not say 'Ramadan', but say as God said, 'the month of Ramadan'.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "al-Qadi al-Numan",
+        "Mukhtasar al-Athar al-Sharif",
+        "Imam al-Baqir"
+      ]
+    },
+    {
+      "text": "He argues that one who has heard this saying and still turns from it makes light of God, of His month, and of al-Baqir's word, and that one who transmits the book without acting on it falls under the Quranic censure 'why do you say what you do not do?'",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Quran 61:2-3"
+      ]
+    },
+    {
+      "text": "Tawil al-Shariah is cited as holding that fasting becomes obligatory upon a boy once he can distinguish his right hand from his left.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Tawil al-Shariah"
+      ]
+    },
+    {
+      "text": "The fourteenth Mustansiriyya majlis divides fasting into seven obligatory kinds: Ramadan yearly; two consecutive months for deliberately breaking a fast-day when no slave can be freed; two consecutive months for killing a believer by mistake plus blood money; two months for zihar expiation lacking a slave; three days for breaking an oath lacking feeding, clothing or freeing; ten days for tamattu pilgrimage lacking an offering; and the fast of a vow.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "Mustansiriyya majalis",
+        "zihar",
+        "tamattu"
+      ]
+    },
+    {
+      "text": "The same majlis lists twelve fasts of practice and commendation: itikaf, Shaban, the first Thursday, middle Wednesday and last Thursday of each month, the three white days, the fast of Dawud (alternate days, the most rigorous), Friday joined to Thursday or Saturday but never alone, Arafah for the non-pilgrim, the boy's fast at seven, recompense for game taken in the sacred state as ruled by the one entrusted, and the fast for shaving the head due to harm.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "itikaf",
+        "Shaban",
+        "Dawud",
+        "Arafah"
+      ]
+    },
+    {
+      "text": "Zaid ibn Muhammad's Concealed Epistle states that God imposed the fast of the month of Ramadan after prayer and zakat, commanding one month of twelve be fasted, and that this obligatory fast is thirty days.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Zaid ibn Muhammad",
+        "Concealed Epistle"
+      ]
+    },
+    {
+      "text": "Ali ibn Abi Talib in his Four Hundred Manners is quoted: fasting three days of every month and fasting Shaban drive away the whisperings of the breast and the disquiet of the heart.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "Ali ibn Abi Talib",
+        "Four Hundred Manners"
+      ]
+    }
+  ],
+  "fingerprint": "6ed793c421180f23"
+}

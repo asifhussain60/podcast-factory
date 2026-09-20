@@ -1,0 +1,139 @@
+{
+  "title": "18. The Shape of the Prayer Itself",
+  "purpose": "It assembles, from multiple Ismaili juridical and da'wa sources, the obligations, sunnahs, minimum valid form, and disciplinary rulings of the ritual prayer, together with a warning treatise against abandoning it.",
+  "points": [
+    {
+      "text": "A question-and-answer compilation arranged by the chapter order of Daaim al-Islam divides al-mufassal into long (al-Hujurat to al-Mujadila), middle (al-Mujadila to 'Amma yatasa'alun') and short (from 'Amma yatasa'alun' to al-Nas) portions, and explains that Ali's recitation of 'So be patient' against Ibn al-Kawwa was a rebuke to silence him, not the opening of a surah in prayer.",
+      "kind": "context",
+      "weight": 2,
+      "entities": [
+        "Daaim al-Islam",
+        "Ibn al-Kawwa",
+        "Ali",
+        "al-mufassal"
+      ]
+    },
+    {
+      "text": "The same source lists acts that break the covenant: abandoning prayer or any prescribed work without excuse, disbelieving a believer who has sworn by God after being accused, fornication, killing a believer, reviling the summoner or his appointee, and refusing without excuse the summoner's command to strive with person and wealth.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "covenant",
+        "the summoner"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Musannaf rules that if the intention for prayer slips away before one enters it — through preoccupation, forgetfulness or anything else — the prayer subsequently performed does not suffice, and that one may not recite inwardly what the tongue has not uttered.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Mukhtasar al-Musannaf",
+        "intention (niyya)"
+      ]
+    },
+    {
+      "text": "On the tashahhud, performing the first does not excuse one from the second, though the second does suffice in place of the first.",
+      "kind": "distinction",
+      "weight": 2,
+      "entities": [
+        "tashahhud"
+      ]
+    },
+    {
+      "text": "Al-Ikhtisar sets the minimum by which prayer is completed at five limits — opening takbir, standing for whoever is able, bowing, prostration, and sitting for the tashahhud — valid for one who forgets or does not know more, whereas one who knows the limits and deliberately omits an obligation or sunnah has no prayer and must repeat it, and the ignorant person is obliged to learn.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "al-Ikhtisar"
+      ]
+    },
+    {
+      "text": "Particular bodily rulings are given: a woman places her hands above her knees on her thighs so as not to raise her hindquarters, the seated worshipper folds the left leg beneath him and keeps the right upright, and tawajjuh comes after the takbirat al-ihram with recitation beginning after it.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Tawil al-Daaim",
+        "tawajjuh",
+        "takbirat al-ihram"
+      ]
+    },
+    {
+      "text": "Those behind the imam answer 'God has heard the one who praised Him' quietly with 'Our Lord, to You belongs all praise,' the sole exception being the appointed relayer who raises his voice with that and with the takbir but not with the tasbih.",
+      "kind": "distinction",
+      "weight": 2,
+      "entities": [
+        "Tawil al-Daaim",
+        "imam"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sulayman's epistle al-Sayf al-Aqta fi Ibtal al-Bida rebukes Yemeni adherents who profess walaya yet never prostrate, arguing from 'between the servant and unbelief is abandoning the prayer' and Ali's 'there is no portion in Islam for one who abandons the prayer' that no one may claim walaya to the friends of God except by holding fast to the hem of the prayer.",
+      "kind": "claim",
+      "weight": 4,
+      "entities": [
+        "Jafar ibn Sulayman",
+        "al-Sayf al-Aqta fi Ibtal al-Bida",
+        "walaya",
+        "Yemen"
+      ]
+    },
+    {
+      "text": "That epistle classifies neglecters of prayer into two kinds — those of tribal temper wholly absorbed in animal nature, and those of arrogance and coarse insolence, especially women — and notes that even unbelievers, including those of India, retain an inherited worship, so that such arrogance falls under the threat that those too proud to worship God enter Hell abased, worship benefiting only the worshipper since God has no need of it.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Iblis",
+        "India"
+      ]
+    },
+    {
+      "text": "Tawil al-Shariah numbers the obligations of prayer as seven — first takbir, recitation, bowing, prostration, tasbih, greeting, taslim — and forbids moving the foot, speaking, or shifting place from the opening takbir to the taslim, along with prophetic prohibitions on reciting while bowing, disturbing pebbles, turning like a fox, squatting like a monkey, pecking like a crow, and drooping the head below the level of the back.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Tawil al-Shariah"
+      ]
+    },
+    {
+      "text": "The Dai Zayd ibn Muhammad ibn al-Fadl gives a different seven obligations — intention, first takbir, standing, recitation, bowing, prostration, taslim — plus four limits of prayer (place, time, purity, intention), and interprets 'the one who abandons my sunnah is cursed' esoterically as abandoning the Prophet's legatee, adding that the outward prayer itself neither forbids nor commands.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "Zayd ibn Muhammad ibn al-Fadl",
+        "legatee (wasi)",
+        "sunnah"
+      ]
+    },
+    {
+      "text": "The Majalis al-Mustansiriyya enumerates seven obligatory prayers (residence, travel, Friday, fear, tawaf of Hajj, tawaf of Umrah, the bier) and twelve sunnah prayers, and in each of the five daily prayers seven obligations and twelve sunnahs, the twelfth being that a prayer lacking a first sitting has a qunut counted in its place while one with two tashahhud sittings has no qunut.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "Majalis al-Mustansiriyya",
+        "qunut"
+      ]
+    },
+    {
+      "text": "Ali's Four Hundred Etiquettes forbid clasping the hands while standing in imitation of the People of the Book, treat gross turning about as cutting off the prayer so that it must be begun again with adhan, iqama and takbir, and direct the solitary worshipper to make himself hear his recitation and to turn to his right when finishing.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Four Hundred Etiquettes",
+        "Ali"
+      ]
+    },
+    {
+      "text": "Answering Muhammad Ali ibn Salih al-Badri, head of the island of India, the master Hibat Allah rules that since no text of the friends of God forbids it, reciting al-Falaq and al-Nas in an obligatory prayer leaves the prayer complete — one who recited al-Nas first repeats it in the last rakah, one who recited al-Ikhlas first recites al-Falaq in the second — but one should not deliberately recite so, putting it in the position of the sunnah.",
+      "kind": "resolution",
+      "weight": 3,
+      "entities": [
+        "Hibat Allah",
+        "Muhammad Ali ibn Salih al-Badri",
+        "Surat al-Nas",
+        "Surat al-Falaq",
+        "Surat al-Ikhlas"
+      ]
+    }
+  ],
+  "fingerprint": "5331fde33d25bffa"
+}

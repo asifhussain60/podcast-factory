@@ -1,0 +1,164 @@
+{
+  "title": "10. Tooth-Stick, Dust, and the Purity of Food",
+  "purpose": "It compiles Ismaili juristic rulings — drawn from a question-and-answer collection arranged by the chapters of Daʿāʾim al-Islām, plus Mukhtaṣar al-Muṣannaf, Taʾwīl al-Daʿāʾim and other works — on the tooth-stick, dry purification (tayammum), and the ritual purity of food and drink.",
+  "points": [
+    {
+      "text": "The section's rulings are taken chiefly from a book of questions and answers that one of its compilers arranged according to the chapter order of Daʿāʾim al-Islām, supplemented by Sharḥ al-Akhbār, Taʾwīl al-Daʿāʾim, Mukhtaṣar al-Muṣannaf, al-Muntakhaba, and question-sets addressed to Yemeni masters.",
+      "kind": "context",
+      "weight": 3,
+      "entities": [
+        "Daʿāʾim al-Islām",
+        "Sharḥ al-Akhbār",
+        "Taʾwīl al-Daʿāʾim",
+        "Mukhtaṣar al-Muṣannaf",
+        "al-Muntakhaba"
+      ]
+    },
+    {
+      "text": "On the siwāk, the answer given is that the tooth-stick is the mainstay and there is no objection to the Indian custom of scraping the tongue afterward with split bamboo, though one should not pick the teeth with a knotted stalk of dried grass, and using the siwāk while in janāba (major ritual impurity) is disliked.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "siwāk",
+        "janāba",
+        "India"
+      ]
+    },
+    {
+      "text": "Two definitions of al-rayḥān are reported: Sharḥ al-Akhbār says it is every fragrant plant, with the myrtle (al-ās) singled out by that name; Taʾwīl al-Daʿāʾim says it means linguistically the tips of any sweet-scented plant when its blossom appears, and is a comprehensive name for fragrant plants, the myrtle being singled out as the most lasting and strongest.",
+      "kind": "definition",
+      "weight": 2,
+      "entities": [
+        "al-rayḥān",
+        "al-ās (myrtle)",
+        "Sharḥ al-Akhbār",
+        "Taʾwīl al-Daʿāʾim"
+      ]
+    },
+    {
+      "text": "ʿAlī ibn Abī Ṭālib is quoted from his four hundred points of etiquette as saying the siwāk pleases the Lord, sweetens the mouth, and belongs to the sunna.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "ʿAlī ibn Abī Ṭālib",
+        "siwāk",
+        "sunna"
+      ]
+    },
+    {
+      "text": "Tayammum is not permitted to a settled (non-traveling) person except for cause; it is licit for the traveler who is far from water, or who cannot perform ablution before the prayer time lapses, or for whom reaching the water would endanger his person or property.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Tayammum requires dust: on a smooth rock fixed in the ground one may perform it only if dust lies on it, and al-Muntakhaba directs one who finds no earth to beat out felts and garments and use that dust even if nothing is seen to fly up.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "al-Muntakhaba"
+      ]
+    },
+    {
+      "text": "A series of traveler's cases is resolved: tayammum suffices for both prayer and fast for one who forgot the ghusl; one who fears illness from ablution performs tayammum; the dead on a journey are given tayammum; prayer with tayammum is valid both in its time and as a make-up; a junub imam who performs tayammum leads only those who have likewise performed it; scarce water goes first to washing an impure garment; and a new convert who finds no water performs tayammum and prays.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "ghusl",
+        "janāba"
+      ]
+    },
+    {
+      "text": "Where a deceased person and a person in janāba compete for water enough for one washing, the junub washes himself and the deceased is given tayammum — a ruling repeated in both the question-collection and Mukhtaṣar al-Muṣannaf.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "tayammum",
+        "janāba",
+        "Mukhtaṣar al-Muṣannaf"
+      ]
+    },
+    {
+      "text": "Finding water breaks a tayammum performed for janāba and returns the man to that state, so he must repeat tayammum until enough water for the full washing is available; once he is pure from janāba, remaining water is used for ordinary ablution rather than tayammum.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "tayammum",
+        "janāba"
+      ]
+    },
+    {
+      "text": "Al-Nuʿmān's book of purity is cited for the case of a traveler with only a little water: he cleanses himself after relieving himself with stones or the like and then performs the ablution, since the absence of water is itself the cause, and no tayammum is called for.",
+      "kind": "evidence",
+      "weight": 2,
+      "entities": [
+        "al-Qāḍī al-Nuʿmān",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Tayammum is made valid by intention for oneself: of two men who prayed together, the prayer of the one taught the tayammum was valid while the teacher's prayer, who struck the earth only to instruct, was invalid because he formed no intention for himself.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "niyya (intention)"
+      ]
+    },
+    {
+      "text": "A woman who becomes pure from menstruation in Ramadan before sunset and fears harm from the full washing, and a man who has a nocturnal emission and fears illness from washing at night, may each perform tayammum and fast, and neither must make up that day; a traveler's wife who becomes pure and finds no water likewise performs tayammum, after which intercourse is lawful — and a Christian or Zoroastrian wife is to be taught the tayammum by her husband.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "tayammum",
+        "Ramadan",
+        "menstruation"
+      ]
+    },
+    {
+      "text": "On food, the governing principle is that any liquid in which an animal with flowing blood has died may not be eaten and may not be fed to animals lawful to eat, though soap may be made from it provided the buyer is told of its corruption and the washed garment is afterward rinsed with pure water; and the dung of any animal unlawful to eat is impure, so neem oil pressed from stones passed by crows may not be eaten, sold, or bought.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "neem (al-nīm)",
+        "soap",
+        "impurity"
+      ]
+    },
+    {
+      "text": "Small admixtures are tolerated — a little lime chewed with betel, or a little earth in drinking water — unless gross enough to harm the one who takes it.",
+      "kind": "caveat",
+      "weight": 2,
+      "entities": [
+        "betel",
+        "lime (al-nūra)"
+      ]
+    },
+    {
+      "text": "The food of unbelievers is treated by distinction: their slaughtered animals were forbidden only because they neither pronounce God's name nor turn the animal to the qibla, while their other foodstuffs are lawful in themselves and defiled only by their wet touch — so one must avoid their handiwork where an alternative exists, but in need nothing is forbidden except their slaughtered animals and their moisture.",
+      "kind": "distinction",
+      "weight": 4,
+      "entities": [
+        "People of the Book",
+        "qibla",
+        "ahl al-shirk"
+      ]
+    },
+    {
+      "text": "Corroborating positions are cited: Ḥusayn ibn Idrīs answering Shaykh Ḥasan ibn Nūḥ holds that slaughtered animals of the People of the Book may be eaten if a Muslim witnessed the qibla and God's name, and their other food is lawful by the text of the Qurʾān but impure if touched with their moisture; and the Yemeni masters answering Shaykh Ḥasan al-Hindī permit eating the cooking of a serving girl who is not careful about ritual purity.",
+      "kind": "evidence",
+      "weight": 3,
+      "entities": [
+        "Ḥasan ibn Nūḥ",
+        "Ḥusayn ibn Idrīs",
+        "Ḥasan al-Hindī",
+        "People of the Book"
+      ]
+    }
+  ],
+  "fingerprint": "2e9b96222493a960"
+}

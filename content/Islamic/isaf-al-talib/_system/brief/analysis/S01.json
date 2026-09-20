@@ -1,0 +1,129 @@
+{
+  "title": "1. The Eight Levels of Faith",
+  "purpose": "It opens the book with its dedication, authorship, occasion and title, then begins the doctrinal exposition by setting out the levels of faith, the seven obligations and twelve practices, and the distinction between faith and Islam.",
+  "points": [
+    {
+      "text": "The book is titled Isʿaf al-Talib fi Jamiʿ al-Matalib (The Student's Aid in All Demands), begun on 7 Rajab in the year 1051 of the Prophetic migration.",
+      "kind": "context",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Isʿaf al-Talib fi Jamiʿ al-Matalib",
+        "Rajab"
+      ]
+    },
+    {
+      "text": "The author wrote at the repeated request of a patron, to gather into one place what is scattered across the books of the saints and their callers — the paired and authoritative books, the brief abridgements on Sharia matters, and expansive treatments of juristic paths and legal opinions — so that these paths become easier to travel.",
+      "kind": "context",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Sharia"
+      ]
+    },
+    {
+      "text": "The work is situated in the Tayyibi Ismaili dawa, dedicated to the caller Jafar ibn Sulayman ibn al-Hasan ibn Yusuf ibn Sulayman and his successor the caller Muhammad ibn al-Fahd, in service to the Imam al-Tayyib.",
+      "kind": "context",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "Jafar ibn Sulayman",
+        "Muhammad ibn al-Fahd",
+        "Imam al-Tayyib",
+        "Tayyibi dawa"
+      ]
+    },
+    {
+      "text": "The author disclaims originality: whatever is correct in the book derives from the guardian of his favor and his successor, while every slip or error is his own shortcoming.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": []
+    },
+    {
+      "text": "Quoting some noble books, the author reports the teaching that faith has eight levels, the first of which is charity toward parents, relatives, orphans, the needy, the neighbor who is a relative, the neighbor nearby, the companion at one's side, the traveler, and those whom one's faith obligates one to care for — a list established in the Book of God.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Eight Levels of Faith",
+        "Quran"
+      ]
+    },
+    {
+      "text": "The same source asserts that whoever undertakes the worship of God and the call of the People of the House without knowledge and without action cannot bear the name of faith, and has no bond with God nor covenant or honor with His guardian, because he has departed from it.",
+      "kind": "claim",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Ahl al-Bayt",
+        "People of the House"
+      ]
+    },
+    {
+      "text": "The author announces that he will next distinguish faith (iman) from Islam, setting out what each encompasses and what lies beyond them.",
+      "kind": "distinction",
+      "weight": 4,
+      "depends_on": [],
+      "entities": [
+        "iman",
+        "Islam"
+      ]
+    },
+    {
+      "text": "Reporting from the fourth of the Mustansiriyya Councils (the Councils of Exposition and of Wisdom), the author states that the Imams of religion are seven, recurring in the world as the days of the week recur until the rising of the Qa'im, while the twelve proofs (hujjas) are spread throughout the world — and that this constitutes knowledge of the sum of the limits of the testimony.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "Mustansiriyya Councils",
+        "Imams",
+        "Qa'im",
+        "twelve hujjas"
+      ]
+    },
+    {
+      "text": "The author interprets that saying to mean the limits of testimony only, and holds that fulfilling the rights owed to those limits consists of seven obligations of religion — guardianship, purity, prayer, almsgiving, fasting, pilgrimage and struggle — corresponding to the seven Imams.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "walaya",
+        "tahara",
+        "salat",
+        "zakat",
+        "sawm",
+        "hajj",
+        "jihad"
+      ]
+    },
+    {
+      "text": "Corresponding to the twelve proofs are twelve incumbent practices: honoring parents, maintaining kinship ties, protecting the neighbor, enjoining good, forbidding wrong, truthfulness in one's home, good conduct with one's spouse, kindness to dependents, spreading the greeting of peace, feeding others, keeping the bond among the brethren, and visiting the sick.",
+      "kind": "framework",
+      "weight": 5,
+      "depends_on": [],
+      "entities": [
+        "twelve practices"
+      ]
+    },
+    {
+      "text": "The author states as a qualification that these twelve practices are not obligatory upon women.",
+      "kind": "caveat",
+      "weight": 2,
+      "depends_on": [],
+      "entities": []
+    },
+    {
+      "text": "The author cites 'Ali ibn Abi Talib's four hundred precepts to the effect that the Children of Israel divided into seventy-two sects and this community will divide into seventy-three, of which one is in the Garden and the rest in the Fire.",
+      "kind": "evidence",
+      "weight": 3,
+      "depends_on": [],
+      "entities": [
+        "'Ali ibn Abi Talib",
+        "Children of Israel",
+        "seventy-three sects"
+      ]
+    }
+  ],
+  "fingerprint": "60c4d4f71efc03da"
+}

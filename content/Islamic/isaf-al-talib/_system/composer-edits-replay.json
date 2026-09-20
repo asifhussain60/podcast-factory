@@ -1,0 +1,43 @@
+{
+  "schema": "podcast.composer-edits-replay/v1",
+  "applied": 7,
+  "conflicts": 0,
+  "orphaned": 0,
+  "chapters": [
+    {
+      "chapter_key": "the eight levels of faith",
+      "title": "## 1. The Eight Levels of Faith",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the grammar of peace",
+      "title": "## 3. The Grammar of Peace",
+      "conflict": false
+    },
+    {
+      "chapter_key": "skins, blood, and waiting periods",
+      "title": "## 12. Skins, Blood, and Waiting Periods",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the pillar of religion and its appointed hours",
+      "title": "## 13. The Pillar of Religion and Its Appointed Hours",
+      "conflict": false
+    },
+    {
+      "chapter_key": "the sickbed and the sound of mourning",
+      "title": "## 25. The Sickbed and the Sound of Mourning",
+      "conflict": false
+    },
+    {
+      "chapter_key": "gold, herds, and harvest",
+      "title": "## 28. Gold, Herds, and Harvest",
+      "conflict": false
+    },
+    {
+      "chapter_key": "a shield against the fire",
+      "title": "## 30. A Shield Against the Fire",
+      "conflict": false
+    }
+  ]
+}

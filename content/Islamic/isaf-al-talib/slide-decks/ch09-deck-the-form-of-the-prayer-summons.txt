@@ -1,0 +1,509 @@
+# The Form of the Prayer Summons
+
+## Where this episode picks up
+
+Annotated structure. The whole: one chapter shaped as a legal and theological closing argument, not as a survey of prayer etiquette.
+
+Whole: the disputed adhan phrase put on trial and answered in three movements.
+Parts, in the order the source takes them:
+- The remainder of the formal proof-letter, proofs four through eight. Position: the opening and widest band. Annotation: the ladder begun in the previous chapter is finished here rather than rebuilt.
+- The refusal of the equation between addition and omission. Position: the middle band, where the register changes from proof to comparative judgment. Annotation: the chapter stops proving the phrase true and starts proving the objection unequal.
+- The account of where the testimony to guardianship began. Position: the closing band. Annotation: origin treated as a theological question, not antiquarian bookkeeping.
+Reading: each movement answers a different objector. One doubts the evidence, one the fairness, one the lineage of the phrase itself.
+
+Genealogy chain. What the book has already taught flows into this chapter, which reopens none of it.
+
+guardianship → sacred rank → disciplined loyalty → affection as law → attentive prayer → sacred times → the summons → the adhan's witness → the opening of the Discussion Letter → the completion of the proof sequence
+
+Applied here, narrowed rather than re-taught:
+- Guardianship → whether one named wali may be heard in a public call.
+- Sacred rank → the single word "best" inside a ritual phrase.
+- The purification of the Ahl al-Bayt → doctrine turned into proof-text.
+- The Day of Ghadir → founding event turned into decisive public clarification.
+
+The phrase under trial, carried forward from the previous chapter and defended for the whole of this one:
+
+> Muhammad and Ali are the best of human beings, and their 'atrah are the finest of perfumes.
+> Attribution: the disputed addition to the call, as the letter states it.
+
+Process flow. The ladder of escapes, each closed by the next proof.
+
+Start: the objector concedes that Ali is near to the Prophet
+  ↓
+Escape 1: near, but not divinely authorized → closed by the Moses and Aaron pattern and the unchanging way of God
+  ↓
+Escape 2: authorized, but not best → closed by the verse of guardianship and the victorious party
+  ↓
+Escape 3: best in one sense only → closed by the best of all creation and the best community
+  ↓
+Escape 4: best, but the phrase is still an innovation → closed by chosen families and the rank of the final Messenger
+  ↓
+Escape 5: even so, adding is no better than omitting → closed in the second movement by the theory of unequal error
+  ↓
+Escape 6: the addition began with a late Fatimid ruler → closed in the third movement by Ali's own first testimony
+  ↓
+End: the phrase stands as compressed proof rather than as embellishment
+
+Contrast pair. Two ways of hearing the adhan, and why the chapter's effort makes sense only under the second.
+
+Column A: The adhan as a decorative threshold
+- What its wording carries: convenience, custom, local habit.
+- What a change to it costs: little, since the words precede the act that matters.
+- What the dispute looks like: a quarrel over liturgical phrasing.
+
+Column B: The adhan as first communal proclamation
+- What its wording carries: tawhid, prophecy, and wilaya, in that order.
+- What a change to it costs: the community is trained, before prayer, in a distorted or a corrected memory.
+- What the dispute looks like: a contest over what truth a summons must carry.
+
+Shared row: both agree the adhan gathers the people. They disagree over whether the gathering also instructs them.
+
+## The Remaining Proofs
+
+Contrast pair. The fourth proof, read as a pattern and its application, with the exception that guards the analogy.
+
+Column A: Moses and Aaron
+- The request: a minister from his own family, Aaron his brother.
+
+> Appoint for me a minister from my family, Aaron my brother; strengthen my back through him and let him share in my affair, so that we may glorify You much and remember You much.
+> Quran 20:29 to 20:34, as cited in the letter.
+
+- The stated purpose: to strengthen his back and share in his affair, so that God may be glorified and remembered abundantly.
+- The stated need: Aaron is more eloquent, sent as a helper to confirm him, because Moses fears being called a liar.
+
+> My brother Aaron is more eloquent than I in speech, so send him with me as a helper to confirm me, for I fear that they will call me a liar.
+> Quran 28:34, as cited in the letter.
+
+- The divine answer: God strengthens Moses' arm through his brother, grants authority to them both, and gives victory to them and to those who follow them.
+
+> We will strengthen your arm through your brother, and We will grant you both authority, and you and those who follow you shall be the victors.
+> Quran 28:35, as cited in the letter.
+
+Column B: Muhammad and Ali
+- The command on the Prophet: follow the guidance of those whom God has guided.
+
+> Those are the ones God has guided, so follow their guidance.
+> Quran 6:90, as cited in the letter.
+
+- The continuity of what is said to messengers: nothing is said to him except what was said to the messengers before him.
+
+> Nothing is said to you except what was said to the messengers before you.
+> Quran 41:43, as cited in the letter.
+
+- The ordained religion: what God enjoined upon Noah, revealed to the Prophet, and enjoined upon Abraham, Moses, and Jesus, namely to establish the religion and not be divided in it.
+
+> He has ordained for you of the religion what He enjoined upon Noah, and what We have revealed to you, and what We enjoined upon Abraham, Moses, and Jesus: establish the religion and do not be divided in it.
+> Quran 42:13, as cited in the letter.
+
+- The consequence the source draws: it is obligatory upon the Prophet to appoint Ali ibn Abi Talib as wali, minister, brother, the one through whom his strength is reinforced and his affairs are shared.
+- The sealing report, with its boundary:
+
+> You are to me as Aaron was to Moses, except that there is no prophet after me.
+> Attribution: the Prophet Muhammad, peace and blessings of God be upon him and his family, as cited in the letter.
+
+Shared row, the principle that turns one story into a rule:
+
+> No change is found in the way of God, and no alteration is found in the way of God.
+> Quran 33:62 and 35:43, as cited in the letter.
+
+Reading of the shared row: not that every prophetic story repeats in detail, but that appointment, support, and authoritative kinship are a stable manner of divine dealing. The community is not left to guess where the strengthening hand has been placed.
+
+Excluded row, stated so the analogy cannot overrun: prophethood. What survives the exception is brotherhood, ministry, support, partnership in the affair, and authority under the Prophet's mission. The argument is not that Ali is another prophet. It is that Ali occupies the place of the divinely appointed supporter once prophethood itself is excluded.
+
+Certification the letter attaches to the fourth proof:
+
+> Falsehood cannot come to it from before it or behind it.
+> Quran 41:42, as cited in the letter.
+
+> Indeed this Quran guides to what is most upright.
+> Quran 17:9, as cited in the letter.
+
+Reading: the dispute concerns whether evidence is decisive enough for ritual proclamation, so the letter certifies that Ali is among the best of human beings after the Prophet as one of the clear and unambiguous matters.
+
+Annotated structure. The verse of guardianship dissected into the parts the fifth proof leans on.
+
+Whole: a single Quranic sentence naming who may be taken as guardian.
+
+> Your guardian is only God and His Messenger and those who believe, those who establish prayer and give zakah while bowing in worship.
+> Quran 5:55, the verse of guardianship, as cited in the letter.
+
+Parts, with their annotations:
+- The word "only". Position: the restrictive hinge at the front. Annotation: the sentence closes the list before it opens it.
+- God, then His Messenger. Position: the two fixed terms. Annotation: the order of authority is set before any human is named.
+- The phrase "those who believe". Position: the third term, the disputed one. Annotation: a plural form carrying a specific referent.
+- The clause "while bowing in worship". Position: the qualifying clause at the end. Annotation: the descriptive marker by which the referent is identified rather than merely praised.
+
+Companion verse, supplying the outcome:
+
+> Whoever takes God and His Messenger and those who believe as guardians, then the party of God, they are the victors.
+> Quran 5:56, as cited in the letter.
+
+Reading: the named believers belong to the victorious party of God. They are people of virtue named by revelation, not by later reputation.
+
+Process flow. How the fifth proof closes from verse to ritual phrase.
+
+Start: the verse of guardianship names a third guardian beside God and His Messenger
+  ↓
+Supporting verse gathered:
+
+> The bounty is in the hand of God; He gives it to whomever He wills.
+> Quran 3:73, as cited in the letter.
+
+  ↓
+Claim: no human being was more deserving of that virtue than the family of the Messenger of God
+  ↓
+Recalled proofs, already taught in earlier chapters and used here as texts rather than as doctrines:
+
+> God only wishes to remove all impurity from you, O people of the household, and to purify you completely.
+> Quran 33:33, the purification verse, as recalled in the letter.
+
+> Peace be upon the family of Yasin.
+> Quran 37:130, as recalled in the letter.
+
+> You are the best community ever brought forth for humanity.
+> Quran 3:110, as recalled in the letter.
+
+  ↓
+Narrowing: the first and best of that family is the one whom the Prophet made his brother, wali, minister, and successor in his community
+  ↓
+Public confirmation during the Prophet's own lifetime, at Eid Ghadir:
+
+> Whoever I was his master, this Ali is his master. O God, support whoever supports him, oppose whoever opposes him, grant victory to whoever grants him victory, abandon whoever abandons him, and turn the truth with him wherever he turns.
+> Attribution: the Prophet Muhammad, at Eid Ghadir, as cited in the letter.
+
+  ↓
+End: Ali is wali after the Prophet as the verse specifies, and partner in guardianship over the believers, so he can be nothing other than the best of human beings after the Prophet
+
+Definition panel, because one word carries the weight. "Partner" is used in one sense and refused in two.
+- Affirmed: partnership in the authority God established through the Prophet's appointment, the authority of guardianship, guidance, and command over believers.
+- Refused: a rival prophet.
+- Refused: an equal origin of revelation.
+Reading: the fourth proof showed the brother-minister pattern; the fifth shows the guardianship verse and the victorious party. The claim is no longer only analogical, it is textual.
+
+Annotated structure. The sixth proof, shorter than the others and built from three linked terms.
+
+Whole: one inference joining righteousness, household, and excellence.
+
+> Those who believe and do righteous deeds, they are the best of all creation.
+> Quran 98:7, as cited in the letter.
+
+Parts, with their annotations:
+- Righteousness. Position: the broad outer term. Annotation: the verse could be heard as describing any believer who acts well.
+- The household. Position: the narrowing middle term. Annotation: the source reads the highest instance of the verse through the household purified and praised by revelation, restated through the best community.
+- Ali's rank within the household. Position: the innermost term. Annotation: known from the previous proofs, and it is what supplies the adhan's wording.
+Reading: the phrase about Muhammad, Ali, and the 'atrah appears, in the source's own logic, less like an addition than a condensation.
+
+## The Ladder of Eight Proofs
+
+Comparison matrix. The eight proofs of the letter, the first three completed in the previous chapter, the remainder completed here.
+
+Rows: the proofs. Columns: scriptural anchor | what it establishes | the escape it closes.
+- Proof 1, purification: Quran 33:33 | the household is not ordinary | the fear that kinship is merely social.
+- Proof 2, the family of Yasin: Quran 37:130 | blessing reaches them as a family | the fear that blessing is individual only.
+- Proof 3, the best community: Quran 3:110 | excellence-language is scriptural | the problem of ranking language itself.
+- Proof 4, the brother-minister: Moses and Aaron, the unchanging way of God, the report of the rank | a divinely strengthened supporter is expected beside a messenger | the claim that appointment was personal preference.
+- Proof 5, guardianship: the verse of guardianship, the victorious party, Eid Ghadir | Ali holds authority over believers after the Prophet | the claim that nearness carried no authority.
+- Proof 6, the best of creation: Quran 98:7 | the household are the best of the righteous | the claim that excellence was unlocated.
+- Proof 7, chosen families: Quran 3:33 to 3:34 | revelation itself prefers households | the claim that lineage carries no rank.
+- Proof 8, the Children of Israel: Quran 44:30 to 44:32 | preference in an era is a scriptural category | the claim that the final household cannot outrank earlier ones.
+
+The seventh proof, in the words the letter cites:
+
+> God chose Adam, Noah, the family of Abraham, and the family of 'Imran above all the worlds, descendants of one another, and God is All-Hearing, All-Knowing.
+> Quran 3:33 to 3:34, as cited in the letter.
+
+The eighth proof, in the words the letter cites:
+
+> We saved the Children of Israel from the humiliating torment of Pharaoh, and We chose them knowingly above the worlds.
+> Quran 44:30 to 44:32, as cited in the letter.
+
+Gloss the source attaches: "the worlds" here means humanity, and the Children of Israel were preferred in their era over all others.
+
+Hierarchy tree. The seventh and eighth proofs together, read as a structure of chosen nearness rather than a list of names.
+
+Level 1: God's choosing above all the worlds
+  Level 2: chosen individuals and lineages, descendants of one another
+    Level 3: Adam
+    Level 3: Noah
+    Level 3: the family of Abraham
+    Level 3: the family of 'Imran
+    Level 3: the Children of Israel, preferred in their era over all others
+  Level 2: the final and best Messenger, master of all messengers and prophets, the most honoured and best of them all
+    Level 3: his household, better than the family of every prophet and more honoured than them
+      Level 4: Ali, the best and most honoured of the Messenger's family
+
+Inference chain stated as the source states it, one step per line:
+
+the Messenger is better than Adam and Noah → his family is better than the family of Abraham and the family of 'Imran → Ali is the best of the Prophet's family → the adhan phrase has its authenticity and its proof testified to by revelation
+
+Closing of the sequence: praise of God, Lord of the worlds, and prayers upon Muhammad, master of the messengers, and upon his pure family until the Day of Judgment. The source calls the result the true judgment, attested by the verses cited here and by others not quoted.
+
+Visual metaphor. Why the proofs are cumulative rather than repetitive.
+
+Abstract relation: eight distinct pressures applied to one point of resistance.
+Metaphor: spokes converging on a single hub, each spoke entering from a different direction.
+Element assignments:
+- Hub: the disputed phrase, that Muhammad and Ali are the best of human beings and their 'atrah are the finest of perfumes.
+- Spoke, purification: the fear that the household is ordinary.
+- Spoke, the family of Yasin: the fear that blessing does not reach them as a family.
+- Spoke, the best community: the problem of excellence-language.
+- Spoke, Moses and Aaron: the need for a divinely strengthened brother.
+- Spoke, the verse of guardianship: authority over believers.
+- Spoke, the best of creation: the scale of rank.
+- Spoke, chosen families: the standing of households in revelation.
+- Spoke, the Children of Israel: preference across eras.
+Reading: not one proof repeated eight times, but eight pressures on the same resistance, each spoke load-bearing for a different objection.
+
+Landing of the first movement: the phrase is not a stray embellishment. It is the compressed sound of the whole ladder.
+
+## Unequal Errors
+
+Process flow. The objection as it arrives, opened with the basmala.
+
+Start: objectors described by the source as having fallen into delusion regarding the honorable school
+  ↓
+Premise 1: what Omar ibn al-Khattab omitted from the phrase "live on well" does not make the call to prayer unacceptable, because no such narration appears in their books
+  ↓
+Premise 2: if the omission was an exercise of ijtihad, even mistaken ijtihad, it is not ugly or wrong in the relevant sense
+  ↓
+Premise 3, the equation that matters: any addition to the adhan is equivalent to any omission from it
+  ↓
+Conclusion drawn by the objector: adding the testimony that Ali is the wali of God is likewise wrong
+  ↓
+The source's move: grant premise 2 for the sake of argument, refuse premise 3
+  ↓
+End: a theory of unequal ritual error, built on four reasons
+
+Named-axis 2x2. The central tension of the movement, with both axes named.
+
+Axes:
+- Horizontal: what the change does to the inherited summons, from removes a phrase on the left to adds a phrase on the right.
+- Vertical: what the change's content asserts, from diminishes or malforms a truth at the top to proclaims a truth at the bottom.
+
+Quadrants:
+- Top-left, removes and diminishes: the omission of "live on well" from the call. It deprives a vast community of a commanded sound and, in the source's reading, leaves the summons poorer than it was received.
+- Top-right, adds and diminishes: the sentence "prayer is better than sleep", attached to the morning call. It adds words while, in the source's hearing, praising prayer by placing it beside sleep and so lowering it.
+- Bottom-right, adds and proclaims: the testimony that Ali is the wali of God. Disputed by opponents as an addition, but on the source's own account it cancels nothing and names a revealed guardianship.
+- Bottom-left, removes and proclaims: empty by construction, and the emptiness is the argument. No removal from the summons can itself be an act of witness.
+
+Reading: the objector's equation collapses the horizontal axis and ignores the vertical one entirely. Once both axes are drawn, the three real cases occupy three different quadrants.
+
+Comparison matrix. The four reasons the source gives for refusing the equation.
+
+Rows: the four reasons. Columns: what it measures | the omission of "live on well" | the addition of the testimony to Ali.
+- Reason 1, scale: hearers affected relative to the followers of each change | as one to a hundred thousand or less, an enormous number deprived, widespread loss | introduces a disputed claim without erasing an inherited prophetic phrase.
+- Reason 2, duration: how long the change has governed | earlier by centuries, on the objector's own chronology misleading the community for more than four hundred years | not introduced until after the fourth century, the later and shorter-running of the two.
+- Reason 3, content: what the words assert | omits, and beyond the omission attaches a sentence the source calls objectionable | one alleged error only on the opponent's terms, and the source does not concede the content is false.
+- Reason 4, consistency: whether it was applied as universal law | attached only once, at the morning prayer, with no command to abrogate the Prophet's saying at the five prayer times | no parallel inconsistency alleged.
+
+Reading: a formal similarity, that both change the adhan, hides a difference in scale, duration, content, and legal seriousness. The source leaves aside further objectionable aspects for fear of excessive length.
+
+Timeline. The chronology, turned back on the objector who raised it.
+
+Relative order, with the periods the source is comparing marked:
+- Earliest: the Prophet's wording of the summons, received by the community.
+- Next: the omission attributed to Omar ibn al-Khattab, and the phrase attached at the morning prayer.
+- Then: the transmission of Qadi al-Nu'man from Ja'far al-Sadiq, predating the composition of the later collections.
+- Then: the composition of the books attributed to authenticity, Sahih al-Bukhari and the rest of the five.
+- Later: after the fourth century, the testimony to Ali named in the call, the change the objector calls late.
+Period bands: more than four hundred years of the earlier change governing the community, against the shorter span of the later one.
+Reading: the objector treats lateness as a mark against the addition but never earliness as a danger in the omission. If duration aggravates an error, it aggravates the earlier one more.
+
+Contrast pair. The two sentences, compared as sentences rather than as ritual events.
+
+Column A: the sentence "prayer is better than sleep"
+- Form: a comparison of two things.
+- The source's objection to the comparison: glory be to God, where is prayer and where is sleep, that one would liken them in virtue and inferiority.
+- The analogy the source supplies: like someone saying that this sword is better than wood, without knowing whether the result is praise or blame.
+- Errors carried, on the source's count: two, a ritual alteration and an unworthy comparison.
+- How it appears to the opponent: an innocent exhortation nobody would deny.
+
+Column B: the testimony that Ali is the wali of God
+- Form: a testimony to an office.
+- The source's account of its content: true, and grounded in the verse of guardianship and the declaration at Ghadir.
+- Errors carried, on the opponent's own count: one, addition to the adhan.
+- Errors carried, on the source's count: none.
+- How it appears to the opponent: a sectarian marker.
+
+Shared row: both are words placed into a public summons, and both teach whoever hears them. The equalizing formula collapses under the weight of what each one says.
+
+## The Archive and the Attribution
+
+Process flow. The attribution objection and the archive objection, answered in turn.
+
+Branch A: the addition is the invention of Imam al-Hakim bi Amr Allah
+  ↓
+Counter-evidence: the twelve Shi'a, despite differing from him in school of thought, use the phrase in the adhan
+  ↓
+Inference: a phrase shared by a community opposed to him on other matters cannot be reduced to his personal invention or to dynastic policy
+  ↓
+Verdict recorded by the source, and it is polemical rather than neutral history: the attribution is invalid, baseless, confusion and delusion
+  ↓
+Deferred: the real root of the phrase, answered in the final movement
+
+Reading of Branch A: origin is a theological question, because it decides whether the adhan carries an authorized testimony or a ruler's preference.
+
+Branch B: the omission cannot be attributed to Omar, because the narration does not appear in our books
+  ↓
+Answer, step 1: the books attributed to authenticity, Sahih al-Bukhari and the rest of the five, are themselves disputed by their own people in terms of soundness
+  ↓
+Answer, step 2: the source's scholars therefore have grounds to reject the hadiths contained in them and to deny them as evidence
+  ↓
+Answer, step 3: an earlier transmission exists, and its chain is the point
+
+Genealogy chain, supplying that transmission with direction:
+
+Ja'far al-Sadiq → Qadi al-Nu'man → the people of truth, the transmission predating the composition of the later collections
+
+Answer, step 4: their scholars were able to see it and debate against it, yet suppressed and erased it out of fear of appealing to the people of truth.
+End: absence from the opponent's archive is read not as innocence but as evidence of concealment. The question is epistemic, namely whose books get to control the proof. That is the source's response concerning the addition to the call to prayer.
+
+Annotated structure. What the second movement leaves standing, as a set of questions the objector's flat rule cannot ask.
+
+Whole: the moral anatomy of a ritual change.
+Parts, with their annotations:
+- What was removed, and what was added. Position: the two cuts at the top. Annotation: one act removes, the other witnesses.
+- Who was deprived. Position: beneath both. Annotation: scale is a moral fact, not a formality.
+- What the content means. Position: the centre. Annotation: one sentence compares prayer to sleep, the other names wilaya.
+- How long it governed. Position: the long axis under all parts. Annotation: duration multiplies whatever the change was.
+- By what archive transmission is measured. Position: the frame around the whole. Annotation: which canon settles the dispute is itself contested.
+Reading: formal alteration is not the whole moral question.
+
+## The First Testimony
+
+Process flow. The question of origin, answered.
+
+Start: if the testimony to guardianship is not a late invention of Imam al-Hakim bi Amr Allah, where does it come from
+  ↓
+The source's answer: the phrase of testimony to guardianship was uttered by Ali ibn Abi Talib for himself, when the matter of guardianship came to him after the Prophet
+  ↓
+Supporting form: self-testimony is not automatically illegitimate when the office testified to is divinely grounded
+  ↓
+Textual anchor, recalled from the fifth proof:
+
+> God and His Messenger are your guardians, and those who believe.
+> Quran 5:55, as recalled in the final movement.
+
+  ↓
+Recorded history: people differed regarding that revelation, some denying it
+  ↓
+The rule the source draws: denial does not cancel obligation, and they remain charged with the testimony revealed concerning the Father of Imams
+  ↓
+End: what began as Ali's testimony to the wilaya entrusted to him becomes the community's testimony whenever the summons names him as wali
+
+Hierarchy tree. Three self-testimonies, placed on ranked levels so that the analogy is not misread as equality.
+
+Level 1: God Almighty
+  Testimony: that there is no god but He.
+
+> God witnesses that there is no god but He.
+> Quran 3:18, the divine self-witness the source invokes.
+
+  Ground: His own oneness.
+  Level 2: the Prophet Muhammad
+    Testimony: for himself, regarding his prophecy and his message.
+    Ground: the mission given to him.
+    Level 3: Ali ibn Abi Talib
+      Testimony: concerning the guardianship that came to him after the Prophet.
+      Ground: divine appointment and revealed verse, not private self-praise.
+
+Stated explicitly, because the structure could be misread: the three testimonies share a form, not a rank. What the levels share is that the authority behind each testimony lies outside the one who speaks it, so testimony is not invalid merely because it is pronounced by the one whose office must be known.
+
+Contrast pair. Why the adhan, and not a treatise, is where this argument has to be settled.
+
+Column A: a private theological essay
+- Audience: whoever chooses to read it, once and by election.
+- What it trains: an opinion.
+- Effect of removing a line: the argument is shorter.
+
+Column B: the public summons
+- Audience: a whole town, including those who never chose to hear it, five times daily across generations.
+- What it trains: a community's hearing, before the prayer even begins.
+- Effect of removing a line: the memory itself is edited, and the editing is inherited.
+
+Shared row: both can carry truth. Only one carries it into the ear of someone who did not ask, which is why refusing a testimony trains the hearing just as placing one does.
+
+Quadrant map. The two moral postures the source divides hearers into, and the space between them.
+
+Space: how a hearer receives cumulative proof. Not measurable, so positions are relative rather than plotted on axes.
+- Left region, the seeker: finds sufficient guidance in what has been laid out, because the vessel is open.
+- Right region, the arrogant: has nothing but seduction, because the same evidence enters a vessel that returns it as something else.
+- Centre, the evidence itself: fixed, identical for both, and therefore not the variable.
+Reasoning for the positions: the difference lies not in the quantity of proof, which is equal on both sides, but in the condition of what receives it.
+
+> In this is sufficient guidance for the one who seeks it; as for the arrogant, they have nothing but seduction. Every vessel flows with what it contains.
+> Attribution: the source, closing the argument.
+
+> God guides whom He wills to a straight path.
+> Quran 2:213, closing the source's aphorism.
+
+Boundary note, so the image is not over-read: this is the final judgment on argument, not a new doctrine of inward purity. Inner water, bodily purity, and the moral discipline of belonging were taught in earlier chapters and are not reopened here.
+
+Annotated structure. The scribal colophon, compressed, because it is book-object provenance rather than teaching.
+
+Whole: a dated closing note in the hand of the writer.
+Parts, with their annotations:
+- The name: the pure and loyal Diaa Ali ibn Ibrahim al-Haydar Abadi. Annotation: the labour behind the manuscript is signed.
+- The three requests: that God forgive his sins, conceal the flaws in what he has written, and attribute whatever is right in it to the honorable loyalists. Annotation: authorship claimed only for the errors.
+- The date: the twenty-second of Jumada al-Awwal, 1306 AH. Annotation: the argument is anchored in a year.
+- The place: the town of Baruda, under the quiet call. Annotation: the argument is anchored in a street.
+Reading: a proof sequence, an inter-school polemic, and a dated act of copying converge on one question, namely what should remain audible. The grandeur of the argument meets the fragility of manuscript labour.
+
+## The Adhan as a School of Attention
+
+Annotated structure. The adhan as the chapter finally presents it.
+
+Whole: a school of attention, teaching before the prayer begins.
+Parts, with their annotations:
+- The sound itself. Position: the outer boundary. Annotation: repeated, public, embodied memory rather than private text.
+- What it proclaims. Position: the interior, in order. Annotation: tawhid, then prophecy, then wilaya.
+- What removing a phrase does. Position: the left edge. Annotation: it makes a truth silent, and silence is also instruction.
+- What adding a truthful phrase does. Position: the right edge. Annotation: it makes a guardianship audible where the community gathers.
+Reading: the summons is not only an invitation to worship. It is a public memory of where guidance and authority stand after the Prophet.
+
+Contrast pair. Two ritual sentences, judged by what each one teaches the ear.
+
+Column A: the sentence comparing prayer with sleep
+- What it appears to be: a harmless motivational line.
+- What it trains: a habit of ranking worship beside ordinary appetite.
+
+Column B: the testimony naming Ali as wali of God
+- What it appears to be, to the objector: an arbitrary sectarian addition.
+- What it trains: the memory of where guidance continues after the Prophet.
+
+Shared row: every ritual word teaches the community what to compare and what to remember. Neither sentence is neutral, which is why one phrase in the call is worth eight proofs.
+
+## What this episode lands
+
+Comparison matrix. The three linked insights the listener carries out.
+
+Rows: the insights. Columns: the claim | what carries it | what it rules out.
+- Insight 1, the phrase is proven: Muhammad, Ali, and the 'atrah are named on cumulative Quranic and prophetic grounds | eight proofs, the Moses and Aaron pattern, the verse of guardianship, Ghadir, chosen families | that the phrase rests on emotional loyalty.
+- Insight 2, error is not flat: ritual alteration is judged by content, scale, duration, and authority | the four reasons, the 2x2 of removal against proclamation, the chronology turned back on the objector | that every addition and every omission weigh the same.
+- Insight 3, the testimony is inherited: the witness to Ali's wilaya was first uttered by Ali himself, after the Prophet | the three ranked self-testimonies, the verse of guardianship, its use among communities outside the Fatimid school | that the phrase began as one late ruler's policy.
+
+Contrast pair. The boundary the chapter holds open to the end, which is also its answer to the original objection.
+
+Column A: Muhammad
+- Rank: master of the messengers, the most honoured and best of them all.
+- Source of the household's honour: him.
+- Office: prophethood, which ends with him.
+- Role in the final community: the one through whom guidance is received.
+
+Column B: Ali
+- Rank: the foremost member of that household after him.
+- Source of his excellence: his place within the household and his appointment.
+- Office: guardianship, which continues the Prophet's authority without becoming prophethood.
+- Role in the final community: the divinely appointed supporter and wali.
+
+Shared row: both are named in one phrase of the summons. The phrase is bold, and on the source's argument it is not confused.
+
+Process flow. The chapter's closing question, and the answer it settles on.
+
+Start: the adhan gathers the people to prayer
+  ↓
+Question: what truth is the community required to let that summons carry
+  ↓
+Answer: true testimony should not be made silent
+  ↓
+End: to resist the phrase is not to prefer a shorter call, it is to refuse the sound by which the community remembers where guidance continues after the Prophet

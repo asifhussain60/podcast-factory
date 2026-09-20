@@ -1,0 +1,56 @@
+slug: isaf-al-talib
+# Read directly off the source's own title page (2026-09-17), not a guess:
+# كتاب إسعاف الطالب في جميع المطالب — "Kitab Is'af al-Talib fi Jami'
+# al-Matalib" ("The Book of Aiding the Seeker in All Requests/Demands"),
+# Part One (الجزء الأول (أ)). The title page states it gathers Shar'i
+# (jurisprudential) matters, arranged following the order of Da'a'im
+# al-Islam — Qadi al-Nu'man's foundational Ismaili fiqh text.
+title: "Is'af al-Talib fi Jami' al-Matalib"
+# Sayyidna wa Mawlana Shams al-Kiyan, Hujjat Imam 'Asrihi wal-Zaman, Faidh
+# Ali bin Sayyidna Sulaiman — as named on the title page.
+author: "Faidh Ali bin Sayyidna Sulaiman (Shams al-Kiyan)"
+
+content_profile: islamic_scholarly
+
+# Primary source is the handwritten ARABIC scan; Urdu is consulted only to
+# fill gaps / resolve uncertain readings where the Arabic OCR is unclear —
+# see _source/SOURCES.md. Neither is English, so this is a translation, not
+# a re-voicing of an already-English source.
+source_language: ar
+
+# Translated FROM the Arabic original INTO English, adding nothing beyond
+# the source — mirrors content/Islamic/the-master-and-the-disciple (the
+# gold-standard reference, docs/standards/book-series-setup.md).
+deliverable_mode: translation_edition
+book_augmentation: none
+book_voice: faithful
+
+# The source's first page (2026-09-17) opens with the author's own doxology
+# in first person — "أحمده ... وأشهد أن محمدا عبده ورسوله" ("I praise Him
+# ... and I bear witness that Muhammad is His servant and messenger") —
+# then states he compiled Shar'i matters into this arrangement. Same shape
+# as content/Islamic/kitab-al-riyad's opening (docs/standards/
+# book-series-setup.md's worked example for this frame): the author's own
+# prayer, then first-person statement of method. -> first_person_author.
+narrative_frame: first_person_author
+
+enable_video: false
+video_style: none
+book_pipeline_v2: true
+
+# Chapters + read-aloud narration only — no NotebookLM two-host podcast
+# episodes for this book (Asif, 2026-09-17). Per-book override, added
+# specifically because this need was expected to recur: docs/standards/
+# book-series-setup.md, scripts/podcast/_content_profile.py::skip_podcast.
+# Unlike the content-type registry's skip_per_chapter (islamic_session,
+# audiobook — audio already exists, so OCR/phonetics are skipped too), this
+# book still runs Phase 0a OCR and 0c phonetics as normal; only the episode
+# loop is skipped.
+skip_podcast: true
+
+# No slide decks either (Asif, 2026-09-18) — after two overnight runs of
+# real content-quality findings (restatement, diagram-type discipline) that
+# kept needing more iteration than the per-chapter budget allowed, Asif
+# decided the deliverable for this book is chapters + read-aloud only.
+# `phases/post_chapter_driver.py` checks this flag before running Phase 11b.
+enable_slide_decks: false

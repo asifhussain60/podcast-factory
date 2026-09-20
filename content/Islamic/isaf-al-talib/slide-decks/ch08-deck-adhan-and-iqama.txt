@@ -1,0 +1,478 @@
+# Adhan and Iqama
+
+## Where this episode opens
+
+Annotated structure. The whole: one chapter that carries the book out of prayer itself and into the summons to prayer, holding practical law and public proclamation in the same frame.
+
+Whole: the call to prayer examined as office, as ritual act, and as proof.
+Parts, in the order the source takes them:
+- The mosque appointment and the legitimacy of its funds. Position: the opening panel, narrow. Annotation: the summons begins inside a moral economy.
+- The muezzin's posture, movement, orientation, purity, and intention. Position: beneath it. Annotation: the body of the one who calls is not indifferent to what he calls.
+- The adhan distinguished from the iqama, and the hearer bound by the summons. Position: the central band. Annotation: approach separated from entry.
+- The inward testimony to Ali and to the family of Muhammad. Position: a narrow seam splitting the central band. Annotation: allegiance made audible only to the self.
+- The commanded phrase, its history, and the encounter at Atfih. Position: the widest band. Annotation: the seam opened into public speech by authority.
+- The message On the Discussion, with its four scriptural proofs. Position: the closing band. Annotation: the phrase transferred from custom to revelation.
+Reading: not a polemic with law attached at the front, but a ritual order whose final question is what that order may say aloud.
+
+Genealogy chain. What the book has already taught flows into this chapter, which reopens none of it.
+
+faith and its levels → guardianship and knowledge → sacred ranks → disciplined loyalty → affection as law → bodily purity → major washing → tayammum → food and contact → menstruation and nifas → attentive prayer and sacred times → the adhan and the iqama
+
+Applied here, narrowed rather than re-taught:
+- Guardianship → narrowed to four words the hearer says within himself while the muezzin is still speaking.
+- Sacred ranks → narrowed to whether a single phrase may name Ali beside Muhammad in a public call.
+- Disciplined loyalty → narrowed to whether the muezzin may take his wage from a treasury that may be handled unjustly.
+- Prayer's measured times → narrowed to the micro-order inside one prayer's window, where the adhan is not yet permission to begin.
+
+Named-axis 2x2. The tension this chapter is built on, and the diagonal it travels.
+
+Axes:
+- Horizontal: what governs the utterance, from ritual law on the left to doctrinal proclamation on the right.
+- Vertical: where the utterance is heard, from public and audible to the whole town at the top, to inward and audible to no one at the bottom.
+
+Quadrants:
+- Top-left, law and public: the call itself. The muezzin faces the qibla at the tashahhud, the iqama is withheld from one not ritually pure, the call is not broken up for convenience. Placed here because every condition is one of validity and every word is heard by the street.
+- Top-right, proclamation and public: the added phrase naming Muhammad, Ali, and the 'atrah, commanded in the caliphate of Imam al-Hakim bi-Amr Allah. Placed here because it changes nothing about the prayer's validity and everything about what the town is told.
+- Bottom-left, law and inward: the intention formed before the obligatory prayer, and the intention to return held by the man who steps out for ablution. Placed here because these are legal conditions no witness can verify.
+- Bottom-right, proclamation and inward: the hearer's answer to the testimony, and his answer to the summons of prosperity. Placed here because the content is doctrine and the audience is the self alone.
+
+Reading: the chapter's motion runs from the bottom-right quadrant to the top-right. A testimony kept within the self becomes, by command of authority, a phrase the muezzin says on the roof.
+
+## The Summons
+
+Process flow. The mosque appointment, from offer to ruling, with the branch that decides it.
+
+Start: a man is offered office by the Sultan of al-Jur or his agents, as frontman for the mosque, as its muezzin, as its teacher, or in some similar service.
+  ↓
+The appointment arrives through obligation, or through a jizyah arrangement.
+  ↓
+Known fact entering the case: the one who holds the obligation takes from public funds whatever he sees fit, rather than only what belongs to him.
+  ↓
+Test 1, the source of the payment: does it come from the public treasury?
+  ↓
+Test 2, the authority behind the disbursement: is it distributed by the judgment of those appointed by God as guardians?
+  ↓
+Branch:
+  - Both tests pass: permissible. End state: lawful public support sustains the muezzin's service without blame.
+  - Either test fails: not permissible. End state: the office is compromised at its root, and the beauty of the task does not purify it.
+
+Reading: the flow tests the money, not the office.
+
+Hierarchy tree. Everything the source requires of the one who gives the call, sorted by where each requirement enters him.
+
+Level 1: The fitness of the muezzin
+  Level 2: Fitness of his support
+    Level 3: The funds come from the public treasury
+    Level 3: The funds are distributed by those appointed by God as guardians
+  Level 2: Fitness of his body
+    Level 3: He may give the call while walking or mounted
+    Level 3: At the time of the tashahhud he faces the qibla
+    Level 3: He may give the adhan without being in a state of ritual purity
+    Level 3: He may not give the iqama except in a state of ritual purity
+  Level 2: Fitness of his act
+    Level 3: He unites in what he has learned
+    Level 3: In books attributed to the Ahl al-Bayt, the call does not divide the highest of what is said while standing
+    Level 3: He faces the qibla and makes the intention
+
+Reading: the levels are not ranked by severity. Each names a different place where the call can be compromised, and none stands in for the others.
+
+Contrast pair. The adhan against the iqama, attribute by attribute. The requirement tightens as the worshipper moves closer to the obligatory act, and the purity line falls exactly here, which is where the source puts its first major legal teaching.
+
+Column A: The adhan
+- Ritual purity: permitted without it, in the book on the Interpretation of the Sharia.
+- Relation to the prayer: announcement and invitation.
+- Position in time: opens the field.
+- Which prayer it accompanies: the supererogatory prayer.
+- Legal force on its own: the obligatory prayer is not prayed when the adhan has merely been given.
+- Body: movement tolerated, walking or mounted, with orientation restored at the tashahhud.
+
+Column B: The iqama
+- Ritual purity: may not be given except by one who is ritually pure.
+- Relation to the prayer: establishment and permission.
+- Position in time: stands at the edge of the obligatory act.
+- Which prayer it accompanies: the obligatory prayer.
+- Legal force on its own: the obligatory prayer is prayed when the iqama has been performed.
+- Body: face the qibla and make the intention.
+
+Shared row: both are public sounds, both belong to the mosque's communal function, and neither is a private devotional chant.
+
+Timeline. The micro-order inside a single prayer's window, on one measured axis.
+
+Axis: the interval between the entry of the prayer's time and the start of the faridah.
+- Position 1: the adhan is given. The field opens; the obligation may not yet begin.
+- Position 2: the supererogatory prayer, accompanied by the adhan.
+- Position 3: the Sunnah, which precedes the obligation.
+- Position 4: the iqama is performed, by one ritually pure, facing the qibla, with the intention made.
+- Position 5: the obligatory prayer begins.
+Period bands: Approach, from position 1 to position 3 | Entry, from position 4 to position 5.
+Reading: the worshipper is not released into prayer at the first call. The band boundary falls at the iqama, and that boundary is the chapter's ritual argument in one mark.
+
+## The Summons, The Hearer's Answer
+
+Process flow. The hearer already inside the mosque when the call is given, and the branches the law allows him.
+
+Start: the muezzin gives the call; a man is already inside the mosque.
+  ↓
+Default: he should not leave until he has prayed.
+  ↓
+Branch, gated by necessity:
+  - No necessity: he stays, and prays with the congregation.
+  - Necessity requires him to leave, or ablution does:
+      ↓
+      Condition 1, intention: he intends to return.
+      Condition 2, effort: he endeavours to return in time.
+      Condition 3, awareness: he knows he will be aware of the prayer upon his return.
+      ↓
+      Branch on outcome:
+        - He returns in time. End state: he prays with the congregation.
+        - He strives and fails. End state: he may pray alone, or with another congregation in another mosque, and there is nothing wrong with that.
+
+Reading: the summons binds the body once heard, and the law does not convert a necessary departure into guilt. The flow's weight sits on the three conditions, not on the outcome.
+
+Visual metaphor. The outward call and the inward answer, made spatial.
+
+Abstract relation: a public proclamation and a private testimony running at once, meeting at appointed points.
+Metaphor: two parallel tracks on one page, the upper track sounding across the town, the lower track sounding only within the hearer.
+Element assignments:
+- Upper track, the muezzin, said twice:
+
+> "I bear witness that Muhammad is the Messenger of God"
+
+Attribution: the public call, Book of Abbreviated Rulings.
+
+- Lower track, the hearer, said to himself at that point:
+
+> "I bear witness that Ali is the guardian of God"
+
+Attribution: the inward answer, Book of Abbreviated Rulings.
+
+- Upper track, the muezzin, said twice:
+
+> "come to prosperity"
+
+Attribution: the public call, Book of Abbreviated Rulings.
+
+- Lower track, the hearer, said to himself at that point:
+
+> "The family of Muhammad are the best of human beings"
+
+Attribution: the inward answer, Book of Abbreviated Rulings.
+
+Reading: the tracks are not alternatives. The outward ear receives the testimony to the Messenger and the inward tongue answers with the guardianship of Ali, so the path to prosperity is never separated from the Prophet's household.
+
+Annotated structure. What the adhan admits the worshipper into.
+
+Whole: the ritual opening created by the summons.
+Parts, with their annotations:
+- The sound itself. Position: the outer edge. Annotation: administrative in appearance, structured proclamation in fact.
+- The access it grants. Position: the threshold line. Annotation: the summons creates an entry, not merely a notice.
+- The ordered space within. Position: the interior. Annotation: where truth, prayer, and belonging meet.
+
+> whoever is given access enters the paradise of the people of truth
+
+Attribution: the Prophet, peace and blessings of Allah be upon him, as preserved in this chapter.
+
+Reading: the saying prepares the rest of the chapter, because the question that follows it is what truth must be named when the community is called.
+
+## The Adhan's Witness
+
+Timeline. How the phrase entered the call, across the eras the source names.
+
+Axis: from prophetic declaration to commanded practice.
+- The Day of Ghadir: the Prophet proclaims the allegiance owed to himself and the guardianship of his guardian. Position: the root, the only event on the axis preceding the ritual question.
+- The caliphate of Mawlana Amir al-Mu'minin, Imam al-Hakim bi-Amr Allah, may Allah's prayers be upon him and his pure forebears: the muezzins add, after the testimony that Muhammad is the Messenger of God, the phrase of guardianship.
+- The same caliphate, second addition: the phrase naming Muhammad, Ali, and the 'atrah.
+- The day of the uproar near the mosque known as al-Qada'i: the people of Atfih split into two groups over the new words.
+- The close of the encounter: the preacher is convinced, Imam al-Hakim commands the adhan accordingly, and the da'i tells the preacher that no one will oppose him.
+Period bands: Root in prophetic declaration | Addition under authority | Public contest | Settled command.
+
+> I testify that our Mawlana Ali is the guardian of God.
+
+Attribution: the addition made by the muezzins, reported by Idris ibn Sayyidina Hassan in Uyun al-Akhbar, sixth section, on the call to prayer.
+
+> Muhammad and Ali are the best of human beings, and their 'atrah are the finest of perfumes.
+
+Attribution: the second addition, in the same source.
+
+Annotated structure. The disputed phrase dissected into its parts, each with what it claims.
+
+Whole: one sentence added to the call, defended for the remainder of the chapter.
+Parts, left to right as the phrase is said:
+- "Muhammad". Annotation: the Messenger of God, peace and blessings be upon him, whose glory is exalted to the highest degree. The part no objector contests.
+- "and Ali". Annotation: his brother and guardian, Ali ibn Abi Talib. The joint the whole dispute turns on.
+- "are the best of human beings". Annotation: a proclamation of rank and virtue, not a claim confusing prophetic offices.
+- "and their 'atrah". Annotation: not a socially noble family but Fatima al-Zahra, al-Hasan, al-Husayn, and the pure Imams whom God chose from among the descendants of His Messenger and made guides for His creation.
+- "are the finest of perfumes". Annotation: fragrance, nearness, purity, and guidance, rather than genealogy.
+Reading: each part narrows the one before it. Remove "'atrah" and two names are left; remove "best of human beings" and a greeting is left.
+
+Comparison matrix. The four supports the source places under the phrase before any narrated scene begins.
+
+Rows: the Day of Ghadir, the reply of Abdullah ibn Abbas, the line of al-Kumait, the hadith of the Book and the household
+Columns: what kind of support it is | what it supplies | what objection it meets
+
+- The Day of Ghadir, where the Prophet declared the allegiance owed to himself and the guardianship of his guardian: a public prophetic declaration | the legal and devotional root for a specific sound in the adhan | that the phrase is a late invention with no origin
+- The reply of Abdullah ibn Abbas, asked the meaning of "relatives": an exegetical answer | that they are Fatima, al-Hasan, and al-Husayn | that "relatives" might stretch to include Abu Bakr ibn Abi Quhafa, who may be Quraysh, yet is far from the lineage of Ali, Fatima, al-Hasan, and al-Husayn, peace be upon them
+- The line of al-Kumait on Bani Hashim, the kindred of the Prophet Muhammad, those toward whom he showed pleasure and displeasure: a poetic witness | that the kinship is a religious and authoritative nearness | that the household's claim is an empty genealogy
+- The hadith attributed to Hudhayfah ibn al-Yaman and others: a rigorously authenticated narration | that the Book and the household together keep the people from going astray | that refusal of the household is preference rather than danger
+
+> he leaves among the people what will keep them from going astray if they hold fast to it: the Book of Allah and the people of his household. They are like the Ark of Noah: whoever boards it is saved, and whoever remains behind is drowned.
+
+Attribution: the Prophet, peace and blessings of Allah be upon him, in a rigorously authenticated narration attributed to Hudhayfah ibn al-Yaman and others.
+
+Contrast pair. The objection about "best of human beings" against the source's linguistic answer.
+
+Column A: the objectors
+- Claim conceded: Muhammad is the best of human beings.
+- Claim refused: Ali cannot be described that way.
+- Reason given: prophets are found among humankind, and Adam, Noah, Abraham, Moses, and Jesus are among mankind.
+- Implied rule of language: a superlative must be absolute or it is false.
+- The source's verdict on the position: ignorance of the phrase's basis, and arrogance that circles back against itself.
+
+Column B: the source
+- Scriptural instance offered:
+
+> You were the best community brought forth for mankind
+
+Attribution: the Quran, chapter 3, verse 110.
+
+- Reason given: earlier communities contained prophets and saints, and the community of Muhammad can still be called the best community.
+- Implied rule of language: scripture itself uses excellence in a way that does not erase what came before.
+- Concession accepted, then turned: if the objectors call "best community" metaphorical or honorific because prophets existed before them, then the source says it will speak likewise.
+
+Shared row: neither side claims Ali is a prophet, and neither denies the prophets named. The dispute is over how the language of excellence functions, which is why the defense is linguistic, scriptural, and devotional at once.
+
+## The Adhan's Witness, The Encounter At Atfih
+
+Process flow. The encounter at Atfih, from uproar to conviction, with the rule Imam al-Hakim sets before he argues.
+
+Start: a great uproar is heard while Ali ibn al-Husayn al-Qari is with Imam al-Hakim bi-Amr Allah, the Commander of the Believers.
+  ↓
+The Imam sends a rider to learn what has happened. The rider returns: the people of Atfih have split into two groups.
+  ↓
+They are brought before him. Among them, one man has seized another tightly. The Imam commands that the man be released.
+  ↓
+Identification: "Who are you?" The answer: "I am the preacher with a good word." And the other: "The caller."
+  ↓
+The complaint: something has appeared in their land that they had never heard before, the phrase naming Muhammad, Ali, and the 'atrah in the adhan.
+  ↓
+The rule set before any proof, and the branch it creates: the Imam asks whether the preacher has read any hadith, and tells him to present a sound one.
+  - If it is sound, the Imam will accept it.
+  - If it is false, he will refute it until another is brought.
+  ↓
+The chain is recited: Ibn Khallad → Sajja ibn Suwaid → al-Ma'mun al-Abbasi → al-Rashid → al-Mahdi → al-Mansur → Abdullah ibn Abbas
+  ↓
+The report is heard in full, and the preacher affirms that the hadith is sound.
+  ↓
+Premise 2: the Prophet said of his sons that they are the true Imams whether they rise or sit, and their father is better than them. Acknowledged.
+  ↓
+Premise 3: al-Hasan and al-Husayn are the masters of the youth of Paradise. Accepted.
+  ↓
+Premise 4: the people of Paradise are young, with no old age among them. Accepted.
+  ↓
+Premise 5: Adam, Noah, Abraham, Moses, and Jesus will be in Paradise. Accepted.
+  ↓
+Conclusion: if al-Hasan and al-Husayn are masters of the youth of Paradise, and their father is better than them, then the best of human beings alongside the Prophet is Ali.
+  ↓
+End state:
+
+> Then I believed and I was convinced.
+
+Attribution: the preacher of Atfih, closing the encounter.
+
+Reading: every premise in the chain is one the objector supplied or accepted. The prophets he named as his objection are not denied their rank; they are placed inside Paradise, where the argument then works on them.
+
+Process flow. The lost children, as the narrated report inside the chain tells it.
+
+Start: Fatima al-Zahra comes to the Prophet with tears in her eyes, having lost al-Hasan and al-Husayn, fearing her heart will break from their loss.
+  ↓
+The Prophet raises his hands and prays.
+  ↓
+Gabriel descends and tells him not to be anxious. Allah sends greetings and announces where the two have gone: the courtyard of Bani al-Najjar, where they played and fell asleep.
+  ↓
+An angel has been sent to them, compassionate and tender, covering them with one wing and shielding them with the other.
+  ↓
+The Prophet goes with his family and companions, finds the two sleeping under the angel's protection, and carries them on his shoulder.
+  ↓
+Branch, at Abu Bakr's request to carry them:
+
+> Their mount is the finest of mounts, and the finest of riders are they.
+
+Attribution: the Messenger of Allah, peace and blessings be upon him, in the report recited before Imam al-Hakim.
+
+  ↓
+End state: he reaches a gathering of people in the mosque, the sight startles them, and he begins a public declaration of the two boys' excellence through every familial relation.
+
+Genealogy chain. The declaration in the mosque, relation by relation, as the Prophet names it.
+
+Chains, one per line, each ending at al-Hasan and al-Husayn:
+- Ali, the best of guardians → al-Hasan and al-Husayn, as father
+- Fatima, his daughter, the best of the women of the world → al-Hasan and al-Husayn, as mother
+- The Prophet of God → al-Hasan and al-Husayn, as grandfather
+- Khadija, the first to believe in Allah and His Messenger → al-Hasan and al-Husayn, as grandmother
+- Ja'far ibn Abi Talib → al-Hasan and al-Husayn, as uncle
+- Umm Hani bint Abi Talib → al-Hasan and al-Husayn, as aunt
+- Qasim, son of the Messenger of God → al-Hasan and al-Husayn, as paternal uncle
+- Zaynab, daughter of the Prophet → al-Hasan and al-Husayn, as paternal aunt
+
+Terminal node of the declaration: the Prophet prays that Allah knows that they, along with their father, mother, grandparents, uncles, aunts, Shi'a, and lovers, are in Paradise.
+
+Reading: the declaration is built as a question and answer for each relation in turn, which is why it renders as eight chains converging on one pair, not a family tree read downward.
+
+## The Discussion Letter
+
+Annotated structure. The message, dissected into the parts that give it its shape.
+
+Whole: a complete message addressed to Mawlana and father Muhammad ibn Fahd, may God be pleased with him, in Jerusalem, designated by the expression On the Discussion.
+Parts, in order, with their annotations:
+- The invocation. Position: the head of the document. Annotation: In the name of God, the Most Gracious, the Most Merciful, and I seek His help.
+- The praise. Position: directly beneath. Annotation: praise to God, Lord of all the worlds; blessings upon Muhammad al-Amin, upon his guardians, the most honourable of guardians, and upon his household, the righteous and the pure.
+- The frame. Position: the left margin, enclosing everything after it. Annotation: two jurists discussed, and both sets of words must be quoted so it may be known which stood upon the truth and which departed from it.
+- The stated purpose. Position: a band across the frame. Annotation: a lesson for those who reflect on whether the phrase may be said in the adhan, since some deny it is permissible, arguing it has not been transmitted in reports, while others hold that the holy book commands what it proclaims and that authority rests with those who command it.
+- The proof sequence. Position: the body, widest part of the document. Annotation: four proofs, the fourth still opening when the supplied source ends.
+Reading: a formal address with an invocational opening and a sustained proof sequence, which is why the chapter asks that it be heard whole rather than mined for lines.
+
+Process flow. The debate's movement, from the question to the point where the source slice ends.
+
+Start: one jurist asks the other how the people of his school can say in the call to prayer that Muhammad and Ali are the best of human beings, and their fragrance the finest of perfumes, adding that no other sect of Islam says this.
+  ↓
+First answer, from moral responsibility: whoever does good does so for himself, and whoever does wrong bears that himself; and no soul bears the burden of another. If the phrase is good, it is good for those who say it. If someone claims it blameworthy, the burden returns upon them alone.
+  ↓
+Branch, at the questioner's response:
+  - Accepted as sufficient: the exchange ends here, the phrase defended as harmless.
+  - Not accepted: the questioner grants the verses and presses for clearer proof. The respondent has only stated the claim and likened Ali to Muhammad. Muhammad's being best of human beings is already established, since he is master of all the messengers; Ali ibn Abi Talib, peace be upon him, is not established as sharing that distinction until clear evidence is given.
+  ↓
+The respondent shifts ground, from permissibility as personal responsibility to authority as scriptural truth, answering with illuminating proofs to the extent of his ability, while above all stands the All-Knowing.
+  ↓
+Proof 1, purification of the household.
+  ↓
+Proof 2, the family of Yasin.
+  ↓
+Proof 3, the best community.
+  ↓
+Proof 4, the Mosaic pattern of a divinely granted brother-minister, still opening.
+  ↓
+End state: the supplied source ends inside the fourth proof. The episode does not complete what the source has not supplied.
+
+Reading: the branch is the letter's hinge. The phrase stops being defended as harmless at the moment the questioner refuses the first answer, and from there it is defended as demanded.
+
+## The Discussion Letter, Four Scriptural Proofs
+
+Comparison matrix. The four proofs, compared across what each one does.
+
+Rows: purification, the family of Yasin, the best community, Moses and Aaron
+Columns: the verse | what it establishes of the household | the step that reaches Ali | what the respondent calls it
+
+- Purification, chapter 33, verse 33: a purity of the Ahl al-Bayt shared with the Prophet | Ali ibn Abi Talib is the best of the Ahl al-Bayt after him, his guardian, trustee, and successor in his community, so what is proven for the household is proven for him, making him the best of human beings alongside the Prophet and their fragrance the finest of perfumes | clear and unambiguous, from the glorious Quran, to which falsehood cannot come from before it or behind it
+- The family of Yasin, chapter 37, verses 130 to 131: the family of Yasin are the household of the Messenger of God, the virtuous ones, who receive divine peace and are named among those who do good | the Messenger is first and best of them and Ali is among them, so the foremost of that family must be among the best of human beings | a proof naming him from within the family's praised rank rather than setting him outside it
+- The best community, chapter 3, verse 110: the address belongs to the people of the household, positively affirmed as the best community brought forth for humanity | the foremost among them is Ali, according to the previous proofs, so it is further confirmed that he is the best of human beings after the Prophet and alongside him | clear and unambiguous from revelation
+- Moses and Aaron, chapter 20, verses 29 to 36, with chapter 28, verses 34 to 35: that God did not withhold from His Holy Book the request of His prophet Moses, and granted it | the relation of a brother who is minister, helper, confirmer, sharer in the affair, and a strengthening of authority | a pattern, opening toward the Prophet's own guided pattern of support, kinship, and authority
+
+> God only wishes to remove all impurity from you, O people of the household, and to purify you completely
+
+Attribution: the Quran, chapter 33, verse 33.
+
+> Peace be upon the family of Yasin; thus do We reward those who do good
+
+Attribution: the Quran, chapter 37, verses 130 to 131.
+
+> You are the best community ever brought forth for humanity: you enjoin what is right and forbid what is wrong and believe in God
+
+Attribution: the Quran, chapter 3, verse 110.
+
+Contrast pair. The Mosaic pattern set beside the prophetic one, which is what the fourth proof is reaching toward when the source slice ends.
+
+Column A: Moses and Aaron
+- The request:
+
+> Appoint for me a minister from my family, Aaron, my brother; strengthen my back through him and let him share in my affair, so that we may glorify You much and remember You much; indeed, You have ever been watching over us
+
+Attribution: the Quran, chapter 20, verses 29 to 35.
+
+- The answer:
+
+> Your request has been granted, O Moses
+
+Attribution: the Quran, chapter 20, verse 36.
+
+- The stated need:
+
+> My brother Aaron is more eloquent than I in speech, so send him with me as a helper to confirm me, for I fear that they will call me a liar
+
+Attribution: the Quran, chapter 28, verse 34.
+
+- The grant of authority:
+
+> We will strengthen your arm through your brother, and We will grant you both authority, so that they cannot reach you. With Our signs, you and those who follow you shall be the victors
+
+Attribution: the Quran, chapter 28, verse 35.
+
+- Offices named for the brother: minister, support, sharer in the affair, helper, confirmer, strengthener of authority.
+- Purpose named: that glorification and remembrance might be strengthened.
+
+Column B: Muhammad, through the verses the letter turns to next
+- The pattern of guidance:
+
+> Those are the ones God has guided, so follow their guidance
+
+Attribution: the Quran, chapter 6, verse 90.
+
+- The continuity of what is said to the messengers:
+
+> Nothing is said to you except what was said to the messengers before you
+
+Attribution: the Quran, chapter 41, verse 43.
+
+- The ordaining of religion:
+
+> He has ordained for you of religion...
+
+Attribution: the Quran, chapter 42, verse 13, where the supplied source ends.
+
+- Offices named for the brother: not stated in the supplied portion.
+- Purpose named: not stated in the supplied portion.
+
+Shared row: Aaron's relation to Moses is not incidental in either column, and the analogy is being built rather than asserted. The episode preserves the letter's argumentative movement only as far as this source chapter carries it.
+
+Hierarchy tree. The ranks the proof sequence is careful not to collapse, which is what keeps the phrase from being a confusion of offices.
+
+Level 1: Rank as the letter orders it
+  Level 2: Muhammad, master of all the messengers
+    Level 3: Established as best of human beings before any proof is offered, and never displaced by any of them
+  Level 2: The Ahl al-Bayt, purified by divine will, the family of Yasin, the best community
+    Level 3: Ali ibn Abi Talib, foremost of the household after the Prophet, his guardian, trustee, and successor in his community
+    Level 3: Fatima al-Zahra, al-Hasan, al-Husayn, and the pure Imams made guides for His creation
+  Level 2: The community addressed as best, enjoining right and forbidding wrong
+    Level 3: Those who hold fast to the Book and the household
+
+Reading: the sequence does not call Ali a prophet, and does not erase Muhammad's being master of the messengers. A purified and divinely praised rank, with Ali foremost within it, establishes the phrase in the sense the adhan intends.
+
+Quadrant map. The ground on which the phrase can be defended, and the move the respondent makes across it.
+
+Space: how the phrase is being justified, positioned qualitatively rather than on measured axes.
+- Left: denial. Not permissible under the laws of the true religion, because it has not been transmitted in reports. Placed left because it argues from absence.
+- Bottom: mere permissibility. If good it benefits those who say it, if blameworthy the burden is theirs alone. Placed low because it settles nothing about truth and only allocates responsibility.
+- Top: scriptural command. The holy book commands what the phrase proclaims. Placed at the top because it is the strongest ground the letter claims.
+- Right: authority. Those who command the phrase hold the right to command it. Placed right because it rests on office rather than on text.
+- Center, moving upward: the respondent, who begins at the bottom, is refused, and travels to the top through purification, the family of Yasin, the best community, and the Mosaic pattern.
+
+Reading: the questioner's refusal of the first answer forces the movement. Without it the phrase would have stayed defended as harmless rather than as demanded by the rank of the Prophet's household.
+
+## What this episode lands
+
+Visual metaphor. What the two calls are, once the chapter's law and its proofs are laid side by side.
+
+Abstract relation: a summons that is at once a legal instrument and a public witness.
+Metaphor: a doorway, drawn in outline, with the town on one side and the congregation on the other.
+Element assignments:
+- Outside the doorway: the town, the mosque office, the public treasury, the appointed authority, the muezzin walking or mounted.
+- The call across the threshold: the adhan, announcing and inviting, carrying since the caliphate of Imam al-Hakim the names of Muhammad, Ali, and the 'atrah.
+- The frame of the doorway: purity for the iqama, the face turned to the qibla, the intention made, the hearer bound not to leave without necessity.
+- The threshold mark itself: the iqama, which establishes and permits.
+- Inside: the obligatory prayer, and the ordered space where truth, prayer, and belonging meet.
+Reading: the threshold is not background noise before the real act. It is a structured public witness governed by authority, purity, timing, and proof.
+
+Genealogy chain. Where this chapter hands forward.
+
+the adhan and the iqama → the form of the prayer summons, its wording and its performance
+
+Reading: this chapter settles who may call, under what conditions, and what the call is permitted to bear. What it has not yet set out is the shape of the words themselves, which is where the book goes next.

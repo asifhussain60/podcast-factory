@@ -22,11 +22,16 @@ SPAN2 = "⟪ar:وَابْنِ السَّبِيلِ⟫"
 TEXT = f"Know that {SPAN1} whatever you take as spoils, and the wayfarer {SPAN2} has a share."
 
 
-def test_spans_become_tokens_and_come_back_letter_for_letter():
+def test_spans_become_tokens_and_come_back_as_plain_arabic_never_the_marker():
+    """cd9b1398 (isaf-al-talib): restoring the ⟪ar:…⟫ wrapper printed raw marker syntax into the book. The table now
+    holds only the Arabic, so the restored text is the source with each marker replaced by its script."""
     p = ph.ArabicPlaceholders()
     protected = p.protect(TEXT)
     assert "وَاعْلَمُوا" not in protected and "[[AR1]]" in protected and "[[AR2]]" in protected
-    assert p.restore(protected) == TEXT
+    restored = p.restore(protected)
+    assert "⟪" not in restored and "⟫" not in restored
+    assert restored == TEXT.replace("⟪ar:", "").replace("⟫", "")
+    assert p.table == {"[[AR1]]": "وَاعْلَمُوا أَنَّمَا", "[[AR2]]": "وَابْنِ السَّبِيلِ"}
 
 
 def test_the_model_is_told_to_keep_every_token_only_when_there_are_tokens():

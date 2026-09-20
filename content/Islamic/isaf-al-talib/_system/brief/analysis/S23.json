@@ -1,0 +1,144 @@
+{
+  "title": "23. Children, Travelers, and the Sick",
+  "purpose": "It compiles the rulings governing prayer in exceptional states — the child being trained to pray, the traveler, and the sick — chiefly through questions from Indian shaykhs answered by the Yemeni duat.",
+  "points": [
+    {
+      "text": "Amir al-Muminin Ali ibn Abi Talib is reported as instructing that boys be taught the prayer and held to it when they reach eight years, and more generally taught what God will benefit the parents by.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Ali ibn Abi Talib"
+      ]
+    },
+    {
+      "text": "Ibrahim ibn Husayn al-Hamidi reports in Ibarat al-Bishara a saying of Amir al-Muminin that the boy sheds milk teeth at seven, reaches maturity at fourteen, completes his stature at twenty-one, and completes his intellect at twenty-eight.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Ibrahim ibn Husayn al-Hamidi",
+        "Ibarat al-Bishara"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Athar directs that children be separated in their sleeping places at that stage, as a precaution since they have drawn near to maturity and the stirring of desire.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Athar"
+      ]
+    },
+    {
+      "text": "The governing rule for the traveler is that he shortens the prayer and breaks the fast from leaving his dwelling until he returns to it, but he prays and fasts in full if he stops for five prayer times with his wife or with a resident blood relative (kin of lineage), while relatives by marriage and by nursing do not produce this effect.",
+      "kind": "framework",
+      "weight": 4,
+      "entities": [
+        "traveler",
+        "mahram",
+        "kin of lineage"
+      ]
+    },
+    {
+      "text": "A distinction is drawn between the two grounds for praying in full: stopping five prayer times with blood kin or a resident wife, and forming the intention to reside ten days, the latter being the stipulated limit of residence.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "ten days",
+        "five prayer times"
+      ]
+    },
+    {
+      "text": "Idris ibn Hasan answers that residence-intention governs: one prays in full while the intention of residence remains and shortens from the moment he resolves on travel; an intention to return to the first lodging carries over to a nearby lodging, otherwise a fresh ten-day intention is required.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Idris ibn Hasan"
+      ]
+    },
+    {
+      "text": "Distances are defined: the barid is four farsakhs, the farsakh three miles, and the mile three thousand cubits, being a thousand even paces of a single leg.",
+      "kind": "definition",
+      "weight": 3,
+      "entities": [
+        "barid",
+        "farsakh",
+        "mile"
+      ]
+    },
+    {
+      "text": "Whoever enters Mecca prays in full without shortening, on the basis of the Quranic words that the resident and the visitor stand equal, though Ismail ibn Sayyidina Hiba held that the full prayer applies only within the sanctuary of the House of God and that in Mecca itself the prayer is shortened.",
+      "kind": "distinction",
+      "weight": 3,
+      "entities": [
+        "Mecca",
+        "Ismail ibn Sayyidina Hiba",
+        "Sacred Mosque"
+      ]
+    },
+    {
+      "text": "Six categories are reported from Amir al-Muminin as not shortening prayer or fast despite travel: collectors on circuit, merchants moving market to market, princes circuiting their emirate, hunters, shepherds seeking rain-fed pasture, and warriors who cut the road — and Idris extends this to shaykhs touring villages to visit believers, likening them to the prince.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Uns al-Afida al-Muniba",
+        "Idris",
+        "Abdullah ibn Nuh"
+      ]
+    },
+    {
+      "text": "A traveler may lead residents when he is the more excellent, saluting after two rakahs while they rise to complete, and a traveler following a resident imam may either withdraw after two rakahs or wait for the imam's salutation — though Muhammad ibn Fahd restricts the traveler-as-imam dispensation to the people of the high ranks.",
+      "kind": "claim",
+      "weight": 3,
+      "entities": [
+        "Muhammad ibn Fahd",
+        "Lahibat Sabil al-Huda li-l-Muhtadin"
+      ]
+    },
+    {
+      "text": "Muhammad ibn Fahd reports that one who has performed tayammum may lead those who performed ablution only among the people of the high ranks, citing the Dai Jafar ibn Sulayman, who at Haraz performed tayammum unseen and led the congregation, then explained the dispensation as granted for weighty matters serving the guiding dawa.",
+      "kind": "anecdote",
+      "weight": 3,
+      "entities": [
+        "Jafar ibn Sayyidina Sulayman",
+        "Haraz",
+        "Tayba",
+        "tayammum"
+      ]
+    },
+    {
+      "text": "Jafar ibn Sayyidina Sulayman answers in Ghurufat al-Jinan that an imam with only a shortening follower behind him need not raise the takbir aloud once that follower has withdrawn, since raising the voice exists for the follower.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Ghurufat al-Jinan",
+        "Ali ibn Sulayman"
+      ]
+    },
+    {
+      "text": "Jafar ibn Mansur al-Yaman states in Kitab al-Rida al-Batin that shortening applies to three four-rakah prayers — the first, afternoon, and late evening — reducing twelve rakahs by six.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Jafar ibn Mansur al-Yaman",
+        "Kitab al-Rida al-Batin"
+      ]
+    },
+    {
+      "text": "The sick man prays seated or cross-legged with bowing and prostration; if unable to gesture with his head he gestures with his eyes, and failing that with his heart, and he need only make up the obligatory prayer, the sunnah and supererogatory being meritorious but not obligatory to make up.",
+      "kind": "framework",
+      "weight": 3,
+      "entities": [
+        "Kitab al-Tahara",
+        "Mukhtasar al-Athar"
+      ]
+    },
+    {
+      "text": "Mukhtasar al-Musannaf rules that one who loses his reason through a medicine or any act of his own must repeat the prayers missed in that state, regardless of whether the act was obedience or disobedience.",
+      "kind": "claim",
+      "weight": 2,
+      "entities": [
+        "Mukhtasar al-Musannaf"
+      ]
+    }
+  ],
+  "fingerprint": "6c131deed52e8dbc"
+}
