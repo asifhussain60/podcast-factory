@@ -15,7 +15,7 @@ Through Him I seek help, upon Him I rely, and He is sufficient for me.
 > وَبِهِ نَسْتَعِينُ وَعَلَيْهِ أَتَوَكَّلُ وَهُوَ حَسْبِي وَكَفَى
 > وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ وَأُفَوِّضُ أَمْرِي إِلَى اللَّهِ إِنَّ اللَّهَ بَصِيرٌ بِالْعِبَادِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ الْعَلِيِّ الْعَظِيمِ
 
-Praise belongs to God — who fulfills the hope of every seeker of truth, guidance, and certainty; who makes the features of religion clear to those He has guided; who has made His saints into ladders of salvation for all who aspire to climb toward true life. I praise Him and bear witness that there is no god but He, before whose greatness all creation stands humbled. And I bear witness that Muhammad is His servant and His messenger, sent with the finest of laws and creeds, whose noble character encompassed every means by which innovations are expelled.
+Praise belongs to God — who fulfills the hope of every seeker of truth, guidance, and certainty; who makes the features of religion clear to those He has guided; who has made His saints into ladders of salvation for all who aspire to climb toward true life. I praise Him and bear witness that there is no god but He, before whose greatness all creation stands humbled. And I bear witness that Muhammad is His servant and His messenger, sent with the finest of laws and creeds, whose noble ordinances held wonders of every kind.
 
 I send blessings upon his brother, his appointed guardian, and the Commander of the Faithful, 'Ali (عَلَيْهِ السَّلَامُ) — who descends from the line of the sacrifice, Ismail ibn Ibrahim al-Khalil — and who, through his interpretation, dispels the doubts that gather over the outward revelation.
 
@@ -61,7 +61,7 @@ The first of those levels is named in these words:
 
 > أَوَّلُهَا الْإِحْسَانُ بِالْوَالِدَيْنِ ، وَبِذِي الْقُرْبَى ، وَالْيَتَامَى ، وَالْمَسَاكِينِ ، وَالْجَارِ ذِي الْقُرْبَى ، وَالْجَارِ الْجُنُبِ ، وَالصَّاحِبِ ذِي الْجَنْبِ ، وَابْنِ السَّبِيلِ وَمَا مَلَكَتْ أَيْمَانُكُمْ
 >
-> "The first of them is charity toward parents, toward relatives, toward orphans and toward the needy, toward the neighbor who is a relative and the neighbor who is nearby, toward the companion at one's side, toward the traveler, and toward those whom your faith obligates you to care for."
+> "The first of them is charity toward parents, toward relatives, toward orphans and toward the needy, toward the neighbor who is a relative and the neighbor who is a stranger, toward the companion at one's side, toward the traveler, and toward those whom your right hands possess."
 
 This is established in the Book of God, the Exalted.
 
@@ -696,17 +696,17 @@ The answer:
 
 > هَذَا فِي كِتَابِ الْحَقِيقَةِ لَا يَنْظُرُ الْإِنْسَانُ اِلَّا بِأِذْنِ مَنْ أَطْلَقَ لَهُ ذَلِكَ وَأَمَّا فِي غَيْرِهَا فَأَدَبٌ وَلَيْسَ بِلَازِمٍ
 
-This concerns the book of inner truth — أُطْلِقَ الْإِنْسَانُ — into which no one may look except by the permission of the one who granted him access to it. For all other books, the matter rests on good manners alone and carries no binding obligation.
+This concerns the book of inner truth: a person may look into it only with the permission of the one who authorised him to. For all other books, the matter rests on good manners alone and carries no binding obligation.
 
 And it is said in it:
 
-The question: What do you say, O comfort of our eyes, about a man who borrows the Quran or another book from someone and finds in it damage and disorder? Is it permitted for him — or for anyone الا who notices this — to cut away the disorder and set it right without the owner's permission, or not?
+The question: What do you say, O comfort of our eyes, about a man who borrows the Quran or another book from someone and finds in it damage and disorder? Is it permitted for him — or for anyone who notices this — to cut away the disorder and set it right without the owner's permission, or not?
 
 The answer:
 
 > لَا بَأْسَ بِأَنْ يُصْلِحَهُ وَلَيْسَ لَهُ لَازِمٌ
 
-There is no بأس in his correcting it, and it is not لازم upon him.
+There is no harm in his correcting it, and it is not obligatory upon him.
 
 And it is said in it.
 
@@ -859,7 +859,7 @@ We say that the greater purity (اَلطَّهَارَةُ الْكُبْرَى)
 The practices are:
 
 1. The washing of Friday
-2. The washing for the festival of الْفِطْر
+2. The washing for the festival of al-Fitr
 3. The washing for the festival of al-Adha
 4. The washing for ihram
 5. The washing for entering the Haram
@@ -1055,6 +1055,8 @@ It is mentioned in the Muayyadi Sessions: washing with rainwater at the time of 
 Our master the Qadi al-Numan ibn Muhammad, may God exalt his sanctity, said in Kitab al-Idah, in the section on the description of washing the hands, that he had mentioned what was related from Abu Abdillah Jafar ibn Muhammad (ع), who said:
 
 > وَلَا يَنْبَغِي أَنْ تَمْسَحَ ذِرَاعَيْكَ اِلَّا مِنَ الْمِرْفَقِ إِلَى فَوْقُ وَامْسَحْهُ مَسْحًا فَإِذَا كَانَ يَلْزَمُ فِي الْيَدَيْنِ عَلَى قِلَّةِ شَعَرِهِمَا فَهُوَ فِي الرَّأْسِ اَلْزَمُ
+>
+> "You should not wipe your forearms except from the elbow upward, and wipe it thoroughly. If this is required of the hands, despite how little hair they have, it is all the more required of the head."
 
 It has likewise come down that when a person performing the wudhu interrupts it, he builds upon what he has done, so long as the water has not dried from the limbs he has already washed.
 
@@ -2050,7 +2052,7 @@ He said in it: The obligatory elements of prayer are seven:
 4. the prostration
 5. the glorification
 6. the tashahhud
-7. the sealing
+7. the concluding salutation
 
 He said in it: Prayer is not permitted except in its time. He said in it: The Fajr prayer is performed in the last darkness of the night. He said in it: The Maghrib prayer is at the falling of the disc. He said in it: The Prophet said:
 
@@ -2194,7 +2196,7 @@ That was a declaration of loyalty to the Messenger and of the guardianship of hi
 
 Muhammad and Ali are the best of humankind, and their kindred are the best of kindred.
 
-This made plain the excellence of the Messenger of God, in whose glory they took pride, and who was raised from majesty to the highest of his rank. None was nearer to him than his brother and legatee Ali ibn Abi Talib, his daughter Fatima al-Zahra, his two grandsons al-Hasan and al-Husayn, and the pure Imams whom He chose from the progeny of His Messenger and made guides for His creation along the open road of His path. When Abdullah ibn Abbas was asked who the near kindred are, he said: Ali, and Fatima, and al-Hasan, and al-Husayn. For all his excellence, his learning, and his kinship, Abdullah ibn Abbas claimed it for no one else. The kindred of a man are his nearest folk; yet they relate from Abu Bakr ibn Abi Quhafa that he said:
+This made plain the excellence of the Messenger of God, in whose glory they took pride, and who was raised from majesty to the highest of his rank. None was nearer to him than his brother and legatee Ali ibn Abi Talib, his daughter Fatima al-Zahra, his two grandsons al-Hasan and al-Husayn, and the pure Imams whom He chose from the progeny of His Messenger and made guides for His creation along the open road of His path. When Abdullah ibn Abbas was asked who the near kindred are, he said: Ali, and Fatima, and al-Hasan, and al-Husayn. For all his excellence, his learning, and his kinship, Abdullah ibn Abbas did not claim it for himself. The kindred of a man are his nearest folk; yet they relate from Abu Bakr ibn Abi Quhafa that he said:
 
 > نَحْنُ عِتْرَةُ رَسُولِ اللهِ
 
@@ -2397,7 +2399,7 @@ This being so, it is sound and firmly established — established again and beyo
 
 Indeed, this Quran guides to that which is most upright.
 
-And by the force of the Prophet's words already cited, it is established that Ali, the Commander of the Believers, stands among the best of human beings after the Messenger — for God linked him to the Messenger in both task and authority. This is among the clearest and most self-evident of matters, admitting no ambiguity, for it rests on the word of the glorious القرآن, to which falsehood cannot come from before it or from behind it: a revelation from One who is Wise, Praiseworthy.
+And by the force of the Prophet's words already cited, it is established that Ali, the Commander of the Believers, stands among the best of human beings after the Messenger — for God linked him to the Messenger in both task and authority. This is among the clearest and most self-evident of matters, admitting no ambiguity, for it rests on the word of the glorious Quran, to which falsehood cannot come from before it or from behind it: a revelation from One who is Wise, Praiseworthy.
 
 **5. The fifth proof.** We say, by the help and enabling grace of God, exalted is He, that the word of God, mighty and majestic, in His noble Book is:
 
@@ -2633,7 +2635,7 @@ Our lord, the Commander of the Believers, Ali ibn Abi Talib (ع), said in his fo
 
 > الْجُلُوسُ فِي الْمَسْجِدِ بَعْدَ طُلُوعِ الْفَجْرِ إِلَىٰ طُلُوعِ الشَّمْسِ أَسْرَعُ لِطَلَبِ الرِّزْقِ مِنَ الضَّرْبِ فِي الْأَرْضِ
 
-Sitting in the mosque from the breaking of dawn until the rising of the sun is أسرع for seeking provision than traveling إِلَى الْأَرْضِ.
+Sitting in the mosque from the breaking of dawn until the rising of the sun is swifter in bringing provision than traveling through the land.
 
 And he said in it: The Muslim is not to spit toward the qibla; and if he does so forgetfully, let him ask forgiveness. And he said in it: A man is not to blow upon the place of his prostration, nor upon his food, nor upon his incense. And he said in it:
 
@@ -3050,13 +3052,13 @@ Our lord Amir al-Muminin Ali ibn Abi Talib (ع) said in his Four Hundred Etiquet
 
 > لَا يَجْمَعُ الْمُؤْمِنُ يَدَيْهِ فِي الصَّلَاةِ وَهُوَ قَائِمٌ يُشْبِهُ بِأَهْلِ الْكِتَابِ
 
-The believer does not clasp his hands together in الصلاة while standing, resembling thereby the People of the Book.
+The believer does not clasp his hands together in the prayer while standing, resembling thereby the People of the Book.
 
 And he said in it:
 
 > إِذَا أَصَابَ أَحَدُكُمْ فِي الصَّلَاةِ الدَّابَّةَ فَلْيَدْفِنْهَا أَوْ لِيَسْتُرْ عَلَيْهَا أَوْ لِيَضَعْهَا فِي ثَوْبِهِ حَتَّى يَنْصَرِفَ
 
-If أحدكم of you comes upon أصاب a crawling creature during the prayer, let him bury it, أو cover it over, or place it in his garment until he has finished.
+If any of you comes upon a crawling creature during the prayer, let him bury it, or cover it over, or place it in his garment until he has finished.
 
 And he said in it:
 
@@ -3425,6 +3427,8 @@ Mawlana Amir al-Muminin Ali ibn Abi Talib (ع) said in his Four Hundred Points o
 > مَنْ كَانَتْ لَهُ إِلَى اللَّهِ حَاجَةٌ فَلْيَطْلُبْهَا فِي ثَلَاثِ سَاعَاتٍ: ١- فِي يَوْمِ الْجُمُعَةِ سَاعَةَ زَوَالِ الشَّمْسِ ٢- وَحِينَ تَهبُّ الرِّيَاحُ وَتُفْتَحُ أَبْوَابُ السَّمَاءِ وَتَنْزِلُ الرَّحْمَةُ ٣- وَسَاعَةً فِي آخِرِ اللَّيْلِ عِنْدَ طُلُوعِ الْفَجْرِ.
 
 > وَإِنَّ مَلَكَيْنِ يُنَادِيَانِ هَلْ مِنْ تَائِبٍ فَيُتَابَ عَلَيْهِ هَلْ مِنْ سَائِلٍ فَيُعْطَىٰ هَلْ مِنْ مُسْتَغْفِرٍ فَيُغْفَرَ لَهُ هَلْ مِنْ طَالِبِ حَاجَةٍ فَأَجِيبُوا دَاعِيَ اللَّهِ
+>
+> "Two angels call out: Is there anyone repenting, that his repentance be accepted? Is there anyone asking, that he be given? Is there anyone seeking forgiveness, that he be forgiven? Is there anyone with a need? So answer the summoner of God."
 
 Whoever has a need before God, let him seek it in three hours:
 
@@ -3916,6 +3920,8 @@ It is said in مَعَالِمُ الدِّينِ: the witr prayer is obligatory
 It is said in the book of purity: he recites in the first bowing the opening of the Book and the surah:
 
 > قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ
+>
+> "Say: I seek refuge with the Lord of the daybreak."
 
 In the second bowing, I recite the opening of the Book and the surah:
 
@@ -4235,17 +4241,19 @@ The answer to that: nothing is mentioned in the book of the Pillars except that 
 
 The best shroud is three garments: a shirt neither buttoned nor hemmed, a wrapping sheet, and a waist wrapper. Know that. As for the matter of the screen in the washing of the dead — and above all of a woman — the better course is that it be done only within a covering.
 
-And of what I asked, I said: what do you say concerning the meaning of the words of our master al-Qadi al-Numan ibn Muhammad in the Book of Purity, at the end of it, in the mention of the washing of the dead, where he says that the woman is bound up and is given the 'ajrah? What is the meaning of his word وتعجر? The answer to that: the عجرة (جُرْح) known in the lands of the Arabs, spelled with the undotted راء (ra'), is the gathering of the shirt, drawing together that part of it which faces the navel down to below the navel over the clothing, and tucking it into the fastening of the إِزَار. That is a mark of difference between men and women, like the head covering which is a mark of difference between men and women. Know that.
+And of what I asked, I said: what do you say concerning the meaning of the words of our master al-Qadi al-Numan ibn Muhammad in the Book of Purity, at the end of it, in the mention of the washing of the dead, where he says that the woman is bound up and is given the 'ajrah? What is the meaning of his word وتعجر? The answer to that: the 'ajrah (عجرة) known in the lands of the Arabs, spelled with the undotted راء (ra'), is the gathering of the shirt, drawing together that part of it which faces the navel down to below the navel over the clothing, and tucking it into the fastening of the إِزَار. That is a mark of difference between men and women, like the head covering which is a mark of difference between men and women. Know that.
 
 Our lord the Commander of the Faithful, Ali ibn Abi Talib (ع), said in his Four Hundred Counsels:
 
 > مَنْ مَسَّ جَسَدَ الْمَيِّتِ بَعْدَ مَا بَرَدَ فَعَلَيْهِ الْغُسْلُ
 
-Whoever touches the body of الميت after it has grown cold — برد جسد — must perform the washing.
+Whoever touches the body of the dead after it has grown cold must perform the washing.
 
 And he said in it:
 
 > مَنْ غَسَّلَ مَيِّتًا فَلْيَغْتَسِلْ بَعْدَ مَا يُلْبِسُهُ الْكَفَنَ وَلَا يَمَسَّهُ بَعْدَ ذَلِكَ فَيَجِبُ عَلَيْهِ الْغُسْلُ
+>
+> "Whoever washes a dead person should bathe after he has put the shroud on him; and he must not touch him after that, for then bathing becomes obligatory upon him."
 
 In the book of questions and answers already mentioned, I find this saying explained. Question: what do you say concerning the meaning of the words of the Commander of the Faithful (ع) — that whoever touches the body of the dead after it grows cold is bound to perform the washing? What is the meaning of "after it grows cold"? Answer: it means after his end has come upon him and he has been washed according to the sunnah by whoever washes him, because the body of the dead has become impure; when its moisture reaches a living man it renders him impure, and that is the meaning of the washing being binding upon him.
 
@@ -4272,6 +4280,8 @@ In the Tawil al-Daaim, I find that what is required is this: no one should rise 
 From the Tawil al-Daaim, and of that is what is related of the Messenger of God (ع):
 
 > نَظَرَ إِلَى النِّسَاءِ يَتْبَعْنَ جَنَازَةً فَوَقَفَ وَقَالَ لَهُنَّ تُصَلِّينَ عَلَيْهَا فِي مَنْ يُصَلِّي قُلْنَ لَا قَالَ فَتَحْمِلْنَهَا فِي مَنْ يَحْمِلُهَا قُلْنَ لَا قَالَ فَتَنْزِلْنَ لَهَا فِي الْقَبْرِ فِي مَنْ يَنْزِلُهَا قُلْنَ لَا قَالَ فَتُوَارِينَهَا فِي مَنْ يُوَارِيهَا قُلْنَ لَا قَالَ فَارْجِعْنَ مَعْذُورَاتٍ غَيْرَ مَأْجُورَاتٍ
+>
+> "He saw women following a funeral, and he stopped and said to them: Will you pray over it among those who pray? They said no. Will you carry it among those who carry it? No. Will you go down into the grave among those who go down? No. Will you cover it among those who cover it? No. He said: Then go back, excused but unrewarded."
 
 The *Mukhtasar al-Athar* records that we have transmitted from the Imams of the household of the Messenger of God (ع) that they commanded the following: once the deceased has been shrouded, he is placed upon his bier and laid upon it, when a bier is to be had and this is possible; men carry him on their shoulders, when men can be found. If that is not possible, he is carried on a beast or by whatever other means are available. His shroud is covered from above with a cloth, if one is to be had. A canopy is erected over the bier and it is screened with a cloth; and the deceased is secured if there is fear he may fall from the bier.
 
@@ -4563,7 +4573,7 @@ When spoils came to the Messenger of God, he would take his share and then distr
 
 ## 29. The Charity of the Head
 
-I turn now to zakat الْفِطْر.
+I turn now to the zakat of Fitr.
 
 In the first book of questions and answers — arranged according to the chapter order of the Book of the Pillars of Islam — the following exchange appears. Question: the custom among the Indians when collecting the fitra is to mix four kinds of grain — rice, maize, wheat, and salt — and then take their monetary value, whereas in the radiant Shariah the zakat of Fitr is a sa of dates, raisins, wheat, or barley. Does it suffice a person who gives a sa of barley? Answer: the reliance is on what is stated in the Pillars — that is, a sa of wheat, barley, dates, or raisins.
 
@@ -5275,19 +5285,13 @@ By the testimonies I have brought forward — outward and inward alike — it is
 
 Know this, then — and may Allah grant you success in obeying Him and obeying His friends — and take hold of the meanings of what I have set forth. Seek Allah's help in all your affairs, and draw near to Him through sincerity of intention and of inward purpose, both in your worship of Him and in your obedience to His friends, for He is the best helper toward whatever one seeks to know of the realities. And give thanks to Allah the Exalted for every blessing that reaches you from the side of His trustees.
 
-Here I bring the treatise to its close, and I close it as it began — with praise belonging to Allah and with prayers upon those through whom His guidance reaches us. Nothing I have set down was mine to originate; it was only an ordering of what has been received. The fitting seal upon such a work is thanks, not claim.
-
-> وَبَعْدُ فَقَدْ خَتَمْتُ الرِّسَالَةَ بِالْحَمْدِ لِلَّهِ الْعَلِيِّ الْأَعْلَى وَبِالصَّلَاةِ عَلَى النَّبِيِّ مُحَمَّدٍ الْمُصْطَفَى وَالْوَلِيِّ عَلِيٍّ الْمُرْتَضَى وَالْأَئِمَّةِ الطَّاهِرِينَ أَقْمَارِ الدُّجَى
+Here I bring the treatise to its close, and I close it as it began — with praise belonging to Allah and with prayers upon those through whom His guidance reaches us. > وَبَعْدُ فَقَدْ خَتَمْتُ الرِّسَالَةَ بِالْحَمْدِ لِلَّهِ الْعَلِيِّ الْأَعْلَى وَبِالصَّلَاةِ عَلَى النَّبِيِّ مُحَمَّدٍ الْمُصْطَفَى وَالْوَلِيِّ عَلِيٍّ الْمُرْتَضَى وَالْأَئِمَّةِ الطَّاهِرِينَ أَقْمَارِ الدُّجَى
 
 I have sealed this treatise with praise of Allah, the High, the Most High, and with prayer upon the Prophet Muhammad the Chosen, upon the guardian Ali the Well-Pleasing, and upon the pure Imams, the moons amid the darkness.
-
-That likeness is not an ornament. Just as the moon in the night sky carries a light it has received and gives it to those who travel while others sleep, so the pure Imams stand in the darkness of the age, luminous by what has been entrusted to them and not by what they claim for themselves. The same order continues unbroken in the Imam of our own time.
 
 > وَإِمَامِ الزَّمَانِ مَوْلَانَا وَهَادِينَا وَوَلِيِّ نِعَمِنَا الْإِمَامِ الْحَاكِمِ بِأَمْرِ اللَّهِ أَمِيرِ الْمُؤْمِنِينَ صَلَوَاتُ اللَّهِ عَلَيْهِ وَعَلَى آبَائِهِ الطَّاهِرِينَ وَأَبْنَائِهِ الْأَكْرَمِينَ الْمُنْتَظَرِينَ إِلَى يَوْمِ الدِّينِ أَفْضَلُ التَّحِيَّاتِ وَالتَّسْلِيمِ
 
 Upon the Imam of the age — our master, our guide, and the guardian of our blessings — the Imam who rules by the command of Allah, the Commander of the Faithful: may Allah's prayers be upon him, upon his pure forefathers, and upon his noble sons who are awaited until the Day of Judgment, the finest of greetings and salutations.
-
-This is the order I have been tracing throughout: knowledge descends, obedience ascends, and the two meet in the one whom Allah has appointed. Whoever holds to that order is never left groping in the dark, for the light he walks by is not of his own making. And so the only request that remains is the request for steadfastness and for illumination, since neither lies within our power to produce.
 
 > وَنَسْأَلُ اللَّهَ أَنْ يُثَبِّتَنَا عَلَى طَاعَتِهِ وَطَاعَةِ أَوْلِيَائِهِ وَيُنَوِّرَ عُقُولَنَا وَبَصَائِرَنَا بِمَنِّهِ وَكَرَمِهِ وَقُدْرَتِهِ إِنَّهُ خَيْرُ مَسْئُولٍ وَأَكْرَمُ مَأْمُولٍ وَحَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ وَنِعْمَ الْمَوْلَى وَنِعْمَ النَّصِيرُ صَلَّى اللَّهُ عَلَى سَيِّدِنَا مُحَمَّدٍ وَآلِهِ وَسَلَّمَ
 

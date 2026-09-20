@@ -6,7 +6,8 @@
   "quote": "the neighbor who is a relative and the neighbor who is nearby",
   "suggested": "the neighbor who is a stranger / distant",
   "certainty": 85,
-  "page": 9
+  "page": 9,
+  "status": "applied"
  },
  {
   "chapter": 1,
@@ -15,7 +16,8 @@
   "quote": "toward those whom your faith obligates you to care for",
   "suggested": "toward those your right hands possess (slaves and dependents)",
   "certainty": 85,
-  "page": 9
+  "page": 9,
+  "status": "applied"
  },
  {
   "chapter": 1,
@@ -24,7 +26,8 @@
   "quote": "encompassed every means by which innovations are expelled",
   "suggested": "held varied wonders in his ordinances",
   "certainty": 80,
-  "page": 5
+  "page": 5,
+  "status": "applied"
  },
  {
   "chapter": 1,
@@ -33,7 +36,8 @@
   "quote": "Truthfulness in one's home",
   "suggested": "truthfulness in every situation",
   "certainty": 75,
-  "page": 10
+  "page": 10,
+  "status": "open"
  },
  {
   "chapter": 1,
@@ -42,7 +46,8 @@
   "quote": "(عَلَيْهِمُ السَّلَامُ) until the Day of Judgment",
   "suggested": "and peace be upon them all until the Day of Judgment",
   "certainty": 70,
-  "page": 6
+  "page": 6,
+  "status": "open"
  },
  {
   "chapter": 1,
@@ -51,7 +56,8 @@
   "quote": "seven oft-repeated verses",
   "suggested": "seven suras",
   "certainty": 40,
-  "page": 5
+  "page": 5,
+  "status": "open"
  },
  {
   "chapter": 28,
@@ -60,7 +66,8 @@
   "quote": "unless the collector wishes it",
   "suggested": "unless the one giving wishes it (ambiguous)",
   "certainty": 55,
-  "page": 237
+  "page": 237,
+  "status": "open"
  },
  {
   "chapter": 28,
@@ -69,7 +76,8 @@
   "quote": "I turn now to the zakat of gold, silver, and jewels.",
   "suggested": "(bridge line, harmless)",
   "certainty": 30,
-  "page": 0
+  "page": 0,
+  "status": "open"
  },
  {
   "chapter": 2,
@@ -80,7 +88,8 @@
   "suggested": "The man arrived in Medina, and the Messenger of God (ع) had already passed away. He asked about his successor and was directed to Abu Bakr.",
   "certainty": 92,
   "page": 11,
-  "note": "Also the setup: 'Go to Muhammad. If he does not agree with you' mistranslates فان لم تلحقه 'if you do not catch up with him'."
+  "note": "Also the setup: 'Go to Muhammad. If he does not agree with you' mistranslates فان لم تلحقه 'if you do not catch up with him'.",
+  "status": "applied"
  },
  {
   "chapter": 2,
@@ -91,7 +100,8 @@
   "suggested": "Give it to Muhammad; if you do not reach him, ask after his successor, and if you are directed to him, put three questions to him.",
   "certainty": 88,
   "page": 11,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 2,
@@ -102,7 +112,8 @@
   "suggested": "You are neither of my flock nor of the people of my country. Had you greeted me for a single day, you would not be hidden from me.",
   "certainty": 80,
   "page": 13,
-  "note": "Denial turned into question; also later 'Had I seen you for a single day' fine."
+  "note": "Denial turned into question; also later 'Had I seen you for a single day' fine.",
+  "status": "applied"
  },
  {
   "chapter": 2,
@@ -113,7 +124,8 @@
   "suggested": "said in his supplication for Sunday",
   "certainty": 88,
   "page": 11,
-  "note": "Ch3/ch4 correctly say Sunday supplication; here the same citation is wrong."
+  "note": "Ch3/ch4 correctly say Sunday supplication; here the same citation is wrong.",
+  "status": "applied"
  },
  {
   "chapter": 2,
@@ -124,7 +136,8 @@
   "suggested": "...so that facing each spiritual rank stood a bodily rank, each passing on to the one below it.",
   "certainty": 60,
   "page": 11,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 2,
@@ -135,7 +148,8 @@
   "suggested": "Omit the accusation; add the exchange: 'Then do you know them?' 'No, but I know who does.'",
   "certainty": 55,
   "page": 12,
-  "note": "Woe-to-you accusation is in the Abu Bakr part; Ibn Abbas's line is 'you were not fair to the man'."
+  "note": "Woe-to-you accusation is in the Abu Bakr part; Ibn Abbas's line is 'you were not fair to the man'.",
+  "status": "open"
  },
  {
   "chapter": 2,
@@ -146,7 +160,8 @@
   "suggested": "the Book of the Esoteric Nursing (as ch.4 renders it)",
   "certainty": 55,
   "page": 10,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 3,
@@ -157,7 +172,8 @@
   "suggested": "the spreading (open proclamation) of the greeting of peace",
   "certainty": 90,
   "page": 17,
-  "note": "Recurs in ch.3 three times and in ch.4 ('the twenty-fourth assembly')."
+  "note": "Recurs in ch.3 three times and in ch.4 ('the twenty-fourth assembly').",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -168,7 +184,8 @@
   "suggested": "سَلَامٌ قَوْلًا مِن رَّبٍّ رَّحِيمٍ - 'Peace, a word from a Merciful Lord.'",
   "certainty": 85,
   "page": 17,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -179,7 +196,8 @@
   "suggested": "Ya-Sin is our Prophet Muhammad, and the family of Ya-Sin is the family of Muhammad, blessings upon them.",
   "certainty": 85,
   "page": 17,
-  "note": "Garbled bare Arabic fragment."
+  "note": "Garbled bare Arabic fragment.",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -190,7 +208,8 @@
   "suggested": "'And if he is of the companions of the right, then peace to you from the companions of the right.'",
   "certainty": 85,
   "page": 18,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -201,7 +220,8 @@
   "suggested": "9. The one standing greets first the one sitting.",
   "certainty": 92,
   "page": 18,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -212,7 +232,8 @@
   "suggested": "O God, send blessings upon the lower ranks, the five",
   "certainty": 75,
   "page": 19,
-  "note": "Same error repeated: 'reach the proclaimers', 'Reach Your manifest borders'; 'the imams of their stations' should be 'of their cycles'."
+  "note": "Same error repeated: 'reach the proclaimers', 'Reach Your manifest borders'; 'the imams of their stations' should be 'of their cycles'.",
+  "status": "open"
  },
  {
   "chapter": 3,
@@ -223,7 +244,8 @@
   "suggested": "O God, bless the six speakers and their gates, the imams of their cycles",
   "certainty": 70,
   "page": 19,
-  "note": "OCR السّة = الستة (six) very likely; Monday says seven."
+  "note": "OCR السّة = الستة (six) very likely; Monday says seven.",
+  "status": "open"
  },
  {
   "chapter": 3,
@@ -234,7 +256,8 @@
   "suggested": "say: 'And you, may God greet you with peace and lodge you in the abode of permanence.'",
   "certainty": 80,
   "page": 20,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 3,
@@ -245,7 +268,8 @@
   "suggested": "and returning the answer to a letter",
   "certainty": 65,
   "page": 17,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 3,
@@ -256,7 +280,8 @@
   "suggested": "Your corporeal ranks",
   "certainty": 50,
   "page": 19,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 4,
@@ -267,7 +292,8 @@
   "suggested": "Add the two translations.",
   "certainty": 90,
   "page": 23,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 4,
@@ -278,7 +304,8 @@
   "suggested": "Add: 'Hasten to good deeds before other things occupy you; let most of your speech be the remembrance of God; beware of sins, for a servant commits a sin and his provision is withheld.'",
   "certainty": 90,
   "page": 24,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 4,
@@ -289,7 +316,8 @@
   "suggested": "Add translation before 'By this he means...'.",
   "certainty": 85,
   "page": 22,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 4,
@@ -300,7 +328,8 @@
   "suggested": "And by the seven completers, the seven successors, the seven witnesses and the seven substitutes.",
   "certainty": 55,
   "page": 22,
-  "note": "OCR uncertain. Also misplacement: the Arabic block follows 'in his Four Hundred Manners' though it belongs to the supplication."
+  "note": "OCR uncertain. Also misplacement: the Arabic block follows 'in his Four Hundred Manners' though it belongs to the supplication.",
+  "status": "open"
  },
  {
   "chapter": 4,
@@ -311,7 +340,8 @@
   "suggested": "Probably: '...and do not humble yourselves before their authority'; the purpose-clause reading is doubtful.",
   "certainty": 50,
   "page": 24,
-  "note": "Arabic itself is elliptical/possibly OCR-dropped لا."
+  "note": "Arabic itself is elliptical/possibly OCR-dropped لا.",
+  "status": "open"
  },
  {
   "chapter": 4,
@@ -322,7 +352,8 @@
   "suggested": "recurring like the days of the week",
   "certainty": 75,
   "page": 25,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 4,
@@ -333,7 +364,8 @@
   "suggested": "and he will love the meeting with God",
   "certainty": 40,
   "page": 24,
-  "note": "OCR-dependent."
+  "note": "OCR-dependent.",
+  "status": "open"
  },
  {
   "chapter": 5,
@@ -344,7 +376,8 @@
   "suggested": "He said in the twentieth council ...",
   "certainty": 60,
   "page": 25,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 5,
@@ -355,7 +388,8 @@
   "suggested": "Abdullah al-Anf (and consistent with ch.3)",
   "certainty": 55,
   "page": 26,
-  "note": "Ch3 English says 'al-Alaf'; the two chapters disagree."
+  "note": "Ch3 English says 'al-Alaf'; the two chapters disagree.",
+  "status": "open"
  },
  {
   "chapter": 6,
@@ -366,7 +400,8 @@
   "suggested": "This concerns the book of inner truth: a person may look into it only with the permission of the one who authorised him to.",
   "certainty": 92,
   "page": 32,
-  "note": "The Arabic block quote above it is already correct; the fragment is spurious."
+  "note": "The Arabic block quote above it is already correct; the fragment is spurious.",
+  "status": "applied"
  },
  {
   "chapter": 6,
@@ -377,7 +412,8 @@
   "suggested": "or for anyone who notices this",
   "certainty": 95,
   "page": 32,
-  "note": "Stray token, meaning unaffected."
+  "note": "Stray token, meaning unaffected.",
+  "status": "applied"
  },
  {
   "chapter": 6,
@@ -388,7 +424,8 @@
   "suggested": "There is no harm in his correcting it, and it is not obligatory upon him.",
   "certainty": 93,
   "page": 32,
-  "note": "Same fault in the following sentence set: 'Is it permitted ... to cut away the disorder' is fine."
+  "note": "Same fault in the following sentence set: 'Is it permitted ... to cut away the disorder' is fine.",
+  "status": "applied"
  },
  {
   "chapter": 6,
@@ -399,7 +436,8 @@
   "suggested": "those who have been given leave (to teach)",
   "certainty": 35,
   "page": 32,
-  "note": "Acceptable as a gloss; low priority."
+  "note": "Acceptable as a gloss; low priority.",
+  "status": "open"
  },
  {
   "chapter": 7,
@@ -410,7 +448,8 @@
   "suggested": "the festival of al-Fitr",
   "certainty": 80,
   "page": 38,
-  "note": "Cosmetic; meaning unaffected."
+  "note": "Cosmetic; meaning unaffected.",
+  "status": "applied"
  },
  {
   "chapter": 8,
@@ -421,7 +460,8 @@
   "suggested": "Add after the quote: \"You should not wipe your forearms except from the elbow upward, and wipe it thoroughly. If this is required of the hands, despite how little hair they have, it is all the more required of the head.\"",
   "certainty": 88,
   "page": 45,
-  "note": "Dropped translation; a ruling-bearing sentence."
+  "note": "Dropped translation; a ruling-bearing sentence.",
+  "status": "applied"
  },
  {
   "chapter": 8,
@@ -432,7 +472,8 @@
   "suggested": "Note that the source's item 5 is missing, or drop the invented item",
   "certainty": 55,
   "page": 40,
-  "note": "Confirmed on the scan image: numbering jumps 4 to 6. The English supplies a fifth item not in the text; could be from another edition. Also '(source claims twelve, lists eleven)'."
+  "note": "Confirmed on the scan image: numbering jumps 4 to 6. The English supplies a fifth item not in the text; could be from another edition. Also '(source claims twelve, lists eleven)'.",
+  "status": "open"
  },
  {
   "chapter": 8,
@@ -443,7 +484,8 @@
   "suggested": "Kitab al-Rada' al-Batin",
   "certainty": 50,
   "page": 43,
-  "note": "Rida (satisfaction) vs rada' (nursing) is a different word; OCR reads الرضاع clearly."
+  "note": "Rida (satisfaction) vs rada' (nursing) is a different word; OCR reads الرضاع clearly.",
+  "status": "open"
  },
  {
   "chapter": 8,
@@ -454,7 +496,8 @@
   "suggested": "would endanger his life through cold or severe harm",
   "certainty": 30,
   "page": 42,
-  "note": "Arabic OCR 'يهلك' plausible; softening only."
+  "note": "Arabic OCR 'يهلك' plausible; softening only.",
+  "status": "open"
  },
  {
   "chapter": 8,
@@ -465,7 +508,8 @@
   "suggested": "O God, make me among those who turn to You in repentance, and make me among those who purify themselves.",
   "certainty": 85,
   "page": 41,
-  "note": "Redundant bare Arabic; meaning intact."
+  "note": "Redundant bare Arabic; meaning intact.",
+  "status": "open"
  },
  {
   "chapter": 9,
@@ -476,7 +520,8 @@
   "suggested": "Its meaning is: after it has been decreed upon it. The washing performed by the one who washes the corpse is from the Sunnah, except that the body of the dead has become impure; so when it touches the living with its moisture he becomes impure, and this is the meaning of the ghusl being obligatory, by appointment.",
   "certainty": 65,
   "page": 53,
-  "note": "Verified on scan. English moves 'has become impure' into the definition of 'after it grows cold' and drops the clause 'it has been decreed upon it' from the first sentence, and the Sunnah sentence loses its 'except that'. Final phrase 'bi-l-nasb' is obscure; meaning uncertain."
+  "note": "Verified on scan. English moves 'has become impure' into the definition of 'after it grows cold' and drops the clause 'it has been decreed upon it' from the first sentence, and the Sunnah sentence loses its 'except that'. Final phrase 'bi-l-nasb' is obscure; meaning uncertain.",
+  "status": "open"
  },
  {
   "chapter": 9,
@@ -487,7 +532,8 @@
   "suggested": "he rubs it with his feet in the manner described, then takes it out of the water and treads on it until the water has come out",
   "certainty": 35,
   "page": 54,
-  "note": "Verbs rub/tread are swapped in English; minor."
+  "note": "Verbs rub/tread are swapped in English; minor.",
+  "status": "open"
  },
  {
   "chapter": 10,
@@ -498,7 +544,8 @@
   "suggested": "(faithful to source as printed; the printed text seems internally inconsistent, possibly a missing negation/word in the original edition)",
   "certainty": 15,
   "page": 64,
-  "note": "English matches the printed Arabic; flagged only for the internal contradiction. Not a translation error unless the editor wants to footnote it."
+  "note": "English matches the printed Arabic; flagged only for the internal contradiction. Not a translation error unless the editor wants to footnote it.",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -509,7 +556,8 @@
   "suggested": "namely the governor of Zawatah, al-Khattab ibn Wasim",
   "certainty": 75,
   "page": 70,
-  "note": "Chapter 12 renders the same phrase correctly as 'the governor of Zawatah, Khattab ibn Wasim'; inconsistent. Zawata is a name, not 'his districts'."
+  "note": "Chapter 12 renders the same phrase correctly as 'the governor of Zawatah, Khattab ibn Wasim'; inconsistent. Zawata is a name, not 'his districts'.",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -520,7 +568,8 @@
   "suggested": "...but the sunna is that one hasten to it. And eating food cooked by a slave girl who has not undergone the circumcision of girls is permitted.",
   "certainty": 60,
   "page": 70,
-  "note": "Sentence dropped; same ruling also appears at ch.10 end (p.66) so the translator may have treated it as duplicate."
+  "note": "Sentence dropped; same ruling also appears at ch.10 end (p.66) so the translator may have treated it as duplicate.",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -531,7 +580,8 @@
   "suggested": "Add English rendering after the Arabic block.",
   "certainty": 50,
   "page": 71,
-  "note": "Quoted Daaim text left untranslated. Last clause OCR-doubtful (ظفائر/أظفار)."
+  "note": "Quoted Daaim text left untranslated. Last clause OCR-doubtful (ظفائر/أظفار).",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -542,7 +592,8 @@
   "suggested": "Add translation of the hadith.",
   "certainty": 50,
   "page": 71,
-  "note": "Bare Arabic; the following 'I marvel...' sentence depends on it."
+  "note": "Bare Arabic; the following 'I marvel...' sentence depends on it.",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -553,7 +604,8 @@
   "suggested": "Add translation (the next paragraph only partly restates it).",
   "certainty": 40,
   "page": 72,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -564,7 +616,8 @@
   "suggested": "Add translation.",
   "certainty": 45,
   "page": 74,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 11,
@@ -575,7 +628,8 @@
   "suggested": "Add translation.",
   "certainty": 45,
   "page": 76,
-  "note": "Sentence is grammatically incomplete without it."
+  "note": "Sentence is grammatically incomplete without it.",
+  "status": "open"
  },
  {
   "chapter": 12,
@@ -586,7 +640,8 @@
   "suggested": "mixed with lime and soda ash",
   "certainty": 35,
   "page": 79,
-  "note": "Technical term; low impact on ruling."
+  "note": "Technical term; low impact on ruling.",
+  "status": "open"
  },
  {
   "chapter": 14,
@@ -597,7 +652,8 @@
   "suggested": "For all his excellence, his learning, and his kinship, Abdullah ibn Abbas did not claim it for himself.",
   "certainty": 85,
   "page": 105,
-  "note": "Argument: the ahl al-bayt are the four named; Ibn Abbas, though a relative, did not include himself. English reverses the point. Arabic OCR clean here."
+  "note": "Argument: the ahl al-bayt are the four named; Ibn Abbas, though a relative, did not include himself. English reverses the point. Arabic OCR clean here.",
+  "status": "applied"
  },
  {
   "chapter": 13,
@@ -608,7 +664,8 @@
   "suggested": "7. the concluding salutation (taslim)",
   "certainty": 85,
   "page": 99,
-  "note": "Scan clearly shows التسليم. 'Sealing' (ختم) is not the word."
+  "note": "Scan clearly shows التسليم. 'Sealing' (ختم) is not the word.",
+  "status": "applied"
  },
  {
   "chapter": 13,
@@ -619,7 +676,8 @@
   "suggested": "three ḥurūf of gold (an unidentified unit; keep transliterated rather than 'letters' weight')",
   "certainty": 30,
   "page": 96,
-  "note": "Unit unclear in source; 'letters' weight' is a guess presented as fact."
+  "note": "Unit unclear in source; 'letters' weight' is a guess presented as fact.",
+  "status": "open"
  },
  {
   "chapter": 13,
@@ -630,7 +688,8 @@
   "suggested": "and that what he loses of the time (meaning the first) is better for him than his family and wealth [sentence is itself obscure]",
   "certainty": 25,
   "page": 93,
-  "note": "Source sentence is elliptical; English's 'would have been' is an interpretive smoothing. Low confidence."
+  "note": "Source sentence is elliptical; English's 'would have been' is an interpretive smoothing. Low confidence.",
+  "status": "open"
  },
  {
   "chapter": 14,
@@ -641,7 +700,8 @@
   "suggested": "in its sixth seventh (sub-division)",
   "certainty": 25,
   "page": 104,
-  "note": "Minor; may be intended as 'sixth section'."
+  "note": "Minor; may be intended as 'sixth section'.",
+  "status": "open"
  },
  {
   "chapter": 15,
@@ -652,7 +712,8 @@
   "suggested": "...the good and the pure, and peace be upon them all.",
   "certainty": 85,
   "page": 110,
-  "note": "Quote as printed: 'the good and the pure — and (عَلَيْهِمُ السَّلَامُ):'"
+  "note": "Quote as printed: 'the good and the pure — and (عَلَيْهِمُ السَّلَامُ):'",
+  "status": "open"
  },
  {
   "chapter": 15,
@@ -663,7 +724,8 @@
   "suggested": "the word of the glorious Quran",
   "certainty": 95,
   "page": 114,
-  "note": "Fourth proof, last paragraph."
+  "note": "Fourth proof, last paragraph.",
+  "status": "applied"
  },
  {
   "chapter": 15,
@@ -674,7 +736,8 @@
   "suggested": "Insert translation of the hadith after the Arabic block.",
   "certainty": 92,
   "page": 116,
-  "note": "Omission of a whole quoted saying's translation. 'even the portion' also renders 'وان في بعض البعض' (even a portion of a portion)."
+  "note": "Omission of a whole quoted saying's translation. 'even the portion' also renders 'وان في بعض البعض' (even a portion of a portion).",
+  "status": "open"
  },
  {
   "chapter": 15,
@@ -685,7 +748,8 @@
   "suggested": "Add the translation after the verse.",
   "certainty": 90,
   "page": 117,
-  "note": "Every other verse in the chapter has a translation."
+  "note": "Every other verse in the chapter has a translation.",
+  "status": "open"
  },
  {
   "chapter": 15,
@@ -696,7 +760,8 @@
   "suggested": "...because no such narration exists in our books",
   "certainty": 25,
   "page": 118,
-  "note": "Reported speech of the objector; the English shifts person. Low stakes, may be deliberate."
+  "note": "Reported speech of the objector; the English shifts person. Low stakes, may be deliberate.",
+  "status": "open"
  },
  {
   "chapter": 15,
@@ -707,7 +772,8 @@
   "suggested": "Either keep omitted as apparatus, or add a one-line attribution",
   "certainty": 30,
   "page": 121,
-  "note": "Authorship/date colophon dropped; may be an intentional strip."
+  "note": "Authorship/date colophon dropped; may be an intentional strip.",
+  "status": "open"
  },
  {
   "chapter": 16,
@@ -718,7 +784,8 @@
   "suggested": "...is swifter in bringing provision than travelling through the land.",
   "certainty": 95,
   "page": 129,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 16,
@@ -729,7 +796,8 @@
   "suggested": "as for His saying, 'and your weapons,' the laying down of weapons...",
   "certainty": 70,
   "page": 126,
-  "note": "Fragment only, sense of the ruling unaffected."
+  "note": "Fragment only, sense of the ruling unaffected.",
+  "status": "open"
  },
  {
   "chapter": 16,
@@ -740,7 +808,8 @@
   "suggested": "Probably: 'It means that Moses's shelter was not plastered' (i.e. leave it unplastered)",
   "certainty": 20,
   "page": 123,
-  "note": "Arabic itself is elliptical; English is a literal reading. Flag low confidence only."
+  "note": "Arabic itself is elliptical; English is a literal reading. Flag low confidence only.",
+  "status": "open"
  },
  {
   "chapter": 17,
@@ -751,7 +820,8 @@
   "suggested": "Add English: 'The people are led by the one earliest in emigration; if equal, the best reciter; if equal in memorising the Quran, the most learned in jurisprudence; if equal in knowledge, the eldest. The owner of a mosque has more right to it, and the imam (ع) and whoever he appoints has more right than all of them. A woman prays with the women and does not stand ahead of them; they stand on her right and left.'",
   "certainty": 70,
   "page": 135,
-  "note": "Dropped translation of the seven-tier ranking and the woman-imam ruling; the Arabic is present but unrendered."
+  "note": "Dropped translation of the seven-tier ranking and the woman-imam ruling; the Arabic is present but unrendered.",
+  "status": "open"
  },
  {
   "chapter": 17,
@@ -762,7 +832,8 @@
   "suggested": "Add English of the saying, including 'if they do not pray thus, they have no prayer'",
   "certainty": 65,
   "page": 140,
-  "note": "The ruling (invalidity otherwise) is absent in English."
+  "note": "The ruling (invalidity otherwise) is absent in English.",
+  "status": "open"
  },
  {
   "chapter": 17,
@@ -773,7 +844,8 @@
   "suggested": "Add English translation after the block",
   "certainty": 55,
   "page": 133,
-  "note": "Content is legible to Arabic readers but a translation edition drops it."
+  "note": "Content is legible to Arabic readers but a translation edition drops it.",
+  "status": "open"
  },
  {
   "chapter": 17,
@@ -784,7 +856,8 @@
   "suggested": "'...though he himself is not among those given leave to appoint'",
   "certainty": 30,
   "page": 131,
-  "note": "Pronoun ambiguous in Arabic; answer (if he is granted unrestricted leave) suggests the imam is meant."
+  "note": "Pronoun ambiguous in Arabic; answer (if he is granted unrestricted leave) suggests the imam is meant.",
+  "status": "open"
  },
  {
   "chapter": 17,
@@ -795,7 +868,8 @@
   "suggested": "none (English is faithful); source is internally inconsistent, possibly an omitted 'ليس' in the original",
   "certainty": 12,
   "page": 141,
-  "note": "Not a translation error; flagged only for awareness."
+  "note": "Not a translation error; flagged only for awareness.",
+  "status": "open"
  },
  {
   "chapter": 18,
@@ -806,7 +880,8 @@
   "suggested": "'...clasp his hands together in the prayer while standing'",
   "certainty": 90,
   "page": 150,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 18,
@@ -817,7 +892,8 @@
   "suggested": "'If any of you comes upon a crawling creature during the prayer, let him bury it, or cover it over, or place it in his garment until he has finished.'",
   "certainty": 92,
   "page": 150,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 18,
@@ -828,7 +904,8 @@
   "suggested": "Add English line after the block",
   "certainty": 40,
   "page": 144,
-  "note": "Later sentence restates the sense, so low impact."
+  "note": "Later sentence restates the sense, so low impact.",
+  "status": "open"
  },
  {
   "chapter": 21,
@@ -840,7 +917,8 @@
   "suggested": "Add after item 3: Two angels call out at that hour: Is there anyone repenting, that his repentance be accepted? Anyone asking, that he be given? Anyone seeking forgiveness, that he be forgiven? Anyone with a need? So answer the summoner of God.",
   "certainty": 88,
   "page": 166,
-  "note": "Arabic block present but never translated (omission of a hadith sentence in English)."
+  "note": "Arabic block present but never translated (omission of a hadith sentence in English).",
+  "status": "applied"
  },
  {
   "chapter": 21,
@@ -852,7 +930,8 @@
   "suggested": "Do not count the prayer behind a hostile Nasibi or a Haruri (Kharijite) as valid. Treat such a person as one of the pillars of the mosque",
   "certainty": 60,
   "page": 163,
-  "note": "Sentence is complete and Arabic block follows, but three inline Arabic words are untranslated."
+  "note": "Sentence is complete and Arabic block follows, but three inline Arabic words are untranslated.",
+  "status": "open"
  },
  {
   "chapter": 21,
@@ -864,7 +943,8 @@
   "suggested": "One says tafattarat al-ard wa-infatarat (the earth split) — meaning",
   "certainty": 40,
   "page": 165,
-  "note": "Formatting slip only; meaning intact."
+  "note": "Formatting slip only; meaning intact.",
+  "status": "open"
  },
  {
   "chapter": 21,
@@ -876,7 +956,8 @@
   "suggested": "the qunut (standing supplication) in the Friday prayer falls before the bowing in the second cycle (same in 'and the qunut is: O God, forgive me...')",
   "certainty": 40,
   "page": 166,
-  "note": "Ch.19 renders دعاء القنوت 'standing invocation' but دعاء التبتل 'devotion'; here qunut is 'devotion', creating inconsistency. Low severity; qunut also means devotion."
+  "note": "Ch.19 renders دعاء القنوت 'standing invocation' but دعاء التبتل 'devotion'; here qunut is 'devotion', creating inconsistency. Low severity; qunut also means devotion.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -888,7 +969,8 @@
   "suggested": "The answer is: if his intention was to follow the Imam, his prayer is complete, even though he did not utter it.",
   "certainty": 82,
   "page": 172,
-  "note": "Invented 'prayer lapses' clause; same ruling is rendered correctly later in the chapter (page 177). The question is also garbled: Arabic says the man FORGOT to intend to be a follower and remembered only after the Imam's salaam."
+  "note": "Invented 'prayer lapses' clause; same ruling is rendered correctly later in the chapter (page 177). The question is also garbled: Arabic says the man FORGOT to intend to be a follower and remembered only after the Imam's salaam.",
+  "status": "applied"
  },
  {
   "chapter": 22,
@@ -900,7 +982,8 @@
   "suggested": "Regarding a man who prays with an Imam and forgets to intend in his prayer that he is a follower, and only after the Imam delivers the salaam remembers that he did not intend to follow — is his prayer valid or not?",
   "certainty": 85,
   "page": 172,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 22,
@@ -912,7 +995,8 @@
   "suggested": "The answer is: if he did not say the takbir after each pair, his prayer is invalidated.",
   "certainty": 55,
   "page": 171,
-  "note": "Arabic verb is يكبر (takbir), not يجلس (sit); 'تسليمين' is odd (possibly OCR) so certainty lowered."
+  "note": "Arabic verb is يكبر (takbir), not يجلس (sit); 'تسليمين' is odd (possibly OCR) so certainty lowered.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -924,7 +1008,8 @@
   "suggested": "A man prayed one rakah of the obligatory Zuhr prayer and sat and recited the first tashahhud, then prayed two more rakahs, recited the tashahhud and delivered the salaam, then recalled that he had prayed only three rakahs.",
   "certainty": 72,
   "page": 172,
-  "note": "The answer ('prays the missed rakah after the salaam') depends on the salaam having been given."
+  "note": "The answer ('prays the missed rakah after the salaam') depends on the salaam having been given.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -936,7 +1021,8 @@
   "suggested": "Whoever forgets a prayer and does not know which one it is prays two, three and four rakahs",
   "certainty": 60,
   "page": 174,
-  "note": "Source clause is terse; English also runs it into the unrelated Imam-recites-aloud sentence, which is garbled."
+  "note": "Source clause is terse; English also runs it into the unrelated Imam-recites-aloud sentence, which is garbled.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -948,7 +1034,8 @@
   "suggested": "...prayed the obligatory prayer and, forgetfully, recited from the bottom upward",
   "certainty": 40,
   "page": 171,
-  "note": "'Forgetfully' dropped; minor."
+  "note": "'Forgetfully' dropped; minor.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -960,7 +1047,8 @@
   "suggested": "Regarding a man who makes two or three omissions in a single obligatory prayer — does he prostrate two prostrations for each omission, or do two suffice for all?",
   "certainty": 60,
   "page": 172,
-  "note": ""
+  "note": "",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -972,7 +1060,8 @@
   "suggested": "he completes the two rakahs",
   "certainty": 55,
   "page": 171,
-  "note": "Answer to the extra-bowing question; 'in order' has no counterpart in the Arabic."
+  "note": "Answer to the extra-bowing question; 'in order' has no counterpart in the Arabic.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -984,7 +1073,8 @@
   "suggested": "whoever sleeps through a prayer or forgets it",
   "certainty": 55,
   "page": 175,
-  "note": "OCR reads تام, almost certainly نام (well-known hadith)."
+  "note": "OCR reads تام, almost certainly نام (well-known hadith).",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -996,7 +1086,8 @@
   "suggested": "Add rendering: Whoever forgets the recitation in part of the prayer and recites in the remainder, that suffices him; if he forgets the recitation entirely but completes the bowing, prostration and takbir, he need not repeat.",
   "certainty": 70,
   "page": 172,
-  "note": "No English for the hadith; the next Q/A only makes sense with its content."
+  "note": "No English for the hadith; the next Q/A only makes sense with its content.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -1008,7 +1099,8 @@
   "suggested": "(uncertain) What if the one with authority to grant leave lets a man pray who does not know all the places of omission",
   "certainty": 30,
   "page": 170,
-  "note": "Arabic is idiosyncratic (فسح = licence, cf. المفسوحين later); low certainty."
+  "note": "Arabic is idiosyncratic (فسح = licence, cf. المفسوحين later); low certainty.",
+  "status": "open"
  },
  {
   "chapter": 22,
@@ -1020,7 +1112,8 @@
   "suggested": "These are the seven places of omission; in six of them the two prostrations are proper.",
   "certainty": 35,
   "page": 176,
-  "note": "English contradicts item 7 and the preceding 'six of seven'; Arabic phrase truncated in OCR/source."
+  "note": "English contradicts item 7 and the preceding 'six of seven'; Arabic phrase truncated in OCR/source.",
+  "status": "open"
  },
  {
   "chapter": 23,
@@ -1032,7 +1125,8 @@
   "suggested": "(uncertain) the released/divorced men (or 'those free to roam') in India",
   "certainty": 30,
   "page": 182,
-  "note": "Grammar is masculine; sense unclear; may be a scribal/OCR issue."
+  "note": "Grammar is masculine; sense unclear; may be a scribal/OCR issue.",
+  "status": "open"
  },
  {
   "chapter": 23,
@@ -1044,7 +1138,8 @@
   "suggested": "6. the highway robber who cuts the road.",
   "certainty": 35,
   "page": 191,
-  "note": "Technical fiqh term; low certainty."
+  "note": "Technical fiqh term; low certainty.",
+  "status": "open"
  },
  {
   "chapter": 24,
@@ -1056,7 +1151,8 @@
   "suggested": "Add: 'A little practice in the sunnah is better than much practice in innovation.'",
   "certainty": 92,
   "page": 203,
-  "note": "prose argument depends on it"
+  "note": "prose argument depends on it",
+  "status": "open"
  },
  {
   "chapter": 24,
@@ -1068,7 +1164,8 @@
   "suggested": "Add 'Say: I seek refuge with the Lord of the daybreak.'",
   "certainty": 80,
   "page": 198,
-  "note": "minor"
+  "note": "minor",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1080,7 +1177,8 @@
   "suggested": "Add English answer as in arabic column",
   "certainty": 95,
   "page": 208,
-  "note": "the answer to the question is entirely absent for an English reader"
+  "note": "the answer to the question is entirely absent for an English reader",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1092,7 +1190,8 @@
   "suggested": "Add English translation",
   "certainty": 95,
   "page": 209,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1104,7 +1203,8 @@
   "suggested": "Add English translation",
   "certainty": 95,
   "page": 212,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1116,7 +1216,8 @@
   "suggested": "Add English translation",
   "certainty": 95,
   "page": 213,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1128,7 +1229,8 @@
   "suggested": "Add English translation",
   "certainty": 92,
   "page": 207,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1140,7 +1242,8 @@
   "suggested": "'Let none of you sleep on his back nor on his face... nor let a woman sleep stretched on her back.'",
   "certainty": 85,
   "page": 207,
-  "note": "'على الحجة' may be OCR misread; not verified on scan. Stranded words أحدكم and المرأة are certain defects"
+  "note": "'على الحجة' may be OCR misread; not verified on scan. Stranded words أحدكم and المرأة are certain defects",
+  "status": "applied"
  },
  {
   "chapter": 25,
@@ -1152,7 +1255,8 @@
   "suggested": "'Remember death often on the day you come away from the graves, and on the day you stand before Allah...'",
   "certainty": 60,
   "page": 209,
-  "note": "من عند القبور = from beside the graves, not from within them"
+  "note": "من عند القبور = from beside the graves, not from within them",
+  "status": "open"
  },
  {
   "chapter": 25,
@@ -1164,7 +1268,8 @@
   "suggested": "'even if your adversaries who belong to this noble creed have a full share of such things'",
   "certainty": 60,
   "page": 210,
-  "note": "Author is criticising rival co-religionists; OCR seems clean"
+  "note": "Author is criticising rival co-religionists; OCR seems clean",
+  "status": "open"
  },
  {
   "chapter": 25,
@@ -1176,7 +1281,8 @@
   "suggested": "'Observe mourning abundantly, and hold fast to supplication.'",
   "certainty": 40,
   "page": 213,
-  "note": "Word تحداد uncertain in OCR; 'with restraint' is an interpretive addition"
+  "note": "Word تحداد uncertain in OCR; 'with restraint' is an interpretive addition",
+  "status": "open"
  },
  {
   "chapter": 26,
@@ -1188,7 +1294,8 @@
   "suggested": "Add after the block: Whoever washes a dead person should bathe after he has put the shroud on him; and he must not touch him after that, for then bathing becomes obligatory upon him.",
   "certainty": 95,
   "page": 216,
-  "note": "Following paragraph explains it, so the reader needs the rendering."
+  "note": "Following paragraph explains it, so the reader needs the rendering.",
+  "status": "applied"
  },
  {
   "chapter": 26,
@@ -1200,7 +1307,8 @@
   "suggested": "Add English: He saw women following a funeral and stopped and said to them: Will you pray over it among those who pray? They said no. Will you carry it among those who carry it? No. Will you go down into the grave for it among those who go down? No. Will you cover it among those who cover it? No. He said: Then go back, excused but unrewarded.",
   "certainty": 95,
   "page": 220,
-  "note": "Next paragraph begins 'The Mukhtasar al-Athar records' with no bridge."
+  "note": "Next paragraph begins 'The Mukhtasar al-Athar records' with no bridge.",
+  "status": "applied"
  },
  {
   "chapter": 26,
@@ -1212,7 +1320,8 @@
   "suggested": "Whoever touches the body of the dead after it has grown cold must perform the washing.",
   "certainty": 90,
   "page": 216,
-  "note": ""
+  "note": "",
+  "status": "applied"
  },
  {
   "chapter": 26,
@@ -1224,7 +1333,8 @@
   "suggested": "the 'ajrah (عجرة) known in the lands of the Arabs",
   "certainty": 85,
   "page": 216,
-  "note": "The parenthetical is not in the source."
+  "note": "The parenthetical is not in the source.",
+  "status": "applied"
  },
  {
   "chapter": 26,
@@ -1236,7 +1346,8 @@
   "suggested": "in the manner of the loincloth (lankuti) used by the unbelievers and by others among the Muslims",
   "certainty": 40,
   "page": 215,
-  "note": "Minor; term unclear."
+  "note": "Minor; term unclear.",
+  "status": "open"
  },
  {
   "chapter": 27,
@@ -1248,7 +1359,8 @@
   "suggested": "No change needed to match source; optionally a note that the source omits no. 7",
   "certainty": 5,
   "page": 226,
-  "note": "English is faithful to the printed book."
+  "note": "English is faithful to the printed book.",
+  "status": "open"
  },
  {
   "chapter": 29,
@@ -1260,7 +1372,8 @@
   "suggested": "I turn now to the zakat of Fitr.",
   "certainty": 90,
   "page": 240,
-  "note": "Complete sentence otherwise."
+  "note": "Complete sentence otherwise.",
+  "status": "applied"
  },
  {
   "chapter": 31,
@@ -1272,7 +1385,8 @@
   "suggested": "Delete the second block (or confirm it is sourced elsewhere in the book).",
   "certainty": 50,
   "page": 248,
-  "note": "Added text not in this chapter's Arabic; harmless in meaning but not in the source."
+  "note": "Added text not in this chapter's Arabic; harmless in meaning but not in the source.",
+  "status": "open"
  },
  {
   "chapter": 32,
@@ -1284,7 +1398,8 @@
   "suggested": "\"Fast for its sighting and break the fast for its sighting.\"",
   "certainty": 40,
   "page": 258,
-  "note": "Inconsistent rendering; 'at' pre-empts the lam argument."
+  "note": "Inconsistent rendering; 'at' pre-empts the lam argument.",
+  "status": "open"
  },
  {
   "chapter": 32,
@@ -1296,7 +1411,8 @@
   "suggested": "and from disobedience toward His guardians, blessings of God upon them, after submission and certainty",
   "certainty": 60,
   "page": 258,
-  "note": "Also: 'and from His guardians upon His earth — (عَلَيْهِمُ السَّلَامُ) — and I have named it' (p.256), same fix."
+  "note": "Also: 'and from His guardians upon His earth — (عَلَيْهِمُ السَّلَامُ) — and I have named it' (p.256), same fix.",
+  "status": "open"
  },
  {
   "chapter": 32,
@@ -1308,7 +1424,8 @@
   "suggested": "Then I say to the Nasibis and the rest of the opponents",
   "certainty": 35,
   "page": 263,
-  "note": "Named group flattened to a generic; low impact."
+  "note": "Named group flattened to a generic; low impact.",
+  "status": "open"
  },
  {
   "chapter": 32,
@@ -1320,7 +1437,8 @@
   "suggested": "faulting them for departing from the community",
   "certainty": 30,
   "page": 256,
-  "note": "OCR uncertain."
+  "note": "OCR uncertain.",
+  "status": "open"
  },
  {
   "chapter": 33,
@@ -1332,7 +1450,8 @@
   "suggested": "Delete the two added sentences.",
   "certainty": 88,
   "page": 288,
-  "note": "Added claim not in source (translator expansion)."
+  "note": "Added claim not in source (translator expansion).",
+  "status": "applied"
  },
  {
   "chapter": 33,
@@ -1344,7 +1463,8 @@
   "suggested": "Delete the added paragraph.",
   "certainty": 88,
   "page": 288,
-  "note": "Added text not in source."
+  "note": "Added text not in source.",
+  "status": "applied"
  },
  {
   "chapter": 33,
@@ -1356,7 +1476,8 @@
   "suggested": "Delete the added paragraph.",
   "certainty": 88,
   "page": 289,
-  "note": "Added text not in source."
+  "note": "Added text not in source.",
+  "status": "applied"
  },
  {
   "chapter": 33,
@@ -1368,7 +1489,8 @@
   "suggested": "Add: \"Shaban is never complete, and Ramadan is never deficient.\"",
   "certainty": 60,
   "page": 286,
-  "note": "Saying is the proof-text; the prose depends on it."
+  "note": "Saying is the proof-text; the prose depends on it.",
+  "status": "open"
  },
  {
   "chapter": 33,
@@ -1380,7 +1502,8 @@
   "suggested": "Add translation: \"By the sun and its brightness, and the moon when it follows it.\"",
   "certainty": 70,
   "page": 287,
-  "note": "Prose does not depend on it, but every other verse in the list is translated."
+  "note": "Prose does not depend on it, but every other verse in the list is translated.",
+  "status": "open"
  },
  {
   "chapter": 33,
@@ -1392,7 +1515,8 @@
   "suggested": "the Imam al-Hakim bi-Amr Allah, Commander of the Faithful",
   "certainty": 45,
   "page": 288,
-  "note": "Proper title/name rendered as a description; could be read as a generic epithet. Faithful in sense but loses the name."
+  "note": "Proper title/name rendered as a description; could be read as a generic epithet. Faithful in sense but loses the name.",
+  "status": "open"
  },
  {
   "chapter": 33,
@@ -1404,7 +1528,8 @@
   "suggested": "is liable to retaliation for it",
   "certainty": 30,
   "page": 276,
-  "note": "Weakened legal force; doubtful, OCR reading plausible."
+  "note": "Weakened legal force; doubtful, OCR reading plausible.",
+  "status": "open"
  },
  {
   "chapter": 33,
@@ -1416,6 +1541,7 @@
   "suggested": "at the end of that day at a like number of degrees",
   "certainty": 35,
   "page": 285,
-  "note": "Referent is that 29th day, not the month; also the causal link (كان) in OCR is unclear."
+  "note": "Referent is that 29th day, not the month; also the causal link (كان) in OCR is unclear.",
+  "status": "open"
  }
 ]
