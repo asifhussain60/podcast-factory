@@ -1,0 +1,55 @@
+{
+  "publishedAt": "2026-09-20T00:30:24Z",
+  "fingerprint": "159e188f132424b3",
+  "verified": true,
+  "checks": [
+    {
+      "name": "the book exists (production)",
+      "ok": true,
+      "detail": "content row present",
+      "target": "production"
+    },
+    {
+      "name": "written just now (production)",
+      "ok": true,
+      "detail": "recorded 2026-09-20T00:30:31Z",
+      "target": "production"
+    },
+    {
+      "name": "chapters (production)",
+      "ok": true,
+      "detail": "34 live, 34 on disk",
+      "target": "production"
+    },
+    {
+      "name": "Companion cards (production)",
+      "ok": true,
+      "detail": "79 live, 79 on disk",
+      "target": "production"
+    },
+    {
+      "name": "episodes (production)",
+      "ok": true,
+      "detail": "0 live, 0 on disk",
+      "target": "production"
+    },
+    {
+      "name": "media uploaded (production)",
+      "ok": true,
+      "detail": "36 of 36 file(s) in the bucket",
+      "target": "production"
+    },
+    {
+      "name": "episode audio linked (production)",
+      "ok": true,
+      "detail": "0 of 0 episode(s) have a linked recording",
+      "target": "production"
+    },
+    {
+      "name": "visible (production)",
+      "ok": true,
+      "detail": "status is 'published'",
+      "target": "production"
+    }
+  ]
+}
