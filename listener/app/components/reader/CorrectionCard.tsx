@@ -6,6 +6,8 @@ import type { Correction } from "~/lib/corrections";
 import { renderNote } from "~/lib/richNote";
 import { CorrectionAi } from "./CorrectionAi";
 import { CorrectionDiff } from "./CorrectionDiff";
+import { CorrectionHistory } from "./CorrectionHistory";
+import type { CorrectionEvent } from "~/lib/correctionHistory";
 
 /**
  * One correction, with only the controls its viewer may use.
@@ -25,6 +27,8 @@ export function CorrectionCard({
   onUseSuggestion,
   onComment,
   onUncomment,
+  bookTitle,
+  loadHistory,
 }: {
   correction: Correction;
   busy: boolean;
@@ -36,6 +40,8 @@ export function CorrectionCard({
   onUseSuggestion: (c: Correction, text: string) => void;
   onComment: (c: Correction, body: string) => void;
   onUncomment: (commentId: string) => void;
+  bookTitle: string;
+  loadHistory: (id: string) => Promise<CorrectionEvent[]>;
 }) {
   const [dismissing, setDismissing] = useState(false);
   const [note, setNote] = useState("");
@@ -167,9 +173,11 @@ export function CorrectionCard({
         ) : (
           <span className="pf-cx-lock">
             <Icon icon={faLock} title="Locked" />
-            {c.mine || c.origin === "sweep"
-              ? "Waiting for an admin to decide"
-              : `Raised by ${c.raisedByName} — only they or an admin can change this`}
+            {c.status !== "open" && c.status !== "suggested"
+              ? "Decided — closed to changes"
+              : c.mine || c.origin === "sweep"
+                ? "Waiting for an admin to decide"
+                : `Raised by ${c.raisedByName} — only they or an admin can change this`}
           </span>
         )}
       </footer>
@@ -187,6 +195,12 @@ export function CorrectionCard({
           ? "Comment"
           : `${c.comments.length} comment${c.comments.length === 1 ? "" : "s"}`}
       </button>
+
+      <CorrectionHistory
+        correction={c}
+        bookTitle={bookTitle}
+        load={loadHistory}
+      />
 
       {talking ? (
         <div className="pf-cx-thread">

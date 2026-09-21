@@ -13971,6 +13971,33 @@
     cursor: pointer;
   }
 
+  .pf-cx-history {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3);
+    border-radius: var(--pf-radius);
+    background: var(--l-sunken);
+  }
+
+  .pf-cx-history__list {
+    margin: 0;
+    padding-left: var(--pf-space-4);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-ink);
+  }
+
+  .pf-cx-history__when {
+    color: var(--l-muted);
+  }
+
+  .pf-cx-history__what {
+    color: var(--l-muted);
+    overflow-wrap: anywhere;
+  }
+
   .pf-cx-thread {
     display: flex;
     flex-direction: column;

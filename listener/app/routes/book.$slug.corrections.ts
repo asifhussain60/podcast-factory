@@ -23,6 +23,7 @@ import {
   claimChapter,
   setChapterReviewed,
 } from "~/server/moderationProgress.server";
+import { historyFor } from "~/server/correctionHistory.server";
 import { sourceFor } from "~/server/sourceOcr.server";
 
 /**
@@ -58,9 +59,10 @@ const actorOf = (context: Route.LoaderArgs["context"]): Actor => {
 };
 
 /**
- * One GET endpoint, three questions, told apart by the query string:
+ * One GET endpoint, four questions, told apart by the query string:
  *   ?source=<chapter>                       the source text for that chapter
  *   ?occurrences=<words>&chapter=&block=    other places the same words appear
+ *   ?history=<id>|all                       the recorded history of one correction, or of all
  *   (nothing)                               the corrections, and how far the book's review has got
  * Each is answered by a function that itself returns nothing for a non-moderator.
  */
@@ -74,6 +76,20 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   if (source !== null)
     return Response.json(
       { source: await sourceFor(env.DB, actor, params.slug, source) },
+      noStore,
+    );
+
+  const history = query.get("history");
+  if (history !== null)
+    return Response.json(
+      {
+        history: await historyFor(
+          env.DB,
+          actor,
+          params.slug,
+          history === "all" ? null : history,
+        ),
+      },
       noStore,
     );
 

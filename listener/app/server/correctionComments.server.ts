@@ -98,7 +98,15 @@ export async function addComment(
          VALUES (?1, ?2, ?3, ?4, ?5, ?6)`,
       )
       .bind(id, correctionId, slug, normalizeEmail(actor.email), text, now),
-    audit(db, now, actor, "comment-correction", slug, correctionId, null),
+    audit(
+      db,
+      now,
+      actor,
+      "comment-correction",
+      slug,
+      correctionId,
+      JSON.stringify({ body: text }),
+    ),
   ]);
   return id;
 }

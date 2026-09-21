@@ -210,6 +210,11 @@ check(
 );
 check("control: so does an admin", (await get(corrections, admin)).status, 200);
 check(
+  "control: a moderator can read the recorded history",
+  (await get(`${corrections}?history=all`, modCookie)).status,
+  200,
+);
+check(
   "control: a moderator can read a chapter's source",
   (await get(`${corrections}?source=chapter-1`, modCookie)).status,
   200,
@@ -231,6 +236,11 @@ check(
 check(
   "nor read a chapter's source",
   (await get(`${corrections}?source=chapter-1`, outsider)).status,
+  404,
+);
+check(
+  "nor read the recorded history",
+  (await get(`${corrections}?history=all`, outsider)).status,
   404,
 );
 check(

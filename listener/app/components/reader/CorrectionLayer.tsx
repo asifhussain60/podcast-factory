@@ -10,6 +10,8 @@ import { ChapterReview } from "./ChapterReview";
 import { CorrectionCard } from "./CorrectionCard";
 import { CorrectionCompose, type Draft } from "./CorrectionCompose";
 import { onCorrectionRequest } from "./correctionBus";
+import { copyText } from "./CorrectionHistory";
+import { historyMarkdown } from "~/lib/correctionHistory";
 import { SourcePane } from "./SourcePane";
 import { useCorrectionMarks } from "./useCorrectionMarks";
 import { useCorrections } from "./useCorrections";
@@ -40,6 +42,7 @@ export function CorrectionLayer() {
   const slug = useParams().slug ?? "";
   const enabled = data?.isModerator === true;
   const chapterKey = data?.chapter.anchorKey ?? "";
+  const bookTitle = data?.bookTitle ?? slug;
 
   const {
     items,
@@ -49,6 +52,7 @@ export function CorrectionLayer() {
     send,
     occurrences,
     source,
+    history,
     clearError,
   } = useCorrections(slug, enabled);
 
@@ -60,6 +64,7 @@ export function CorrectionLayer() {
   const [tab, setTab] = useState<Tab>("corrections");
   const [scope, setScope] = useState<Scope>("chapter");
   const [filter, setFilter] = useState<Filter>("all");
+  const [copied, setCopied] = useState(false);
 
   // The selection bar's "Correct this passage".
   useEffect(() => {
@@ -317,6 +322,21 @@ export function CorrectionLayer() {
                         </button>
                       ))}
                       <span className="pf-cx-filters__gap" aria-hidden="true" />
+                      <button
+                        type="button"
+                        title="Copy what is shown, with every change to it, for an AI"
+                        onClick={async () => {
+                          const all = await history("all");
+                          if (
+                            await copyText(
+                              historyMarkdown(bookTitle, shown, all),
+                            )
+                          )
+                            setCopied(true);
+                        }}
+                      >
+                        {copied ? "Copied" : "Copy for AI"}
+                      </button>
                       {(
                         [
                           ["all", "All"],
@@ -365,6 +385,8 @@ export function CorrectionLayer() {
                           onUncomment={(commentId) =>
                             void send({ intent: "uncomment", id: commentId })
                           }
+                          bookTitle={bookTitle}
+                          loadHistory={history}
                         />
                       ))
                     )}

@@ -128,6 +128,13 @@ export async function load(db: D1Database, slug: string, id: string) {
   return row;
 }
 
+/** The wording of a proposal as the history keeps it: text, kind and reason (already sanitised). */
+export const wording = (text: string, kind: string, reasonHtml: string) => ({
+  text,
+  kind,
+  reason: reasonHtml,
+});
+
 export const audit = (
   db: D1Database,
   now: string,

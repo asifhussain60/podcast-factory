@@ -233,7 +233,9 @@ describe("editing", () => {
     );
     const [e] = await events("revise-correction");
     expect(e!.actor).toBe("asif@example.com");
-    expect(JSON.parse(e!.detail!)).toEqual({ was: "the teacher wrote to him" });
+    const detail = JSON.parse(e!.detail!);
+    expect(detail.was.text).toBe("the teacher wrote to him");
+    expect(detail.now.text).toBe("the teacher wrote unto him");
   });
 });
 

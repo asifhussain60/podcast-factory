@@ -47,6 +47,7 @@ import {
   sameAddress,
   type Actor,
   type Row,
+  wording,
 } from "./correctionKit.server";
 import { normalizeEmail } from "./email.server";
 
@@ -229,6 +230,7 @@ export async function proposeCorrection(
 
   const id = crypto.randomUUID();
   const raisedBy = normalizeEmail(actor.email);
+  const reason = rationale(input.rationale);
 
   await db.batch([
     db
@@ -250,12 +252,20 @@ export async function proposeCorrection(
           ? input.prefix.slice(0, MAX_PREFIX)
           : "",
         proposed,
-        rationale(input.rationale),
+        reason,
         input.kind,
         raisedBy,
         now,
       ),
-    audit(db, now, actor, "raise-correction", slug, id, null),
+    audit(
+      db,
+      now,
+      actor,
+      "raise-correction",
+      slug,
+      id,
+      JSON.stringify({ now: wording(proposed, input.kind, reason) }),
+    ),
   ]);
 
   return id;
@@ -283,13 +293,14 @@ export async function reviseCorrection(
       "the replacement is the same as the book",
     );
 
-  // An admin rewriting SOMEBODY ELSE'S proposal leaves the previous text in the audit row, so
-  // the change is never invisible to the person who raised it.
-  const detail =
-    can === "full" &&
-    normalizeEmail(row.raised_by) !== normalizeEmail(actor.email)
-      ? JSON.stringify({ was: row.proposed_text })
-      : null;
+  // Every revision records the wording before AND after, whoever made it: a moderator's own edit
+  // is as much a part of the history as an admin's rewrite of somebody else's, and the copy-for-AI
+  // handoff is only as good as what was kept.
+  const reason = rationale(input.rationale);
+  const detail = JSON.stringify({
+    was: wording(row.proposed_text, row.kind, row.rationale_html),
+    now: wording(proposed, input.kind, reason),
+  });
 
   await db.batch([
     db
@@ -298,7 +309,7 @@ export async function reviseCorrection(
             SET proposed_text = ?3, rationale_html = ?4, kind = ?5, updated_at = ?6
           WHERE id = ?1 AND slug = ?2 AND deleted_at IS NULL`,
       )
-      .bind(id, slug, proposed, rationale(input.rationale), input.kind, now),
+      .bind(id, slug, proposed, reason, input.kind, now),
     audit(db, now, actor, "revise-correction", slug, id, detail),
   ]);
 }
@@ -395,7 +406,7 @@ export async function decideCorrection(
     db
       .prepare(
         `INSERT INTO access_event (at, actor, action, subject, scope_type, scope_id, detail)
-         SELECT ?1, ?2, ?3, ?4, 'correction', ?5, NULL WHERE changes() > 0`,
+         SELECT ?1, ?2, ?3, ?4, 'correction', ?5, ?6 WHERE changes() > 0`,
       )
       .bind(
         now,
@@ -403,6 +414,7 @@ export async function decideCorrection(
         decision === "accepted" ? "accept-correction" : "dismiss-correction",
         slug,
         id,
+        said === null ? null : JSON.stringify({ note: said }),
       ),
   ]);
 
@@ -473,7 +485,7 @@ export async function triageSuggestion(
     db
       .prepare(
         `INSERT INTO access_event (at, actor, action, subject, scope_type, scope_id, detail)
-         SELECT ?1, ?2, ?3, ?4, 'correction', ?5, NULL WHERE changes() > 0`,
+         SELECT ?1, ?2, ?3, ?4, 'correction', ?5, ?6 WHERE changes() > 0`,
       )
       .bind(
         now,
@@ -481,6 +493,9 @@ export async function triageSuggestion(
         action === "confirm" ? "confirm-suggestion" : "dismiss-suggestion",
         slug,
         id,
+        action === "dismiss" && said !== null
+          ? JSON.stringify({ note: said })
+          : null,
       ),
   ]);
 

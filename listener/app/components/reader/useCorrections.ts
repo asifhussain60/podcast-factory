@@ -6,6 +6,7 @@ import type {
   Occurrence,
   SourceView,
 } from "~/lib/corrections";
+import type { CorrectionEvent } from "~/lib/correctionHistory";
 
 /**
  * A book's corrections, and the seven things a person can do to them.
@@ -140,7 +141,26 @@ export function useCorrections(slug: string, enabled: boolean) {
     [slug],
   );
 
+  /** The recorded history of one correction, or of the whole book. Empty on any failure. */
+  const history = useCallback(
+    async (id: string | "all") => {
+      try {
+        const response = await fetch(
+          `/book/${slug}/corrections?${new URLSearchParams({ history: id })}`,
+          { credentials: "same-origin" },
+        );
+        return response.ok
+          ? ((await response.json()) as { history: CorrectionEvent[] }).history
+          : [];
+      } catch {
+        return [];
+      }
+    },
+    [slug],
+  );
+
   return {
+    history,
     items,
     chapters,
     error,
