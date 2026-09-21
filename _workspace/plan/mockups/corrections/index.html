@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-role="moderator-layla">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Correction Panel Mock</title>
+  <link rel="stylesheet" href="vendor/podcast-factory.css">
+  <link rel="stylesheet" href="vendor/library-rail.css">
+  <link rel="stylesheet" href="mock.css">
+</head>
+<body>
+
+  <!-- PROTOTYPE CONTROLS — not part of the design. They let you look at the proposal
+       as each kind of person and in each of the site's three themes. -->
+  <div class="mk-proto" role="region" aria-label="Prototype controls">
+    <span class="mk-proto__tag">Proposed design · sample text</span>
+    <label>Viewing as
+      <select id="mk-role">
+        <option value="moderator-layla">Moderator — Layla</option>
+        <option value="moderator-omar">Moderator — Omar</option>
+        <option value="admin">Admin — Asif</option>
+        <option value="reader">Ordinary reader</option>
+      </select>
+    </label>
+    <label>Theme
+      <select id="mk-theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="sepia">Sepia</option>
+      </select>
+    </label>
+    <a class="mk-proto__link" href="library.html">Shelf: books under moderation →</a>
+  </div>
+
+  <header class="pf-container pf-header">
+    <a href="library.html" aria-label="Home" class="pf-logo-link"><img class="mk-logo" src="vendor/brand/logo.png" alt="Podcast Factory Library" height="56"></a>
+    <div class="pf-header__nav" data-open="false">
+      <a class="pf-navlink" href="library.html"><span class="pf-navlink__label">Home</span></a>
+      <a class="pf-navlink" href="library.html"><span class="pf-navlink__label">Library</span></a>
+      <a class="pf-navlink" href="#"><span class="pf-navlink__label">Downloads</span></a>
+      <a class="pf-navlink" href="#"><span class="pf-navlink__label">About</span></a>
+      <a class="pf-navlink mk-only-admin" href="#"><span class="pf-navlink__label">Access</span></a>
+    </div>
+  </header>
+
+  <main class="pf-reader-page">
+    <div class="pf-reader-head">
+      <h1 class="pf-reader-head__book"><a href="#">A Sample Book of Study</a></h1>
+    </div>
+
+    <article class="pf-page">
+      <h2 class="pf-chapter-title">On Patience in Study</h2>
+
+      <div class="reader pf-chapter-body" id="mk-body">
+        <p>Every book that reaches a reader has passed through many hands, and each pair of hands leaves something of itself behind. A patient reader is one who notices where that has happened, and who is willing to <mark class="pf-hl pf-hl--gold" data-mark-id="own-1" tabindex="0">slow down</mark> where the page asks it.</p>
+
+        <p id="mk-target">When the teacher heard of the student's difficulty, <span class="mk-c" data-c="c-omar" tabindex="0">the teacher said to him that patience in study is the first door</span>, and that no one enters the second without passing through it. The student returned to his books that same evening and read until the lamp burned low.</p>
+
+        <p>Their word for this was <span lang="ar" dir="rtl" class="mk-ar">الصَّبْر</span>, the steadiness that holds a person to the work when the work refuses to yield. It is not the absence of struggle. It is what remains standing in the presence of it, and it is the quality every later virtue in the book is said to depend upon.</p>
+
+        <p>A second paragraph on the same theme follows, so that there is enough surrounding text to select a sentence, a phrase, or a whole passage and see how the bar and the panel behave against real reading width. Nothing here is drawn from any book in the library.</p>
+
+        <p>The chapter ends, as most of them do, with a short summary of what was said and a reminder of what remains to be read.</p>
+      </div>
+    </article>
+  </main>
+
+  <!-- ===== The selection bar — the existing bar, plus ONE new strip ===== -->
+  <div id="mk-selbar" class="pf-selbar" role="dialog" aria-label="Mark this passage" hidden>
+    <div class="pf-selbar__row">
+      <div role="group" aria-label="Highlight colour" class="pf-selbar__colours">
+        <button type="button" class="pf-selbar__colour pf-selbar__colour--gold" aria-label="Gold" title="Gold"></button>
+        <button type="button" class="pf-selbar__colour pf-selbar__colour--sage" aria-label="Sage" title="Sage"></button>
+        <button type="button" class="pf-selbar__colour pf-selbar__colour--sky" aria-label="Sky" title="Sky"></button>
+        <button type="button" class="pf-selbar__colour pf-selbar__colour--rose" aria-label="Rose" title="Rose"></button>
+      </div>
+      <span class="pf-selbar__divider" aria-hidden="true"></span>
+      <button type="button" class="pf-selbar__action" title="Add note">
+        <svg class="mk-ico" viewBox="0 0 448 512" aria-hidden="true"><path fill="currentColor" d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H288V368c0-26.5 21.5-48 48-48H448V96c0-35.3-28.7-64-64-64H64zM448 352H336c-8.8 0-16 7.2-16 16V480L448 352z"/></svg>
+      </button>
+    </div>
+
+    <!-- NEW. Moderators and admins only — not rendered at all for anyone else. -->
+    <button type="button" id="mk-correct" class="pf-selbar__correct mk-only-mod">
+      <svg class="mk-ico" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+      <span class="pf-selbar__correct-label">Correct this passage</span>
+      <span class="pf-selbar__correct-tag">Moderators</span>
+    </button>
+  </div>
+
+  <!-- ===== Collapsed edge tab (same rule as the notes tab) ===== -->
+  <button type="button" id="mk-tab" class="pf-edge-tab pf-edge-tab--end mk-only-mod" aria-expanded="false" aria-label="Open corrections" title="Corrections">
+    <svg class="mk-ico" viewBox="0 0 512 512" aria-hidden="true"><path fill="currentColor" d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+    <span class="pf-edge-tab__label">Corrections</span>
+    <span class="pf-edge-tab__count" id="mk-tab-count">3</span>
+  </button>
+  <button type="button" id="mk-tab-notes" class="pf-edge-tab pf-edge-tab--end mk-only-reader" aria-label="Open your notes" title="Your notes">
+    <span class="pf-edge-tab__label">Your notes</span>
+  </button>
+
+  <!-- ===== THE CORRECTION PANEL — a third host for the reader's existing right-hand drawer ===== -->
+  <button type="button" id="mk-scrim" class="pf-drawer__scrim" aria-hidden="true" tabindex="-1" hidden></button>
+
+  <aside id="mk-panel" class="pf-drawer pf-drawer--end pf-drawer--correct" aria-label="Corrections" hidden>
+    <div class="pf-drawer__head">
+      <h2 class="pf-drawer__title">Corrections</h2>
+      <span class="mk-role-chip" id="mk-role-chip">Moderator</span>
+      <button type="button" class="pf-tool" id="mk-close" aria-label="Close corrections">
+        <svg class="mk-ico" viewBox="0 0 384 512" aria-hidden="true"><path fill="currentColor" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+      </button>
+    </div>
+
+    <div class="pf-drawer__body">
+
+      <!-- ---- Compose ---- -->
+      <section id="mk-compose" class="cx-compose" hidden aria-label="New correction">
+        <div class="cx-eyebrow"><span class="cx-step">1</span> The passage <span class="cx-loc" id="mk-loc">Chapter 4 · paragraph 2</span></div>
+        <blockquote class="cx-quote" id="mk-quote"></blockquote>
+
+        <details class="cx-source" id="mk-source" open>
+          <summary>
+            <span class="cx-eyebrow"><span class="cx-step">2</span> The source</span>
+            <span class="cx-source__meta"><span class="cx-badge cx-badge--scan">Scanned · OCR</span> pp. 14–15</span>
+          </summary>
+          <div class="cx-source__tabs" role="tablist" aria-label="Which source">
+            <button type="button" role="tab" aria-selected="true" data-src="ocr">Scanned source</button>
+            <button type="button" role="tab" aria-selected="false" data-src="txt">Extracted text</button>
+          </div>
+          <div class="cx-source__page" id="mk-src-ocr" dir="rtl" lang="ar">
+            فَلَمَّا بَلَغَ الشَّيْخَ أَمْرُ تِلْمِيذِهِ <mark class="cx-match">وَكَتَبَ الشَّيْخُ إِلَى تِلْمِيذِهِ</mark> أَنَّ الصَّبْرَ فِي الطَّلَبِ هُوَ الْبَابُ الْأَوَّلُ وَلَا يَدْخُلُ أَحَدٌ الثَّانِيَ إِلَّا بَعْدَ أَنْ يَمُرَّ بِهِ
+          </div>
+          <div class="cx-source__page cx-source__page--en" id="mk-src-txt" hidden>
+            When the shaykh learned of his student's difficulty, <mark class="cx-match">the shaykh wrote to his student</mark> that patience in seeking is the first door, and that no one enters the second except after passing through it.
+          </div>
+          <div class="cx-source__foot">
+            <span class="cx-hint">Select any words above, then</span>
+            <button type="button" class="pf-button pf-button--sm pf-button--soft" id="mk-use-src">Use selection in correction</button>
+          </div>
+        </details>
+
+        <div class="cx-eyebrow"><span class="cx-step">3</span> Your correction</div>
+        <div class="cx-kinds" role="radiogroup" aria-label="What kind of correction">
+          <button type="button" role="radio" aria-checked="false" data-kind="typo">Typo</button>
+          <button type="button" role="radio" aria-checked="false" data-kind="arabic">Arabic</button>
+          <button type="button" role="radio" aria-checked="true" data-kind="meaning">Meaning</button>
+          <button type="button" role="radio" aria-checked="false" data-kind="citation">Citation</button>
+          <button type="button" role="radio" aria-checked="false" data-kind="formatting">Formatting</button>
+          <button type="button" role="radio" aria-checked="false" data-kind="other">Other</button>
+        </div>
+        <label class="cx-field">
+          <span class="cx-field__label">Replacement text <em>plain text — this is what goes into the book</em></span>
+          <textarea id="mk-proposed" class="cx-textarea" rows="4"></textarea>
+        </label>
+
+        <div class="cx-diff" aria-live="polite">
+          <div class="cx-diff__head">What will change</div>
+          <p class="cx-diff__body" id="mk-diff"></p>
+        </div>
+
+        <div class="cx-field">
+          <span class="cx-field__label">Why <em>so the person deciding can see your reasoning</em></span>
+          <div class="pf-rte">
+            <div class="pf-rte__toolbar" role="toolbar" aria-label="Formatting">
+              <button type="button" class="pf-tool pf-rte__toolbar-btn" title="Bold" data-cmd="bold"><b>B</b></button>
+              <button type="button" class="pf-tool pf-rte__toolbar-btn" title="Italic" data-cmd="italic"><i>I</i></button>
+              <button type="button" class="pf-tool pf-rte__toolbar-btn" title="Bulleted list" data-cmd="insertUnorderedList">•</button>
+              <button type="button" class="pf-tool pf-rte__toolbar-btn" title="Quote" data-cmd="formatBlock" data-arg="blockquote">“</button>
+            </div>
+            <div class="pf-rte__content-wrap">
+              <div class="pf-rte__editable cx-why" id="mk-why" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Why this correction"></div>
+              <span class="pf-rte__placeholder" id="mk-why-ph">The Arabic says “wrote”, not “said” — see p. 14, line 3.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cx-actions">
+          <button type="button" class="pf-button pf-button--sm pf-button--ghost" id="mk-cancel">Cancel</button>
+          <button type="button" class="pf-button pf-button--sm cx-submit" id="mk-submit">Submit correction</button>
+        </div>
+      </section>
+
+      <!-- ---- Empty prompt when nothing is being composed ---- -->
+      <section id="mk-idle" class="cx-idle">
+        <p class="cx-idle__lead"><strong>Select any word, sentence or paragraph</strong> and press <em>Correct this passage</em>. Everyone with this power sees the same list.</p>
+      </section>
+
+      <!-- ---- The shared list ---- -->
+      <section class="cx-list" aria-label="Corrections on this chapter">
+        <h3 class="pf-notes__heading cx-list__head">
+          <span class="pf-notes__heading-main">On this chapter</span>
+          <span class="pf-notes__count" id="mk-count">3</span>
+        </h3>
+        <div class="cx-filter" role="group" aria-label="Filter">
+          <button type="button" aria-pressed="true" data-f="all">All</button>
+          <button type="button" aria-pressed="false" data-f="open">Open</button>
+          <button type="button" aria-pressed="false" data-f="accepted">Accepted</button>
+          <button type="button" aria-pressed="false" data-f="mine">Mine</button>
+        </div>
+        <div id="mk-cards" class="cx-cards"></div>
+      </section>
+    </div>
+  </aside>
+
+  <div id="mk-toast" class="cx-toast" role="status" hidden></div>
+
+  <script src="mock.js"></script>
+</body>
+</html>

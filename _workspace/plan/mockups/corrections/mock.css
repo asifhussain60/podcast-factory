@@ -1,0 +1,888 @@
+/* ==========================================================================
+   PROPOSED additions to the Podcast Factory Library — everything below is new.
+   The live stylesheet is vendored untouched in vendor/ and supplies every token,
+   palette, button, drawer and editor; nothing here re-draws any of them.
+
+   New tokens:      --l-correct  (the proofreader's red, reused from the topic hues)
+   New components:  .pf-selbar__correct   the one strip added to the selection bar
+                    .pf-drawer--correct   the panel's width, on the existing drawer
+                    .cx-*                 the panel's contents
+   ========================================================================== */
+
+:root {
+  /* One accent for the whole feature, and NOT one of the four highlight colours —
+     those all mean "a reader marked this". The topic-coral already exists in all
+     three palettes and is already held to 4.5:1 on the surface by the theme test. */
+  --l-correct: var(--l-topic-coral);
+  --l-correct-soft: color-mix(in srgb, var(--l-correct) 12%, var(--l-surface));
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---- Role gating (the mock's stand-in for the server deciding) -------------
+   In the real app these elements are simply never rendered for someone who may
+   not use them — not hidden, not disabled. */
+.mk-only-mod,
+.mk-only-admin,
+.mk-only-reader {
+  display: none;
+}
+html[data-role^="moderator"] .mk-only-mod,
+html[data-role="admin"] .mk-only-mod,
+html[data-role="admin"] .mk-only-admin,
+html[data-role="reader"] .mk-only-reader {
+  display: revert;
+}
+html[data-role^="moderator"] .pf-edge-tab.mk-only-mod,
+html[data-role="admin"] .pf-edge-tab.mk-only-mod {
+  display: flex;
+}
+html[data-role="reader"] .pf-edge-tab.mk-only-reader {
+  display: flex;
+}
+
+/* Component rules below set their own `display`, which would otherwise beat the
+   hide above — so the gate is restated last, with force, for the reader. */
+html[data-role="reader"] .mk-only-mod {
+  display: none !important;
+}
+html[data-role^="moderator"] .pf-selbar__correct.mk-only-mod,
+html[data-role="admin"] .pf-selbar__correct.mk-only-mod {
+  display: flex;
+}
+
+.mk-ico {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+/* ---- Prototype controls (NOT part of the design) --------------------------- */
+.mk-proto {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pf-space-4);
+  padding: var(--pf-space-2) var(--pf-space-5);
+  background: var(--l-sunken);
+  border-bottom: 1px dashed var(--l-faint);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-muted);
+}
+.mk-proto__tag {
+  padding: 2px 8px;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-ink);
+  color: var(--l-bg);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.mk-proto label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+.mk-proto select {
+  padding: 3px 6px;
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius-sm);
+  background: var(--l-surface);
+  color: var(--l-ink);
+  font: inherit;
+}
+.mk-proto__link {
+  margin-inline-start: auto;
+  color: var(--l-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.mk-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+}
+
+/* ---- Passages that already carry a correction ------------------------------
+   Visible to moderators and admins only. A wavy underline in the proofreader's
+   red — a mark nobody could mistake for a highlight, which is a wash of colour
+   BEHIND the words, or for a note, which is a thin edge AROUND them. */
+.mk-c {
+  cursor: pointer;
+}
+html[data-role^="moderator"] .mk-c,
+html[data-role="admin"] .mk-c {
+  text-decoration: underline wavy var(--l-correct);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-skip-ink: none;
+}
+.mk-ar {
+  font-family: var(--l-font-arabic);
+  font-size: 1.25em;
+}
+
+/* ---- THE CORRECTION STRIP ---------------------------------------------------
+   Completely unlike everything else in the bar: the bar is a light card holding
+   round swatches and glyph buttons; this is a solid, dark, full-width band with a
+   word on it. It is editorial rather than personal, and it says so by being a
+   different material. Inverts with the theme, so it is the strongest contrast on
+   the bar in all three. */
+.pf-selbar {
+  min-width: 17.5rem;
+}
+.pf-selbar__correct {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-3);
+  width: 100%;
+  margin-top: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-3) var(--pf-space-2) var(--pf-space-2);
+  border: 0;
+  border-radius: var(--pf-radius);
+  background: var(--l-ink);
+  color: var(--l-bg);
+  cursor: pointer;
+  text-align: start;
+  transition:
+    transform var(--pf-motion),
+    box-shadow var(--pf-motion);
+}
+.pf-selbar__correct:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--l-ink) 28%, transparent);
+}
+.pf-selbar__correct:focus-visible {
+  outline: 2px solid var(--l-correct);
+  outline-offset: 2px;
+}
+.pf-selbar__correct > .mk-ico {
+  box-sizing: content-box;
+  width: 1rem;
+  height: 1rem;
+  padding: 0.5rem;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-correct);
+  color: var(--l-bg);
+}
+.pf-selbar__correct-label {
+  flex: 1;
+  font-family: var(--l-font-display);
+  font-size: var(--pf-text-md);
+  font-style: italic;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.pf-selbar__correct-tag {
+  padding: 2px 7px;
+  border: 1px solid color-mix(in srgb, var(--l-bg) 38%, transparent);
+  border-radius: var(--pf-radius-pill);
+  font-family: var(--l-font-ui);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* Edge tab for the panel: same rule as the notes tab, in the correction accent. */
+#mk-tab .mk-ico {
+  color: var(--l-correct);
+}
+#mk-tab .pf-edge-tab__count {
+  background: var(--l-correct);
+  color: var(--l-bg);
+}
+
+/* ---- THE PANEL ------------------------------------------------------------- */
+.pf-drawer--correct {
+  width: min(30rem, 100vw);
+}
+@media (min-width: 64rem) {
+  body.pf-shell--docked {
+    padding-inline-end: min(30rem, 100vw);
+  }
+  body.pf-shell--docked .pf-drawer__scrim {
+    display: none !important;
+  }
+  .pf-drawer--correct {
+    box-shadow: none;
+  }
+}
+.pf-drawer--correct .pf-drawer__head {
+  border-bottom: 2px solid var(--l-correct);
+}
+.pf-drawer--correct .pf-drawer__title {
+  margin-inline-end: auto;
+}
+.mk-role-chip {
+  padding: 2px 9px;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-correct-soft);
+  color: var(--l-correct);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 600;
+}
+.pf-drawer--correct .pf-drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-6);
+}
+
+.cx-idle__lead {
+  margin: 0;
+  padding: var(--pf-space-4);
+  border: 1px dashed var(--l-rule);
+  border-radius: var(--pf-radius);
+  font-size: var(--pf-text-base);
+  line-height: 1.55;
+  color: var(--l-muted);
+}
+
+/* ---- Compose ---- */
+.cx-compose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-4);
+  padding-bottom: var(--pf-space-6);
+  border-bottom: 1px solid var(--l-rule-soft);
+}
+.cx-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--l-muted);
+}
+.cx-step {
+  display: inline-grid;
+  place-items: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-ink);
+  color: var(--l-bg);
+  font-size: 0.7rem;
+}
+.cx-loc {
+  margin-inline-start: auto;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--l-faint);
+}
+.cx-quote {
+  margin: 0;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  border-inline-start: 3px solid var(--l-correct);
+  background: var(--l-sunken);
+  border-radius: 0 var(--pf-radius) var(--pf-radius) 0;
+  font-family: var(--l-font-prose);
+  font-size: var(--pf-text-base);
+  line-height: 1.6;
+  color: var(--l-ink);
+}
+
+.cx-source {
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius);
+  background: var(--l-surface);
+  overflow: hidden;
+}
+.cx-source > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-3) var(--pf-space-4);
+  cursor: pointer;
+  list-style: none;
+  background: var(--l-sunken);
+}
+.cx-source > summary::-webkit-details-marker {
+  display: none;
+}
+.cx-source__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-muted);
+}
+.cx-badge {
+  padding: 1px 8px;
+  border-radius: var(--pf-radius-pill);
+  font-weight: 600;
+  background: var(--l-accent-soft);
+  color: var(--l-accent);
+}
+.cx-source__tabs {
+  display: flex;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-2) var(--pf-space-3) 0;
+  border-bottom: 1px solid var(--l-rule-soft);
+}
+.cx-source__tabs button {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--l-muted);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 500;
+  cursor: pointer;
+}
+.cx-source__tabs button[aria-selected="true"] {
+  border-bottom-color: var(--l-correct);
+  color: var(--l-ink);
+}
+.cx-source__page {
+  padding: var(--pf-space-4);
+  font-family: var(--l-font-arabic);
+  font-size: 1.35rem;
+  line-height: 2.1;
+  color: var(--l-ink);
+  user-select: text;
+}
+.cx-source__page--en {
+  font-family: var(--l-font-prose);
+  font-size: var(--pf-text-base);
+  line-height: 1.6;
+}
+.cx-match {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: var(--l-hl-gold);
+  color: inherit;
+}
+.cx-source__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-2) var(--pf-space-4);
+  border-top: 1px solid var(--l-rule-soft);
+}
+.cx-hint {
+  font-size: var(--pf-text-xs);
+  color: var(--l-faint);
+}
+
+.cx-kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--pf-space-1);
+}
+.cx-kinds button {
+  padding: var(--pf-space-1) var(--pf-space-3);
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-surface);
+  color: var(--l-muted);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 500;
+  cursor: pointer;
+}
+.cx-kinds button[aria-checked="true"] {
+  border-color: var(--l-correct);
+  background: var(--l-correct-soft);
+  color: var(--l-correct);
+}
+.cx-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-2);
+}
+.cx-field__label {
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 600;
+  color: var(--l-ink);
+}
+.cx-field__label em {
+  margin-inline-start: var(--pf-space-2);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--l-faint);
+}
+.cx-textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius);
+  background: var(--l-surface);
+  color: var(--l-ink);
+  font-family: var(--l-font-prose);
+  font-size: var(--pf-text-base);
+  line-height: 1.55;
+  resize: vertical;
+}
+.cx-textarea:focus {
+  outline: none;
+  border-color: var(--l-correct);
+}
+.cx-why {
+  min-height: 5.5rem;
+}
+.cx-diff {
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius);
+  overflow: hidden;
+}
+.cx-diff__head {
+  padding: var(--pf-space-1) var(--pf-space-4);
+  background: var(--l-sunken);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--l-muted);
+}
+.cx-diff__body {
+  margin: 0;
+  padding: var(--pf-space-3) var(--pf-space-4);
+  font-family: var(--l-font-prose);
+  font-size: var(--pf-text-base);
+  line-height: 1.7;
+  color: var(--l-ink);
+}
+.cx-diff del,
+.cx-card del {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--l-danger) 16%, transparent);
+  color: var(--l-danger);
+  text-decoration: line-through;
+}
+.cx-diff ins,
+.cx-card ins {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--l-ok) 18%, transparent);
+  color: var(--l-ok);
+  text-decoration: none;
+  font-weight: 600;
+}
+.cx-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--pf-space-2);
+}
+.cx-submit,
+.cx-submit:hover {
+  border-color: var(--l-correct);
+  background: var(--l-correct);
+  color: var(--l-bg);
+}
+.cx-submit:hover {
+  filter: brightness(0.92);
+}
+
+/* ---- The shared list ---- */
+.cx-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+.cx-list__head {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+.cx-filter {
+  display: flex;
+  gap: var(--pf-space-1);
+}
+.cx-filter button {
+  padding: 2px var(--pf-space-3);
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius-pill);
+  background: transparent;
+  color: var(--l-muted);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  cursor: pointer;
+}
+.cx-filter button[aria-pressed="true"] {
+  background: var(--l-ink);
+  border-color: var(--l-ink);
+  color: var(--l-bg);
+}
+.cx-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+}
+.cx-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-3);
+  padding: var(--pf-space-4);
+  border: 1px solid var(--l-rule);
+  border-inline-start: 3px solid var(--l-rule);
+  border-radius: var(--pf-radius);
+  background: var(--l-elev);
+  box-shadow: var(--pf-elev-1);
+}
+.cx-card[data-status="open"] {
+  border-inline-start-color: var(--l-correct);
+}
+.cx-card[data-status="accepted"] {
+  border-inline-start-color: var(--l-ok);
+}
+.cx-card[data-status="dismissed"] {
+  opacity: 0.7;
+  border-inline-start-color: var(--l-faint);
+}
+.cx-card[data-status="applied"] {
+  border-inline-start-color: var(--l-accent);
+}
+.cx-card[data-mine="true"] {
+  background: color-mix(in srgb, var(--l-correct) 5%, var(--l-elev));
+}
+.cx-card__top {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-muted);
+}
+.cx-avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-band);
+  color: var(--l-on-band);
+  font-weight: 600;
+}
+.cx-card__who {
+  font-weight: 600;
+  color: var(--l-ink);
+}
+.cx-kind,
+.cx-status {
+  padding: 1px 8px;
+  font-size: var(--pf-text-xs);
+  line-height: 1.5;
+  border-radius: var(--pf-radius-pill);
+  font-weight: 600;
+}
+.cx-kind {
+  background: var(--l-sunken);
+  color: var(--l-muted);
+  margin-inline-start: auto;
+}
+.cx-status--open {
+  background: var(--l-correct-soft);
+  color: var(--l-correct);
+}
+.cx-status--accepted {
+  background: color-mix(in srgb, var(--l-ok) 16%, var(--l-surface));
+  color: var(--l-ok);
+}
+.cx-status--dismissed {
+  background: var(--l-sunken);
+  color: var(--l-muted);
+}
+.cx-card__change {
+  margin: 0;
+  font-family: var(--l-font-prose);
+  font-size: var(--pf-text-base);
+  line-height: 1.6;
+  color: var(--l-ink);
+}
+.cx-card__why {
+  margin: 0;
+  font-size: var(--pf-text-sm, 0.875rem);
+  line-height: 1.5;
+  color: var(--l-muted);
+}
+.cx-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--pf-space-2);
+}
+.cx-lock {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-faint);
+}
+.cx-lock .mk-ico {
+  width: 0.85em;
+  height: 0.85em;
+}
+.cx-card__foot .pf-button {
+  padding: var(--pf-space-1) var(--pf-space-3);
+  font-size: var(--pf-text-xs);
+}
+.cx-btn-ok {
+  border-color: var(--l-ok);
+  color: var(--l-ok);
+}
+.cx-btn-danger {
+  color: var(--l-danger);
+}
+.cx-card__spacer {
+  margin-inline-start: auto;
+}
+
+.cx-toast {
+  position: fixed;
+  bottom: var(--pf-space-5);
+  left: 50%;
+  z-index: 80;
+  transform: translateX(-50%);
+  padding: var(--pf-space-3) var(--pf-space-5);
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-ink);
+  color: var(--l-bg);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-sm, 0.875rem);
+  box-shadow: var(--pf-elev-4);
+}
+
+/* ---- Shelf: books under moderation ---------------------------------------- */
+.mk-shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: var(--pf-space-5);
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: var(--pf-space-6) var(--pf-space-5) var(--pf-space-9);
+}
+.mk-shelf__title {
+  max-width: 76rem;
+  margin: var(--pf-space-6) auto 0;
+  padding-inline: var(--pf-space-5);
+  font-family: var(--l-font-display);
+  font-size: var(--pf-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--l-display);
+}
+.mk-book {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--l-rule);
+  border-radius: var(--pf-radius-lg);
+  background: var(--l-elev);
+  box-shadow: var(--pf-elev-2);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform var(--pf-motion),
+    box-shadow var(--pf-motion);
+}
+.mk-book:hover {
+  transform: translateY(var(--pf-lift));
+  box-shadow: var(--pf-elev-3);
+}
+.mk-book__band {
+  display: grid;
+  place-items: center;
+  min-height: 9rem;
+  padding: var(--pf-space-4);
+  background: var(--l-band);
+  color: var(--l-on-band);
+  font-family: var(--l-font-arabic-display);
+  font-size: 2rem;
+  text-align: center;
+}
+.mk-book__band--en {
+  font-family: var(--l-font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.mk-book__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pf-space-1);
+  padding: var(--pf-space-4);
+}
+.mk-book__title {
+  font-family: var(--l-font-card-title);
+  font-size: var(--pf-text-md);
+  font-weight: 600;
+  color: var(--l-ink);
+}
+.mk-book__author {
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-muted);
+}
+
+/* UNDER MODERATION — inert-looking, tagged, and only ever drawn for moderators
+   and admins. Ordinary readers never receive this tile at all. */
+.mk-book--moderation {
+  border-style: dashed;
+  border-color: var(--l-faint);
+  box-shadow: var(--pf-elev-1);
+}
+.mk-book--moderation .mk-book__band,
+.mk-book--moderation .mk-book__body {
+  filter: grayscale(0.85);
+  opacity: 0.62;
+}
+.mk-book--moderation:hover {
+  transform: none;
+  box-shadow: var(--pf-elev-1);
+}
+.mk-book__ribbon {
+  position: absolute;
+  z-index: 2;
+  top: var(--pf-space-3);
+  inset-inline-start: calc(var(--pf-space-2) * -1);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-1) var(--pf-space-3);
+  background: var(--l-correct);
+  color: var(--l-bg);
+  font-family: var(--l-font-ui);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  box-shadow: var(--pf-elev-2);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.5rem) 50%, 100% 100%, 0 100%);
+}
+.mk-book__note {
+  padding: var(--pf-space-2) var(--pf-space-4) var(--pf-space-3);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  color: var(--l-muted);
+}
+.mk-empty {
+  max-width: 76rem;
+  margin: var(--pf-space-6) auto;
+  padding: var(--pf-space-5);
+  border: 1px dashed var(--l-rule);
+  border-radius: var(--pf-radius);
+  color: var(--l-muted);
+  font-family: var(--l-font-ui);
+}
+
+/* A passage the source could not be matched to: say so, don't guess. */
+.cx-nomatch .cx-match {
+  background: none;
+  padding: 0;
+}
+.cx-nomatch .cx-source__page::before {
+  content: "No exact match found for your selection — showing the chapter’s pages.";
+  display: block;
+  margin-bottom: var(--pf-space-2);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+  line-height: 1.4;
+  color: var(--l-warn);
+  direction: ltr;
+  text-align: start;
+}
+@keyframes cx-flash {
+  from { box-shadow: 0 0 0 3px var(--l-correct); }
+  to { box-shadow: var(--pf-elev-1); }
+}
+.cx-flash {
+  animation: cx-flash 1.4s ease-out;
+}
+
+/* ---- AI review, on each card ------------------------------------------------
+   Advisory and visibly so: a quiet block under the reasoning, never a button that
+   decides. The verdict is a word, the confidence is a phrase, and the checks are a
+   plain list — so a person can see WHY without opening anything. */
+.cx-ai {
+  border: 1px solid var(--l-rule-soft);
+  border-radius: var(--pf-radius);
+  background: var(--l-surface);
+  font-family: var(--l-font-ui);
+  font-size: var(--pf-text-xs);
+}
+.cx-ai > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--pf-space-2);
+  padding: var(--pf-space-2) var(--pf-space-3);
+  cursor: pointer;
+  list-style: none;
+  color: var(--l-ink);
+}
+.cx-ai > summary::-webkit-details-marker {
+  display: none;
+}
+.cx-ai__badge {
+  padding: 1px 7px;
+  border-radius: var(--pf-radius-pill);
+  background: var(--l-accent-soft);
+  color: var(--l-accent);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.cx-ai__conf {
+  margin-inline-start: auto;
+  color: var(--l-faint);
+}
+.cx-ai[data-verdict="supports"] > summary strong {
+  color: var(--l-ok);
+}
+.cx-ai[data-verdict="human"] > summary strong {
+  color: var(--l-warn);
+}
+.cx-ai[data-verdict="reject"] > summary strong {
+  color: var(--l-danger);
+}
+.cx-ai__text,
+.cx-ai__note {
+  margin: 0;
+  padding: 0 var(--pf-space-3) var(--pf-space-2);
+  font-size: var(--pf-text-sm, 0.875rem);
+  line-height: 1.5;
+  color: var(--l-muted);
+}
+.cx-ai__note {
+  padding-bottom: var(--pf-space-3);
+  color: var(--l-faint);
+  font-size: var(--pf-text-xs);
+}
+.cx-ai__checks {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0 var(--pf-space-3) var(--pf-space-2);
+  list-style: none;
+}
+.cx-ai__check--ok span {
+  color: var(--l-ok);
+}
+.cx-ai__check--warn span {
+  color: var(--l-warn);
+}
+.cx-ai--pending {
+  padding: var(--pf-space-2) var(--pf-space-3);
+  border-style: dashed;
+  color: var(--l-faint);
+}

@@ -1188,3 +1188,47 @@ Asif asked for a direct recommendation rather than choosing blind between archiv
 > Declaring who narrates a book changed every "I" in *Al-Anwaar al-Lateefah* and left the lecturer completely intact — "Hold that frame, and step now inside it", "Do not pass over that phrase lightly", "you should expect nothing else from these pages". The page passed every check and read nothing like the edition printed beside it, because none of those tells is first person. The rule now covers ADDRESS as well as person: under a third-person frame the narration never turns to the reader and never directs an audience, and every such move is recast into exposition rather than deleted, since it carries a thought. Quoted speech, verses, hadith, prayers and block quotations are untouched — there one person really is addressing another — and a book that is a letter to a disciple, like *Ayyuhal Walad*, is exempt entirely.
 >
 > *Value gained:* a book transcribed from spoken lectures can be turned into a book, and the record now says which of the two it is instead of only reporting that the voice pass ran.
+
+## Corrections and moderators — the Library captures what is wrong with a book; the repo applies it (2026-09-20)
+
+### 1. A moderator is a new, lower kind of person
+
+> A moderator can see books held for moderation and raise corrections, and nothing more: no other book and none of the admin screens. Admin is still one address and nothing else, still with no role column, and an admin counts as a moderator automatically. Simulating somebody removes the moderator power too — a simulation only ever takes capability away.
+>
+> *Value gained:* editorial help can be given to more than one person without giving anyone the keys.
+
+### 2. Books can be held back
+
+> A book "Under Moderation" is invisible to ordinary readers however entitled they are, and visible — greyed and ribboned — to moderators and admins. The first draft only tightened the visibility rule and would have hidden a held *draft* from the moderators it is held for; the rule is now two mutually exclusive branches in one expression.
+>
+> *Value gained:* a book can be corrected before it is read, and nobody can stumble on it early.
+
+### 3. The Library captures; the repo applies
+
+> A correction never changes the Library's text. Chapter prose changes only through the Book Composer, so an accepted correction is applied later in the repo — surviving a re-compose — and returns on the next publish. Web reader and printed PDF can never disagree.
+>
+> *Value gained:* one place a sentence is authored, and a religious text whose two editions cannot drift apart.
+
+### 4. Everyone with the power sees the same list; only the owner and the admin can change it
+
+> Reading is shared, writing is owned, and an admin overrides both. A moderator's correction locks once an admin decides, and an accept carries the version the admin saw, so what ships is what was read.
+>
+> *Value gained:* moderators cannot silently rewrite each other, and an admin cannot approve one thing and ship another.
+
+### 5. The source sits beside the correction, honestly labelled
+
+> The scanned page and the pipeline's own extracted text are shown next to the passage, each labelled for what it is and each with its quality — a handwritten scan is never presented with a clean scan's confidence. Only moderators and admins can read it; it is copyrighted prose and is never joined to anything a reader can see.
+>
+> *Value gained:* corrections are checked against evidence, and the tool says plainly when the evidence is weak.
+
+### 6. It is fast
+
+> Pipeline audits pre-fill suggestions that a moderator confirms with one press instead of hunting for the error; one wrong word can be fixed everywhere in a single reviewed batch; a chapter checklist says how far a book's moderation has got; and the admin clears a queue from the keyboard.
+>
+> *Value gained:* finding errors is the slow part of correcting a book, and the pipeline now does most of it.
+
+### 7. Nothing a reader owns is broken by a fix
+
+> A highlight or note on a corrected sentence still finds it, because an applied correction records the exact substitution and the reader follows it; and a chapter saved for offline reading refreshes when its prose changes.
+>
+> *Value gained:* improving the book does not cost any reader their marks or leave them on the old wording.

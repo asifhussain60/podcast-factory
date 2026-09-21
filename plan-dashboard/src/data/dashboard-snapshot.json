@@ -1708,6 +1708,155 @@
         "scripts/podcast/_narrative.py",
         "scripts/podcast/_book_voice.py"
       ]
+    },
+    {
+      "id": "CR-0",
+      "wave": "CR",
+      "title": "Root cause: source headings reached readers with diacritics",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Titles are plain English letters everywhere a reader sees one, and a gate keeps them so.",
+      "tools": [
+        "scripts/podcast/_latin_plain.py",
+        "scripts/podcast/_listener_source_ref.py",
+        "scripts/podcast/_translation_text.py"
+      ]
+    },
+    {
+      "id": "CR-1",
+      "wave": "CR",
+      "title": "The moderator role",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A person can be made a moderator, or have it taken away; admins count as moderators automatically.",
+      "tools": [
+        "listener/app/server/moderation.server.ts",
+        "listener/app/middleware/moderator.ts",
+        "listener/migrations/0022_moderation.sql"
+      ]
+    },
+    {
+      "id": "CR-2",
+      "wave": "CR",
+      "title": "Books under moderation",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A book can be held back so only moderators and admins can see it; the shelf labels it.",
+      "tools": [
+        "listener/app/server/access.server.ts",
+        "listener/app/components/BookCard.tsx"
+      ]
+    },
+    {
+      "id": "CR-3",
+      "wave": "CR",
+      "title": "Capture: the Correction button and panel",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Moderators raise corrections in a side panel; everyone with the power sees the same list; only admins decide.",
+      "tools": [
+        "listener/app/server/corrections.server.ts",
+        "listener/app/components/reader/CorrectionLayer.tsx",
+        "listener/migrations/0023_corrections.sql"
+      ]
+    },
+    {
+      "id": "CR-4",
+      "wave": "CR",
+      "title": "The source, beside the correction",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The scanned page and the extracted text sit next to the correction, labelled and quality-rated.",
+      "tools": [
+        "scripts/podcast/_listener_source_ocr.py",
+        "listener/app/server/sourceOcr.server.ts",
+        "listener/migrations/0024_source_pages.sql"
+      ]
+    },
+    {
+      "id": "CR-5",
+      "wave": "CR",
+      "title": "Speed features in the panel",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Quick fix, fix-everywhere, pipeline suggestions, chapter checklist, and keyboard triage for the admin.",
+      "tools": [
+        "listener/app/routes/admin.corrections.tsx",
+        "listener/app/components/reader/CorrectionCompose.tsx",
+        "listener/app/components/reader/ChapterReview.tsx",
+        "listener/migrations/0025_corrections_workflow.sql"
+      ]
+    },
+    {
+      "id": "CR-6",
+      "wave": "CR",
+      "title": "Readers' marks and offline copies survive a correction",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "A highlight on a corrected sentence still finds it, and a saved chapter refreshes when the prose changes.",
+      "tools": [
+        "listener/app/server/substitutions.server.ts",
+        "listener/app/lib/offline.ts",
+        "listener/migrations/0026_book_version.sql"
+      ]
+    },
+    {
+      "id": "CR-7",
+      "wave": "CR",
+      "title": "Deterministic packets and gates",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Every correction is bundled with its passage, source, book rules and proof-so-far, and cheap rule checks run before any AI is asked.",
+      "tools": [
+        "scripts/podcast/_correction_packets.py",
+        "scripts/podcast/build_correction_packets.py",
+        "scripts/podcast/_correction_text.py"
+      ]
+    },
+    {
+      "id": "CR-8",
+      "wave": "CR",
+      "title": "The AI reviewer (advisory)",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "An AI reads each correction against its source and says supports, revise, reject or needs a person; it never decides.",
+      "tools": [
+        "infra/claude-agents/correction-reviewer.md",
+        "scripts/podcast/review_corrections.py"
+      ]
+    },
+    {
+      "id": "CR-9",
+      "wave": "CR",
+      "title": "Applying accepted corrections to the book",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "Accepted corrections are applied through the Book Composer, with a preview first, and flagged where the podcast text still has the old wording.",
+      "tools": [
+        "scripts/podcast/pull_corrections.py"
+      ]
+    },
+    {
+      "id": "CR-10",
+      "wave": "CR",
+      "title": "Pipeline suggestions from the audit",
+      "status": "pending",
+      "tier": "T1",
+      "depends_on": [],
+      "plain": "The audit's unresolved findings arrive as suggestions a moderator confirms, instead of errors they have to find.",
+      "tools": [
+        "scripts/podcast/import_correction_suggestions.py"
+      ]
     }
   ],
   "waves": [
@@ -1855,11 +2004,16 @@
       "id": "FM",
       "name": "Front matter — editions begin with the book, then a short introduction in its own voice",
       "plain": ""
+    },
+    {
+      "id": "CR",
+      "name": "Corrections and moderators — the Library captures what is wrong with a book; the repo applies it",
+      "plain": ""
     }
   ],
   "debt": [],
   "metrics": {
-    "burn_30d_usd": 33.57
+    "burn_30d_usd": 33.74
   },
   "generator": "regenerate-snapshots",
   "books_in_flight": [
@@ -1937,7 +2091,7 @@
     },
     {
       "slug": "isaf-al-talib",
-      "title": "Is'af al-Talib fi Jami' al-Matalib",
+      "title": "Isaf al-Talib fi Jami al-Matalib",
       "phase": "0book-compose",
       "phase_status": "running",
       "cost_to_date_usd": 0,

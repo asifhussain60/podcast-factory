@@ -4878,3 +4878,99 @@ waves_frontmatter:
           addressing the reader is the form. Counts are recorded per chapter in the fluency
           report, so "the frame converted" and "it stopped sounding like a lecture" are no
           longer the same line in the record.
+
+# ─────────────────────────────────────────────────────────────────────────────
+waves_corrections:
+  - id: CR
+    name: "Corrections and moderators — the Library captures what is wrong with a book; the repo applies it"
+    execution_status: in_progress_2026_09_20
+    branch: develop
+    note: >
+      Asif, 2026-09-20. A moderator (a NEW, strictly lower role than admin) can select any passage of
+      a book in the Podcast Factory Library and raise a correction from a dedicated strip on the
+      selection bar; an admin decides. The Library CAPTURES corrections and never applies them: chapter
+      prose changes only through the Book Composer (the singular path), so an accepted correction is
+      applied later in the repo and returns on the next publish. Books can be held "Under Moderation"
+      (visible to moderators and admins only). Design: _workspace/plan/corrections-and-moderators.md.
+      Built and verified LOCALLY; NOT deployed — deploy waits on Asif's local sign-off.
+    steps:
+      - id: CR-0
+        title: "Root cause: source headings reached readers with diacritics"
+        plain: "Titles are plain English letters everywhere a reader sees one, and a gate keeps them so."
+        tools: ["scripts/podcast/_latin_plain.py", "scripts/podcast/_listener_source_ref.py", "scripts/podcast/_translation_text.py"]
+        status: shipped_2026_09_20
+        note: >
+          The 2026-09-19 fix folded the contents page and file names one artifact at a time and never
+          reached `source-crosswalk.json`, whose headings travel into the Library's `source_reference`.
+          Eight books carried the defect. Now folded where the crosswalk is BUILT and again at the last
+          step before the Library, and B11 fails a book that slips.
+      - id: CR-1
+        title: "The moderator role"
+        plain: "A person can be made a moderator, or have it taken away; admins count as moderators automatically."
+        tools: ["listener/app/server/moderation.server.ts", "listener/app/middleware/moderator.ts", "listener/migrations/0022_moderation.sql"]
+        status: shipped_2026_09_20
+      - id: CR-2
+        title: "Books under moderation"
+        plain: "A book can be held back so only moderators and admins can see it; the shelf labels it."
+        tools: ["listener/app/server/access.server.ts", "listener/app/components/BookCard.tsx"]
+        status: shipped_2026_09_20
+        note: >
+          `VISIBLE_SQL` became two mutually exclusive branches in one expression. The first draft only
+          tightened it and would have hidden a held DRAFT from the very moderators it is held for.
+      - id: CR-3
+        title: "Capture: the Correction button and panel"
+        plain: "Moderators raise corrections in a side panel; everyone with the power sees the same list; only admins decide."
+        tools: ["listener/app/server/corrections.server.ts", "listener/app/components/reader/CorrectionLayer.tsx", "listener/migrations/0023_corrections.sql"]
+        status: shipped_2026_09_20
+      - id: CR-4
+        title: "The source, beside the correction"
+        plain: "The scanned page and the extracted text sit next to the correction, labelled and quality-rated."
+        tools: ["scripts/podcast/_listener_source_ocr.py", "listener/app/server/sourceOcr.server.ts", "listener/migrations/0024_source_pages.sql"]
+        status: shipped_2026_09_20
+      - id: CR-5
+        title: "Speed features in the panel"
+        plain: "Quick fix, fix-everywhere, pipeline suggestions, chapter checklist, and keyboard triage for the admin."
+        tools: ["listener/app/routes/admin.corrections.tsx", "listener/app/components/reader/CorrectionCompose.tsx", "listener/app/components/reader/ChapterReview.tsx", "listener/migrations/0025_corrections_workflow.sql"]
+        status: shipped_2026_09_20
+      - id: CR-6
+        title: "Readers' marks and offline copies survive a correction"
+        plain: "A highlight on a corrected sentence still finds it, and a saved chapter refreshes when the prose changes."
+        tools: ["listener/app/server/substitutions.server.ts", "listener/app/lib/offline.ts", "listener/migrations/0026_book_version.sql"]
+        status: shipped_2026_09_20
+      - id: CR-7
+        title: "Deterministic packets and gates"
+        plain: "Every correction is bundled with its passage, source, book rules and proof-so-far, and cheap rule checks run before any AI is asked."
+        tools: ["scripts/podcast/_correction_packets.py", "scripts/podcast/build_correction_packets.py", "scripts/podcast/_correction_text.py"]
+        status: shipped_2026_09_20
+        note: >
+          A Qur'anic letter change is routed straight to a person and never reviewed or applied by a
+          script. Reuses the existing marks-only vowelling gate and the narrative-frame gates.
+      - id: CR-8
+        title: "The AI reviewer (advisory)"
+        plain: "An AI reads each correction against its source and says supports, revise, reject or needs a person; it never decides."
+        tools: ["infra/claude-agents/correction-reviewer.md", "scripts/podcast/review_corrections.py"]
+        status: shipped_2026_09_20
+        note: >
+          Batched per chapter; a gate failure is recorded with NO model call; verdicts are written only
+          by this script (no HTTP route writes `correction_review`); there is deliberately no auto-accept.
+          Proven end to end on one real chapter (2 corrections) on 2026-09-20; the other 13 batches were
+          dry-run only.
+      - id: CR-9
+        title: "Applying accepted corrections to the book"
+        plain: "Accepted corrections are applied through the Book Composer, with a preview first, and flagged where the podcast text still has the old wording."
+        tools: ["scripts/podcast/pull_corrections.py"]
+        status: shipped_2026_09_20
+        note: >
+          Dry-run by default; `--apply` writes through `_book_edits.write_chapter_body`. Refuses
+          overlapping, ambiguous and Qur'anic-letter changes. Reports systemic patterns (>= 3 alike) to
+          the findings ledger and lists glossary candidates without editing the glossary. NOT yet run
+          with `--apply` against a real book.
+      - id: CR-10
+        title: "Pipeline suggestions from the audit"
+        plain: "The audit's unresolved findings arrive as suggestions a moderator confirms, instead of errors they have to find."
+        tools: ["scripts/podcast/import_correction_suggestions.py"]
+        status: shipped_2026_09_20
+        note: >
+          For isaf-al-talib, 33 of 81 open findings are importable; 48 are skipped with a stated reason
+          (33 are instructions to a person rather than wording, 6 carry editorial notes, 7 would fail the
+          Arabic gate, 2 no longer match the book).
