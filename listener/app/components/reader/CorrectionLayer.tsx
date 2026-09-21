@@ -7,7 +7,7 @@ import type { Anchor } from "~/lib/anchor";
 import type { Correction, Occurrence } from "~/lib/corrections";
 import type { loader as readerLoader } from "~/routes/book.$slug.read.$chapter";
 import { ChapterReview } from "./ChapterReview";
-import { CorrectionCard } from "./CorrectionCard";
+import { CorrectionRow } from "./CorrectionRow";
 import { CorrectionCompose, type Draft } from "./CorrectionCompose";
 import { onCorrectionRequest } from "./correctionBus";
 import { copyText } from "./CorrectionHistory";
@@ -169,14 +169,6 @@ export function CorrectionLayer() {
       kind: c.kind,
     });
   };
-
-  const decide = (intent: string, c: Correction, note?: string) =>
-    void send({
-      intent,
-      id: c.id,
-      expectedUpdatedAt: c.updatedAt,
-      ...(note === undefined ? {} : { note }),
-    });
 
   return (
     <>
@@ -359,34 +351,13 @@ export function CorrectionLayer() {
                       <p className="pf-note pf-empty">Nothing here yet.</p>
                     ) : (
                       shown.map((c) => (
-                        <CorrectionCard
+                        <CorrectionRow
                           key={c.id}
                           correction={c}
-                          busy={busy}
+                          api={{ busy, send, history }}
+                          bookTitle={bookTitle}
                           onEdit={(x) => editing(x)}
                           onUseSuggestion={editing}
-                          onConfirm={(x) => decide("confirm", x)}
-                          onAccept={(x) => decide("accept", x)}
-                          onDismiss={(x, note) =>
-                            decide(
-                              x.status === "suggested"
-                                ? "dismiss-suggestion"
-                                : "dismiss",
-                              x,
-                              note,
-                            )
-                          }
-                          onRemove={(x) =>
-                            void send({ intent: "remove", id: x.id })
-                          }
-                          onComment={(x, body) =>
-                            void send({ intent: "comment", id: x.id, body })
-                          }
-                          onUncomment={(commentId) =>
-                            void send({ intent: "uncomment", id: commentId })
-                          }
-                          bookTitle={bookTitle}
-                          loadHistory={history}
                         />
                       ))
                     )}

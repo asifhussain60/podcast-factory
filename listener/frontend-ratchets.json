@@ -35,10 +35,10 @@
     "ceiling": 850,
     "enforced": true,
     "grandfathered": {
-      "app/components/player/Player.tsx": 1339,
+      "app/components/player/Player.tsx": 1334,
       "app/routes/admin._index.tsx": 879,
       "app/routes/book.$slug.read.$chapter.tsx": 1135,
-      "app/routes/book.$slug.tsx": 1202
+      "app/routes/book.$slug.tsx": 1007
     }
   }
 }

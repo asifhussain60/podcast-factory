@@ -1,5 +1,4 @@
 import {
-  faAngleRight,
   faBookOpen,
   faCircleMinus,
   faClosedCaptioning,
@@ -9,6 +8,7 @@ import {
   faLayerGroup,
   faMicrophoneLines,
   faNoteSticky,
+  faPenNib,
   faTag,
   type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
@@ -21,7 +21,6 @@ import {
 } from "react";
 import {
   Link,
-  useFetcher,
   useNavigate,
   useSearchParams,
   type ShouldRevalidateFunctionArgs,
@@ -38,7 +37,11 @@ import { cloudflare } from "~/context";
 import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
-import { NotesList } from "~/components/reader/NotesList";
+import { ChapterList } from "~/components/book/ChapterList";
+import { CorrectionsTab } from "~/components/book/CorrectionsTab";
+import { MarksTab } from "~/components/book/MarksTab";
+import { useCorrections } from "~/components/reader/useCorrections";
+import { chapterSignals } from "~/lib/chapterSignals";
 import { unitBySlug } from "~/server/access.server";
 import { marksFor } from "~/server/marks.server";
 import { describeContents } from "~/lib/facts";
@@ -48,7 +51,6 @@ import {
   DownloadButton,
   KeepTextButton,
 } from "~/components/offline/DownloadButton";
-import { readingMinutes } from "~/lib/reading";
 import { EpisodeNotes, PlayButton } from "~/components/book/EpisodeControls";
 import {
   chapterKeysForEpisodes,
@@ -122,6 +124,7 @@ export async function loader({ params, context }: Route.LoaderArgs) {
       }))
       .filter((d) => d.pages.length > 0),
     isAdmin: viewer.isAdmin,
+    isModerator: viewer.isModerator,
     episodesFolded,
     // A plain object, not a Map — Maps do not survive the loader/component
     // serialization boundary (same reason `decks`/`workTitles` elsewhere on
@@ -164,8 +167,11 @@ export function shouldRevalidate({
 
   const before = new URLSearchParams(currentUrl.search);
   const after = new URLSearchParams(nextUrl.search);
-  before.delete("tab");
-  after.delete("tab");
+  // The tab and the narrowing a chapter's badge applies are display state, never inputs.
+  for (const name of ["tab", "chapter", "only"]) {
+    before.delete(name);
+    after.delete(name);
+  }
 
   return before.toString() === after.toString()
     ? false
@@ -182,10 +188,10 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     deckPages,
     decks,
     isAdmin,
+    isModerator,
     episodesFolded,
     chapterKeys,
   } = loaderData;
-  const fetcher = useFetcher();
   const navigate = useNavigate();
   const player = usePlayer();
   const collection = collectionOf(unit.bucket);
@@ -207,13 +213,15 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
   const canListen = withAudio > 0 && !(canRead && episodesFolded);
   const canWatch = decks.length > 0;
 
-  // How many marks sit in each chapter, so a row can say so. A Map rather than a
-  // filter per row: nine chapters against a few hundred marks is a few hundred
-  // scans, and this list grows on both axes.
-  const markedChapters = new Map<string, number>();
-  for (const m of [...marks.annotations, ...marks.bookmarks]) {
-    markedChapters.set(m.anchorKey, (markedChapters.get(m.anchorKey) ?? 0) + 1);
-  }
+  const corrections = useCorrections(unit.slug, isModerator);
+  // What is kept in each chapter, for the badges. Corrections are only ever counted for someone
+  // who may see them: the hook fetches nothing otherwise, so the list is empty.
+  const signals = chapterSignals(
+    chapters,
+    marks,
+    isModerator ? corrections.items : null,
+    marks.progress,
+  );
 
   // The same, for the podcast. The episode list said nothing about what was kept
   // in each episode, so the only way to find out whether you had marked anything
@@ -408,11 +416,11 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                 label: "Read",
                 count: chapters.length,
                 render: () => (
-                  <ReadingEdition
+                  <ChapterList
                     slug={unit.slug}
                     chapters={chapters}
-                    progress={marks.progress}
-                    markedChapters={markedChapters}
+                    signals={signals}
+                    currentKey={marks.progress?.anchorKey ?? null}
                     download={
                       /* Two ways to take this book away with you, grouped as
                          one visual pair rather than two loose buttons in the
@@ -514,100 +522,38 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
                   marks.bookmarks.length +
                   marks.episodeNotes.length,
                 render: () => (
-                  <section className="pf-section">
-                    <NotesList
-                      annotations={marks.annotations}
-                      bookmarks={marks.bookmarks}
-                      chapters={chapters}
-                      // Both lists, because this page is the one place that
-                      // holds everything marked in this book — the reader's
-                      // drawer shows chapters and an episode page shows
-                      // episodes, each showing what it can act on.
-                      episodes={episodes.map((e) => ({
-                        number: e.number,
-                        title: e.title,
-                      }))}
-                      episodeNotes={marks.episodeNotes}
-                      onPlay={playEpisodeAt}
-                      // Nothing is resolved here: this page never renders the
-                      // chapter text, so it cannot know whether a passage
-                      // still exists. The reader is where that is discovered,
-                      // and claiming it here would be a guess.
-                      orphaned={EMPTY_SET}
-                      slug={unit.slug}
-                      onRemoveAnnotation={(id) =>
-                        void fetcher.submit(
-                          { intent: "unannotate", id },
-                          {
-                            method: "post",
-                            action: `/book/${unit.slug}/marks`,
-                          },
-                        )
-                      }
-                      onRemoveBookmark={(id) =>
-                        void fetcher.submit(
-                          { intent: "unbookmark", id },
-                          {
-                            method: "post",
-                            action: `/book/${unit.slug}/marks`,
-                          },
-                        )
-                      }
-                      onRemoveEpisodeNote={(id) =>
-                        void fetcher.submit(
-                          { intent: "un-episode-note", id },
-                          {
-                            method: "post",
-                            action: `/book/${unit.slug}/marks`,
-                          },
-                        )
-                      }
-                      onEditAnnotation={(id, text) => {
-                        const existing = marks.annotations.find(
-                          (a) => a.id === id,
-                        );
-                        if (existing === undefined) return;
-                        void fetcher.submit(
-                          {
-                            intent: "annotate",
-                            id: existing.id,
-                            anchorKey: existing.anchorKey,
-                            blockIndex: String(existing.blockIndex),
-                            startOffset: String(existing.startOffset),
-                            endOffset: String(existing.endOffset),
-                            quote: existing.quote,
-                            prefix: existing.prefix,
-                            colour: existing.colour,
-                            note: text,
-                          },
-                          {
-                            method: "post",
-                            action: `/book/${unit.slug}/marks`,
-                          },
-                        );
-                      }}
-                      onEditEpisodeNote={(id, text) => {
-                        const existing = marks.episodeNotes.find(
-                          (n) => n.id === id,
-                        );
-                        if (existing === undefined) return;
-                        void fetcher.submit(
-                          {
-                            intent: "episode-note",
-                            id: existing.id,
-                            number: String(existing.number),
-                            seconds: String(existing.seconds),
-                            quote: existing.quote ?? "",
-                            note: text,
-                          },
-                          {
-                            method: "post",
-                            action: `/book/${unit.slug}/marks`,
-                          },
-                        );
-                      }}
-                    />
-                  </section>
+                  <MarksTab
+                    slug={unit.slug}
+                    chapters={chapters}
+                    episodes={episodes.map((e) => ({
+                      number: e.number,
+                      title: e.title,
+                    }))}
+                    annotations={marks.annotations}
+                    bookmarks={marks.bookmarks}
+                    episodeNotes={marks.episodeNotes}
+                    onPlay={playEpisodeAt}
+                  />
+                ),
+              }
+            : null,
+          // Moderators and admins only. The route behind it answers a reader with a 404, and the
+          // hook never asks for a reader, so this tab is never so much as drawn for one.
+          isModerator
+            ? {
+                key: "corrections",
+                icon: faPenNib,
+                label: "Corrections",
+                count: corrections.items.filter(
+                  (c) => c.status === "open" || c.status === "suggested",
+                ).length,
+                render: () => (
+                  <CorrectionsTab
+                    slug={unit.slug}
+                    bookTitle={unit.title}
+                    chapters={chapters}
+                    api={corrections}
+                  />
                 ),
               }
             : null,
@@ -621,17 +567,6 @@ export default function BookDetail({ loaderData }: Route.ComponentProps) {
     </AppShell>
   );
 }
-
-/**
- * Nothing is orphaned here, and this constant says so once.
- *
- * `NotesList` takes the set of marks whose passage could not be found. Only the
- * READER can know that — it is discovered by resolving each anchor against the
- * rendered chapter, and this page never renders one. A frozen empty set is the
- * honest answer, and hoisting it out of the render keeps `NotesList` from
- * repainting on every unrelated state change.
- */
-const EMPTY_SET: ReadonlySet<string> = new Set<string>();
 
 /** One way of taking this book: what the tab says, and what it reveals. */
 interface Panel {
@@ -781,116 +716,6 @@ function Tabs({
         </div>
       ))}
     </>
-  );
-}
-
-/**
- * The chapters-and-episodes problem, stated rather than hidden.
- *
- * The reading edition and the podcast are drawn along DIFFERENT lines from the
- * same source — this book is nine chapters and twenty episodes — and a reader
- * who is not told that concludes the site is broken or that there are two
- * different products. Each list is labelled with its own count, and where both
- * exist the Listen panel says outright that they do not line up.
- *
- * `showHeading` is false when a tab is already carrying the word "Read" three
- * inches above; printing it again as an <h2> is the page saying the same thing
- * twice, and the panel takes its accessible name from the tab regardless. The
- * count is too useful to lose with it, so it stays on its own.
- */
-function ReadingEdition({
-  slug,
-  chapters,
-  progress,
-  markedChapters,
-  download,
-}: {
-  slug: string;
-  chapters: Route.ComponentProps["loaderData"]["chapters"];
-  progress: Route.ComponentProps["loaderData"]["marks"]["progress"];
-  markedChapters: Map<string, number>;
-  /** The print-edition button, when there is one. See `PrintEdition`. */
-  download: ReactNode;
-}) {
-  if (chapters.length === 0) {
-    return (
-      <section className="pf-section">
-        <SectionHeading
-          icon={faBookOpen}
-          title="Read"
-          count="no reading edition yet"
-        />
-        <EmptyState>
-          The translated edition of this book has not been published here yet.
-        </EmptyState>
-      </section>
-    );
-  }
-
-  return (
-    <section className="pf-section">
-      {/* The print edition sits HERE, at the head of the reading edition, rather
-          than under the masthead where it used to. It is the same nine chapters
-          in another format, so its place is beside them — under the title it was
-          a third call to action competing with the tab strip for the first thing
-          you do on the page. */}
-      <div className="pf-section__head pf-section__head--wrap">
-        <div className="pf-section__naming">
-          {/* `--lead` (Asif, 2026-08-16): elsewhere on the site this count
-              sits BESIDE a section title and stays small on purpose — the
-              title already carries the weight. Here there is no title (the
-              "Read" tab already says that), so the count was the only thing
-              on the line and read as an afterthought instead of what it
-              actually is: this section's heading. */}
-          <span className="pf-section__count pf-section__count--lead">
-            {count(chapters.length, "chapter")}
-          </span>
-        </div>
-        {download}
-      </div>
-
-      <ol className="pf-rows pf-rows--striped pf-section__intro">
-        {chapters.map((chapter) => (
-          <li key={chapter.anchorKey}>
-            {/* No ordinal column. The heading already carries the book's OWN
-                number where it has one ("3. The Hours Before Dawn"), and our
-                position counts the introduction as the first entry — so the two
-                disagreed by one on every line. The book's numbering wins. */}
-            <Link
-              to={`/book/${slug}/read/${encodeURIComponent(chapter.anchorKey)}`}
-              aria-current={
-                progress?.anchorKey === chapter.anchorKey ? "true" : undefined
-              }
-              className="pf-row"
-            >
-              {/* A mark of what the row IS, which every other list on this
-                  page now has and this one did not: the deck has its artwork
-                  tile, the slides tab its thumbnails. An open book, in the
-                  accent, at the head of every chapter.
-
-                  In the SAME ring as the microphone on a recording, at the same
-                  diameter (Asif, 2026-08-11). Read and Listen are one list
-                  shape, and a shape that is one size on one tab and another on
-                  the other is two shapes wearing one name. */}
-              <span className="pf-row__mark pf-row__badge" aria-hidden="true">
-                <Icon icon={faBookOpen} />
-              </span>
-              <span className="pf-row__main">{chapter.title}</span>
-              {markedChapters.get(chapter.anchorKey) ? (
-                <span className="pf-row__meta pf-row__marks">
-                  <Icon icon={faNoteSticky} />
-                  {markedChapters.get(chapter.anchorKey)}
-                </span>
-              ) : null}
-              <span className="pf-row__meta">
-                {readingMinutes(chapter.wordCount)} min
-              </span>
-              <Icon icon={faAngleRight} className="pf-row__go" />
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </section>
   );
 }
 
@@ -1177,25 +1002,5 @@ function Podcast({
         </div>
       ))}
     </section>
-  );
-}
-
-function SectionHeading({
-  icon,
-  title,
-  count,
-}: {
-  icon: IconDefinition;
-  title: string;
-  count: string;
-}) {
-  return (
-    <div className="pf-section__head">
-      <h2 className="pf-section__title">
-        <Icon icon={icon} />
-        {title}
-      </h2>
-      <span className="pf-section__count">{count}</span>
-    </div>
   );
 }
