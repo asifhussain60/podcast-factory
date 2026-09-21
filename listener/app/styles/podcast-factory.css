@@ -13157,3 +13157,869 @@
     }
   }
 }
+
+/* ---- A book held for moderation ----------------------------------------------
+   Drawn ONLY for moderators and admins: an ordinary reader is never sent the row at all
+   (see `visibleSql`), so a greyed tile is never a hint to them that a book exists.
+
+   Inert to look at, not to open — moderators are held here precisely so they can read it.
+   The ribbon reuses the topic coral, which is already held to 4.5:1 against the surface in
+   all three palettes by test/theme.test.ts, and is a colour none of the four highlight
+   swatches (all "a reader marked this") or the collection accents use. */
+@layer components {
+  .pf-moderated {
+    position: relative;
+    border-style: dashed;
+    border-color: var(--l-faint);
+  }
+
+  .pf-moderated > :not(.pf-moderated__ribbon) {
+    filter: grayscale(0.85);
+    opacity: 0.62;
+  }
+
+  .pf-moderated:hover {
+    transform: none;
+  }
+
+  .pf-moderated__ribbon {
+    position: absolute;
+    z-index: 2;
+    top: var(--pf-space-3);
+    inset-inline-start: calc(var(--pf-space-2) * -1);
+    padding: var(--pf-space-1) var(--pf-space-4) var(--pf-space-1)
+      var(--pf-space-3);
+    background: var(--l-topic-coral);
+    color: var(--l-bg);
+    font-family: var(--l-font-ui);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    box-shadow: var(--pf-elev-2);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 0.5rem) 50%, 100% 100%, 0 100%);
+  }
+}
+
+/* ---- Corrections: the moderators' strip and panel ------------------------------
+   Ported from the approved mock. One accent for the whole feature — the topic coral, already
+   in all three palettes and already held to 4.5:1 on the surface by test/theme.test.ts — and
+   it is deliberately NOT one of the four highlight colours, which all mean "a reader marked
+   this". Everything else is the site's existing tokens; nothing here re-draws a control. */
+@layer components {
+  .pf-selbar {
+    min-width: 17.5rem;
+  }
+
+  /* THE STRIP. Completely unlike the row above it: that is a pale card of round swatches and
+     glyph buttons, this is a solid, dark, full-width band with a word on it. It inverts with
+     the theme, so it is the strongest contrast on the bar in all three. */
+  .pf-selbar__correct {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-3);
+    width: 100%;
+    margin-top: var(--pf-space-2);
+    padding: var(--pf-space-2) var(--pf-space-3) var(--pf-space-2)
+      var(--pf-space-2);
+    border: 0;
+    border-radius: var(--pf-radius);
+    background: var(--l-ink);
+    color: var(--l-bg);
+    cursor: pointer;
+    text-align: start;
+    transition:
+      transform var(--pf-motion),
+      box-shadow var(--pf-motion);
+  }
+
+  .pf-selbar__correct:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--l-ink) 28%, transparent);
+  }
+
+  .pf-selbar__correct:focus-visible {
+    outline: 2px solid var(--l-topic-coral);
+    outline-offset: 2px;
+  }
+
+  .pf-selbar__correct > svg {
+    box-sizing: content-box;
+    width: 1rem;
+    height: 1rem;
+    padding: 0.5rem;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-topic-coral);
+    color: var(--l-bg);
+  }
+
+  .pf-selbar__correct-label {
+    flex: 1;
+    font-family: var(--l-font-display);
+    font-size: var(--pf-text-md);
+    font-style: italic;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pf-selbar__correct-tag {
+    padding: 2px 7px;
+    border: 1px solid color-mix(in srgb, var(--l-bg) 38%, transparent);
+    border-radius: var(--pf-radius-pill);
+    font-family: var(--l-font-ui);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  /* Below the Companion tab an admin already has on this edge. */
+  .pf-edge-tab--correct {
+    top: calc(50% + 9rem);
+  }
+
+  .pf-edge-tab--correct svg {
+    color: var(--l-topic-coral);
+  }
+
+  .pf-edge-tab--correct .pf-edge-tab__count {
+    background: var(--l-topic-coral);
+    color: var(--l-bg);
+  }
+
+  .pf-drawer--correct {
+    z-index: 26;
+  }
+
+  .pf-drawer--correct .pf-drawer__head {
+    border-bottom: 2px solid var(--l-topic-coral);
+  }
+
+  .pf-cx {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-6);
+  }
+
+  .pf-cx-idle {
+    margin: 0;
+    padding: var(--pf-space-4);
+    border: 1px dashed var(--l-rule);
+    border-radius: var(--pf-radius);
+    font-size: var(--pf-text-base);
+    line-height: 1.55;
+    color: var(--l-muted);
+  }
+
+  .pf-cx-compose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-4);
+    padding-bottom: var(--pf-space-6);
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-cx-eyebrow {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--l-muted);
+  }
+
+  .pf-cx-eyebrow em {
+    margin-inline-start: var(--pf-space-2);
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--l-faint);
+  }
+
+  .pf-cx-quote {
+    margin: 0;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border-inline-start: 3px solid var(--l-topic-coral);
+    border-radius: 0 var(--pf-radius) var(--pf-radius) 0;
+    background: var(--l-sunken);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+    color: var(--l-ink);
+  }
+
+  .pf-cx-kinds {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-cx-kinds button,
+  .pf-cx-filters button {
+    padding: var(--pf-space-1) var(--pf-space-3);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-surface);
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .pf-cx-kinds button[aria-checked="true"] {
+    border-color: var(--l-topic-coral);
+    background: color-mix(in srgb, var(--l-topic-coral) 12%, var(--l-surface));
+    color: var(--l-topic-coral);
+  }
+
+  .pf-cx-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-cx-filters button[aria-pressed="true"] {
+    border-color: var(--l-ink);
+    background: var(--l-ink);
+    color: var(--l-bg);
+  }
+
+  .pf-cx-filters__gap {
+    flex: 1;
+  }
+
+  .pf-cx-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-cx-textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+    color: var(--l-ink);
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.55;
+    resize: vertical;
+  }
+
+  .pf-cx-textarea:focus {
+    outline: none;
+    border-color: var(--l-topic-coral);
+  }
+
+  .pf-cx-hint {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-faint);
+  }
+
+  .pf-cx-diff {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-cx-diff__body,
+  .pf-cx-card__change {
+    margin: 0;
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.7;
+    color: var(--l-ink);
+  }
+
+  .pf-cx-diff del,
+  .pf-cx-card del {
+    padding: 0 2px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--l-danger) 16%, transparent);
+    color: var(--l-danger);
+    text-decoration: line-through;
+  }
+
+  .pf-cx-diff ins,
+  .pf-cx-card ins {
+    padding: 0 2px;
+    border-radius: 3px;
+    background: color-mix(in srgb, var(--l-ok) 18%, transparent);
+    color: var(--l-ok);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .pf-cx-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-cx-submit,
+  .pf-cx-submit:hover {
+    border-color: var(--l-topic-coral);
+    background: var(--l-topic-coral);
+    color: var(--l-bg);
+  }
+
+  .pf-cx-submit:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .pf-cx-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+  }
+
+  .pf-cx-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-4);
+    border: 1px solid var(--l-rule);
+    border-inline-start: 3px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: var(--l-elev);
+    box-shadow: var(--pf-elev-1);
+  }
+
+  .pf-cx-card[data-status="open"] {
+    border-inline-start-color: var(--l-topic-coral);
+  }
+
+  .pf-cx-card[data-status="accepted"] {
+    border-inline-start-color: var(--l-ok);
+  }
+
+  .pf-cx-card[data-status="dismissed"] {
+    border-inline-start-color: var(--l-faint);
+    opacity: 0.7;
+  }
+
+  .pf-cx-card[data-status="applied"] {
+    border-inline-start-color: var(--l-accent);
+  }
+
+  .pf-cx-card[data-mine="true"] {
+    background: color-mix(in srgb, var(--l-topic-coral) 5%, var(--l-elev));
+  }
+
+  .pf-cx-card__top,
+  .pf-cx-card__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-card__who {
+    font-weight: 600;
+    color: var(--l-ink);
+  }
+
+  .pf-cx-avatar {
+    display: inline-grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-band);
+    color: var(--l-on-band);
+    font-weight: 600;
+  }
+
+  .pf-cx-kind,
+  .pf-cx-status {
+    padding: 1px 8px;
+    border-radius: var(--pf-radius-pill);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .pf-cx-kind {
+    margin-inline-start: auto;
+    background: var(--l-sunken);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-status[data-status="open"] {
+    background: color-mix(in srgb, var(--l-topic-coral) 12%, var(--l-surface));
+    color: var(--l-topic-coral);
+  }
+
+  .pf-cx-status[data-status="accepted"] {
+    background: color-mix(in srgb, var(--l-ok) 16%, var(--l-surface));
+    color: var(--l-ok);
+  }
+
+  .pf-cx-status[data-status="dismissed"],
+  .pf-cx-status[data-status="applied"] {
+    background: var(--l-sunken);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-card__why {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--l-muted);
+  }
+
+  .pf-cx-ok {
+    border-color: var(--l-ok);
+    color: var(--l-ok);
+  }
+
+  .pf-cx-danger {
+    margin-inline-start: auto;
+    color: var(--l-danger);
+  }
+
+  .pf-cx-lock {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    color: var(--l-faint);
+  }
+
+  .pf-cx-dismiss {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+  }
+}
+
+/* ---- Corrections, continued: the source, the AI review, progress and batches ---------- */
+@layer components {
+  .pf-cx-tabs {
+    display: flex;
+    gap: var(--pf-space-1);
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-cx-tabs button,
+  .pf-cx-source__tabs button {
+    padding: var(--pf-space-2) var(--pf-space-4);
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--l-muted);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .pf-cx-tabs button[aria-selected="true"],
+  .pf-cx-source__tabs button[aria-selected="true"] {
+    border-bottom-color: var(--l-topic-coral);
+    color: var(--l-ink);
+  }
+
+  .pf-cx-badge {
+    padding: 1px 8px;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+  }
+
+  .pf-cx-more {
+    align-self: flex-start;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  /* AI review: advisory and visibly so — a quiet block under the reasoning. */
+  .pf-cx-ai {
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-cx-ai > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-2) var(--pf-space-3);
+    color: var(--l-ink);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .pf-cx-ai > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .pf-cx-ai__badge {
+    padding: 1px 7px;
+    border-radius: var(--pf-radius-pill);
+    background: var(--l-accent-soft);
+    color: var(--l-accent);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .pf-cx-ai__conf {
+    margin-inline-start: auto;
+    color: var(--l-faint);
+  }
+
+  .pf-cx-ai[data-verdict="supports"] > summary strong {
+    color: var(--l-ok);
+  }
+
+  .pf-cx-ai[data-verdict="needs_human"] > summary strong,
+  .pf-cx-ai[data-verdict="revise"] > summary strong {
+    color: var(--l-warn);
+  }
+
+  .pf-cx-ai[data-verdict="reject"] > summary strong {
+    color: var(--l-danger);
+  }
+
+  .pf-cx-ai__text,
+  .pf-cx-ai__suggest,
+  .pf-cx-ai__note {
+    margin: 0;
+    padding: 0 var(--pf-space-3) var(--pf-space-2);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--l-muted);
+  }
+
+  .pf-cx-ai__suggest {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    color: var(--l-ink);
+  }
+
+  .pf-cx-ai__suggest > span {
+    font-weight: 600;
+  }
+
+  .pf-cx-ai__note {
+    padding-bottom: var(--pf-space-3);
+    color: var(--l-faint);
+    font-size: var(--pf-text-xs);
+  }
+
+  .pf-cx-ai__checks {
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0 var(--pf-space-3) var(--pf-space-2);
+    list-style: none;
+  }
+
+  .pf-cx-ai__checks li[data-result="ok"] span {
+    color: var(--l-ok);
+  }
+
+  .pf-cx-ai__checks li[data-result="warn"] span {
+    color: var(--l-warn);
+  }
+
+  .pf-cx-ai__checks li[data-result="no"] span {
+    color: var(--l-danger);
+  }
+
+  /* The source, beside the corrections. */
+  .pf-cx-sourcebox {
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+  }
+
+  .pf-cx-sourcebox > summary {
+    padding: var(--pf-space-3) var(--pf-space-4);
+    cursor: pointer;
+    background: var(--l-sunken);
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-cx-source {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pf-cx-source__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-2) var(--pf-space-3) 0;
+    border-bottom: 1px solid var(--l-rule-soft);
+  }
+
+  .pf-cx-source__tabs {
+    display: flex;
+    gap: var(--pf-space-1);
+  }
+
+  .pf-cx-source__meta {
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-source__quality {
+    margin: 0;
+    padding: var(--pf-space-2) var(--pf-space-4);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-source__quality[data-quality="noisy"] {
+    color: var(--l-warn);
+  }
+
+  .pf-cx-source__quality[data-quality="unreliable"] {
+    color: var(--l-danger);
+  }
+
+  .pf-cx-source__pages {
+    max-height: 22rem;
+    overflow-y: auto;
+    padding: var(--pf-space-2) var(--pf-space-4) var(--pf-space-4);
+    font-family: var(--l-font-arabic);
+    font-size: 1.25rem;
+    line-height: 2;
+    color: var(--l-ink);
+    user-select: text;
+  }
+
+  .pf-cx-source__pages[lang="en"] {
+    font-family: var(--l-font-prose);
+    font-size: var(--pf-text-base);
+    line-height: 1.6;
+  }
+
+  .pf-cx-source__page {
+    margin: var(--pf-space-3) 0 var(--pf-space-1);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--l-faint);
+  }
+
+  .pf-cx-match {
+    padding: 0 2px;
+    border-radius: 3px;
+    background: var(--l-hl-gold);
+    color: inherit;
+  }
+
+  .pf-cx-source__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pf-space-3);
+    padding: var(--pf-space-2) var(--pf-space-4);
+    border-top: 1px solid var(--l-rule-soft);
+  }
+
+  /* Chapter review progress. */
+  .pf-cx-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border: 1px solid var(--l-rule-soft);
+    border-radius: var(--pf-radius);
+    background: var(--l-surface);
+  }
+
+  .pf-cx-progress__line {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-progress__bar {
+    width: 100%;
+    height: 0.5rem;
+    accent-color: var(--l-ok);
+  }
+
+  .pf-cx-progress__here {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  /* "Fix everywhere". */
+  .pf-cx-occ {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    margin: 0;
+    padding: var(--pf-space-3) var(--pf-space-4);
+    border: 1px solid var(--l-topic-coral);
+    border-radius: var(--pf-radius);
+  }
+
+  .pf-cx-occ__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--pf-space-2);
+    font-family: var(--l-font-prose);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--l-ink);
+  }
+
+  .pf-cx-occ__row mark {
+    background: var(--l-hl-gold);
+    color: inherit;
+  }
+}
+
+@layer components {
+  .pf-cx-triage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-4);
+  }
+
+  .pf-cx-triage__hint {
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-triage__hint kbd {
+    padding: 1px 6px;
+    border: 1px solid var(--l-rule);
+    border-radius: var(--pf-radius-sm);
+    background: var(--l-sunken);
+    font-family: var(--l-font-ui);
+  }
+
+  .pf-cx-triage__book {
+    color: var(--l-display);
+  }
+
+  .pf-cx-triage .pf-cx-card[aria-current="true"] {
+    outline: 2px solid var(--l-topic-coral);
+    outline-offset: 2px;
+  }
+}
+
+/* A passage that already carries a correction: a wavy underline in the proofreader's red. Painted
+   with the CSS Custom Highlight API (see useCorrectionMarks.ts), so it marks the text without
+   touching it and cannot interfere with a reader's own highlights, which are painted by rewriting
+   the DOM. A mark nobody could mistake for a highlight (a wash of colour BEHIND the words) or a
+   note (a thin edge AROUND them). */
+::highlight(pf-correction) {
+  text-decoration: underline wavy var(--l-topic-coral);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+}
+
+@layer components {
+  /* Comments on a correction. Any moderator or admin may comment on any correction. */
+  .pf-cx-talk {
+    align-self: flex-start;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--l-accent);
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .pf-cx-thread {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pf-space-2);
+    padding: var(--pf-space-3);
+    border-radius: var(--pf-radius);
+    background: var(--l-sunken);
+  }
+
+  .pf-cx-comment {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .pf-cx-comment__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0;
+    font-family: var(--l-font-ui);
+    font-size: var(--pf-text-xs);
+    color: var(--l-muted);
+  }
+
+  .pf-cx-comment__body {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--l-ink);
+    white-space: pre-wrap;
+  }
+
+  .pf-cx-comment__remove {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--l-danger);
+    font-size: var(--pf-text-xs);
+    cursor: pointer;
+  }
+
+  .pf-cx-comment__form {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--pf-space-2);
+  }
+
+  .pf-cx-comment__form .pf-cx-field {
+    flex: 1;
+  }
+}

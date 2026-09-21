@@ -135,6 +135,37 @@ def sanitize_toc(toc: dict[str, Any]) -> dict[str, Any]:
     return toc
 
 
+def sanitize_headings(headings: list[str]) -> list[str]:
+    """Plain-English form of a list of source headings, dropping any that fold to nothing."""
+    return [h for h in (plain_title(x).strip() for x in headings if isinstance(x, str)) if h]
+
+
+def crosswalk_findings(book_dir: Path) -> list[str]:
+    """Violations in `book/source-crosswalk.json` — the headings the Library shows a reader.
+
+    This file was the gap in the first fix (2026-09-19): its `source_headings` are copied
+    from the SOURCE book's own headings, travel into the Library's `source_reference`
+    table, and are printed in the reader — yet nothing folded them, so "Zakat" arrived as
+    "Zakāt" and "Istisqa" as "Istisqāʾ".
+    """
+    path = Path(book_dir) / "book" / "source-crosswalk.json"
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return []
+    out: list[str] = []
+    for entry in data.get("chapters", []) if isinstance(data, dict) else data:
+        for h in entry.get("source_headings") or []:
+            # NOT `title_violations`: its character whitelist is right for a book's TITLE but
+            # wrong for a heading lifted from the source, which legitimately carries Arabic
+            # script and markdown emphasis. The defect here is the diacritic, and only that.
+            if isinstance(h, str) and plain_title(h) != h:
+                out.append(f"source-crosswalk heading: {h!r} should read {plain_title(h)!r}")
+    return out
+
+
 def book_latin_findings(book_dir: Path) -> list[str]:
     """Every plain-English violation in a book's titles, table of contents and prose."""
     book_dir = Path(book_dir)
@@ -144,6 +175,7 @@ def book_latin_findings(book_dir: Path) -> list[str]:
         toc = json.loads(toc_path.read_text(encoding="utf-8"))
         for where, title in _walk_titles(toc):
             findings += [f"book-toc {where}: {v}" for v in title_violations(title)]
+    findings += crosswalk_findings(book_dir)
     meta = book_dir / "meta.yml"
     if meta.exists():
         for line in meta.read_text(encoding="utf-8").splitlines():

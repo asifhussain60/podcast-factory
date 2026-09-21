@@ -84,6 +84,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const scope: Scope = isScope(raw) ? raw : "all";
 
   const result = await search(env.DB, viewer?.email ?? "", {
+    isModerator: viewer?.isModerator ?? false,
     query: url.searchParams.get("q") ?? "",
     scope,
     filters: {

@@ -183,6 +183,13 @@ describe("privilege bits", () => {
   it("keeps the published filter inside the resolver, not in callers", () => {
     // Hoisting it to callers is how a draft with open_to_all=1 leaks through a
     // request that skipped whichever caller remembered to apply it.
-    expect(ACCESS).toMatch(/WHERE u\.status = 'published'/);
+    //
+    // Since migration 0022 the rule has two branches. The published requirement
+    // must stay welded to the NOT-held branch — that is the one an ordinary reader
+    // can reach — and the held branch must be gated on the moderator flag.
+    expect(ACCESS).toMatch(
+      /u\.under_moderation = 0\s+AND u\.status = 'published'/,
+    );
+    expect(ACCESS).toMatch(/u\.under_moderation = 1 AND \$\{mod\} = 1/);
   });
 });

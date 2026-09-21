@@ -23,6 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _book_edits import anchor_key  # noqa: E402
+from _latin_plain import sanitize_headings  # noqa: E402
 
 
 @dataclass
@@ -74,11 +75,12 @@ def read_source_references(book_dir: Path, chapters: list) -> list[SourceReferen
             continue
 
         page_range = str(entry.get("source_page_range") or "").strip()
-        headings = [
-            heading.strip()
-            for heading in (entry.get("source_headings") or [])
-            if isinstance(heading, str) and heading.strip()
-        ]
+        # Folded HERE as well as where the crosswalk is built: this is the last step before
+        # a reader sees the text, so a crosswalk written before the rule existed (or by any
+        # other tool) still cannot put a diacritic on screen.
+        headings = sanitize_headings(
+            [h for h in (entry.get("source_headings") or []) if isinstance(h, str) and h.strip()]
+        )
         if not page_range and not headings:
             continue
 

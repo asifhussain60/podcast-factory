@@ -186,6 +186,20 @@
       "failure_mode": "surfaces error and halts"
     },
     {
+      "id": "correction-reviewer",
+      "name": "Correction Reviewer",
+      "role": "Read-only reviewer for moderator corrections to a reading edition",
+      "icon": "robot",
+      "tone": "neutral",
+      "plain": "Read-only reviewer for moderator corrections to a reading edition. Given one or more correction PACKETS (built deterministically by `scripts/podcast/build_correction_packets.py` from the Library's correction row plus the book on disk), i…",
+      "what_it_knows": "See infra/claude-agents/correction-reviewer.md",
+      "boundary_in": "",
+      "boundary_out": "",
+      "does_not": "",
+      "cost_profile": "varies",
+      "failure_mode": "surfaces error and halts"
+    },
+    {
       "id": "findings-triager",
       "name": "Findings Triager",
       "role": "",

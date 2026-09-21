@@ -96,6 +96,10 @@ export default [
     // way would need an access rule of its own.
     route("book/:slug/marks", "routes/book.$slug.marks.ts"),
 
+    // Corrections on a book — moderators and admins only. Hangs off `book/:slug` for the same
+    // reason `marks` does, then adds `requireModerator` on the route itself.
+    route("book/:slug/corrections", "routes/book.$slug.corrections.ts"),
+
     // A whole book's prose, for keeping on the device. Hangs off `book/:slug`
     // for the same reason `marks` does: `requireUnitAccess` then reads the SAME
     // `params.slug` the reading page did.
@@ -116,6 +120,8 @@ export default [
       route("admin", "routes/admin._index.tsx"),
       route("admin/content", "routes/admin.content.tsx"),
       route("admin/usage", "routes/admin.usage.tsx"),
+      route("admin/moderators", "routes/admin.moderators.tsx"),
+      route("admin/corrections", "routes/admin.corrections.tsx"),
     ]),
   ]),
 ] satisfies RouteConfig;

@@ -200,7 +200,8 @@ describe("the module itself", () => {
     // Every read of the index is accompanied by the join. A query added without
     // one fails here rather than shipping.
     expect(joins.length).toBeGreaterThanOrEqual(selects.length - 1);
-    expect(CODE).toContain("VISIBLE_SQL");
+    // The shared rule, called with the viewer's moderator flag — never re-stated here.
+    expect(CODE).toContain("visibleSql(");
   });
 
   it("writes no privilege bit", () => {

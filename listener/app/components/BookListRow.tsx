@@ -31,11 +31,14 @@ export function BookListRow({
   title,
   card,
   progress = null,
+  underModeration = false,
 }: {
   slug: string;
   title: string;
   card: LibraryCard | null;
   progress?: Progress | null;
+  /** Held for moderation — only ever passed for a moderator or an admin. */
+  underModeration?: boolean;
 }) {
   const studyTrack = card?.studyTrack ?? null;
   const trackLabel = studyTrackLabel(studyTrack);
@@ -43,7 +46,13 @@ export function BookListRow({
 
   return (
     <li>
-      <Link to={`/book/${slug}`} className="pf-row pf-book-row">
+      <Link
+        to={`/book/${slug}`}
+        className={`pf-row pf-book-row${underModeration ? " pf-moderated" : ""}`}
+      >
+        {underModeration ? (
+          <span className="pf-moderated__ribbon">Under Moderation</span>
+        ) : null}
         <span
           className="pf-row__mark pf-row__badge"
           data-track={studyTrack ?? undefined}

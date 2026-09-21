@@ -23,7 +23,7 @@
  * them makes the other surprising later.
  */
 
-import { VISIBLE_SQL } from "./access.server";
+import { visibleSql } from "./access.server";
 import { normalizeEmail } from "./email.server";
 import { matchExpression, parseQuery } from "~/lib/search-fold";
 import type { ParsedQuery } from "~/lib/search-fold";
@@ -155,7 +155,14 @@ export async function search(
     query,
     scope = "all",
     filters = NO_FILTERS,
-  }: { query: string; scope?: Scope; filters?: SearchFilters },
+    isModerator = false,
+  }: {
+    query: string;
+    scope?: Scope;
+    filters?: SearchFilters;
+    /** Lets a moderator find passages in books held for moderation; false everywhere else. */
+    isModerator?: boolean;
+  },
 ): Promise<SearchResult> {
   const parsed = parseQuery(query);
   const base = { query, parsed, scope };
@@ -199,7 +206,7 @@ export async function search(
          JOIN search_passage p ON p.id = f.rowid
          JOIN visible v ON v.slug = p.slug`;
 
-  const cte = `WITH visible AS (${VISIBLE_SQL}),
+  const cte = `WITH visible AS (${visibleSql(isModerator)}),
        matched AS (
          SELECT p.id, p.slug, v.title AS book_title, v.bucket, p.kind, p.anchor_key,
                 p.heading, p.ordinal, p.episode_number, p.quote, p.arabic, p.label,
@@ -288,10 +295,11 @@ export async function passageById(
   db: D1Database,
   email: string,
   id: number,
+  isModerator = false,
 ): Promise<{ slug: string; anchorKey: string | null; quote: string } | null> {
   const row = await db
     .prepare(
-      `WITH visible AS (${VISIBLE_SQL})
+      `WITH visible AS (${visibleSql(isModerator)})
        SELECT p.slug, p.anchor_key, p.quote
        FROM search_passage p JOIN visible v ON v.slug = p.slug
        WHERE p.id = ?2 LIMIT 1`,
@@ -302,4 +310,13 @@ export async function passageById(
   return row === null
     ? null
     : { slug: row.slug, anchorKey: row.anchor_key, quote: row.quote };
+}
+
+/** `passageById` for whoever is asking — the flag is read off the viewer, never re-derived. */
+export function passageForViewer(
+  db: D1Database,
+  viewer: { email: string; isModerator: boolean } | null,
+  id: number,
+) {
+  return passageById(db, viewer?.email ?? "", id, viewer?.isModerator ?? false);
 }

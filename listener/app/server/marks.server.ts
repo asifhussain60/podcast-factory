@@ -26,6 +26,7 @@
  */
 
 import { normalizeEmail } from "./email.server";
+import { followSubstitutions, substitutionsFor } from "./substitutions.server";
 import { sanitizeNote } from "~/lib/richNote";
 
 export const COLOURS = ["gold", "sage", "sky", "rose"] as const;
@@ -238,6 +239,11 @@ export async function marksFor(
         }>(),
     ]);
 
+  // A correction applied since the mark was made changes the words it quotes; follow it so the
+  // reader still finds the passage (see substitutions.server.ts).
+  const subs =
+    annotations.results.length > 0 ? await substitutionsFor(db, slug) : [];
+
   return {
     progress:
       progress === null
@@ -261,8 +267,8 @@ export async function marksFor(
       blockIndex: r.block_index,
       startOffset: r.start_offset,
       endOffset: r.end_offset,
-      quote: r.quote,
-      prefix: r.prefix,
+      quote: followSubstitutions(r.quote, r.anchor_key, subs) ?? r.quote,
+      prefix: followSubstitutions(r.prefix, r.anchor_key, subs) ?? r.prefix,
       colour: r.colour,
       note: r.note,
       createdAt: r.created_at,

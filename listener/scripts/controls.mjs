@@ -140,7 +140,12 @@ const VIEWS = [
  * is returned to the value it had. Anything this script cannot restore is named
  * in the closing report instead of being quietly left behind.
  */
-const openBefore = query("SELECT slug, open_to_all FROM content_unit");
+// TWO privilege bits now: "open to everyone" and "held for moderation" (migration 0022). Pressing
+// "Hold for moderation" on every book and not putting it back would leave a developer's whole
+// library hidden from everyone but moderators, so both are snapshotted and both are restored.
+const openBefore = query(
+  "SELECT slug, open_to_all, under_moderation FROM content_unit",
+);
 
 const browser = await chromium.launch();
 const cookie = cookieFor(ADMIN);
@@ -354,7 +359,7 @@ tearDown();
 const restore = openBefore
   .map(
     (r) =>
-      `UPDATE content_unit SET open_to_all = ${Number(r.open_to_all)} WHERE slug = '${r.slug}';`,
+      `UPDATE content_unit SET open_to_all = ${Number(r.open_to_all)}, under_moderation = ${Number(r.under_moderation)} WHERE slug = '${r.slug}';`,
   )
   .join("\n");
 if (restore !== "") {
@@ -371,7 +376,9 @@ if (restore !== "") {
     ],
     { stdio: "pipe" },
   );
-  console.log(`\nrestored "open to everyone" on ${openBefore.length} book(s)`);
+  console.log(
+    `\nrestored "open to everyone" and "held for moderation" on ${openBefore.length} book(s)`,
+  );
 }
 
 // Said out loud rather than left to be discovered: pressing Delete on the people

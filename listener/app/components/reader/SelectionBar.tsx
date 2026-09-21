@@ -1,10 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { faNoteSticky, faTrash } from "@fortawesome/free-solid-svg-icons";
+import {
+  faNoteSticky,
+  faPenNib,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import { useRouteLoaderData } from "react-router";
 
 import { Icon } from "~/components/Icon";
 import { RichNoteEditor } from "~/components/notes/RichNoteEditor";
 import { anchorFromSelection, type Anchor } from "~/lib/anchor";
 import { COLOURS, COLOUR_LABELS, type Colour } from "~/lib/marks";
+import { CorrectionLayer } from "./CorrectionLayer";
+import { requestCorrection } from "./correctionBus";
 
 /** Where the bar is, in page coordinates, and what it is acting on. */
 interface Target {
@@ -43,6 +50,12 @@ export function SelectionBar({
   onNote: (id: string | null, anchor: Anchor | null, note: string) => void;
   onRemove: (id: string) => void;
 }) {
+  // Only moderators and admins are offered a correction, and only for a NEW selection —
+  // a tapped highlight is the reader's own mark, not a passage of the book.
+  const canCorrect =
+    useRouteLoaderData<{ isModerator?: boolean }>(
+      "routes/book.$slug.read.$chapter",
+    )?.isModerator === true;
   const [target, setTarget] = useState<Target | null>(null);
   const [noting, setNoting] = useState(false);
   const [draft, setDraft] = useState("");
@@ -158,7 +171,7 @@ export function SelectionBar({
       setDraft(target.existingNote);
   }, [target]);
 
-  if (target === null) return null;
+  if (target === null) return canCorrect ? <CorrectionLayer /> : null;
 
   const choose = (colour: Colour) => {
     if (target.existingId !== null) onRecolour(target.existingId, colour);
@@ -174,107 +187,133 @@ export function SelectionBar({
   };
 
   return (
-    <div
-      ref={bar}
-      role="dialog"
-      aria-label="Mark this passage"
-      // Writing turns the bar into a sheet of paper. The row of swatches is a
-      // control and looks like one; the note is the reader's own words and looks
-      // like the thing you write them on.
-      className={noting ? "pf-selbar pf-selbar--paper" : "pf-selbar"}
-      // The ONLY inline style in the app, and it is a measurement rather than a
-      // design decision: where the selection happens to be on the page. Nothing
-      // about the bar's appearance is set here — the custom properties feed
-      // rules that live in the stylesheet with everything else.
-      style={
-        {
-          "--sel-top": `${target.top}px`,
-          "--sel-left": `${target.left}px`,
-        } as React.CSSProperties
-      }
-    >
-      {noting ? (
-        <div className="pf-selbar__note">
-          <RichNoteEditor
-            key={target.existingId ?? "new"}
-            initialValue={draft}
-            onChange={setDraft}
-            placeholder="What matters about this passage?"
-            autoFocus
-            ariaLabel="Your note on this passage"
-          />
-          <div className="pf-selbar__actions">
-            <button
-              type="button"
-              onClick={close}
-              className="pf-button pf-button--sm pf-button--ghost"
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              onClick={saveNote}
-              className="pf-button pf-button--sm pf-button--primary"
-            >
-              Save note
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="pf-selbar__row">
-          <div
-            role="group"
-            aria-label="Highlight colour"
-            className="pf-selbar__colours"
-          >
-            {COLOURS.map((colour) => (
-              <button
-                key={colour}
-                type="button"
-                onClick={() => choose(colour)}
-                aria-pressed={target.existingColour === colour}
-                aria-label={COLOUR_LABELS[colour]}
-                title={COLOUR_LABELS[colour]}
-                className={`pf-selbar__colour pf-selbar__colour--${colour}`}
-              />
-            ))}
-          </div>
-
-          <span className="pf-selbar__divider" aria-hidden="true" />
-
-          <button
-            type="button"
-            onClick={() => setNoting(true)}
-            title={target.existingNote ? "Edit note" : "Add note"}
-            className="pf-selbar__action"
-          >
-            <Icon
-              icon={faNoteSticky}
-              title={target.existingNote ? "Edit note" : "Add note"}
+    <>
+      {canCorrect ? <CorrectionLayer /> : null}
+      <div
+        ref={bar}
+        role="dialog"
+        aria-label="Mark this passage"
+        // Writing turns the bar into a sheet of paper. The row of swatches is a
+        // control and looks like one; the note is the reader's own words and looks
+        // like the thing you write them on.
+        className={noting ? "pf-selbar pf-selbar--paper" : "pf-selbar"}
+        // The ONLY inline style in the app, and it is a measurement rather than a
+        // design decision: where the selection happens to be on the page. Nothing
+        // about the bar's appearance is set here — the custom properties feed
+        // rules that live in the stylesheet with everything else.
+        style={
+          {
+            "--sel-top": `${target.top}px`,
+            "--sel-left": `${target.left}px`,
+          } as React.CSSProperties
+        }
+      >
+        {noting ? (
+          <div className="pf-selbar__note">
+            <RichNoteEditor
+              key={target.existingId ?? "new"}
+              initialValue={draft}
+              onChange={setDraft}
+              placeholder="What matters about this passage?"
+              autoFocus
+              ariaLabel="Your note on this passage"
             />
-          </button>
+            <div className="pf-selbar__actions">
+              <button
+                type="button"
+                onClick={close}
+                className="pf-button pf-button--sm pf-button--ghost"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={saveNote}
+                className="pf-button pf-button--sm pf-button--primary"
+              >
+                Save note
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="pf-selbar__row">
+            <div
+              role="group"
+              aria-label="Highlight colour"
+              className="pf-selbar__colours"
+            >
+              {COLOURS.map((colour) => (
+                <button
+                  key={colour}
+                  type="button"
+                  onClick={() => choose(colour)}
+                  aria-pressed={target.existingColour === colour}
+                  aria-label={COLOUR_LABELS[colour]}
+                  title={COLOUR_LABELS[colour]}
+                  className={`pf-selbar__colour pf-selbar__colour--${colour}`}
+                />
+              ))}
+            </div>
 
-          {/* Copy was here and is gone (Asif, 2026-08-04). The browser's own
+            <span className="pf-selbar__divider" aria-hidden="true" />
+
+            <button
+              type="button"
+              onClick={() => setNoting(true)}
+              title={target.existingNote ? "Edit note" : "Add note"}
+              className="pf-selbar__action"
+            >
+              <Icon
+                icon={faNoteSticky}
+                title={target.existingNote ? "Edit note" : "Add note"}
+              />
+            </button>
+
+            {/* Copy was here and is gone (Asif, 2026-08-04). The browser's own
               selection already copies, on every platform, by the gesture the
               reader already knows — so the button was a second way to do a
               thing that was not broken, taking width from the two that only
               this bar can do. */}
-          {target.existingId !== null ? (
-            <button
-              type="button"
-              onClick={() => {
-                onRemove(target.existingId!);
-                close();
-              }}
-              title="Remove highlight"
-              className="pf-selbar__action pf-selbar__action--danger"
-            >
-              <Icon icon={faTrash} title="Remove highlight" />
-            </button>
-          ) : null}
-        </div>
-      )}
-    </div>
+            {target.existingId !== null ? (
+              <button
+                type="button"
+                onClick={() => {
+                  onRemove(target.existingId!);
+                  close();
+                }}
+                title="Remove highlight"
+                className="pf-selbar__action pf-selbar__action--danger"
+              >
+                <Icon icon={faTrash} title="Remove highlight" />
+              </button>
+            ) : null}
+          </div>
+        )}
+
+        {/* NEW. A separate strip in its own material — dark, full width and labelled in words,
+          where everything above is pale glyphs — because a correction is an EDITORIAL act on
+          the book everyone reads, and highlights and notes are the reader's private marks on
+          their own copy. Rendered only for moderators and admins, and never as a disabled
+          control: a greyed button would tell an ordinary reader the power exists. */}
+        {canCorrect && !noting && target.anchor !== null ? (
+          <button
+            type="button"
+            className="pf-selbar__correct"
+            onClick={() => {
+              requestCorrection({ anchor: target.anchor! });
+              window.getSelection()?.removeAllRanges();
+              close();
+            }}
+          >
+            <Icon icon={faPenNib} />
+            <span className="pf-selbar__correct-label">
+              Correct this passage
+            </span>
+            <span className="pf-selbar__correct-tag">Moderators</span>
+          </button>
+        ) : null}
+      </div>
+    </>
   );
 }
 

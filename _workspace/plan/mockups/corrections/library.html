@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-role="moderator-layla">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shelf Mock</title>
+  <link rel="stylesheet" href="vendor/podcast-factory.css">
+  <link rel="stylesheet" href="vendor/library-rail.css">
+  <link rel="stylesheet" href="mock.css">
+</head>
+<body>
+  <div class="mk-proto" role="region" aria-label="Prototype controls">
+    <span class="mk-proto__tag">Proposed design · sample books</span>
+    <label>Viewing as
+      <select id="mk-role">
+        <option value="moderator-layla">Moderator — Layla</option>
+        <option value="admin">Admin — Asif</option>
+        <option value="reader">Ordinary reader</option>
+      </select>
+    </label>
+    <label>Theme
+      <select id="mk-theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="sepia">Sepia</option>
+      </select>
+    </label>
+    <a class="mk-proto__link" href="index.html">← The correction panel</a>
+  </div>
+
+  <header class="pf-container pf-header">
+    <a href="library.html" aria-label="Home" class="pf-logo-link"><img class="mk-logo" src="vendor/brand/logo.png" alt="Podcast Factory Library" height="56"></a>
+    <div class="pf-header__nav" data-open="false">
+      <a class="pf-navlink" href="library.html"><span class="pf-navlink__label">Home</span></a>
+      <a class="pf-navlink" href="library.html"><span class="pf-navlink__label">Library</span></a>
+      <a class="pf-navlink" href="#"><span class="pf-navlink__label">Downloads</span></a>
+      <a class="pf-navlink" href="#"><span class="pf-navlink__label">About</span></a>
+    </div>
+  </header>
+
+  <h1 class="mk-shelf__title">Library</h1>
+
+  <div class="mk-shelf">
+    <a class="mk-book" href="index.html">
+      <div class="mk-book__band">أَيُّهَا الْوَلَد</div>
+      <div class="mk-book__body">
+        <span class="mk-book__title">Ayyuhal Walad</span>
+        <span class="mk-book__author">Sample author</span>
+      </div>
+    </a>
+
+    <a class="mk-book" href="index.html">
+      <div class="mk-book__band mk-book__band--en">A Sample Book of Study</div>
+      <div class="mk-book__body">
+        <span class="mk-book__title">A Sample Book of Study</span>
+        <span class="mk-book__author">Sample author</span>
+      </div>
+    </a>
+
+    <!-- Under moderation: drawn ONLY for moderators and admins. An ordinary reader
+         is never sent this tile — a greyed-out card would tell them a book exists
+         that they may not open. -->
+    <a class="mk-book mk-book--moderation mk-only-mod" href="index.html" aria-label="Isaf al-Talib fi Jami al-Matalib — under moderation. Opens for moderators and admins.">
+      <span class="mk-book__ribbon">Under Moderation</span>
+      <div class="mk-book__band">إِسْعَافُ الطَّالِب</div>
+      <div class="mk-book__body">
+        <span class="mk-book__title">Isaf al-Talib fi Jami al-Matalib</span>
+        <span class="mk-book__author">Sample author</span>
+      </div>
+      <div class="mk-book__note">Not live. Visible to moderators and admins only.</div>
+    </a>
+
+    <a class="mk-book mk-book--moderation mk-only-mod" href="index.html" aria-label="Sample Second Book — under moderation. Opens for moderators and admins.">
+      <span class="mk-book__ribbon">Under Moderation</span>
+      <div class="mk-book__band mk-book__band--en">Sample Second Book</div>
+      <div class="mk-book__body">
+        <span class="mk-book__title">Sample Second Book</span>
+        <span class="mk-book__author">Sample author</span>
+      </div>
+      <div class="mk-book__note">Not live. Visible to moderators and admins only.</div>
+    </a>
+  </div>
+
+  <p class="mk-empty mk-only-reader">As an ordinary reader you see two books. The two under moderation are not on your shelf at all — not greyed out, simply absent.</p>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var q = new URLSearchParams(location.search);
+      if (q.get("theme")) root.setAttribute("data-theme", q.get("theme"));
+      if (q.get("role")) root.setAttribute("data-role", q.get("role"));
+      document.getElementById("mk-role").value = root.getAttribute("data-role");
+      document.getElementById("mk-theme").value = root.getAttribute("data-theme");
+      document.getElementById("mk-role").addEventListener("change", function (e) { root.setAttribute("data-role", e.target.value); });
+      document.getElementById("mk-theme").addEventListener("change", function (e) { root.setAttribute("data-theme", e.target.value); });
+    })();
+  </script>
+</body>
+</html>

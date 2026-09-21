@@ -477,6 +477,12 @@ def source_title_drift_findings(title: str, source: str) -> list[str]:
     return []
 
 
+def _sanitize_headings(headings: list[str]) -> list[str]:
+    from _latin_plain import sanitize_headings
+
+    return sanitize_headings(headings)
+
+
 def _source_headings(source: str) -> list[str]:
     headings: list[str] = []
     for match in _SOURCE_HEADING_RE.finditer(source):
@@ -534,7 +540,10 @@ def build_source_crosswalk(
                 "source_page_range": f"pp. {pages[0]}-{pages[-1]}" if pages else "",
                 "arabic_source_pages": arabic_nums,
                 "arabic_source_page_range": (f"pp. {arabic_nums[0]}-{arabic_nums[-1]}" if arabic_nums else ""),
-                "source_headings": _source_headings(source),
+                # Plain English letters at the point of creation: these travel into the PDF
+                # appendix AND the Library's reader, and the source's own headings carry
+                # diacritics the book's standard forbids (_latin_plain, 2026-09-20).
+                "source_headings": _sanitize_headings(_source_headings(source)),
                 "source_excerpt": excerpt,
                 "drift_findings": source_title_drift_findings(title, source),
             }

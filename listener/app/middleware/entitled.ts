@@ -28,7 +28,8 @@ export const requireUnitAccess: MiddlewareFunction<Response> = async (
   if (viewer === null) notFound();
 
   const { env } = context.get(cloudflare);
-  if (!(await canRead(env.DB, viewer.email, slug))) notFound();
+  if (!(await canRead(env.DB, viewer.email, slug, viewer.isModerator)))
+    notFound();
 
   return next();
 };

@@ -492,6 +492,8 @@ export interface TextMeta {
   words: number;
   bytes: number;
   savedAt: number;
+  /** The fingerprint of the prose this copy was made from; see `refreshStaleText`. */
+  version?: string;
 }
 
 /** What text is on the device. Metadata only — see the store comment. */
@@ -530,6 +532,7 @@ export async function downloadText(slug: string): Promise<void> {
   const body = (await response.json()) as {
     bookTitle: string;
     bucket: string;
+    version?: string | null;
     chapters: StoredChapter[];
   };
 
@@ -542,6 +545,7 @@ export async function downloadText(slug: string): Promise<void> {
     words: body.chapters.reduce((n, c) => n + c.wordCount, 0),
     bytes,
     savedAt: Date.now(),
+    version: body.version ?? undefined,
   };
 
   await tx([TEXT_META, TEXT_BODY], "readwrite", (t) => {
@@ -553,6 +557,28 @@ export async function downloadText(slug: string): Promise<void> {
     (a, b) => b.savedAt - a.savedAt,
   );
   announce();
+}
+
+/**
+ * Re-fetch any book already kept on this device whose published prose has since changed.
+ *
+ * A correction ships and some readers would otherwise never see it: a copy saved for offline
+ * reading is the wording as it was. Only a book the reader ALREADY chose to keep is touched, only
+ * when the server says its prose is different, and a failure (offline, signed out) leaves the old
+ * copy exactly where it is — a stale chapter is better than none.
+ */
+export async function refreshStaleText(
+  versions: Record<string, string>,
+): Promise<void> {
+  for (const meta of [...texts]) {
+    const current = versions[meta.slug];
+    if (current === undefined || meta.version === current) continue;
+    try {
+      await downloadText(meta.slug);
+    } catch {
+      // Keep what is there.
+    }
+  }
 }
 
 /**

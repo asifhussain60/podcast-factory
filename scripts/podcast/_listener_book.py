@@ -13,6 +13,7 @@ a blurb) and writing is mechanical.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -49,6 +50,12 @@ from _listener_media import (  # noqa: E402,F401
     audio_duration,
     collect_audio,
     collect_media,
+)
+from _listener_source_ocr import (  # noqa: E402
+    SourcePageRow,
+    SourceSpanRow,
+    read_source_pages,
+    read_source_spans,
 )
 from _listener_source_ref import SourceReference, read_source_references  # noqa: E402
 from _paths import find_content  # noqa: E402
@@ -129,6 +136,10 @@ class Book:
     # page range and headings only. Empty on the 19-of-27 books with no
     # `book/source-crosswalk.json` — see `_listener_source_ref`.
     source_references: list[SourceReference] = field(default_factory=list)
+    # The source TEXT, for moderators only — a different pair of tables from the line above, which
+    # is reader-visible. See `_listener_source_ocr`; the two must never be merged.
+    source_pages: list[SourcePageRow] = field(default_factory=list)
+    source_spans: list[SourceSpanRow] = field(default_factory=list)
     unmatched_audio: list[str] = field(default_factory=list)
     cover: Asset | None = None
     pdf: Asset | None = None
@@ -423,6 +434,8 @@ def load_book(slug: str, *, normalise_audio: bool = False) -> Book:
     book.bridge = read_bridge(directory, book.chapters)
     book.companion_notes = read_companion(directory)
     book.source_references = read_source_references(directory, book.chapters)
+    book.source_pages = read_source_pages(directory)
+    book.source_spans = read_source_spans(directory, book.chapters, book.source_pages)
     collect_media(book)
     return book
 
@@ -497,3 +510,14 @@ def render(book: Book) -> None:
         book.blurb = rendered["\x00blurb"]
 
     book.companion = attach_companion(book.companion_notes, payload)
+
+
+def prose_version(book: Book) -> str:
+    """A short, stable fingerprint of a book's rendered chapters, in reading order."""
+    digest = hashlib.sha256()
+    for chapter in book.chapters:
+        digest.update(chapter.anchor.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(chapter.html.encode("utf-8"))
+        digest.update(b"\0")
+    return digest.hexdigest()[:16]

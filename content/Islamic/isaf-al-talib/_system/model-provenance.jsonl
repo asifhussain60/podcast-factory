@@ -895,3 +895,5 @@
 {"phase": "0book-brief", "step": "repair", "model": "claude-opus-5", "fallback": true, "divergence": true}
 {"phase": "0book-compose", "step": "5a-glossary-vowel", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
 {"phase": "0book-compose", "step": "5a-vowelling", "model": "gemini-2.5-pro", "fallback": false, "divergence": true}
+{"phase": "0book-correction-review", "step": "correction-review", "model": "claude-opus-5", "fallback": true, "divergence": true}
+{"phase": "0book-correction-review", "step": "correction-review", "model": "claude-opus-5", "fallback": true, "divergence": true}

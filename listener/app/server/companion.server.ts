@@ -25,6 +25,7 @@
  * being shown teaching notes written about them being taught.
  */
 
+import { followSubstitutions, substitutionsFor } from "./substitutions.server";
 import type { Viewer } from "~/middleware/session";
 
 export interface CompanionCard {
@@ -70,11 +71,14 @@ export async function companionFor(
       etymology: string | null;
     }>();
 
+  // A card locates its passage by the sentence it quotes; follow a correction applied to it.
+  const subs = await substitutionsFor(db, slug);
+
   return results.map((row) => ({
     id: row.note_id,
     idx: row.idx,
     title: row.title,
-    quote: row.quote,
+    quote: followSubstitutions(row.quote, anchorKey, subs),
     bodyHtml: row.body_html,
     etymology: parseEtymology(row.etymology),
   }));

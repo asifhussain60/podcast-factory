@@ -58,6 +58,8 @@ export async function loader({ context }: Route.LoaderArgs) {
 const TABS = [
   { to: "/admin", label: "People", end: true },
   { to: "/admin/content", label: "Content", end: false },
+  { to: "/admin/corrections", label: "Corrections", end: false },
+  { to: "/admin/moderators", label: "Moderators", end: false },
   { to: "/admin/usage", label: "Usage", end: false },
 ];
 

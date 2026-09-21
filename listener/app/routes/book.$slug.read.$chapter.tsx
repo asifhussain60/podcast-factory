@@ -40,7 +40,7 @@ import { notFound } from "~/middleware/deny";
 import { requireUnitAccess } from "~/middleware/entitled";
 import { session } from "~/middleware/session";
 import { unitBySlug } from "~/server/access.server";
-import { passageById } from "~/server/search.server";
+import { passageForViewer } from "~/server/search.server";
 import {
   bridgedEpisodeFor,
   chapterOf,
@@ -110,7 +110,6 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
   const key = decodeURIComponent(params.chapter);
 
   const viewer = context.get(session).viewer;
-
   /**
    * Arriving from a search result: `?find=<passage id>`.
    *
@@ -127,7 +126,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
   const passage =
     wanted === null || !Number.isSafeInteger(wanted) || wanted <= 0
       ? null
-      : await passageById(env.DB, viewer?.email ?? "", wanted);
+      : await passageForViewer(env.DB, viewer, wanted);
 
   const [
     unit,
@@ -207,6 +206,7 @@ export async function loader({ params, request, context }: Route.LoaderArgs) {
     // signed in. Folding the two together would make a change to who gets the
     // Companion silently change who is offered the admin section.
     isAdmin: viewer?.isAdmin === true,
+    isModerator: viewer?.isModerator === true,
   };
 }
 

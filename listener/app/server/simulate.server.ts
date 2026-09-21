@@ -10,14 +10,18 @@
  *      it is inert — their real session is not admin, so it is never read. That,
  *      not the cookie's contents, is the gate.
  *
- *   2. IT ONLY EVER DOWNGRADES. The simulated viewer is built with
+ *   2. IT NEVER ADDS A CAPABILITY. The simulated viewer is built with
  *      `isAdmin: false` unconditionally, including when simulating the admin's
- *      own address. There is no value of this cookie that adds a capability.
+ *      own address, and `isModerator` is the PERSON'S OWN status — so the
+ *      administrator sees a moderator's experience exactly as she has it, and
+ *      never anything she does not. There is no value of this cookie that
+ *      gives the viewer more than the person being simulated already holds.
  *
  *   3. IT CANNOT WRITE. Every mark in this application is keyed on
  *      `viewer.email`, so browsing as somebody would otherwise rewrite their
  *      bookmarks and their reading position. The marks action refuses while it
- *      is set; see book.$slug.marks.ts.
+ *      is set; see book.$slug.marks.ts. So do corrections, comments and chapter
+ *      review: the corrections action answers 403 while a simulation is on.
  *
  *   4. IT EXPIRES. Two hours, and it is a session cookie besides. A forgotten
  *      simulation resolves itself rather than quietly persisting as a browser
