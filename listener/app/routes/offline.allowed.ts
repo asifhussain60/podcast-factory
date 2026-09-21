@@ -29,10 +29,22 @@ export async function loader({ context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const viewer = context.get(session).viewer!;
 
-  const units = await visibleUnits(env.DB, viewer.email);
+  const units = await visibleUnits(env.DB, viewer.email, viewer.isModerator);
+
+  const slugs = units.map((unit) => unit.slug);
+  // What each allowed book's published prose currently is, so a device holding an older copy
+  // knows to refresh it. Read-only and about nothing but the books already allowed above.
+  const { results } = await env.DB.prepare(
+    `SELECT slug, version FROM book_version`,
+  ).all<{ slug: string; version: string }>();
+  const versions = Object.fromEntries(
+    results
+      .filter((r) => slugs.includes(r.slug))
+      .map((r) => [r.slug, r.version]),
+  );
 
   return Response.json(
-    { slugs: units.map((unit) => unit.slug) },
+    { slugs, versions },
     // Never cached. The whole value of this answer is that it is current: a
     // stale copy is a withdrawn book staying playable for as long as the cache
     // lives, which is the thing the lease exists to bound.

@@ -11,6 +11,8 @@ import { count } from "~/lib/plural";
 import { cloudflare } from "~/context";
 import { session } from "~/middleware/session";
 import { listCatalogForAdmin } from "~/server/access.server";
+import { readersByBook, setUnderModeration } from "~/server/moderation.server";
+import { moderationReadiness } from "~/server/moderationProgress.server";
 import {
   grant,
   holdersOf,
@@ -41,7 +43,21 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const holders = await Promise.all(
     readable.map((u) => holdersOf(env.DB, u.slug)),
   );
-  const units = readable.map((u, i) => ({ ...u, holders: holders[i] }));
+  // How many people have marks or a place in each book, so holding a LIVE book back can say
+  // what it will do to them before it does it.
+  const readers = await readersByBook(env.DB);
+  // How far each HELD book's moderation has got, so "ready to release" is computed, not claimed.
+  const readiness = await Promise.all(
+    readable.map((u) =>
+      u.underModeration ? moderationReadiness(env.DB, u.slug) : null,
+    ),
+  );
+  const units = readable.map((u, i) => ({
+    ...u,
+    holders: holders[i],
+    readers: readers.get(u.slug) ?? 0,
+    readiness: readiness[i],
+  }));
 
   // The selected book is taken from the list already loaded rather than fetched
   // again — it carries its holders, which a fresh `unitBySlug` would not, and a
@@ -87,6 +103,17 @@ export async function action({ request, context }: Route.ActionArgs) {
         env.DB,
         String(form.get("slug")),
         form.get("open") === "1",
+        actor,
+        now,
+      );
+      return { ok: true };
+
+    // Under moderation is a privilege bit: admin session only, never the publish endpoint.
+    case "under-moderation":
+      await setUnderModeration(
+        env.DB,
+        String(form.get("slug")),
+        form.get("on") === "1",
         actor,
         now,
       );
@@ -165,6 +192,58 @@ export default function AdminContent({ loaderData }: Route.ComponentProps) {
                 </ToggleButton>
               </Form>
             </div>
+
+            <Form
+              method="post"
+              className="pf-split"
+              onSubmit={(event) => {
+                // Releasing a book that is not finished is allowed — it is the admin's call — but
+                // never silently.
+                if (
+                  u.underModeration &&
+                  u.readiness !== null &&
+                  !u.readiness.ready &&
+                  !window.confirm(
+                    `Moderation is not finished: ${u.readiness.reviewed} of ${u.readiness.chapters} chapters read, ${u.readiness.undecided} corrections undecided. Release it anyway?`,
+                  )
+                ) {
+                  event.preventDefault();
+                  return;
+                }
+                // Holding a live book back takes it from everyone reading it at once. Say how
+                // many, and let the administrator decide with that in front of them.
+                if (
+                  !u.underModeration &&
+                  u.status === "published" &&
+                  u.readers > 0 &&
+                  !window.confirm(
+                    `${count(u.readers, "person has", "people have")} marks or a place in “${u.title}”. Holding it for moderation hides it from them until you release it. Their marks are kept and come back. Hold it?`,
+                  )
+                ) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              <input type="hidden" name="intent" value="under-moderation" />
+              <input type="hidden" name="slug" value={u.slug} />
+              <input
+                type="hidden"
+                name="on"
+                value={u.underModeration ? "0" : "1"}
+              />
+              <p className="pf-note pf-note--quiet pf-split__main">
+                {u.underModeration
+                  ? u.readiness === null
+                    ? "Held for moderation: only moderators and admins can see it."
+                    : `Held for moderation · ${u.readiness.reviewed} of ${u.readiness.chapters} chapters read · ${count(u.readiness.undecided, "correction", "corrections")} waiting${u.readiness.ready ? " · ready to release" : ""}`
+                  : "Visible to readers as usual."}
+              </p>
+              <ToggleButton on={u.underModeration}>
+                {u.underModeration
+                  ? "Under moderation · release"
+                  : "Hold for moderation"}
+              </ToggleButton>
+            </Form>
 
             <div className="pf-split pf-card__foot">
               <p className="pf-note pf-note--quiet pf-split__main">

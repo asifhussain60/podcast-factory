@@ -70,7 +70,7 @@ export async function loader({ context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const viewer = context.get(session).viewer!;
 
-  const units = await visibleUnits(env.DB, viewer.email);
+  const units = await visibleUnits(env.DB, viewer.email, viewer.isModerator);
 
   let sessions = 0;
   let audiobooks = 0;

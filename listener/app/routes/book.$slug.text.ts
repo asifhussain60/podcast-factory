@@ -52,8 +52,20 @@ export async function loader({ params, context }: Route.LoaderArgs) {
     if (full !== null) chapters.push(full);
   }
 
+  // The fingerprint of THIS prose, kept with the copy so the device can tell later that it changed.
+  const stamped = await env.DB.prepare(
+    `SELECT version FROM book_version WHERE slug = ?1`,
+  )
+    .bind(slug)
+    .first<{ version: string }>();
+
   return Response.json(
-    { bookTitle: unit.title, bucket: unit.bucket, chapters },
+    {
+      bookTitle: unit.title,
+      bucket: unit.bucket,
+      version: stamped?.version ?? null,
+      chapters,
+    },
     // Never cached by anything in between. The device keeps its own copy
     // deliberately, through the store that the lease can reach and empty; a
     // second copy in an HTTP cache is one the lease cannot.

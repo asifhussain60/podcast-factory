@@ -4,6 +4,7 @@ import { cloudflare } from "~/context";
 import { createAuth, isAdminEmail } from "~/server/auth.server";
 import { simulatedEmail } from "~/server/simulate.server";
 import { tryNormalizeEmail } from "~/server/email.server";
+import { isModeratorEmail } from "~/server/moderation.server";
 
 export interface Viewer {
   /** Normalized. The only email any downstream code may act on. */
@@ -12,6 +13,11 @@ export interface Viewer {
   name: string;
   image: string | null;
   isAdmin: boolean;
+  /**
+   * May see books held for moderation. True for every admin, and for anyone with a live
+   * `moderator` row. Strictly lower than `isAdmin` — nothing about it grants admin.
+   */
+  isModerator: boolean;
 }
 
 export interface SessionState {
@@ -63,12 +69,16 @@ export const withSession: MiddlewareFunction<Response> = async (
     if (result?.user?.email && result.user.emailVerified) {
       const email = tryNormalizeEmail(result.user.email);
       if (email !== null) {
+        const isAdmin = isAdminEmail(env, result.user.email);
         viewer = {
           email,
           rawEmail: result.user.email,
           name: result.user.name || email,
           image: result.user.image ?? null,
-          isAdmin: isAdminEmail(env, result.user.email),
+          isAdmin,
+          // One lookup, resolved HERE beside `isAdmin`, so every gate and every query reads
+          // the same answer rather than each asking the database in its own way.
+          isModerator: isAdmin || (await isModeratorEmail(env.DB, email)),
         };
       }
     }
@@ -85,9 +95,10 @@ export const withSession: MiddlewareFunction<Response> = async (
 
      The condition is the whole security model: the cookie is read ONLY when the
      real session is the administrator's, so forged in anybody else's browser it
-     is never consulted. And what it produces is always a DOWNGRADE —
-     `isAdmin: false` unconditionally, including when the address simulated is
-     the admin's own — so no value of it can add a capability to anyone. See
+     is never consulted. And what it produces is never MORE than the person's
+     own privileges — `isAdmin: false` unconditionally, including when the
+     address simulated is the admin's own, and `isModerator` only if that person
+     really is one — so no value of it can add a capability to anyone. See
      server/simulate.server.ts.                                              */
   let simulating: SessionState["simulating"] = null;
 
@@ -103,6 +114,12 @@ export const withSession: MiddlewareFunction<Response> = async (
         name: as,
         image: null,
         isAdmin: false,
+        // The person's OWN moderator status, so the administrator sees exactly the experience they
+        // have — including the correction panel and the held books, if they are a moderator. Never
+        // more than that: the simulated viewer is never an admin, so nothing here can hand the
+        // administrator a capability the person being simulated does not hold, and every WRITE is
+        // refused while simulating (see the corrections and marks actions).
+        isModerator: await isModeratorEmail(env.DB, as),
       };
     }
   }

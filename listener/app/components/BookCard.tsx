@@ -45,11 +45,18 @@ export function BookCard({
   marks = null,
   compact = false,
   volumeLabel = null,
+  underModeration = false,
 }: {
   slug: string;
   title: string;
   bucket: string;
   card: LibraryCard | null;
+  /**
+   * Held for moderation. The shelf only ever receives such a row for a moderator or an
+   * admin (`visibleSql`), so this is a label for people already allowed to see it — never
+   * a hint to anyone else that the book exists.
+   */
+  underModeration?: boolean;
   /** Where this reader got to, or null if they have not opened it. */
   progress?: Progress | null;
   listen?: {
@@ -92,14 +99,17 @@ export function BookCard({
 
   return (
     <article
-      className={
+      className={`${
         compact ? "pf-card pf-book pf-book--compact" : "pf-card pf-book"
-      }
+      }${underModeration ? " pf-moderated" : ""}`}
       /* The card is the whole subtree the overlay has to cover — band, pills,
          meter and all — so the attribute goes on the link rather than on the
          band it most obviously colours. */
       data-collection={collection}
     >
+      {underModeration ? (
+        <span className="pf-moderated__ribbon">Under Moderation</span>
+      ) : null}
       {/* A "stretched link": fills the card so blank space (padding, the gap
           between action buttons, an unread book's progress caption) opens the
           book too, not just the band and the title. Positioned (`inset: 0`

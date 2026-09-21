@@ -66,7 +66,7 @@ export async function loader({ context }: Route.LoaderArgs) {
   const { env } = context.get(cloudflare);
   const viewer = context.get(session).viewer!;
 
-  const units = await visibleUnits(env.DB, viewer.email);
+  const units = await visibleUnits(env.DB, viewer.email, viewer.isModerator);
 
   // Progress and mark counts are for THIS viewer and are keyed by slug, so they
   // are joined to what `visibleUnits` returned rather than being queried per
@@ -381,6 +381,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     title={entry.unit.title}
                     card={entry.unit.card}
                     progress={entry.unit.progress}
+                    underModeration={entry.unit.underModeration}
                   />
                 ),
               )}
@@ -403,6 +404,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 progress={unit.progress}
                 listen={unit.listen}
                 marks={unit.marks}
+                underModeration={unit.underModeration}
                 compact
               />
             </li>
@@ -439,6 +441,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 progress={entry.unit.progress}
                 listen={entry.unit.listen}
                 marks={entry.unit.marks}
+                underModeration={entry.unit.underModeration}
               />
             </li>
           ),

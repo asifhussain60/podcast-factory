@@ -58,8 +58,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from _cloudflare_preflight import prepare_remote  # noqa: E402
-from _listener_book import LISTENER, Book, load_book, render  # noqa: E402
+from _listener_book import LISTENER, Book, load_book, prose_version, render  # noqa: E402
 from _listener_search import IndexReport, Passage, passages_for  # noqa: E402
+from _listener_source_ocr import source_statements  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 from _wrangler import run as wrangler  # noqa: E402
 
@@ -178,6 +179,14 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
                 f"{sql_str(chunk)} WHERE slug = {sql_str(book.slug)} AND anchor_key = {sql_str(chapter.anchor)};"
             )
 
+    # A fingerprint of the prose just written, so a device holding an older copy can tell. It is
+    # derived from the RENDERED html, so it changes when and only when what a reader sees does — a
+    # correction applied to a sentence moves it, a re-publish of identical prose does not.
+    add(
+        "INSERT OR REPLACE INTO book_version (slug, version, updated_at) VALUES "
+        f"({sql_str(book.slug)}, {sql_str(prose_version(book))}, {sql_str(published_at)});"
+    )
+
     add(f"DELETE FROM chapter_narration WHERE slug = {sql_str(book.slug)};")
     for chapter in book.chapters:
         if chapter.narration is None:
@@ -242,6 +251,10 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
             f"({sql_str(book.slug)}, {sql_str(ref.anchor)}, {sql_str(ref.page_range)}, "
             f"{sql_str(json.dumps(ref.headings, ensure_ascii=False))});"
         )
+
+    # The source TEXT, for the moderators' Source pane; see `_listener_source_ocr`.
+    for statement in source_statements(book, sql_str):
+        add(statement)
 
     # The search index. Cleared and rewritten with the chapters it describes,
     # which is what stops it describing a passage the edition no longer has.
@@ -443,6 +456,7 @@ def describe(book: Book) -> dict:
         "bridge_links": len(book.bridge),
         "companion_cards": len(book.companion),
         "source_references": len(book.source_references),
+        "source_pages": len(book.source_pages),
         "unmatched_audio": book.unmatched_audio,
         "session_concerns": session_concerns(book),
         "media_bytes": sum(a.bytes for a in book.assets),
@@ -520,6 +534,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"  episode<->chapter  {summary['bridge_links'] or 'not recorded'}")
             print(f"  scholar cards      {summary['companion_cards'] or 'none'}")
             print(f"  source references  {summary['source_references'] or 'none'}")
+            print(f"  source pages       {summary['source_pages'] or 'none'}  (moderators only)")
             for name in summary["unmatched_audio"]:
                 print(f"  ! audio not shipped, left where it is: {name}")
             for note in summary["session_concerns"]:

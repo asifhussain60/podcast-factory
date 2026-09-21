@@ -1,0 +1,4 @@
+{
+  "quality": "noisy",
+  "note": "The scan mixes clean Arabic with handwritten Urdu that the OCR renders as plausible-looking fragments, so the automatic check calls it clean. Set by hand 2026-09-20."
+}

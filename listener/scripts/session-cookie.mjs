@@ -32,6 +32,10 @@ if (!secret) {
   process.exit(2);
 }
 
+// NOTE: the id is the hex of only the FIRST EIGHT characters of the address, so two test
+// addresses that share their first eight characters share an id — and the second one's user
+// row is never created (the insert below does nothing on a conflict). Give test identities
+// distinct openings ("rdr-smoke-…", "mod-smoke-…"), not a shared prefix.
 const userId = `dev-${Buffer.from(email).toString("hex").slice(0, 16)}`;
 const token = `devtok-${userId}`;
 const now = new Date().toISOString();
@@ -40,9 +44,15 @@ const expires = new Date(Date.now() + 86_400_000).toISOString();
 // Upsert the user and a live session. `emailVerified = 1` because the session
 // middleware requires it, mirroring Google's own email_verified claim.
 const sql = `
+  -- DO NOTHING on ANY conflict, not just on the id. A person who has really signed in
+  -- already has a row for this address under a random Better Auth id, so a second insert
+  -- for the same email violates the UNIQUE constraint on it — which made this whole tool,
+  -- and the security smoke that depends on it, unusable on exactly the machine whose real
+  -- account it most needs to test against. The session below attaches to whichever row
+  -- holds the address, ours or theirs; it never edits a real user.
   INSERT INTO user (id, name, email, emailVerified, createdAt, updatedAt)
   VALUES ('${userId}', '${name}', '${email}', 1, '${now}', '${now}')
-  ON CONFLICT(id) DO UPDATE SET email = excluded.email, emailVerified = 1;
+  ON CONFLICT DO NOTHING;
 
   -- Delete ONLY this script's own deterministic row, never "all sessions for
   -- this user". The user id is derived from the email, so it collides with the
@@ -54,7 +64,8 @@ const sql = `
   DELETE FROM session WHERE id = 'sess-${userId}';
 
   INSERT INTO session (id, expiresAt, token, createdAt, updatedAt, userId)
-  VALUES ('sess-${userId}', '${expires}', '${token}', '${now}', '${now}', '${userId}');
+  VALUES ('sess-${userId}', '${expires}', '${token}', '${now}', '${now}',
+          (SELECT id FROM user WHERE email = '${email}'));
 `;
 
 execFileSync(

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { flushMoments, flushPositions } from "~/lib/listening";
-import { hydrate, purgeExcept } from "~/lib/offline";
+import { hydrate, purgeExcept, refreshStaleText } from "~/lib/offline";
 
 /**
  * The three things offline listening needs done once, when the app opens.
@@ -47,6 +47,7 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
       // change nothing. Offline is the ordinary case here and must never look
       // like an empty entitlement.
       let slugs: string[] | null = null;
+      let versions: Record<string, string> = {};
       try {
         const response = await fetch("/offline/allowed", {
           credentials: "same-origin",
@@ -54,7 +55,11 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
         // `redirected` is the signed-out case: the gate bounced us to sign-in,
         // and that page is HTML, not an answer about anybody's books.
         if (response.ok && !response.redirected) {
-          const body = (await response.json()) as { slugs?: unknown };
+          const body = (await response.json()) as {
+            slugs?: unknown;
+            versions?: Record<string, string>;
+          };
+          versions = body.versions ?? {};
           if (
             Array.isArray(body.slugs) &&
             body.slugs.every((s) => typeof s === "string")
@@ -65,7 +70,10 @@ export function OfflineAgent({ simulating }: { simulating: boolean }) {
       } catch {
         // No network. Nothing is withdrawn on the strength of a failed request.
       }
-      if (!cancelled) await purgeExcept(slugs);
+      if (cancelled) return;
+      await purgeExcept(slugs);
+      // After the purge, so a book withdrawn from this reader is never refreshed on the way out.
+      if (slugs !== null) await refreshStaleText(versions);
     }
 
     /*

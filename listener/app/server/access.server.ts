@@ -24,6 +24,11 @@ export interface ContentUnit {
   workSlug: string | null;
   status: "draft" | "published" | "archived";
   openToAll: boolean;
+  /**
+   * Held back while it is corrected. Only a moderator or an admin can see it at
+   * all — see `visibleSql`. Present on every row so the shelf can say so.
+   */
+  underModeration: boolean;
 }
 
 export interface Grant {
@@ -41,6 +46,7 @@ interface UnitRow {
   work_slug: string | null;
   status: ContentUnit["status"];
   open_to_all: number;
+  under_moderation: number;
 }
 
 const toUnit = (r: UnitRow): ContentUnit => ({
@@ -51,6 +57,7 @@ const toUnit = (r: UnitRow): ContentUnit => ({
   workSlug: r.work_slug,
   status: r.status,
   openToAll: r.open_to_all === 1,
+  underModeration: r.under_moderation === 1,
 });
 
 /**
@@ -70,25 +77,50 @@ const toUnit = (r: UnitRow): ContentUnit => ({
  * module that reads passages, chapters or media MUST join to this and bind the
  * viewer's normalized email to `?1`. Nothing else may filter by slug alone.
  */
-export const VISIBLE_SQL = `
-  SELECT u.slug, u.bucket, u.title, u.kind, u.work_slug, u.status, u.open_to_all
+export function visibleSql(isModerator: boolean): string {
+  // A literal, not a bound parameter, and deliberately so. `search.server.ts` numbers
+  // its own parameters (`?2`, `?3` …) after the email, so a second bound value here would
+  // have renumbered every one of them; and a fixed 0/1 chosen from a typed boolean can
+  // never carry user input into the statement.
+  const mod = isModerator ? 1 : 0;
+  return `
+  SELECT u.slug, u.bucket, u.title, u.kind, u.work_slug, u.status, u.open_to_all,
+         u.under_moderation
   FROM content_unit u
-  WHERE u.status = 'published'
-    AND u.kind <> 'work'
+  WHERE u.kind <> 'work'
     AND (
-      u.open_to_all = 1
-      OR EXISTS (
-        SELECT 1 FROM access_grant g
-        WHERE g.user_email = ?1
-          AND g.revoked_at IS NULL
-          AND (
-               (g.scope_type = 'unit'    AND g.scope_id = u.slug)
-            OR (g.scope_type = 'work'    AND g.scope_id = u.work_slug)
-            OR (g.scope_type = 'library' AND g.scope_id = '*')
+      -- UNDER MODERATION: readable by moderators and admins ONLY, and by them whatever the
+      -- book's status or grants — a book waiting for moderation is normally still a draft
+      -- that nobody has been given, so requiring 'published' here would hide it from the
+      -- very people it is being held for. Not archived: that is retired, not held.
+      ( u.under_moderation = 1 AND ${mod} = 1 AND u.status <> 'archived' )
+      OR
+      -- EVERYTHING ELSE: the original rule, untouched. The two branches are mutually
+      -- exclusive on \`under_moderation\`, so no book can satisfy both, and an ordinary
+      -- reader can never reach the first.
+      (
+        u.under_moderation = 0
+        AND u.status = 'published'
+        AND (
+          u.open_to_all = 1
+          OR EXISTS (
+            SELECT 1 FROM access_grant g
+            WHERE g.user_email = ?1
+              AND g.revoked_at IS NULL
+              AND (
+                   (g.scope_type = 'unit'    AND g.scope_id = u.slug)
+                OR (g.scope_type = 'work'    AND g.scope_id = u.work_slug)
+                OR (g.scope_type = 'library' AND g.scope_id = '*')
+              )
           )
+        )
       )
     )
 `;
+}
+
+/** The rule as an ordinary reader sees it. Kept so a caller that forgets the flag fails CLOSED. */
+export const VISIBLE_SQL = visibleSql(false);
 
 /**
  * Everything this person may actually read, most recent series first.
@@ -130,7 +162,7 @@ export async function unitBySlug(
 ): Promise<ContentUnit | null> {
   const row = await db
     .prepare(
-      `SELECT slug, bucket, title, kind, work_slug, status, open_to_all
+      `SELECT slug, bucket, title, kind, work_slug, status, open_to_all, under_moderation
        FROM content_unit WHERE slug = ? LIMIT 1`,
     )
     .bind(slug)
@@ -142,9 +174,10 @@ export async function unitBySlug(
 export async function visibleUnits(
   db: D1Database,
   email: string,
+  isModerator = false,
 ): Promise<ContentUnit[]> {
   const { results } = await db
-    .prepare(`${VISIBLE_SQL} ORDER BY u.sort_order, u.title`)
+    .prepare(`${visibleSql(isModerator)} ORDER BY u.sort_order, u.title`)
     .bind(normalizeEmail(email))
     .all<UnitRow>();
 
@@ -210,9 +243,12 @@ export async function canRead(
   db: D1Database,
   email: string,
   slug: string,
+  isModerator = false,
 ): Promise<boolean> {
   const row = await db
-    .prepare(`SELECT 1 AS ok FROM (${VISIBLE_SQL}) u WHERE u.slug = ?2 LIMIT 1`)
+    .prepare(
+      `SELECT 1 AS ok FROM (${visibleSql(isModerator)}) u WHERE u.slug = ?2 LIMIT 1`,
+    )
     .bind(normalizeEmail(email), slug)
     .first<{ ok: number }>();
 
@@ -231,7 +267,7 @@ export async function listCatalogForAdmin(
 ): Promise<ContentUnit[]> {
   const { results } = await db
     .prepare(
-      `SELECT slug, bucket, title, kind, work_slug, status, open_to_all
+      `SELECT slug, bucket, title, kind, work_slug, status, open_to_all, under_moderation
        FROM content_unit ORDER BY sort_order, title`,
     )
     .all<UnitRow>();

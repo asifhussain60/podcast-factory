@@ -452,6 +452,8 @@ describe("the publish step's privilege discipline", () => {
     );
 
     expect(code).not.toMatch(/open_to_all/);
+    // A third privilege bit (migration 0022): whether a book is held for moderation.
+    expect(code).not.toMatch(/under_moderation/);
     expect(code).not.toMatch(/\bstatus\b\s*=/);
     expect(code).not.toMatch(/UPDATE\s+content_unit\s+SET[^;]*status/i);
   });
