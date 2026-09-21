@@ -407,3 +407,6 @@ content/knowledge-base/_index/hydration-log.jsonl
 
 # Throwaway design-review mockups (never shipped, never committed)
 .design-previews/
+
+# Correction packets: derived, regenerable from the book + the Library, and rebuilt by build_correction_packets.py.
+content/**/_system/corrections/packets/

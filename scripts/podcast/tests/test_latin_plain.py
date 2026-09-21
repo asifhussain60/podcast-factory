@@ -76,3 +76,35 @@ def test_quotation_marks_around_a_word_survive() -> None:
     assert lp.plain_title("The Two Letters of 'Be'") == "The Two Letters of 'Be'"
     assert lp.plain_title("The Du'at of Najran") == "The Duat of Najran"
     assert lp.plain_title("'Ali and Fatima") == "Ali and Fatima"
+
+
+def test_crosswalk_headings_are_folded_and_gated(tmp_path: Path) -> None:
+    """The gap in the first fix: source headings reach the Library reader unfolded."""
+    (tmp_path / "book").mkdir()
+    cw = {
+        "chapters": [
+            {"title": "Zakat", "source_headings": ["Book of Zakāt", "On the Istisqāʾ Prayer", "Plain heading"]}
+        ]
+    }
+    (tmp_path / "book" / "source-crosswalk.json").write_text(json.dumps(cw, ensure_ascii=False), encoding="utf-8")
+    found = lp.crosswalk_findings(tmp_path)
+    assert len(found) == 2 and all("source-crosswalk" in f for f in found)
+    assert lp.book_latin_findings(tmp_path) == found  # the B11 gate now sees it too
+    assert lp.sanitize_headings(cw["chapters"][0]["source_headings"]) == [
+        "Book of Zakat",
+        "On the Istisqa Prayer",
+        "Plain heading",
+    ]
+
+
+def test_library_boundary_folds_headings_even_from_an_old_crosswalk(tmp_path: Path) -> None:
+    import _listener_source_ref as sr
+
+    class _Ch:
+        anchor = "zakat"
+
+    (tmp_path / "book").mkdir()
+    cw = {"chapters": [{"title": "Zakat", "source_page_range": "pp. 1-2", "source_headings": ["Book of Zakāt"]}]}
+    (tmp_path / "book" / "source-crosswalk.json").write_text(json.dumps(cw, ensure_ascii=False), encoding="utf-8")
+    refs = sr.read_source_references(tmp_path, [_Ch()])
+    assert [r.headings for r in refs] == [["Book of Zakat"]]
