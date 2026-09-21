@@ -37,9 +37,10 @@ import { sourceFor } from "~/server/sourceOcr.server";
  * for the reason `marks` does: a router submission revalidates every loader on the page, and
  * saving a correction must not reload the chapter the moderator is reading.
  *
- * Every write refuses while the administrator is simulating somebody. `isModerator` is
- * already false then (see middleware/session.ts), so the gate above answers 404 before this
- * code runs — there is deliberately no second check to forget.
+ * Every write refuses while the administrator is simulating somebody, by the explicit check at the top
+ * of `action`. That check is NOT redundant: while simulating, `isModerator` is the simulated person's
+ * OWN status (so the administrator can see a moderator's whole experience), which means the gate above
+ * lets a simulated moderator through to READ — and only this check stops them writing as her.
  */
 export const middleware: Route.MiddlewareFunction[] = [
   requireUnitAccess,

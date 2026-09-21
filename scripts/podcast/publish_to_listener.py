@@ -184,7 +184,8 @@ def build_statements(book: Book, *, published_at: str, commit: str | None) -> li
     # correction applied to a sentence moves it, a re-publish of identical prose does not.
     add(
         "INSERT OR REPLACE INTO book_version (slug, version, updated_at) VALUES "
-        f"({sql_str(book.slug)}, {sql_str(prose_version(book))}, {sql_str(published_at)});"
+        # The database's own clock, so the statement text is the same on every run like all the others.
+        f"({sql_str(book.slug)}, {sql_str(prose_version(book))}, strftime('%Y-%m-%dT%H:%M:%fZ', 'now'));"
     )
 
     add(f"DELETE FROM chapter_narration WHERE slug = {sql_str(book.slug)};")

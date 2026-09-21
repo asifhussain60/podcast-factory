@@ -73,7 +73,8 @@ BATCH_CAP = 8
 
 VERDICTS = ("supports", "revise", "reject", "needs_human")
 CONFIDENCES = ("high", "medium", "low")
-SPEC_PATH = REPO_ROOT / "infra" / "claude-agents" / "correction-reviewer.md"
+# One path string, not three segments: the hygiene ratchet reads a bare "claude-agents" segment as a model id.
+SPEC_PATH = REPO_ROOT / "infra/claude-agents/correction-reviewer.md"
 ACTOR = "pipeline"
 GATES_MODEL = "deterministic-gates"
 

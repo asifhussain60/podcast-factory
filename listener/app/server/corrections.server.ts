@@ -24,33 +24,41 @@
 
 import {
   isKind,
-  type Occurrence,
   type AiReview,
   type Authority,
   type Correction,
   type CorrectionComment,
-  type Kind,
-  type Origin,
   type Status,
 } from "~/lib/corrections";
-import { sanitizeNote } from "~/lib/richNote";
-import { event } from "./access.server";
-import { normalizeEmail, tryNormalizeEmail } from "./email.server";
+import { commentsFor } from "./correctionComments.server";
+import {
+  CorrectionError,
+  DISPLAY,
+  MAX_DECISION_NOTE,
+  MAX_PREFIX,
+  MAX_QUOTE,
+  MAX_TEXT,
+  audit,
+  index,
+  load,
+  nameOf,
+  need,
+  rationale,
+  sameAddress,
+  type Actor,
+  type Row,
+} from "./correctionKit.server";
+import { normalizeEmail } from "./email.server";
 
-const MAX_TEXT = 8_000;
-const MAX_QUOTE = 4_000;
-const MAX_PREFIX = 200;
-const MAX_RATIONALE = 10_000;
-const MAX_DECISION_NOTE = 500;
+// Re-exported, so everything that imports from here keeps working.
+export { CorrectionError, type Actor } from "./correctionKit.server";
+export {
+  addComment,
+  commentsFor,
+  removeComment,
+} from "./correctionComments.server";
+export { findOccurrences, proposeMany } from "./correctionBatches.server";
 
-/** The three things about the person acting that any rule here needs. */
-export interface Actor {
-  email: string;
-  isAdmin: boolean;
-  isModerator: boolean;
-}
-
-/** Why a request was refused — mapped to an HTTP status by the route, never shown raw. */
 export { KINDS, isKind } from "~/lib/corrections";
 export type {
   AiReview,
@@ -60,59 +68,6 @@ export type {
   Origin,
   Status,
 } from "~/lib/corrections";
-
-export class CorrectionError extends Error {
-  constructor(
-    readonly reason: "forbidden" | "stale" | "invalid" | "missing",
-    message: string,
-  ) {
-    super(message);
-  }
-}
-
-interface Row {
-  id: string;
-  slug: string;
-  anchor_key: string;
-  block_index: number;
-  start_offset: number;
-  end_offset: number;
-  quote: string;
-  prefix: string;
-  proposed_text: string;
-  rationale_html: string;
-  kind: Kind;
-  status: Status;
-  origin: Origin;
-  certainty: number | null;
-  batch_id: string | null;
-  raised_by: string;
-  raised_at: string;
-  updated_at: string;
-  decided_by: string | null;
-  decided_at: string | null;
-  decision_note: string | null;
-  raiser_name: string | null;
-  decider_name: string | null;
-  r_verdict: AiReview["verdict"] | null;
-  r_confidence: AiReview["confidence"] | null;
-  r_summary: string | null;
-  r_suggested: string | null;
-  r_detail: string | null;
-  r_source: AiReview["sourceKind"] | null;
-  r_at: string | null;
-}
-
-/**
- * Whether two stored addresses are the same person. A pipeline suggestion is "raised by" the word
- * `pipeline`, which is not an address at all, so anything that cannot be normalised is simply
- * nobody — never an exception, which would take the whole list down with it.
- */
-const sameAddress = (a: string, b: string): boolean => {
-  const x = tryNormalizeEmail(a);
-  const y = tryNormalizeEmail(b);
-  return x !== null && y !== null && x === y;
-};
 
 /**
  * Who may change this row. The one place the table above is written as code.
@@ -133,17 +88,6 @@ export function authority(
     return "own";
   return "none";
 }
-
-/**
- * The name shown for somebody else's work: their recorded name, else the part of their
- * address before the `@`. An email is a privilege bit in this application and is not shown
- * for decoration.
- */
-const nameOf = (name: string | null, email: string | null): string =>
-  (name ?? "").trim() || (email ?? "").split("@")[0] || "Someone";
-
-const DISPLAY = (alias: string) =>
-  `NULLIF(TRIM(COALESCE(${alias}.first_name, '') || ' ' || COALESCE(${alias}.last_name, '')), '')`;
 
 /** One database row as the client sees it, with what THIS viewer may do to it. */
 const toCorrection = (
@@ -244,65 +188,6 @@ export async function listCorrections(
     toCorrection(r, actor, byCorrection.get(r.id) ?? []),
   );
 }
-
-/* ---- Input, validated ---------------------------------------------------- */
-
-const need = (v: unknown, max: number, what: string): string => {
-  const s = typeof v === "string" ? v : "";
-  if (s.trim() === "")
-    throw new CorrectionError("invalid", `${what} is required`);
-  if (s.length > max)
-    throw new CorrectionError("invalid", `${what} is too long`);
-  return s;
-};
-const index = (v: unknown, what: string): number => {
-  const n = Number(v);
-  if (!Number.isInteger(n) || n < 0)
-    throw new CorrectionError("invalid", `${what} is not a position`);
-  return n;
-};
-const rationale = (v: unknown): string => {
-  const raw = typeof v === "string" ? v : "";
-  if (raw.trim() === "") return "";
-  // Stored markup is later rendered to a HIGHER-privileged account, so it is cleaned here on
-  // write, by the same seven-tag allowlist a reader's note goes through — never trusted from
-  // the editor that produced it.
-  const clean = sanitizeNote(raw);
-  if (clean.length > MAX_RATIONALE)
-    throw new CorrectionError("invalid", "the reason is too long");
-  return clean;
-};
-
-async function load(db: D1Database, slug: string, id: string) {
-  const row = await db
-    .prepare(
-      `SELECT * FROM correction WHERE id = ?1 AND slug = ?2 AND deleted_at IS NULL`,
-    )
-    .bind(id, slug)
-    .first<Row>();
-  if (row === null) throw new CorrectionError("missing", "no such correction");
-  return row;
-}
-
-const audit = (
-  db: D1Database,
-  now: string,
-  actor: Actor,
-  action: string,
-  slug: string,
-  id: string,
-  detail: string | null,
-) =>
-  event(
-    db,
-    now,
-    normalizeEmail(actor.email),
-    action,
-    slug,
-    "correction",
-    id,
-    detail,
-  );
 
 /* ---- Mutations ------------------------------------------------------------ */
 
@@ -604,170 +489,6 @@ export async function triageSuggestion(
     throw new CorrectionError("stale", "changed since you looked");
 }
 
-/* ---- "Fix everywhere" ------------------------------------------------------ */
-
-const MAX_OCCURRENCES = 40;
-
-/**
- * Every OTHER place in the book where exactly this wording appears.
- *
- * Read from the search index, which already holds each chapter block's plain text, so no
- * chapter HTML is loaded or parsed. `ordinal` there is the same block number the reader anchors
- * on (both walk the chapter's top-level blocks). A block that holds the wording TWICE is left
- * out rather than guessed at — the reader refuses an ambiguous anchor for the same reason — and
- * so is any place a live correction already covers.
- */
-export async function findOccurrences(
-  db: D1Database,
-  actor: Actor,
-  slug: string,
-  quote: string,
-  from: { anchorKey: string; blockIndex: number },
-): Promise<Occurrence[]> {
-  if (!actor.isModerator || quote.trim().length < 3) return [];
-
-  const { results } = await db
-    .prepare(
-      `SELECT anchor_key, heading, ordinal, quote AS text FROM search_passage
-        WHERE slug = ?1 AND kind = 'chapter' AND instr(quote, ?2) > 0
-        ORDER BY anchor_key, ordinal LIMIT 200`,
-    )
-    .bind(slug, quote)
-    .all<{
-      anchor_key: string;
-      heading: string;
-      ordinal: number;
-      text: string;
-    }>();
-
-  const covered = await db
-    .prepare(
-      `SELECT anchor_key, block_index, start_offset, end_offset FROM correction
-        WHERE slug = ?1 AND deleted_at IS NULL AND status IN ('suggested', 'open', 'accepted')`,
-    )
-    .bind(slug)
-    .all<{
-      anchor_key: string;
-      block_index: number;
-      start_offset: number;
-      end_offset: number;
-    }>();
-
-  const found: Occurrence[] = [];
-  for (const row of results) {
-    if (row.anchor_key === from.anchorKey && row.ordinal === from.blockIndex)
-      continue;
-
-    const first = row.text.indexOf(quote);
-    if (first < 0 || row.text.indexOf(quote, first + 1) >= 0) continue;
-    const end = first + quote.length;
-
-    const overlaps = covered.results.some(
-      (c) =>
-        c.anchor_key === row.anchor_key &&
-        c.block_index === row.ordinal &&
-        c.start_offset < end &&
-        c.end_offset > first,
-    );
-    if (overlaps) continue;
-
-    found.push({
-      anchorKey: row.anchor_key,
-      heading: row.heading,
-      blockIndex: row.ordinal,
-      startOffset: first,
-      endOffset: end,
-      quote,
-      prefix: row.text.slice(Math.max(0, first - 48), first),
-    });
-    if (found.length >= MAX_OCCURRENCES) break;
-  }
-  return found;
-}
-
-/**
- * Raise the same correction at several places at once, as ONE batch that is reviewed and decided
- * together. Every item must carry exactly the wording being replaced, so one replacement text can
- * never be applied to a quote it was not written for.
- */
-export async function proposeMany(
-  db: D1Database,
-  actor: Actor,
-  slug: string,
-  quote: string,
-  items: Omit<Occurrence, "quote">[],
-  input: { proposedText: unknown; rationale?: unknown; kind: unknown },
-  now: string,
-): Promise<{ batchId: string; ids: string[] }> {
-  if (!actor.isModerator)
-    throw new CorrectionError("forbidden", "not a moderator");
-  if (!isKind(input.kind)) throw new CorrectionError("invalid", "unknown kind");
-  if (items.length === 0 || items.length > MAX_OCCURRENCES)
-    throw new CorrectionError("invalid", "choose between 1 and 40 places");
-
-  const proposed = need(input.proposedText, MAX_TEXT, "the replacement");
-  const original = need(quote, MAX_QUOTE, "the passage");
-  if (proposed.trim() === original.trim())
-    throw new CorrectionError(
-      "invalid",
-      "the replacement is the same as the book",
-    );
-
-  const reason = rationale(input.rationale);
-  const batchId = crypto.randomUUID();
-  const who = normalizeEmail(actor.email);
-  const ids: string[] = [];
-  const statements: D1PreparedStatement[] = [];
-
-  for (const item of items) {
-    const start = index(item.startOffset, "selection start");
-    const end = index(item.endOffset, "selection end");
-    if (end <= start)
-      throw new CorrectionError("invalid", "selection is empty");
-    const id = crypto.randomUUID();
-    ids.push(id);
-    statements.push(
-      db
-        .prepare(
-          `INSERT INTO correction
-             (id, slug, anchor_key, block_index, start_offset, end_offset, quote, prefix,
-              proposed_text, rationale_html, kind, status, batch_id, raised_by, raised_at, updated_at)
-           VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, 'open', ?12, ?13, ?14, ?14)`,
-        )
-        .bind(
-          id,
-          slug,
-          need(item.anchorKey, 400, "the chapter"),
-          index(item.blockIndex, "paragraph"),
-          start,
-          end,
-          original,
-          typeof item.prefix === "string"
-            ? item.prefix.slice(0, MAX_PREFIX)
-            : "",
-          proposed,
-          reason,
-          input.kind,
-          batchId,
-          who,
-          now,
-        ),
-      audit(
-        db,
-        now,
-        actor,
-        "raise-correction",
-        slug,
-        id,
-        JSON.stringify({ batch: batchId }),
-      ),
-    );
-  }
-
-  await db.batch(statements);
-  return { batchId, ids };
-}
-
 export interface UndecidedCorrection extends Correction {
   slug: string;
   bookTitle: string;
@@ -840,130 +561,4 @@ export async function decideMany(
     }
   }
   return { accepted, skipped };
-}
-
-/* ---- Comments -------------------------------------------------------------- */
-
-const MAX_COMMENT = 2_000;
-
-interface CommentRow {
-  id: string;
-  correction_id: string;
-  author: string;
-  author_name: string | null;
-  body: string;
-  created_at: string;
-}
-
-/**
- * Every live comment on one book's corrections, grouped by correction, oldest first.
- *
- * SHARED between moderators like the corrections themselves: every moderator and admin sees every
- * comment. Empty for anyone else without a query.
- */
-export async function commentsFor(
-  db: D1Database,
-  actor: Actor,
-  slug: string,
-): Promise<Map<string, CorrectionComment[]>> {
-  const grouped = new Map<string, CorrectionComment[]>();
-  if (!actor.isModerator) return grouped;
-
-  const { results } = await db
-    .prepare(
-      `SELECT c.id, c.correction_id, c.author, c.body, c.created_at, ${DISPLAY("i")} AS author_name
-         FROM correction_comment c
-         LEFT JOIN invite i ON i.email = c.author
-        WHERE c.slug = ?1 AND c.deleted_at IS NULL
-        ORDER BY c.created_at, c.id`,
-    )
-    .bind(slug)
-    .all<CommentRow>();
-
-  for (const r of results) {
-    const mine = sameAddress(r.author, actor.email);
-    const list = grouped.get(r.correction_id) ?? [];
-    list.push({
-      id: r.id,
-      authorName: nameOf(r.author_name, r.author),
-      body: r.body,
-      createdAt: r.created_at,
-      mine,
-      canDelete: mine || actor.isAdmin,
-    });
-    grouped.set(r.correction_id, list);
-  }
-  return grouped;
-}
-
-/**
- * Comment on a correction. ANY moderator or admin, on ANY correction, whatever its status — a
- * correction an admin has decided can still be discussed. Commenting is not changing: it never
- * touches the correction, so it needs no authority over it.
- */
-export async function addComment(
-  db: D1Database,
-  actor: Actor,
-  slug: string,
-  correctionId: string,
-  body: unknown,
-  now: string,
-): Promise<string> {
-  if (!actor.isModerator)
-    throw new CorrectionError("forbidden", "not a moderator");
-  await load(db, slug, correctionId); // 'missing' for another book's id or a deleted one
-  const text = need(body, MAX_COMMENT, "the comment").trim();
-
-  const id = crypto.randomUUID();
-  await db.batch([
-    db
-      .prepare(
-        `INSERT INTO correction_comment (id, correction_id, slug, author, body, created_at)
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6)`,
-      )
-      .bind(id, correctionId, slug, normalizeEmail(actor.email), text, now),
-    audit(db, now, actor, "comment-correction", slug, correctionId, null),
-  ]);
-  return id;
-}
-
-/** Remove a comment. Its author, or an admin. Soft, like every other removal. */
-export async function removeComment(
-  db: D1Database,
-  actor: Actor,
-  slug: string,
-  commentId: string,
-  now: string,
-): Promise<void> {
-  if (!actor.isModerator)
-    throw new CorrectionError("forbidden", "not a moderator");
-
-  const row = await db
-    .prepare(
-      `SELECT author, correction_id FROM correction_comment
-        WHERE id = ?1 AND slug = ?2 AND deleted_at IS NULL`,
-    )
-    .bind(commentId, slug)
-    .first<{ author: string; correction_id: string }>();
-  if (row === null) throw new CorrectionError("missing", "no such comment");
-  if (!actor.isAdmin && !sameAddress(row.author, actor.email))
-    throw new CorrectionError("forbidden", "not your comment");
-
-  await db.batch([
-    db
-      .prepare(
-        `UPDATE correction_comment SET deleted_at = ?2, deleted_by = ?3
-          WHERE id = ?1 AND deleted_at IS NULL`,
-      )
-      .bind(commentId, now, normalizeEmail(actor.email)),
-    audit(
-      db,
-      now,
-      actor,
-      "uncomment-correction",
-      slug,
-      row.correction_id,
-      null,
-    ),
-  ]);
 }

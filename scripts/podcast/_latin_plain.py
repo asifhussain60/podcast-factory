@@ -27,7 +27,13 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
-_ARABIC_RUN = re.compile("[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿‌-‏]+")
+from _arabic_coverage import ARABIC_BODY
+
+# Arabic script, from the ONE shared definition (`_arabic_coverage.ARABIC_BODY`), plus the zero-width
+# joiners and direction marks (U+200C-U+200F) that sit inside a run of it. Spelling the range out here
+# made this module count a character as Arabic that another gate did not, which is exactly what the
+# shared definition exists to prevent (test_no_new_module_respells_the_arabic_range).
+_ARABIC_RUN = re.compile(f"[{ARABIC_BODY}\u200c-\u200f]+")
 _DROPPED = str.maketrans("", "", "ʿʾʻʼ")  # ʿ ʾ ʻ ʼ
 _QUOTES = str.maketrans({"‘": "'", "’": "'", "“": '"', "”": '"'})
 # An apostrophe English uses: 's 't 'd 'm 'll 're 've, or a plural possessive (s').

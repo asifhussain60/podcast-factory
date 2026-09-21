@@ -362,7 +362,10 @@ def ledger_has(repo_root: Path, book: str, signature: str) -> bool:
     for line in ledger.read_text(encoding="utf-8").splitlines():
         try:
             rec = json.loads(line)
-        except ValueError:
+        except ValueError as exc:
+            # A damaged ledger line is skipped, but said aloud: staying silent would let a corrupted
+            # ledger quietly re-report a cluster that was already recorded.
+            print(f"  ! findings ledger: skipped an unreadable line ({exc})", file=sys.stderr)
             continue
         if rec.get("source") == SOURCE and rec.get("book") == book and rec.get("signature") == signature:
             return True

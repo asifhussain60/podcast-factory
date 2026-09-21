@@ -15,6 +15,7 @@ of its position in the series.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -427,8 +428,12 @@ def a_big_book(tmp_path: Path, *, slug: str = "test-book") -> Book:
 
 
 def table_of(statement: str) -> str:
-    head = statement.split(None, 3)
-    return head[2] if head[0] in ("DELETE", "INSERT") else head[1]
+    # `INSERT OR REPLACE INTO t` names its table after INTO just as `INSERT INTO t` does; reading a
+    # fixed token position took "REPLACE" for the table when book_version was added.
+    named = re.search(r"\b(?:INTO|FROM)\s+(\w+)", statement)
+    if named:
+        return named.group(1)
+    return statement.split(None, 3)[1]
 
 
 def sql_sent(argv: list[str]) -> str:
