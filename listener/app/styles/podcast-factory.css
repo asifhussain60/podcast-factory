@@ -13333,7 +13333,8 @@
   .pf-cx-quote {
     margin: 0;
     padding: var(--pf-space-3) var(--pf-space-4);
-    border: 1px solid color-mix(in srgb, var(--l-topic-coral) 40%, var(--l-rule));
+    border: 1px solid
+      color-mix(in srgb, var(--l-topic-coral) 40%, var(--l-rule));
     border-radius: var(--pf-radius);
     background: var(--l-sunken);
     font-family: var(--l-font-prose);
@@ -13504,6 +13505,30 @@
 
   .pf-cx-card[data-status="applied"] {
     border-color: color-mix(in srgb, var(--l-accent) 45%, var(--l-rule));
+  }
+
+  /* Tapped from its own underline in the prose a moment ago (`useCorrectionMarks`). A ring that
+     fades rather than a colour change, since the card's border already carries its status. */
+  @keyframes pf-cx-flash {
+    from {
+      box-shadow: 0 0 0 3px
+        color-mix(in srgb, var(--l-topic-coral) 55%, transparent);
+    }
+    to {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+
+  .pf-cx-card[data-flash="true"] {
+    animation: pf-cx-flash 1400ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pf-cx-card[data-flash="true"] {
+      animation: none;
+      outline: 2px solid var(--l-topic-coral);
+      outline-offset: 2px;
+    }
   }
 
   .pf-cx-card[data-mine="true"] {

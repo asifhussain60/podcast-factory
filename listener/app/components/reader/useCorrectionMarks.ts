@@ -13,6 +13,34 @@ const NAME = "pf-correction";
 export const needsUnderline = (status: Correction["status"]): boolean =>
   status === "open" || status === "suggested";
 
+/** Whether a point falls inside a client rect, which is what a click's coordinates are. */
+const hits = (rect: DOMRect, x: number, y: number): boolean =>
+  x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+/**
+ * Which underlined correction, if any, a click at this point landed on.
+ *
+ * A registered Highlight Range is not a DOM node, so it cannot carry a click handler of its own —
+ * this is the other half of that: hit-test the click's coordinates against the SAME ranges the
+ * underline was just painted from. `getClientRects()`, not `getBoundingClientRect()`, because a
+ * passage that wraps onto a second line has a bounding box that also covers the gap between the
+ * lines; a real click in that gap would otherwise be answered as a hit on whichever line is
+ * larger. Exported bare of the DOM walk around it, so the one-point-in-many-rectangles question
+ * has a test that needs no browser.
+ */
+export function correctionAt(
+  x: number,
+  y: number,
+  marked: { id: string; range: Range }[],
+): string | null {
+  for (const { id, range } of marked) {
+    for (const rect of range.getClientRects()) {
+      if (hits(rect, x, y)) return id;
+    }
+  }
+  return null;
+}
+
 /**
  * Underline, in the proofreader's red, every passage of this chapter that still has a correction
  * WAITING for a decision — so a moderator sees at a glance where the book has been questioned.
@@ -29,11 +57,20 @@ export const needsUnderline = (status: Correction["status"]): boolean =>
  *
  * Where the API does not exist the underline is simply absent; nothing else depends on it. A
  * passage the reader cannot find is not marked — the same refusal to guess `resolveAnchor` makes.
+ *
+ * TAPPING the underline opens its card, given `onOpen` — the same idea as tapping a Companion
+ * card's tinted sentence, and by the same route: nothing here is a DOM element a browser click
+ * can target directly, so a plain click on the chapter is hit-tested against the ranges just
+ * painted (`correctionAt`, above) rather than answered by an element's own listener. Mouse and
+ * touch only; a registered Highlight Range has no place in the tab order, so a passage a keyboard
+ * reader cannot see cannot be reached this way either — the card is always still reachable by
+ * scrolling the panel itself.
  */
 export function useCorrectionMarks(
   items: Correction[],
   chapterKey: string,
   enabled: boolean,
+  onOpen?: (id: string) => void,
 ) {
   useEffect(() => {
     if (!enabled || typeof CSS === "undefined" || !("highlights" in CSS))
@@ -41,10 +78,15 @@ export function useCorrectionMarks(
     const root = document.querySelector(".pf-chapter-body");
     if (root === null) return;
 
+    // Read by the click handler below; kept outside `paint` so a click always tests against
+    // whatever was painted most recently rather than a stale closure from the first run.
+    let marked: { id: string; range: Range }[] = [];
+
     const paint = () => {
       const texts = blockTextsOf(root);
       const blocks = blocksOf(root);
       const ranges: Range[] = [];
+      marked = [];
 
       for (const c of items) {
         if (c.anchorKey !== chapterKey) continue;
@@ -62,14 +104,34 @@ export function useCorrectionMarks(
         );
         if (found.status === "orphaned") continue;
         const block = blocks[found.blockIndex];
-        if (block !== undefined)
-          ranges.push(...rangesIn(block, found.startOffset, found.endOffset));
+        if (block === undefined) continue;
+        const found_ranges = rangesIn(
+          block,
+          found.startOffset,
+          found.endOffset,
+        );
+        ranges.push(...found_ranges);
+        for (const range of found_ranges) marked.push({ id: c.id, range });
       }
 
       CSS.highlights.set(NAME, new Highlight(...ranges));
     };
 
     paint();
+
+    const onClick = (event: MouseEvent) => {
+      if (onOpen === undefined) return;
+      const target = event.target as HTMLElement | null;
+      // A tap that lands on the reader's own highlight, an explained sentence, or a real control
+      // (the source citation's link, say) belongs to whatever already owns it.
+      if (target?.closest("mark.pf-hl, mark.pf-cp, a, button")) return;
+      // A drag that leaves a selection behind is the reader raising a NEW correction, not opening
+      // an existing one — `SelectionBar` answers that, and must not be pre-empted here.
+      if ((window.getSelection()?.toString() ?? "") !== "") return;
+      const id = correctionAt(event.clientX, event.clientY, marked);
+      if (id !== null) onOpen(id);
+    };
+    root.addEventListener("click", onClick);
 
     // The reader repaints its own highlights by rewriting this DOM, which leaves our ranges
     // pointing at removed nodes. Repaint after any such change, debounced.
@@ -83,7 +145,8 @@ export function useCorrectionMarks(
     return () => {
       clearTimeout(timer);
       observer.disconnect();
+      root.removeEventListener("click", onClick);
       CSS.highlights.delete(NAME);
     };
-  }, [items, chapterKey, enabled]);
+  }, [items, chapterKey, enabled, onOpen]);
 }

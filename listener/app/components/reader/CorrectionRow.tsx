@@ -18,12 +18,14 @@ export function CorrectionRow({
   bookTitle,
   onEdit,
   onUseSuggestion,
+  flashing,
 }: {
   correction: Correction;
   api: Pick<Api, "busy" | "send" | "history">;
   bookTitle: string;
   onEdit: (c: Correction) => void;
   onUseSuggestion: (c: Correction, text: string) => void;
+  flashing?: boolean;
 }) {
   const { busy, send, history } = api;
   const decide = (intent: string, note?: string) =>
@@ -40,6 +42,7 @@ export function CorrectionRow({
       busy={busy}
       bookTitle={bookTitle}
       loadHistory={history}
+      flashing={flashing}
       onEdit={onEdit}
       onUseSuggestion={onUseSuggestion}
       onConfirm={() => decide("confirm")}

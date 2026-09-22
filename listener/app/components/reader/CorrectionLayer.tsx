@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { faPenNib, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useParams, useRouteLoaderData } from "react-router";
 
@@ -56,8 +56,6 @@ export function CorrectionLayer() {
     clearError,
   } = useCorrections(slug, enabled);
 
-  useCorrectionMarks(items, chapterKey, enabled);
-
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<Draft | null>(null);
   const [anchor, setAnchor] = useState<Anchor | null>(null);
@@ -65,6 +63,43 @@ export function CorrectionLayer() {
   const [scope, setScope] = useState<Scope>("chapter");
   const [filter, setFilter] = useState<Filter>("all");
   const [copied, setCopied] = useState(false);
+  // Tapped from its own underline in the prose, a moment ago. `nonce` lets a second tap on the
+  // SAME passage re-trigger the flash even though the id has not changed.
+  const [focused, setFocused] = useState<{ id: string; nonce: number } | null>(
+    null,
+  );
+
+  // A tap on an underlined passage: open the panel already on this correction, whatever the
+  // reader had the filters set to — a passage they just tapped is never hidden by "Mine" or
+  // "Whole book" left over from earlier.
+  const openCorrection = useCallback((id: string) => {
+    setDraft(null);
+    setTab("corrections");
+    setScope("chapter");
+    setFilter("all");
+    setOpen(true);
+    setFocused({ id, nonce: Date.now() });
+  }, []);
+
+  useCorrectionMarks(items, chapterKey, enabled, openCorrection);
+
+  // The scroll itself, once the card above is actually in the DOM — same commit, since every
+  // state set in `openCorrection` lands in one render. A short-lived flash instead of leaving the
+  // card marked forever; the timer is the only thing that clears it, which also covers a reader
+  // whose system prefers reduced motion and so never sees the animation's own end.
+  useEffect(() => {
+    if (focused === null) return;
+    const frame = requestAnimationFrame(() => {
+      document
+        .getElementById(`correction-${focused.id}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+    const clear = setTimeout(() => setFocused(null), 1600);
+    return () => {
+      cancelAnimationFrame(frame);
+      clearTimeout(clear);
+    };
+  }, [focused]);
 
   // The selection bar's "Correct this passage".
   useEffect(() => {
@@ -358,6 +393,7 @@ export function CorrectionLayer() {
                           bookTitle={bookTitle}
                           onEdit={(x) => editing(x)}
                           onUseSuggestion={editing}
+                          flashing={focused?.id === c.id}
                         />
                       ))
                     )}

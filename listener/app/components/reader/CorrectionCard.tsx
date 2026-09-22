@@ -29,6 +29,7 @@ export function CorrectionCard({
   onUncomment,
   bookTitle,
   loadHistory,
+  flashing = false,
 }: {
   correction: Correction;
   busy: boolean;
@@ -42,6 +43,8 @@ export function CorrectionCard({
   onUncomment: (commentId: string) => void;
   bookTitle: string;
   loadHistory: (id: string) => Promise<CorrectionEvent[]>;
+  /** Tapped from its underline in the chapter, moments ago — briefly rung so it is easy to find. */
+  flashing?: boolean;
 }) {
   const [dismissing, setDismissing] = useState(false);
   const [note, setNote] = useState("");
@@ -87,6 +90,7 @@ export function CorrectionCard({
       className="pf-cx-card"
       data-status={c.status}
       data-mine={c.mine}
+      data-flash={flashing ? "true" : undefined}
       id={`correction-${c.id}`}
     >
       <header className="pf-cx-card__top">
