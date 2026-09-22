@@ -6,8 +6,20 @@ import type { Correction } from "~/lib/corrections";
 const NAME = "pf-correction";
 
 /**
- * Underline, in the proofreader's red, every passage of this chapter that already carries a
- * correction — so a moderator sees at a glance where the book has been questioned.
+ * Whether a correction is still unsettled and so still earns the underline. Pulled out as its own
+ * function, rather than left inline in the DOM-walking code below, purely so this one decision —
+ * the thing a bug report would actually be about — has a name and a unit test that needs no DOM.
+ */
+export const needsUnderline = (status: Correction["status"]): boolean =>
+  status === "open" || status === "suggested";
+
+/**
+ * Underline, in the proofreader's red, every passage of this chapter that still has a correction
+ * WAITING for a decision — so a moderator sees at a glance where the book has been questioned.
+ * The underline is what marks a passage as unsettled: once an admin accepts or dismisses it, the
+ * question is answered and the mark comes off immediately, before the accepted wording has even
+ * reached the book on the next republish. Left on until then, an accepted passage would still
+ * look like an open question — the one thing the underline is supposed to tell a moderator.
  *
  * Done with the browser's CSS Custom Highlight API and NOT by wrapping text in elements, and that
  * is the whole reason this is a separate mechanism from the reader's own highlights. Those are
@@ -36,12 +48,7 @@ export function useCorrectionMarks(
 
       for (const c of items) {
         if (c.anchorKey !== chapterKey) continue;
-        if (
-          c.status !== "open" &&
-          c.status !== "suggested" &&
-          c.status !== "accepted"
-        )
-          continue;
+        if (!needsUnderline(c.status)) continue;
 
         const found = resolveAnchor(
           {
