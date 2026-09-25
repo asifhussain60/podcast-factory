@@ -267,6 +267,6 @@ Azure resources retain the original `journal-*` naming convention (resource grou
 ## Conventions
 
 - **No emojis in code or commits** unless explicitly invited.
-- **Status emojis (🟢 🟡 🔴 ⚠) in responses** per the response template (canonical at `~/.claude/response-template.md`).
+- **Response format** — the output style `~/.claude/output-styles/asif-response.md` (emojis in chat only for the Next Steps owner tags).
 - **Markdown links for files and commits** — `[name](path)` and `[abc1234](https://github.com/asifhussain60/podcast-factory/commit/abc1234)`.
 - **Per-content branches** — every piece of content runs on its own typed branch off develop. Multiple books may be in-flight simultaneously; isolation is via branches, not machine ownership.

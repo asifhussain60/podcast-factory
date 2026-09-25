@@ -191,7 +191,7 @@ These are non-negotiable design priors. Builder uses them to make judgment calls
 
 ## Standard response format
 
-Every Guardian or Builder report follows the canonical template (`~/.claude/response-template.md`): H2 main title in plain English, H3 sections that carry the gist, blockquote callouts with bold lead-in, tables for tabular content, one horizontal rule, then `### Next: 👤 Asif` with alphabetized options (A. **(Recommended)** ...). No file paths or step IDs in the chat body — those stay in the snapshots and ledgers.
+Every Guardian or Builder report follows the response style `~/.claude/output-styles/asif-response.md`: sections picked per scenario, plain-English headed points, then **Next Steps** naming the owner (👤 Asif / 🤖 AI / ✅ Done) with lettered options, A **(Recommended)**. No file paths or step IDs in the chat body — those stay in the snapshots and ledgers.
 
 ---
 

@@ -217,7 +217,7 @@ Anything **not** in the whitelist is sprawl by default. Vacuum proposes a subfol
 | Per-book ship gating | `operations/per-book-ship-checklist.md` | Ship-gating docs |
 | Reader-app session work | `reader/polish-and-ai.md` | Reader-app surface |
 | Active branch work — postprod-vacuum | `postprod-vacuum/postprod-vacuum-tasks.md`, `postprod-vacuum/postprod-vacuum-review.md` | Active branch ledger + review |
-| Response-format + general + authoring conventions | `conventions/response-template.md`, `conventions/response-conventions.md`, `conventions/general.md`, `conventions/authoring.md` | Conventions-class docs |
+| General + authoring conventions | `conventions/general.md`, `conventions/authoring.md` | Conventions-class docs |
 | Live pipeline-debt backlog | `debt/pipeline-debt.md` | Backlog tracker |
 | Web research + best-practices citations | `research/` | Research surface |
 | HTML dashboards | `view/` | View surface |

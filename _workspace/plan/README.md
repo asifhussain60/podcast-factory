@@ -9,7 +9,7 @@ Single source of truth for planning, design, and operational standards in the po
 | **[architecture.md](architecture.md)** | Timeless design doc: six-layer module structure, three storage tiers, three-piece intelligence architecture, multi-tier capstone, archetype registry, agent ecosystem, external integrations, branch + content lifecycle, plan SPA. 13 ADRs. 12 Mermaid diagrams. |
 | **[refactor/plan.md](refactor/plan.md)** | Human-readable 22-step roadmap to land the architecture. 5 waves: A foundation, B intelligence, C archetype expansion, D SPA + dashboard, E retroactive + gates. |
 | **[refactor/plan.yaml](refactor/plan.yaml)** | Machine-readable companion to plan.md — per-step deliverables, acceptance, cost, authorization tier. |
-| **[conventions/](conventions/)** | Standing rules across every podcast. `response-template.md` + `response-conventions.md` (how Claude reports back), `general.md` (cross-cutting), `authoring.md` (host gender lock, Essential Teachings, Imam doctrine, reflective-reverent emotion). |
+| **[conventions/](conventions/)** | Standing rules across every podcast. `general.md` (cross-cutting), `authoring.md` (host gender lock, Essential Teachings, Imam doctrine, reflective-reverent emotion). |
 | **[debt/pipeline-debt.md](debt/pipeline-debt.md)** | Live F-item operational backlog (framework gaps observed in flight). Updated continuously by every operator run. |
 | **[operations/per-book-ship-checklist.md](operations/per-book-ship-checklist.md)** | Per-book ship checklist + DoR gates. The G1-G7 reference; G8-G12 extensions land via refactor step E4. |
 | **[reader/polish-and-ai.md](reader/polish-and-ai.md)** | Reader-section polish + Gemini AI integration plan for the Podcast Factory Astro Site. Parallel concern to the pipeline refactor. |
@@ -29,8 +29,7 @@ Single source of truth for planning, design, and operational standards in the po
 
 1. **[architecture.md](architecture.md)** — what the system IS and why.
 2. **[refactor/plan.md](refactor/plan.md)** — what's being built and in what order.
-3. **[conventions/response-template.md](conventions/response-template.md)** — how to report progress.
-4. **[debt/pipeline-debt.md](debt/pipeline-debt.md)** — what's currently broken or planned but not in the refactor.
+3. **[debt/pipeline-debt.md](debt/pipeline-debt.md)** — what's currently broken or planned but not in the refactor.
 
 For "where does X belong?", start with architecture.md. For "what's next?", read refactor/plan.md. For "what's the current state?", consult the dashboard (Wave D — once D4 lands).
 

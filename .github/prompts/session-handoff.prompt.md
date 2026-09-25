@@ -53,7 +53,7 @@ End the current Copilot session by leaving a clear note for the next one (whethe
 
    ---
 
-   ### Next: 👤 Asif
+   **Next Steps** — 👤 Asif
 
    A. **(Recommended)** {logical next action when you return — e.g. 'review the handoff entry and tell Copilot to proceed' or 'pause and verify in the dashboard'}.
 

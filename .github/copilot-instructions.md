@@ -58,27 +58,27 @@ Single-machine, machine-agnostic (since 2026-05-23). `develop` is the working br
 
 ## Response format
 
-Asif uses one response format across every tool. Every substantive reply is:
+Asif uses one response format across every tool. Claude Code loads it as the output style
+`~/.claude/output-styles/asif-response.md`; this is the summary for other tools. A reply uses only the sections it
+needs, always in this order:
 
-```
-## The plan
+- **Your Concern** — his ask reflected back in 1-4 bullets.
+- **Short answer:** — one bold line with the verdict (research, diagnosis, yes/no).
+- **See It** — UI work: a link to the preview and what to look at first.
+- **Here's What I Found** / **What's There Today** — findings.
+- **What I Couldn't Confirm** — what was inferred rather than verified.
+- **Here's What I'll Do** / **Here's What I Did** / **What Changes** — steps.
+- **What Could Break** — risks, each with its guard.
+- **What I Left Out** — UI work: what the toolkit cannot render, and the substitute.
+- **Next Steps** — the owner in the header (👤 Asif = waiting on him, 🤖 AI = still working,
+  ✅ Done), then lettered options with A recommended.
 
-1. {One plain-English sentence: what this step does.}
-
-   > {2-4 sentences: what changes for the person using it, and why.}
-   >
-   > *Value gained:* {one line — the outcome.}
-
-## Here's What You Can Expect...
-
-- {One or two finished-tense sentences: what a person sees or can do now.}
-```
-
-Rules: one step is one change a person would notice; one expectation bullet per step, same order;
-finished work uses the same two parts in the past tense. Plain English in chat (no file paths,
-task IDs or acronyms). Tables only for tabular data, no fenced code blocks for prose, no GitHub
-alert blocks, no inline mermaid, times in EST 12-hour. No `Next:` block, no menu of extras, no
-custom section labels. Trivial answers are one to three sentences, answer first.
+Each numbered point is a bold plain-English header with a 2-4 sentence blockquote under it,
+closing with one line that fits its section: *Why it matters* (findings), *Value gained*
+(proposed steps), *Proof* (finished work), *Guard* (risks). At most four points per section.
+Plain English in chat (no file paths, task IDs or acronyms). Tables only for tabular data, no
+fenced code blocks for prose, no GitHub alert blocks, no inline mermaid, times in EST 12-hour.
+No separate menu of extras. Trivial answers are one to three sentences, answer first.
 
 **Plan-tracking discipline (not an execution gate):** When you ship a new step (a wave/slice marker, a new pipeline phase, a new feature surface), update `plan.yaml` and `plan.md` in the same commit and regenerate snapshots. For small bug fixes, refactors, and verification work that fits inside an existing plan entry, just do the work and note it in the commit + session log — no plan entry needed first. The plan tracks what shipped, not what's about to ship.
 

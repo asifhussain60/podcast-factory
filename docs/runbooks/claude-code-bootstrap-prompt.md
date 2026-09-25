@@ -104,15 +104,13 @@ If this fails with `ModuleNotFoundError`, you're not in the repo root — fix `p
 
 ## Step 6 — Report
 
-Respond in the canonical 4-part At-a-glance template (see [`../plan/response-template.md`](../plan/response-template.md)):
+Respond in the research shape of the response style (`~/.claude/output-styles/asif-response.md`):
 
-**Part 1 (At a glance):** severity emoji + one-phrase status + ~5 punchy summary lines (clickable links for any docs/commands).
+**Short answer:** one line: ready, or how many gaps block the session.
 
-**Part 2 (body sections):** one short PROSE section per domain audited (Claude / GitHub / Azure / VS Code / Scripts). Each section names the result and any blocker. No literal `*Plain English:*` / `*Impact:*` / `*Fix:*` / `*Where:*` sub-bullets.
+**Here's What I Found:** one headed point per domain audited (Claude / GitHub / Azure / VS Code / Scripts), naming the result and any blocker, each closing with a *Why it matters* line.
 
-**Part 3 (horizontal rule):** `---`.
-
-**Part 4 (`## Next:`):** if no gaps — name the one-line session-opener (`bash scripts/start-session.sh`). If gaps — list them as alphabetized options with `A. (Recommended) Do all of the below in the order shown (B → C → D)` as the default recommended path.
+**Next Steps:** if no gaps, `✅ Done`, naming the one-line session-opener (`bash scripts/start-session.sh`). If gaps, `👤 Asif` with lettered options, `A. (Recommended) Do all of the below in the order shown (B → C → D)` as the default.
 
 ## What this audit explicitly DOES NOT do
 

@@ -152,7 +152,7 @@ Run this pass after applying all static-analysis fixes from domains 1 and 2. The
 
 ## Output format
 
-Follow the 4-part response template from `_workspace/plan/response-template.md`. The report body must be structured as follows — no custom section labels.
+The report body must be structured as follows — no custom section labels.
 
 ### At a glance
 - Total findings by severity across all three domains: P0 / P1 / P2 counts
