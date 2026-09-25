@@ -69,7 +69,7 @@ Two standing guarantees, kept true by two different mechanisms — do not confla
 
 ## Read these once, or when conventions feel stale
 
-- **`~/.claude/response-template.md`** — the canonical response format, loaded into every session by the global CLAUDE.md. H2 main title, H3 sections that carry the gist, blockquote callouts, tables for tabular data only, and an alphabetized `### Next:` block with the recommended option first. **No custom section labels** like "Deviation from plan", "Verification", "Coord doc", "What changed". No `**TL;DR:**` opener, no `## Project Status` block. (Corrected 2026-08-11. This line previously claimed two repo-local copies "had not existed for some time". They existed, tracked, until today: `_workspace/plan/conventions/response-template.md` and `response-conventions.md`, both describing the 4-part template retired on 2026-05-26 and both announcing themselves as authoritative across all machines. A wrong instruction that says it is canonical is worse than a missing one, and a note asserting it was already gone is what let it sit for eleven weeks. Deleted; the global file above is the only home.)
+- **Response format.** One format across every tool: `## The plan` (numbered steps, each with an indented description and a `*Value gained:*` line), then `## Here's What You Can Expect...` (one finished-tense bullet per step). Claude Code enforces it through the output style `~/.claude/output-styles/plan-first.md`. Plain English in chat (no file paths, task IDs or acronyms), tables only for tabular data, no fenced code blocks for prose, no GitHub alert blocks, no inline mermaid, times in EST 12-hour. A question Asif must answer goes through the question tool, never as text. No `Next:` block, no menu of extras, no custom section labels.
 - **[docs/setup/azure-stack.md](docs/setup/azure-stack.md)** — Azure resources, keychain layout, recreate-from-scratch guide.
 - **[docs/setup/bootstrap.md](docs/setup/bootstrap.md)** — blank-machine bootstrap for this repo.
 - **[framework.md](framework.md)** — pipeline framework spec.
@@ -152,7 +152,7 @@ These are recoverable on disk so a fresh Claude session without memory state can
 1. Run `bash scripts/start-session.sh`. Read its output.
 2. If the user is asking about pipeline work, the listed next-action commands are your starting point.
 3. If the user is asking about a specific book's state, read its `content/<Bucket>/<slug>/_system/orchestrator-state.json` via the `jq` command above (use the `content/*/<slug>/…` glob if you don't know the bucket).
-4. Respond in the 4-part response template. No custom section labels.
+4. Respond in the format described under Response format above. No custom section labels.
 
 ## Video layer standing rules (LOCKED 2026-06-05)
 

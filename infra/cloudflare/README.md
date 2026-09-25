@@ -168,7 +168,7 @@ shasum -a 256 /tmp/x
 
 ## 4. Deploying a Pages site — `cf-deploy.sh`
 
-Location: `~/PROJECTS/cloudflare-safina/cf-deploy.sh` (a separate repo, not this
+Location: `~/.claude/skills/cloudflare-safina/scripts/cf-deploy.sh` (the global cloudflare-safina skill, not part of this
 one). Requires `jq`, `curl`, and `wrangler` or `npx`.
 
 It hard-aborts unless account `19cb0506…` is visible to the token, which is what
@@ -268,10 +268,10 @@ All read-only, all safe to run at any time:
 
 ```bash
 # Identity and account. The "can't read /user" line is expected.
-~/PROJECTS/cloudflare-safina/cf-deploy.sh whoami
+~/.claude/skills/cloudflare-safina/scripts/cf-deploy.sh whoami
 
 # What Pages projects exist.
-~/PROJECTS/cloudflare-safina/cf-deploy.sh list
+~/.claude/skills/cloudflare-safina/scripts/cf-deploy.sh list
 
 # Which account wrangler itself is logged into — see §7.
 cd listener && npx wrangler whoami

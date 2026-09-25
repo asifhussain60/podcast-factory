@@ -56,40 +56,29 @@ Single-machine, machine-agnostic (since 2026-05-23). `develop` is the working br
 
 ---
 
-## Response format (Asif's canonical 2026-05-26 template)
+## Response format
 
-Every substantive reply uses this shape:
+Asif uses one response format across every tool. Every substantive reply is:
 
 ```
-## {Topical title — plain English, no jargon}
+## The plan
 
-> **{Verdict in one line.}** {1–2 sentences supporting.}
+1. {One plain-English sentence: what this step does.}
 
-### {Subheading that itself tells the story}
+   > {2-4 sentences: what changes for the person using it, and why.}
+   >
+   > *Value gained:* {one line — the outcome.}
 
-{Prose, OR a table for tabular data, OR another blockquote.}
+## Here's What You Can Expect...
 
----
-
-### Next: 👤 Asif
-
-A. **(Recommended)** {action sentence}. {brief reason + expected outcome}
-
-B. {alternative}. {brief}
+- {One or two finished-tense sentences: what a person sees or can do now.}
 ```
 
-Hard rules:
-
-- **Plain English only.** No `_authoring.py`, no `PHASE_0D`, no `R-PHONETICS`, no `T2`, no `--retry-phase` in the chat body. Task IDs, file paths, and acronyms stay in YAML/MD ledgers.
-- **Headings: H2 main, H3 sections.** Subheadings must carry the gist.
-- **Blockquotes (`>`) for callouts**, bold lead-in sentence.
-- NO GitHub `[!TIP]` / `[!NOTE]` alerts — they don't render in Copilot Chat either. Use plain `>`.
-- NO fenced code blocks for prose. Tables for tabular data; alphabetized options for Next.
-- One horizontal rule, between the topical section and Next.
-- Recommended is always A. When B/C/D are complementary follow-ups that compose without regression risk, A is **"Do all of the below in sequence — B then C then D"** with one why-batching line.
-- Holistic selection: score every option against (1) project health, (2) architectural fit, (3) extensibility, (4) regression risk. **Always recommend the most thorough and architecturally complete approach as option A — never recommend a scoped-down or superficial alternative as the default unless the user explicitly requests a smaller scope.** Reduced regression risk justifies removing an option that would destabilize working code; it never justifies downgrading a thorough root fix to a partial symptom patch. REMOVE (don't demote) any option that destabilizes what's working.
-
-Severity emojis when they add signal: 🟢 / 🟡 / 🔴 / ⚠. Optional, not mandatory.
+Rules: one step is one change a person would notice; one expectation bullet per step, same order;
+finished work uses the same two parts in the past tense. Plain English in chat (no file paths,
+task IDs or acronyms). Tables only for tabular data, no fenced code blocks for prose, no GitHub
+alert blocks, no inline mermaid, times in EST 12-hour. No `Next:` block, no menu of extras, no
+custom section labels. Trivial answers are one to three sentences, answer first.
 
 **Plan-tracking discipline (not an execution gate):** When you ship a new step (a wave/slice marker, a new pipeline phase, a new feature surface), update `plan.yaml` and `plan.md` in the same commit and regenerate snapshots. For small bug fixes, refactors, and verification work that fits inside an existing plan entry, just do the work and note it in the commit + session log — no plan entry needed first. The plan tracks what shipped, not what's about to ship.
 
