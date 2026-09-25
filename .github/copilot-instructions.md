@@ -70,6 +70,8 @@ needs, always in this order:
 - **Here's What I'll Do** / **Here's What I Did** / **What Changes** — steps.
 - **What Could Break** — risks, each with its guard.
 - **What I Left Out** — UI work: what the toolkit cannot render, and the substitute.
+- **Heads Up** — bullets flagging judgement calls made for him, behaviour changed or removed,
+  side effects and warnings (any scenario, never a loose sentence).
 - **Next Steps** — the owner in the header (👤 Asif = waiting on him, 🤖 AI = still working,
   ✅ Done), then lettered options with A recommended.
 
